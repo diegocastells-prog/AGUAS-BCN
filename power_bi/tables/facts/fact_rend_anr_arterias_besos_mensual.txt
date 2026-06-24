@@ -1,6 +1,6 @@
 let
     Source = Csv.Document(
-        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?gid=72955012&single=true&output=csv"),
+        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?gid=373098751&single=true&output=csv"),
         [Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]
     ),
 
@@ -29,6 +29,7 @@ let
         {"Artèria Transport", "arteria"}
     }),
 
+    // Filtrar Total y rendiment en un solo paso
     Filtered = Table.SelectRows(Rename,
         each [tipo] <> "rendiment (%)" and [arteria] <> "Total"
     ),
@@ -58,7 +59,7 @@ let
         Table.AddColumn(
             Table.AddColumn(
                 Measures,
-                "gerencia", each "Llobregat Nord", type text
+                "gerencia", each "Besos", type text
             ),
             "rendiment",
             each try [sortit_m3] / [entrat_m3] otherwise null,

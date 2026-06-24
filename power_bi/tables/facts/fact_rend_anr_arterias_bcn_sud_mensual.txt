@@ -1,10 +1,10 @@
 let
     Source = Csv.Document(
-        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?gid=72955012&single=true&output=csv"),
+        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?gid=156013664&single=true&output=csv"),
         [Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]
     ),
 
-    KeepCols = Table.SelectColumns(Source,
+    KeepCols = Table.SelectColumns(Source, 
         List.Transform({1..14}, each "Column" & Text.From(_))
     ),
 
@@ -29,7 +29,8 @@ let
         {"Artèria Transport", "arteria"}
     }),
 
-    Filtered = Table.SelectRows(Rename,
+    // Filtrar Total y rendiment de una vez
+    Filtered = Table.SelectRows(Rename, 
         each [tipo] <> "rendiment (%)" and [arteria] <> "Total"
     ),
 
@@ -38,14 +39,14 @@ let
     ),
 
     NumericValue = Table.TransformColumns(Unpivoted, {{
-        "valor",
-        each try Int64.From(Text.Replace(_, ",", "")) otherwise null,
+        "valor", 
+        each try Int64.From(Text.Replace(_, ",", "")) otherwise null, 
         Int64.Type
     }}),
 
     Pivoted = Table.Pivot(
-        NumericValue,
-        List.Distinct(NumericValue[tipo]),
+        NumericValue, 
+        List.Distinct(NumericValue[tipo]), 
         "tipo", "valor"
     ),
 
@@ -58,7 +59,7 @@ let
         Table.AddColumn(
             Table.AddColumn(
                 Measures,
-                "gerencia", each "Llobregat Nord", type text
+                "gerencia", each "Bcn Sud", type text
             ),
             "rendiment",
             each try [sortit_m3] / [entrat_m3] otherwise null,
@@ -69,9 +70,7 @@ let
         Int64.Type
     ),
 
-    FinalTypes = Table.TransformColumnTypes(
-        AddColumns, {{"date", type date}}
-    ),
+    FinalTypes = Table.TransformColumnTypes(AddColumns, {{"date", type date}}),
 
     Result = Table.Sort(
         Table.ReorderColumns(FinalTypes, {
