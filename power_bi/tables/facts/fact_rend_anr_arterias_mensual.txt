@@ -1,0 +1,27 @@
+let
+    // Cargar las 6 tablas staging
+    LlobSud   = fact_rend_anr_arterias_llobregadsub_mensual,
+    LlobNord  = fact_rend_anr_arterias_llobregadnord_mensual,
+    BcnSud    = fact_rend_anr_arterias_bcn_sud_mensual,
+    BcnNord   = fact_rend_anr_arterias_bcn_nord_mensual,
+    Besos     = fact_rend_anr_arterias_besos_mensual,
+    MultiDZ   = fact_rend_anr_arterias_multi_dz_mensual,
+
+    // Unir todas en una sola tabla
+    Union = Table.Combine({
+        LlobSud,
+        LlobNord,
+        BcnSud,
+        BcnNord,
+        Besos,
+        MultiDZ
+    }),
+
+    // Ordenar resultado final
+    Result = Table.Sort(Union, {
+        {"gerencia", Order.Ascending},
+        {"arteria",  Order.Ascending},
+        {"date",     Order.Ascending}
+    })
+in
+    Result
