@@ -1,0 +1,30 @@
+let
+    Source = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRS1zkWHKwzcm2ZLhnMstWbjgJtQC3DCBLdSY_mCFGtR3x8Z4xdlut8iUNJwB5KVQ/pub?gid=315911922&single=true&output=csv"), [Delimiter = ",", Columns = 48, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+    Data = Table.PromoteHeaders(
+        Table.SelectColumns(
+            Table.Range(Source,20 , 13),
+            {"Column1", "Column2", "Column3", "Column4", "Column5"}
+        ),
+        [PromoteAllScalars = true]
+    ),
+    Result = Table.TransformColumnTypes(
+        Table.RenameColumns(
+            Data,
+            {
+                {"Any", "date"},
+                {"Aigua Lliurada (hm3)", "lliurada_hm3"},
+                {"Aigua Consumida (hm3)", "consumida_hm3"},
+                {"RTH Global", "rth_global"},
+                {"ANR Global (hm3)", "anr_global_hm3"}
+            }
+        ),
+        {
+            {"date", type date},
+            {"lliurada_hm3", type number},
+            {"consumida_hm3", type number},
+            {"rth_global", type number},
+            {"anr_global_hm3", type number}
+        }
+    )
+in
+    Result
