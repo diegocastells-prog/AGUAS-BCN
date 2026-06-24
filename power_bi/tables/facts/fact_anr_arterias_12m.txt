@@ -1,0 +1,24 @@
+let
+    LlobSud  = fact_rend_anr_arterias_llobregadsub_12m,
+    LlobNord = fact_rend_anr_arterias_llobregadnord_12m,
+    BcnSud   = fact_rend_anr_arterias_bcn_sud_12m,
+    BcnNord  = fact_rend_anr_arterias_bcn_nord_12m,
+    Besos    = fact_rend_anr_arterias_besos_12m,
+    MultiDZ  = fact_rend_anr_arterias_multi_dz_12m,
+
+    Union = Table.Combine({
+        LlobSud,
+        LlobNord,
+        BcnSud,
+        BcnNord,
+        Besos,
+        MultiDZ
+    }),
+
+    Result = Table.Sort(Union, {
+        {"gerencia", Order.Ascending},
+        {"arteria",  Order.Ascending},
+        {"date",     Order.Ascending}
+    })
+in
+    Result

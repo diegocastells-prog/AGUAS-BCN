@@ -1,0 +1,85 @@
+let
+    Source = Csv.Document(
+        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?gid=1917331369&single=true&output=csv"),
+        [Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]
+    ),
+
+    KeepCols = Table.SelectColumns(Source,
+        List.Transform({1..14}, each "Column" & Text.From(_))
+    ),
+
+    ToText = Table.TransformColumnTypes(
+        KeepCols,
+        List.Transform(Table.ColumnNames(KeepCols), each {_, type text}),
+        "es"
+    ),
+
+    FillArteria = Table.FillDown(
+        Table.ReplaceValue(ToText, "", null, Replacer.ReplaceValue, {"Column1"}),
+        {"Column1"}
+    ),
+
+    Headers = Table.PromoteHeaders(
+        Table.Skip(FillArteria, 3),
+        [PromoteAllScalars=true]
+    ),
+
+    Rename = Table.RenameColumns(Headers, {
+        {"", "tipo"},
+        {"Artèria Transport", "arteria"}
+    }),
+
+    Filtered = Table.SelectRows(Rename,
+        each [tipo] <> "rendiment (%)" and [arteria] <> "Total"
+    ),
+
+    Unpivoted = Table.UnpivotOtherColumns(
+        Filtered, {"arteria", "tipo"}, "date", "valor"
+    ),
+
+    NumericValue = Table.TransformColumns(Unpivoted, {{
+        "valor",
+        each try Int64.From(Text.Replace(_, ",", "")) otherwise null,
+        Int64.Type
+    }}),
+
+    Pivoted = Table.Pivot(
+        NumericValue,
+        List.Distinct(NumericValue[tipo]),
+        "tipo", "valor"
+    ),
+
+    Measures = Table.RenameColumns(Pivoted, {
+        {"sortit (m3)", "sortit_m3"},
+        {"entrat (m3)", "entrat_m3"}
+    }),
+
+    AddColumns = Table.AddColumn(
+        Table.AddColumn(
+            Table.AddColumn(
+                Measures,
+                "gerencia", each "Llobregat Nord", type text
+            ),
+            "rendiment",
+            each try [sortit_m3] / [entrat_m3] otherwise null,
+            type number
+        ),
+        "anr_m3",
+        each [entrat_m3] - [sortit_m3],
+        Int64.Type
+    ),
+
+    FinalTypes = Table.TransformColumnTypes(
+        AddColumns, {{"date", type date}}
+    ),
+
+    Result = Table.Sort(
+        Table.ReorderColumns(FinalTypes, {
+            "date", "gerencia", "arteria",
+            "sortit_m3", "entrat_m3",
+            "rendiment", "anr_m3"
+        }),
+        {{"arteria", Order.Ascending}, {"date", Order.Ascending}}
+    )
+in
+    Result
