@@ -1,0 +1,35 @@
+let
+  Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vSBdujYtm-k6b1sHDL1XjoEupA6bWpiO7est-_tshOR30XuF361C6fvUabG2i616w/pub?gid=524487380&single=true&output=csv"),[Delimiter=",", Columns=48, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+    #"Otras columnas quitadas" = Table.SelectColumns(#"Encabezados promovidos",{"Agrupació Canvi", "Agrupació edat", "Tip Submin", "Grup DN", "﻿Total", "DESC_CODI", "Nom executor", "Zona Operacions", "Estratègics", "DIAM_COMP", "QL_COMPT_NOU", "Agrupació edat GA", "Número Mes", "Tipus Executor", "Codi mes"}),
+    #"Personalizada agregada" = Table.AddColumn(#"Otras columnas quitadas", "fecha", each 
+let
+    txt0 = [Codi mes],
+
+    // pasar a minúsculas
+    txt1 = Text.Lower(txt0),
+
+    // quitar puntos
+    txt2 = Text.Replace(txt1, ".", ""),
+
+    // limpiar espacios múltiples
+    txt3 = Text.Trim(Text.Replace(txt2, "  ", " ")),
+
+    // asegurar separador consistente
+    txt4 = Text.Replace(txt3, " - ", "-"),
+    txt5 = Text.Replace(txt4, " -", "-"),
+    txt6 = Text.Replace(txt5, "- ", "-"),
+
+    // separar número de mes
+    mesNumTxt = Text.BeforeDelimiter(txt6, "-"),
+    mesNum = Number.FromText(Text.Trim(mesNumTxt)),
+
+    // año actual
+    anio = Date.Year(DateTime.LocalNow()),
+
+    // construir fecha
+    Fecha = #date(anio, mesNum, 1)
+in
+    Fecha)
+in
+    #"Personalizada agregada"

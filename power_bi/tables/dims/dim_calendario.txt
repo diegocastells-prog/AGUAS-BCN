@@ -1,0 +1,26 @@
+#SE CREA DESDE VISUALIZACIONES 
+    MODELO
+            CREAR TABLA 
+                    SE CREA CON CODIGO DAX
+
+dim_calendario =
+    ADDCOLUMNS(
+        CALENDAR(
+            DATE(2020,1,1),
+            DATE(2030,12,31)
+        ),
+        "anio", YEAR([Date]),
+        "mes_num", MONTH([Date]),
+        "mes", FORMAT([Date], "MMMM"),
+        "mes_corto", FORMAT([Date], "MMM"),
+        "aniomes", FORMAT([Date], "YYYYMM"),
+        "anio_mes", FORMAT([Date], "YYYY-MM"),
+        "trimestre", "T" & FORMAT([Date], "Q"),
+        "anio_trimestre", YEAR([Date]) & "-T" & FORMAT([Date], "Q"),
+        "semana_anio", WEEKNUM([Date], 2),
+        "dia", DAY([Date]),
+        "dia_semana_num", WEEKDAY([Date], 2),
+        "dia_semana", FORMAT([Date], "dddd"),
+        "fin_de_semana", IF(WEEKDAY([Date], 2) >= 6, "si", "no")
+    )
+ 
