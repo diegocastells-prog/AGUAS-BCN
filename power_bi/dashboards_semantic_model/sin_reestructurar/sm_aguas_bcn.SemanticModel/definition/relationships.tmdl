@@ -1,0 +1,46 @@
+relationship 9ce1466d-309c-7bc9-4c61-c1c7f47de3fd
+	fromColumn: fact_rend_anr_arterias_mensual.date
+	toColumn: dim_calendario.Date
+
+relationship 8a3450e6-294e-5db4-74c5-b5a82034232b
+	fromColumn: fact_aigua_no_registrada_12m.fecha
+	toColumn: dim_calendario.Date
+
+relationship 53c2a232-f118-1f71-eda3-b24889f21dbf
+	fromColumn: fact_aigua_no_registrada_mensual.fecha
+	toColumn: dim_calendario.Date
+
+relationship 2c0843f4-d55b-5db3-76fb-35d36e17fd83
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: fact_inventari_xarxa_mensual.fecha
+	toColumn: dim_calendario.Date
+
+relationship aa19f9d1-7402-3300-6409-3c6d9073dad9
+	fromColumn: fact_inventari_xarxa_mitjana_12m.fecha
+	toColumn: dim_calendario.Date
+
+relationship c28b00dc-ddae-cc09-a094-042aff7256fd
+	fromColumn: fact_estadístiques_comp.fecha
+	toColumn: dim_calendario.Date
+
+relationship 6e23c69c-4505-8c59-9472-60c0f0018b61
+	fromColumn: fact_anr_global_acum.date
+	toColumn: dim_calendario.Date
+
+relationship 900473a8-525a-470e-b7f2-96819708e8a1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_calendario.Date
+	toColumn: LocalDateTable_529a6731-9e04-462f-b5de-17337ec7a429.Date
+
+relationship 612f7061-2bd0-b34f-4d98-6dffd595b449
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: fact_anr_global_mensual.date
+	toColumn: dim_calendario.Date
+
+relationship 1692a73c-0c32-48a2-b3c7-d16d044e36c8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_anr_arterias_12m.date
+	toColumn: LocalDateTable_86f36889-7b39-4d9e-9b5f-9219c09bc193.Date
+

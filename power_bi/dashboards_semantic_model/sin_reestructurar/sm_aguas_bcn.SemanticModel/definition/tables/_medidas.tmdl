@@ -1,0 +1,40 @@
+table _medidas
+	lineageTag: 1cfb93bc-b117-4679-93ca-631a08faced9
+
+	measure anr_dia_m3 = ```
+			
+			DIVIDE(
+			    SUM( fact_anr_global_mensual[anr_global_hm3] ),
+			    [count_dias_mes],
+			    0
+			) * 1000000
+			
+			```
+		lineageTag: adaf3334-5699-4baf-b2c6-dfcffbf821a2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure count_dias_mes =
+			
+			VAR FechaActual =
+			    MAX ( dim_calendario[Date] )
+			RETURN
+			    DAY ( EOMONTH ( FechaActual, 0 ) )
+		formatString: 0
+		lineageTag: 8c5e8213-05f3-474c-bea4-04624f51c582
+
+	column Column
+		formatString: 0
+		lineageTag: 4410859c-a856-42e6-b617-788cd67ff5b9
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _medidas = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = a1da0bba84a94800be6f0611eb8cf21a
+

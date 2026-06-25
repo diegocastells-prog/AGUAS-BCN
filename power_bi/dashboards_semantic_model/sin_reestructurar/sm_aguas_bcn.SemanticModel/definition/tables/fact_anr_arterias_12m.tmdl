@@ -1,0 +1,107 @@
+table fact_anr_arterias_12m
+	lineageTag: 7cd6cc25-6fbf-4d46-923e-fb970a910a51
+
+	column date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 0c210434-9517-408b-91bd-4bbe2f92c673
+		summarizeBy: none
+		sourceColumn: date
+
+		variation Variación
+			isDefault
+			relationship: 1692a73c-0c32-48a2-b3c7-d16d044e36c8
+			defaultHierarchy: LocalDateTable_86f36889-7b39-4d9e-9b5f-9219c09bc193.'Jerarquía de fechas'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column gerencia
+		dataType: string
+		lineageTag: 2265c568-ee91-46d7-83f8-0929bb7b7352
+		summarizeBy: none
+		sourceColumn: gerencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column arteria
+		dataType: string
+		lineageTag: e94a6b88-aa05-4e81-b478-ef0983ab48b5
+		summarizeBy: none
+		sourceColumn: arteria
+
+		annotation SummarizationSetBy = Automatic
+
+	column sortit_m3
+		dataType: int64
+		formatString: 0
+		lineageTag: cdaef264-973b-45e6-a9a8-06e6241297d2
+		summarizeBy: sum
+		sourceColumn: sortit_m3
+
+		annotation SummarizationSetBy = Automatic
+
+	column entrat_m3
+		dataType: int64
+		formatString: 0
+		lineageTag: ac092321-6b9f-4d01-9b7c-3ab4b87cfec4
+		summarizeBy: sum
+		sourceColumn: entrat_m3
+
+		annotation SummarizationSetBy = Automatic
+
+	column rendiment
+		dataType: double
+		lineageTag: 648d7561-2404-4972-878d-de0bad338257
+		summarizeBy: sum
+		sourceColumn: rendiment
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column anr_m3
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c430bcd-06a3-4a5d-96d2-812e512e4e62
+		summarizeBy: sum
+		sourceColumn: anr_m3
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_anr_arterias_12m = m
+		mode: import
+		source =
+				let
+				    LlobSud  = fact_rend_anr_arterias_llobregadsub_12m,
+				    LlobNord = fact_rend_anr_arterias_llobregadnord_12m,
+				    BcnSud   = fact_rend_anr_arterias_bcn_sud_12m,
+				    BcnNord  = fact_rend_anr_arterias_bcn_nord_12m,
+				    Besos    = fact_rend_anr_arterias_besos_12m,
+				    MultiDZ  = fact_rend_anr_arterias_multi_dz_12m,
+				
+				    Union = Table.Combine({
+				        LlobSud,
+				        LlobNord,
+				        BcnSud,
+				        BcnNord,
+				        Besos,
+				        MultiDZ
+				    }),
+				
+				    Result = Table.Sort(Union, {
+				        {"gerencia", Order.Ascending},
+				        {"arteria",  Order.Ascending},
+				        {"date",     Order.Ascending}
+				    })
+				in
+				    Result
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

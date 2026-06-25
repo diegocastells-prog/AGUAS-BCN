@@ -1,0 +1,101 @@
+table fact_anr_global_mensual
+	lineageTag: 9504b9d8-b020-4172-8847-a7e2ec32c38b
+
+	column date
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm
+		lineageTag: 20810817-9dbf-4432-9bee-979b0a632457
+		summarizeBy: none
+		sourceColumn: date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column lliurada_hm3
+		dataType: double
+		lineageTag: 3d30ebc8-20c3-4c94-bc2d-f6a3d96d718a
+		summarizeBy: none
+		sourceColumn: lliurada_hm3
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column consumida_hm3
+		dataType: double
+		lineageTag: 52d428a3-77c3-492e-9695-bbf3c026d9dd
+		summarizeBy: none
+		sourceColumn: consumida_hm3
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rth_global
+		dataType: double
+		lineageTag: 5b43f563-b94d-46c2-8030-2138a1e7808a
+		summarizeBy: none
+		sourceColumn: rth_global
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column anr_global_hm3
+		dataType: double
+		lineageTag: 635e8d58-e9bc-44fe-aa3f-a2cdbe6e0a4a
+		summarizeBy: none
+		sourceColumn: anr_global_hm3
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fact_anr_global_mensual = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRS1zkWHKwzcm2ZLhnMstWbjgJtQC3DCBLdSY_mCFGtR3x8Z4xdlut8iUNJwB5KVQ/pub?gid=315911922&single=true&output=csv"), [Delimiter = ",", Columns = 48, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+				
+				    Data =
+				        Table.PromoteHeaders(
+				            Table.SelectColumns(
+				                Table.Range(Source, 4, 13),
+				                {"Column1", "Column2", "Column3", "Column4", "Column5"}
+				            ),
+				            [PromoteAllScalars = true]
+				        ),
+				
+				    Result =
+				        Table.TransformColumnTypes(
+				            Table.RenameColumns(
+				                Data,
+				                {
+				                    {"Any", "date"},
+				                    {"Aigua Lliurada (hm3)", "lliurada_hm3"},
+				                    {"Aigua Consumida (hm3)", "consumida_hm3"},
+				                    {"RTH Global", "rth_global"},
+				                    {"ANR Global (hm3)", "anr_global_hm3"}
+				                }
+				            ),
+				            {
+				                {"date", type date},
+				                {"lliurada_hm3", type number},
+				                {"consumida_hm3", type number},
+				                {"rth_global", type number},
+				                {"anr_global_hm3", type number}
+				            }
+				        )
+				in
+				    Result
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
