@@ -81,11 +81,11 @@
                       "Property": "total"
                     }
                   },
-                  "Function": 3
+                  "Function": 0
                 }
               },
               "queryRef": "Min(fact_estadístiques_comp.total)",
-              "nativeQueryRef": "Primera fecha: total"
+              "nativeQueryRef": "Suma de total"
             }
           ]
         }
@@ -202,7 +202,83 @@
             "Function": 3
           }
         },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "baf68c39c64b5f8fa5b4",
+        "ordinal": 5,
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_estadístiques_comp"
+                  }
+                },
+                "Property": "total"
+              }
+            },
+            "Function": 0
+          }
+        },
         "type": "Advanced"
+      },
+      {
+        "name": "99cd556cbdeded2ca20e",
+        "ordinal": 6,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_estadístiques_comp"
+              }
+            },
+            "Property": "agrupació_canvi"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "f",
+              "Entity": "fact_estadístiques_comp",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "f"
+                          }
+                        },
+                        "Property": "agrupació_canvi"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Correctiu'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
       }
     ],
     "filterSortOrder": "Custom"

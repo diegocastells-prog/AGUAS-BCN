@@ -1,12 +1,12 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "e4153943793205889d3e",
+  "name": "e1095f48c958c94c92ff",
   "position": {
     "x": 0,
-    "y": 447.26780169629274,
+    "y": 157.05586929793486,
     "z": 2000,
     "height": 273.14064225727805,
-    "width": 1235.9614062141829,
+    "width": 785.27934648967437,
     "tabOrder": 2000
   },
   "visual": {
@@ -31,17 +31,23 @@
             },
             {
               "field": {
-                "Column": {
+                "Aggregation": {
                   "Expression": {
-                    "SourceRef": {
-                      "Entity": "fact_anr_global_mensual"
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_anr_global_mensual"
+                        }
+                      },
+                      "Property": "lliurada_hm3"
                     }
                   },
-                  "Property": "anr_global_hm3"
+                  "Function": 0
                 }
               },
-              "queryRef": "fact_anr_global_mensual.anr_global_hm3",
-              "nativeQueryRef": "anr_global_hm31"
+              "queryRef": "Sum(fact_anr_global_mensual.lliurada_hm3)",
+              "nativeQueryRef": "lliurada_hm3",
+              "displayName": "lliurada_hm3"
             },
             {
               "field": {
@@ -50,18 +56,18 @@
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "fact_inventari_xarxa_mensual"
+                          "Entity": "fact_anr_global_mensual"
                         }
                       },
-                      "Property": "l_+_t_km"
+                      "Property": "consumida_hm3"
                     }
                   },
                   "Function": 0
                 }
               },
-              "queryRef": "Sum(fact_inventari_xarxa_mensual.l_+_t_km)",
-              "nativeQueryRef": "L(km)1",
-              "displayName": "L(km)"
+              "queryRef": "Sum(fact_anr_global_mensual.consumida_hm3)",
+              "nativeQueryRef": "consumida_hm3",
+              "displayName": "consumida_hm3"
             },
             {
               "field": {
@@ -70,17 +76,18 @@
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "fact_inventari_xarxa_mensual"
+                          "Entity": "fact_anr_global_mensual"
                         }
                       },
-                      "Property": "nombre_escomeses_totals"
+                      "Property": "rth_global"
                     }
                   },
                   "Function": 0
                 }
               },
-              "queryRef": "Sum(fact_inventari_xarxa_mensual.nombre_escomeses_totals)",
-              "nativeQueryRef": "Suma de nombre_escomeses_totals"
+              "queryRef": "Sum(fact_anr_global_mensual.rth_global)",
+              "nativeQueryRef": "rth_global",
+              "displayName": "rth_global"
             },
             {
               "field": {
@@ -89,31 +96,18 @@
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "fact_inventari_xarxa_mensual"
+                          "Entity": "fact_anr_global_mensual"
                         }
                       },
-                      "Property": "nombre_subministraments_totals"
+                      "Property": "anr_global_hm3"
                     }
                   },
                   "Function": 0
                 }
               },
-              "queryRef": "Sum(fact_inventari_xarxa_mensual.nombre_subministraments_totals)",
-              "nativeQueryRef": "Suma de nombre_subministraments_totals"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_medidas"
-                    }
-                  },
-                  "Property": "count_dias_mes"
-                }
-              },
-              "queryRef": "_medidas.count_dias_mes",
-              "nativeQueryRef": "count_dias_mes"
+              "queryRef": "Sum(fact_anr_global_mensual.anr_global_hm3)",
+              "nativeQueryRef": "anr_global_hm3",
+              "displayName": "anr_global_hm3"
             },
             {
               "field": {
@@ -181,21 +175,16 @@
         "sort": [
           {
             "field": {
-              "Aggregation": {
+              "Column": {
                 "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "fact_inventari_xarxa_mensual"
-                      }
-                    },
-                    "Property": "nombre_subministraments_totals"
+                  "SourceRef": {
+                    "Entity": "dim_calendario"
                   }
                 },
-                "Function": 0
+                "Property": "anio_mes"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
           }
         ]
       }
@@ -205,21 +194,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "4c36ef846a2d0a09ba12",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "fact_anr_global_mensual"
-              }
-            },
-            "Property": "anr_global_hm3"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "976b7991515df4153286",
+        "name": "8ef2984380aaef37f4ac",
         "field": {
           "Column": {
             "Expression": {
@@ -233,7 +208,83 @@
         "type": "Categorical"
       },
       {
-        "name": "c16eb4c82c6b975791c3",
+        "name": "7a74d4d1ded7a6881eeb",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_anr_global_mensual"
+                  }
+                },
+                "Property": "lliurada_hm3"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c00c26599af266fbe624",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_anr_global_mensual"
+                  }
+                },
+                "Property": "consumida_hm3"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "8941cdb9631336ec4f0e",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_anr_global_mensual"
+                  }
+                },
+                "Property": "rth_global"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "120c03e4e7a4d7aa36a2",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_anr_global_mensual"
+                  }
+                },
+                "Property": "anr_global_hm3"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "58c94cc8f857391cfc25",
         "field": {
           "Measure": {
             "Expression": {
@@ -247,78 +298,7 @@
         "type": "Advanced"
       },
       {
-        "name": "6780277bdc5ac78ab3bb",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "count_dias_mes"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "c4a3a8072d65f0ff946f",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "fact_inventari_xarxa_mensual"
-                  }
-                },
-                "Property": "l_+_t_km"
-              }
-            },
-            "Function": 0
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "8e5bec7789d6e21697b9",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "fact_inventari_xarxa_mensual"
-                  }
-                },
-                "Property": "nombre_escomeses_totals"
-              }
-            },
-            "Function": 0
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "5fb850782e7de6bc68a1",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "fact_inventari_xarxa_mensual"
-                  }
-                },
-                "Property": "nombre_subministraments_totals"
-              }
-            },
-            "Function": 0
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "5e74da067453581c8284",
+        "name": "0de001f2dec09ee27c3a",
         "field": {
           "Measure": {
             "Expression": {
@@ -333,7 +313,7 @@
         "type": "Advanced"
       },
       {
-        "name": "4a5c43f17f001544ef3d",
+        "name": "bee99f4aa45d280a496a",
         "field": {
           "Measure": {
             "Expression": {
@@ -348,7 +328,7 @@
         "type": "Advanced"
       },
       {
-        "name": "8983cccf7371f72eea21",
+        "name": "af6cd38838a34da9b16c",
         "field": {
           "Measure": {
             "Expression": {

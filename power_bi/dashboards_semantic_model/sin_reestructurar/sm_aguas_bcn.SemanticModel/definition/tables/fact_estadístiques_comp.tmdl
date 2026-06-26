@@ -47,12 +47,14 @@ table fact_estadístiques_comp
 		annotation SummarizationSetBy = Automatic
 
 	column ﻿total
-		dataType: string
+		dataType: double
 		lineageTag: 84ae67bf-0664-4175-9d95-bc4480675c2e
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: ﻿total
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column desc_codi
 		dataType: string
@@ -163,10 +165,11 @@ table fact_estadístiques_comp
 				    #"Columnas normalizadas" =
 				        Table.TransformColumnNames(#"Personalizada agregada",
 				            each Text.Replace(Text.Lower(_), " ", "_")
-				        )
+				        ),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas normalizadas",{{"﻿total", type number}})
 				
 				in
-				    #"Columnas normalizadas"
+				    #"Tipo cambiado"
 				```
 
 	annotation PBI_NavigationStepName = Navegación
