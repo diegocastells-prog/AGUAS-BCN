@@ -24,23 +24,23 @@ relationship c28b00dc-ddae-cc09-a094-042aff7256fd
 	fromColumn: fact_estadístiques_comp.fecha
 	toColumn: dim_calendario.Date
 
-relationship 6e23c69c-4505-8c59-9472-60c0f0018b61
-	fromColumn: fact_anr_global_acum.date
-	toColumn: dim_calendario.Date
-
 relationship 900473a8-525a-470e-b7f2-96819708e8a1
 	joinOnDateBehavior: datePartOnly
 	fromColumn: dim_calendario.Date
 	toColumn: LocalDateTable_529a6731-9e04-462f-b5de-17337ec7a429.Date
 
-relationship 612f7061-2bd0-b34f-4d98-6dffd595b449
-	crossFilteringBehavior: bothDirections
-	toCardinality: many
-	fromColumn: fact_anr_global_mensual.date
-	toColumn: dim_calendario.Date
-
 relationship 1692a73c-0c32-48a2-b3c7-d16d044e36c8
 	joinOnDateBehavior: datePartOnly
 	fromColumn: fact_anr_arterias_12m.date
 	toColumn: LocalDateTable_86f36889-7b39-4d9e-9b5f-9219c09bc193.Date
+
+relationship 7d115471-1de3-4301-bc17-edc8a939b8b7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_anr_global_mensual.date
+	toColumn: LocalDateTable_d1b90805-bd5a-402f-9490-942013cea1b8.Date
+
+relationship 0ae69dd9-1ce9-4724-bbfe-d1c75b278c9f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_anr_global_acum.date
+	toColumn: LocalDateTable_c6561612-6700-474a-ba57-f229b5aeb539.Date
 

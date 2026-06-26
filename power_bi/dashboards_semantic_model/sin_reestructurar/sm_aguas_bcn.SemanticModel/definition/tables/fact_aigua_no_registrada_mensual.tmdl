@@ -1,56 +1,6 @@
 table fact_aigua_no_registrada_mensual
 	lineageTag: f96f2e5b-1cad-4714-b87a-0b7f4562ce64
 
-	column Nº
-		dataType: int64
-		formatString: 0
-		lineageTag: 43b381ff-ad67-4d38-96b0-383b838f573e
-		summarizeBy: sum
-		sourceColumn: Nº
-
-		annotation SummarizationSetBy = Automatic
-
-	column Gerència
-		dataType: string
-		lineageTag: a4d14892-39ea-4ad6-a93d-63b95cb9a59f
-		summarizeBy: none
-		sourceColumn: Gerència
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Pis Pressió'
-		dataType: string
-		lineageTag: 3571fcfc-a471-40e8-ad8f-03576ff363a0
-		summarizeBy: none
-		sourceColumn: Pis Pressió
-
-		annotation SummarizationSetBy = Automatic
-
-	column Sectors
-		dataType: string
-		lineageTag: 22d474df-ab47-47e9-92be-93b0f1f2c30f
-		summarizeBy: none
-		sourceColumn: Sectors
-
-		annotation SummarizationSetBy = Automatic
-
-	column Atributo
-		dataType: string
-		lineageTag: 75cc8d81-4b57-4ffc-a7b5-9c526b102d74
-		summarizeBy: none
-		sourceColumn: Atributo
-
-		annotation SummarizationSetBy = Automatic
-
-	column Valor
-		dataType: int64
-		formatString: 0
-		lineageTag: 473f68cf-9e98-47e5-baa1-1c1e5a17f9e7
-		summarizeBy: sum
-		sourceColumn: Valor
-
-		annotation SummarizationSetBy = Automatic
-
 	column fecha
 		dataType: dateTime
 		formatString: Long Date
@@ -64,11 +14,61 @@ table fact_aigua_no_registrada_mensual
 
 		annotation UnderlyingDateTimeDataType = Date
 
+	column nº
+		dataType: int64
+		formatString: 0
+		lineageTag: 81776734-9feb-42fa-8a73-f10a60e150fd
+		summarizeBy: sum
+		sourceColumn: nº
+
+		annotation SummarizationSetBy = Automatic
+
+	column gerència
+		dataType: string
+		lineageTag: 33397c83-3084-446d-8603-c22d95df5769
+		summarizeBy: none
+		sourceColumn: gerència
+
+		annotation SummarizationSetBy = Automatic
+
+	column pis_pressió
+		dataType: string
+		lineageTag: ab15dedd-0d86-4efe-bd29-916a1a6445d8
+		summarizeBy: none
+		sourceColumn: pis_pressió
+
+		annotation SummarizationSetBy = Automatic
+
+	column sectors
+		dataType: string
+		lineageTag: 166a9dea-1245-4a08-9059-7effbdf91d30
+		summarizeBy: none
+		sourceColumn: sectors
+
+		annotation SummarizationSetBy = Automatic
+
+	column atributo
+		dataType: string
+		lineageTag: a518c2ef-acf6-4b9a-9cf1-f8423bb0529d
+		summarizeBy: none
+		sourceColumn: atributo
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor
+		dataType: int64
+		formatString: 0
+		lineageTag: d59361f4-0971-495c-989f-73e071b71af0
+		summarizeBy: sum
+		sourceColumn: valor
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_aigua_no_registrada_mensual = m
 		mode: import
 		source = ```
 				let
-				  Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vQu04YqiUjROdeKjkF1OKAb2UI0cIt8n44NDzq3nAdSvDc2p0zBvWngL_DNulEpHw/pub?gid=2003244827&single=true&output=csv"), [Delimiter = ",", Columns = 48, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+				    Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vQu04YqiUjROdeKjkF1OKAb2UI0cIt8n44NDzq3nAdSvDc2p0zBvWngL_DNulEpHw/pub?gid=2003244827&single=true&output=csv"), [Delimiter = ",", Columns = 48, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
 				    #"Filas superiores quitadas" = Table.Skip(Origen,2),
 				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
 				    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{""}),
@@ -76,35 +76,33 @@ table fact_aigua_no_registrada_mensual
 				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Filas filtradas",{{"Nº", Int64.Type}, {"Gerència", type text}, {"Pis Pressió", type text}, {"Sectors", type text}, {"de gen.-21", Int64.Type}, {"de febr.-21", Int64.Type}, {"de març-21", Int64.Type}, {"d’abr.-21", Int64.Type}, {"de maig-21", Int64.Type}, {"de juny-21", Int64.Type}, {"de jul.-21", Int64.Type}, {"d’ag.-21", Int64.Type}, {"de set.-21", Int64.Type}, {"d’oct.-21", Int64.Type}, {"de nov.-21", Int64.Type}, {"de des.-21", Int64.Type}, {"de gen.-22", Int64.Type}, {"de febr.-22", Int64.Type}, {"de març-22", Int64.Type}, {"d’abr.-22", Int64.Type}, {"de maig-22", Int64.Type}, {"de juny-22", Int64.Type}, {"de jul.-22", Int64.Type}, {"d’ag.-22", Int64.Type}, {"de set.-22", Int64.Type}, {"d’oct.-22", Int64.Type}, {"de nov.-22", Int64.Type}, {"de des.-22", Int64.Type}, {"de gen.-23", Int64.Type}, {"de febr.-23", Int64.Type}, {"de març-23", Int64.Type}, {"d’abr.-23", Int64.Type}, {"de maig-23", Int64.Type}, {"de juny-23", Int64.Type}, {"de jul.-23", Int64.Type}, {"d’ag.-23", Int64.Type}, {"de set.-23", Int64.Type}, {"d’oct.-23", Int64.Type}, {"de nov.-23", Int64.Type}, {"de des.-23", Int64.Type}, {"de gen.-24", Int64.Type}, {"de febr.-24", Int64.Type}, {"de març-24", Int64.Type}, {"d’abr.-24", Int64.Type}, {"de maig-24", Int64.Type}, {"de juny-24", Int64.Type}, {"de jul.-24", Int64.Type}}),
 				    #"Columna de anulación de dinamización" = Table.UnpivotOtherColumns(#"Tipo cambiado", {"Nº", "Gerència", "Pis Pressió", "Sectors"}, "Atributo", "Valor"),
 				    #"Personalizada agregada" = Table.AddColumn(#"Columna de anulación de dinamización", "fecha", each let
-				    txt0  = [Atributo],
-				    // pasar a minúsculas
-				    txt1  = Text.Lower(txt0),
-				    // quitar "de ", "d’" y puntos
-				    txt2  = Text.Replace(Text.Replace(Text.Replace(txt1,"de ",""),"d’",""),".",""),
-				    // separar mes y año por el guion -
-				    mesTxt = Text.BeforeDelimiter(txt2,"-"),
-				    anioTxt = Text.AfterDelimiter(txt2,"-"),
-				    // convertir año tipo "21" -> 2021
-				    anio = 2000 + Number.FromText(anioTxt),
-				    // mapear mes catalán -> número
-				    mes = 
-				        if mesTxt = "gen"  then 1 else
-				        if mesTxt = "febr" then 2 else
-				        if mesTxt = "març" then 3 else
-				        if mesTxt = "abr"  then 4 else
-				        if mesTxt = "maig" then 5 else
-				        if mesTxt = "juny" then 6 else
-				        if mesTxt = "jul"  then 7 else
-				        if mesTxt = "ag"   then 8 else
-				        if mesTxt = "set"  then 9 else
-				        if mesTxt = "oct"  then 10 else
-				        if mesTxt = "nov"  then 11 else
-				        if mesTxt = "des"  then 12 else
-				        null
+				        txt0  = [Atributo],
+				        txt1  = Text.Lower(txt0),
+				        txt2  = Text.Replace(Text.Replace(Text.Replace(txt1,"de ",""),"d’",""),".",""),
+				        mesTxt = Text.BeforeDelimiter(txt2,"-"),
+				        anioTxt = Text.AfterDelimiter(txt2,"-"),
+				        anio = 2000 + Number.FromText(anioTxt),
+				        mes = 
+				            if mesTxt = "gen"  then 1 else
+				            if mesTxt = "febr" then 2 else
+				            if mesTxt = "març" then 3 else
+				            if mesTxt = "abr"  then 4 else
+				            if mesTxt = "maig" then 5 else
+				            if mesTxt = "juny" then 6 else
+				            if mesTxt = "jul"  then 7 else
+				            if mesTxt = "ag"   then 8 else
+				            if mesTxt = "set"  then 9 else
+				            if mesTxt = "oct"  then 10 else
+				            if mesTxt = "nov"  then 11 else
+				            if mesTxt = "des"  then 12 else
+				            null
+				        in
+				            #date(anio, mes, 1)
+				    ),
+				    // 🔥 NUEVO PASO: renombrar columnas a minúsculas y reemplazar espacios por _
+				    #"Columnas normalizadas" = Table.TransformColumnNames(#"Personalizada agregada", each Text.Replace(Text.Lower(_), " ", "_"))
 				in
-				    #date(anio, mes, 1))
-				in
-				    #"Personalizada agregada"
+				    #"Columnas normalizadas"
 				```
 
 	annotation PBI_NavigationStepName = Navegación

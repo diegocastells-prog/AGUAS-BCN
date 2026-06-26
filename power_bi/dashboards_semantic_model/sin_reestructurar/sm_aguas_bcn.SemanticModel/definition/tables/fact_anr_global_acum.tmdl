@@ -3,57 +3,57 @@ table fact_anr_global_acum
 
 	column date
 		dataType: dateTime
-		isHidden
-		formatString: yyyy-mm
-		lineageTag: e6cdf6df-3239-4f94-918f-1e3baff9c509
+		formatString: Long Date
+		lineageTag: 2b7d5a03-2f48-4464-89f0-e5f08091a2e7
 		summarizeBy: none
 		sourceColumn: date
 
-		changedProperty = IsHidden
+		variation Variación
+			isDefault
+			relationship: 0ae69dd9-1ce9-4724-bbfe-d1c75b278c9f
+			defaultHierarchy: LocalDateTable_c6561612-6700-474a-ba57-f229b5aeb539.'Jerarquía de fechas'
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
 
-		annotation PBI_FormatHint = {"isDateTimeCustom":true}
-
 	column lliurada_hm3
 		dataType: double
-		lineageTag: 1a826152-210a-4d6f-b26a-e63f50d5c45a
-		summarizeBy: none
+		lineageTag: 6d8be2fe-60b2-4605-967d-02accf662a00
+		summarizeBy: sum
 		sourceColumn: lliurada_hm3
 
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column consumida_hm3
 		dataType: double
-		lineageTag: 041610aa-2059-40d3-bee1-420f72d0bd00
-		summarizeBy: none
+		lineageTag: eb194b6a-43b4-4e5b-9e2f-09043282f9b5
+		summarizeBy: sum
 		sourceColumn: consumida_hm3
 
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column rth_global
 		dataType: double
-		lineageTag: c5e7afb9-e525-446b-8419-7e61536b0420
-		summarizeBy: none
+		lineageTag: ba7064ea-7fa5-4386-ae13-d12eb81498bd
+		summarizeBy: sum
 		sourceColumn: rth_global
 
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column anr_global_hm3
 		dataType: double
-		lineageTag: 50496d1e-db14-464f-83f9-7c21834eb688
-		summarizeBy: none
+		lineageTag: 14c97829-8c1e-4769-bc6f-e4d6d4dbb556
+		summarizeBy: sum
 		sourceColumn: anr_global_hm3
 
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -61,15 +61,22 @@ table fact_anr_global_acum
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRS1zkWHKwzcm2ZLhnMstWbjgJtQC3DCBLdSY_mCFGtR3x8Z4xdlut8iUNJwB5KVQ/pub?gid=315911922&single=true&output=csv"), [Delimiter = ",", Columns = 48, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
-				    Data = Table.PromoteHeaders(
-				        Table.SelectColumns(
-				            Table.Range(Source,20 , 13),
-				            {"Column1", "Column2", "Column3", "Column4", "Column5"}
-				        ),
-				        [PromoteAllScalars = true]
+				    Source = Csv.Document(
+				        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRS1zkWHKwzcm2ZLhnMstWbjgJtQC3DCBLdSY_mCFGtR3x8Z4xdlut8iUNJwB5KVQ/pub?gid=315911922&single=true&output=csv"),
+				        [Delimiter = ",", Columns = 48, Encoding = 65001, QuoteStyle = QuoteStyle.None]
 				    ),
-				    Result = Table.TransformColumnTypes(
+				
+				    Data =
+				        Table.PromoteHeaders(
+				            Table.SelectColumns(
+				                Table.Range(Source, 20, 13),
+				                {"Column1", "Column2", "Column3", "Column4", "Column5"}
+				            ),
+				            [PromoteAllScalars = true]
+				        ),
+				
+				    // Renombrar columnas
+				    Renamed =
 				        Table.RenameColumns(
 				            Data,
 				            {
@@ -80,14 +87,29 @@ table fact_anr_global_acum
 				                {"ANR Global (hm3)", "anr_global_hm3"}
 				            }
 				        ),
-				        {
-				            {"date", type date},
-				            {"lliurada_hm3", type number},
-				            {"consumida_hm3", type number},
-				            {"rth_global", type number},
-				            {"anr_global_hm3", type number}
-				        }
-				    )
+				
+				    // 🔥 Reemplazar "." por "," en todas las columnas excepto "date"
+				    ReplaceDots =
+				        Table.TransformColumns(
+				            Renamed,
+				            List.Transform(
+				                List.RemoveItems(Table.ColumnNames(Renamed), {"date"}),
+				                each {_, (x) => Text.Replace(x, ".", ","), type text}
+				            )
+				        ),
+				
+				    // Convertir tipos
+				    Result =
+				        Table.TransformColumnTypes(
+				            ReplaceDots,
+				            {
+				                {"date", type date},
+				                {"lliurada_hm3", type number},
+				                {"consumida_hm3", type number},
+				                {"rth_global", type number},
+				                {"anr_global_hm3", type number}
+				            }
+				        )
 				in
 				    Result
 

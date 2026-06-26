@@ -3,57 +3,57 @@ table fact_anr_global_mensual
 
 	column date
 		dataType: dateTime
-		isHidden
-		formatString: yyyy-mm
-		lineageTag: 20810817-9dbf-4432-9bee-979b0a632457
+		formatString: Long Date
+		lineageTag: fc6bd2b9-8631-4bab-b96c-8999c9c885a5
 		summarizeBy: none
 		sourceColumn: date
 
-		changedProperty = IsHidden
+		variation Variación
+			isDefault
+			relationship: 7d115471-1de3-4301-bc17-edc8a939b8b7
+			defaultHierarchy: LocalDateTable_d1b90805-bd5a-402f-9490-942013cea1b8.'Jerarquía de fechas'
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
 
-		annotation PBI_FormatHint = {"isDateTimeCustom":true}
-
 	column lliurada_hm3
 		dataType: double
-		lineageTag: 3d30ebc8-20c3-4c94-bc2d-f6a3d96d718a
-		summarizeBy: none
+		lineageTag: 95008ab9-c28c-4e9a-bb4a-be11883cb154
+		summarizeBy: sum
 		sourceColumn: lliurada_hm3
 
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column consumida_hm3
 		dataType: double
-		lineageTag: 52d428a3-77c3-492e-9695-bbf3c026d9dd
-		summarizeBy: none
+		lineageTag: a558f85a-9796-4996-b276-ef6c85251aa8
+		summarizeBy: sum
 		sourceColumn: consumida_hm3
 
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column rth_global
 		dataType: double
-		lineageTag: 5b43f563-b94d-46c2-8030-2138a1e7808a
-		summarizeBy: none
+		lineageTag: 61cac931-8049-4841-84c8-d46df6557178
+		summarizeBy: sum
 		sourceColumn: rth_global
 
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column anr_global_hm3
 		dataType: double
-		lineageTag: 635e8d58-e9bc-44fe-aa3f-a2cdbe6e0a4a
-		summarizeBy: none
+		lineageTag: 9e04d3b5-a2cc-4410-a368-92c8a8ac89f2
+		summarizeBy: sum
 		sourceColumn: anr_global_hm3
 
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -61,7 +61,10 @@ table fact_anr_global_mensual
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRS1zkWHKwzcm2ZLhnMstWbjgJtQC3DCBLdSY_mCFGtR3x8Z4xdlut8iUNJwB5KVQ/pub?gid=315911922&single=true&output=csv"), [Delimiter = ",", Columns = 48, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+				    Source = Csv.Document(
+				        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRS1zkWHKwzcm2ZLhnMstWbjgJtQC3DCBLdSY_mCFGtR3x8Z4xdlut8iUNJwB5KVQ/pub?gid=315911922&single=true&output=csv"),
+				        [Delimiter = ",", Columns = 48, Encoding = 65001, QuoteStyle = QuoteStyle.None]
+				    ),
 				
 				    Data =
 				        Table.PromoteHeaders(
@@ -72,18 +75,33 @@ table fact_anr_global_mensual
 				            [PromoteAllScalars = true]
 				        ),
 				
+				    // Renombrar columnas
+				    Renamed =
+				        Table.RenameColumns(
+				            Data,
+				            {
+				                {"Any", "date"},
+				                {"Aigua Lliurada (hm3)", "lliurada_hm3"},
+				                {"Aigua Consumida (hm3)", "consumida_hm3"},
+				                {"RTH Global", "rth_global"},
+				                {"ANR Global (hm3)", "anr_global_hm3"}
+				            }
+				        ),
+				
+				    // 🔥 Reemplazar "." por "," en TODAS las columnas excepto "date"
+				    ReplaceDots =
+				        Table.TransformColumns(
+				            Renamed,
+				            List.Transform(
+				                List.RemoveItems(Table.ColumnNames(Renamed), {"date"}),
+				                each {_, (x) => Text.Replace(x, ".", ","), type text}
+				            )
+				        ),
+				
+				    // Convertir tipos
 				    Result =
 				        Table.TransformColumnTypes(
-				            Table.RenameColumns(
-				                Data,
-				                {
-				                    {"Any", "date"},
-				                    {"Aigua Lliurada (hm3)", "lliurada_hm3"},
-				                    {"Aigua Consumida (hm3)", "consumida_hm3"},
-				                    {"RTH Global", "rth_global"},
-				                    {"ANR Global (hm3)", "anr_global_hm3"}
-				                }
-				            ),
+				            ReplaceDots,
 				            {
 				                {"date", type date},
 				                {"lliurada_hm3", type number},
