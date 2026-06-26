@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/reportExtension/1.0.0/schema.json",
+  "name": "extension",
+  "entities": [
+    {
+      "name": "_medidas",
+      "measures": [
+        {
+          "name": "anr_m3_km_dia",
+          "dataType": "Double",
+          "expression": "[anr_dia_m3]/ SUM((fact_inventari_xarxa_mensual[l_+_t_km]))",
+          "formatString": "General Number",
+          "references": {
+            "measures": [
+              {
+                "entity": "_medidas",
+                "name": "anr_dia_m3"
+              }
+            ]
+          }
+        },
+        {
+          "name": "anr_l_esc_dia",
+          "dataType": "Double",
+          "expression": "[anr_dia_m3] /sum(fact_inventari_xarxa_mensual[nombre_escomeses_totals])",
+          "formatString": "General Number",
+          "references": {
+            "measures": [
+              {
+                "entity": "_medidas",
+                "name": "anr_dia_m3"
+              }
+            ]
+          }
+        },
+        {
+          "name": "anr_l_subm_dia",
+          "dataType": "Double",
+          "expression": "[anr_dia_m3] /sum(fact_inventari_xarxa_mensual[nombre_subministraments_totals])",
+          "formatString": "General Number",
+          "references": {
+            "measures": [
+              {
+                "entity": "_medidas",
+                "name": "anr_dia_m3"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

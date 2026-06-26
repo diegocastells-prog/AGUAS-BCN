@@ -1,0 +1,367 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "e4153943793205889d3e",
+  "position": {
+    "x": 0,
+    "y": 447.26780169629274,
+    "z": 2000,
+    "height": 273.14064225727805,
+    "width": 1235.9614062141829,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "anio_mes"
+                }
+              },
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_anr_global_mensual"
+                    }
+                  },
+                  "Property": "anr_global_hm3"
+                }
+              },
+              "queryRef": "fact_anr_global_mensual.anr_global_hm3",
+              "nativeQueryRef": "anr_global_hm31"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_inventari_xarxa_mensual"
+                        }
+                      },
+                      "Property": "l_+_t_km"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_inventari_xarxa_mensual.l_+_t_km)",
+              "nativeQueryRef": "L(km)1",
+              "displayName": "L(km)"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_inventari_xarxa_mensual"
+                        }
+                      },
+                      "Property": "nombre_escomeses_totals"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_inventari_xarxa_mensual.nombre_escomeses_totals)",
+              "nativeQueryRef": "Suma de nombre_escomeses_totals"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_inventari_xarxa_mensual"
+                        }
+                      },
+                      "Property": "nombre_subministraments_totals"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_inventari_xarxa_mensual.nombre_subministraments_totals)",
+              "nativeQueryRef": "Suma de nombre_subministraments_totals"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "count_dias_mes"
+                }
+              },
+              "queryRef": "_medidas.count_dias_mes",
+              "nativeQueryRef": "count_dias_mes"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "anr_dia_m3"
+                }
+              },
+              "queryRef": "_medidas.anr_dia_m3",
+              "nativeQueryRef": "anr_dia_m3"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Schema": "extension",
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "anr_l_esc_dia"
+                }
+              },
+              "queryRef": "_medidas.anr_l_esc_dia",
+              "nativeQueryRef": "anr_l_esc_dia"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Schema": "extension",
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "anr_l_subm_dia"
+                }
+              },
+              "queryRef": "_medidas.anr_l_subm_dia",
+              "nativeQueryRef": "anr_l_subm_dia"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Schema": "extension",
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "anr_m3_km_dia"
+                }
+              },
+              "queryRef": "_medidas.anr_m3_km_dia",
+              "nativeQueryRef": "anr_m3_km_dia"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "fact_inventari_xarxa_mensual"
+                      }
+                    },
+                    "Property": "nombre_subministraments_totals"
+                  }
+                },
+                "Function": 0
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4c36ef846a2d0a09ba12",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_anr_global_mensual"
+              }
+            },
+            "Property": "anr_global_hm3"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "976b7991515df4153286",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "c16eb4c82c6b975791c3",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "anr_dia_m3"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6780277bdc5ac78ab3bb",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "count_dias_mes"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c4a3a8072d65f0ff946f",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_inventari_xarxa_mensual"
+                  }
+                },
+                "Property": "l_+_t_km"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "8e5bec7789d6e21697b9",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_inventari_xarxa_mensual"
+                  }
+                },
+                "Property": "nombre_escomeses_totals"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5fb850782e7de6bc68a1",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_inventari_xarxa_mensual"
+                  }
+                },
+                "Property": "nombre_subministraments_totals"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5e74da067453581c8284",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Schema": "extension",
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "anr_l_esc_dia"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4a5c43f17f001544ef3d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Schema": "extension",
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "anr_l_subm_dia"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "8983cccf7371f72eea21",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Schema": "extension",
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "anr_m3_km_dia"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

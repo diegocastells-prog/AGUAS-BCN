@@ -1,0 +1,210 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "9bbacfe401960a707a39",
+  "position": {
+    "x": 538.53675526241329,
+    "y": 440.45886937025188,
+    "z": 1000,
+    "height": 279.96778336489695,
+    "width": 510.005006639239,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_estadístiques_comp"
+                    }
+                  },
+                  "Property": "codi_mes"
+                }
+              },
+              "queryRef": "fact_estadístiques_comp.codi_mes",
+              "nativeQueryRef": "codi_mes",
+              "active": true
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_estadístiques_comp"
+                    }
+                  },
+                  "Property": "nom_executor"
+                }
+              },
+              "queryRef": "fact_estadístiques_comp.nom_executor",
+              "nativeQueryRef": "nom_executor",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_estadístiques_comp"
+                    }
+                  },
+                  "Property": "tip_submin"
+                }
+              },
+              "queryRef": "fact_estadístiques_comp.tip_submin",
+              "nativeQueryRef": "tip_submin",
+              "active": false
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_estadístiques_comp"
+                        }
+                      },
+                      "Property": "total"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(fact_estadístiques_comp.total)",
+              "nativeQueryRef": "Primera fecha: total"
+            }
+          ]
+        }
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "fact_estadístiques_comp.nom_executor"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "fact_estadístiques_comp.tip_submin"
+            ],
+            "isCollapsed": true
+          }
+        ],
+        "root": {}
+      }
+    ],
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "50c0db54a4a350a5a997",
+        "ordinal": 0,
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_estadístiques_comp"
+                  }
+                },
+                "Property": "Total"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "a395a559f5c4ea98f7be",
+        "ordinal": 1,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_estadístiques_comp"
+              }
+            },
+            "Property": "nom_executor"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "06f1defedb1a06a576fd",
+        "ordinal": 2,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_estadístiques_comp"
+              }
+            },
+            "Property": "tip_submin"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "79eacd0c9986362c8693",
+        "ordinal": 3,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_estadístiques_comp"
+              }
+            },
+            "Property": "codi_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "d93f6e30565aebf0ccb7",
+        "ordinal": 4,
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_estadístiques_comp"
+                  }
+                },
+                "Property": "total"
+              }
+            },
+            "Function": 3
+          }
+        },
+        "type": "Advanced"
+      }
+    ],
+    "filterSortOrder": "Custom"
+  }
+}
