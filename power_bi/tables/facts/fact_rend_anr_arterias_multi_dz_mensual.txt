@@ -4,7 +4,8 @@ let
         [Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]
     ),
 
-    KeepCols = Table.SelectColumns(Source, 
+        KeepCols = Table.SelectColumns(
+        Source,
         List.Transform({1..14}, each "Column" & Text.From(_))
     ),
 
@@ -21,7 +22,7 @@ let
 
     Headers = Table.PromoteHeaders(
         Table.Skip(FillArteria, 3),
-        [PromoteAllScalars=true]
+        [PromoteAllScalars = true]
     ),
 
     Rename = Table.RenameColumns(Headers, {
@@ -30,24 +31,29 @@ let
     }),
 
     // Filtrar Total y rendiment de una vez
-    Filtered = Table.SelectRows(Rename, 
+    Filtered = Table.SelectRows(
+        Rename,
         each [tipo] <> "rendiment (%)" and [arteria] <> "Total"
     ),
 
     Unpivoted = Table.UnpivotOtherColumns(
-        Filtered, {"arteria", "tipo"}, "date", "valor"
+        Filtered,
+        {"arteria", "tipo"},
+        "fecha",
+        "valor"
     ),
 
     NumericValue = Table.TransformColumns(Unpivoted, {{
-        "valor", 
-        each try Int64.From(Text.Replace(_, ",", "")) otherwise null, 
+        "valor",
+        each try Int64.From(Text.Replace(_, ",", "")) otherwise null,
         Int64.Type
     }}),
 
     Pivoted = Table.Pivot(
-        NumericValue, 
-        List.Distinct(NumericValue[tipo]), 
-        "tipo", "valor"
+        NumericValue,
+        List.Distinct(NumericValue[tipo]),
+        "tipo",
+        "valor"
     ),
 
     Measures = Table.RenameColumns(Pivoted, {
@@ -70,15 +76,24 @@ let
         Int64.Type
     ),
 
-    FinalTypes = Table.TransformColumnTypes(AddColumns, {{"date", type date}}),
+    FinalTypes = Table.TransformColumnTypes(
+        AddColumns,
+        {{"fecha", type date}}
+    ),
 
     Result = Table.Sort(
-        Table.ReorderColumns(FinalTypes, {
-            "date", "gerencia", "arteria",
-            "sortit_m3", "entrat_m3",
-            "rendiment", "anr_m3"
-        }),
-        {{"arteria", Order.Ascending}, {"date", Order.Ascending}}
+        Table.ReorderColumns(
+            FinalTypes,
+            {
+                "fecha", "gerencia", "arteria",
+                "sortit_m3", "entrat_m3",
+                "rendiment", "anr_m3"
+            }
+        ),
+        {
+            {"arteria", Order.Ascending},
+            {"fecha", Order.Ascending}
+        }
     )
 in
     Result
