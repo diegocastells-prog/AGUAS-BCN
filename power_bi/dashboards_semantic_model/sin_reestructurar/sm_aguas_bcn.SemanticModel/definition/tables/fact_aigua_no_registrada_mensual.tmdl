@@ -1,19 +1,6 @@
 table fact_aigua_no_registrada_mensual
 	lineageTag: f96f2e5b-1cad-4714-b87a-0b7f4562ce64
 
-	column fecha
-		dataType: dateTime
-		formatString: Long Date
-		lineageTag: ebe2a9b9-1d27-450f-9823-10390c778878
-		summarizeBy: none
-		sourceColumn: fecha
-
-		changedProperty = DataType
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
 	column sector
 		dataType: int64
 		formatString: 0
@@ -31,14 +18,6 @@ table fact_aigua_no_registrada_mensual
 
 		annotation SummarizationSetBy = Automatic
 
-	column pis_pressio
-		dataType: string
-		lineageTag: ab15dedd-0d86-4efe-bd29-916a1a6445d8
-		summarizeBy: none
-		sourceColumn: pis_pressio
-
-		annotation SummarizationSetBy = Automatic
-
 	column sectors
 		dataType: string
 		lineageTag: 166a9dea-1245-4a08-9059-7effbdf91d30
@@ -53,6 +32,27 @@ table fact_aigua_no_registrada_mensual
 		lineageTag: d59361f4-0971-495c-989f-73e071b71af0
 		summarizeBy: sum
 		sourceColumn: valor
+
+		annotation SummarizationSetBy = Automatic
+
+	column fecha
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ebe2a9b9-1d27-450f-9823-10390c778878
+		summarizeBy: none
+		sourceColumn: fecha
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column pis_pressio
+		dataType: string
+		lineageTag: ab15dedd-0d86-4efe-bd29-916a1a6445d8
+		summarizeBy: none
+		sourceColumn: pis_pressio
 
 		annotation SummarizationSetBy = Automatic
 
