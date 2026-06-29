@@ -1,7 +1,3 @@
-relationship 9ce1466d-309c-7bc9-4c61-c1c7f47de3fd
-	fromColumn: fact_rend_anr_arterias_mensual.date
-	toColumn: dim_calendario.Date
-
 relationship 8a3450e6-294e-5db4-74c5-b5a82034232b
 	fromColumn: fact_aigua_no_registrada_12m.fecha
 	toColumn: dim_calendario.Date
@@ -31,23 +27,28 @@ relationship 1692a73c-0c32-48a2-b3c7-d16d044e36c8
 
 relationship 7d115471-1de3-4301-bc17-edc8a939b8b7
 	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_anr_global_mensual.date
+	fromColumn: fact_anr_global_mensual.fecha
 	toColumn: LocalDateTable_d1b90805-bd5a-402f-9490-942013cea1b8.Date
 
 relationship 0ae69dd9-1ce9-4724-bbfe-d1c75b278c9f
 	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_anr_global_acum.date
+	fromColumn: fact_anr_global_acum.fecha
 	toColumn: LocalDateTable_c6561612-6700-474a-ba57-f229b5aeb539.Date
 
 relationship 0f16dfbb-f5e5-d9ce-526d-c928ff9658cc
 	crossFilteringBehavior: bothDirections
 	fromCardinality: one
 	fromColumn: dim_calendario.Date
-	toColumn: fact_anr_global_mensual.date
+	toColumn: fact_anr_global_mensual.fecha
 
 relationship 2ffa33f1-d27f-03d2-c6e4-b5812c8dc832
 	crossFilteringBehavior: bothDirections
 	fromCardinality: one
 	fromColumn: dim_calendario.Date
-	toColumn: fact_anr_global_acum.date
+	toColumn: fact_anr_global_acum.fecha
+
+relationship 563efaee-807e-403d-a65b-28ad0d6b9645
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_rend_anr_arterias_mensual.fecha
+	toColumn: LocalDateTable_c0774671-c431-4f13-9f3e-0b61f26f53d7.Date
 

@@ -1,20 +1,6 @@
 table fact_rend_anr_arterias_mensual
 	lineageTag: 2bd7fae2-b1ab-462b-971d-88c228ce16be
 
-	column date
-		dataType: dateTime
-		isHidden
-		formatString: Long Date
-		lineageTag: 0dcf97c7-1466-44d8-928b-d441c5bbf063
-		summarizeBy: none
-		sourceColumn: date
-
-		changedProperty = IsHidden
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
 	column gerencia
 		dataType: string
 		lineageTag: 92f3603e-6580-42ac-8cb6-cc1f42791a2a
@@ -68,11 +54,26 @@ table fact_rend_anr_arterias_mensual
 
 		annotation SummarizationSetBy = Automatic
 
+	column fecha
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 91a4dd3c-3987-4003-a4de-cae32169760e
+		summarizeBy: none
+		sourceColumn: fecha
+
+		variation Variación
+			isDefault
+			relationship: 563efaee-807e-403d-a65b-28ad0d6b9645
+			defaultHierarchy: LocalDateTable_c0774671-c431-4f13-9f3e-0b61f26f53d7.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
 	partition fact_rend_anr_arterias_mensual = m
 		mode: import
-		source =
+		source = ```
 				let
-				    // Cargar las 6 tablas staging
 				    LlobSud   = fact_rend_anr_arterias_llobregadsub_mensual,
 				    LlobNord  = fact_rend_anr_arterias_llobregadnord_mensual,
 				    BcnSud    = fact_rend_anr_arterias_bcn_sud_mensual,
@@ -80,7 +81,7 @@ table fact_rend_anr_arterias_mensual
 				    Besos     = fact_rend_anr_arterias_besos_mensual,
 				    MultiDZ   = fact_rend_anr_arterias_multi_dz_mensual,
 				
-				    // Unir todas en una sola tabla
+				    
 				    Union = Table.Combine({
 				        LlobSud,
 				        LlobNord,
@@ -90,14 +91,15 @@ table fact_rend_anr_arterias_mensual
 				        MultiDZ
 				    }),
 				
-				    // Ordenar resultado final
+				    
 				    Result = Table.Sort(Union, {
 				        {"gerencia", Order.Ascending},
 				        {"arteria",  Order.Ascending},
-				        {"date",     Order.Ascending}
+				        {"fecha",     Order.Ascending}
 				    })
 				in
 				    Result
+				```
 
 	annotation PBI_NavigationStepName = Navegación
 

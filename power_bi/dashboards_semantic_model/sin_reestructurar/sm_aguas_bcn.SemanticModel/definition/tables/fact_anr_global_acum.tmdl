@@ -1,12 +1,12 @@
 table fact_anr_global_acum
 	lineageTag: b9338bb5-df5a-4911-a628-9396a160ed6d
 
-	column date
+	column fecha
 		dataType: dateTime
 		formatString: Long Date
 		lineageTag: 2b7d5a03-2f48-4464-89f0-e5f08091a2e7
 		summarizeBy: none
-		sourceColumn: date
+		sourceColumn: fecha
 
 		variation Variación
 			isDefault
@@ -65,7 +65,6 @@ table fact_anr_global_acum
 				        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRS1zkWHKwzcm2ZLhnMstWbjgJtQC3DCBLdSY_mCFGtR3x8Z4xdlut8iUNJwB5KVQ/pub?gid=315911922&single=true&output=csv"),
 				        [Delimiter = ",", Columns = 48, Encoding = 65001, QuoteStyle = QuoteStyle.None]
 				    ),
-				
 				    Data =
 				        Table.PromoteHeaders(
 				            Table.SelectColumns(
@@ -74,21 +73,8 @@ table fact_anr_global_acum
 				            ),
 				            [PromoteAllScalars = true]
 				        ),
-				
-				    // Renombrar columnas
 				    Renamed =
-				        Table.RenameColumns(
-				            Data,
-				            {
-				                {"Any", "date"},
-				                {"Aigua Lliurada (hm3)", "lliurada_hm3"},
-				                {"Aigua Consumida (hm3)", "consumida_hm3"},
-				                {"RTH Global", "rth_global"},
-				                {"ANR Global (hm3)", "anr_global_hm3"}
-				            }
-				        ),
-				
-				    // 🔥 Reemplazar "." por "," en todas las columnas excepto "date"
+				        Table.RenameColumns(Data,{{"Any", "fecha"}, {"Aigua Lliurada (hm3)", "lliurada_hm3"}, {"Aigua Consumida (hm3)", "consumida_hm3"}, {"RTH Global", "rth_global"}, {"ANR Global (hm3)", "anr_global_hm3"}}),
 				    ReplaceDots =
 				        Table.TransformColumns(
 				            Renamed,
@@ -97,13 +83,11 @@ table fact_anr_global_acum
 				                each {_, (x) => Text.Replace(x, ".", ","), type text}
 				            )
 				        ),
-				
-				    // Convertir tipos
 				    Result =
 				        Table.TransformColumnTypes(
 				            ReplaceDots,
 				            {
-				                {"date", type date},
+				                {"fecha", type date},
 				                {"lliurada_hm3", type number},
 				                {"consumida_hm3", type number},
 				                {"rth_global", type number},

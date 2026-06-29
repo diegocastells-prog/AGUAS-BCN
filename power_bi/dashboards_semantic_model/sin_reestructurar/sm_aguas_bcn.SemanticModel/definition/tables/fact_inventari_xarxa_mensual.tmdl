@@ -1,6 +1,14 @@
 table fact_inventari_xarxa_mensual
 	lineageTag: 2b91454c-c160-4687-a602-165ee754b802
 
+	column mes
+		dataType: string
+		lineageTag: d0c348d5-820a-4e59-8114-df03db8dd7ed
+		summarizeBy: none
+		sourceColumn: mes
+
+		annotation SummarizationSetBy = Automatic
+
 	column fecha
 		dataType: dateTime
 		formatString: Long Date
@@ -11,14 +19,6 @@ table fact_inventari_xarxa_mensual
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
-
-	column mes
-		dataType: string
-		lineageTag: d0c348d5-820a-4e59-8114-df03db8dd7ed
-		summarizeBy: none
-		sourceColumn: mes
-
-		annotation SummarizationSetBy = Automatic
 
 	column nombre_escomeses_totals
 		dataType: double
