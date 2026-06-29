@@ -2,6 +2,9 @@
 
 ## LINEAGE
 
+### Excel → Facts / Dimensions Tables
+
+
 | Nombre Excel                    | Pestaña origen                 | Tipo | Tabla destino |
 |--------------------------------|--------------------------------|------|---------------|
 | Excel                           | aigua_no_registrada_mensual    | fact | dim_sector    |
