@@ -1,48 +1,6 @@
 table fact_aigua_no_registrada_mensual
 	lineageTag: f96f2e5b-1cad-4714-b87a-0b7f4562ce64
 
-	column nº
-		dataType: int64
-		formatString: 0
-		lineageTag: 81776734-9feb-42fa-8a73-f10a60e150fd
-		summarizeBy: sum
-		sourceColumn: nº
-
-		annotation SummarizationSetBy = Automatic
-
-	column gerència
-		dataType: string
-		lineageTag: 33397c83-3084-446d-8603-c22d95df5769
-		summarizeBy: none
-		sourceColumn: gerència
-
-		annotation SummarizationSetBy = Automatic
-
-	column sectors
-		dataType: string
-		lineageTag: 166a9dea-1245-4a08-9059-7effbdf91d30
-		summarizeBy: none
-		sourceColumn: sectors
-
-		annotation SummarizationSetBy = Automatic
-
-	column atributo
-		dataType: string
-		lineageTag: a518c2ef-acf6-4b9a-9cf1-f8423bb0529d
-		summarizeBy: none
-		sourceColumn: atributo
-
-		annotation SummarizationSetBy = Automatic
-
-	column valor
-		dataType: int64
-		formatString: 0
-		lineageTag: d59361f4-0971-495c-989f-73e071b71af0
-		summarizeBy: sum
-		sourceColumn: valor
-
-		annotation SummarizationSetBy = Automatic
-
 	column fecha
 		dataType: dateTime
 		formatString: Long Date
@@ -56,11 +14,45 @@ table fact_aigua_no_registrada_mensual
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column pis_pressió
+	column sector
+		dataType: int64
+		formatString: 0
+		lineageTag: 81776734-9feb-42fa-8a73-f10a60e150fd
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column gerencia
+		dataType: string
+		lineageTag: 33397c83-3084-446d-8603-c22d95df5769
+		summarizeBy: none
+		sourceColumn: gerencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column pis_pressio
 		dataType: string
 		lineageTag: ab15dedd-0d86-4efe-bd29-916a1a6445d8
 		summarizeBy: none
-		sourceColumn: pis_pressió
+		sourceColumn: pis_pressio
+
+		annotation SummarizationSetBy = Automatic
+
+	column sectors
+		dataType: string
+		lineageTag: 166a9dea-1245-4a08-9059-7effbdf91d30
+		summarizeBy: none
+		sourceColumn: sectors
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor
+		dataType: int64
+		formatString: 0
+		lineageTag: d59361f4-0971-495c-989f-73e071b71af0
+		summarizeBy: sum
+		sourceColumn: valor
 
 		annotation SummarizationSetBy = Automatic
 
@@ -100,9 +92,12 @@ table fact_aigua_no_registrada_mensual
 				            #date(anio, mes, 1)
 				    ),
 				    // 🔥 NUEVO PASO: renombrar columnas a minúsculas y reemplazar espacios por _
-				    #"Columnas normalizadas" = Table.TransformColumnNames(#"Personalizada agregada", each Text.Replace(Text.Lower(_), " ", "_"))
+				    #"Columnas normalizadas" = Table.TransformColumnNames(#"Personalizada agregada", each Text.Replace(Text.Lower(_), " ", "_")),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columnas normalizadas",{{"nº", "n"}, {"gerència", "gerencia"}, {"pis_pressió", "pis_pressio"}}),
+				    #"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado",{"atributo"}),
+				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columnas quitadas1",{{"n", "sector"}})
 				in
-				    #"Columnas normalizadas"
+				    #"Columnas con nombre cambiado1"
 				```
 
 	annotation PBI_NavigationStepName = Navegación

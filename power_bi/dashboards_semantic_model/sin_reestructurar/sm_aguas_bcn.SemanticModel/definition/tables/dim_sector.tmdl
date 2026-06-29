@@ -1,0 +1,66 @@
+table dim_sector
+	lineageTag: 706841a5-0cd9-4699-972b-d4ccca6f859a
+
+	column sector_id
+		dataType: int64
+		formatString: 0
+		lineageTag: ea4e491c-b613-4acb-a042-16869af58b9d
+		summarizeBy: none
+		sourceColumn: sector_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column sector
+		dataType: string
+		lineageTag: f6213cdb-f4d2-4302-96e8-c7903b291699
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column gerencia
+		dataType: string
+		lineageTag: 532a68c7-e09b-43b8-bd87-f665db57999b
+		summarizeBy: none
+		sourceColumn: gerencia
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_sector = m
+		mode: import
+		source =
+				let
+				    Origen = Csv.Document(
+				        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vQu04YqiUjROdeKjkF1OKAb2UI0cIt8n44NDzq3nAdSvDc2p0zBvWngL_DNulEpHw/pub?gid=2003244827&single=true&output=csv"),
+				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.None]
+				    ),
+				
+				    #"Filas superiores quitadas" = Table.Skip(Origen,2),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
+				
+				    #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([Nº] <> null and [Nº] <> "")),
+				
+				    #"Tipos" = Table.TransformColumnTypes(#"Filas filtradas",{
+				        {"Nº", Int64.Type},
+				        {"Gerència", type text},
+				        {"Sectors", type text}
+				    }),
+				
+				    #"Dimensión limpia" = Table.SelectColumns(#"Tipos",{"Nº","Sectors","Gerència"}),
+				
+				    #"Renombrado" = Table.RenameColumns(#"Dimensión limpia",{
+				        {"Nº","sector_id"},
+				        {"Sectors","sector"},
+				        {"Gerència","gerencia"}
+				    }),
+				
+				/* opcional pero recomendable */
+				    #"Sin duplicados" = Table.Distinct(#"Renombrado")
+				
+				in
+				    #"Sin duplicados"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

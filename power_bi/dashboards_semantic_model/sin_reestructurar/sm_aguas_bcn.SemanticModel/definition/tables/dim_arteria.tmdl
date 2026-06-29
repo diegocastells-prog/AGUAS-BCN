@@ -1,0 +1,50 @@
+table dim_arteria
+	lineageTag: 1669ea0a-40db-4c42-81ae-b3b0675727ca
+
+	column gerencia
+		dataType: string
+		lineageTag: 4d738b66-1b42-460c-9c1b-0976b6b29d56
+		summarizeBy: none
+		sourceColumn: gerencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column arteria
+		dataType: string
+		lineageTag: e294918d-42ba-4578-81ff-5eb4ab3354a4
+		summarizeBy: none
+		sourceColumn: arteria
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_arteria = m
+		mode: import
+		source =
+				let
+				    LlobSud   = fact_rend_anr_arterias_llobregadsub_mensual,
+				    LlobNord  = fact_rend_anr_arterias_llobregadnord_mensual,
+				    BcnSud    = fact_rend_anr_arterias_bcn_sud_mensual,
+				    BcnNord   = fact_rend_anr_arterias_bcn_nord_mensual,
+				    Besos     = fact_rend_anr_arterias_besos_mensual,
+				    MultiDZ   = fact_rend_anr_arterias_multi_dz_mensual,
+				
+				    Union = Table.Combine({
+				        LlobSud,
+				        LlobNord,
+				        BcnSud,
+				        BcnNord,
+				        Besos,
+				        MultiDZ
+				    }),
+				
+				    Seleccion = Table.SelectColumns(Union, {"gerencia", "arteria"}),
+				
+				    DimArteria = Table.Distinct(Seleccion)
+				
+				in
+				    DimArteria
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

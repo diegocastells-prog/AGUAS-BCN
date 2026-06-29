@@ -1,14 +1,6 @@
 table fact_inventari_xarxa_mensual
 	lineageTag: 2b91454c-c160-4687-a602-165ee754b802
 
-	column mes
-		dataType: string
-		lineageTag: d0c348d5-820a-4e59-8114-df03db8dd7ed
-		summarizeBy: none
-		sourceColumn: mes
-
-		annotation SummarizationSetBy = Automatic
-
 	column fecha
 		dataType: dateTime
 		formatString: Long Date
@@ -94,7 +86,8 @@ table fact_inventari_xarxa_mensual
 				        Table.TransformColumnNames(#"Columnas con nombre cambiado",
 				            each Text.Replace(Text.Lower(_), " ", "_")
 				        ),
-				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas normalizadas",{{"l_+_t_km", type number}, {"nombre_escomeses_totals", type number}, {"nombre_subministraments_totals", type number}, {"fecha", type date}})
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Columnas normalizadas",{"mes"}),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas",{{"l_+_t_km", type number}, {"nombre_escomeses_totals", type number}, {"nombre_subministraments_totals", type number}, {"fecha", type date}})
 				in
 				    #"Tipo cambiado"
 				```
