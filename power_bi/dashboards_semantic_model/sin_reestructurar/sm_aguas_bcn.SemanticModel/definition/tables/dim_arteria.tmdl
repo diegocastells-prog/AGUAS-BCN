@@ -21,28 +21,36 @@ table dim_arteria
 		mode: import
 		source =
 				let
-				    LlobSud   = fact_rend_anr_arterias_llobregadsub_mensual,
-				    LlobNord  = fact_rend_anr_arterias_llobregadnord_mensual,
-				    BcnSud    = fact_rend_anr_arterias_bcn_sud_mensual,
-				    BcnNord   = fact_rend_anr_arterias_bcn_nord_mensual,
-				    Besos     = fact_rend_anr_arterias_besos_mensual,
-				    MultiDZ   = fact_rend_anr_arterias_multi_dz_mensual,
+				    Union =
+				        Table.Combine({
+				            fact_rend_anr_arterias_llobregadsub_mensual,
+				            fact_rend_anr_arterias_llobregadnord_mensual,
+				            fact_rend_anr_arterias_bcn_sud_mensual,
+				            fact_rend_anr_arterias_bcn_nord_mensual,
+				            fact_rend_anr_arterias_besos_mensual,
+				            fact_rend_anr_arterias_multi_dz_mensual
+				        }),
 				
-				    Union = Table.Combine({
-				        LlobSud,
-				        LlobNord,
-				        BcnSud,
-				        BcnNord,
-				        Besos,
-				        MultiDZ
-				    }),
+				    DimArteria =
+				        Table.Distinct(
+				            Table.SelectColumns(Union, {"gerencia", "arteria"})
+				        ),
 				
-				    Seleccion = Table.SelectColumns(Union, {"gerencia", "arteria"}),
-				
-				    DimArteria = Table.Distinct(Seleccion)
+				    Resultado =
+				        Table.ReplaceValue(
+				            Table.ReplaceValue(
+				                DimArteria,
+				                "Bcn", "Barcelona",
+				                Replacer.ReplaceText,
+				                {"gerencia"}
+				            ),
+				            "Besos", "Besòs",
+				            Replacer.ReplaceText,
+				            {"gerencia"}
+				        )
 				
 				in
-				    DimArteria
+				    Resultado
 
 	annotation PBI_NavigationStepName = Navegación
 

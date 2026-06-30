@@ -1,26 +1,33 @@
 let
-    LlobSud   = fact_rend_anr_arterias_llobregadsub_mensual,
-    LlobNord  = fact_rend_anr_arterias_llobregadnord_mensual,
-    BcnSud    = fact_rend_anr_arterias_bcn_sud_mensual,
-    BcnNord   = fact_rend_anr_arterias_bcn_nord_mensual,
-    Besos     = fact_rend_anr_arterias_besos_mensual,
-    MultiDZ   = fact_rend_anr_arterias_multi_dz_mensual,
+    Union =
+        Table.Combine({
+            fact_rend_anr_arterias_llobregadsub_mensual,
+            fact_rend_anr_arterias_llobregadnord_mensual,
+            fact_rend_anr_arterias_bcn_sud_mensual,
+            fact_rend_anr_arterias_bcn_nord_mensual,
+            fact_rend_anr_arterias_besos_mensual,
+            fact_rend_anr_arterias_multi_dz_mensual
+        }),
 
-    
-    Union = Table.Combine({
-        LlobSud,
-        LlobNord,
-        BcnSud,
-        BcnNord,
-        Besos,
-        MultiDZ
-    }),
+    Gerencias =
+        Table.ReplaceValue(
+            Table.ReplaceValue(
+                Union,
+                "Bcn", "Barcelona",
+                Replacer.ReplaceText, {"gerencia"}
+            ),
+            "Besos", "Besòs",
+            Replacer.ReplaceText, {"gerencia"}
+        ),
 
-    
-    Result = Table.Sort(Union, {
-        {"gerencia", Order.Ascending},
-        {"arteria",  Order.Ascending},
-        {"fecha",     Order.Ascending}
-    })
+    Result =
+        Table.Sort(
+            Gerencias,
+            {
+                {"gerencia", Order.Ascending},
+                {"arteria", Order.Ascending},
+                {"fecha", Order.Ascending}
+            }
+        )
 in
     Result

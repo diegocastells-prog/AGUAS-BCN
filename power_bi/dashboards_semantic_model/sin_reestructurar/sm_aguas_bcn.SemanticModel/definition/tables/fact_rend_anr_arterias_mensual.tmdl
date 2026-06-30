@@ -17,24 +17,6 @@ table fact_rend_anr_arterias_mensual
 
 		annotation SummarizationSetBy = Automatic
 
-	column sortit_m3
-		dataType: int64
-		formatString: 0
-		lineageTag: 97faf4d3-7755-41ef-b473-5d38d72a21e9
-		summarizeBy: sum
-		sourceColumn: sortit_m3
-
-		annotation SummarizationSetBy = Automatic
-
-	column entrat_m3
-		dataType: int64
-		formatString: 0
-		lineageTag: 02c67ef1-dde4-481b-853d-e21e891cfbed
-		summarizeBy: sum
-		sourceColumn: entrat_m3
-
-		annotation SummarizationSetBy = Automatic
-
 	column rendiment
 		dataType: double
 		lineageTag: bd43ac57-a12e-4b2b-a8c5-6bf97b7f833a
@@ -70,36 +52,60 @@ table fact_rend_anr_arterias_mensual
 
 		annotation UnderlyingDateTimeDataType = Date
 
+	column sortit_m3
+		dataType: int64
+		formatString: 0
+		lineageTag: 7e56a2f3-4d4e-4a2d-bd56-0505b484e534
+		summarizeBy: sum
+		sourceColumn: sortit_m3
+
+		annotation SummarizationSetBy = Automatic
+
+	column entrat_m3
+		dataType: int64
+		formatString: 0
+		lineageTag: 9a1b8714-7c86-46f9-91ed-37ab0fb3bf26
+		summarizeBy: sum
+		sourceColumn: entrat_m3
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_rend_anr_arterias_mensual = m
 		mode: import
-		source = ```
+		source =
 				let
-				    LlobSud   = fact_rend_anr_arterias_llobregadsub_mensual,
-				    LlobNord  = fact_rend_anr_arterias_llobregadnord_mensual,
-				    BcnSud    = fact_rend_anr_arterias_bcn_sud_mensual,
-				    BcnNord   = fact_rend_anr_arterias_bcn_nord_mensual,
-				    Besos     = fact_rend_anr_arterias_besos_mensual,
-				    MultiDZ   = fact_rend_anr_arterias_multi_dz_mensual,
+				    Union =
+				        Table.Combine({
+				            fact_rend_anr_arterias_llobregadsub_mensual,
+				            fact_rend_anr_arterias_llobregadnord_mensual,
+				            fact_rend_anr_arterias_bcn_sud_mensual,
+				            fact_rend_anr_arterias_bcn_nord_mensual,
+				            fact_rend_anr_arterias_besos_mensual,
+				            fact_rend_anr_arterias_multi_dz_mensual
+				        }),
 				
-				    
-				    Union = Table.Combine({
-				        LlobSud,
-				        LlobNord,
-				        BcnSud,
-				        BcnNord,
-				        Besos,
-				        MultiDZ
-				    }),
+				    Gerencias =
+				        Table.ReplaceValue(
+				            Table.ReplaceValue(
+				                Union,
+				                "Bcn", "Barcelona",
+				                Replacer.ReplaceText, {"gerencia"}
+				            ),
+				            "Besos", "Besòs",
+				            Replacer.ReplaceText, {"gerencia"}
+				        ),
 				
-				    
-				    Result = Table.Sort(Union, {
-				        {"gerencia", Order.Ascending},
-				        {"arteria",  Order.Ascending},
-				        {"fecha",     Order.Ascending}
-				    })
+				    Result =
+				        Table.Sort(
+				            Gerencias,
+				            {
+				                {"gerencia", Order.Ascending},
+				                {"arteria", Order.Ascending},
+				                {"fecha", Order.Ascending}
+				            }
+				        )
 				in
 				    Result
-				```
 
 	annotation PBI_NavigationStepName = Navegación
 
