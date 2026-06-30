@@ -1,0 +1,128 @@
+table fact_fraudes_per_sector
+	lineageTag: 512cd662-d6d6-4a2a-8ca0-0b6aa7614f88
+
+	column polissa_su
+		dataType: string
+		lineageTag: afe2d272-c06c-4d23-91df-98c2331b4f59
+		summarizeBy: none
+		sourceColumn: polissa_su
+
+		annotation SummarizationSetBy = Automatic
+
+	column coordenada_latitud
+		dataType: double
+		lineageTag: 7f60627d-fd07-433b-9386-7d4810a155c1
+		summarizeBy: sum
+		sourceColumn: coordenada_latitud
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column coordenada_longitud
+		dataType: double
+		lineageTag: 5949e51d-7b65-4143-8956-764667ca6da9
+		summarizeBy: sum
+		sourceColumn: coordenada_longitud
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column gerencia
+		dataType: string
+		lineageTag: f3e75fc1-17c2-44ad-abf2-e53471089069
+		summarizeBy: none
+		sourceColumn: gerencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column sector_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 8041b731-9b5f-42b1-ac9a-e50f6f2818b8
+		summarizeBy: none
+		sourceColumn: sector_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column sector
+		dataType: string
+		lineageTag: 33a41085-beb4-4a08-84b4-d181aadbdec3
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column shape_le_1
+		dataType: double
+		lineageTag: 4e11900c-19e8-4bc2-91e9-3d0c5aeef8dc
+		summarizeBy: sum
+		sourceColumn: shape_le_1
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column shape_ar_1
+		dataType: double
+		lineageTag: c21bb250-69ce-4629-8a12-9deba7c2a6f4
+		summarizeBy: sum
+		sourceColumn: shape_ar_1
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fact_fraudes_per_sector = m
+		mode: import
+		source = ```
+				let
+				    Origen =
+				        Csv.Document(
+				            Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vQwqgF5B5qzZDjauecugQUMxB36xsTffWXMGSRI7bO4Zopp9VbragwJfI2XTB893g/pub?gid=642764319&single=true&output=csv"),
+				            [Delimiter = ",", Columns = 13, Encoding = 65001, QuoteStyle = QuoteStyle.None]
+				        ),
+				#"Procesado" = 
+				    let
+				      base = Table.PromoteHeaders(
+				        Table.RemoveColumns(Origen, {"Column5", "Column6"}),
+				        [PromoteAllScalars = true]
+				      ),
+				      tipos = Table.TransformColumnTypes(base, {
+				        {"POLISSA_SU", type text}, {"COORDENADA", type number}, {"COORDENA_1", type number}, 
+				        {"ZONA", type text}, {"SAP_ID_2", Int64.Type}, {"DENOMIN_2", type text}, 
+				        {"SHAPE_Le_1", type number}, {"SHAPE_Ar_1", type number}
+				      }),
+				      renombrado = Table.RenameColumns(tipos, {
+				        {"POLISSA_SU", "polissa_su"}, {"COORDENADA", "coordenada_latitud"}, 
+				        {"COORDENA_1", "coordenada_longitud"}, {"ZONA", "gerencia"},
+				        {"SAP_ID_2", "sector_id"}, {"DENOMIN_2", "sector"}, 
+				        {"SHAPE_Le_1", "shape_le_1"}, {"SHAPE_Ar_1", "shape_ar_1"}
+				      }),
+				      seleccionado = Table.SelectColumns(renombrado, 
+				        {"polissa_su", "coordenada_latitud", "coordenada_longitud", "gerencia", "sector_id", "sector", "shape_le_1", "shape_ar_1"}
+				      )
+				    in
+				      Table.TransformColumns(seleccionado, {
+				        {"sector", each 
+				          if _ = null or Text.Trim(_) = "" then "Not Available"
+				          else 
+				            let
+				              reemplazos = {
+				                {"═", "í"}, {"ã", "à"}, {"┌", "ú"}, {"ë", "é"}, {"╚", "è"},
+				                {"└", "à"}, {"▄", "ü"}, {"¤", "ï"}, {"╔", "é"}, {"─", ""}, {"├", ""}, {"┤", ""}, {"  ", " "}
+				              },
+				              limpio = List.Accumulate(reemplazos, _, (estado, par) => Text.Replace(estado, par{0}, par{1}))
+				            in
+				              Text.Proper(limpio),
+				          type text}
+				      })
+				in
+				  #"Procesado"
+				```
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
