@@ -1149,3 +1149,71 @@ expression fact_rend_anr_arterias_multi_dz_12m = ```
 
 	annotation PBI_ResultType = Table
 
+expression dim_sector_union =
+		let
+		    dim_sector1 = dim_sector_devoteam,
+		    dim_sector2 = dim_sector,
+		
+		    Union = Table.Combine({
+		        dim_sector1,
+		        dim_sector2
+		    }),
+		
+		    #"Sin duplicados" = Table.Distinct(
+		        Union,
+		        {"sector_id"}
+		    ),
+		
+		    Result = Table.Sort(
+		        #"Sin duplicados",
+		        {
+		            {"sector_id", Order.Ascending},
+		            {"sector", Order.Ascending},
+		            {"gerencia", Order.Ascending}
+		        }
+		    )
+		in
+		    Result
+	lineageTag: 9328a85b-11f9-47ab-9b8a-233940defe20
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dim_sector_devoteam = ```
+		let
+						    Origen = Csv.Document(
+						        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vQu04YqiUjROdeKjkF1OKAb2UI0cIt8n44NDzq3nAdSvDc2p0zBvWngL_DNulEpHw/pub?gid=2003244827&single=true&output=csv"),
+						        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.None]
+						    ),
+						
+						    #"Filas superiores quitadas" = Table.Skip(Origen,2),
+						    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
+						
+						    #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([Nº] <> null and [Nº] <> "")),
+						
+						    #"Tipos" = Table.TransformColumnTypes(#"Filas filtradas",{
+						        {"Nº", Int64.Type},
+						        {"Gerència", type text},
+						        {"Sectors", type text}
+						    }),
+						
+						    #"Dimensión limpia" = Table.SelectColumns(#"Tipos",{"Nº","Sectors","Gerència"}),
+						
+						    #"Renombrado" = Table.RenameColumns(#"Dimensión limpia",{
+						        {"Nº","sector_id"},
+						        {"Sectors","sector"},
+						        {"Gerència","gerencia"}
+						    }),
+						
+						/* opcional pero recomendable */
+						    #"Sin duplicados" = Table.Distinct(#"Renombrado")
+		in
+						    #"Sin duplicados"
+		```
+	lineageTag: 1046af86-c26a-4f14-b341-0989e1138ab3
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

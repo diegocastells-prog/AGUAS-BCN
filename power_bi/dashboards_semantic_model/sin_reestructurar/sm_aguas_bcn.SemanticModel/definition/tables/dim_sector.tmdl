@@ -1,10 +1,10 @@
 table dim_sector
-	lineageTag: 706841a5-0cd9-4699-972b-d4ccca6f859a
+	lineageTag: 2081387d-7f27-4ebf-b6af-dea129b732f3
 
 	column sector_id
 		dataType: int64
 		formatString: 0
-		lineageTag: ea4e491c-b613-4acb-a042-16869af58b9d
+		lineageTag: aa19c239-2a2a-48b9-8c9f-ecd71233fbd8
 		summarizeBy: none
 		sourceColumn: sector_id
 
@@ -12,7 +12,7 @@ table dim_sector
 
 	column sector
 		dataType: string
-		lineageTag: f6213cdb-f4d2-4302-96e8-c7903b291699
+		lineageTag: 627172a6-6fd0-4fb4-83cd-286bfea0ca82
 		summarizeBy: none
 		sourceColumn: sector
 
@@ -20,7 +20,7 @@ table dim_sector
 
 	column gerencia
 		dataType: string
-		lineageTag: 532a68c7-e09b-43b8-bd87-f665db57999b
+		lineageTag: c93f018c-8aa6-46de-a468-20d6a3741f5e
 		summarizeBy: none
 		sourceColumn: gerencia
 
@@ -30,34 +30,12 @@ table dim_sector
 		mode: import
 		source =
 				let
-				    Origen = Csv.Document(
-				        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vQu04YqiUjROdeKjkF1OKAb2UI0cIt8n44NDzq3nAdSvDc2p0zBvWngL_DNulEpHw/pub?gid=2003244827&single=true&output=csv"),
-				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.None]
-				    ),
-				
-				    #"Filas superiores quitadas" = Table.Skip(Origen,2),
-				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
-				
-				    #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([Nº] <> null and [Nº] <> "")),
-				
-				    #"Tipos" = Table.TransformColumnTypes(#"Filas filtradas",{
-				        {"Nº", Int64.Type},
-				        {"Gerència", type text},
-				        {"Sectors", type text}
-				    }),
-				
-				    #"Dimensión limpia" = Table.SelectColumns(#"Tipos",{"Nº","Sectors","Gerència"}),
-				
-				    #"Renombrado" = Table.RenameColumns(#"Dimensión limpia",{
-				        {"Nº","sector_id"},
-				        {"Sectors","sector"},
-				        {"Gerència","gerencia"}
-				    }),
-				
-				/* opcional pero recomendable */
-				    #"Sin duplicados" = Table.Distinct(#"Renombrado")
+				  Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRH4WiST8QUNFuYRZ1ilIw7p1mfJMiAz5bImbBz2ffnYgrxn2MyRB5O192pgqrP_SyFQdf6CJroUA9G/pub?gid=0&single=true&output=csv"), [Delimiter = ",", Columns = 3, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+				  #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+				  #"Tipo de columna cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {{"sector_id", Int64.Type}, {"denomin", type text}, {"gerencia", type text}}, "es"),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo de columna cambiado",{{"denomin", "sector"}})
 				in
-				    #"Sin duplicados"
+				  #"Columnas con nombre cambiado"
 
 	annotation PBI_NavigationStepName = Navegación
 
