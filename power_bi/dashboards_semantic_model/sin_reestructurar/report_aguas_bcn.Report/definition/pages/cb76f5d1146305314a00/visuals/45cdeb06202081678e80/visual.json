@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact_estadístiques_comp"
+                      "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "codi_mes"
+                  "Property": "mes"
                 }
               },
-              "queryRef": "fact_estadístiques_comp.codi_mes",
-              "nativeQueryRef": "codi_mes",
+              "queryRef": "dim_calendario.mes",
+              "nativeQueryRef": "mes",
               "active": true
             }
           ]
@@ -182,7 +182,8 @@
             "Property": "codi_mes"
           }
         },
-        "type": "Categorical"
+        "type": "Categorical",
+        "howCreated": "User"
       },
       {
         "name": "81f01ce310dfa08801b9",
@@ -224,61 +225,6 @@
           }
         },
         "type": "Advanced"
-      },
-      {
-        "name": "99cd556cbdeded2ca20e",
-        "ordinal": 6,
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "fact_estadístiques_comp"
-              }
-            },
-            "Property": "agrupació_canvi"
-          }
-        },
-        "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "f",
-              "Entity": "fact_estadístiques_comp",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "In": {
-                  "Expressions": [
-                    {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Source": "f"
-                          }
-                        },
-                        "Property": "agrupació_canvi"
-                      }
-                    }
-                  ],
-                  "Values": [
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'Correctiu'"
-                        }
-                      }
-                    ]
-                  ]
-                }
-              }
-            }
-          ]
-        },
-        "howCreated": "User"
       }
     ],
     "filterSortOrder": "Custom"

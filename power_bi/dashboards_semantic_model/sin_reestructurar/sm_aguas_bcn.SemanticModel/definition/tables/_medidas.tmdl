@@ -1,7 +1,7 @@
 table _medidas
 	lineageTag: 1cfb93bc-b117-4679-93ca-631a08faced9
 
-	measure anr_dia_m3 = ```
+	measure anr_dia_m3_mensual = ```
 			
 			DIVIDE(
 			    SUM( fact_anr_global_mensual[anr_global_hm3] ),
@@ -10,6 +10,7 @@ table _medidas
 			) * 1000000
 			
 			```
+		displayFolder: fact_anr_global_mensual
 		lineageTag: adaf3334-5699-4baf-b2c6-dfcffbf821a2
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -21,9 +22,61 @@ table _medidas
 			RETURN
 			    DAY ( EOMONTH ( FechaActual, 0 ) )
 		formatString: 0
+		displayFolder: dim_calendario
 		lineageTag: 8c5e8213-05f3-474c-bea4-04624f51c582
 
+	measure anr_dia_m3_12m = ```
+			
+			DIVIDE(
+			    SUM( fact_anr_global_acum[anr_global_hm3] ),
+			    365,
+			    0
+			) * 1000000
+			
+			```
+		displayFolder: fact_anr_global_acum
+		lineageTag: 221c7678-14ee-4777-bdc3-7ec35d2d4c51
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_l_esc_dia_mensual = [anr_dia_m3_mensual] /sum(fact_inventari_xarxa_mensual[nombre_escomeses_totals])
+		displayFolder: fact_anr_global_mensual
+		lineageTag: ebd07ed5-8585-4fd4-9192-b2503c07f0ad
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_l_subm_dia_mensual = [anr_dia_m3_mensual] /sum(fact_inventari_xarxa_mensual[nombre_subministraments_totals])
+		displayFolder: fact_anr_global_mensual
+		lineageTag: e0720a62-8277-4ecd-80da-2a9e35bef545
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_m3_km_dia_mensual = [anr_dia_m3_mensual]/ SUM((fact_inventari_xarxa_mensual[l_+_t_km]))
+		displayFolder: fact_anr_global_mensual
+		lineageTag: 78d04585-54b5-497b-81cf-f7e36005e56a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_l_esc_dia_12m = [anr_dia_m3_12m] /sum(fact_inventari_xarxa_mitjana_12m[nombre_escomeses_totals])
+		displayFolder: fact_anr_global_acum
+		lineageTag: c07ebc2d-9770-4399-8398-35032f01c224
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_m3_km_dia_12m = [anr_dia_m3_12m]/ SUM((fact_inventari_xarxa_mitjana_12m[l_+_t_km]))
+		displayFolder: fact_anr_global_acum
+		lineageTag: 5103700e-6cc8-4d0f-90e7-3ee6aaf9efd7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_l_subm_dia_12m = [anr_dia_m3_12m] /sum(fact_inventari_xarxa_mitjana_12m[nombre_subministraments_totals])
+		displayFolder: fact_anr_global_acum
+		lineageTag: e87af0a5-460e-49b4-b044-6ac55d2cb825
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
+		isHidden
 		formatString: 0
 		lineageTag: 4410859c-a856-42e6-b617-788cd67ff5b9
 		summarizeBy: sum
