@@ -101,10 +101,14 @@ table fact_anr_arterias_12m
 				                "Besos", "Besòs", Replacer.ReplaceText, {"gerencia"}
 				            ),
 				            {{"date", "fecha"}}
+				        ),
+				    sinVacios =
+				        Table.SelectRows(
+				            Transformado,
+				            each [sortit_m3] <> null
 				        )
-				
 				in
-				    Transformado
+				    sinVacios
 
 	annotation PBI_NavigationStepName = Navegación
 
