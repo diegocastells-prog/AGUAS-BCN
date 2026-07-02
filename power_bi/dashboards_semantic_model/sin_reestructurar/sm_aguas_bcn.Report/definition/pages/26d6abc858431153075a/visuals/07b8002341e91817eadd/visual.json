@@ -1,0 +1,265 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "07b8002341e91817eadd",
+  "position": {
+    "x": 12.8,
+    "y": 41.244444444444447,
+    "z": 0,
+    "height": 393.95555555555558,
+    "width": 1237.3333333333333,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "anio"
+                }
+              },
+              "queryRef": "Sum(dim_calendario.anio)",
+              "nativeQueryRef": "anio"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "mes"
+                }
+              },
+              "queryRef": "dim_calendario.mes",
+              "nativeQueryRef": "mes"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "volum_lliurat_global_mensual"
+                }
+              },
+              "queryRef": "_medidas.volum_lliurat_global_mensual",
+              "nativeQueryRef": "volum_lliurat_global_mensual",
+              "format": "0.000"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "volum_consumit_global_mensual"
+                }
+              },
+              "queryRef": "_medidas.volum_consumit_global_mensual",
+              "nativeQueryRef": "volum_consumit_global_mensual",
+              "format": "0.000"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "anr_global_mensual"
+                }
+              },
+              "queryRef": "_medidas.anr_global_mensual",
+              "nativeQueryRef": "anr_global_mensual"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "anr_dia_m3_mensual"
+                }
+              },
+              "queryRef": "_medidas.anr_dia_m3_mensual",
+              "nativeQueryRef": "anr_dia_m3_mensual"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_anr_global_acum"
+                        }
+                      },
+                      "Property": "rth_global"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_acum.rth_global)",
+              "nativeQueryRef": "Suma de rth_global"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "anr_dia_m3_mensual"
+                }
+              },
+              "queryRef": "_medidas.anr_dia_m3_mensual",
+              "nativeQueryRef": "anr_dia_m3_mensual"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "volum_lliurat_global_mensual"
+                }
+              },
+              "queryRef": "_medidas.volum_lliurat_global_mensual",
+              "nativeQueryRef": "volum_lliurat_global_mensual",
+              "format": "0.000"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "d242ea2c71e48c3756f8",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "235a6fda8a45cb8f296d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4d62bd98d1848efce9a0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "volum_lliurat_global_mensual"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "807233928f8c6b47e707",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "volum_consumit_global_mensual"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d3db37a762698b125687",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "anr_global_mensual"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "60e0b86a7e70b4ad2f61",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "anr_dia_m3_mensual"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "24d83140c239e9f9e1cc",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_anr_global_acum"
+                  }
+                },
+                "Property": "rth_global"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

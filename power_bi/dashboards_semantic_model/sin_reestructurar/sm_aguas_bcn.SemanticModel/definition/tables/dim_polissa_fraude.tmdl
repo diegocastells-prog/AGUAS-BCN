@@ -1,4 +1,4 @@
-table fact_fraudes_per_sector
+table dim_polissa_fraude
 	lineageTag: 512cd662-d6d6-4a2a-8ca0-0b6aa7614f88
 
 	column polissa_su
@@ -74,7 +74,7 @@ table fact_fraudes_per_sector
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	partition fact_fraudes_per_sector = m
+	partition dim_polissa_fraude = m
 		mode: import
 		source = ```
 				let
@@ -83,43 +83,47 @@ table fact_fraudes_per_sector
 				            Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vQwqgF5B5qzZDjauecugQUMxB36xsTffWXMGSRI7bO4Zopp9VbragwJfI2XTB893g/pub?gid=642764319&single=true&output=csv"),
 				            [Delimiter = ",", Columns = 13, Encoding = 65001, QuoteStyle = QuoteStyle.None]
 				        ),
-				#"Procesado" = 
-				    let
-				      base = Table.PromoteHeaders(
-				        Table.RemoveColumns(Origen, {"Column5", "Column6"}),
-				        [PromoteAllScalars = true]
-				      ),
-				      tipos = Table.TransformColumnTypes(base, {
-				        {"POLISSA_SU", type text}, {"COORDENADA", type number}, {"COORDENA_1", type number}, 
-				        {"ZONA", type text}, {"SAP_ID_2", Int64.Type}, {"DENOMIN_2", type text}, 
-				        {"SHAPE_Le_1", type number}, {"SHAPE_Ar_1", type number}
-				      }),
-				      renombrado = Table.RenameColumns(tipos, {
-				        {"POLISSA_SU", "polissa_su"}, {"COORDENADA", "coordenada_latitud"}, 
-				        {"COORDENA_1", "coordenada_longitud"}, {"ZONA", "gerencia"},
-				        {"SAP_ID_2", "sector_id"}, {"DENOMIN_2", "sector"}, 
-				        {"SHAPE_Le_1", "shape_le_1"}, {"SHAPE_Ar_1", "shape_ar_1"}
-				      }),
-				      seleccionado = Table.SelectColumns(renombrado, 
-				        {"polissa_su", "coordenada_latitud", "coordenada_longitud", "gerencia", "sector_id", "sector", "shape_le_1", "shape_ar_1"}
-				      )
-				    in
-				      Table.TransformColumns(seleccionado, {
-				        {"sector", each 
-				          if _ = null or Text.Trim(_) = "" then "Not Available"
-				          else 
-				            let
-				              reemplazos = {
-				                {"═", "í"}, {"ã", "à"}, {"┌", "ú"}, {"ë", "é"}, {"╚", "è"},
-				                {"└", "à"}, {"▄", "ü"}, {"¤", "ï"}, {"╔", "é"}, {"─", ""}, {"├", ""}, {"┤", ""}, {"  ", " "}
-				              },
-				              limpio = List.Accumulate(reemplazos, _, (estado, par) => Text.Replace(estado, par{0}, par{1}))
-				            in
-				              Text.Proper(limpio),
-				          type text}
-				      })
+				        
+				    #"Procesado" = 
+				        let
+				          base = Table.PromoteHeaders(
+				            Table.RemoveColumns(Origen, {"Column5", "Column6"}),
+				            [PromoteAllScalars = true]
+				          ),
+				          tipos = Table.TransformColumnTypes(base, {
+				            {"POLISSA_SU", type text}, {"COORDENADA", type number}, {"COORDENA_1", type number}, 
+				            {"ZONA", type text}, {"SAP_ID_2", Int64.Type}, {"DENOMIN_2", type text}, 
+				            {"SHAPE_Le_1", type number}, {"SHAPE_Ar_1", type number}
+				          }),
+				          renombrado = Table.RenameColumns(tipos, {
+				            {"POLISSA_SU", "polissa_su"}, {"COORDENADA", "coordenada_latitud"}, 
+				            {"COORDENA_1", "coordenada_longitud"}, {"ZONA", "gerencia"},
+				            {"SAP_ID_2", "sector_id"}, {"DENOMIN_2", "sector"}, 
+				            {"SHAPE_Le_1", "shape_le_1"}, {"SHAPE_Ar_1", "shape_ar_1"}
+				          }),
+				          seleccionado = Table.SelectColumns(renombrado, 
+				            {"polissa_su", "coordenada_latitud", "coordenada_longitud", "gerencia", "sector_id", "sector", "shape_le_1", "shape_ar_1"}
+				          ),
+				          textoLimpio = Table.TransformColumns(seleccionado, {
+				            {"sector", each 
+				              if _ = null or Text.Trim(_) = "" then "Not Available"
+				              else 
+				                let
+				                  reemplazos = {
+				                    {"═", "í"}, {"ã", "à"}, {"┌", "ú"}, {"ë", "é"}, {"╚", "è"},
+				                    {"└", "à"}, {"▄", "ü"}, {"¤", "ï"}, {"╔", "é"}, {"─", ""}, {"├", ""}, {"┤", ""}, {"  ", " "}
+				                  },
+				                  limpio = List.Accumulate(reemplazos, _, (estado, par) => Text.Replace(estado, par{0}, par{1}))
+				                in
+				                  Text.Proper(limpio),
+				              type text}
+				          })
+				        in
+				          textoLimpio,
+				
+				    sinDuplicados = Table.Distinct(#"Procesado")
 				in
-				  #"Procesado"
+				    sinDuplicados
 				```
 
 	annotation PBI_NavigationStepName = Navegación
