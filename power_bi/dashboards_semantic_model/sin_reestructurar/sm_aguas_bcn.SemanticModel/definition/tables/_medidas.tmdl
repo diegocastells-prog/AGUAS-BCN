@@ -75,6 +75,31 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure nr_fraus_detectats =
+			
+			CALCULATE(
+			    COUNTROWS('fact_fraudes'),
+			    'fact_fraudes'[Ind_Resultat] = "S"
+			)
+		formatString: 0
+		displayFolder: Fraudes
+		lineageTag: d053b592-f1a5-4dea-9e53-52004065736d
+
+	measure nr_polisses_reincidents =
+			
+			COUNTROWS(
+			    FILTER(
+			        VALUES('fact_fraudes'[Polissa_Subm]),
+			        CALCULATE(
+			            COUNTROWS('fact_fraudes'),
+			            'fact_fraudes'[Ind_Resultat] = "S"
+			        ) > 1
+			    )
+			)
+		formatString: 0
+		displayFolder: Fraudes
+		lineageTag: 4c731030-05b5-4e7d-96d2-f8b6bc37c4c0
+
 	column Column
 		isHidden
 		formatString: 0

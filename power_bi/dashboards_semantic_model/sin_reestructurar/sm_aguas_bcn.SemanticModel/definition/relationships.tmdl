@@ -88,8 +88,17 @@ relationship 5d4923f7-0e43-4af5-829c-baeeebd09d6e
 	fromColumn: fact_fraudes.Data_Creacio_Actual
 	toColumn: LocalDateTable_084fd0ed-46dd-41aa-9f1d-e4b9df9ed9c1.Date
 
-relationship e6161109-7064-a083-eeea-15a09e33e565
-	crossFilteringBehavior: bothDirections
+relationship 818b4164-f6eb-db7a-e1d1-e0b4c4d85b65
 	fromColumn: fact_fraudes.Polissa_Subm
 	toColumn: dim_polissa_fraude.polissa_su
+
+relationship 17fff1c4-214d-4c04-afec-b3881b74383d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_comptadors.Modcon_Ts
+	toColumn: LocalDateTable_2206ba03-04fd-4629-bbfa-8e406fa9fefd.Date
+
+relationship 634d3e43-725f-43ab-9acf-1c38ec2e9103
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_comptadors.Data_Fi_Vigor
+	toColumn: LocalDateTable_54d042b8-1683-49ee-a79d-9c2edf38ab53.Date
 
