@@ -100,6 +100,14 @@ table _medidas
 		displayFolder: Fraudes
 		lineageTag: 4c731030-05b5-4e7d-96d2-f8b6bc37c4c0
 
+	measure canvis_comptadors_estrategics_total = SUM(fact_estadístiques_comp[t])
+		lineageTag: 0d46c3e8-e1ef-4b9d-9b8e-eef9d1af6753
+
+	measure canvis_comptadors_total = SUM('fact_estadístiques_comp'[total])
+		lineageTag: b54adb10-602a-4b26-96e9-4307b4bff879
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0

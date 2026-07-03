@@ -78,11 +78,11 @@ table fact_estadístiques_comp
 
 		annotation SummarizationSetBy = Automatic
 
-	column ﻿total
+	column total
 		dataType: double
 		lineageTag: 84ae67bf-0664-4175-9d95-bc4480675c2e
 		summarizeBy: sum
-		sourceColumn: ﻿total
+		sourceColumn: total
 
 		annotation SummarizationSetBy = Automatic
 
@@ -152,7 +152,7 @@ table fact_estadístiques_comp
 				        ),
 				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas normalizadas",{{"﻿total", type number}}),
 				    #"Columnas quitadas" = Table.RemoveColumns(#"Tipo cambiado",{"número_mes", "codi_mes"}),
-				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columnas quitadas",{{"agrupació_edat", "agrupacio_edat"}, {"agrupació_canvi", "agrupacio_canvi"}, {"estratègics", "estrategics"}, {"agrupació_edat_ga", "agrupacio_edat_ga"}, {"zona_operacions", "gerencia"}}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columnas quitadas",{{"﻿total", "total"},{"agrupació_edat", "agrupacio_edat"}, {"agrupació_canvi", "agrupacio_canvi"}, {"estratègics", "estrategics"}, {"agrupació_edat_ga", "agrupacio_edat_ga"}, {"zona_operacions", "gerencia"}}),
 				    #"Texto en formato título" =
 				    Table.TransformColumns(
 				        #"Columnas con nombre cambiado",
