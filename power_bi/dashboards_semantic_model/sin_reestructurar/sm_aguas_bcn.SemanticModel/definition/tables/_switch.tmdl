@@ -1,0 +1,112 @@
+table _switch
+	lineageTag: 21400e39-73d1-4b86-8b2b-ce86abeeb315
+
+	measure kpi_value = ```
+			
+			VAR _kpi = SELECTEDVALUE('_switch'[kpi], "NONE")
+			VAR _valor = SELECTEDVALUE('_switch'[valor], "NONE")
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        // ========== ANR Global (hm3) ==========
+			        _kpi = "ANR Global (hm3)" && _valor = "MENSUAL", 
+			            SUM('fact_anr_global_mensual'[anr_global_hm3]),
+			        
+			        _kpi = "ANR Global (hm3)" && _valor = "ACUM 12 MESES", 
+			            SUM('fact_anr_global_acum'[anr_global_hm3]),
+			        
+			        // ========== ANR/día (m3) ==========
+			        _kpi = "ANR/día (m3)" && _valor = "MENSUAL", 
+			            [anr_dia_m3_mensual],
+			        
+			        _kpi = "ANR/día (m3)" && _valor = "ACUM 12 MESES", 
+			            [anr_dia_m3_12m],
+			        
+			        // ========== ANR (l/esc/día) ==========
+			        _kpi = "ANR (l/esc/día)" && _valor = "MENSUAL", 
+			            [anr_l_esc_dia_mensual],
+			        
+			        _kpi = "ANR (l/esc/día)" && _valor = "ACUM 12 MESES", 
+			            [anr_l_esc_dia_12m],
+			        
+			        // ========== ANR (l/subm/día) ==========
+			        _kpi = "ANR (l/subm/día)" && _valor = "MENSUAL", 
+			            [anr_l_subm_dia_mensual],
+			        
+			        _kpi = "ANR (l/subm/día)" && _valor = "ACUM 12 MESES", 
+			            [anr_l_subm_dia_12m],
+			        
+			        // ========== ANR (m3/km/día) ==========
+			        _kpi = "ANR (m3/km/día)" && _valor = "MENSUAL", 
+			            [anr_m3_km_dia_mensual],
+			        
+			        _kpi = "ANR (m3/km/día)" && _valor = "ACUM 12 MESES", 
+			            [anr_m3_km_dia_12m],
+			        
+			        // ========== Aigua Lliurada (hm3) ==========
+			        _kpi = "Aigua Lliurada (hm3)" && _valor = "MENSUAL", 
+			            SUM('fact_anr_global_mensual'[lliurada_hm3]),
+			        
+			        _kpi = "Aigua Lliurada (hm3)" && _valor = "ACUM 12 MESES", 
+			            SUM('fact_anr_global_acum'[lliurada_hm3]),
+			        
+			        // ========== Aigua Consumida (hm3) ==========
+			        _kpi = "Aigua Consumida (hm3)" && _valor = "MENSUAL", 
+			            SUM('fact_anr_global_mensual'[consumida_hm3]),
+			        
+			        _kpi = "Aigua Consumida (hm3)" && _valor = "ACUM 12 MESES", 
+			            SUM('fact_anr_global_acum'[consumida_hm3]),
+			        
+			        // ========== RTH Global ==========
+			        _kpi = "RTH Global" && _valor = "MENSUAL", 
+			            SUM('fact_anr_global_mensual'[rth_global]),
+			        
+			        _kpi = "RTH Global" && _valor = "ACUM 12 MESES", 
+			            SUM('fact_anr_global_acum'[rth_global]),
+			        
+			        // Default
+			        BLANK()
+			    )
+			```
+		lineageTag: dd6392d9-c168-43dc-b367-13a36d25f152
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column kpi
+		dataType: string
+		lineageTag: d92aa805-94dd-4b1b-b623-ae665a26ad82
+		summarizeBy: none
+		sourceColumn: kpi
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor
+		dataType: string
+		lineageTag: 0d290e92-f0ff-469e-b933-6331bf0b971f
+		summarizeBy: none
+		sourceColumn: valor
+
+		annotation SummarizationSetBy = Automatic
+
+	column nombre_medida
+		dataType: string
+		lineageTag: 559807a0-2492-42ae-9146-e85c44efd0ee
+		summarizeBy: none
+		sourceColumn: nombre_medida
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _switch = m
+		mode: import
+		source =
+				let
+				    Origen = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("pZNLDoIwFEW30jCChASEgWNiiA7EgcgISfMEP8RWE7DLchVuzAoo0LRqYNbk9Z5z07zGseat1mhOrjsgSD9R19BMLfBXYeQt+SmMAn3LbNuZHiC9YbgU+FjdxXR/KRmQehh3BpyRGFpiSsneLArQxEGBH/rhVz6kjP6AW9njDkgXO1f3sxwwdd8tE2lELNMNThz6CSGdWPsyrbISFcF8WOcEmxiUCtu46CzZjqqlr6nS2osqtB9A30td66zU8pc5q6z9oFTaxltnfmSAliRnBWQwYgVJg+juiJw9aAmV+NmVt6D5qO7pm/EHfVB7mWC9WTTfc1Dn4nZqBjLeoJZ9ZPIE", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [kpi = _t, valor = _t, nombre_medida = _t])
+				in
+				    Origen
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

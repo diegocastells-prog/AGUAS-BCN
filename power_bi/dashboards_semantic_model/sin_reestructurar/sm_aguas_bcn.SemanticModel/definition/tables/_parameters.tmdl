@@ -1,0 +1,53 @@
+table _parameters
+	lineageTag: 6f72c749-e49c-45b5-8399-2bfe5d9b5bac
+
+	column p_
+		lineageTag: 323f934a-fa56-4cd8-8968-fc5bfe9e7dc3
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'p_ Orden'
+
+		relatedColumnDetails
+			groupByColumn: 'p_ Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'p_ Campos'
+		isHidden
+		lineageTag: 36ae2280-2293-42b8-9788-27435fcaf4d4
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'p_ Orden'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'p_ Orden'
+		isHidden
+		formatString: 0
+		lineageTag: a768ba1a-2bc1-4173-b3fb-2f6b7cbb870e
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _parameters = calculated
+		mode: import
+		source = ```
+				{
+				    ("mes_corto", NAMEOF('dim_calendario'[mes_corto]), 0),
+				    ("mes", NAMEOF('dim_calendario'[mes]), 1),
+				    ("sector", NAMEOF('dim_sector'[sector]), 2),
+				    ("polissa_su", NAMEOF('dim_polissa_fraude'[polissa_su]), 3),
+				    ("anio_mes", NAMEOF('dim_calendario'[anio_mes]), 4)
+				}
+				     
+				```
+
+	annotation PBI_Id = e1f28a01f8384a3ea34af74f2652269b
+

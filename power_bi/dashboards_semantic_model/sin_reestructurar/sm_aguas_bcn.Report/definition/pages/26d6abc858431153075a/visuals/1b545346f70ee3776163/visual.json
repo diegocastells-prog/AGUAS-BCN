@@ -1,0 +1,139 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "1b545346f70ee3776163",
+  "position": {
+    "x": 258.75298972083766,
+    "y": 444.21756038779642,
+    "z": 2,
+    "height": 276.70117397893046,
+    "width": 623.69940296872426,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "anio_mes"
+                }
+              },
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes",
+              "active": true,
+              "displayName": "anio_mes"
+            }
+          ],
+          "fieldParameters": [
+            {
+              "parameterExpr": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_parameters"
+                    }
+                  },
+                  "Property": "p_"
+                }
+              },
+              "index": 0,
+              "length": 1,
+              "sortDirection": "Ascending"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switch"
+                    }
+                  },
+                  "Property": "kpi_value"
+                }
+              },
+              "queryRef": "switch_kpi.kpi_value",
+              "nativeQueryRef": "kpi_value"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_calendario"
+                  }
+                },
+                "Property": "anio_mes"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "preferredCategoryWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "6f436d6a8e552a1471cc",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switch"
+              }
+            },
+            "Property": "kpi_value"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d27ae2f507d61185600d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

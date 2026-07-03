@@ -1,0 +1,109 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "71c41d9d3af67bf6e751",
+  "position": {
+    "x": 882.452392689562,
+    "y": 442.72187836628871,
+    "z": 5,
+    "height": 276.70117397893046,
+    "width": 397.85141772105675,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "pieChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "anio_mes"
+                }
+              },
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes",
+              "displayName": "anio_mes"
+            }
+          ],
+          "fieldParameters": [
+            {
+              "parameterExpr": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_parameters"
+                    }
+                  },
+                  "Property": "p_"
+                }
+              },
+              "index": 0,
+              "length": 1
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switch"
+                    }
+                  },
+                  "Property": "kpi_value"
+                }
+              },
+              "queryRef": "switch_kpi.kpi_value",
+              "nativeQueryRef": "kpi_value"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_switch"
+                  }
+                },
+                "Property": "kpi_value"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "44e78a5f6ab051b415cf",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switch"
+              }
+            },
+            "Property": "kpi_value"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
