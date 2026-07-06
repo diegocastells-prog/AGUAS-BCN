@@ -1,0 +1,369 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "a9419fae0ec8dfd7babf",
+  "position": {
+    "x": 0,
+    "y": 157.71130477984559,
+    "z": 1,
+    "height": 273.02709752209825,
+    "width": 1280.3444635353055,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "anio_mes"
+                }
+              },
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_anr_global_mensual"
+                        }
+                      },
+                      "Property": "lliurada_hm3"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_mensual.lliurada_hm3)",
+              "nativeQueryRef": "lliurada_hm3",
+              "displayName": "lliurada_hm3"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_anr_global_mensual"
+                        }
+                      },
+                      "Property": "consumida_hm3"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_mensual.consumida_hm3)",
+              "nativeQueryRef": "consumida_hm3",
+              "displayName": "consumida_hm3"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_anr_global_mensual"
+                        }
+                      },
+                      "Property": "rth_global"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_mensual.rth_global)",
+              "nativeQueryRef": "rth_global",
+              "displayName": "rth_global"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_anr_global_mensual"
+                        }
+                      },
+                      "Property": "anr_global_hm3"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_mensual.anr_global_hm3)",
+              "nativeQueryRef": "anr_global_hm3",
+              "displayName": "anr_global_hm3"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "anr_dia_m3_mensual"
+                }
+              },
+              "queryRef": "_medidas.anr_dia_m3_mensual",
+              "nativeQueryRef": "anr_dia_m3_mensual"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "anr_l_esc_dia_mensual"
+                }
+              },
+              "queryRef": "_medidas.anr_l_esc_dia_mensual",
+              "nativeQueryRef": "anr_l_esc_dia_mensual1"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "anr_l_subm_dia_mensual"
+                }
+              },
+              "queryRef": "_medidas.anr_l_subm_dia_mensual",
+              "nativeQueryRef": "anr_l_subm_dia_mensual1"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "anr_m3_km_dia_mensual"
+                }
+              },
+              "queryRef": "_medidas.anr_m3_km_dia_mensual",
+              "nativeQueryRef": "anr_m3_km_dia_mensual"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "delta_anr_mensual"
+                }
+              },
+              "queryRef": "_medidas.delta_anr_mensual",
+              "nativeQueryRef": "delta_anr_mensual"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_calendario"
+                  }
+                },
+                "Property": "anio_mes"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "27bc0655770f7f9ed3dd",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "f75c9311d9d979f154ed",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_anr_global_mensual"
+                  }
+                },
+                "Property": "lliurada_hm3"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2dfe05dc60e3257d260f",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_anr_global_mensual"
+                  }
+                },
+                "Property": "consumida_hm3"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e30535a6c11cd3aa42b0",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_anr_global_mensual"
+                  }
+                },
+                "Property": "rth_global"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f28bb4c832030adc2812",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_anr_global_mensual"
+                  }
+                },
+                "Property": "anr_global_hm3"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4772207bf8bb3c56084f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "anr_dia_m3_mensual"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "1dead6b049fe7381a311",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "anr_l_esc_dia_mensual"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "bd89f31eef4c31b5b275",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "anr_l_subm_dia_mensual"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "aaff54250d059c10bfcc",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "anr_m3_km_dia_mensual"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "b8ec07ca3391ffeda51a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "delta_anr_mensual"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

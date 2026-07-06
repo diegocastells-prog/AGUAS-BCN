@@ -75,7 +75,17 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure nr_fraus_detectats =
+	measure canvis_comptadors_estrategics_total = SUM('fact_estadístiques_comp'[total])
+		lineageTag: 0d46c3e8-e1ef-4b9d-9b8e-eef9d1af6753
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure canvis_comptadors_total = SUM('fact_estadístiques_comp'[total])
+		lineageTag: b54adb10-602a-4b26-96e9-4307b4bff879
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure fraus_detectats =
 			
 			CALCULATE(
 			    COUNTROWS('fact_fraudes'),
@@ -85,7 +95,7 @@ table _medidas
 		displayFolder: Fraudes
 		lineageTag: d053b592-f1a5-4dea-9e53-52004065736d
 
-	measure nr_polisses_reincidents =
+	measure polisses_reincidents =
 			
 			COUNTROWS(
 			    FILTER(
@@ -100,13 +110,44 @@ table _medidas
 		displayFolder: Fraudes
 		lineageTag: 4c731030-05b5-4e7d-96d2-f8b6bc37c4c0
 
-	measure canvis_comptadors_estrategics_total = SUM(fact_estadístiques_comp[t])
-		lineageTag: 0d46c3e8-e1ef-4b9d-9b8e-eef9d1af6753
+	measure fraus_operacions = COUNTROWS(fact_fraudes)
+		formatString: 0
+		displayFolder: Fraudes
+		lineageTag: 4b6451a9-c850-4328-8f9c-0873326fd7b2
 
-	measure canvis_comptadors_total = SUM('fact_estadístiques_comp'[total])
-		lineageTag: b54adb10-602a-4b26-96e9-4307b4bff879
+	measure 'RENDIMENT GLOBAL MENSUALRENDIMENT GLOBAL A 12 MESOSVOLUM LLIURAT GLOBAL MENSUALVOLUM CONSUMIT GLOBAL MENSUALVOLUM CONSUMIT GLOBAL A 12 MESOSANR GLOBAL MENSUALANR A GLOBAL 12 MESOSVOLUM LLIURAT GLOBAL ACUMULAT' = 1
+		formatString: 0
+		lineageTag: 1c21ae15-a3de-4ff8-b520-8763edb88086
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+	measure delta_anr_12m = ```
+			
+			VAR MesActual = SUM(fact_anr_global_mensual[anr_global_hm3])
+			VAR MesAnterior = 
+			    CALCULATE(
+			        SUM(fact_anr_global_mensual[anr_global_hm3]),
+			        PREVIOUSMONTH(dim_calendario[Date])
+			    )
+			RETURN 
+			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: fact_anr_global_acum
+		lineageTag: 5f1378c2-905a-4109-9cf9-571560b351e0
+
+	measure delta_anr_mensual = ```
+			
+			VAR MesActual = SUM(fact_anr_global_acum[anr_global_hm3])
+			VAR MesAnterior = 
+			    CALCULATE(
+			        SUM(fact_anr_global_acum[anr_global_hm3]),
+			        PREVIOUSMONTH(dim_calendario[Date])
+			    )
+			RETURN 
+			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: fact_anr_global_mensual
+		lineageTag: 3bee1bda-5daa-4d40-9b48-c16b546b4003
 
 	column Column
 		isHidden
