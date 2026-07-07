@@ -75,16 +75,6 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure canvis_comptadors_estrategics_total = SUM('fact_estadístiques_comp'[total])
-		lineageTag: 0d46c3e8-e1ef-4b9d-9b8e-eef9d1af6753
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure canvis_comptadors_total = SUM('fact_estadístiques_comp'[total])
-		lineageTag: b54adb10-602a-4b26-96e9-4307b4bff879
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	measure fraus_detectats =
 			
 			CALCULATE(
@@ -109,6 +99,16 @@ table _medidas
 		formatString: 0
 		displayFolder: Fraudes
 		lineageTag: 4c731030-05b5-4e7d-96d2-f8b6bc37c4c0
+
+	measure canvis_comptadors_estrategics_total = SUM('fact_estadístiques_comp'[total])
+		lineageTag: 0d46c3e8-e1ef-4b9d-9b8e-eef9d1af6753
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure canvis_comptadors_total = SUM('fact_estadístiques_comp'[total])
+		lineageTag: b54adb10-602a-4b26-96e9-4307b4bff879
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure fraus_operacions = COUNTROWS(fact_fraudes)
 		formatString: 0
@@ -148,6 +148,34 @@ table _medidas
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: fact_anr_global_mensual
 		lineageTag: 3bee1bda-5daa-4d40-9b48-c16b546b4003
+
+	measure volum_lliurat_global_mensual = SUM(fact_anr_global_mensual[lliurada_hm3])
+		displayFolder: fact_anr_global_mensual
+		lineageTag: 6c32f9d3-73d4-4cee-8719-3c99bc6c0211
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_consumit_global_mensual = SUM(fact_anr_global_mensual[consumida_hm3])
+		displayFolder: fact_anr_global_mensual
+		lineageTag: 8bad2009-0f2d-49b7-a5d6-5f57e5a19d68
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure rendiment_global_mensual =
+			
+			DIVIDE( [volum_consumit_global_mensual], [volum_lliurat_global_mensual] ) * 100
+		displayFolder: fact_anr_global_mensual
+		lineageTag: 34283a5c-9a4a-44b1-9f15-bd8e048e4de3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_global_mensual_hm3 =
+			
+			[volum_lliurat_global_mensual] - [volum_consumit_global_mensual]
+		displayFolder: fact_anr_global_mensual
+		lineageTag: 008b8502-9603-4472-b60f-a04215d278d1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Column
 		isHidden
