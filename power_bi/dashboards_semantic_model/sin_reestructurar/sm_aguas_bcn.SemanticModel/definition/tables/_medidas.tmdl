@@ -205,6 +205,36 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure rendiment_transport_mensual =
+			
+			DIVIDE( SUM(fact_rend_anr_arterias_mensual[sortit_m3]), SUM(fact_rend_anr_arterias_mensual[entrat_m3]) ) * 100
+		displayFolder: fact_rend_anr_arterias_mensual
+		lineageTag: 75b88512-c6e4-4daa-989d-4d62f410fed0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_transport_mensual_m3 =
+			
+			SUM(fact_rend_anr_arterias_mensual[entrat_m3]) - SUM(fact_rend_anr_arterias_mensual[sortit_m3])
+		formatString: 0
+		displayFolder: fact_rend_anr_arterias_mensual
+		lineageTag: 86a01aa5-ac54-48f3-a890-d503e630c5f2
+
+	measure anr_transport_acum_m3 =
+			
+			SUM(fact_rend_anr_arterias_12m[entrat_m3]) - SUM(fact_rend_anr_arterias_12m[sortit_m3])
+		formatString: 0
+		displayFolder: fact_rend_anr_arterias_12m
+		lineageTag: 2f2f14b0-c873-412b-8357-3a216a37df41
+
+	measure rendiment_transport_acum =
+			
+			DIVIDE( SUM(fact_rend_anr_arterias_12m[sortit_m3]), SUM(fact_rend_anr_arterias_12m[entrat_m3]) ) * 100
+		displayFolder: fact_rend_anr_arterias_12m
+		lineageTag: 65a14b58-b2d8-4fa0-8c00-a442979f5772
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0
