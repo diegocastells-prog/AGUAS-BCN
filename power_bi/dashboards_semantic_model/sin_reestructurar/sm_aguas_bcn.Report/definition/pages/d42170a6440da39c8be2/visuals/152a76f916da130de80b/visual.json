@@ -28,6 +28,105 @@
               },
               "queryRef": "dim_calendario.anio_mes",
               "nativeQueryRef": "anio_mes"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "volum_consumit_global_acum"
+                }
+              },
+              "queryRef": "_medidas.volum_consumit_global_acum",
+              "nativeQueryRef": "volum_consumit_global_acum"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_anr_global_acum"
+                        }
+                      },
+                      "Property": "consumida_hm3"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_acum.consumida_hm3)",
+              "nativeQueryRef": "Suma de consumida_hm3"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "volum_lliurat_global_acum"
+                }
+              },
+              "queryRef": "_medidas.volum_lliurat_global_acum",
+              "nativeQueryRef": "volum_lliurat_global_acum"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_anr_global_acum"
+                        }
+                      },
+                      "Property": "lliurada_hm3"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_acum.lliurada_hm3)",
+              "nativeQueryRef": "Suma de lliurada_hm3"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_anr_global_acum"
+                        }
+                      },
+                      "Property": "rth_global"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_acum.rth_global)",
+              "nativeQueryRef": "Suma de rth_global"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "rendiment_global_acum"
+                }
+              },
+              "queryRef": "_medidas.rendiment_global_acum",
+              "nativeQueryRef": "rendiment_global_acum"
             }
           ]
         }
@@ -50,6 +149,105 @@
           }
         },
         "type": "Categorical"
+      },
+      {
+        "name": "3cfc89cb7de9660fea9f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "volum_consumit_global_acum"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "39b742cf6a9eddade287",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "volum_lliurat_global_acum"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6bc0689213e99f87b1cc",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_anr_global_acum"
+                  }
+                },
+                "Property": "consumida_hm3"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "8b779ff9f0143ad9c832",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_anr_global_acum"
+                  }
+                },
+                "Property": "lliurada_hm3"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9685df15c6392c82dce4",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_anr_global_acum"
+                  }
+                },
+                "Property": "rth_global"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f6533ea1b75da79b52af",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "rendiment_global_acum"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

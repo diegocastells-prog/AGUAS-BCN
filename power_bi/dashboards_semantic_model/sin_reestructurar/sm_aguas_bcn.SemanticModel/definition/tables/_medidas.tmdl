@@ -177,6 +177,34 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure volum_consumit_global_acum = SUM(fact_anr_global_acum[consumida_hm3])
+		displayFolder: fact_anr_global_acum
+		lineageTag: 5e8091e2-7345-4596-bd59-172605b3082a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_lliurat_global_acum = SUM(fact_anr_global_acum[lliurada_hm3])
+		displayFolder: fact_anr_global_acum
+		lineageTag: 58e5e941-c4d8-422a-8288-e80857cf8667
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure rendiment_global_acum =
+			
+			DIVIDE( [volum_consumit_global_acum], [volum_lliurat_global_acum] ) * 100
+		displayFolder: fact_anr_global_acum
+		lineageTag: 760e412b-c9fa-4435-a5eb-dac15e21a270
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_global_acum_hm3 =
+			
+			[volum_lliurat_global_acum] - [volum_consumit_global_acum]
+		displayFolder: fact_anr_global_acum
+		lineageTag: 0ffca9d8-d9dc-4ea1-b6f0-991379f73982
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0
