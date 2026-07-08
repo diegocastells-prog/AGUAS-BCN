@@ -39,7 +39,9 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_l_esc_dia_mensual = [anr_dia_m3_mensual] /sum(fact_inventari_xarxa_mensual[nombre_escomeses_totals])
+	measure anr_l_esc_dia_mensual = ```
+			[anr_dia_m3_mensual] /sum(fact_inventari_xarxa_mensual[nombre_escomeses_totals]) 
+			```
 		displayFolder: fact_anr_global_mensual
 		lineageTag: ebd07ed5-8585-4fd4-9192-b2503c07f0ad
 
@@ -75,12 +77,12 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure canvis_comptadors_estrategics_total = SUM('fact_estadístiques_comp'[total])
+	measure canvis_comptadors_estrategics_total = SUM('fact_estadístiques_comp'[﻿total])
 		lineageTag: 0d46c3e8-e1ef-4b9d-9b8e-eef9d1af6753
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure canvis_comptadors_total = SUM('fact_estadístiques_comp'[total])
+	measure canvis_comptadors_total = SUM('fact_estadístiques_comp'[﻿total])
 		lineageTag: b54adb10-602a-4b26-96e9-4307b4bff879
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}

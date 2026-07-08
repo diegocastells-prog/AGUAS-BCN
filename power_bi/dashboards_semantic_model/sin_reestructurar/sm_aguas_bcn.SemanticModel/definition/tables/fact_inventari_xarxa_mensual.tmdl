@@ -1,95 +1,84 @@
 table fact_inventari_xarxa_mensual
 	lineageTag: 2b91454c-c160-4687-a602-165ee754b802
 
+	column nombre_escomeses_totals
+		dataType: string
+		lineageTag: 2f9ce981-53d4-43c1-8198-8eee475d7412
+		summarizeBy: none
+		sourceColumn: nombre_escomeses_totals
+
+		annotation SummarizationSetBy = Automatic
+
+	column nombre_subministraments_totals
+		dataType: string
+		lineageTag: 7c816a6c-c396-4488-84a2-b88daa7520e7
+		summarizeBy: none
+		sourceColumn: nombre_subministraments_totals
+
+		annotation SummarizationSetBy = Automatic
+
+	column l_+_t_km
+		dataType: string
+		lineageTag: b2828f6c-df90-43a1-a706-53974c4ac75f
+		summarizeBy: none
+		sourceColumn: l_+_t_km
+
+		annotation SummarizationSetBy = Automatic
+
 	column fecha
-		dataType: dateTime
-		formatString: Long Date
-		lineageTag: ee38a44d-623e-4df9-8d2c-2c1b7221508e
+		dataType: string
+		lineageTag: e4009b57-a2ad-4abd-a8de-35ef1075cbec
 		summarizeBy: none
 		sourceColumn: fecha
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation UnderlyingDateTimeDataType = Date
-
-	column nombre_escomeses_totals
-		dataType: double
-		lineageTag: 2f9ce981-53d4-43c1-8198-8eee475d7412
-		summarizeBy: sum
-		sourceColumn: nombre_escomeses_totals
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column nombre_subministraments_totals
-		dataType: double
-		lineageTag: 7c816a6c-c396-4488-84a2-b88daa7520e7
-		summarizeBy: sum
-		sourceColumn: nombre_subministraments_totals
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column l_+_t_km
-		dataType: double
-		lineageTag: b2828f6c-df90-43a1-a706-53974c4ac75f
-		summarizeBy: sum
-		sourceColumn: l_+_t_km
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	partition fact_inventari_xarxa_mensual = m
 		mode: import
 		source = ```
+				// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO 
+				//              Indicadors ANR 2026
+				// PESTAÑA:
+				//              Inventari xarxa
 				let
-				    Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vQYF-6nyJqkaezSpkqBN_a0Qmxw1GysBfL8py3eq4WzwX0xzzitdfbvqMzf9D-0YQ/pub?gid=664401204&single=true&output=csv"),[Delimiter=",", Columns=48, Encoding=65001, QuoteStyle=QuoteStyle.None]),
-				    #"Filas superiores quitadas" = Table.Skip(Origen,374),
-				    #"Conservar filas superiores" = Table.FirstN(#"Filas superiores quitadas",13),
-				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Conservar filas superiores", [PromoteAllScalars=true]),
-				    #"Otras columnas quitadas" = Table.SelectColumns(#"Encabezados promovidos",{
-				        "Mes", "L + T (km)", "Nombre Escomeses Totals", "Nombre Subministraments Totals"
-				    }),
-				
-				    #"Personalizada agregada" = Table.AddColumn(#"Otras columnas quitadas", "fecha", each 
-				        let
-				            txt0  = [Mes],
-				            txt1  = Text.Lower(txt0),
-				            txt2  = Text.Replace(Text.Replace(Text.Replace(txt1,"de ",""),"d’",""),".",""),
-				            mesTxt = Text.BeforeDelimiter(txt2,"-"),
-				            anioTxt = Text.AfterDelimiter(txt2,"-"),
-				            anio = 2000 + Number.FromText(anioTxt),
-				            mes = 
-				                if mesTxt = "gen"  then 1 else
-				                if mesTxt = "febr" then 2 else
-				                if mesTxt = "març" then 3 else
-				                if mesTxt = "abr"  then 4 else
-				                if mesTxt = "maig" then 5 else
-				                if mesTxt = "juny" then 6 else
-				                if mesTxt = "jul"  then 7 else
-				                if mesTxt = "ag"   then 8 else
-				                if mesTxt = "set"  then 9 else
-				                if mesTxt = "oct"  then 10 else
-				                if mesTxt = "nov"  then 11 else
-				                if mesTxt = "des"  then 12 else
-				                null
-				        in
-				            #date(anio, mes, 1)
+				    // Origen
+				    Origen = GoogleSheets.Contents(
+				        "https://docs.google.com/spreadsheets/d/1LK5D7QclVwCBGy5-hONVLgP1GgW35okgrxNLr1kJCoE/edit?gid=664401204#gid=664401204"
 				    ),
-				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Personalizada agregada",{{"L + T (km)", "L + T km"}}),
+				    Datos = Origen{[name="Inventari xarxa", ItemKind="Table"]}[Data],
 				
-				    // 🔥 NORMALIZAR NOMBRES DE COLUMNAS
-				    #"Columnas normalizadas" =
-				        Table.TransformColumnNames(#"Columnas con nombre cambiado",
-				            each Text.Replace(Text.Lower(_), " ", "_")
-				        ),
-				    #"Columnas quitadas" = Table.RemoveColumns(#"Columnas normalizadas",{"mes"}),
-				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas",{{"l_+_t_km", type number}, {"nombre_escomeses_totals", type number}, {"nombre_subministraments_totals", type number}, {"fecha", type date}})
+				    // Tomar filas y promover encabezados
+				    DatosFiltrados = Table.PromoteHeaders(
+				        Table.FirstN(Table.Skip(Datos, 373), 13),
+				        [PromoteAllScalars = true]
+				    ),
+				
+				    // Selección y renombrado en un solo bloque
+				    Seleccion = Table.SelectColumns(
+				        DatosFiltrados,
+				        {
+				            "Mes",
+				            "L + T (km)",
+				            "Nombre Escomeses Totals",
+				            "Nombre Subministraments Totals"
+				        }
+				    ),
+				
+				    Renombradas = Table.RenameColumns(
+				        Seleccion,
+				        {
+				            {"Mes", "fecha"},
+				            {"L + T (km)", "L + T km"}
+				        }
+				    ),
+				
+				    // Normalización final
+				    Normalizadas = Table.TransformColumnNames(
+				        Renombradas,
+				        each Text.Replace(Text.Lower(_), " ", "_")
+				    )
 				in
-				    #"Tipo cambiado"
+				    Normalizadas
 				```
 
 	annotation PBI_NavigationStepName = Navegación

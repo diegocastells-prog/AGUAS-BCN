@@ -59,33 +59,45 @@ table fact_anr_global_mensual
 
 	partition fact_anr_global_mensual = m
 		mode: import
-		source =
+		source = ```
+				// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO 
+				//              Indicadors ANR 2026
+				// PESTAÑA:
+				//              Detall dades explotació
+				 
 				let
-				    Source = Csv.Document(
-				        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRS1zkWHKwzcm2ZLhnMstWbjgJtQC3DCBLdSY_mCFGtR3x8Z4xdlut8iUNJwB5KVQ/pub?gid=315911922&single=true&output=csv"),
-				        [Delimiter = ",", Columns = 48, Encoding = 65001, QuoteStyle = QuoteStyle.None]
-				    ),
+				    // Origen
+				    Origen =
+				        GoogleSheets.Contents(
+				            "https://docs.google.com/spreadsheets/d/1LK5D7QclVwCBGy5-hONVLgP1GgW35okgrxNLr1kJCoE/edit?gid=1211020984#gid=1211020984"
+				        ),
+				
+				    Datos = Origen{[name="Detall dades explotació", ItemKind="Table"]}[Data],
+				    #"Otras columnas quitadas" = Table.SelectColumns(Datos,{"Column1", "Column2", "Column3", "Column4", "Column5"}),
+				
+				    // Tomar filas y promover encabezados
 				    Data =
 				        Table.PromoteHeaders(
-				            Table.SelectColumns(
-				                Table.Range(Source, 4, 13),
-				                {"Column1", "Column2", "Column3", "Column4", "Column5"}
-				            ),
+				            Table.Range(#"Otras columnas quitadas", 20, 13),
 				            [PromoteAllScalars = true]
 				        ),
+				    #"Filas filtradas" = Table.SelectRows(Data, each ([#"Aigua Lliurada (hm3)"] <> "")),
+				    // Renombrar columnas ya con encabezados reales
 				    Renamed =
-				        Table.RenameColumns(Data,{{"Any", "fecha"}, {"Aigua Lliurada (hm3)", "lliurada_hm3"}, {"Aigua Consumida (hm3)", "consumida_hm3"}, {"RTH Global", "rth_global"}, {"ANR Global (hm3)", "anr_global_hm3"}}),
-				    ReplaceDots =
-				        Table.TransformColumns(
-				            Renamed,
-				            List.Transform(
-				                List.RemoveItems(Table.ColumnNames(Renamed), {"date"}),
-				                each {_, (x) => Text.Replace(x, ".", ","), type text}
-				            )
+				        Table.RenameColumns(
+				            #"Filas filtradas",
+				            {
+				                {"Any", "fecha"},
+				                {"Aigua Lliurada (hm3)", "lliurada_hm3"},
+				                {"Aigua Consumida (hm3)", "consumida_hm3"},
+				                {"RTH Global", "rth_global"},
+				                {"ANR Global (hm3)", "anr_global_hm3"}
+				            }
 				        ),
+				    // Tipos finales
 				    Result =
 				        Table.TransformColumnTypes(
-				            ReplaceDots,
+				            Renamed,
 				            {
 				                {"fecha", type date},
 				                {"lliurada_hm3", type number},
@@ -96,6 +108,7 @@ table fact_anr_global_mensual
 				        )
 				in
 				    Result
+				```
 
 	annotation PBI_NavigationStepName = Navegación
 
