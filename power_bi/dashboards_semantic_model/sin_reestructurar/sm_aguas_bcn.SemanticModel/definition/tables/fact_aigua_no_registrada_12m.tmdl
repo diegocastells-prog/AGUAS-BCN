@@ -1,11 +1,11 @@
 table fact_aigua_no_registrada_12m
 	lineageTag: 17944b20-54dd-4407-93fe-f02962a5c271
 
-	column sector
+	column sector_id
 		dataType: string
 		lineageTag: 8c220462-cee0-4513-a8ec-e9fd9b50291b
 		summarizeBy: none
-		sourceColumn: sector
+		sourceColumn: sector_id
 
 		annotation SummarizationSetBy = Automatic
 
@@ -99,7 +99,7 @@ table fact_aigua_no_registrada_12m
 				        ),
 				
 				    Resultado =
-				        Table.RenameColumns(Datos8,{{"nº", "sector"}, {"gerència", "gerencia"}, {"pis_pressió", "pis_pressio"}, {"atributo", "fecha"}})
+				        Table.RenameColumns(Datos8,{{"nº", "sector_id"}, {"gerència", "gerencia"}, {"pis_pressió", "pis_pressio"}, {"atributo", "fecha"}})
 				in
 				    Resultado
 

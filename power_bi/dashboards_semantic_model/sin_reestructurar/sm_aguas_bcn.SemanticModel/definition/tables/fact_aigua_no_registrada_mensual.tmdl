@@ -1,11 +1,11 @@
 table fact_aigua_no_registrada_mensual
 	lineageTag: f96f2e5b-1cad-4714-b87a-0b7f4562ce64
 
-	column sector
+	column sector_id
 		dataType: string
 		lineageTag: 81776734-9feb-42fa-8a73-f10a60e150fd
 		summarizeBy: none
-		sourceColumn: sector
+		sourceColumn: sector_id
 
 		annotation SummarizationSetBy = Automatic
 
@@ -91,7 +91,7 @@ table fact_aigua_no_registrada_mensual
 				
 				    // Renombrados finales
 				    Resultado =
-				        Table.RenameColumns(Datos7,{{"nº", "sector"}, {"gerència", "gerencia"}, {"pis_pressió", "pis_pressio"}, {"atributo", "fecha"}})
+				        Table.RenameColumns(Datos7,{{"nº", "sector_id"}, {"gerència", "gerencia"}, {"pis_pressió", "pis_pressio"}, {"atributo", "fecha"}})
 				in
 				    Resultado
 

@@ -18,7 +18,7 @@ table _medidas
 	measure count_dias_mes =
 			
 			VAR FechaActual =
-			    MAX ( dim_calendario[Date] )
+			    MAX ( dim_calendario[fecha] )
 			RETURN
 			    DAY ( EOMONTH ( FechaActual, 0 ) )
 		formatString: 0
@@ -127,7 +127,7 @@ table _medidas
 			VAR MesAnterior = 
 			    CALCULATE(
 			        SUM(fact_anr_global_mensual[anr_global_hm3]),
-			        PREVIOUSMONTH(dim_calendario[Date])
+			        PREVIOUSMONTH(dim_calendario[fecha])
 			    )
 			RETURN 
 			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
@@ -142,7 +142,7 @@ table _medidas
 			VAR MesAnterior = 
 			    CALCULATE(
 			        SUM(fact_anr_global_acum[anr_global_hm3]),
-			        PREVIOUSMONTH(dim_calendario[Date])
+			        PREVIOUSMONTH(dim_calendario[fecha])
 			    )
 			RETURN 
 			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
