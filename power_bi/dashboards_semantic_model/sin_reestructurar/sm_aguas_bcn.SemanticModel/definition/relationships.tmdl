@@ -59,11 +59,6 @@ relationship AutoDetected_f4d8d3e1-43dc-4a2f-aed4-5c9a52403c24
 	fromColumn: fact_aigua_no_registrada_mensual.sector
 	toColumn: dim_sector.sector_id
 
-relationship 0f7fefc2-617e-41e5-89c7-aa354c9f351e
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_rend_anr_arterias_12m.fecha
-	toColumn: LocalDateTable_be0a4368-dc3b-44b4-91bc-f86d876d45a7.Date
-
 relationship AutoDetected_d9e00979-4079-4fcf-bb6c-c34ce8785177
 	fromColumn: dim_polissa_fraude.sector_id
 	toColumn: dim_sector.sector_id
@@ -101,4 +96,8 @@ relationship 634d3e43-725f-43ab-9acf-1c38ec2e9103
 	joinOnDateBehavior: datePartOnly
 	fromColumn: dim_comptadors.Data_Fi_Vigor
 	toColumn: LocalDateTable_54d042b8-1683-49ee-a79d-9c2edf38ab53.Date
+
+relationship 1aafb9ac-ca6a-524f-6585-00ac939cca02
+	fromColumn: fact_rend_anr_arterias_12m.fecha
+	toColumn: dim_calendario.Date
 
