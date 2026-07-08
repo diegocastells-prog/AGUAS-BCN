@@ -42,11 +42,14 @@ table fact_aigua_no_registrada_12m
 
 		annotation SummarizationSetBy = Automatic
 
-	column fecha_texto
+	column fecha
 		dataType: string
+		isHidden
 		lineageTag: e0c7751a-49b0-4b07-9f8e-18bc61df241e
 		summarizeBy: none
-		sourceColumn: fecha_texto
+		sourceColumn: fecha
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -96,15 +99,7 @@ table fact_aigua_no_registrada_12m
 				        ),
 				
 				    Resultado =
-				        Table.RenameColumns(
-				            Datos8,
-				            {
-				                {"nº", "sector"},
-				                {"gerència", "gerencia"},
-				                {"pis_pressió", "pis_pressio"},
-				                {"atributo", "fecha_texto"}
-				            }
-				        )
+				        Table.RenameColumns(Datos8,{{"nº", "sector"}, {"gerència", "gerencia"}, {"pis_pressió", "pis_pressio"}, {"atributo", "fecha"}})
 				in
 				    Resultado
 

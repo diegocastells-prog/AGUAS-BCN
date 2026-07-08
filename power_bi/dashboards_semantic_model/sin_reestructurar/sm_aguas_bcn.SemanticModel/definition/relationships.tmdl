@@ -1,28 +1,7 @@
-relationship c28b00dc-ddae-cc09-a094-042aff7256fd
-	fromColumn: fact_estadístiques_comp.fecha
-	toColumn: dim_calendario.Date
-
-relationship 7d115471-1de3-4301-bc17-edc8a939b8b7
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_anr_global_mensual.fecha
-	toColumn: LocalDateTable_d1b90805-bd5a-402f-9490-942013cea1b8.Date
-
 relationship 0ae69dd9-1ce9-4724-bbfe-d1c75b278c9f
 	joinOnDateBehavior: datePartOnly
 	fromColumn: fact_anr_global_acum.fecha
 	toColumn: LocalDateTable_c6561612-6700-474a-ba57-f229b5aeb539.Date
-
-relationship 0f16dfbb-f5e5-d9ce-526d-c928ff9658cc
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
-	fromColumn: dim_calendario.Date
-	toColumn: fact_anr_global_mensual.fecha
-
-relationship 2ffa33f1-d27f-03d2-c6e4-b5812c8dc832
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
-	fromColumn: dim_calendario.Date
-	toColumn: fact_anr_global_acum.fecha
 
 relationship 563efaee-807e-403d-a65b-28ad0d6b9645
 	joinOnDateBehavior: datePartOnly
@@ -40,11 +19,6 @@ relationship AutoDetected_488c7a02-f5ca-4b58-b15d-7739eefe7b3e
 relationship AutoDetected_f4d8d3e1-43dc-4a2f-aed4-5c9a52403c24
 	fromColumn: fact_aigua_no_registrada_mensual.sector
 	toColumn: dim_sector.sector_id
-
-relationship 0f7fefc2-617e-41e5-89c7-aa354c9f351e
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_rend_anr_arterias_12m.fecha
-	toColumn: LocalDateTable_be0a4368-dc3b-44b4-91bc-f86d876d45a7.Date
 
 relationship AutoDetected_d9e00979-4079-4fcf-bb6c-c34ce8785177
 	fromColumn: dim_polissa_fraude.sector_id
@@ -83,4 +57,43 @@ relationship 634d3e43-725f-43ab-9acf-1c38ec2e9103
 	joinOnDateBehavior: datePartOnly
 	fromColumn: dim_comptadors.Data_Fi_Vigor
 	toColumn: LocalDateTable_54d042b8-1683-49ee-a79d-9c2edf38ab53.Date
+
+relationship a0bbdb29-7605-1310-3a9a-b6e6a01fc3e4
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: dim_calendario.fecha
+	toColumn: fact_inventari_xarxa_mitjana_12m.fecha
+
+relationship c3a6f566-5a23-4ac3-96b6-651c930f967c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_inventari_xarxa_mitjana_12m.fecha
+	toColumn: LocalDateTable_3cadad97-1b3c-464f-915d-af2ee0cd06e4.Date
+
+relationship 35a6a525-7608-0ee8-558b-f1ec0c9c248d
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: fact_inventari_xarxa_mensual.fecha
+	toColumn: dim_calendario.fecha
+
+relationship 2cf586ef-7a17-082b-045f-2264c0aab043
+	fromColumn: fact_aigua_no_registrada_12m.fecha
+	toColumn: dim_calendario.fecha
+
+relationship df7f1d4f-27f2-8d4c-6949-b77d2ce271c8
+	fromColumn: fact_aigua_no_registrada_mensual.fecha
+	toColumn: dim_calendario.fecha
+
+relationship d001ed4e-7f51-b79f-f026-7c249ff249e1
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: fact_anr_global_mensual.fecha
+	toColumn: dim_calendario.fecha
+
+relationship 87be26cc-8b58-941e-a381-62ece9bcf2af
+	fromColumn: fact_estadístiques_comp.fecha
+	toColumn: dim_calendario.fecha
+
+relationship 6afba27f-3545-18ae-2741-c054ad69c4bb
+	fromColumn: fact_rend_anr_arterias_12m.fecha
+	toColumn: dim_calendario.fecha
 

@@ -26,12 +26,22 @@ table fact_inventari_xarxa_mensual
 		annotation SummarizationSetBy = Automatic
 
 	column fecha
-		dataType: string
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy
 		lineageTag: e4009b57-a2ad-4abd-a8de-35ef1075cbec
 		summarizeBy: none
 		sourceColumn: fecha
 
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
 
 	partition fact_inventari_xarxa_mensual = m
 		mode: import

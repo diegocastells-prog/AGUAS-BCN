@@ -26,12 +26,27 @@ table fact_inventari_xarxa_mitjana_12m
 		annotation SummarizationSetBy = Automatic
 
 	column fecha
-		dataType: string
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy
 		lineageTag: 10310712-e9a8-47bd-bc81-d8114c40ce82
 		summarizeBy: none
 		sourceColumn: fecha
 
+		variation Variación
+			isDefault
+			relationship: c3a6f566-5a23-4ac3-96b6-651c930f967c
+			defaultHierarchy: LocalDateTable_3cadad97-1b3c-464f-915d-af2ee0cd06e4.'Jerarquía de fechas'
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
 
 	partition fact_inventari_xarxa_mitjana_12m = m
 		mode: import

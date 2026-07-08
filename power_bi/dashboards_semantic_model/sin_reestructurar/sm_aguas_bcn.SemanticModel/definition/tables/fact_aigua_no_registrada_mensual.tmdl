@@ -41,11 +41,11 @@ table fact_aigua_no_registrada_mensual
 
 		annotation SummarizationSetBy = Automatic
 
-	column fecha_texto
+	column fecha
 		dataType: string
 		lineageTag: b94079c6-1ddf-451a-a7f2-dfe9ad8bf69c
 		summarizeBy: none
-		sourceColumn: fecha_texto
+		sourceColumn: fecha
 
 		annotation SummarizationSetBy = Automatic
 
@@ -91,15 +91,7 @@ table fact_aigua_no_registrada_mensual
 				
 				    // Renombrados finales
 				    Resultado =
-				        Table.RenameColumns(
-				            Datos7,
-				            {
-				                {"nº", "sector"},
-				                {"gerència", "gerencia"},
-				                {"pis_pressió", "pis_pressio"},
-				                {"atributo", "fecha_texto"}
-				            }
-				        )
+				        Table.RenameColumns(Datos7,{{"nº", "sector"}, {"gerència", "gerencia"}, {"pis_pressió", "pis_pressio"}, {"atributo", "fecha"}})
 				in
 				    Resultado
 
