@@ -179,17 +179,23 @@ table fact_perimetre_comptadors
 
 	column marca_comp
 		dataType: string
+		isHidden
 		lineageTag: a529f234-efaf-4644-8df3-d430d161118e
 		summarizeBy: none
 		sourceColumn: marca_comp
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
 	column codi_model
 		dataType: string
+		isHidden
 		lineageTag: 67b3560e-eb52-4d2e-9850-f9deafe2dc35
 		summarizeBy: none
 		sourceColumn: codi_model
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -203,7 +209,7 @@ table fact_perimetre_comptadors
 
 	partition fact_perimetre_comptadors = m
 		mode: import
-		source = ```
+		source =
 				let
 				    Union =
 				        Table.Combine({
@@ -212,9 +218,8 @@ table fact_perimetre_comptadors
 				            perimetre_comptadors_2024
 				        }),
 				    #"Duplicados quitados" = Table.Distinct(Union)
-				in 
-				  #"Duplicados quitados"
-				```
+				in
+				    #"Duplicados quitados"
 
 	annotation PBI_NavigationStepName = Navegación
 
