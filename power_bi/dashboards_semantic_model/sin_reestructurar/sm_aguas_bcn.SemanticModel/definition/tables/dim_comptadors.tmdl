@@ -86,14 +86,15 @@ table dim_comptadors
 
 	partition dim_comptadors = m
 		mode: import
-		source =
+		source = ```
+				// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO 
+				//              MODEL_COMPTADOR
+				// PESTAÑA:
+				//              Sheet1
 				let
-				  Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRj_sXDOyb1nGGY_XqjyRddxHFAjQZIAdDBjiikNuahnlZjUzp4dQpHiBaOeutBdw/pub?gid=1830409052&single=true&output=csv"), [Delimiter = ",", Columns = 26, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
-				#"Encabezados promovidos" =
-				        Table.PromoteHeaders(
-				            Origen,
-				            [PromoteAllScalars = true]
-				        ),
+				    Origen = GoogleSheets.Contents( "https://docs.google.com/spreadsheets/d/1Fj6UVi7iuKlkfce9ka38MSUTIZmlGqSMZCtEveqozTo/edit?gid=1830409052#gid=1830409052" ),
+				    Datos = Origen{[name="Sheet1", ItemKind="Table"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders( Datos, [PromoteAllScalars = true] ),
 				
 				    #"Tipo de columna cambiado" =
 				        Table.TransformColumnTypes(
@@ -168,6 +169,7 @@ table dim_comptadors
 				
 				in
 				    #"Tipo cambiado"
+				```
 
 	annotation PBI_NavigationStepName = Navegación
 
