@@ -235,6 +235,76 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure 'Label titulo' = "Cuadro de mando de Agua No Registrada"
+		displayFolder: Etiquetas
+		lineageTag: 15bfb53a-bbf6-4206-95ee-200572615c25
+
+	measure 'Dummy texto' = "sector"
+		displayFolder: Etiquetas
+		lineageTag: fd3c590d-efe1-423d-a9a6-9aa0620de88f
+
+	measure 'Dummy numero' = 4
+		formatString: 0
+		displayFolder: Etiquetas
+		lineageTag: 6db705cc-addf-46dd-9b94-7007768df15d
+
+	measure 'Dummy fecha' = "08/07/2026"
+		displayFolder: Etiquetas
+		lineageTag: 38941072-47a5-4810-b2f6-9d27047ea278
+
+	measure 'Dummy mes anterior' = RANDBETWEEN([Dummy numero]+2, [Dummy numero]-2)
+		formatString: 0
+		displayFolder: Etiquetas
+		lineageTag: 33fe0ec2-9c3a-4e5a-a65f-cb72c606825a
+
+	measure 'Dummy porcent 1' = "81,3%"
+		displayFolder: Etiquetas
+		lineageTag: 75af323c-b12e-451c-b445-43c184efea59
+
+	measure 'Indicador variación dummy1' =
+			
+			VAR _variacion = 0.021
+			RETURN
+			IF (
+			    _variacion >= 0,
+			    "▲ " & FORMAT ( _variacion, "0.0 %" ) & " vs mes anterior",
+			    "▼ " & FORMAT ( ABS ( _variacion ), "0.0 %" ) & " vs mes anterior"
+			)
+		displayFolder: Etiquetas
+		lineageTag: c9f3f682-9341-4cba-8fb9-d5f8d362c3d6
+
+	measure 'Color indicador variación dummy +' =
+			
+			VAR _variacion = 0.0021
+			RETURN
+			IF ( _variacion >= 0, "#1A9B70", "#B9314F" )
+		displayFolder: Etiquetas
+		lineageTag: 8124e139-ec19-4d67-b911-28ca817d149d
+
+	measure 'Indicador variación dummy2' =
+			
+			VAR _variacion = -0.068
+			RETURN
+			IF (
+			    _variacion >= 0,
+			    "▲ " & FORMAT ( _variacion, "0.0 %" ) & " vs mes anterior",
+			    "▼ " & FORMAT ( ABS ( _variacion ), "0.0 %" ) & " vs mes anterior"
+			)
+		displayFolder: Etiquetas
+		lineageTag: 95cc5042-7642-418b-9ac9-88afbfce6728
+
+	measure 'Color indicador variación dummy -' =
+			
+			VAR _variacion = -0.789
+			RETURN
+			IF ( _variacion >= 0, "#1A9B70", "#B9314F" )
+		displayFolder: Etiquetas
+		lineageTag: e67a84dd-6a18-49c2-b7f1-4e469ce60dc6
+
+	measure 'Dummy etiqueta filtros aplicados' = "Sin filtros aplicados" -- Medida para hacer el mockup
+		displayFolder: Etiquetas
+		lineageTag: 8d110b84-f5cb-4baa-8bb0-fc6234e69f23
+
 	column Column
 		isHidden
 		formatString: 0
