@@ -77,20 +77,17 @@ table dim_polissa_fraude
 	partition dim_polissa_fraude = m
 		mode: import
 		source = ```
-				// ESTA DIM SE GENERA A PARTIR DEL ARCHIVO 
-				//              frauspersector
-				// PESTAÑA:
-				//              fraus_sector
 				let
-				    Origen = GoogleSheets.Contents( "https://docs.google.com/spreadsheets/d/1nljd3JbZD0NOokV0dt0dE0cH5htUAdUCnn-JWuKWGGA/edit?gid=613700915#gid=613700915" ),
-				
-				    Datos = Origen{[name="fraus_sector", ItemKind="Table"]}[Data],
-				
+				    Origen =
+				        Csv.Document(
+				            Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vQwqgF5B5qzZDjauecugQUMxB36xsTffWXMGSRI7bO4Zopp9VbragwJfI2XTB893g/pub?gid=642764319&single=true&output=csv"),
+				            [Delimiter = ",", Columns = 13, Encoding = 65001, QuoteStyle = QuoteStyle.None]
+				        ),
 				        
 				    #"Procesado" = 
 				        let
 				          base = Table.PromoteHeaders(
-				            Table.RemoveColumns(Datos, {"Column5", "Column6"}),
+				            Table.RemoveColumns(Origen, {"Column5", "Column6"}),
 				            [PromoteAllScalars = true]
 				          ),
 				          tipos = Table.TransformColumnTypes(base, {

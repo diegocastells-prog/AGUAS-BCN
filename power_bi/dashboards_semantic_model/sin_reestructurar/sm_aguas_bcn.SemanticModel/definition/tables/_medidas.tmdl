@@ -18,7 +18,7 @@ table _medidas
 	measure count_dias_mes =
 			
 			VAR FechaActual =
-			    MAX ( dim_calendario[fecha] )
+			    MAX ( dim_calendario[Date] )
 			RETURN
 			    DAY ( EOMONTH ( FechaActual, 0 ) )
 		formatString: 0
@@ -39,9 +39,7 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_l_esc_dia_mensual = ```
-			[anr_dia_m3_mensual] /sum(fact_inventari_xarxa_mensual[nombre_escomeses_totals]) 
-			```
+	measure anr_l_esc_dia_mensual = [anr_dia_m3_mensual] /sum(fact_inventari_xarxa_mensual[nombre_escomeses_totals])
 		displayFolder: fact_anr_global_mensual
 		lineageTag: ebd07ed5-8585-4fd4-9192-b2503c07f0ad
 
@@ -77,16 +75,6 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure canvis_comptadors_estrategics_total = SUM('fact_estadístiques_comp'[﻿total])
-		lineageTag: 0d46c3e8-e1ef-4b9d-9b8e-eef9d1af6753
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure canvis_comptadors_total = SUM('fact_estadístiques_comp'[﻿total])
-		lineageTag: b54adb10-602a-4b26-96e9-4307b4bff879
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	measure fraus_detectats =
 			
 			CALCULATE(
@@ -112,6 +100,16 @@ table _medidas
 		displayFolder: Fraudes
 		lineageTag: 4c731030-05b5-4e7d-96d2-f8b6bc37c4c0
 
+	measure canvis_comptadors_estrategics_total = SUM('fact_estadístiques_comp'[total])
+		lineageTag: 0d46c3e8-e1ef-4b9d-9b8e-eef9d1af6753
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure canvis_comptadors_total = SUM('fact_estadístiques_comp'[total])
+		lineageTag: b54adb10-602a-4b26-96e9-4307b4bff879
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	measure fraus_operacions = COUNTROWS(fact_fraudes)
 		formatString: 0
 		displayFolder: Fraudes
@@ -127,7 +125,7 @@ table _medidas
 			VAR MesAnterior = 
 			    CALCULATE(
 			        SUM(fact_anr_global_mensual[anr_global_hm3]),
-			        PREVIOUSMONTH(dim_calendario[fecha])
+			        PREVIOUSMONTH(dim_calendario[Date])
 			    )
 			RETURN 
 			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
@@ -142,7 +140,7 @@ table _medidas
 			VAR MesAnterior = 
 			    CALCULATE(
 			        SUM(fact_anr_global_acum[anr_global_hm3]),
-			        PREVIOUSMONTH(dim_calendario[fecha])
+			        PREVIOUSMONTH(dim_calendario[Date])
 			    )
 			RETURN 
 			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
@@ -150,6 +148,92 @@ table _medidas
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: fact_anr_global_mensual
 		lineageTag: 3bee1bda-5daa-4d40-9b48-c16b546b4003
+
+	measure volum_lliurat_global_mensual = SUM(fact_anr_global_mensual[lliurada_hm3])
+		displayFolder: fact_anr_global_mensual
+		lineageTag: 6c32f9d3-73d4-4cee-8719-3c99bc6c0211
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_consumit_global_mensual = SUM(fact_anr_global_mensual[consumida_hm3])
+		displayFolder: fact_anr_global_mensual
+		lineageTag: 8bad2009-0f2d-49b7-a5d6-5f57e5a19d68
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure rendiment_global_mensual =
+			
+			DIVIDE( [volum_consumit_global_mensual], [volum_lliurat_global_mensual] ) * 100
+		displayFolder: fact_anr_global_mensual
+		lineageTag: 34283a5c-9a4a-44b1-9f15-bd8e048e4de3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_global_mensual_hm3 =
+			
+			[volum_lliurat_global_mensual] - [volum_consumit_global_mensual]
+		displayFolder: fact_anr_global_mensual
+		lineageTag: 008b8502-9603-4472-b60f-a04215d278d1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_consumit_global_acum = SUM(fact_anr_global_acum[consumida_hm3])
+		displayFolder: fact_anr_global_acum
+		lineageTag: 5e8091e2-7345-4596-bd59-172605b3082a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_lliurat_global_acum = SUM(fact_anr_global_acum[lliurada_hm3])
+		displayFolder: fact_anr_global_acum
+		lineageTag: 58e5e941-c4d8-422a-8288-e80857cf8667
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure rendiment_global_acum =
+			
+			DIVIDE( [volum_consumit_global_acum], [volum_lliurat_global_acum] ) * 100
+		displayFolder: fact_anr_global_acum
+		lineageTag: 760e412b-c9fa-4435-a5eb-dac15e21a270
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_global_acum_hm3 =
+			
+			[volum_lliurat_global_acum] - [volum_consumit_global_acum]
+		displayFolder: fact_anr_global_acum
+		lineageTag: 0ffca9d8-d9dc-4ea1-b6f0-991379f73982
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure rendiment_transport_mensual =
+			
+			DIVIDE( SUM(fact_rend_anr_arterias_mensual[sortit_m3]), SUM(fact_rend_anr_arterias_mensual[entrat_m3]) ) * 100
+		displayFolder: fact_rend_anr_arterias_mensual
+		lineageTag: 75b88512-c6e4-4daa-989d-4d62f410fed0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_transport_mensual_m3 =
+			
+			SUM(fact_rend_anr_arterias_mensual[entrat_m3]) - SUM(fact_rend_anr_arterias_mensual[sortit_m3])
+		formatString: 0
+		displayFolder: fact_rend_anr_arterias_mensual
+		lineageTag: 86a01aa5-ac54-48f3-a890-d503e630c5f2
+
+	measure anr_transport_acum_m3 =
+			
+			SUM(fact_rend_anr_arterias_12m[entrat_m3]) - SUM(fact_rend_anr_arterias_12m[sortit_m3])
+		formatString: 0
+		displayFolder: fact_rend_anr_arterias_12m
+		lineageTag: 2f2f14b0-c873-412b-8357-3a216a37df41
+
+	measure rendiment_transport_acum =
+			
+			DIVIDE( SUM(fact_rend_anr_arterias_12m[sortit_m3]), SUM(fact_rend_anr_arterias_12m[entrat_m3]) ) * 100
+		displayFolder: fact_rend_anr_arterias_12m
+		lineageTag: 65a14b58-b2d8-4fa0-8c00-a442979f5772
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Column
 		isHidden

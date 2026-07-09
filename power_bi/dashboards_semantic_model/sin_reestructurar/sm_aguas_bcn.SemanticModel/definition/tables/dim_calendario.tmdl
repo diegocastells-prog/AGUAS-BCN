@@ -1,6 +1,16 @@
 table dim_calendario
 	lineageTag: 79c91559-5bd8-4f22-8fd9-f574116db53c
-	dataCategory: Time
+
+	column Date
+		formatString: Long Date
+		lineageTag: 87f723ae-29d7-425a-9df6-124718b24bda
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column anio
 		formatString: 0
@@ -112,47 +122,30 @@ table dim_calendario
 
 		annotation SummarizationSetBy = Automatic
 
-	column fecha
-		isKey
-		formatString: dd/mm/yyyy
-		lineageTag: 008be1a8-3d00-4899-bf5e-bf31e3a18f90
-		summarizeBy: none
-		isNameInferred
-		sourceColumn: [fecha]
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
-		annotation PBI_FormatHint = {"isDateTimeCustom":true}
-
 	partition dim_calendario = calculated
 		mode: import
 		source = ```
 				
-				VAR Base =
-				    SELECTCOLUMNS(
-				        CALENDAR(DATE(2020,1,1), DATE(2030,12,31)),
-				        "fecha", [Date]        // ← renombramos aquí
-				    )
-				RETURN
 				    ADDCOLUMNS(
-				        Base,
-				        "anio", YEAR([fecha]),
-				        "mes_num", MONTH([fecha]),
-				        "mes", FORMAT([fecha], "MMMM"),
-				        "mes_corto", FORMAT([fecha], "MMM"),
-				        "aniomes", FORMAT([fecha], "YYYYMM"),
-				        "anio_mes", FORMAT([fecha], "YYYY-MM"),
-				        "trimestre", "T" & FORMAT([fecha], "Q"),
-				        "anio_trimestre", YEAR([fecha]) & "-T" & FORMAT([fecha], "Q"),
-				        "semana_anio", WEEKNUM([fecha], 2),
-				        "dia", DAY([fecha]),
-				        "dia_semana_num", WEEKDAY([fecha], 2),
-				        "dia_semana", FORMAT([fecha], "dddd"),
-				        "fin_de_semana", IF(WEEKDAY([fecha], 2) >= 6, "si", "no")
+				        CALENDAR(
+				            DATE(2020,1,1),
+				            DATE(2030,12,31)
+				        ),
+				        "anio", YEAR([Date]),
+				        "mes_num", MONTH([Date]),
+				        "mes", FORMAT([Date], "MMMM"),
+				        "mes_corto", FORMAT([Date], "MMM"),
+				        "aniomes", FORMAT([Date], "YYYYMM"),
+				        "anio_mes", FORMAT([Date], "YYYY-MM"),
+				        "trimestre", "T" & FORMAT([Date], "Q"),
+				        "anio_trimestre", YEAR([Date]) & "-T" & FORMAT([Date], "Q"),
+				        "semana_anio", WEEKNUM([Date], 2),
+				        "dia", DAY([Date]),
+				        "dia_semana_num", WEEKDAY([Date], 2),
+				        "dia_semana", FORMAT([Date], "dddd"),
+				        "fin_de_semana", IF(WEEKDAY([Date], 2) >= 6, "si", "no")
 				    )
-				
+				 
 				```
 
 	annotation PBI_Id = 06946a9e57dd4dfe845e9b08d6bd99d1

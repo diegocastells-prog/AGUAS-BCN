@@ -126,20 +126,11 @@ table fact_fraudes
 
 	partition fact_fraudes = m
 		mode: import
-		source = ```
-				// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO 
-				//              ExcelFile_2026-06-10T15_28_36
-				// PESTAÑA:
-				//              Sheet1
+		source =
 				let
-				    Origen = GoogleSheets.Contents( "https://docs.google.com/spreadsheets/d/14LdOwJWWOcSs2GFL1NdGb2j5r5yPdRQ6ikO0OVnl2qo/edit?gid=1513787123#gid=1513787123" ),
-				
-				    Datos = Origen{[name="Sheet1", ItemKind="Table"]}[Data],
-				
-				 
-				    
+				  Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vTkaRRTpAF3cjORlQlBr64cW8dF1PQno-yNRXYHRo0G_2T6Nx_slDfrZQ6mfLL-uA/pub?gid=273809892&single=true&output=csv"), [Delimiter = ",", Columns = 11, QuoteStyle = QuoteStyle.None]),
 				    #"Encabezados promovidos" = Table.PromoteHeaders(
-				        Datos,
+				        Origen,
 				        [PromoteAllScalars = true]
 				    ),
 				
@@ -177,7 +168,6 @@ table fact_fraudes
 				
 				in
 				    #"Encabezados Title Case"
-				```
 
 	annotation PBI_NavigationStepName = Navegación
 

@@ -28,28 +28,21 @@ table dim_sector
 
 	partition dim_sector = m
 		mode: import
-		source = ```
-				// ESTA DIM SE GENERA A PARTIR DEL ARCHIVO 
-				//              dim_sector
-				// PESTAÑA:
-				//              Sheet1
+		source =
 				let
-				    Origen = GoogleSheets.Contents( "https://docs.google.com/spreadsheets/d/1pYWzB4BZBUnIqSPzeg1ezMwfhR1SevyUKxsCw8IAuKk/edit?gid=1370942235#gid=1370942235" ),
-				    Datos = Origen{[name="Sheet1", ItemKind="Table"]}[Data],
-				
-				    #"Encabezados promovidos" = Table.PromoteHeaders(Datos, [PromoteAllScalars = true]),
-				    #"Tipo de columna cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {{"sector_id", Int64.Type}, {"denomin", type text}, {"gerencia", type text}}, "es"),
-				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo de columna cambiado",{{"denomin", "sector"}}),
-				    #"Texto en formato título" =
-				        Table.TransformColumns(
-				            #"Columnas con nombre cambiado",
-				            {
-				                {"sector", Text.Proper, type text}
-				            }
-				        )
-				    in
-				        #"Texto en formato título"
-				```
+				  Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRH4WiST8QUNFuYRZ1ilIw7p1mfJMiAz5bImbBz2ffnYgrxn2MyRB5O192pgqrP_SyFQdf6CJroUA9G/pub?gid=0&single=true&output=csv"), [Delimiter = ",", Columns = 3, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+				  #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+				  #"Tipo de columna cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos", {{"sector_id", Int64.Type}, {"denomin", type text}, {"gerencia", type text}}, "es"),
+				  #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo de columna cambiado",{{"denomin", "sector"}}),
+				  #"Texto en formato título" =
+				    Table.TransformColumns(
+				        #"Columnas con nombre cambiado",
+				        {
+				            {"sector", Text.Proper, type text}
+				        }
+				    )
+				in
+				    #"Texto en formato título"
 
 	annotation PBI_NavigationStepName = Navegación
 
