@@ -84,6 +84,14 @@ table dim_comptadors
 
 		annotation UnderlyingDateTimeDataType = Date
 
+	column Id_marca_modelo
+		dataType: string
+		lineageTag: f11d8550-a0a4-4077-8b73-2bddec1f7127
+		summarizeBy: none
+		sourceColumn: Id_marca_modelo
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_comptadors = m
 		mode: import
 		source =
@@ -164,10 +172,11 @@ table dim_comptadors
 				                {"Data_Fi_Vigor", type date},
 				                {"Modcon_Ts", type date}
 				            }
-				        )
-				
+				        ),
+				    #"Personalizada agregada" = Table.AddColumn(#"Tipo cambiado", "Id_marca_modelo", each [Marca_Comp] & "-" & Text.From([Codi_Model])),
+				    #"Duplicados quitados" = Table.Distinct(#"Personalizada agregada", {"Id_marca_modelo"})
 				in
-				    #"Tipo cambiado"
+				    #"Duplicados quitados"
 
 	annotation PBI_NavigationStepName = Navegación
 

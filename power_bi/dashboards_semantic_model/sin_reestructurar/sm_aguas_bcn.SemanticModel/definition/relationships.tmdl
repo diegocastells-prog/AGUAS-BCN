@@ -101,3 +101,17 @@ relationship 1aafb9ac-ca6a-524f-6585-00ac939cca02
 	fromColumn: fact_rend_anr_arterias_12m.fecha
 	toColumn: dim_calendario.Date
 
+relationship cf06cc2c-52dd-47b9-9724-267ec31b9355
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_perimetre_comptadors.data_alt_subm_serv
+	toColumn: LocalDateTable_b40c45dc-4a67-441b-bfe4-5743b3011ce5.Date
+
+relationship 9617175c-41db-406b-916b-719e7d26ba79
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_perimetre_comptadors.data_inst_comp
+	toColumn: LocalDateTable_c782893e-51af-4d39-b327-caa7e42f7c7b.Date
+
+relationship AutoDetected_fa068362-ff0a-4555-84b3-340a375e0c1f
+	fromColumn: fact_perimetre_comptadors.id_marca_modelo
+	toColumn: dim_comptadors.Id_marca_modelo
+

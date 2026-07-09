@@ -1217,3 +1217,57 @@ expression dim_sector_devoteam = ```
 
 	annotation PBI_ResultType = Table
 
+expression perimetre_comptadors_2024 =
+		let
+		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1yfTHptUIejqioEi7KkYkgmIw7bFXbTdTVuILH4AwB5U/edit?gid=1793108784#gid=1793108784"),
+		    #"2024_Table" = Origen{[name="2024",ItemKind="Table"]}[Data],
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"2024_Table", [PromoteAllScalars=true]),
+		    #"Columnas en minúsculas" = Table.TransformColumnNames(#"Encabezados promovidos", Text.Lower),
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas en minúsculas",{{"data_alt_subm_serv", type date}, {"data_inst_comp", type date}}),
+		    #"Gerencia Tipo Título" = Table.TransformColumns(#"Tipo cambiado", {{"gerencia", Text.Proper, type text}}),
+		    #"Id Agregado" = Table.AddColumn(#"Gerencia Tipo Título", "id_marca_modelo", each [marca_comp] & "-" & Text.From([codi_model]), type text),
+		    #"Duplicados reales quitados" = Table.Distinct(#"Id Agregado")
+		in
+		    #"Duplicados reales quitados"
+	lineageTag: b8d5e5e1-278f-4a27-981f-f6acff358b5f
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression perimetre_comptadors_2025 =
+		let
+		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1UpRZ8Nx3FwEmUP8r0fDlwC3RvGOp8kXuoe--maLmB-Q/edit?gid=298810731#gid=298810731"),
+		    #"2025_Table" = Origen{[name="2025",ItemKind="Table"]}[Data],
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"2025_Table", [PromoteAllScalars=true]),
+		    #"Columnas en minúsculas" = Table.TransformColumnNames(#"Encabezados promovidos", Text.Lower),
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas en minúsculas",{{"data_alt_subm_serv", type date}, {"data_inst_comp", type date}}),
+		    #"Gerencia Tipo Título" = Table.TransformColumns(#"Tipo cambiado", {{"gerencia", Text.Proper, type text}}),
+		    #"Id Agregado" = Table.AddColumn(#"Gerencia Tipo Título", "id_marca_modelo", each [marca_comp] & "-" & Text.From([codi_model]), type text),
+		    #"Duplicados reales quitados" = Table.Distinct(#"Id Agregado")
+		in
+		    #"Duplicados reales quitados"
+	lineageTag: 2f928545-ccfa-41d8-ad6e-d443b531cf89
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression perimetre_comptadors_2026 =
+		let
+		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1uWctIQ1xEj78v9RlJbFROvT_txrl40y1Zh_QXxtjd64/edit?gid=1968928639#gid=1968928639"),
+		  #"2026_Table" = Origen{[name = "2026", ItemKind = "Table"]}[Data],
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"2026_Table", [PromoteAllScalars=true]),
+		    #"Columnas en minúsculas" = Table.TransformColumnNames(#"Encabezados promovidos", Text.Lower),
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas en minúsculas",{{"data_alt_subm_serv", type date}, {"data_inst_comp", type date}}),
+		    #"Gerencia Tipo Título" = Table.TransformColumns(#"Tipo cambiado", {{"gerencia", Text.Proper, type text}}),
+		    #"Id Agregado" = Table.AddColumn(#"Gerencia Tipo Título", "id_marca_modelo", each [marca_comp] & "-" & Text.From([codi_model]), type text),
+		    #"Duplicados reales quitados" = Table.Distinct(#"Id Agregado")
+		in
+		    #"Duplicados reales quitados"
+	lineageTag: 43bbe8d9-d98d-4139-90df-ae42107ff4fb
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
