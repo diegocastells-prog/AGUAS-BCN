@@ -18,10 +18,9 @@ table fact_estadístiques_comp
 		annotation SummarizationSetBy = Automatic
 
 	column diam_comp
-		dataType: int64
-		formatString: 0
+		dataType: string
 		lineageTag: 382aabb6-9fb3-4f56-af89-1f0effb75e76
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: diam_comp
 
 		annotation SummarizationSetBy = Automatic
@@ -36,13 +35,12 @@ table fact_estadístiques_comp
 
 	column fecha
 		dataType: dateTime
-		isHidden
 		formatString: Long Date
 		lineageTag: 29a42bfc-1365-45b5-919e-eed0d7895a79
 		summarizeBy: none
 		sourceColumn: fecha
 
-		changedProperty = IsHidden
+		changedProperty = DataType
 
 		annotation SummarizationSetBy = Automatic
 
@@ -80,11 +78,11 @@ table fact_estadístiques_comp
 
 		annotation SummarizationSetBy = Automatic
 
-	column ﻿total
-		dataType: int64
+	column total
+		dataType: double
 		lineageTag: 84ae67bf-0664-4175-9d95-bc4480675c2e
 		summarizeBy: sum
-		sourceColumn: ﻿total
+		sourceColumn: total
 
 		annotation SummarizationSetBy = Automatic
 
@@ -124,118 +122,48 @@ table fact_estadístiques_comp
 
 	partition fact_estadístiques_comp = m
 		mode: import
-		source =
+		source = ```
 				let
-				    // Origen
-				    Origen =
-				        GoogleSheets.Contents(
-				            "https://docs.google.com/spreadsheets/d/1iq1grQXRgfmpth57wCKCeJDOMoEJOXdaFIKPwqHidUo/edit?gid=1719815457#gid=1719815457"
-				        ),
-				    Datos = Origen{[name="Estadístiques comp", ItemKind="Table"]}[Data],
+				    Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vSBdujYtm-k6b1sHDL1XjoEupA6bWpiO7est-_tshOR30XuF361C6fvUabG2i616w/pub?gid=524487380&single=true&output=csv"),[Delimiter=",", Columns=48, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Otras columnas quitadas" = Table.SelectColumns(#"Encabezados promovidos",{"Agrupació Canvi", "Agrupació edat", "Tip Submin", "Grup DN", "﻿Total", "DESC_CODI", "Nom executor", "Zona Operacions", "Estratègics", "DIAM_COMP", "QL_COMPT_NOU", "Agrupació edat GA", "Número Mes", "Tipus Executor", "Codi mes"}),
+				    
+				    #"Personalizada agregada" = Table.AddColumn(#"Otras columnas quitadas", "fecha", each 
+				        let
+				            txt0 = [Codi mes],
+				            txt1 = Text.Lower(txt0),
+				            txt2 = Text.Replace(txt1, ".", ""),
+				            txt3 = Text.Trim(Text.Replace(txt2, "  ", " ")),
+				            txt4 = Text.Replace(txt3, " - ", "-"),
+				            txt5 = Text.Replace(txt4, " -", "-"),
+				            txt6 = Text.Replace(txt5, "- ", "-"),
+				            mesNumTxt = Text.BeforeDelimiter(txt6, "-"),
+				            mesNum = Number.FromText(Text.Trim(mesNumTxt)),
+				            anio = Date.Year(DateTime.LocalNow()),
+				            Fecha = #date(anio, mesNum, 1)
+				        in
+				            Fecha
+				    ),
 				
-				    // Encabezados
-				    Encabezados = Table.PromoteHeaders(Datos, [PromoteAllScalars = true]),
-				
-				    // Selección de columnas
-				    Seleccion =
-				        Table.SelectColumns(
-				            Encabezados,
-				            {
-				                "Agrupació Canvi",
-				                "Agrupació edat",
-				                "Tip Submin",
-				                "Grup DN",
-				                "﻿Total",
-				                "DESC_CODI",
-				                "Nom executor",
-				                "Zona Operacions",
-				                "Estratègics",
-				                "DIAM_COMP",
-				                "QL_COMPT_NOU",
-				                "Agrupació edat GA",
-				                "Número Mes",
-				                "Tipus Executor",
-				                "Codi mes"
-				            }
-				        ),
-				
-				    // Tipos
-				    Tipos =
-				        Table.TransformColumnTypes(
-				            Seleccion,
-				            {
-				                {"﻿Total", Int64.Type},
-				                {"DIAM_COMP", Int64.Type},
-				                {"Número Mes", Int64.Type}
-				            }
-				        ),
-				
-				    // Crear fecha (versión compacta)
-				    ConFecha =
-				        Table.AddColumn(
-				            Tipos,
-				            "fecha",
-				            each
-				                let
-				                    raw = Text.Lower([Codi mes]),
-				                    limpio =
-				                        Text.Trim(
-				                            Text.Replace(
-				                                Text.Replace(
-				                                    Text.Replace(
-				                                        Text.Replace(raw, ".", ""),
-				                                        "  ", " "
-				                                    ),
-				                                    " - ", "-"
-				                                ),
-				                                "- ", "-"
-				                            )
-				                        ),
-				                    mes = Number.FromText(Text.BeforeDelimiter(limpio, "-")),
-				                    anio = Date.Year(DateTime.LocalNow())
-				                in
-				                    #date(anio, mes, 1),
-				            type date
-				        ),
-				
-				    // Normalizar nombres
-				    Normalizadas =
-				        Table.TransformColumnNames(
-				            ConFecha,
+				    // 🔥 NORMALIZAR NOMBRES DE COLUMNAS
+				    #"Columnas normalizadas" =
+				        Table.TransformColumnNames(#"Personalizada agregada",
 				            each Text.Replace(Text.Lower(_), " ", "_")
 				        ),
-				
-				    // Quitar columnas
-				    Quitadas =
-				        Table.RemoveColumns(
-				            Normalizadas,
-				            {"número_mes", "codi_mes"}
-				        ),
-				
-				    // Renombrados finales
-				    Renombradas =
-				        Table.RenameColumns(
-				            Quitadas,
-				            {
-				                {"agrupació_edat", "agrupacio_edat"},
-				                {"agrupació_canvi", "agrupacio_canvi"},
-				                {"estratègics", "estrategics"},
-				                {"agrupació_edat_ga", "agrupacio_edat_ga"},
-				                {"zona_operacions", "gerencia"}
-				            }
-				        ),
-				
-				    // Formato título
-				    FormatoTitulo =
-				        Table.TransformColumns(
-				            Renombradas,
-				            {
-				                {"nom_executor", Text.Proper, type text},
-				                {"gerencia", Text.Proper, type text}
-				            }
-				        )
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas normalizadas",{{"﻿total", type number}}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Tipo cambiado",{"número_mes", "codi_mes"}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columnas quitadas",{{"﻿total", "total"},{"agrupació_edat", "agrupacio_edat"}, {"agrupació_canvi", "agrupacio_canvi"}, {"estratègics", "estrategics"}, {"agrupació_edat_ga", "agrupacio_edat_ga"}, {"zona_operacions", "gerencia"}}),
+				    #"Texto en formato título" =
+				    Table.TransformColumns(
+				        #"Columnas con nombre cambiado",
+				        {
+				            {"nom_executor", Text.Proper, type text},
+				            {"gerencia", Text.Proper, type text}
+				        }
+				    )
 				in
-				    FormatoTitulo
+				    #"Texto en formato título"
+				```
 
 	annotation PBI_NavigationStepName = Navegación
 

@@ -84,17 +84,24 @@ table dim_comptadors
 
 		annotation UnderlyingDateTimeDataType = Date
 
+	column Id_marca_modelo
+		dataType: string
+		lineageTag: f11d8550-a0a4-4077-8b73-2bddec1f7127
+		summarizeBy: none
+		sourceColumn: Id_marca_modelo
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_comptadors = m
 		mode: import
-		source = ```
-				// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO 
-				//              MODEL_COMPTADOR
-				// PESTAÑA:
-				//              Sheet1
+		source =
 				let
-				    Origen = GoogleSheets.Contents( "https://docs.google.com/spreadsheets/d/1Fj6UVi7iuKlkfce9ka38MSUTIZmlGqSMZCtEveqozTo/edit?gid=1830409052#gid=1830409052" ),
-				    Datos = Origen{[name="Sheet1", ItemKind="Table"]}[Data],
-				    #"Encabezados promovidos" = Table.PromoteHeaders( Datos, [PromoteAllScalars = true] ),
+				  Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRj_sXDOyb1nGGY_XqjyRddxHFAjQZIAdDBjiikNuahnlZjUzp4dQpHiBaOeutBdw/pub?gid=1830409052&single=true&output=csv"), [Delimiter = ",", Columns = 26, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+				#"Encabezados promovidos" =
+				        Table.PromoteHeaders(
+				            Origen,
+				            [PromoteAllScalars = true]
+				        ),
 				
 				    #"Tipo de columna cambiado" =
 				        Table.TransformColumnTypes(
@@ -165,11 +172,11 @@ table dim_comptadors
 				                {"Data_Fi_Vigor", type date},
 				                {"Modcon_Ts", type date}
 				            }
-				        )
-				
+				        ),
+				    #"Personalizada agregada" = Table.AddColumn(#"Tipo cambiado", "Id_marca_modelo", each [Marca_Comp] & "-" & Text.From([Codi_Model])),
+				    #"Duplicados quitados" = Table.Distinct(#"Personalizada agregada", {"Id_marca_modelo"})
 				in
-				    #"Tipo cambiado"
-				```
+				    #"Duplicados quitados"
 
 	annotation PBI_NavigationStepName = Navegación
 

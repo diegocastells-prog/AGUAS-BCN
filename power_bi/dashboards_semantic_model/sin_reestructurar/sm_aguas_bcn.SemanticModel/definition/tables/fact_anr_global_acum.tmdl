@@ -3,7 +3,6 @@ table fact_anr_global_acum
 
 	column fecha
 		dataType: dateTime
-		isHidden
 		formatString: Long Date
 		lineageTag: 2b7d5a03-2f48-4464-89f0-e5f08091a2e7
 		summarizeBy: none
@@ -13,8 +12,6 @@ table fact_anr_global_acum
 			isDefault
 			relationship: 0ae69dd9-1ce9-4724-bbfe-d1c75b278c9f
 			defaultHierarchy: LocalDateTable_c6561612-6700-474a-ba57-f229b5aeb539.'Jerarquía de fechas'
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -62,45 +59,33 @@ table fact_anr_global_acum
 
 	partition fact_anr_global_acum = m
 		mode: import
-		source = ```
-				// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO 
-				//              Indicadors ANR 2026
-				// PESTAÑA:
-				//              Detall dades explotació
+		source =
 				let
-				    // Origen
-				    Origen =
-				        GoogleSheets.Contents(
-				            "https://docs.google.com/spreadsheets/d/1LK5D7QclVwCBGy5-hONVLgP1GgW35okgrxNLr1kJCoE/edit?gid=1211020984#gid=1211020984"
-				        ),
-				
-				    Datos = Origen{[name="Detall dades explotació", ItemKind="Table"]}[Data],
-				    #"Otras columnas quitadas" = Table.SelectColumns(Datos,{"Column1", "Column2", "Column3", "Column4", "Column5"}),
-				
-				    // Tomar filas y promover encabezados
+				    Source = Csv.Document(
+				        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRS1zkWHKwzcm2ZLhnMstWbjgJtQC3DCBLdSY_mCFGtR3x8Z4xdlut8iUNJwB5KVQ/pub?gid=315911922&single=true&output=csv"),
+				        [Delimiter = ",", Columns = 48, Encoding = 65001, QuoteStyle = QuoteStyle.None]
+				    ),
 				    Data =
 				        Table.PromoteHeaders(
-				            Table.Range(#"Otras columnas quitadas", 20, 13),
+				            Table.SelectColumns(
+				                Table.Range(Source, 20, 13),
+				                {"Column1", "Column2", "Column3", "Column4", "Column5"}
+				            ),
 				            [PromoteAllScalars = true]
 				        ),
-				
-				    // Renombrar columnas reales
 				    Renamed =
-				        Table.RenameColumns(
-				            Data,
-				            {
-				                {"Any", "fecha"},
-				                {"Aigua Lliurada (hm3)", "lliurada_hm3"},
-				                {"Aigua Consumida (hm3)", "consumida_hm3"},
-				                {"RTH Global", "rth_global"},
-				                {"ANR Global (hm3)", "anr_global_hm3"}
-				            }
+				        Table.RenameColumns(Data,{{"Any", "fecha"}, {"Aigua Lliurada (hm3)", "lliurada_hm3"}, {"Aigua Consumida (hm3)", "consumida_hm3"}, {"RTH Global", "rth_global"}, {"ANR Global (hm3)", "anr_global_hm3"}}),
+				    ReplaceDots =
+				        Table.TransformColumns(
+				            Renamed,
+				            List.Transform(
+				                List.RemoveItems(Table.ColumnNames(Renamed), {"date"}),
+				                each {_, (x) => Text.Replace(x, ".", ","), type text}
+				            )
 				        ),
-				
-				    // Tipos finales
 				    Result =
 				        Table.TransformColumnTypes(
-				            Renamed,
+				            ReplaceDots,
 				            {
 				                {"fecha", type date},
 				                {"lliurada_hm3", type number},
@@ -108,11 +93,9 @@ table fact_anr_global_acum
 				                {"rth_global", type number},
 				                {"anr_global_hm3", type number}
 				            }
-				        ),
-				    #"Filas filtradas" = Table.SelectRows(Result, each ([lliurada_hm3] <> null))
+				        )
 				in
-				    #"Filas filtradas"
-				```
+				    Result
 
 	annotation PBI_NavigationStepName = Navegación
 
