@@ -1149,74 +1149,6 @@ expression fact_rend_anr_arterias_multi_dz_12m = ```
 
 	annotation PBI_ResultType = Table
 
-expression dim_sector_union =
-		let
-		    dim_sector1 = dim_sector_devoteam,
-		    dim_sector2 = dim_sector,
-		
-		    Union = Table.Combine({
-		        dim_sector1,
-		        dim_sector2
-		    }),
-		
-		    #"Sin duplicados" = Table.Distinct(
-		        Union,
-		        {"sector_id"}
-		    ),
-		
-		    Result = Table.Sort(
-		        #"Sin duplicados",
-		        {
-		            {"sector_id", Order.Ascending},
-		            {"sector", Order.Ascending},
-		            {"gerencia", Order.Ascending}
-		        }
-		    )
-		in
-		    Result
-	lineageTag: 9328a85b-11f9-47ab-9b8a-233940defe20
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Table
-
-expression dim_sector_devoteam = ```
-		let
-						    Origen = Csv.Document(
-						        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vQu04YqiUjROdeKjkF1OKAb2UI0cIt8n44NDzq3nAdSvDc2p0zBvWngL_DNulEpHw/pub?gid=2003244827&single=true&output=csv"),
-						        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.None]
-						    ),
-						
-						    #"Filas superiores quitadas" = Table.Skip(Origen,2),
-						    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
-						
-						    #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([Nº] <> null and [Nº] <> "")),
-						
-						    #"Tipos" = Table.TransformColumnTypes(#"Filas filtradas",{
-						        {"Nº", Int64.Type},
-						        {"Gerència", type text},
-						        {"Sectors", type text}
-						    }),
-						
-						    #"Dimensión limpia" = Table.SelectColumns(#"Tipos",{"Nº","Sectors","Gerència"}),
-						
-						    #"Renombrado" = Table.RenameColumns(#"Dimensión limpia",{
-						        {"Nº","sector_id"},
-						        {"Sectors","sector"},
-						        {"Gerència","gerencia"}
-						    }),
-						
-						/* opcional pero recomendable */
-						    #"Sin duplicados" = Table.Distinct(#"Renombrado")
-		in
-						    #"Sin duplicados"
-		```
-	lineageTag: 1046af86-c26a-4f14-b341-0989e1138ab3
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Table
-
 expression perimetre_comptadors_2024 = ```
 		// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO DE GOOGLE DRIVE 
 		
@@ -1297,6 +1229,206 @@ expression perimetre_comptadors_2026 = ```
 		    #"Duplicados reales quitados"
 		```
 	lineageTag: 43bbe8d9-d98d-4139-90df-ae42107ff4fb
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dades_consum_2024 = ```
+		// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO 
+		
+		//            dades consum 2024  desde LOCAL,la conexion se debe cambiar por un origen de drive.
+		
+		
+		
+		
+		let
+		  Origen = Csv.Document(File.Contents("C:\Users\lvelasco\Downloads\Aguas BCN\Datos\Datos origen\XLS\dades consum 2024.csv"), [Delimiter = ";", Columns = 15, QuoteStyle = QuoteStyle.None]),
+		  #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+		
+		    #"Transformaciones" =
+		        Table.TransformColumnTypes(
+		            Table.TransformColumnNames(
+		                Table.SelectColumns(
+		                    #"Encabezados promovidos",
+		                    {"POLISSA_SUBM","MES","QMIN_HORA","QMAX_HORA","CONSUM_MENSUAL_REAL","CONSUM_MENSUAL_ESTIMAT","LECTURES_REBUDES","DIES_LLEGITS","DIES_ABSENTS","DIES_AMB_REGISTRE","DIES_AMB_CONSUM_0","dies_amb_consum_0_any","NUM_SERIES_CONTADOR_2024_MES"}
+		                ),
+		                Text.Lower
+		            ),
+		            {
+		                {"mes", type date},
+		                {"qmin_hora", Int64.Type},
+		                {"qmax_hora", Int64.Type},
+		                {"consum_mensual_real", Int64.Type},
+		                {"consum_mensual_estimat", Int64.Type},
+		                {"lectures_rebudes", Int64.Type},
+		                {"dies_llegits", Int64.Type},
+		                {"dies_absents", Int64.Type},
+		                {"dies_amb_registre", Int64.Type},
+		                {"dies_amb_consum_0", Int64.Type},
+		                {"dies_amb_consum_0_any", Int64.Type},
+		                {"num_series_contador_2024_mes", Int64.Type}
+		            }
+		        ),
+		
+		    #"Duplicados quitados" =
+		        Table.Distinct(#"Transformaciones"),
+		
+		    #"Vacíos a null" =
+		        Table.ReplaceValue(
+		            #"Duplicados quitados",
+		            "",
+		            null,
+		            Replacer.ReplaceValue,
+		            Table.ColumnNames(#"Duplicados quitados")
+		        )
+		in
+		    #"Vacíos a null"
+		```
+	lineageTag: 653c11d7-e2bc-46c1-b96a-d794b940b9e8
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dades_consum_2025 = ```
+		// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO 
+		
+		//            dades consum 2026  desde LOCAL,la conexion se debe cambiar por un origen de drive.
+		
+		
+		let
+		  Origen = Csv.Document(File.Contents("C:\Users\lvelasco\Downloads\Aguas BCN\Datos\Datos origen\XLS\dades consum  2025.csv"), [Delimiter = ";", Columns = 15, QuoteStyle = QuoteStyle.None]),
+		    #"Encabezados promovidos" =
+		        Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+		
+		    #"Columnas seleccionadas" =
+		        Table.SelectColumns(
+		            #"Encabezados promovidos",
+		            {
+		                "POLISSA_SUBM", "MES", "QMIN_HORA", "QMAX_HORA",
+		                "CONSUM_MENSUAL_REAL", "CONSUM_MENSUAL_ESTIMAT",
+		                "LECTURES_REBUDES", "DIES_LLEGITS", "DIES_ABSENTS",
+		                "DIES_AMB_REGISTRE", "DIES_AMB_CONSUM_0",
+		                "NUM_SERIES_CONTADOR_2025_MES", "dies_amb_consum_0_any"
+		            }
+		        ),
+		
+		    #"Fecha convertida" =
+		        Table.TransformColumns(
+		            #"Columnas seleccionadas",
+		            {{"MES", each Date.FromText(Text.Start(Text.Trim(_), 10), [Format="yyyy-MM-dd"]), type date}}
+		        ),
+		
+		    #"Tipos cambiados" =
+		        Table.TransformColumnTypes(
+		            #"Fecha convertida",
+		            {
+		                {"QMIN_HORA", Int64.Type},
+		                {"QMAX_HORA", Int64.Type},
+		                {"CONSUM_MENSUAL_REAL", Int64.Type},
+		                {"CONSUM_MENSUAL_ESTIMAT", Int64.Type},
+		                {"LECTURES_REBUDES", Int64.Type},
+		                {"DIES_LLEGITS", Int64.Type},
+		                {"DIES_ABSENTS", Int64.Type},
+		                {"DIES_AMB_REGISTRE", Int64.Type},
+		                {"DIES_AMB_CONSUM_0", Int64.Type},
+		                {"NUM_SERIES_CONTADOR_2025_MES", Int64.Type},
+		                {"dies_amb_consum_0_any", Int64.Type}
+		            }
+		        ),
+		
+		    #"Columnas en minúsculas" =
+		        Table.TransformColumnNames(#"Tipos cambiados", Text.Lower),
+		
+		    #"Duplicados quitados" =
+		        Table.Distinct(#"Columnas en minúsculas"),
+		
+		    #"Vacíos a null" =
+		        Table.ReplaceValue(
+		            #"Duplicados quitados",
+		            "",
+		            null,
+		            Replacer.ReplaceValue,
+		            Table.ColumnNames(#"Duplicados quitados")
+		        )
+		in
+		    #"Vacíos a null"
+		```
+	lineageTag: 235fc3b9-5d95-4de5-9b69-5cd8c20f8271
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dades_consum_2026 = ```
+		// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO 
+		
+		//            dades consum 2026 desde LOCAL,la conexion se debe cambiar por un origen de drive.
+		
+		
+		
+		let
+		  Origen = Csv.Document(File.Contents("C:\Users\lvelasco\Downloads\Aguas BCN\Datos\Datos origen\XLS\dades consum 2026.csv"), [Delimiter = ";", Columns = 15, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+		 #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+		
+		    #"Transformaciones" =
+		        Table.TransformColumnTypes(
+		            Table.TransformColumnNames(
+		                Table.SelectColumns(
+		                    #"Encabezados promovidos",
+		                    {"POLISSA_SUBM","MES","QMIN_HORA","QMAX_HORA","CONSUM_MENSUAL_REAL","CONSUM_MENSUAL_ESTIMAT","LECTURES_REBUDES","DIES_LLEGITS","DIES_ABSENTS","DIES_AMB_REGISTRE","DIES_AMB_CONSUM_0","dies_amb_consum_0_any","NUM_SERIES_CONTADOR_2026_MES"}
+		                ),
+		                Text.Lower
+		            ),
+		            {
+		                {"mes", type date},
+		                {"qmin_hora", Int64.Type},
+		                {"qmax_hora", Int64.Type},
+		                {"consum_mensual_real", Int64.Type},
+		                {"consum_mensual_estimat", Int64.Type},
+		                {"lectures_rebudes", Int64.Type},
+		                {"dies_llegits", Int64.Type},
+		                {"dies_absents", Int64.Type},
+		                {"dies_amb_registre", Int64.Type},
+		                {"dies_amb_consum_0", Int64.Type},
+		                {"dies_amb_consum_0_any", Int64.Type},
+		                {"num_series_contador_2026_mes", Int64.Type}
+		            }
+		        ),
+		
+		    #"Duplicados quitados" =
+		        Table.Distinct(#"Transformaciones"),
+		
+		    #"Vacíos a null" =
+		        Table.ReplaceValue(
+		            #"Duplicados quitados",
+		            "",
+		            null,
+		            Replacer.ReplaceValue,
+		            Table.ColumnNames(#"Duplicados quitados")
+		        )
+		in
+		    #"Vacíos a null"
+		```
+	lineageTag: 37ec58a9-4c1c-4e51-ad5a-b16c765b4dd8
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression fact_dades_consum =
+		let
+		    Union =
+		        Table.Combine({
+		           dades_consum_2026,
+		            dades_consum_2025,
+		            dades_consum_2024
+		        }),
+		    #"Duplicados quitados" = Table.Distinct(Union)
+		in
+		    #"Duplicados quitados"
+	lineageTag: 481e6b8d-9295-456a-9346-b1b57b3b29f1
 
 	annotation PBI_NavigationStepName = Navegación
 
