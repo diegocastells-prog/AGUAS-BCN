@@ -1120,7 +1120,7 @@
         "    Result"
       ],
       "loadAsTableDisabled": true,
-      "resultType": "Table",
+      "resultType": "Exception",
       "isHidden": false
     },
     {
@@ -1214,7 +1214,7 @@
         "    Result"
       ],
       "loadAsTableDisabled": true,
-      "resultType": "Table",
+      "resultType": "Exception",
       "isHidden": false
     },
     {
@@ -1310,7 +1310,7 @@
         "    Result"
       ],
       "loadAsTableDisabled": true,
-      "resultType": "Table",
+      "resultType": "Exception",
       "isHidden": false
     },
     {
@@ -1405,7 +1405,7 @@
         "    Result"
       ],
       "loadAsTableDisabled": true,
-      "resultType": "Table",
+      "resultType": "Exception",
       "isHidden": false
     },
     {
@@ -1501,7 +1501,7 @@
         "    #\"Filas filtradas\""
       ],
       "loadAsTableDisabled": true,
-      "resultType": "Table",
+      "resultType": "Exception",
       "isHidden": false
     },
     {
@@ -1595,7 +1595,7 @@
         "    Result"
       ],
       "loadAsTableDisabled": true,
-      "resultType": "Table",
+      "resultType": "Exception",
       "isHidden": false
     },
     {
@@ -2161,8 +2161,9 @@
         "in",
         "    #\"Vacíos a null\""
       ],
+      "isDirectQuery": false,
       "loadAsTableDisabled": false,
-      "resultType": "Table"
+      "resultType": "Exception"
     },
     {
       "name": "dades_consum_2025",
@@ -2231,8 +2232,9 @@
         "in",
         "    #\"Vacíos a null\""
       ],
+      "isDirectQuery": false,
       "loadAsTableDisabled": false,
-      "resultType": "Table"
+      "resultType": "Exception"
     },
     {
       "name": "dades_consum_2026",
@@ -2287,11 +2289,13 @@
         "in",
         "    #\"Vacíos a null\""
       ],
+      "isDirectQuery": false,
       "loadAsTableDisabled": false,
-      "resultType": "Table"
+      "resultType": "Exception"
     },
     {
       "name": "fact_dades_consum",
+      "lineageTag": "56af65f5-8936-4c93-aaa9-ffa0727b9c34",
       "navigationStepName": "Navegación",
       "text": [
         "let",
@@ -2305,11 +2309,22 @@
         "in",
         "    #\"Duplicados quitados\""
       ],
+      "isDirectQuery": false,
       "loadAsTableDisabled": false,
+      "resultType": "Table"
+    },
+    {
+      "name": "Dummy Periodo",
+      "text": [
+        "let",
+        "    Origen = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(\"i45W8k3NKy5NzFGK1YlWMjRSyE0tTi1Wio0FAA==\", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Periodo = _t])",
+        "in",
+        "    Origen"
+      ],
+      "isDirectQuery": false,
       "resultType": "Table"
     }
   ],
   "queryGroups": [],
-  "culture": "es-ES",
-  "firewallEnabled": true
+  "culture": "es-ES"
 }
