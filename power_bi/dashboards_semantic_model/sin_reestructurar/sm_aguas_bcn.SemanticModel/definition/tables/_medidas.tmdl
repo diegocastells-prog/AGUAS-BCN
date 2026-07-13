@@ -305,6 +305,269 @@ table _medidas
 		displayFolder: Etiquetas
 		lineageTag: 8d110b84-f5cb-4baa-8bb0-fc6234e69f23
 
+	measure volum_consumit_estrategics_mensual = ```
+			
+			CALCULATE(
+			    SUM(fact_dades_consum[CONSUM_MENSUAL_REAL]),
+			    fact_Perimetre_comptadors[IND_COMPT_ESTRATEGIC] = "S"
+			)
+			
+			```
+		displayFolder: compatodrs
+		lineageTag: 16d076e1-94de-4d7d-800e-b8c999bd78a1
+
+	measure volum_consumit_estrategics_12m = ```
+			
+			CALCULATE(
+			    SUM(fact_dades_consum[CONSUM_MENSUAL_REAL]),
+			    fact_Perimetre_comptadors[IND_COMPT_ESTRATEGIC] = "S",
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		formatString: 0
+		displayFolder: compatodrs
+		lineageTag: 3f91133b-d089-4cde-bb13-50fe7d087c4e
+
+	measure 'Volum Mesurat' = ```
+			SUM(fact_dades_consum[CONSUM_MENSUAL_REAL])
+			
+			```
+		formatString: 0
+		displayFolder: compatodrs
+		lineageTag: aa599b71-479a-4fcc-8b57-0e5baad402f9
+
+	measure 'Volum Mesurat 12M' = ```
+			
+			CALCULATE(
+			    SUM(fact_dades_consum[CONSUM_MENSUAL_REAL]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		formatString: 0
+		displayFolder: compatodrs
+		lineageTag: f046b454-09e7-4f76-832a-b5415b80a533
+
+	measure pct_lectures_visuals = ```
+			
+			DIVIDE(
+			    SUM(fact_dades_consum[DIES_LLEGITS]),
+			    SUM(fact_dades_consum[LECTURES_REBUDES])
+			)
+			
+			```
+		displayFolder: compatodrs
+		lineageTag: c1ad079c-b095-4cd3-afcf-3631f1e316be
+
+	measure pct_lectures_estimades = ```
+			
+			DIVIDE(
+			    SUM(fact_dades_consum[DIES_ABSENTS]),
+			    SUM(fact_dades_consum[LECTURES_REBUDES])
+			)
+			
+			```
+		displayFolder: compatodrs
+		lineageTag: 4416c39f-e6e4-4056-b3f2-0ebc153e14f7
+
+	measure comptadors_sobre_q4 = ```
+			
+			CALCULATE(
+			    COUNTROWS(fact_Perimetre_comptadors),
+			    fact_Perimetre_comptadors[CABAL_Q3] * 1.6 < fact_dades_consum[QMAX_HORA]
+			)
+			
+			```
+		displayFolder: compatodrs
+		lineageTag: c45c1402-9200-400c-bbb8-c3381039292c
+
+	measure llistat_comptadors_sobre_q4 = ```
+			
+			FILTER(
+			    fact_Perimetre_comptadors,
+			    fact_Perimetre_comptadors[cabal_q3] * 1.6 < RELATED(fact_dades_consum[qmax_hora])
+			)
+			
+			```
+		displayFolder: compatodrs
+		lineageTag: f5ac87dc-b445-412e-974d-be729742745b
+
+	measure comptadors_per_sota_de_q1 =
+			
+			CALCULATE(
+			    COUNTROWS(fact_Perimetre_comptadors),
+			    RELATED(fact_dades_consum[qmin_hora]) <
+			        fact_Perimetre_comptadors[CABAL_Q3] * 0.025
+			)
+		displayFolder: compatodrs
+		lineageTag: 4cefac39-ceb2-44f0-9989-cd4c007a7e2e
+
+	measure 'Subm Lectures Estimades +3' = ```
+			FILTER(    fact_dades_consum,    fact_dades_consum[dies_absents] > 3)
+			
+			```
+		displayFolder: compatodrs
+		lineageTag: 95f303a0-02df-43f3-9b34-8f2d7c7df61f
+
+	measure 'Subm Lectures 0 +3' = ```
+			FILTER(    fact_dades_consum,    fact_dades_consum[dies_amb_consum_0] > 3)
+			
+			```
+		displayFolder: compatodrs
+		lineageTag: 3c9dccdc-6d7b-4365-a577-3943a8219220
+
+	measure tipus_subministrament = COUNT(fact_perimetre_comptadors[tip_subm_serv])
+		formatString: 0
+		displayFolder: compatodrs
+		lineageTag: f92cc95e-c377-46c0-9258-62f7fe374581
+
+	measure us_aigua = COUNT(fact_perimetre_comptadors[us_aigua_gest])
+		formatString: 0
+		displayFolder: compatodrs
+		lineageTag: 03a95399-c62a-4e9b-9d1e-50545ea39119
+
+	measure vategoria_fuita = ```
+			
+			//VAR RTH = AVERAGE(fact_dades_consum[RTH])
+			VAR RTH = AVERAGE(fact_anr_global_mensual[rth_global])
+			VAR DeltaQmin = SUM(fact_dades_consum[QMIN_HORA]) - SUM(fact_dades_consum[CONSUM_MENSUAL_REAL])
+			VAR ZeroSensors = SUM(fact_dades_consum[DIES_AMB_CONSUM_0])
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    RTH < 0.9 && DeltaQmin > 0.02, "Fuita Probable",
+			    ZeroSensors > 0, "Possible Fuita",
+			    "Sense Fuita"
+			)
+			
+			```
+		formatString: 0
+		displayFolder: compatodrs
+		lineageTag: 283ca3e6-b074-407f-8c67-137ee83bb95f
+
+	measure pct_lectures_visuals_vs_totals =
+			
+			DIVIDE(
+			    SUM(fact_dades_consum[CONSUM_MENSUAL_REAL]),
+			    SUM(fact_dades_consum[LECTURES_REBUDES]),
+			    0
+			)
+		displayFolder: compatodrs
+		lineageTag: c8ffb8a1-b828-4c92-b90c-8e76084a953e
+
+	measure pct_lectures_estimades_vs_totals =
+			
+			DIVIDE(
+			    SUM(fact_dades_consum[CONSUM_MENSUAL_ESTIMAT]),
+			    SUM(fact_dades_consum[LECTURES_REBUDES]),
+			    0
+			)
+		displayFolder: compatodrs
+		lineageTag: ea81a32a-6f82-45cc-8ff2-b9f1ff5b7d09
+
+	measure categoria_fraus = ```
+			
+			VAR RTH =
+			    CALCULATE(
+			        AVERAGE(fact_anr_global_mensual[rth_global])
+			    )
+			
+			VAR EsFuita =
+			    [vategoria_fuita] = "Fuita Probable"
+			        || [vategoria_fuita] = "Possible Fuita"
+			
+			VAR EsSubcomptatge =
+			    [categoria_subcomptatge] = "Subcomptatge"
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    RTH < 0.9 && NOT EsFuita && NOT EsSubcomptatge, "Fraus",
+			    "Sense Fraus"
+			) 
+			```
+		formatString: 0
+		displayFolder: compatodrs
+		lineageTag: 05ea26b3-cfae-4913-a4b2-9d1307816a96
+
+	measure categoria_subcomptatge = ```
+			
+			VAR RTH =
+			    CALCULATE(
+			        AVERAGE(fact_anr_global_mensual[rth_global])
+			    )
+			
+			VAR ComptadorsProblematics =
+			        SUM(fact_comptadors[Q4_UP])
+			      + SUM(fact_comptadors[Q1_DOWN])
+			      + SUM(fact_comptadors[COMP_AVARIATS])
+			      + SUM(fact_comptadors[COMP_ESTIMATS_3P])
+			
+			VAR ComptadorsTotals =
+			    SUM(fact_comptadors[COMP_TOTALS])
+			
+			VAR RatioProblematics =
+			    DIVIDE(ComptadorsProblematics, ComptadorsTotals)
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    RTH < 0.9 && RatioProblematics > 0.8, "Subcomptatge",
+			    "Sense Subcomptatge"
+			)
+			
+			```
+		displayFolder: compatodrs
+		lineageTag: ce986990-2984-4ac0-a0a4-9ed8615ef2f8
+
+	measure sensors_permanents_distribucio = ```
+			
+			VAR LongInspeccionada =
+			    SUM(fact_ortomat[LONG_INSPECCIONADA])
+			
+			VAR SensorsFixes =
+			    SUM(fact_ortomat[SENSORS_FIXES])
+			
+			VAR LongTotal =
+			    SUM(dim_qgis[LONG_TOTAL])
+			
+			VAR RatioSensors =
+			    DIVIDE(SensorsFixes, LongTotal)
+			
+			RETURN
+			RatioSensors
+			
+			```
+		displayFolder: compatodrs
+		lineageTag: 5b7e4d33-f361-4a67-b4b4-b5f3ca388666
+
+	measure categoria_sensors_permanents = ```
+			
+			VAR Ratio =
+			    [sensors_permanents_distribucio]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    Ratio > 0.7, "Cobertura Alta",
+			    Ratio > 0.4, "Cobertura Mitjana",
+			    "Cobertura Baixa"
+			)
+			 
+			```
+		displayFolder: compatodrs
+		lineageTag: bb02ab51-1bce-4d5a-838d-4ee549631b4e
+
 	column Column
 		isHidden
 		formatString: 0
