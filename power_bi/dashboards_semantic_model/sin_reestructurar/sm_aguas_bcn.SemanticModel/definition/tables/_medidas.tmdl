@@ -115,10 +115,6 @@ table _medidas
 		displayFolder: Fraudes
 		lineageTag: 4b6451a9-c850-4328-8f9c-0873326fd7b2
 
-	measure 'RENDIMENT GLOBAL MENSUALRENDIMENT GLOBAL A 12 MESOSVOLUM LLIURAT GLOBAL MENSUALVOLUM CONSUMIT GLOBAL MENSUALVOLUM CONSUMIT GLOBAL A 12 MESOSANR GLOBAL MENSUALANR A GLOBAL 12 MESOSVOLUM LLIURAT GLOBAL ACUMULAT' = 1
-		formatString: 0
-		lineageTag: 1c21ae15-a3de-4ff8-b520-8763edb88086
-
 	measure delta_anr_12m = ```
 			
 			VAR MesActual = SUM(fact_anr_global_mensual[anr_global_hm3])
@@ -334,7 +330,7 @@ table _medidas
 		displayFolder: compatodrs
 		lineageTag: 3f91133b-d089-4cde-bb13-50fe7d087c4e
 
-	measure 'Volum Mesurat' = ```
+	measure volum_mesurat = ```
 			SUM(fact_dades_consum[CONSUM_MENSUAL_REAL])
 			
 			```
@@ -342,7 +338,7 @@ table _medidas
 		displayFolder: compatodrs
 		lineageTag: aa599b71-479a-4fcc-8b57-0e5baad402f9
 
-	measure 'Volum Mesurat 12M' = ```
+	measure volum_mesurat_12m = ```
 			
 			CALCULATE(
 			    SUM(fact_dades_consum[CONSUM_MENSUAL_REAL]),
@@ -389,19 +385,8 @@ table _medidas
 			)
 			
 			```
-		displayFolder: compatodrs
+		displayFolder: compatodrs\no_column
 		lineageTag: c45c1402-9200-400c-bbb8-c3381039292c
-
-	measure llistat_comptadors_sobre_q4 = ```
-			
-			FILTER(
-			    fact_Perimetre_comptadors,
-			    fact_Perimetre_comptadors[cabal_q3] * 1.6 < RELATED(fact_dades_consum[qmax_hora])
-			)
-			
-			```
-		displayFolder: compatodrs
-		lineageTag: f5ac87dc-b445-412e-974d-be729742745b
 
 	measure comptadors_per_sota_de_q1 =
 			
@@ -410,22 +395,8 @@ table _medidas
 			    RELATED(fact_dades_consum[qmin_hora]) <
 			        fact_Perimetre_comptadors[CABAL_Q3] * 0.025
 			)
-		displayFolder: compatodrs
+		displayFolder: compatodrs\no_column
 		lineageTag: 4cefac39-ceb2-44f0-9989-cd4c007a7e2e
-
-	measure 'Subm Lectures Estimades +3' = ```
-			FILTER(    fact_dades_consum,    fact_dades_consum[dies_absents] > 3)
-			
-			```
-		displayFolder: compatodrs
-		lineageTag: 95f303a0-02df-43f3-9b34-8f2d7c7df61f
-
-	measure 'Subm Lectures 0 +3' = ```
-			FILTER(    fact_dades_consum,    fact_dades_consum[dies_amb_consum_0] > 3)
-			
-			```
-		displayFolder: compatodrs
-		lineageTag: 3c9dccdc-6d7b-4365-a577-3943a8219220
 
 	measure tipus_subministrament = COUNT(fact_perimetre_comptadors[tip_subm_serv])
 		formatString: 0
@@ -498,7 +469,7 @@ table _medidas
 			) 
 			```
 		formatString: 0
-		displayFolder: compatodrs
+		displayFolder: compatodrs\no_column
 		lineageTag: 05ea26b3-cfae-4913-a4b2-9d1307816a96
 
 	measure categoria_subcomptatge = ```
@@ -528,7 +499,7 @@ table _medidas
 			)
 			
 			```
-		displayFolder: compatodrs
+		displayFolder: compatodrs\no_column
 		lineageTag: ce986990-2984-4ac0-a0a4-9ed8615ef2f8
 
 	measure sensors_permanents_distribucio = ```
@@ -549,7 +520,7 @@ table _medidas
 			RatioSensors
 			
 			```
-		displayFolder: compatodrs
+		displayFolder: compatodrs\no_column
 		lineageTag: 5b7e4d33-f361-4a67-b4b4-b5f3ca388666
 
 	measure categoria_sensors_permanents = ```
@@ -565,7 +536,7 @@ table _medidas
 			)
 			 
 			```
-		displayFolder: compatodrs
+		displayFolder: compatodrs\no_column
 		lineageTag: bb02ab51-1bce-4d5a-838d-4ee549631b4e
 
 	column Column

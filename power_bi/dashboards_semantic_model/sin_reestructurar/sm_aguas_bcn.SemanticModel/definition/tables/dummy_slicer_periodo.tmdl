@@ -1,0 +1,35 @@
+table dummy_slicer_periodo
+	lineageTag: c196d314-207a-41f3-88b4-176f50a7fa15
+
+	column Periodo
+		lineageTag: be2a2554-07ec-4664-8db8-e963f83d3bb8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Periodo]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Orden
+		formatString: 0
+		lineageTag: 46556160-75f5-4ce9-9190-22b9c4ef09be
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Orden]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dummy_slicer_periodo = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Periodo", STRING,
+				    "Orden", INTEGER,
+				    {
+				        { "Mensual", 1 },
+				        { "12 meses", 2 }
+				    }
+				)
+
+	annotation PBI_Id = b61b0f289b3d41a984fd4cc976db7fb8
+
