@@ -1,0 +1,297 @@
+table Bossa_de_Limitadors_LLOBS
+	lineageTag: 0458dc0c-8090-4256-97dc-9c447ddccc6d
+
+	column dop
+		dataType: string
+		lineageTag: 411cd228-5e35-48ad-ae09-df79d4c07754
+		summarizeBy: none
+		sourceColumn: dop
+
+		annotation SummarizationSetBy = Automatic
+
+	column sector
+		dataType: string
+		lineageTag: 42975a9f-de3a-410c-bee9-043bf3bcc27e
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column rendiment_sector_(maig_2026)
+		dataType: double
+		lineageTag: de96512d-35c1-4202-a91a-eb84ad1eeef1
+		summarizeBy: sum
+		sourceColumn: rendiment_sector_(maig_2026)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column polissa_subm
+		dataType: string
+		lineageTag: 5cba1d60-c1c3-4ca5-8036-6183349b09e0
+		summarizeBy: none
+		sourceColumn: polissa_subm
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipus_subm
+		dataType: string
+		lineageTag: e27301f6-045e-48fa-b0fa-6651baad5589
+		summarizeBy: none
+		sourceColumn: tipus_subm
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_instalacion
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5138f1ac-a2d6-4be3-97af-9ef9502c975f
+		summarizeBy: none
+		sourceColumn: data_instalacion
+
+		variation Variación
+			isDefault
+			relationship: 856fa4e5-bc92-41c3-a04c-62256572ba8a
+			defaultHierarchy: LocalDateTable_9211440d-0f2b-4ccc-a161-4095c379de63.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column edat_comp
+		dataType: int64
+		formatString: 0
+		lineageTag: cc7b6975-ecd8-42bd-950b-6879194ed09b
+		summarizeBy: sum
+		sourceColumn: edat_comp
+
+		annotation SummarizationSetBy = Automatic
+
+	column diam_comp
+		dataType: int64
+		formatString: 0
+		lineageTag: c993336e-09b5-40b4-a4ea-382fe016d2ad
+		summarizeBy: sum
+		sourceColumn: diam_comp
+
+		annotation SummarizationSetBy = Automatic
+
+	column dn_limitador
+		dataType: string
+		lineageTag: 33121272-bb82-40de-ae94-1660f5d8bd1d
+		summarizeBy: none
+		sourceColumn: dn_limitador
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_alta_subm
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4a734cda-5959-4950-b64f-609d77e37414
+		summarizeBy: none
+		sourceColumn: data_alta_subm
+
+		variation Variación
+			isDefault
+			relationship: 0556e13f-ba8a-4e3e-8440-71f53b39d635
+			defaultHierarchy: LocalDateTable_939490f8-5eee-46b7-a594-41914f868eb3.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column consum_mig_dia
+		dataType: double
+		lineageTag: 7937409c-8262-4009-9c30-eee07fda25da
+		summarizeBy: sum
+		sourceColumn: consum_mig_dia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column consum_anual_estimat
+		dataType: double
+		lineageTag: 06df718e-d603-4506-a84f-5f1848a987ca
+		summarizeBy: sum
+		sourceColumn: consum_anual_estimat
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column estrategic
+		dataType: string
+		lineageTag: 58f9966e-8b18-4d96-afba-aa5916660c77
+		summarizeBy: none
+		sourceColumn: estrategic
+
+		annotation SummarizationSetBy = Automatic
+
+	column prioritat
+		dataType: string
+		lineageTag: 713f048b-d275-4f9f-95fe-0825f3eec752
+		summarizeBy: none
+		sourceColumn: prioritat
+
+		annotation SummarizationSetBy = Automatic
+
+	column necessitat
+		dataType: string
+		lineageTag: 7a8980e9-a034-4fbc-874b-4a2ac0bfac5c
+		summarizeBy: none
+		sourceColumn: necessitat
+
+		annotation SummarizationSetBy = Automatic
+
+	column v12_en_m3
+		dataType: double
+		lineageTag: 7071095a-8717-49e4-a1ee-f6c9a7f7cb27
+		summarizeBy: sum
+		sourceColumn: v12_en_m3
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column periodos_consecutivos_con_ea
+		dataType: int64
+		formatString: 0
+		lineageTag: c209907c-7776-4e2c-88d0-70f1e664f4ea
+		summarizeBy: sum
+		sourceColumn: periodos_consecutivos_con_ea
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Bossa_de_Limitadors_LLOBS = m
+		mode: import
+		source = ```
+				//
+				
+				// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO DE GOOGLE DRIVE 
+				
+				//            Bossa de Limitadors_Canvis per DOP 
+				
+				// PESTAÑA:
+				
+				//              LLOBS
+				
+				let
+				  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1G9GggBeQbtbK0kD-I7o1ypbgcIGSwQGkRXSvvtn8MaE/edit?gid=1653593212#gid=1653593212"),
+				  LLOBs_Table= Origen{[name = "LLOBS", ItemKind = "Table"]}[Data],
+				  Encabezados =
+				        Table.PromoteHeaders(LLOBs_Table, [PromoteAllScalars=true]),
+				
+				    Columnas =
+				        Table.TransformColumnNames(
+				            Encabezados,
+				            each Text.Replace(Text.Lower(_), " ", "_")
+				        ),
+				
+				    Renombradas =
+				        Table.RenameColumns(
+				            Columnas,
+				            {
+				                {"data_instal·lació", "data_instalacion"},
+				                {"estratègic", "estrategic"}
+				            }
+				        ),
+				
+				    Texto =
+				        Table.TransformColumns(
+				            Renombradas,
+				            {
+				                {"sector", Text.Proper, type text},
+				                {"prioritat", Text.Proper, type text}
+				            }
+				        ),
+				
+				    Seleccionadas =
+				        Table.SelectColumns(
+				            Texto,
+				            {
+				                "dop",
+				                "sector",
+				                "rendiment_sector_(maig_2026)",
+				                "polissa_subm",
+				                "tipus_subm",
+				                "data_instalacion",
+				                "edat_comp",
+				                "diam_comp",
+				                "dn_limitador",
+				                "data_alta_subm",
+				                "consum_mig_dia",
+				                "consum_anual_estimat",
+				                "estrategic",
+				                "prioritat",
+				                "necessitat",
+				                "v12_en_m3",
+				                "periodos_consecutivos_con_ea"
+				            }
+				        ),
+				
+				    SinErrores =
+				        Table.ReplaceErrorValues(
+				            Seleccionadas,
+				            List.Transform(Table.ColumnNames(Seleccionadas), each {_, null})
+				        ),
+				
+				    Tipos =
+				        Table.TransformColumnTypes(
+				            SinErrores,
+				            {
+				                {"rendiment_sector_(maig_2026)", type number},
+				                {"polissa_subm", type text},
+				                {"data_instalacion", type date},
+				                {"edat_comp", Int64.Type},
+				                {"diam_comp", Int64.Type},
+				                {"data_alta_subm", type date},
+				                {"consum_mig_dia", type number},
+				                {"consum_anual_estimat", type number},
+				                {"estrategic", type text},
+				                {"necessitat", type text},
+				                {"v12_en_m3", type number},
+				                {"periodos_consecutivos_con_ea", Int64.Type}
+				            }
+				        ),
+				
+				    Limpieza =
+				        Table.TransformColumns(
+				            Tipos,
+				            {
+				                {
+				                    "sector",
+				                    each if _ = "" then null else _,
+				                    type nullable text
+				                },
+				                {
+				                    "rendiment_sector_(maig_2026)",
+				                    each if _ = "" then null else _,
+				                    type nullable number
+				                },
+				                {
+				                    "dn_limitador",
+				                    each if _ = "" or _ = "-" then null else _,
+				                    type nullable text
+				                }
+				            }
+				        ),
+				
+				    SinDuplicados =
+				        Table.Distinct(Limpieza),
+				
+				    Resultado =
+				        Table.SelectRows(
+				            SinDuplicados,
+				            each List.NonNullCount(Record.FieldValues(_)) > 0
+				        )
+				
+				in
+				    Resultado
+				```
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

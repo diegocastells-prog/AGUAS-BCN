@@ -1,0 +1,120 @@
+table fact_volum_consumit
+	lineageTag: db69fb32-d17b-4449-bae1-e56bb433242d
+
+	column sector_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 510938d3-d95c-449a-8511-df903e3c18dc
+		summarizeBy: none
+		sourceColumn: sector_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column gerencia
+		dataType: string
+		lineageTag: 919f480d-40b5-4548-adf5-fb08f3aab773
+		summarizeBy: none
+		sourceColumn: gerencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column pis_pressio
+		dataType: string
+		lineageTag: cb63881f-dbec-4f51-abc0-89bec15790bb
+		summarizeBy: none
+		sourceColumn: pis_pressio
+
+		annotation SummarizationSetBy = Automatic
+
+	column fecha
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b0631d7f-72ba-4644-8c13-a58227a7c36e
+		summarizeBy: none
+		sourceColumn: fecha
+
+		variation Variación
+			isDefault
+			relationship: d49eeabf-c8e7-46bc-9a08-2eea62413a9e
+			defaultHierarchy: LocalDateTable_c4a5906e-81fd-4f2f-9baf-94ad9ec23bd3.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column volum_consumit
+		dataType: int64
+		formatString: 0
+		lineageTag: 7fbd1e80-bdf2-4a72-98ef-168d67282ecf
+		summarizeBy: sum
+		sourceColumn: volum_consumit
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_volum_consumit = m
+		mode: import
+		source =
+				let
+				  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=512415232#gid=512415232"),
+				  TablaOrigen = Origen{[name = "Volums Consumits", ItemKind = "Table"]}[Data],
+				
+				    // Preparación de datos
+				    SaltarFilas = Table.Skip(TablaOrigen, 2),
+				    PromoverEncabezados = Table.PromoteHeaders(SaltarFilas, [PromoteAllScalars = true]),
+				
+				    // Eliminar columnas innecesarias
+				    EliminarColumnas = Table.RemoveColumns(
+				        PromoverEncabezados,
+				        {
+				            "_1", "", "01/06/2026", "01/07/2026", "01/08/2026",
+				            "01/09/2026", "01/10/2026", "01/11/2026", "01/12/2026"
+				        }
+				    ),
+				
+				    // Pasar las fechas a filas
+				    DespivotarFechas = Table.UnpivotOtherColumns(
+				        EliminarColumnas,
+				        {"Nº", "Gerència", "Pis Pressió", "Sectors"},
+				        "fecha",
+				        "volum_consumit"
+				    ),
+				
+				    // Renombrar columnas
+				    RenombrarColumnas = Table.RenameColumns(
+				        DespivotarFechas,
+				        {
+				            {"Nº", "sector_id"},
+				            {"Gerència", "gerencia"},
+				            {"Pis Pressió", "pis_pressio"}
+				        }
+				    ),
+				
+				    // Eliminar columnas no necesarias
+				    EliminarSectors = Table.RemoveColumns(RenombrarColumnas, {"Sectors"}),
+				
+				    // Asignar tipos de datos
+				    CambiarTipos = Table.TransformColumnTypes(
+				        EliminarSectors,
+				        {
+				            {"sector_id", Int64.Type},
+				            {"gerencia", type text},
+				            {"pis_pressio", type text},
+				            {"fecha", type date},
+				            {"volum_consumit", Int64.Type}
+				        }
+				    ),
+				
+				    // Limpiar datos
+				    SinDuplicados = Table.Distinct(CambiarTipos),
+				    SinFilasVacias = Table.SelectRows(
+				        SinDuplicados,
+				        each List.NonNullCount(Record.FieldValues(_)) > 0
+				    ),
+				    #"Valor reemplazado" = Table.ReplaceValue(SinFilasVacias,"",null,Replacer.ReplaceValue,{"pis_pressio"})
+				in
+				    #"Valor reemplazado"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

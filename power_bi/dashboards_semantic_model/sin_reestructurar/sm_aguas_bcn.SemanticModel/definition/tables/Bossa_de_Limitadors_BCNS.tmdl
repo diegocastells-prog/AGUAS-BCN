@@ -1,0 +1,309 @@
+table Bossa_de_Limitadors_BCNS
+	lineageTag: cf719613-8eda-4c73-84c8-6f1713a289fc
+
+	column dop
+		dataType: string
+		lineageTag: df0edfc6-0a38-4cc5-9d6f-9dc4be694bfa
+		summarizeBy: none
+		sourceColumn: dop
+
+		annotation SummarizationSetBy = Automatic
+
+	column sector
+		dataType: string
+		lineageTag: ecbd283d-ae5d-49b4-881e-b558541f2d35
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column rendiment_sector_(maig_2026)
+		dataType: double
+		lineageTag: 8db1fbeb-77b6-402d-913f-544a3e896588
+		summarizeBy: sum
+		sourceColumn: rendiment_sector_(maig_2026)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column polissa_subm
+		dataType: string
+		lineageTag: 0f9f78b3-931a-47ee-a47e-f46f157ec338
+		summarizeBy: none
+		sourceColumn: polissa_subm
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipus_subm
+		dataType: string
+		lineageTag: 2e9d9d7e-53a8-43db-8740-e692e00915d3
+		summarizeBy: none
+		sourceColumn: tipus_subm
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_instalacion
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 704802f1-67c5-4d8e-8e80-206778093d79
+		summarizeBy: none
+		sourceColumn: data_instalacion
+
+		variation Variación
+			isDefault
+			relationship: de83fb4c-2326-484b-b170-e0e241f34d8b
+			defaultHierarchy: LocalDateTable_39c4f680-2020-403e-8968-2c3b0fed6bc1.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column edat_comp
+		dataType: int64
+		formatString: 0
+		lineageTag: beecdc84-f33c-49f9-b582-5ae10a4a95cf
+		summarizeBy: sum
+		sourceColumn: edat_comp
+
+		annotation SummarizationSetBy = Automatic
+
+	column diam_comp
+		dataType: int64
+		formatString: 0
+		lineageTag: d4105aec-143e-429b-a381-a278f415dcac
+		summarizeBy: sum
+		sourceColumn: diam_comp
+
+		annotation SummarizationSetBy = Automatic
+
+	column dn_limitador
+		dataType: int64
+		formatString: 0
+		lineageTag: 0298f826-ee37-42f7-a0f7-b639333adde1
+		summarizeBy: sum
+		sourceColumn: dn_limitador
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_alta_subm
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1bae3891-4d28-43e3-a119-42f6aec69920
+		summarizeBy: none
+		sourceColumn: data_alta_subm
+
+		variation Variación
+			isDefault
+			relationship: b7bcce72-e8ae-4f7f-9308-cc7eb429e901
+			defaultHierarchy: LocalDateTable_c46f10fa-fa82-438a-9499-f4e6a3a4b83c.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column consum_mig_dia
+		dataType: double
+		lineageTag: 9c576c21-cc3a-4d4f-a9fe-b2d77f1649b7
+		summarizeBy: sum
+		sourceColumn: consum_mig_dia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column consum_anual_estimat
+		dataType: double
+		lineageTag: 6ba3a4de-c8b8-4284-b077-856bab6bff6e
+		summarizeBy: sum
+		sourceColumn: consum_anual_estimat
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column estrategic
+		dataType: string
+		lineageTag: 56ede59d-355f-440a-8d69-9afdbba670b4
+		summarizeBy: none
+		sourceColumn: estrategic
+
+		annotation SummarizationSetBy = Automatic
+
+	column prioritat
+		dataType: string
+		lineageTag: c3c9abf9-7570-48ba-888d-c5c794aa1335
+		summarizeBy: none
+		sourceColumn: prioritat
+
+		annotation SummarizationSetBy = Automatic
+
+	column necessitat
+		dataType: string
+		lineageTag: 3f6f5310-768e-4cb4-95f7-ce49fc43c4f2
+		summarizeBy: none
+		sourceColumn: necessitat
+
+		annotation SummarizationSetBy = Automatic
+
+	column v12_en_m3
+		dataType: double
+		lineageTag: 9f7a2ed2-f440-4269-b9f6-ea80715eefa3
+		summarizeBy: sum
+		sourceColumn: v12_en_m3
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column períodes_amb_estimades
+		dataType: int64
+		formatString: 0
+		lineageTag: e479579c-67e6-4302-bf7d-b73a20b2c5ba
+		summarizeBy: sum
+		sourceColumn: períodes_amb_estimades
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Bossa_de_Limitadors_BCNS = m
+		mode: import
+		source = ```
+				//
+				
+				// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO DE GOOGLE DRIVE 
+				
+				//            Bossa de Limitadors_Canvis per DOP 
+				
+				// PESTAÑA:
+				
+				//              BCNS
+				
+				
+				let
+				  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1G9GggBeQbtbK0kD-I7o1ypbgcIGSwQGkRXSvvtn8MaE/edit?gid=1640328521#gid=1640328521"),
+				     BCNS_Table = Origen{[name="BCNS", ItemKind="Table"]}[Data],
+				
+				    Encabezados =
+				        Table.PromoteHeaders(BCNS_Table, [PromoteAllScalars=true]),
+				
+				    Columnas =
+				        Table.TransformColumnNames(
+				            Encabezados,
+				            each Text.Replace(Text.Lower(_), " ", "_")
+				        ),
+				
+				    Renombradas =
+				        Table.RenameColumns(
+				            Columnas,
+				            {
+				                {"data_instal·lació", "data_instalacion"},
+				                {"estratègic", "estrategic"}
+				            }
+				        ),
+				
+				    Texto =
+				        Table.TransformColumns(
+				            Renombradas,
+				            {
+				                {"sector", Text.Proper, type text},
+				                {"prioritat", Text.Proper, type text}
+				            }
+				        ),
+				
+				    Seleccionadas =
+				        Table.SelectColumns(
+				            Texto,
+				            {
+				                "dop",
+				                "sector",
+				                "rendiment_sector_(maig_2026)",
+				                "polissa_subm",
+				                "tipus_subm",
+				                "data_instalacion",
+				                "edat_comp",
+				                "diam_comp",
+				                "dn_limitador",
+				                "data_alta_subm",
+				                "consum_mig_dia",
+				                "consum_anual_estimat",
+				                "estrategic",
+				                "prioritat",
+				                "necessitat",
+				                "v12_en_m3",
+				                "períodes_amb_estimades"
+				            }
+				        ),
+				
+				     SinErrores =
+				        Table.ReplaceErrorValues(
+				            Seleccionadas,
+				            List.Transform(Table.ColumnNames(Seleccionadas), each {_, null})
+				        ),
+				
+				    LimpiezaInicial =
+				        Table.ReplaceValue(
+				            Table.ReplaceValue(
+				                SinErrores,
+				                "-",
+				                null,
+				                Replacer.ReplaceValue,
+				                {"dn_limitador"}
+				            ),
+				            "",
+				            null,
+				            Replacer.ReplaceValue,
+				            {"dn_limitador"}
+				        ),
+				
+				    Tipos =
+				        Table.TransformColumns(
+				            LimpiezaInicial,
+				            {
+				                {"rendiment_sector_(maig_2026)", each try Number.From(_) otherwise null, type nullable number},
+				                {"polissa_subm", each _, type text},
+				                {"data_instalacion", each try Date.From(_) otherwise null, type nullable date},
+				                {"edat_comp", each try Int64.From(_) otherwise null, Int64.Type},
+				                {"diam_comp", each try Int64.From(_) otherwise null, Int64.Type},
+				                {"data_alta_subm", each try Date.From(_) otherwise null, type nullable date},
+				                {"consum_mig_dia", each try Number.From(_) otherwise null, type nullable number},
+				                {"consum_anual_estimat", each try Number.From(_) otherwise null, type nullable number},
+				                {"estrategic", each _, type text},
+				                {"necessitat", each _, type text},
+				                {"v12_en_m3", each try Number.From(_) otherwise null, type nullable number},
+				                {"períodes_amb_estimades", each try Int64.From(_) otherwise null, Int64.Type},
+				                {"dop", each _, type text},
+				                {"dn_limitador", each try Int64.From(_) otherwise null, Int64.Type}
+				            }
+				        ),
+				
+				    Limpieza =
+				        Table.TransformColumns(
+				            Tipos,
+				            {
+				                {
+				                    "sector",
+				                    each
+				                        let v = if _ = "" then null else _
+				                        in if v = "Not Available" then null else v,
+				                    type nullable text
+				                }
+				            }
+				        ),
+				
+				    SinDuplicados =
+				        Table.Distinct(Limpieza),
+				
+				    Resultado =
+				        Table.SelectRows(
+				            SinDuplicados,
+				            each List.NonNullCount(Record.FieldValues(_)) > 0
+				        )
+				
+				in 
+				 Resultado
+				```
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

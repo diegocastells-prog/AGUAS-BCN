@@ -1,0 +1,228 @@
+table fact_bossa
+	lineageTag: b2a2c59f-3eee-4153-92e6-812b609661c6
+
+	column dop
+		dataType: string
+		lineageTag: 79dc24a5-2abf-45a9-8eb5-6395802ae977
+		summarizeBy: none
+		sourceColumn: dop
+
+		annotation SummarizationSetBy = Automatic
+
+	column sector
+		dataType: string
+		lineageTag: 3e59346e-3ebd-4f65-b746-1e428a2cd342
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column rendiment_sector_(maig_2026)
+		dataType: double
+		lineageTag: 35d60b45-9982-4fd5-9899-f20f058efea6
+		summarizeBy: sum
+		sourceColumn: rendiment_sector_(maig_2026)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column polissa_subm
+		dataType: string
+		lineageTag: 44a93356-12f2-4397-ab60-d181222331d2
+		summarizeBy: none
+		sourceColumn: polissa_subm
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipus_subm
+		dataType: string
+		lineageTag: 18f71fb0-8545-41b1-b24c-03b65ed4d4cf
+		summarizeBy: none
+		sourceColumn: tipus_subm
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_instalacion
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d6130fa1-dc4a-4c43-b86e-cf846bc84bc9
+		summarizeBy: none
+		sourceColumn: data_instalacion
+
+		variation Variación
+			isDefault
+			relationship: e41bf333-8c27-4ebc-92f7-6c898ac0e2b8
+			defaultHierarchy: LocalDateTable_d8615b3c-cc24-4854-bfd8-f15bd2697795.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column edat_comp
+		dataType: int64
+		formatString: 0
+		lineageTag: 98583d74-6b29-4c56-975a-8ad058629910
+		summarizeBy: sum
+		sourceColumn: edat_comp
+
+		annotation SummarizationSetBy = Automatic
+
+	column diam_comp
+		dataType: int64
+		formatString: 0
+		lineageTag: 52083d5d-1331-48ad-a761-d6cae65cf92b
+		summarizeBy: sum
+		sourceColumn: diam_comp
+
+		annotation SummarizationSetBy = Automatic
+
+	column dn_limitador
+		dataType: int64
+		formatString: 0
+		lineageTag: 2cde54be-0e5b-428b-8411-aa9ea4ce44e3
+		summarizeBy: sum
+		sourceColumn: dn_limitador
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_alta_subm
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 71a68d39-d749-4236-84e8-a2fecf50a8d3
+		summarizeBy: none
+		sourceColumn: data_alta_subm
+
+		variation Variación
+			isDefault
+			relationship: 4c90cb05-4cad-48a6-9112-4930a85a791b
+			defaultHierarchy: LocalDateTable_d7467889-0f0f-4b21-a13c-65fd8cde4c37.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column consum_mig_dia
+		dataType: double
+		lineageTag: 28e29e69-627f-4342-95fb-cfef2c91dafb
+		summarizeBy: sum
+		sourceColumn: consum_mig_dia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column consum_anual_estimat
+		dataType: double
+		lineageTag: 6cd00936-045a-4603-ae89-7b49dc2d33ca
+		summarizeBy: sum
+		sourceColumn: consum_anual_estimat
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column estrategic
+		dataType: string
+		lineageTag: 71cec0bb-af9b-4268-a771-3430afd445c2
+		summarizeBy: none
+		sourceColumn: estrategic
+
+		annotation SummarizationSetBy = Automatic
+
+	column prioritat
+		dataType: string
+		lineageTag: 4a5e4f1a-164b-43ff-9af0-269c788a7fa9
+		summarizeBy: none
+		sourceColumn: prioritat
+
+		annotation SummarizationSetBy = Automatic
+
+	column necessitat
+		dataType: string
+		lineageTag: 28e872e7-4651-4d8a-bc47-d76aeb3679bb
+		summarizeBy: none
+		sourceColumn: necessitat
+
+		annotation SummarizationSetBy = Automatic
+
+	column v12_en_m3
+		dataType: double
+		lineageTag: 54761c7f-edaa-4bc4-bd7e-910ee6ff70d0
+		summarizeBy: sum
+		sourceColumn: v12_en_m3
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column períodes_amb_estimades
+		dataType: int64
+		formatString: 0
+		lineageTag: a894a6f7-12f7-449b-ba71-3b7d443abade
+		summarizeBy: sum
+		sourceColumn: períodes_amb_estimades
+
+		annotation SummarizationSetBy = Automatic
+
+	column periodos_consecutivos_con_ea
+		dataType: int64
+		formatString: 0
+		lineageTag: 4ea94cd8-ae98-4322-89e6-3d40207a2313
+		summarizeBy: sum
+		sourceColumn: periodos_consecutivos_con_ea
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_bossa = m
+		mode: import
+		source =
+				let
+				    AgregarColumnas = (t as table) as table =>
+				    let
+				        t1 =
+				            if List.Contains(Table.ColumnNames(t), "períodes_amb_estimades")
+				            then t
+				            else Table.AddColumn(t, "períodes_amb_estimades", each null, Int64.Type),
+				
+				        t2 =
+				            if List.Contains(Table.ColumnNames(t1), "periodos_consecutivos_con_ea")
+				            then t1
+				            else Table.AddColumn(t1, "periodos_consecutivos_con_ea", each null, Int64.Type)
+				    in
+				        t2,
+				
+				    Union =
+				        Table.Combine({
+				            AgregarColumnas(Bossa_de_Limitadors_BCNS),
+				            AgregarColumnas(Bossa_de_Limitadors_BCNN),
+				            AgregarColumnas(Bossa_de_Limitadors_BES),
+				            AgregarColumnas(Bossa_de_Limitadors_LLOBN),
+				            AgregarColumnas(Bossa_de_Limitadors_LLOBS)
+				        }),
+				
+				    SinDuplicados =
+				        Table.Distinct(Union),
+				
+				    SinFilasVacias =
+				        Table.SelectRows(
+				            SinDuplicados,
+				            each List.NonNullCount(Record.FieldValues(_)) > 0
+				        ),
+				
+				    #"Tipo cambiado" =
+				        Table.TransformColumnTypes(
+				            SinFilasVacias,
+				            {
+				                {"dop", type text},
+				                {"tipus_subm", type text},
+				                {"dn_limitador", Int64.Type}
+				            }
+				        )
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
