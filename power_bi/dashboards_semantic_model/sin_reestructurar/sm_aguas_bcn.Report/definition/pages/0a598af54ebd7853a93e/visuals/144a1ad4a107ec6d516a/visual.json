@@ -1,0 +1,95 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "144a1ad4a107ec6d516a",
+  "position": {
+    "x": 10,
+    "y": 0,
+    "z": 0,
+    "height": 280,
+    "width": 1214.2857142857144,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_inventari_xarxa_mensual"
+                    }
+                  },
+                  "Property": "fecha"
+                }
+              },
+              "queryRef": "fact_inventari_xarxa_mensual.fecha",
+              "nativeQueryRef": "fecha"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_inventari_xarxa_mensual"
+                        }
+                      },
+                      "Property": "l_+_t_km"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_inventari_xarxa_mensual.l_+_t_km)",
+              "nativeQueryRef": "Suma de l_+_t_km"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_inventari_xarxa_mensual"
+                        }
+                      },
+                      "Property": "nombre_escomeses_totals"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_inventari_xarxa_mensual.nombre_escomeses_totals)",
+              "nativeQueryRef": "Suma de nombre_escomeses_totals"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_inventari_xarxa_mensual"
+                        }
+                      },
+                      "Property": "nombre_subministraments_totals"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_inventari_xarxa_mensual.nombre_subministraments_totals)",
+              "nativeQueryRef": "Suma de nombre_subministraments_totals"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -98,12 +98,22 @@ table fact_dades_consum
 		annotation SummarizationSetBy = Automatic
 
 	column fecha
-		dataType: string
+		dataType: dateTime
+		formatString: Short Date
 		lineageTag: b2b84bd7-c191-4721-a7c7-bcf08da595ac
 		summarizeBy: none
 		sourceColumn: fecha
 
+		variation Variación
+			isDefault
+			relationship: ee9d2b6a-716e-4531-8062-3ddaac6ab3d8
+			defaultHierarchy: LocalDateTable_6fcd8bdd-a3cd-43a0-82dc-1d5c6f2b4c14.'Jerarquía de fechas'
+
+		changedProperty = DataType
+
 		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	partition fact_dades_consum = m
 		mode: import
