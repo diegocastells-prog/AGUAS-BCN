@@ -572,6 +572,50 @@ table _medidas
 		displayFolder: compatodrs
 		lineageTag: 99ae7970-16b8-43f0-8d4b-d925b901de4e
 
+	measure edat_mitjana_compt =
+			
+			AVERAGEX(
+			    'fact_perimetre_comptadors',
+			    YEAR(TODAY()) - YEAR('fact_perimetre_comptadors'[data_inst_comp])
+			)
+		displayFolder: compatodrs
+		lineageTag: fcd9cc07-1026-41c2-8b30-d90bcf9bd4e9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_consumit_mensual =
+			
+			SUM(fact_volum_consumit[volum_consumit])
+		formatString: 0
+		displayFolder: Volumen\Mensual
+		lineageTag: 434c4f79-b648-44c1-8033-3d8c0ffff3f2
+
+	measure volum_consumit_12m =
+			
+			CALCULATE(
+			    SUM(fact_volum_consumit[volum_consumit]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+		formatString: 0
+		displayFolder: Volumen\acum_12m
+		lineageTag: cd964112-8b9f-4c04-af0f-5c115db821ff
+
+	measure volum_consumit_mig_mensual =
+			
+			AVERAGEX(
+			    'fact_volum_consumit',
+			    YEAR(TODAY()) - YEAR(fact_volum_consumit[volum_consumit])
+			)
+		displayFolder: Volumen
+		lineageTag: e05caf8f-d1d2-4ae8-91a7-6811f66b8895
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0
