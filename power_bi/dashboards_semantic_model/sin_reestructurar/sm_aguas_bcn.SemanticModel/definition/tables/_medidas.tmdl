@@ -530,10 +530,10 @@ table _medidas
 
 	measure delta_anr_mensual = ```
 			
-			VAR MesActual = SUM(fact_anr_global_acum[anr_global_hm3])
+			VAR MesActual = SUM(fact_aigua_no_registrada_mensual[valor])
 			VAR MesAnterior = 
 			    CALCULATE(
-			        SUM(fact_anr_global_acum[anr_global_hm3]),
+			        SUM(fact_aigua_no_registrada_mensual[valor]),
 			        PREVIOUSMONTH(dim_calendario[Date])
 			    )
 			RETURN 
@@ -607,14 +607,98 @@ table _medidas
 
 	measure volum_consumit_mig_mensual =
 			
+			
 			AVERAGEX(
-			    'fact_volum_consumit',
-			    YEAR(TODAY()) - YEAR(fact_volum_consumit[volum_consumit])
+			    VALUES(dim_calendario[date]),
+			    CALCULATE(
+			        SUM(fact_volum_consumit[volum_consumit])
+			    )
 			)
 		displayFolder: Volumen
 		lineageTag: e05caf8f-d1d2-4ae8-91a7-6811f66b8895
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_global_mig_mensual =
+			
+			
+			AVERAGEX(
+			    VALUES(dim_calendario[date]),
+			    CALCULATE(
+			        SUM(fact_anr_global_mensual[anr_global_hm3])
+			    )
+			)
+		displayFolder: anr\mensual
+		lineageTag: 89184c57-2854-4577-8900-16aced1b4494
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_mig_mensual =
+			
+			
+			AVERAGEX(
+			    VALUES(dim_calendario[date]),
+			    CALCULATE(
+			        SUM(fact_aigua_no_registrada_mensual[valor])
+			    )
+			)
+		displayFolder: anr\mensual
+		lineageTag: 275a8f7a-b721-48e1-b9a8-91c1eaa67315
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure delta_volum_consumit_mensual = ```
+			
+			
+			VAR MesActual = SUM(fact_volum_consumit[volum_consumit])
+			VAR MesAnterior = 
+			    CALCULATE(
+			        SUM(fact_volum_consumit[volum_consumit]),
+			        PREVIOUSMONTH(dim_calendario[Date])
+			    )
+			RETURN 
+			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
+			```
+		displayFolder: Volumen\Mensual
+		lineageTag: 242b0b34-f941-4132-b5c2-1e4954cff11b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure delta_anr_global_mensual = ```
+			
+			VAR MesActual = [anr_global_mensual_hm3]
+			VAR MesAnterior =
+			    CALCULATE(
+			        [anr_global_mensual_hm3],
+			        PREVIOUSMONTH(dim_calendario[Date])
+			    )
+			RETURN 
+			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
+			```
+		displayFolder: anr\mensual
+		lineageTag: 5140f7ef-6432-4b04-a684-40ebceb38b17
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_dist_mensual = SUM(fact_aigua_no_registrada_mensual[valor])
+		formatString: 0
+		displayFolder: anr\mensual
+		lineageTag: f2170170-d599-4129-ac8e-83a0f2966e77
+
+	measure anr_dist_acum_12m =
+			
+			CALCULATE(
+			    SUM(fact_aigua_no_registrada_mensual[valor]),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        MAX(dim_calendario[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+		formatString: 0
+		displayFolder: anr\acum_12m
+		lineageTag: b68700bb-5970-4285-a863-1dc818df0e6c
 
 	column Column
 		isHidden
