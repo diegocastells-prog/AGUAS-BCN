@@ -1,0 +1,68 @@
+table fact_z_sector
+	lineageTag: 77341e7e-3937-4c91-a183-a018e25afa05
+
+	column anio
+		dataType: int64
+		formatString: 0
+		lineageTag: 8ebab538-0be5-4f3c-af91-7546edf3029f
+		summarizeBy: sum
+		sourceColumn: anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column avaries
+		dataType: int64
+		formatString: 0
+		lineageTag: 5de691ab-ce24-46e5-9a46-838a8ae15c16
+		summarizeBy: sum
+		sourceColumn: avaries
+
+		annotation SummarizationSetBy = Automatic
+
+	column sector_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e5ade4e3-606e-4fc7-8393-3b94dafae08a
+		summarizeBy: none
+		sourceColumn: sector_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column longitud
+		dataType: double
+		lineageTag: df161f4e-a3b4-4b28-8102-fc605b325a39
+		summarizeBy: sum
+		sourceColumn: longitud
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column z
+		dataType: double
+		lineageTag: 5030f86d-f700-468c-89fa-1c30a4571b22
+		summarizeBy: sum
+		sourceColumn: z
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fact_z_sector = m
+		mode: import
+		source =
+				let
+				  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZvYN5_c0AIVTgXhQgC5y3g1QN9i8xr9YGskrJM3w62U/edit?gid=1103572248#gid=1103572248"),
+				  #"Navegación 1" = Origen{[name = "default_1", ItemKind = "Table"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Navegación 1", [PromoteAllScalars=true]),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados promovidos",{{"Sum(Sum(Longitud))", "longitud"}, {"Any", "anio"}, {"Count(Orden)", "avaries"}, {"Sector / Artèria", "sector_id"}}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Columnas con nombre cambiado",{"Sector"}),
+				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columnas quitadas",{{"Z", "z"}}),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas con nombre cambiado1",{{"avaries", Int64.Type}, {"anio", Int64.Type}, {"sector_id", Int64.Type}, {"longitud", type number}, {"z", type number}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

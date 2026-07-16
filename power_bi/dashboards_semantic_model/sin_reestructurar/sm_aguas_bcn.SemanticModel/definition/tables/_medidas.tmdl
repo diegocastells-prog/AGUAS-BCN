@@ -480,15 +480,17 @@ table _medidas
 		lineageTag: ce986990-2984-4ac0-a0a4-9ed8615ef2f8
 
 	measure sensors_permanents_distribucio = ```
-			
+			Longitud inspeccionada Nº Sensors fixes vs longitud total (cuina QGIS)
 			VAR LongInspeccionada =
-			    SUM(fact_ortomat[LONG_INSPECCIONADA])
+			    SUM(dim_ortomat[longitud])
 			
 			VAR SensorsFixes =
-			    SUM(fact_ortomat[SENSORS_FIXES])
+			    SUM(dim_ortomat[unidad_sensors])
 			
 			VAR LongTotal =
-			    SUM(dim_qgis[LONG_TOTAL])
+			    SUM(fact_z_sector[longitud])
+			
+			VAR 
 			
 			VAR RatioSensors =
 			    DIVIDE(SensorsFixes, LongTotal)
@@ -840,7 +842,11 @@ table _medidas
 
 	measure num_limitadors_installats_per_mes =
 			
-			DISTINCTCOUNT('fact_bossa'[polissa_subm])
+			
+			CALCULATE(
+			    DISTINCTCOUNT('fact_bossa'[polissa_subm]),
+			    'fact_bossa'[dn_limitador] <> BLANK()
+			)
 		formatString: 0
 		displayFolder: compatodrs
 		lineageTag: 7831e51b-1cb2-4b3e-ae0c-63dd1dcc0763

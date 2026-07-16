@@ -1,8 +1,9 @@
-table fact_ortomat
+table dim_ortomat
 	lineageTag: f018d9f1-c1c0-4bb4-baba-e2ab1458a84c
 
 	column sector_id
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 89b6b877-8686-4e07-9f90-d587834a927b
 		summarizeBy: none
 		sourceColumn: sector_id
@@ -10,7 +11,8 @@ table fact_ortomat
 		annotation SummarizationSetBy = Automatic
 
 	column unidad_sensors
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 7e93b9c9-ed04-426a-ab32-c4680cdbf388
 		summarizeBy: none
 		sourceColumn: unidad_sensors
@@ -21,12 +23,32 @@ table fact_ortomat
 		dataType: int64
 		formatString: 0
 		lineageTag: 13bb37de-feb6-4673-9c07-0d93f3bff880
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: tiene_sensor
 
 		annotation SummarizationSetBy = Automatic
 
-	partition fact_ortomat = m
+	column longitud
+		dataType: double
+		lineageTag: 42195fd3-522b-49af-a1fb-396925cf32de
+		summarizeBy: none
+		sourceColumn: longitud
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column area
+		dataType: double
+		lineageTag: 625fe099-c6ad-49a4-aa56-93a063df25ce
+		summarizeBy: none
+		sourceColumn: area
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_ortomat = m
 		mode: import
 		source =
 				let
@@ -37,14 +59,16 @@ table fact_ortomat
 				
 				    #"Columnas quitadas" = Table.RemoveColumns(
 				        #"Encabezados promovidos",
-				        {"OBJECTID", "DENOMIN_2", "SHAPE_Le_1", "SHAPE_Ar_1"}
+				        {"OBJECTID", "DENOMIN_2"}
 				    ),
 				
 				    #"Columnas renombradas" = Table.RenameColumns(
 				        #"Columnas quitadas",
 				        {
 				            {"SAP_ID_2", "sector_id"},
-				            {"NUMPOINTS", "unidad_sensors"}
+				            {"NUMPOINTS", "unidad_sensors"},
+				            {"SHAPE_Le_1", "longitud"},
+				            { "SHAPE_Ar_1", "area"}
 				        }
 				    ),
 				
@@ -79,10 +103,10 @@ table fact_ortomat
 				        )
 				    ),
 				
-				    #"Duplicados quitados" = Table.Distinct(#"Filas en blanco eliminadas")
-				
+				    #"Duplicados quitados" = Table.Distinct(#"Filas en blanco eliminadas"),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Duplicados quitados",{{"sector_id", Int64.Type}, {"longitud", type number}, {"area", type number}, {"unidad_sensors", Int64.Type}})
 				in
-				    #"Duplicados quitados"
+				    #"Tipo cambiado"
 
 	annotation PBI_NavigationStepName = Navegación
 
