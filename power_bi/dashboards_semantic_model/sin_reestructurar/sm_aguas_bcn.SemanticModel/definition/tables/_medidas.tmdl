@@ -122,21 +122,6 @@ table _medidas
 		displayFolder: anr\acum_12m
 		lineageTag: 5f1378c2-905a-4109-9cf9-571560b351e0
 
-	measure delta_anr_mensual = ```
-			
-			VAR MesActual = SUM(fact_aigua_no_registrada_mensual[anr])
-			VAR MesAnterior = 
-			    CALCULATE(
-			        SUM(fact_aigua_no_registrada_mensual[anr]),
-			        PREVIOUSMONTH(dim_calendario[Date])
-			    )
-			RETURN 
-			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
-			```
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: anr\mensual
-		lineageTag: 3bee1bda-5daa-4d40-9b48-c16b546b4003
-
 	measure volum_lliurat_global_mensual = SUM(fact_anr_global_mensual[lliurada_hm3])
 		displayFolder: anr\mensual
 		lineageTag: 6c32f9d3-73d4-4cee-8719-3c99bc6c0211
@@ -531,6 +516,21 @@ table _medidas
 		displayFolder: compatodrs\no_column
 		lineageTag: bb02ab51-1bce-4d5a-838d-4ee549631b4e
 
+	measure delta_anr_mensual = ```
+			
+			VAR MesActual = SUM(fact_aigua_no_registrada_mensual[anr])
+			VAR MesAnterior = 
+			    CALCULATE(
+			        SUM(fact_aigua_no_registrada_mensual[anr]),
+			        PREVIOUSMONTH(dim_calendario[Date])
+			    )
+			RETURN 
+			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: anr\mensual
+		lineageTag: 3bee1bda-5daa-4d40-9b48-c16b546b4003
+
 	measure q_min_mensual = sum('fact_cabals_mínims'[q_min])
 		displayFolder: cabals
 		lineageTag: 6d0caa36-bd03-4a32-82dd-84c61a870ec0
@@ -710,7 +710,7 @@ table _medidas
 		displayFolder: volumen\lliurat\mensual
 		lineageTag: 24d97ac5-af0d-4d7c-b586-003659382b05
 
-	measure rth_distribucion = [volum_consumit_distribucion_mensual] / [volum_lliurat_distribucion_mensual]
+	measure rth_distribucion_mensual = [volum_consumit_distribucion_mensual] / [volum_lliurat_distribucion_mensual]
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: volumen\rth
 		lineageTag: 9e118bbd-de00-4672-8065-c04b2bf119aa
@@ -818,9 +818,32 @@ table _medidas
 		displayFolder: compatodrs\canvis
 		lineageTag: 09efea49-c538-4781-b74c-337abf65f9cb
 
-	measure comptadors_parameter
+	measure compt_per_sobre_q4 =
+			
+			CALCULATE(
+			    COUNT('fact_bossa'[necessitat]),
+			    'fact_bossa'[necessitat] = "Q4"
+			)
+		formatString: 0
 		displayFolder: compatodrs
-		lineageTag: 7c0ee555-858c-4469-bd8d-f948571eb76e
+		lineageTag: 5bd0460b-958f-457b-9460-f7a5410d8bf8
+
+	measure compt_per_sobre_q1 =
+			
+			CALCULATE(
+			    COUNT('fact_bossa'[necessitat]),
+			    'fact_bossa'[necessitat] = "Q1"
+			)
+		formatString: 0
+		displayFolder: compatodrs\canvis
+		lineageTag: feb11b1c-2bc3-4cde-87c4-823f8049cead
+
+	measure num_limitadors_installats_per_mes =
+			
+			DISTINCTCOUNT('fact_bossa'[polissa_subm])
+		formatString: 0
+		displayFolder: compatodrs
+		lineageTag: 7831e51b-1cb2-4b3e-ae0c-63dd1dcc0763
 
 	column Column
 		isHidden
