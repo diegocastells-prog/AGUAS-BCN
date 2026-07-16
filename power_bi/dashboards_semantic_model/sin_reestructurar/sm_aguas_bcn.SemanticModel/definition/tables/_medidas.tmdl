@@ -102,18 +102,6 @@ table _medidas
 		displayFolder: fraudes
 		lineageTag: 4c731030-05b5-4e7d-96d2-f8b6bc37c4c0
 
-	measure canvis_comptadors_estrategics_total = SUM('fact_estadístiques_comp'[total])
-		displayFolder: compatodrs\canvis
-		lineageTag: 0d46c3e8-e1ef-4b9d-9b8e-eef9d1af6753
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure canvis_comptadors_total = SUM('fact_estadístiques_comp'[total])
-		displayFolder: compatodrs\canvis
-		lineageTag: b54adb10-602a-4b26-96e9-4307b4bff879
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	measure fraus_operacions = COUNTROWS(fact_fraudes)
 		formatString: 0
 		displayFolder: fraudes
@@ -133,6 +121,21 @@ table _medidas
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: anr\acum_12m
 		lineageTag: 5f1378c2-905a-4109-9cf9-571560b351e0
+
+	measure delta_anr_mensual = ```
+			
+			VAR MesActual = SUM(fact_aigua_no_registrada_mensual[anr])
+			VAR MesAnterior = 
+			    CALCULATE(
+			        SUM(fact_aigua_no_registrada_mensual[anr]),
+			        PREVIOUSMONTH(dim_calendario[Date])
+			    )
+			RETURN 
+			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: anr\mensual
+		lineageTag: 3bee1bda-5daa-4d40-9b48-c16b546b4003
 
 	measure volum_lliurat_global_mensual = SUM(fact_anr_global_mensual[lliurada_hm3])
 		displayFolder: anr\mensual
@@ -528,21 +531,6 @@ table _medidas
 		displayFolder: compatodrs\no_column
 		lineageTag: bb02ab51-1bce-4d5a-838d-4ee549631b4e
 
-	measure delta_anr_mensual = ```
-			
-			VAR MesActual = SUM(fact_aigua_no_registrada_mensual[valor])
-			VAR MesAnterior = 
-			    CALCULATE(
-			        SUM(fact_aigua_no_registrada_mensual[valor]),
-			        PREVIOUSMONTH(dim_calendario[Date])
-			    )
-			RETURN 
-			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
-			```
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: anr\mensual
-		lineageTag: 3bee1bda-5daa-4d40-9b48-c16b546b4003
-
 	measure q_min_mensual = sum('fact_cabals_mínims'[q_min])
 		displayFolder: cabals
 		lineageTag: 6d0caa36-bd03-4a32-82dd-84c61a870ec0
@@ -583,14 +571,14 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure volum_consumit_mensual =
+	measure volum_consumit_distribucion_mensual =
 			
 			SUM(fact_volum_consumit[volum_consumit])
 		formatString: 0
-		displayFolder: Volumen\Mensual
+		displayFolder: volumen\consumit\mensual
 		lineageTag: 434c4f79-b648-44c1-8033-3d8c0ffff3f2
 
-	measure volum_consumit_12m =
+	measure volum_consumit_distribucion_12m =
 			
 			CALCULATE(
 			    SUM(fact_volum_consumit[volum_consumit]),
@@ -602,7 +590,7 @@ table _medidas
 			    )
 			)
 		formatString: 0
-		displayFolder: Volumen\acum_12m
+		displayFolder: volumen\consumit\acum_12m
 		lineageTag: cd964112-8b9f-4c04-af0f-5c115db821ff
 
 	measure volum_consumit_mig_mensual =
@@ -614,7 +602,7 @@ table _medidas
 			        SUM(fact_volum_consumit[volum_consumit])
 			    )
 			)
-		displayFolder: Volumen
+		displayFolder: volumen\consumit
 		lineageTag: e05caf8f-d1d2-4ae8-91a7-6811f66b8895
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -639,7 +627,7 @@ table _medidas
 			AVERAGEX(
 			    VALUES(dim_calendario[date]),
 			    CALCULATE(
-			        SUM(fact_aigua_no_registrada_mensual[valor])
+			        SUM(fact_aigua_no_registrada_mensual[anr])
 			    )
 			)
 		displayFolder: anr\mensual
@@ -659,7 +647,7 @@ table _medidas
 			RETURN 
 			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
 			```
-		displayFolder: Volumen\Mensual
+		displayFolder: volumen\consumit\mensual
 		lineageTag: 242b0b34-f941-4132-b5c2-1e4954cff11b
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -680,7 +668,7 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_dist_mensual = SUM(fact_aigua_no_registrada_mensual[valor])
+	measure anr_dist_mensual = SUM(fact_aigua_no_registrada_mensual[anr])
 		formatString: 0
 		displayFolder: anr\mensual
 		lineageTag: f2170170-d599-4129-ac8e-83a0f2966e77
@@ -688,7 +676,7 @@ table _medidas
 	measure anr_dist_acum_12m =
 			
 			CALCULATE(
-			    SUM(fact_aigua_no_registrada_mensual[valor]),
+			    SUM(fact_aigua_no_registrada_mensual[anr]),
 			    DATESINPERIOD(
 			        dim_calendario[Date],
 			        MAX(dim_calendario[Date]),
@@ -699,6 +687,140 @@ table _medidas
 		formatString: 0
 		displayFolder: anr\acum_12m
 		lineageTag: b68700bb-5970-4285-a863-1dc818df0e6c
+
+	measure volum_lliurat_distribucion_12m =
+			
+			CALCULATE(
+			    SUM(fact_volum_lliurat[volum_lliurat]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+		formatString: 0
+		displayFolder: volumen\lliurat\acum_12m
+		lineageTag: 4da0b64d-3d7e-4180-a632-0583630e559b
+
+	measure volum_lliurat_distribucion_mensual = ```
+			SUM(fact_volum_lliurat[volum_lliurat]) 
+			```
+		formatString: 0
+		displayFolder: volumen\lliurat\mensual
+		lineageTag: 24d97ac5-af0d-4d7c-b586-003659382b05
+
+	measure rth_distribucion = [volum_consumit_distribucion_mensual] / [volum_lliurat_distribucion_mensual]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: volumen\rth
+		lineageTag: 9e118bbd-de00-4672-8065-c04b2bf119aa
+
+	measure rth_distribucion_12m = [volum_consumit_distribucion_12m] / [volum_lliurat_distribucion_12m]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: volumen\rth
+		lineageTag: 37994a34-9e85-44c5-9f3b-d75d08144abb
+
+	measure anr_acum_12m = ```
+			
+			VAR FechaMax =
+			    MAX ( dim_calendario[Date] )
+			RETURN
+			CALCULATE(
+			    SUM( fact_aigua_no_registrada_mensual[anr] ),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		formatString: 0
+		displayFolder: anr\acum_12m
+		lineageTag: 09d1ddf2-cf3e-415c-9600-b2a858e18609
+
+	measure anr_mensual = SUM(fact_aigua_no_registrada_mensual[anr])
+		formatString: 0
+		displayFolder: anr\mensual
+		lineageTag: fab88f37-a457-4d36-baf8-0cec151a3ce5
+
+	measure comptadors_preventiu = ```
+			
+			CALCULATE(
+			    COUNTROWS('fact_estadistiques_comp'),
+			    'fact_estadistiques_comp'[agrupacio_canvi] = "Preventiu"
+			)
+			
+			```
+		formatString: 0
+		displayFolder: compatodrs\canvis
+		lineageTag: 820f61fe-2e3b-404f-a787-d5fe24ca4f87
+
+	measure comptadors_correctiu = ```
+			
+			CALCULATE(
+			    COUNTROWS('fact_estadistiques_comp'),
+			    'fact_estadistiques_comp'[agrupacio_canvi] = "Correctiu"
+			)
+			
+			```
+		formatString: 0
+		displayFolder: compatodrs\canvis
+		lineageTag: 08afbe21-3fc4-4a21-b6bd-9be919f1329b
+
+	measure comptadors_preventiu_estrategic = ```
+			
+			CALCULATE(
+			    COUNTROWS('fact_estadistiques_comp'),
+			    'fact_estadistiques_comp'[agrupacio_canvi] = "Preventiu",
+			    'fact_estadistiques_comp'[estrategics] = "S"
+			)
+			
+			```
+		formatString: 0
+		displayFolder: compatodrs\canvis
+		lineageTag: 122644e1-eda9-49ed-9ab5-66c20a9ec69e
+
+	measure comptadors_correctiu_estrategic = ```
+			
+			CALCULATE(
+			    COUNTROWS('fact_estadistiques_comp'),
+			    'fact_estadistiques_comp'[agrupacio_canvi] = "Correctiu",
+			    'fact_estadistiques_comp'[estrategics] = "S"
+			)
+			
+			```
+		formatString: 0
+		displayFolder: compatodrs\canvis
+		lineageTag: b1fc3c12-a73d-485d-8036-2d4a7707f685
+
+	measure comptadors_estrategic = ```
+			
+			CALCULATE(
+			    COUNTROWS('fact_estadistiques_comp'),
+			    'fact_estadistiques_comp'[estrategics] = "S"
+			)
+			
+			```
+		formatString: 0
+		displayFolder: compatodrs\canvis
+		lineageTag: 99f27b37-ed88-48a6-b7c4-f47579aab1db
+
+	measure comptadors = ```
+			
+			CALCULATE(
+			    COUNTROWS('fact_estadistiques_comp')
+			)
+			
+			```
+		formatString: 0
+		displayFolder: compatodrs\canvis
+		lineageTag: 09efea49-c538-4781-b74c-337abf65f9cb
+
+	measure comptadors_parameter
+		displayFolder: compatodrs
+		lineageTag: 7c0ee555-858c-4469-bd8d-f948571eb76e
 
 	column Column
 		isHidden

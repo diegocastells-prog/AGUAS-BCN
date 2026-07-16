@@ -1,7 +1,9 @@
 table dim_calendario
 	lineageTag: 79c91559-5bd8-4f22-8fd9-f574116db53c
+	dataCategory: Time
 
 	column Date
+		isKey
 		formatString: Short Date
 		lineageTag: 87f723ae-29d7-425a-9df6-124718b24bda
 		summarizeBy: none
@@ -22,6 +24,7 @@ table dim_calendario
 		annotation SummarizationSetBy = Automatic
 
 	column mes_num
+		isHidden
 		formatString: 0
 		lineageTag: 688a2ea0-e3af-4f19-b035-199b76418490
 		summarizeBy: sum
@@ -44,10 +47,12 @@ table dim_calendario
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [mes_corto]
+		sortByColumn: mes_num
 
 		annotation SummarizationSetBy = Automatic
 
 	column aniomes
+		isHidden
 		lineageTag: e921d61e-7746-4ab3-a23b-6345d9a65666
 		summarizeBy: none
 		isNameInferred
@@ -60,7 +65,7 @@ table dim_calendario
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [anio_mes]
-		sortByColumn: mes_num
+		sortByColumn: aniomes
 
 		annotation SummarizationSetBy = Automatic
 
@@ -99,6 +104,7 @@ table dim_calendario
 		annotation SummarizationSetBy = Automatic
 
 	column dia_semana_num
+		isHidden
 		formatString: 0
 		lineageTag: c7339256-2b9d-454a-ba08-2a380be6e522
 		summarizeBy: sum
@@ -112,6 +118,7 @@ table dim_calendario
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [dia_semana]
+		sortByColumn: dia_semana_num
 
 		annotation SummarizationSetBy = Automatic
 

@@ -26,15 +26,6 @@ table fact_aigua_no_registrada_mensual
 
 		annotation SummarizationSetBy = Automatic
 
-	column valor
-		dataType: int64
-		formatString: 0
-		lineageTag: d59361f4-0971-495c-989f-73e071b71af0
-		summarizeBy: sum
-		sourceColumn: valor
-
-		annotation SummarizationSetBy = Automatic
-
 	column fecha
 		dataType: dateTime
 		formatString: Short Date
@@ -56,6 +47,15 @@ table fact_aigua_no_registrada_mensual
 
 		annotation SummarizationSetBy = Automatic
 
+	column anr
+		dataType: int64
+		formatString: 0
+		lineageTag: 77b3268d-742b-4525-be63-14e7d7a05e09
+		summarizeBy: sum
+		sourceColumn: anr
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_aigua_no_registrada_mensual = m
 		mode: import
 		source = ```
@@ -66,7 +66,7 @@ table fact_aigua_no_registrada_mensual
 				    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{""}),
 				    #"Filas filtradas" = Table.SelectRows(#"Columnas quitadas", each ([Nº] <> "")),
 				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Filas filtradas",{{"Nº", Int64.Type}, {"Gerència", type text}, {"Pis Pressió", type text}, {"Sectors", type text}, {"de gen.-21", Int64.Type}, {"de febr.-21", Int64.Type}, {"de març-21", Int64.Type}, {"d’abr.-21", Int64.Type}, {"de maig-21", Int64.Type}, {"de juny-21", Int64.Type}, {"de jul.-21", Int64.Type}, {"d’ag.-21", Int64.Type}, {"de set.-21", Int64.Type}, {"d’oct.-21", Int64.Type}, {"de nov.-21", Int64.Type}, {"de des.-21", Int64.Type}, {"de gen.-22", Int64.Type}, {"de febr.-22", Int64.Type}, {"de març-22", Int64.Type}, {"d’abr.-22", Int64.Type}, {"de maig-22", Int64.Type}, {"de juny-22", Int64.Type}, {"de jul.-22", Int64.Type}, {"d’ag.-22", Int64.Type}, {"de set.-22", Int64.Type}, {"d’oct.-22", Int64.Type}, {"de nov.-22", Int64.Type}, {"de des.-22", Int64.Type}, {"de gen.-23", Int64.Type}, {"de febr.-23", Int64.Type}, {"de març-23", Int64.Type}, {"d’abr.-23", Int64.Type}, {"de maig-23", Int64.Type}, {"de juny-23", Int64.Type}, {"de jul.-23", Int64.Type}, {"d’ag.-23", Int64.Type}, {"de set.-23", Int64.Type}, {"d’oct.-23", Int64.Type}, {"de nov.-23", Int64.Type}, {"de des.-23", Int64.Type}, {"de gen.-24", Int64.Type}, {"de febr.-24", Int64.Type}, {"de març-24", Int64.Type}, {"d’abr.-24", Int64.Type}, {"de maig-24", Int64.Type}, {"de juny-24", Int64.Type}, {"de jul.-24", Int64.Type}}),
-				    #"Columna de anulación de dinamización" = Table.UnpivotOtherColumns(#"Tipo cambiado", {"Nº", "Gerència", "Pis Pressió", "Sectors"}, "Atributo", "Valor"),
+				    #"Columna de anulación de dinamización" = Table.UnpivotOtherColumns(#"Tipo cambiado", {"Nº", "Gerència", "Pis Pressió", "Sectors"}, "Atributo", "anr"),
 				    #"Personalizada agregada" = Table.AddColumn(#"Columna de anulación de dinamización", "fecha", each let
 				        txt0  = [Atributo],
 				        txt1  = Text.Lower(txt0),

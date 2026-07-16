@@ -1234,29 +1234,6 @@ expression perimetre_comptadors_2026 = ```
 
 	annotation PBI_ResultType = Table
 
-expression 'Errores en fact_cabals_mínims' =
-		let
-		Origen = fact_cabals_mínims,
-		  #"Errores de coincidencia detectados" = let
-		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Origen, Table.ColumnsOfType(Origen, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
-		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
-		    fieldNames = Record.FieldNames(recordTypeFields),
-		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
-		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "El tipo del valor no coincide con el tipo de la columna.", Detail = v], fieldTypes{i}})
-		in
-		    Table.TransformColumns(Origen, pairs),
-		  #"Índice agregado" = Table.AddIndexColumn(#"Errores de coincidencia detectados", "Número de fila" ,1),
-		  #"Conservar errores" = Table.SelectRowsWithErrors(#"Índice agregado", {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7", "Column8", "Column9", "Column10", "Column11", "Column12", "Column13", "Column14", "Column15", "Column16", "Column17", "Column18", "Column19", "Column20", "Column21", "Column22", "Column23", "Column24", "Column25", "Column26", "Column27", "Column28", "Column29", "Column30", "Column31", "Column32", "Column33", "Column34", "Column35", "Column36", "Column37", "Column38", "Column39", "Column40", "Column41", "Column42", "Column43", "Column44", "Column45", "Column46", "Column47", "Column48", "Column49", "Column50", "Column51", "Column52", "Column53", "Column54", "Column55", "Column56", "Column57", "Column58", "Column59", "Column60", "Column61", "Column62", "Column63", "Column64", "Column65", "Column66", "Column67", "Column68", "Column69", "Column70", "Column71", "Column72", "Column73", "Column74", "Column75", "Column76", "Column77", "Column78", "Column79", "Column80"}),
-		  #"Columnas reordenadas" = Table.ReorderColumns(#"Conservar errores", {"Número de fila", "Column1", "Column2", "Column3", "Column4", "Column5", "Column6", "Column7", "Column8", "Column9", "Column10", "Column11", "Column12", "Column13", "Column14", "Column15", "Column16", "Column17", "Column18", "Column19", "Column20", "Column21", "Column22", "Column23", "Column24", "Column25", "Column26", "Column27", "Column28", "Column29", "Column30", "Column31", "Column32", "Column33", "Column34", "Column35", "Column36", "Column37", "Column38", "Column39", "Column40", "Column41", "Column42", "Column43", "Column44", "Column45", "Column46", "Column47", "Column48", "Column49", "Column50", "Column51", "Column52", "Column53", "Column54", "Column55", "Column56", "Column57", "Column58", "Column59", "Column60", "Column61", "Column62", "Column63", "Column64", "Column65", "Column66", "Column67", "Column68", "Column69", "Column70", "Column71", "Column72", "Column73", "Column74", "Column75", "Column76", "Column77", "Column78", "Column79", "Column80"})
-		in
-		  #"Columnas reordenadas"
-	lineageTag: 079d6e9d-52de-43f4-b4aa-b2691d1e35bd
-	queryGroup: 'Errores en las consultas: 14/07/2026 9:42:40'
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Table
-
 expression Bossa_de_Limitadors_LLOBS = ```
 		//
 		
@@ -1900,6 +1877,55 @@ expression Bossa_de_Limitadors_BCNS = ```
 		 Resultado
 		```
 	lineageTag: 10e00cc1-e4c4-4532-8c9a-492394f79c96
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression fact_aigua_no_registrada_12m = ```
+		let
+		    Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vQu04YqiUjROdeKjkF1OKAb2UI0cIt8n44NDzq3nAdSvDc2p0zBvWngL_DNulEpHw/pub?gid=1960240863&single=true&output=csv"),[Delimiter=",", Columns=48, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Filas superiores quitadas" = Table.Skip(Origen,2),
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
+		    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{""}),
+		    #"Filas filtradas" = Table.SelectRows(#"Columnas quitadas", each ([Nº] <> "")),
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Filas filtradas",{{"Nº", Int64.Type}, {"Gerència", type text}, {"Pis Pressió", type text}, {"Sectors", type text},  {"de gen.-21", Int64.Type}, {"de febr.-21", Int64.Type}, {"de març-21", Int64.Type}, {"d’abr.-21", Int64.Type}, {"de maig-21", Int64.Type}, {"de juny-21", Int64.Type}, {"de jul.-21", Int64.Type}, {"d’ag.-21", Int64.Type}, {"de set.-21", Int64.Type}, {"d’oct.-21", Int64.Type}, {"de nov.-21", Int64.Type}, {"de des.-21", Int64.Type}, {"de gen.-22", Int64.Type}, {"de febr.-22", Int64.Type}, {"de març-22", Int64.Type}, {"d’abr.-22", Int64.Type}, {"de maig-22", Int64.Type}, {"de juny-22", Int64.Type}, {"de jul.-22", Int64.Type}, {"d’ag.-22", Int64.Type}, {"de set.-22", Int64.Type}, {"d’oct.-22", Int64.Type}, {"de nov.-22", Int64.Type}, {"de des.-22", Int64.Type}, {"de gen.-23", Int64.Type}, {"de febr.-23", Int64.Type}, {"de març-23", Int64.Type}, {"d’abr.-23", Int64.Type}, {"de maig-23", Int64.Type}, {"de juny-23", Int64.Type}, {"de jul.-23", Int64.Type}, {"d’ag.-23", Int64.Type}, {"de set.-23", Int64.Type}, {"d’oct.-23", Int64.Type}, {"de nov.-23", Int64.Type}, {"de des.-23", Int64.Type}, {"de gen.-24", Int64.Type}, {"de febr.-24", Int64.Type}, {"de març-24", Int64.Type}, {"d’abr.-24", Int64.Type}, {"de maig-24", Int64.Type}, {"de juny-24", Int64.Type}, {"de jul.-24", Int64.Type}}),
+		    #"Columna de anulación de dinamización" = Table.UnpivotOtherColumns(#"Tipo cambiado", {"Nº", "Gerència", "Pis Pressió", "Sectors"}, "Atributo", "anr"),
+		    #"Personalizada agregada" = Table.AddColumn(#"Columna de anulación de dinamización", "fecha", each let
+		        txt0  = [Atributo],
+		        txt1  = Text.Lower(txt0),
+		        txt2  = Text.Replace(Text.Replace(Text.Replace(txt1,"de ",""),"d’",""),".",""),
+		        mesTxt = Text.BeforeDelimiter(txt2,"-"),
+		        anioTxt = Text.AfterDelimiter(txt2,"-"),
+		        anio = 2000 + Number.FromText(anioTxt),
+		        mes = 
+		            if mesTxt = "gen"  then 1 else
+		            if mesTxt = "febr" then 2 else
+		            if mesTxt = "març" then 3 else
+		            if mesTxt = "abr"  then 4 else
+		            if mesTxt = "maig" then 5 else
+		            if mesTxt = "juny" then 6 else
+		            if mesTxt = "jul"  then 7 else
+		            if mesTxt = "ag"   then 8 else
+		            if mesTxt = "set"  then 9 else
+		            if mesTxt = "oct"  then 10 else
+		            if mesTxt = "nov"  then 11 else
+		            if mesTxt = "des"  then 12 else
+		            null
+		        in
+		            #date(anio, mes, 1)
+		    ),
+		    // 🔥 NORMALIZAR NOMBRES DE COLUMNAS
+		    #"Columnas normalizadas" = 
+		        Table.TransformColumnNames(#"Personalizada agregada", 
+		            each Text.Replace(Text.Lower(_), " ", "_")),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columnas normalizadas",{{"nº", "n"}, {"gerència", "gerencia"}, {"pis_pressió", "pis_pressio"}}),
+		    #"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado",{"atributo"}),
+		    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columnas quitadas1",{{"n", "sector"}})
+		in
+		    #"Columnas con nombre cambiado1"
+		```
+	lineageTag: eea63489-1619-414f-aac0-8202720bb88c
 
 	annotation PBI_NavigationStepName = Navegación
 

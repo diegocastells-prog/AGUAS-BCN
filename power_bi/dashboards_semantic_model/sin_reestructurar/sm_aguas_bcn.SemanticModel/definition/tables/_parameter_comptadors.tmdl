@@ -1,0 +1,52 @@
+table _parameter_comptadors
+	lineageTag: ed4c743c-dd9c-4c21-be2e-a4ce2ee06024
+
+	column _parameter_comptadors
+		lineageTag: a47ecfa2-cc12-43ea-b2bf-7eb12d242616
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: '_parameter_comptadors Orden'
+
+		relatedColumnDetails
+			groupByColumn: '_parameter_comptadors Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_parameter_comptadors Campos'
+		isHidden
+		lineageTag: 4d650470-12db-4862-aa76-3a503a741426
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: '_parameter_comptadors Orden'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_parameter_comptadors Orden'
+		isHidden
+		formatString: 0
+		lineageTag: 6c504eb9-6dd5-45ba-b22a-5f9e96ad70ed
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _parameter_comptadors = calculated
+		mode: import
+		source =
+				{
+				    ("comptadors", NAMEOF('_medidas'[comptadors]), 0),
+				    ("comptadors_estrategic", NAMEOF('_medidas'[comptadors_estrategic]), 1),
+				    ("comptadors_correctiu", NAMEOF('_medidas'[comptadors_correctiu]), 2),
+				    ("comptadors_correctiu_estrategic", NAMEOF('_medidas'[comptadors_correctiu_estrategic]), 3),
+				    ("comptadors_preventiu", NAMEOF('_medidas'[comptadors_preventiu]), 4),
+				    ("comptadors_preventiu_estrategic", NAMEOF('_medidas'[comptadors_preventiu_estrategic]), 5)
+				}
+
+	annotation PBI_Id = 95ddba96e7804278bf012982e41d3698
+

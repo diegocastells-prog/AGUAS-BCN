@@ -10,89 +10,100 @@ table fact_dades_consum
 		annotation SummarizationSetBy = Automatic
 
 	column qmin_hora
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 209ac08b-dfcc-4a9d-a106-154efcfc1506
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: qmin_hora
 
 		annotation SummarizationSetBy = Automatic
 
 	column qmax_hora
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 6afc2fdf-30ce-435d-8734-a555ef2849e4
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: qmax_hora
 
 		annotation SummarizationSetBy = Automatic
 
 	column consum_mensual_real
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 1034e4ae-5649-4df7-a5be-e020ad1bcfb3
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: consum_mensual_real
 
 		annotation SummarizationSetBy = Automatic
 
 	column consum_mensual_estimat
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 9eed98cc-ab60-4589-8bc5-b143011911b1
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: consum_mensual_estimat
 
 		annotation SummarizationSetBy = Automatic
 
 	column lectures_rebudes
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: d1407267-7c9b-42c1-a282-597a91fdd34c
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: lectures_rebudes
 
 		annotation SummarizationSetBy = Automatic
 
 	column dies_llegits
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: cc2bb109-5ed7-464b-be90-5b5d55dd7f2c
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: dies_llegits
 
 		annotation SummarizationSetBy = Automatic
 
 	column dies_absents
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 19dbc640-9fd1-4165-b316-8e3547ec03c9
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: dies_absents
 
 		annotation SummarizationSetBy = Automatic
 
 	column dies_amb_registre
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 7291b2db-86d7-40c5-b3c5-ece875afcb91
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: dies_amb_registre
 
 		annotation SummarizationSetBy = Automatic
 
 	column dies_amb_consum_0
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 40270ba6-ae90-4892-a77d-0c6441abd588
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: dies_amb_consum_0
 
 		annotation SummarizationSetBy = Automatic
 
 	column dies_amb_consum_0_any
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 1543b836-b682-477d-88a9-b31702c0d036
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: dies_amb_consum_0_any
 
 		annotation SummarizationSetBy = Automatic
 
 	column num_series_contador_2026_mes
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: e307533f-3bc6-44fa-9167-7dfdadad7a5c
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: num_series_contador_2026_mes
 
 		annotation SummarizationSetBy = Automatic
@@ -103,11 +114,6 @@ table fact_dades_consum
 		lineageTag: b2b84bd7-c191-4721-a7c7-bcf08da595ac
 		summarizeBy: none
 		sourceColumn: fecha
-
-		variation Variación
-			isDefault
-			relationship: ee9d2b6a-716e-4531-8062-3ddaac6ab3d8
-			defaultHierarchy: LocalDateTable_6fcd8bdd-a3cd-43a0-82dc-1d5c6f2b4c14.'Jerarquía de fechas'
 
 		changedProperty = DataType
 
@@ -152,9 +158,10 @@ table fact_dades_consum
 				        ),
 				
 				    // Eliminar columna original mes
-				    resultado = Table.RemoveColumns(agregarFecha, {"mes"})
+				    resultado = Table.RemoveColumns(agregarFecha, {"mes"}),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(resultado,{{"polissa_subm", type text}, {"qmin_hora", Int64.Type}, {"qmax_hora", Int64.Type}, {"consum_mensual_real", Int64.Type}, {"consum_mensual_estimat", Int64.Type}, {"lectures_rebudes", Int64.Type}, {"dies_llegits", Int64.Type}, {"dies_absents", Int64.Type}, {"dies_amb_registre", Int64.Type}, {"dies_amb_consum_0", Int64.Type}, {"dies_amb_consum_0_any", Int64.Type}, {"num_series_contador_2026_mes", Int64.Type}})
 				in
-				    resultado
+				    #"Tipo cambiado"
 
 	annotation PBI_NavigationStepName = Navegación
 

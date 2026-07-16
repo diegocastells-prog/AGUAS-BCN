@@ -1,0 +1,144 @@
+table _switchs
+	lineageTag: 5ba8daa4-05a4-4cbd-958b-8be194c426ed
+
+	measure kpi_anr_dia_m3_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [anr_dia_m3_mensual],
+			    "12 meses", [anr_dia_m3_acum_12m],
+			    BLANK()
+			)
+			
+			```
+		lineageTag: aefdb69b-7672-4b20-bde5-a92f86277203
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_volum_consumit_distribucion_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [volum_consumit_distribucion_mensual],
+			    "12 meses", [volum_consumit_distribucion_12m],
+			    BLANK()
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 8ee3746b-d263-4907-a46c-c3fe130e5c49
+
+	measure kpi_volum_lliurat_distribucion_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [volum_lliurat_distribucion_mensual],
+			    "12 meses", [volum_lliurat_distribucion_12m],
+			    BLANK()
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 38d067e3-fceb-484e-adf7-3660a9ab62b3
+
+	measure kpi_anr_m3_km_dia_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [anr_m3_km_dia_mensual],
+			    "12 meses", [anr_m3_km_dia_acum_12m],
+			    BLANK()
+			)
+			
+			```
+		lineageTag: 4dd0ca4b-97a4-467d-a3e6-0298f4457562
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_anr_l_esc_dia_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [anr_l_esc_dia_mensual],
+			    "12 meses", [anr_l_esc_dia_acum_12m],
+			    BLANK()
+			)
+			
+			```
+		lineageTag: d76f2ddc-e783-4915-b386-6d6c9e88b4cb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_anr_l_subm_dia_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [anr_l_subm_dia_mensual],
+			    "12 meses", [anr_l_subm_dia_acum_12m],
+			    BLANK()
+			)
+			
+			```
+		lineageTag: add1648f-29b3-436e-84f1-a62778c04907
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_rth_distribucion_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [rth_distribucion],
+			    "12 meses", [rth_distribucion_12m],
+			    BLANK()
+			)
+			
+			```
+		formatString: 0.000\ %;-0.000\ %;0.000\ %
+		lineageTag: 9d3e0964-f7dc-4d68-910d-51909eb86273
+
+	measure kpi_q_min_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [q_min_mensual],
+			    "12 meses", [q_min_12_mesos],
+			    BLANK()
+			)
+			
+			```
+		lineageTag: c7c175be-b942-4e59-b6cb-d53de227af82
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_anr_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [anr_mensual],
+			    "12 meses", [anr_acum_12m],
+			    BLANK()
+			)
+			
+			```
+		lineageTag: 77d5aada-5d87-42b0-a2d2-2b55cf0afdca
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: f33f072e-039b-4732-a2bd-c68d914b2ffb
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _switchs = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 18caeabbaae8498b9613202f6abf8193
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+
