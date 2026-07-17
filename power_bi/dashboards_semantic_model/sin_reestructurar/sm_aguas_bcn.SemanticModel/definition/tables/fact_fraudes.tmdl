@@ -1,62 +1,57 @@
 table fact_fraudes
 	lineageTag: 01a25b1f-66dc-4dac-a68d-4fb6624188a7
 
-	column Polissa_Subm
+	column polissa_subm
 		dataType: string
 		lineageTag: 12672754-c4ea-4668-8f63-100e98eb5aa1
 		summarizeBy: none
-		sourceColumn: Polissa_Subm
+		sourceColumn: polissa_subm
 
 		annotation SummarizationSetBy = Automatic
 
-	column Codi_Comanda
+	column codi_comanda
 		dataType: int64
 		formatString: 0
 		lineageTag: 56b50f32-bd4f-464c-9ae6-5fcbbe815097
 		summarizeBy: sum
-		sourceColumn: Codi_Comanda
+		sourceColumn: codi_comanda
 
 		annotation SummarizationSetBy = Automatic
 
-	column Comanda_Posterior
+	column comanda_posterior
 		dataType: int64
 		formatString: 0
 		lineageTag: 405d6522-5bb1-4476-9777-1e0ec5cd9579
 		summarizeBy: sum
-		sourceColumn: Comanda_Posterior
+		sourceColumn: comanda_posterior
 
 		annotation SummarizationSetBy = Automatic
 
-	column Data_Creacio_Original
+	column data_creacio_original
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: 67270f96-46e7-4692-a83b-2ebb6d587759
 		summarizeBy: none
-		sourceColumn: Data_Creacio_Original
-
-		variation Variación
-			isDefault
-			relationship: 9edf0ce0-c8df-4676-9f74-1cd1e6f87748
-			defaultHierarchy: LocalDateTable_db8ec64c-4e47-447c-ae5b-912860e6c68d.'Jerarquía de fechas'
+		sourceColumn: data_creacio_original
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column Tipus_Ope
+	column tipus_ope
 		dataType: string
 		lineageTag: e4ab7d47-d233-4071-b25e-ef26adaa5adc
 		summarizeBy: none
-		sourceColumn: Tipus_Ope
+		sourceColumn: tipus_ope
 
 		annotation SummarizationSetBy = Automatic
 
-	column Data_Creacio_Final
+	column data_creacio_final
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: c5fe74f9-bafb-4880-807f-dc296a512bc4
 		summarizeBy: none
-		sourceColumn: Data_Creacio_Final
+		sourceColumn: data_creacio_final
 
 		variation Variación
 			isDefault
@@ -67,12 +62,12 @@ table fact_fraudes
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column Data_Fi_Execucio_Final
+	column data_fi_execucio_final
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: 9f934ca1-b9a6-417b-8517-b095a5041856
 		summarizeBy: none
-		sourceColumn: Data_Fi_Execucio_Final
+		sourceColumn: data_fi_execucio_final
 
 		variation Variación
 			isDefault
@@ -83,37 +78,37 @@ table fact_fraudes
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column Ind_Resultat
+	column ind_resultat
 		dataType: string
 		lineageTag: 4d404e83-9bb3-4002-8bbd-a48fd485608c
 		summarizeBy: none
-		sourceColumn: Ind_Resultat
+		sourceColumn: ind_resultat
 
 		annotation SummarizationSetBy = Automatic
 
-	column Codi_Ope_Fi
+	column codi_ope_fi
 		dataType: int64
 		formatString: 0
 		lineageTag: 2a14d99b-24b2-4f20-a9e4-388ef20b6efb
 		summarizeBy: sum
-		sourceColumn: Codi_Ope_Fi
+		sourceColumn: codi_ope_fi
 
 		annotation SummarizationSetBy = Automatic
 
-	column Tipus_Ope_Pendent
+	column tipus_ope_pendent
 		dataType: string
 		lineageTag: 436ce439-8c29-4562-9f60-5d6d8fec93a6
 		summarizeBy: none
-		sourceColumn: Tipus_Ope_Pendent
+		sourceColumn: tipus_ope_pendent
 
 		annotation SummarizationSetBy = Automatic
 
-	column Data_Creacio_Actual
+	column data_creacio_actual
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: dff58697-da08-4c16-8297-b282e16c4e71
 		summarizeBy: none
-		sourceColumn: Data_Creacio_Actual
+		sourceColumn: data_creacio_actual
 
 		variation Variación
 			isDefault
@@ -164,10 +159,11 @@ table fact_fraudes
 				    #"Encabezados Title Case" = Table.TransformColumnNames(
 				        #"Fechas sin hora",
 				        each Text.Proper(Text.Lower(_))
-				    )
+				    ),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados Title Case",{{"Polissa_Subm", "polissa_subm"}, {"Codi_Comanda", "codi_comanda"}, {"Comanda_Posterior", "comanda_posterior"}, {"Data_Creacio_Original", "data_creacio_original"}, {"Tipus_Ope", "tipus_ope"}, {"Data_Creacio_Final", "data_creacio_final"}, {"Data_Fi_Execucio_Final", "data_fi_execucio_final"}, {"Ind_Resultat", "ind_resultat"}, {"Codi_Ope_Fi", "codi_ope_fi"}, {"Tipus_Ope_Pendent", "tipus_ope_pendent"}, {"Data_Creacio_Actual", "data_creacio_actual"}})
 				
 				in
-				    #"Encabezados Title Case"
+				    #"Columnas con nombre cambiado"
 
 	annotation PBI_NavigationStepName = Navegación
 

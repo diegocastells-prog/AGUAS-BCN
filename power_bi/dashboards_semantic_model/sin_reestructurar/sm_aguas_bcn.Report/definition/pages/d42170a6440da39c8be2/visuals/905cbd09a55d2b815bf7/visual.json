@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "64cd6aed3568c19ff202",
+  "name": "905cbd09a55d2b815bf7",
   "position": {
-    "x": 849.99999999999989,
-    "y": 91.818181818181813,
-    "z": 30000,
-    "height": 399.99999999999994,
-    "width": 415.45454545454544,
-    "tabOrder": 27000
+    "x": 151,
+    "y": 199,
+    "z": 0,
+    "height": 455,
+    "width": 549,
+    "tabOrder": 0
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "lineChart",
     "query": {
       "queryState": {
         "Category": {
@@ -31,7 +31,62 @@
               "active": true
             }
           ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_rth_distribucion_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_rth_distribucion_switch",
+              "nativeQueryRef": "RTH",
+              "displayName": "RTH"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_anr_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_anr_switch",
+              "nativeQueryRef": "ANR",
+              "displayName": "ANR"
+            }
+          ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_calendario"
+                  }
+                },
+                "Property": "anio_mes"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
       }
     },
     "visualContainerObjects": {
@@ -41,7 +96,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Balance de distribución'"
+                  "Value": "'Evolución de rendimiento y ANR'"
                 }
               }
             },
@@ -282,5 +337,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "b06042a24a08718f5fbe",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a538b6a3d02f5087bbfc",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_rth_distribucion_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "469a6d04aa7037c02f4a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_anr_switch"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

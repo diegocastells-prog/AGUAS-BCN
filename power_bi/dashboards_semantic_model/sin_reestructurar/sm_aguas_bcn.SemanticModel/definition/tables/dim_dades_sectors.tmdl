@@ -1,0 +1,129 @@
+table dim_dades_sectors
+	lineageTag: a829a628-138d-4e15-82f8-234235465059
+
+	column sector_id
+		dataType: string
+		lineageTag: 967b6742-e532-4215-8998-6ce49b1eb35c
+		summarizeBy: none
+		sourceColumn: sector_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column sector
+		dataType: string
+		lineageTag: 014c34d1-5ad6-475a-b0a4-63e6ea7b168f
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column pressio
+		dataType: string
+		lineageTag: cf32a4ad-3bec-4194-8d68-622539780f6f
+		summarizeBy: none
+		sourceColumn: pressio
+
+		annotation SummarizationSetBy = Automatic
+
+	column gerencia
+		dataType: string
+		lineageTag: 975a0bda-a780-4e01-8516-e4ac416c99c6
+		summarizeBy: none
+		sourceColumn: gerencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column long_xarxa
+		dataType: int64
+		formatString: 0
+		lineageTag: 8633160b-849d-40c1-86ff-52c4b515c9fd
+		summarizeBy: sum
+		sourceColumn: long_xarxa
+
+		annotation SummarizationSetBy = Automatic
+
+	column ramals_controlats
+		dataType: int64
+		formatString: 0
+		lineageTag: 9653e8ff-d242-4569-8550-f7da03b20d5e
+		summarizeBy: sum
+		sourceColumn: ramals_controlats
+
+		annotation SummarizationSetBy = Automatic
+
+	column subministraments_controlats
+		dataType: int64
+		formatString: 0
+		lineageTag: accd8089-77d3-4dd5-bae7-195158a229f8
+		summarizeBy: sum
+		sourceColumn: subministraments_controlats
+
+		annotation SummarizationSetBy = Automatic
+
+	column pressio_mitjana
+		dataType: double
+		lineageTag: 47d59e64-c38e-4674-a95f-4d025e59a226
+		summarizeBy: sum
+		sourceColumn: pressio_mitjana
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column lambert
+		dataType: double
+		lineageTag: 6ea5addf-3310-4dae-bca9-75d89e2ce3ae
+		summarizeBy: sum
+		sourceColumn: lambert
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column afor_l_s
+		dataType: double
+		lineageTag: 8378b3bc-4439-4f1d-b16c-c22a2da19da1
+		summarizeBy: sum
+		sourceColumn: afor_l_s
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column referencia
+		dataType: double
+		lineageTag: 379a7308-dcb1-4a72-881c-c82ae89bc496
+		summarizeBy: sum
+		sourceColumn: referencia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sector_servei
+		dataType: string
+		lineageTag: 2a81b854-fced-45d4-b356-052a3853a5b5
+		summarizeBy: none
+		sourceColumn: sector_servei
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_dades_sectors = m
+		mode: import
+		source =
+				let
+				  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=1520384286#gid=1520384286"),
+				  #"Navegación 1" = Origen{[name = "Dades Sectors", ItemKind = "Table"]}[Data],
+				    #"Encabezados promovidos1" = Table.PromoteHeaders(#"Navegación 1", [PromoteAllScalars=true]),
+				    #"Columnas con nombre cambiado2" = Table.RenameColumns(#"Encabezados promovidos1",{{"Sector / Artèria", "sector_id"}, {"Sector", "sector"}, {"Pis de Pressió", "pressio"}, {"Gerència", "gerencia"}, {"Long de xarxa", "long_xarxa"}, {"Ramals Controlats", "ramals_controlats"}, {"Subministraments Controlats", "subministraments_controlats"}, {"Pressió mitjana", "pressio_mitjana"}, {"Lambert", "lambert"}, {"afor (l/s)", "afor_l_s"}, {"Referència", "referencia"}}),
+				    #"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado2",{""}),
+				    #"Columnas con nombre cambiado3" = Table.RenameColumns(#"Columnas quitadas1",{{"Sector en Servei", "sector_servei"}}),
+				    #"Columnas quitadas2" = Table.RemoveColumns(#"Columnas con nombre cambiado3",{"_1", "_2"}),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas2",{{"long_xarxa", Int64.Type}, {"ramals_controlats", Int64.Type}, {"subministraments_controlats", Int64.Type}, {"pressio_mitjana", type number}, {"lambert", type number}, {"afor_l_s", type number}, {"referencia", type number}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "fdaa26d81df3490d4262",
   "position": {
-    "x": 151,
-    "y": 199,
+    "x": 150.61980871893294,
+    "y": 202.14763801751528,
     "z": 7000,
-    "height": 455,
-    "width": 549,
+    "height": 454.50187894134154,
+    "width": 549.6301791848781,
     "tabOrder": 4000
   },
   "visual": {
@@ -29,25 +29,6 @@
               "queryRef": "dim_calendario.anio_mes",
               "nativeQueryRef": "anio_mes",
               "active": true
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_switchs"
-                    }
-                  },
-                  "Property": "kpi_rth_distribucion_switch"
-                }
-              },
-              "queryRef": "_switchs.kpi_rth_distribucion_switch",
-              "nativeQueryRef": "RTH",
-              "displayName": "RTH"
             }
           ]
         },
@@ -337,5 +318,37 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "ee07a8662563616116dd",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "8d9c1a769d62b8e1ab0f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_anr_switch"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

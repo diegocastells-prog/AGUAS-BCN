@@ -81,7 +81,7 @@ table _medidas
 			
 			CALCULATE(
 			    COUNTROWS('fact_fraudes'),
-			    'fact_fraudes'[Ind_Resultat] = "S"
+			    'fact_fraudes'[ind_resultat] = "S"
 			)
 		formatString: 0
 		displayFolder: fraudes
@@ -91,10 +91,10 @@ table _medidas
 			
 			COUNTROWS(
 			    FILTER(
-			        VALUES('fact_fraudes'[Polissa_Subm]),
+			        VALUES('fact_fraudes'[polissa_subm]),
 			        CALCULATE(
 			            COUNTROWS('fact_fraudes'),
-			            'fact_fraudes'[Ind_Resultat] = "S"
+			            'fact_fraudes'[ind_resultat] = "S"
 			        ) > 1
 			    )
 			)
@@ -121,6 +121,21 @@ table _medidas
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: anr\acum_12m
 		lineageTag: 5f1378c2-905a-4109-9cf9-571560b351e0
+
+	measure delta_anr_mensual = ```
+			
+			VAR MesActual = SUM(fact_aigua_no_registrada_mensual[anr])
+			VAR MesAnterior = 
+			    CALCULATE(
+			        SUM(fact_aigua_no_registrada_mensual[anr]),
+			        PREVIOUSMONTH(dim_calendario[Date])
+			    )
+			RETURN 
+			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: anr\mensual
+		lineageTag: 3bee1bda-5daa-4d40-9b48-c16b546b4003
 
 	measure volum_lliurat_global_mensual = SUM(fact_anr_global_mensual[lliurada_hm3])
 		displayFolder: anr\mensual
@@ -354,27 +369,6 @@ table _medidas
 		displayFolder: compatodrs
 		lineageTag: 4416c39f-e6e4-4056-b3f2-0ebc153e14f7
 
-	measure comptadors_sobre_q4 = ```
-			
-			CALCULATE(
-			    COUNTROWS(fact_Perimetre_comptadors),
-			    fact_Perimetre_comptadors[CABAL_Q3] * 1.6 < fact_dades_consum[QMAX_HORA]
-			)
-			
-			```
-		displayFolder: compatodrs\no_column
-		lineageTag: c45c1402-9200-400c-bbb8-c3381039292c
-
-	measure comptadors_per_sota_de_q1 =
-			
-			CALCULATE(
-			    COUNTROWS(fact_Perimetre_comptadors),
-			    RELATED(fact_dades_consum[qmin_hora]) <
-			        fact_Perimetre_comptadors[CABAL_Q3] * 0.025
-			)
-		displayFolder: compatodrs\no_column
-		lineageTag: 4cefac39-ceb2-44f0-9989-cd4c007a7e2e
-
 	measure tipus_subministrament = COUNT(fact_perimetre_comptadors[tip_subm_serv])
 		formatString: 0
 		displayFolder: compatodrs
@@ -480,25 +474,20 @@ table _medidas
 		lineageTag: ce986990-2984-4ac0-a0a4-9ed8615ef2f8
 
 	measure sensors_permanents_distribucio = ```
-			Longitud inspeccionada Nº Sensors fixes vs longitud total (cuina QGIS)
-			VAR LongInspeccionada =
-			    SUM(dim_ortomat[longitud])
 			
-			VAR SensorsFixes =
-			    SUM(dim_ortomat[unidad_sensors])
+			VAR LongInspeccionada = SUM(dim_ortomat[longitud])
 			
-			VAR LongTotal =
-			    SUM(fact_z_sector[longitud])
+			VAR SensorsFixes = SUM(dim_ortomat[unidad_sensors])
 			
-			VAR 
+			VAR LongTotal = SUM(dim_dades_sectors[long_xarxa])
+			 
+			VAR RatioSensors = LongInspeccionada * DIVIDE(SensorsFixes, LongTotal)
 			
-			VAR RatioSensors =
-			    DIVIDE(SensorsFixes, LongTotal)
-			
-			RETURN
-			RatioSensors
+			RETURN RatioSensors
+			//Longitud inspeccionada Nº Sensors fixes vs longitud total (cuina QGIS)
 			
 			```
+		formatString: 0
 		displayFolder: compatodrs\no_column
 		lineageTag: 5b7e4d33-f361-4a67-b4b4-b5f3ca388666
 
@@ -517,21 +506,6 @@ table _medidas
 			```
 		displayFolder: compatodrs\no_column
 		lineageTag: bb02ab51-1bce-4d5a-838d-4ee549631b4e
-
-	measure delta_anr_mensual = ```
-			
-			VAR MesActual = SUM(fact_aigua_no_registrada_mensual[anr])
-			VAR MesAnterior = 
-			    CALCULATE(
-			        SUM(fact_aigua_no_registrada_mensual[anr]),
-			        PREVIOUSMONTH(dim_calendario[Date])
-			    )
-			RETURN 
-			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
-			```
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: anr\mensual
-		lineageTag: 3bee1bda-5daa-4d40-9b48-c16b546b4003
 
 	measure q_min_mensual = sum('fact_cabals_mínims'[q_min])
 		displayFolder: cabals
@@ -840,7 +814,7 @@ table _medidas
 		displayFolder: compatodrs\canvis
 		lineageTag: feb11b1c-2bc3-4cde-87c4-823f8049cead
 
-	measure num_limitadors_installats_per_mes =
+	measure num_limitadors_installats =
 			
 			
 			CALCULATE(

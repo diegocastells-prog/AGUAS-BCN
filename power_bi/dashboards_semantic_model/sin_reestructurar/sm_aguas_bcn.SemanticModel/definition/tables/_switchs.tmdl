@@ -25,7 +25,7 @@ table _switchs
 			)
 			
 			```
-		formatString: 0
+		formatString: #,0.00
 		lineageTag: 8ee3746b-d263-4907-a46c-c3fe130e5c49
 
 	measure kpi_volum_lliurat_distribucion_switch = ```
@@ -38,7 +38,7 @@ table _switchs
 			)
 			
 			```
-		formatString: 0
+		formatString: #,0.00
 		lineageTag: 38d067e3-fceb-484e-adf7-3660a9ab62b3
 
 	measure kpi_anr_m3_km_dia_switch = ```
@@ -51,9 +51,8 @@ table _switchs
 			)
 			
 			```
+		formatString: #,0.00
 		lineageTag: 4dd0ca4b-97a4-467d-a3e6-0298f4457562
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_anr_l_esc_dia_switch = ```
 			
@@ -65,9 +64,8 @@ table _switchs
 			)
 			
 			```
+		formatString: #,0.00
 		lineageTag: d76f2ddc-e783-4915-b386-6d6c9e88b4cb
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_anr_l_subm_dia_switch = ```
 			
@@ -79,9 +77,8 @@ table _switchs
 			)
 			
 			```
+		formatString: #,0.00
 		lineageTag: add1648f-29b3-436e-84f1-a62778c04907
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_rth_distribucion_switch = ```
 			
@@ -93,7 +90,7 @@ table _switchs
 			)
 			
 			```
-		formatString: 0.000\ %;-0.000\ %;0.000\ %
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
 		lineageTag: 9d3e0964-f7dc-4d68-910d-51909eb86273
 
 	measure kpi_q_min_switch = ```
@@ -106,9 +103,8 @@ table _switchs
 			)
 			
 			```
+		formatString: #,0.00
 		lineageTag: c7c175be-b942-4e59-b6cb-d53de227af82
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_anr_switch = ```
 			
@@ -120,7 +116,48 @@ table _switchs
 			)
 			
 			```
+		formatString: #,0.00
 		lineageTag: 77d5aada-5d87-42b0-a2d2-2b55cf0afdca
+
+	measure kpi_rth_transporte_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [rendiment_transport_mensual],
+			    "12 meses", [rendiment_transport_acum_12m],
+			    BLANK()
+			)
+			
+			```
+		lineageTag: ac946c00-aba8-45b5-84c8-5d496df3d700
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_anr_global_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [anr_global_mensual_hm3],
+			    "12 meses", [anr_global_hm3_acum_12m],
+			    BLANK()
+			)
+			
+			```
+		lineageTag: 11320d97-e99e-402d-9a99-c731e8870e8a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_rth_global_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [rendiment_global_mensual],
+			    "12 meses", [rendiment_global_acum_12m],
+			    BLANK()
+			)
+			
+			```
+		lineageTag: ab5d550c-8fe9-4056-abff-1f0d7ddafeb6
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

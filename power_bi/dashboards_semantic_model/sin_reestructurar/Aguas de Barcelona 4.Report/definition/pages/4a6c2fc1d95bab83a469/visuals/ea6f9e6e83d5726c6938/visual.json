@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "ea6f9e6e83d5726c6938",
   "position": {
-    "x": 718,
-    "y": 199,
+    "x": 728.873973190767,
+    "y": 199.80097949308305,
     "z": 8000,
-    "height": 455,
-    "width": 551,
+    "height": 455.54623324422937,
+    "width": 551.45070340090922,
     "tabOrder": 5000
   },
   "visual": {
@@ -29,6 +29,25 @@
               "queryRef": "dim_calendario.anio_mes",
               "nativeQueryRef": "anio_mes",
               "active": true
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_rth_distribucion_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_rth_distribucion_switch",
+              "nativeQueryRef": "RTH",
+              "displayName": "RTH"
             }
           ]
         },
@@ -337,5 +356,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "67cbb9d1065ada4bbe69",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "22f700664a38ab1058c3",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_volum_lliurat_distribucion_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "32f54b063de6777f54bf",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_volum_consumit_distribucion_switch"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

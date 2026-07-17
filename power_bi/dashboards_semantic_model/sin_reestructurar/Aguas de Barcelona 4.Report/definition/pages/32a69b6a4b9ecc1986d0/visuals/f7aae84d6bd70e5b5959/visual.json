@@ -36,48 +36,34 @@
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "fact_estadístiques_comp"
-                        }
-                      },
-                      "Property": "total"
+                    "SourceRef": {
+                      "Entity": "_switchs"
                     }
                   },
-                  "Function": 0
+                  "Property": "kpi_q_min_switch"
                 }
               },
-              "queryRef": "Sum(fact_estadístiques_comp.total)",
-              "nativeQueryRef": "Suma de total"
+              "queryRef": "_switchs.kpi_q_min_switch",
+              "nativeQueryRef": "kpi_q_min_switch"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_anr_dia_m3_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_anr_dia_m3_switch",
+              "nativeQueryRef": "kpi_anr_dia_m3_switch"
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Aggregation": {
-                "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "fact_estadístiques_comp"
-                      }
-                    },
-                    "Property": "total"
-                  }
-                },
-                "Function": 0
-              }
-            },
-            "direction": "Descending"
-          }
-        ],
-        "isDefaultSort": true
       }
     },
     "visualContainerObjects": {
