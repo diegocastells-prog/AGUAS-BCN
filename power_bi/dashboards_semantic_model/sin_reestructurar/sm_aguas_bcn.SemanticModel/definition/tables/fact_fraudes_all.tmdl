@@ -160,10 +160,22 @@ table fact_fraudes_all
 				        #"Fechas sin hora",
 				        each Text.Proper(Text.Lower(_))
 				    ),
-				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados Title Case",{{"Polissa_Subm", "polissa_subm"}, {"Codi_Comanda", "codi_comanda"}, {"Comanda_Posterior", "comanda_posterior"}, {"Data_Creacio_Original", "data_creacio_original"}, {"Tipus_Ope", "tipus_ope"}, {"Data_Creacio_Final", "data_creacio_final"}, {"Data_Fi_Execucio_Final", "data_fi_execucio_final"}, {"Ind_Resultat", "ind_resultat"}, {"Codi_Ope_Fi", "codi_ope_fi"}, {"Tipus_Ope_Pendent", "tipus_ope_pendent"}, {"Data_Creacio_Actual", "data_creacio_actual"}})
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados Title Case",{{"Polissa_Subm", "polissa_subm"}, {"Codi_Comanda", "codi_comanda"}, {"Comanda_Posterior", "comanda_posterior"}, {"Data_Creacio_Original", "data_creacio_original"}, {"Tipus_Ope", "tipus_ope"}, {"Data_Creacio_Final", "data_creacio_final"}, {"Data_Fi_Execucio_Final", "data_fi_execucio_final"}, {"Ind_Resultat", "ind_resultat"}, {"Codi_Ope_Fi", "codi_ope_fi"}, {"Tipus_Ope_Pendent", "tipus_ope_pendent"}, {"Data_Creacio_Actual", "data_creacio_actual"}}),
+				    SinDuplicados =
+				        Table.Distinct( #"Columnas con nombre cambiado"),
+				
+				
+				
+				    SinFilasVacias =
+				        Table.SelectRows(
+				            SinDuplicados,
+				            each List.NonNullCount(Record.FieldValues(_)) > 0
+				        )
+				
+				
 				
 				in
-				    #"Columnas con nombre cambiado"
+				    SinFilasVacias
 
 	annotation PBI_NavigationStepName = Navegación
 

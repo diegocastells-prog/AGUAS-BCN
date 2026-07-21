@@ -1,25 +1,18 @@
 table dim_dades_sectors
-	lineageTag: a829a628-138d-4e15-82f8-234235465059
+	lineageTag: 7dda3706-9e1d-480c-91fe-1f379530847f
 
 	column sector_id
-		dataType: string
-		lineageTag: 967b6742-e532-4215-8998-6ce49b1eb35c
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c909e2b-60b0-42c3-86c7-4518524ba32e
 		summarizeBy: none
 		sourceColumn: sector_id
 
 		annotation SummarizationSetBy = Automatic
 
-	column sector
-		dataType: string
-		lineageTag: 014c34d1-5ad6-475a-b0a4-63e6ea7b168f
-		summarizeBy: none
-		sourceColumn: sector
-
-		annotation SummarizationSetBy = Automatic
-
 	column pressio
 		dataType: string
-		lineageTag: cf32a4ad-3bec-4194-8d68-622539780f6f
+		lineageTag: 2ce56a7b-9726-412f-9966-5861277b4bad
 		summarizeBy: none
 		sourceColumn: pressio
 
@@ -27,7 +20,7 @@ table dim_dades_sectors
 
 	column gerencia
 		dataType: string
-		lineageTag: 975a0bda-a780-4e01-8516-e4ac416c99c6
+		lineageTag: 10dfaa77-14d4-486f-ad99-e8145dd96d12
 		summarizeBy: none
 		sourceColumn: gerencia
 
@@ -36,7 +29,7 @@ table dim_dades_sectors
 	column long_xarxa
 		dataType: int64
 		formatString: 0
-		lineageTag: 8633160b-849d-40c1-86ff-52c4b515c9fd
+		lineageTag: 38e1e369-ea48-4acb-987b-e87957e13d4d
 		summarizeBy: sum
 		sourceColumn: long_xarxa
 
@@ -45,7 +38,7 @@ table dim_dades_sectors
 	column ramals_controlats
 		dataType: int64
 		formatString: 0
-		lineageTag: 9653e8ff-d242-4569-8550-f7da03b20d5e
+		lineageTag: e07528cd-4df1-4a7e-a330-29c4691d5794
 		summarizeBy: sum
 		sourceColumn: ramals_controlats
 
@@ -54,7 +47,7 @@ table dim_dades_sectors
 	column subministraments_controlats
 		dataType: int64
 		formatString: 0
-		lineageTag: accd8089-77d3-4dd5-bae7-195158a229f8
+		lineageTag: df39eec1-ba21-47aa-b007-0d3800d9375f
 		summarizeBy: sum
 		sourceColumn: subministraments_controlats
 
@@ -62,7 +55,7 @@ table dim_dades_sectors
 
 	column pressio_mitjana
 		dataType: double
-		lineageTag: 47d59e64-c38e-4674-a95f-4d025e59a226
+		lineageTag: 0a24ec85-f43e-4334-9e26-0409bd53484c
 		summarizeBy: sum
 		sourceColumn: pressio_mitjana
 
@@ -72,7 +65,7 @@ table dim_dades_sectors
 
 	column lambert
 		dataType: double
-		lineageTag: 6ea5addf-3310-4dae-bca9-75d89e2ce3ae
+		lineageTag: f4bd4f08-9bfd-4fa7-961c-0de1436ea245
 		summarizeBy: sum
 		sourceColumn: lambert
 
@@ -82,7 +75,7 @@ table dim_dades_sectors
 
 	column afor_l_s
 		dataType: double
-		lineageTag: 8378b3bc-4439-4f1d-b16c-c22a2da19da1
+		lineageTag: 8d9940a6-b13e-4106-9196-e73525f1f498
 		summarizeBy: sum
 		sourceColumn: afor_l_s
 
@@ -92,7 +85,7 @@ table dim_dades_sectors
 
 	column referencia
 		dataType: double
-		lineageTag: 379a7308-dcb1-4a72-881c-c82ae89bc496
+		lineageTag: 015d8aba-932b-46eb-8fc1-c3544cdedd47
 		summarizeBy: sum
 		sourceColumn: referencia
 
@@ -102,7 +95,7 @@ table dim_dades_sectors
 
 	column sector_servei
 		dataType: string
-		lineageTag: 2a81b854-fced-45d4-b356-052a3853a5b5
+		lineageTag: 58c38cfd-cca4-4ac8-8a3c-d0a8c6a09cc8
 		summarizeBy: none
 		sourceColumn: sector_servei
 
@@ -110,18 +103,21 @@ table dim_dades_sectors
 
 	partition dim_dades_sectors = m
 		mode: import
-		source =
+		source = ```
 				let
-				  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=1520384286#gid=1520384286"),
-				  #"Navegación 1" = Origen{[name = "Dades Sectors", ItemKind = "Table"]}[Data],
-				    #"Encabezados promovidos1" = Table.PromoteHeaders(#"Navegación 1", [PromoteAllScalars=true]),
-				    #"Columnas con nombre cambiado2" = Table.RenameColumns(#"Encabezados promovidos1",{{"Sector / Artèria", "sector_id"}, {"Sector", "sector"}, {"Pis de Pressió", "pressio"}, {"Gerència", "gerencia"}, {"Long de xarxa", "long_xarxa"}, {"Ramals Controlats", "ramals_controlats"}, {"Subministraments Controlats", "subministraments_controlats"}, {"Pressió mitjana", "pressio_mitjana"}, {"Lambert", "lambert"}, {"afor (l/s)", "afor_l_s"}, {"Referència", "referencia"}}),
-				    #"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado2",{""}),
-				    #"Columnas con nombre cambiado3" = Table.RenameColumns(#"Columnas quitadas1",{{"Sector en Servei", "sector_servei"}}),
-				    #"Columnas quitadas2" = Table.RemoveColumns(#"Columnas con nombre cambiado3",{"_1", "_2"}),
-				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas2",{{"long_xarxa", Int64.Type}, {"ramals_controlats", Int64.Type}, {"subministraments_controlats", Int64.Type}, {"pressio_mitjana", type number}, {"lambert", type number}, {"afor_l_s", type number}, {"referencia", type number}})
+					Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=1520384286#gid=1520384286"),
+				 	#"Navegación 1" = Origen{[name = "Dades Sectors", ItemKind = "Table"]}[Data],
+					#"Encabezados promovidos1" = Table.PromoteHeaders(#"Navegación 1", [PromoteAllScalars=true]),
+					#"Columnas con nombre cambiado2" = Table.RenameColumns(#"Encabezados promovidos1",{{"Sector / Artèria", "sector_id"}, {"Sector", "sector"}, {"Pis de Pressió", "pressio"}, {"Gerència", "gerencia"}, {"Long de xarxa", "long_xarxa"}, {"Ramals Controlats", "ramals_controlats"}, {"Subministraments Controlats", "subministraments_controlats"}, {"Pressió mitjana", "pressio_mitjana"}, {"Lambert", "lambert"}, {"afor (l/s)", "afor_l_s"}, {"Referència", "referencia"}}),
+					#"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado2",{""}),
+					#"Columnas con nombre cambiado3" = Table.RenameColumns(#"Columnas quitadas1",{{"Sector en Servei", "sector_servei"}}),
+					#"Columnas quitadas2" = Table.RemoveColumns(#"Columnas con nombre cambiado3",{"_1", "_2", "sector"}),
+					#"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas2",{{"long_xarxa", Int64.Type}, {"ramals_controlats", Int64.Type}, {"subministraments_controlats", Int64.Type}, {"pressio_mitjana", type number}, {"lambert", type number}, {"afor_l_s", type number}, {"referencia", type number}, {"sector_id", Int64.Type}}),
+				    #"Errores quitados" = Table.RemoveRowsWithErrors(#"Tipo cambiado", {"sector_id"})
+					
 				in
-				    #"Tipo cambiado"
+				    #"Errores quitados"
+				```
 
 	annotation PBI_NavigationStepName = Navegación
 

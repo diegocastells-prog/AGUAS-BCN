@@ -93,11 +93,6 @@ relationship AutoDetected_fa068362-ff0a-4555-84b3-340a375e0c1f
 	fromColumn: fact_perimetre_comptadors.id_marca_modelo
 	toColumn: dim_comptadors.Id_marca_modelo
 
-relationship 89004ccc-ef96-00fa-2a9e-4f1ff9a67387
-	crossFilteringBehavior: bothDirections
-	fromColumn: fact_dades_consum.polissa_subm
-	toColumn: fact_perimetre_comptadors.polissa_subm
-
 relationship 563efaee-807e-403d-a65b-28ad0d6b9645
 	joinOnDateBehavior: datePartOnly
 	fromColumn: fact_rend_anr_arterias_mensual.fecha
@@ -144,15 +139,6 @@ relationship c4350338-ac8f-7bcd-39dc-14af6de27b72
 	fromColumn: fact_fraudes_all.data_creacio_original
 	toColumn: dim_calendario.Date
 
-relationship fd3188c8-646a-cbad-902f-904478ab843c
-	fromColumn: dim_dades_sectors.sector_id
-	toColumn: dim_ortomat.sector_id
-
-relationship bde4a509-bb27-41b3-a762-c256dcfa5eae
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_dades_consum.mes
-	toColumn: LocalDateTable_43fc0d91-f146-4ce9-a0d6-bb3e28263fe8.Date
-
 relationship 593b7e3e-5630-319a-cf59-56fcc99d17ea
 	fromColumn: fact_aigua_no_registrada_mensual.fecha
 	toColumn: dim_calendario.Date
@@ -164,4 +150,24 @@ relationship 2d155cf4-eda1-bf1c-5df2-00686c2e6216
 relationship 11103316-591f-d468-00ef-0a246d796aaa
 	fromColumn: fact_vol_fraud.'Polissa Subm'
 	toColumn: dim_polissa_fraude.polissa_su
+
+relationship AutoDetected_b7ea796b-2393-406d-a540-7fc31918042a
+	fromColumn: dim_coordenadas_sector.sector_id
+	toColumn: dim_ortomat.sector_id
+
+relationship AutoDetected_675535a9-b3cb-4eb9-bc56-1dcbe4ded544
+	fromColumn: dim_coordenadas_sector.sector_id
+	toColumn: dim_sector.sector_id
+
+relationship AutoDetected_8f32e086-276d-4322-8484-42ecc22cc9d0
+	fromColumn: dim_dades_sectors.sector_id
+	toColumn: dim_ortomat.sector_id
+
+relationship AutoDetected_26ce341f-2696-4101-a51f-ef0929df4ca2
+	fromColumn: dim_dades_sectors.sector_id
+	toColumn: dim_sector.sector_id
+
+relationship cf49dc32-e2b7-b33e-4ef2-08d26afb5103
+	fromColumn: fact_perimetre_comptadors.sector
+	toColumn: dim_sector.sector
 

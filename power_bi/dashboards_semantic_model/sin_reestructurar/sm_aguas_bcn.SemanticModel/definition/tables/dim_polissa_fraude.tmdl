@@ -9,26 +9,6 @@ table dim_polissa_fraude
 
 		annotation SummarizationSetBy = Automatic
 
-	column coordenada_latitud
-		dataType: double
-		lineageTag: 7f60627d-fd07-433b-9386-7d4810a155c1
-		summarizeBy: sum
-		sourceColumn: coordenada_latitud
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column coordenada_longitud
-		dataType: double
-		lineageTag: 5949e51d-7b65-4143-8956-764667ca6da9
-		summarizeBy: sum
-		sourceColumn: coordenada_longitud
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column gerencia
 		dataType: string
 		lineageTag: f3e75fc1-17c2-44ad-abf2-e53471089069
@@ -43,14 +23,6 @@ table dim_polissa_fraude
 		lineageTag: 8041b731-9b5f-42b1-ac9a-e50f6f2818b8
 		summarizeBy: none
 		sourceColumn: sector_id
-
-		annotation SummarizationSetBy = Automatic
-
-	column sector
-		dataType: string
-		lineageTag: 33a41085-beb4-4a08-84b4-d181aadbdec3
-		summarizeBy: none
-		sourceColumn: sector
 
 		annotation SummarizationSetBy = Automatic
 
@@ -121,9 +93,10 @@ table dim_polissa_fraude
 				        in
 				          textoLimpio,
 				
-				    sinDuplicados = Table.Distinct(#"Procesado")
+				    sinDuplicados = Table.Distinct(#"Procesado"),
+				    #"Columnas quitadas" = Table.RemoveColumns(sinDuplicados,{"coordenada_latitud", "coordenada_longitud", "sector"})
 				in
-				    sinDuplicados
+				    #"Columnas quitadas"
 				```
 
 	annotation PBI_NavigationStepName = Navegación

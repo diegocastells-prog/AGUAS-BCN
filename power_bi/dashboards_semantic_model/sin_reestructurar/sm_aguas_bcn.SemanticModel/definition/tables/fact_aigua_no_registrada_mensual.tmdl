@@ -17,14 +17,6 @@ table fact_aigua_no_registrada_mensual
 
 		annotation SummarizationSetBy = Automatic
 
-	column sectors
-		dataType: string
-		lineageTag: 166a9dea-1245-4a08-9059-7effbdf91d30
-		summarizeBy: none
-		sourceColumn: sectors
-
-		annotation SummarizationSetBy = Automatic
-
 	column fecha
 		dataType: dateTime
 		formatString: Short Date
@@ -59,54 +51,55 @@ table fact_aigua_no_registrada_mensual
 		mode: import
 		source = ```
 				let
-				    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=2003244827#gid=2003244827"),
-				    #"Navegación 1" = Origen{[name = "Aigua No Registrada", ItemKind = "Table"]}[Data],
-				    #"Filas superiores quitadas" = Table.Skip(#"Navegación 1",2),
-				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
-				    #"Columnas quitadas2" = Table.RemoveColumns(#"Encabezados promovidos",{"_1"}),
-				    #"Errores reemplazados" = Table.ReplaceErrorValues(#"Columnas quitadas2", {{"01/06/2026", ""}}),
-				    #"Errores reemplazados1" = Table.ReplaceErrorValues(#"Errores reemplazados", {{"01/12/2026", ""}}),
-				    #"Errores reemplazados2" = Table.ReplaceErrorValues(#"Errores reemplazados1", {{"01/11/2026", ""}}),
-				    #"Errores reemplazados3" = Table.ReplaceErrorValues(#"Errores reemplazados2", {{"01/10/2026", ""}}),
-				    #"Errores reemplazados4" = Table.ReplaceErrorValues(#"Errores reemplazados3", {{"01/09/2026", ""}}),
-				    #"Errores reemplazados5" = Table.ReplaceErrorValues(#"Errores reemplazados4", {{"01/08/2026", ""}}),
-				    #"Errores reemplazados6" = Table.ReplaceErrorValues(#"Errores reemplazados5", {{"01/07/2026", ""}}),
-				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Errores reemplazados6",{{"01/01/2021", Int64.Type}, {"01/02/2021", Int64.Type}, {"01/03/2021", Int64.Type}, {"01/04/2021", Int64.Type}, {"01/05/2021", Int64.Type}, {"01/06/2021", Int64.Type}, {"01/07/2021", Int64.Type}, {"01/08/2021", Int64.Type}, {"01/09/2021", Int64.Type}, {"01/10/2021", Int64.Type}, {"01/11/2021", Int64.Type}, {"01/12/2021", Int64.Type}, {"01/01/2022", Int64.Type}, {"01/02/2022", Int64.Type}, {"01/03/2022", Int64.Type}, {"01/04/2022", Int64.Type}, {"01/05/2022", Int64.Type}, {"01/06/2022", Int64.Type}, {"01/07/2022", Int64.Type}, {"01/08/2022", Int64.Type}, {"01/09/2022", Int64.Type}, {"01/10/2022", Int64.Type}, {"01/11/2022", Int64.Type}, {"01/12/2022", Int64.Type}, {"01/01/2023", Int64.Type}, {"01/02/2023", Int64.Type}, {"01/03/2023", Int64.Type}, {"01/04/2023", Int64.Type}, {"01/05/2023", Int64.Type}, {"01/06/2023", Int64.Type}, {"01/07/2023", Int64.Type}, {"01/08/2023", Int64.Type}, {"01/09/2023", Int64.Type}, {"01/10/2023", Int64.Type}, {"01/11/2023", Int64.Type}, {"01/12/2023", Int64.Type}, {"01/01/2024", Int64.Type}, {"01/02/2024", Int64.Type}, {"01/03/2024", Int64.Type}, {"01/04/2024", Int64.Type}, {"01/05/2024", Int64.Type}, {"01/06/2024", Int64.Type}, {"01/07/2024", Int64.Type}, {"01/08/2024", Int64.Type}, {"01/09/2024", Int64.Type}, {"01/10/2024", Int64.Type}, {"01/11/2024", Int64.Type}, {"01/12/2024", Int64.Type}, {"01/01/2025", Int64.Type}, {"01/02/2025", Int64.Type}, {"01/03/2025", Int64.Type}, {"01/04/2025", Int64.Type}, {"01/05/2025", Int64.Type}, {"01/06/2025", Int64.Type}, {"01/07/2025", Int64.Type}, {"01/08/2025", Int64.Type}, {"01/09/2025", Int64.Type}, {"01/10/2025", Int64.Type}, {"01/11/2025", Int64.Type}, {"01/12/2025", Int64.Type}, {"01/01/2026", Int64.Type}, {"01/02/2026", Int64.Type}, {"01/03/2026", Int64.Type}, {"01/04/2026", Int64.Type}, {"01/05/2026", Int64.Type}, {"01/06/2026", Int64.Type}, {"01/07/2026", Int64.Type}, {"01/08/2026", Int64.Type}, {"01/09/2026", Int64.Type}, {"01/10/2026", Int64.Type}, {"01/11/2026", Int64.Type}, {"01/12/2026", Int64.Type}}),
-				    #"Columnas quitadas" = Table.RemoveColumns(#"Tipo cambiado1",{""}),
-				    #"Filas filtradas" = Table.SelectRows(#"Columnas quitadas", each ([Nº] <> "")),
-				    #"Columna de anulación de dinamización" = Table.UnpivotOtherColumns(#"Filas filtradas", {"Nº", "Gerència", "Pis Pressió", "Sectors"}, "Atributo", "anr"),
-				    #"Personalizada agregada" = Table.AddColumn(#"Columna de anulación de dinamización", "fecha", each let
-				    txt0  = [Atributo],
-				    txt1  = Text.Lower(txt0),
-				    txt2  = Text.Replace(Text.Replace(Text.Replace(txt1,"de ",""),"d’",""),".",""),
-				    mesTxt = Text.BeforeDelimiter(txt2,"-"),
-				    anioTxt = Text.AfterDelimiter(txt2,"-"),
-				    anio = 2000 + Number.FromText(anioTxt),
-				    mes = 
-				        if mesTxt = "gen"  then 1 else
-				        if mesTxt = "febr" then 2 else
-				        if mesTxt = "març" then 3 else
-				        if mesTxt = "abr"  then 4 else
-				        if mesTxt = "maig" then 5 else
-				        if mesTxt = "juny" then 6 else
-				        if mesTxt = "jul"  then 7 else
-				        if mesTxt = "ag"   then 8 else
-				        if mesTxt = "set"  then 9 else
-				        if mesTxt = "oct"  then 10 else
-				        if mesTxt = "nov"  then 11 else
-				        if mesTxt = "des"  then 12 else
-				        null
-				    in
-				        #date(anio, mes, 1)
-				    ),
-				    #"Columnas quitadas3" = Table.RemoveColumns(#"Personalizada agregada",{"fecha"}),
-				    #"Columnas con nombre cambiado2" = Table.RenameColumns(#"Columnas quitadas3",{{"Atributo", "fecha"}}),
-				    // 🔥 NUEVO PASO: renombrar columnas a minúsculas y reemplazar espacios por _
-				    #"Columnas normalizadas" = Table.TransformColumnNames(#"Columnas con nombre cambiado2", each Text.Replace(Text.Lower(_), " ", "_")),
-				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columnas normalizadas",{{"nº", "n"}, {"gerència", "gerencia"}, {"pis_pressió", "pis_pressio"}}),
-				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columnas con nombre cambiado",{{"n", "sector"}})
-				    in
-				    #"Columnas con nombre cambiado1"
+								    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=2003244827#gid=2003244827"),
+								    #"Navegación 1" = Origen{[name = "Aigua No Registrada", ItemKind = "Table"]}[Data],
+								    #"Filas superiores quitadas" = Table.Skip(#"Navegación 1",2),
+								    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
+								    #"Columnas quitadas2" = Table.RemoveColumns(#"Encabezados promovidos",{"_1"}),
+								    #"Errores reemplazados" = Table.ReplaceErrorValues(#"Columnas quitadas2", {{"01/06/2026", ""}}),
+								    #"Errores reemplazados1" = Table.ReplaceErrorValues(#"Errores reemplazados", {{"01/12/2026", ""}}),
+								    #"Errores reemplazados2" = Table.ReplaceErrorValues(#"Errores reemplazados1", {{"01/11/2026", ""}}),
+								    #"Errores reemplazados3" = Table.ReplaceErrorValues(#"Errores reemplazados2", {{"01/10/2026", ""}}),
+								    #"Errores reemplazados4" = Table.ReplaceErrorValues(#"Errores reemplazados3", {{"01/09/2026", ""}}),
+								    #"Errores reemplazados5" = Table.ReplaceErrorValues(#"Errores reemplazados4", {{"01/08/2026", ""}}),
+								    #"Errores reemplazados6" = Table.ReplaceErrorValues(#"Errores reemplazados5", {{"01/07/2026", ""}}),
+								    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Errores reemplazados6",{{"01/01/2021", Int64.Type}, {"01/02/2021", Int64.Type}, {"01/03/2021", Int64.Type}, {"01/04/2021", Int64.Type}, {"01/05/2021", Int64.Type}, {"01/06/2021", Int64.Type}, {"01/07/2021", Int64.Type}, {"01/08/2021", Int64.Type}, {"01/09/2021", Int64.Type}, {"01/10/2021", Int64.Type}, {"01/11/2021", Int64.Type}, {"01/12/2021", Int64.Type}, {"01/01/2022", Int64.Type}, {"01/02/2022", Int64.Type}, {"01/03/2022", Int64.Type}, {"01/04/2022", Int64.Type}, {"01/05/2022", Int64.Type}, {"01/06/2022", Int64.Type}, {"01/07/2022", Int64.Type}, {"01/08/2022", Int64.Type}, {"01/09/2022", Int64.Type}, {"01/10/2022", Int64.Type}, {"01/11/2022", Int64.Type}, {"01/12/2022", Int64.Type}, {"01/01/2023", Int64.Type}, {"01/02/2023", Int64.Type}, {"01/03/2023", Int64.Type}, {"01/04/2023", Int64.Type}, {"01/05/2023", Int64.Type}, {"01/06/2023", Int64.Type}, {"01/07/2023", Int64.Type}, {"01/08/2023", Int64.Type}, {"01/09/2023", Int64.Type}, {"01/10/2023", Int64.Type}, {"01/11/2023", Int64.Type}, {"01/12/2023", Int64.Type}, {"01/01/2024", Int64.Type}, {"01/02/2024", Int64.Type}, {"01/03/2024", Int64.Type}, {"01/04/2024", Int64.Type}, {"01/05/2024", Int64.Type}, {"01/06/2024", Int64.Type}, {"01/07/2024", Int64.Type}, {"01/08/2024", Int64.Type}, {"01/09/2024", Int64.Type}, {"01/10/2024", Int64.Type}, {"01/11/2024", Int64.Type}, {"01/12/2024", Int64.Type}, {"01/01/2025", Int64.Type}, {"01/02/2025", Int64.Type}, {"01/03/2025", Int64.Type}, {"01/04/2025", Int64.Type}, {"01/05/2025", Int64.Type}, {"01/06/2025", Int64.Type}, {"01/07/2025", Int64.Type}, {"01/08/2025", Int64.Type}, {"01/09/2025", Int64.Type}, {"01/10/2025", Int64.Type}, {"01/11/2025", Int64.Type}, {"01/12/2025", Int64.Type}, {"01/01/2026", Int64.Type}, {"01/02/2026", Int64.Type}, {"01/03/2026", Int64.Type}, {"01/04/2026", Int64.Type}, {"01/05/2026", Int64.Type}, {"01/06/2026", Int64.Type}, {"01/07/2026", Int64.Type}, {"01/08/2026", Int64.Type}, {"01/09/2026", Int64.Type}, {"01/10/2026", Int64.Type}, {"01/11/2026", Int64.Type}, {"01/12/2026", Int64.Type}}),
+								    #"Columnas quitadas" = Table.RemoveColumns(#"Tipo cambiado1",{""}),
+								    #"Filas filtradas" = Table.SelectRows(#"Columnas quitadas", each ([Nº] <> "")),
+								    #"Columna de anulación de dinamización" = Table.UnpivotOtherColumns(#"Filas filtradas", {"Nº", "Gerència", "Pis Pressió", "Sectors"}, "Atributo", "anr"),
+								    #"Personalizada agregada" = Table.AddColumn(#"Columna de anulación de dinamización", "fecha", each let
+								    txt0  = [Atributo],
+								    txt1  = Text.Lower(txt0),
+								    txt2  = Text.Replace(Text.Replace(Text.Replace(txt1,"de ",""),"d’",""),".",""),
+								    mesTxt = Text.BeforeDelimiter(txt2,"-"),
+								    anioTxt = Text.AfterDelimiter(txt2,"-"),
+								    anio = 2000 + Number.FromText(anioTxt),
+								    mes = 
+								        if mesTxt = "gen"  then 1 else
+								        if mesTxt = "febr" then 2 else
+								        if mesTxt = "març" then 3 else
+								        if mesTxt = "abr"  then 4 else
+								        if mesTxt = "maig" then 5 else
+								        if mesTxt = "juny" then 6 else
+								        if mesTxt = "jul"  then 7 else
+								        if mesTxt = "ag"   then 8 else
+								        if mesTxt = "set"  then 9 else
+								        if mesTxt = "oct"  then 10 else
+								        if mesTxt = "nov"  then 11 else
+								        if mesTxt = "des"  then 12 else
+								        null
+								    in
+								        #date(anio, mes, 1)
+								    ),
+								    #"Columnas quitadas3" = Table.RemoveColumns(#"Personalizada agregada",{"fecha"}),
+								    #"Columnas con nombre cambiado2" = Table.RenameColumns(#"Columnas quitadas3",{{"Atributo", "fecha"}}),
+								    // renombrar columnas a minúsculas y reemplazar espacios por _
+								    #"Columnas normalizadas" = Table.TransformColumnNames(#"Columnas con nombre cambiado2", each Text.Replace(Text.Lower(_), " ", "_")),
+								    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columnas normalizadas",{{"nº", "n"}, {"gerència", "gerencia"}, {"pis_pressió", "pis_pressio"}}),
+								    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columnas con nombre cambiado",{{"n", "sector"}}),
+				    #"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado1",{"sectors"})
+								    in
+								    #"Columnas quitadas1"
 				```
 
 	annotation PBI_NavigationStepName = Navegación

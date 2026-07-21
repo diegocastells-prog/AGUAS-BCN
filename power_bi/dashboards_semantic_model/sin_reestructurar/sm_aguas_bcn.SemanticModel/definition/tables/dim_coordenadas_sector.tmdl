@@ -1,0 +1,60 @@
+table dim_coordenadas_sector
+	lineageTag: 25ee6bbb-120c-48d7-8105-7d0a17c43ffa
+
+	column sector_id
+		dataType: int64
+		formatString: 0
+		lineageTag: cd70fc76-5abd-4b77-81d3-caf7dababb6c
+		summarizeBy: none
+		sourceColumn: sector_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitud
+		dataType: double
+		lineageTag: 10787efb-8e09-40fd-afec-a8e1c2a99e35
+		summarizeBy: sum
+		sourceColumn: latitud
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitud
+		dataType: double
+		lineageTag: 8d698bc6-4f7d-49fa-836a-01416d9fa06d
+		summarizeBy: sum
+		sourceColumn: longitud
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_coordenadas_sector = m
+		mode: import
+		source =
+				// DIM TRAIDA DE DRIVE FOLDER GOOGLE SHEETS ARCHIVO coordenadas por sector bcn
+				
+				
+				let
+				  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1l9btpQJf9bOrnwWyDpkAZpQXill8mdHHxKlHcdf_DVQ/edit?gid=1726033904#gid=1726033904"),
+				    #"Navegación 1" = Origen{[name = "coordenadas por sector bcn.csv", ItemKind = "Table"]}[Data],
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Navegación 1",{"Column1", "Column2", "Column3"}),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas", [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"sector_id", Int64.Type}, {"latitud", type number}, {"longitud", type number}}),
+				    SinDuplicados =
+				        Table.Distinct(  #"Tipo cambiado"),
+				
+				    SinFilasVacias =
+				        Table.SelectRows(
+				            SinDuplicados,
+				            each List.NonNullCount(Record.FieldValues(_)) > 0
+				        )
+				
+				in
+				    SinFilasVacias
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

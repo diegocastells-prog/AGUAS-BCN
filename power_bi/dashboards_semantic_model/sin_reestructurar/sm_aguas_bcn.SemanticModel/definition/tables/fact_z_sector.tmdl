@@ -58,9 +58,18 @@ table fact_z_sector
 				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados promovidos",{{"Sum(Sum(Longitud))", "longitud"}, {"Any", "anio"}, {"Count(Orden)", "avaries"}, {"Sector / Artèria", "sector_id"}}),
 				    #"Columnas quitadas" = Table.RemoveColumns(#"Columnas con nombre cambiado",{"Sector"}),
 				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columnas quitadas",{{"Z", "z"}}),
-				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas con nombre cambiado1",{{"avaries", Int64.Type}, {"anio", Int64.Type}, {"sector_id", Int64.Type}, {"longitud", type number}, {"z", type number}})
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas con nombre cambiado1",{{"avaries", Int64.Type}, {"anio", Int64.Type}, {"sector_id", Int64.Type}, {"longitud", type number}, {"z", type number}}),
+				    SinDuplicados =
+				        Table.Distinct(  #"Tipo cambiado"),
+				
+				    SinFilasVacias =
+				        Table.SelectRows(
+				            SinDuplicados,
+				            each List.NonNullCount(Record.FieldValues(_)) > 0
+				        )
+				
 				in
-				    #"Tipo cambiado"
+				    SinFilasVacias
 
 	annotation PBI_NavigationStepName = Navegación
 

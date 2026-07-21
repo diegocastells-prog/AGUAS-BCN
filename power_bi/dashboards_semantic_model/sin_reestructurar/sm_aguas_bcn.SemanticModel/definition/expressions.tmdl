@@ -1921,11 +1921,163 @@ expression fact_aigua_no_registrada_12m = ```
 		            each Text.Replace(Text.Lower(_), " ", "_")),
 		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columnas normalizadas",{{"nº", "n"}, {"gerència", "gerencia"}, {"pis_pressió", "pis_pressio"}}),
 		    #"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado",{"atributo"}),
-		    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columnas quitadas1",{{"n", "sector"}})
+		    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columnas quitadas1",{{"n", "sector"}}),
+		    #"Columnas quitadas2" = Table.RemoveColumns(#"Columnas con nombre cambiado1",{"sectors"})
 		in
-		    #"Columnas con nombre cambiado1"
+		    #"Columnas quitadas2"
 		```
 	lineageTag: eea63489-1619-414f-aac0-8202720bb88c
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dades_consum_2025 = ```
+		let
+		    Origen = Parquet.Document(File.Contents("C:\data\dades_tlt_snowflake_2025.parquet"), [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null]),
+		    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"DIES_LLEGITS", Int64.Type}, {"DIES_ABSENTS", Int64.Type}, {"DIES_AMB_REGISTRE", Int64.Type}, {"DIES_AMB_CONSUM_0", Int64.Type}, {"NUM_SERIES_CONTADOR_2025_MES", Int64.Type}, {"LECTURES_REBUDES", Int64.Type}}),
+		    Renombradas =
+		        Table.RenameColumns(
+		            #"Tipo cambiado",
+		            {
+		                {"POLISSA_SUBM", "polissa_subm"},
+		                {"MES", "mes"},
+		                {"QMIN_HORA", "qmin_hora"},
+		                {"QMAX_HORA", "qmax_hora"},
+		                {"CONSUM_MENSUAL_REAL", "consum_mensual_real"},
+		                {"CONSUM_MENSUAL_ESTIMAT", "consum_mensual_estimat"},
+		                {"LECTURES_REBUDES", "lectures_rebudes"},
+		                {"DIES_LLEGITS", "dies_llegits"},
+		                {"DIES_ABSENTS", "dies_absents"},
+		                {"DIES_AMB_REGISTRE", "dies_amb_registre"},
+		                {"DIES_AMB_CONSUM_0", "dies_amb_consum_0"},
+		                {"NUM_SERIES_CONTADOR_2025_MES", "num_series_contador_2025_mes"}
+		            }
+		        ),
+		    
+		    SinDuplicados =
+		        Table.Distinct(Renombradas),
+		
+		    SinFilasVacias =
+		        Table.SelectRows(
+		            SinDuplicados,
+		            each List.NonNullCount(Record.FieldValues(_)) > 0
+		        ),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(SinFilasVacias,{{"mes", "fecha"}})
+		
+		in
+		    #"Columnas con nombre cambiado"
+		```
+	lineageTag: 51701606-3adc-4243-b9ef-8ee15d63b205
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dades_consum_2026 = ```
+		let
+		    Origen = Parquet.Document(File.Contents("C:\data\dades_tlt_snowflake_2026.parquet"), [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null]),
+		    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"DIES_LLEGITS", Int64.Type}, {"DIES_ABSENTS", Int64.Type}, {"DIES_AMB_REGISTRE", Int64.Type}, {"DIES_AMB_CONSUM_0", Int64.Type}, {"NUM_SERIES_CONTADOR_2025_MES", Int64.Type}, {"LECTURES_REBUDES", Int64.Type}}),
+		    Renombradas =
+		        Table.RenameColumns(
+		            #"Tipo cambiado",
+		            {
+		                {"POLISSA_SUBM", "polissa_subm"},
+		                {"MES", "mes"},
+		                {"QMIN_HORA", "qmin_hora"},
+		                {"QMAX_HORA", "qmax_hora"},
+		                {"CONSUM_MENSUAL_REAL", "consum_mensual_real"},
+		                {"CONSUM_MENSUAL_ESTIMAT", "consum_mensual_estimat"},
+		                {"LECTURES_REBUDES", "lectures_rebudes"},
+		                {"DIES_LLEGITS", "dies_llegits"},
+		                {"DIES_ABSENTS", "dies_absents"},
+		                {"DIES_AMB_REGISTRE", "dies_amb_registre"},
+		                {"DIES_AMB_CONSUM_0", "dies_amb_consum_0"},
+		                {"NUM_SERIES_CONTADOR_2025_MES", "num_series_contador_2025_mes"}
+		            }
+		        ),
+		    
+		    SinDuplicados =
+		        Table.Distinct(Renombradas),
+		
+		    SinFilasVacias =
+		        Table.SelectRows(
+		            SinDuplicados,
+		            each List.NonNullCount(Record.FieldValues(_)) > 0
+		        ),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(SinFilasVacias,{{"mes", "fecha"}})
+		
+		in
+		    #"Columnas con nombre cambiado"
+		```
+	lineageTag: f4f5103e-8b36-42af-aeca-d0cee603f891
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dades_consum_2024 = ```
+		let
+		    Origen = Parquet.Document(File.Contents("C:\data\dades_tlt_snowflake_2024.parquet"), [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null]),
+		    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"DIES_LLEGITS", Int64.Type}, {"DIES_ABSENTS", Int64.Type}, {"DIES_AMB_REGISTRE", Int64.Type}, {"DIES_AMB_CONSUM_0", Int64.Type}, {"NUM_SERIES_CONTADOR_2025_MES", Int64.Type}, {"LECTURES_REBUDES", Int64.Type}}),
+		    Renombradas =
+		        Table.RenameColumns(
+		            #"Tipo cambiado",
+		            {
+		                {"POLISSA_SUBM", "polissa_subm"},
+		                {"MES", "mes"},
+		                {"QMIN_HORA", "qmin_hora"},
+		                {"QMAX_HORA", "qmax_hora"},
+		                {"CONSUM_MENSUAL_REAL", "consum_mensual_real"},
+		                {"CONSUM_MENSUAL_ESTIMAT", "consum_mensual_estimat"},
+		                {"LECTURES_REBUDES", "lectures_rebudes"},
+		                {"DIES_LLEGITS", "dies_llegits"},
+		                {"DIES_ABSENTS", "dies_absents"},
+		                {"DIES_AMB_REGISTRE", "dies_amb_registre"},
+		                {"DIES_AMB_CONSUM_0", "dies_amb_consum_0"},
+		                {"NUM_SERIES_CONTADOR_2025_MES", "num_series_contador_2025_mes"}
+		            }
+		        ),
+		    
+		    SinDuplicados =
+		        Table.Distinct(Renombradas),
+		
+		    SinFilasVacias =
+		        Table.SelectRows(
+		            SinDuplicados,
+		            each List.NonNullCount(Record.FieldValues(_)) > 0
+		        ),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(SinFilasVacias,{{"mes", "fecha"}})
+		
+		in
+		    #"Columnas con nombre cambiado"
+		```
+	lineageTag: e66f4a2a-a5dc-4496-80de-a559921c6f93
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression fact_dades_consum =
+		let
+		    // Cargar parquet 2025
+		    T2025 = Parquet.Document(File.Contents("C:\data\dades_tlt_snowflake_2025.parquet"), [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null]),
+		
+		    // Cargar parquet 2026
+		    T2026 = Parquet.Document(
+		                File.Contents("C:\data\dades_tlt_snowflake_2026.parquet"),
+		                [Compression=null, LegacyColumnNameEncoding=false]
+		            ),
+		
+		    // Combinar ambos
+		    Combined = Table.Combine({T2025, T2026}),
+		
+		    // Convertir nombres de columnas a minúsculas
+		    LowerCols = Table.TransformColumnNames(Combined, Text.Lower),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(LowerCols,{{"mes", "fecha"}})
+		in
+		    #"Columnas con nombre cambiado"
+	lineageTag: f176c4c0-b269-4953-b7ff-c1654b2348bf
 
 	annotation PBI_NavigationStepName = Navegación
 
