@@ -1,0 +1,242 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "47823ad400c21e1d8923",
+  "position": {
+    "x": 238.13953488372093,
+    "y": 79.379844961240309,
+    "z": 2,
+    "height": 280.66445182724254,
+    "width": 610.94130675526026,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "volum_agua_rec_fraud"
+                }
+              },
+              "queryRef": "_medidas.volum_agua_rec_fraud",
+              "nativeQueryRef": "volum_agua_rec_fraud"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_polissa_fraude"
+                    }
+                  },
+                  "Property": "polissa_su"
+                }
+              },
+              "queryRef": "dim_polissa_fraude.polissa_su",
+              "nativeQueryRef": "polissa_su"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "anio"
+                }
+              },
+              "queryRef": "Sum(dim_calendario.anio)",
+              "nativeQueryRef": "anio"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "fraus_recuperat"
+                }
+              },
+              "queryRef": "_medidas.fraus_recuperat",
+              "nativeQueryRef": "fraus_recuperat"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "fraus_recupera_euros"
+                }
+              },
+              "queryRef": "_medidas.fraus_recupera_euros",
+              "nativeQueryRef": "fraus_recupera_euros"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "fraus_detectats"
+                }
+              },
+              "queryRef": "_medidas.fraus_detectats",
+              "nativeQueryRef": "fraus_detectats"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "mij_tiempo_resol_fraud"
+                }
+              },
+              "queryRef": "_medidas.total_dias_resol_fraud",
+              "nativeQueryRef": "mij_tiempo_resol_fraud"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_medidas"
+                  }
+                },
+                "Property": "volum_agua_rec_fraud"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "d06ec36d9b59d1103c08",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "volum_agua_rec_fraud"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4e04e7063d1e5d3c7694",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_polissa_fraude"
+              }
+            },
+            "Property": "polissa_su"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "1a780f42b1e7e7c7054a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2fe5e2114533ea43692c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "fraus_recuperat"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3c39ab3a40acb53dadd0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "fraus_recupera_euros"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7ba0a0ff6337970719d7",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "fraus_detectats"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "419583b95a4577347ec4",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "mij_tiempo_resol_fraud"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

@@ -80,8 +80,8 @@ table _medidas
 	measure fraus_detectats =
 			
 			CALCULATE(
-			    COUNTROWS('fact_fraudes'),
-			    'fact_fraudes'[ind_resultat] = "S"
+			    COUNTROWS('fact_fraudes_all'),
+			    'fact_fraudes_all'[ind_resultat] = "S"
 			)
 		formatString: 0
 		displayFolder: fraudes
@@ -91,10 +91,10 @@ table _medidas
 			
 			COUNTROWS(
 			    FILTER(
-			        VALUES('fact_fraudes'[polissa_subm]),
+			        VALUES('fact_fraudes_all'[polissa_subm]),
 			        CALCULATE(
-			            COUNTROWS('fact_fraudes'),
-			            'fact_fraudes'[ind_resultat] = "S"
+			            COUNTROWS('fact_fraudes_all'),
+			            'fact_fraudes_all'[ind_resultat] = "S"
 			        ) > 1
 			    )
 			)
@@ -102,7 +102,7 @@ table _medidas
 		displayFolder: fraudes
 		lineageTag: 4c731030-05b5-4e7d-96d2-f8b6bc37c4c0
 
-	measure fraus_operacions = COUNTROWS(fact_fraudes)
+	measure fraus_operacions = COUNTROWS(fact_fraudes_all)
 		formatString: 0
 		displayFolder: fraudes
 		lineageTag: 4b6451a9-c850-4328-8f9c-0873326fd7b2
@@ -121,21 +121,6 @@ table _medidas
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: anr\acum_12m
 		lineageTag: 5f1378c2-905a-4109-9cf9-571560b351e0
-
-	measure delta_anr_mensual = ```
-			
-			VAR MesActual = SUM(fact_aigua_no_registrada_mensual[anr])
-			VAR MesAnterior = 
-			    CALCULATE(
-			        SUM(fact_aigua_no_registrada_mensual[anr]),
-			        PREVIOUSMONTH(dim_calendario[Date])
-			    )
-			RETURN 
-			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
-			```
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: anr\mensual
-		lineageTag: 3bee1bda-5daa-4d40-9b48-c16b546b4003
 
 	measure volum_lliurat_global_mensual = SUM(fact_anr_global_mensual[lliurada_hm3])
 		displayFolder: anr\mensual
@@ -507,6 +492,21 @@ table _medidas
 		displayFolder: compatodrs\no_column
 		lineageTag: bb02ab51-1bce-4d5a-838d-4ee549631b4e
 
+	measure delta_anr_mensual = ```
+			
+			VAR MesActual = SUM(fact_aigua_no_registrada_mensual[anr])
+			VAR MesAnterior = 
+			    CALCULATE(
+			        SUM(fact_aigua_no_registrada_mensual[anr]),
+			        PREVIOUSMONTH(dim_calendario[Date])
+			    )
+			RETURN 
+			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: anr\mensual
+		lineageTag: 3bee1bda-5daa-4d40-9b48-c16b546b4003
+
 	measure q_min_mensual = sum('fact_cabals_mínims'[q_min])
 		displayFolder: cabals
 		lineageTag: 6d0caa36-bd03-4a32-82dd-84c61a870ec0
@@ -824,6 +824,104 @@ table _medidas
 		formatString: 0
 		displayFolder: compatodrs
 		lineageTag: 7831e51b-1cb2-4b3e-ae0c-63dd1dcc0763
+
+	measure volum_agua_rec_fraud =
+			
+			SUM('fact_vol_fraud'[Volumen Total])
+		displayFolder: fraudes
+		lineageTag: a9d3768f-df84-493e-a707-5bb937aca567
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure fraus_recuperat = ```
+			
+			CALCULATE(
+			    COUNTROWS(fact_vol_fraud),
+			    fact_vol_fraud[Tipologia] = "Executada"
+			) 
+			```
+		formatString: 0
+		displayFolder: fraudes
+		lineageTag: 4df0f416-c06a-4cbb-ae05-2d2c483791cd
+
+	measure fraus_per_recuperar =
+			
+			CALCULATE(
+			    COUNTROWS(fact_vol_fraud),
+			    fact_vol_fraud[Tipologia] = "Pendent"
+			)
+		formatString: 0
+		displayFolder: fraudes
+		lineageTag: afb4cdea-4dcf-4f35-910a-0fea095a6198
+
+	measure fraus_recupera_euros =
+			
+			CALCULATE(
+			    SUM(fact_vol_fraud[Imp Cobrat Frau Total]),
+			    fact_vol_fraud[Tipologia] = "Executada",
+			    NOT ISBLANK(fact_vol_fraud[Imp Cobrat Frau Total])
+			)
+		displayFolder: fraudes
+		lineageTag: 05804c61-1cd9-4758-afe2-9ecbd395ef64
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure fraus_sin_recupera_euros =
+			
+			CALCULATE(
+			    SUM(fact_vol_fraud[Imp Cobrat Frau Total]),
+			    fact_vol_fraud[Tipologia] = "Pendent",
+			    NOT ISBLANK(fact_vol_fraud[Imp Cobrat Frau Total])
+			)
+		displayFolder: fraudes
+		lineageTag: 7dadfac5-5cbf-4384-bc89-49e864d27f55
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure pct_fraudes_recupera = ```
+			
+			DIVIDE(
+			    [fraus_recuperat],
+			    [fraus_detectats],
+			    0
+			) 
+			```
+		displayFolder: fraudes
+		lineageTag: 973e3cb9-476e-401d-9e48-716f607d17a7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure importe_mitja_recuperat =
+			
+			DIVIDE(
+			    [fraus_recupera_euros],
+			    [fraus_recuperat]
+			)
+		displayFolder: fraudes
+		lineageTag: 0bc98efb-f346-47a2-8868-35444a37f2ec
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure mij_tiempo_resol_fraud =
+			
+			VAR Dias =
+			    AVERAGEX(
+			        fact_fraudes_all,
+			        DATEDIFF(
+			            fact_fraudes_all[data_creacio_original],
+			            fact_fraudes_all[data_fi_execucio_final],
+			            DAY
+			        )
+			    )
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    Dias < 30, FORMAT(Dias, "0") & " días",
+			    Dias < 365, FORMAT(DIVIDE(Dias, 30), "0.0") & " meses",
+			    FORMAT(DIVIDE(Dias, 365), "0.0") & " años"
+			)
+		displayFolder: fraudes
+		lineageTag: a4e75447-828b-4094-97d1-7511a72133b5
 
 	column Column
 		isHidden

@@ -25,6 +25,19 @@ table fact_aigua_no_registrada_mensual
 
 		annotation SummarizationSetBy = Automatic
 
+	column fecha
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 5765c0bb-158e-45bd-b184-2bff78c88416
+		summarizeBy: none
+		sourceColumn: fecha
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
 	column pis_pressio
 		dataType: string
 		lineageTag: ab15dedd-0d86-4efe-bd29-916a1a6445d8
@@ -41,19 +54,6 @@ table fact_aigua_no_registrada_mensual
 		sourceColumn: anr
 
 		annotation SummarizationSetBy = Automatic
-
-	column fecha
-		dataType: dateTime
-		formatString: Short Date
-		lineageTag: 5765c0bb-158e-45bd-b184-2bff78c88416
-		summarizeBy: none
-		sourceColumn: fecha
-
-		changedProperty = DataType
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
 
 	partition fact_aigua_no_registrada_mensual = m
 		mode: import
