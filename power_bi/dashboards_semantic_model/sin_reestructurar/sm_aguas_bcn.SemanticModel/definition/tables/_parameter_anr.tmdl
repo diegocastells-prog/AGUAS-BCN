@@ -1,0 +1,51 @@
+table _parameter_anr
+	lineageTag: 1ef546ad-ca3f-4ed1-a838-efa6ef9e714d
+
+	column Parámetro
+		lineageTag: 93c6ad3b-80d6-4643-9bf4-0a66f6c1203f
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parámetro Orden'
+
+		relatedColumnDetails
+			groupByColumn: 'Parámetro Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parámetro Campos'
+		isHidden
+		lineageTag: f9e9728e-63d7-4ad4-a84c-9bd236241466
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parámetro Orden'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parámetro Orden'
+		isHidden
+		formatString: 0
+		lineageTag: 53a9dab3-9741-44f6-a092-5d609cc3024f
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _parameter_anr = calculated
+		mode: import
+		source =
+				{
+				    ("ANR (día/m3)", NAMEOF('_switchs'[kpi_anr_dia_m3_switch]), 0),
+				    ("ANR (global)", NAMEOF('_switchs'[kpi_anr_global_switch]), 1),
+				    ("ANR (l/esc/día)", NAMEOF('_switchs'[kpi_anr_l_esc_dia_switch]), 2),
+				    ("ANR (l/subm/día)", NAMEOF('_switchs'[kpi_anr_l_subm_dia_switch]), 3),
+				    ("ANR (m3/km/día)", NAMEOF('_switchs'[kpi_anr_m3_km_dia_switch]), 4)
+				}
+
+	annotation PBI_Id = 5355203e2d354593ba1962a48d50bfa4
+

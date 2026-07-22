@@ -133,16 +133,14 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure kpi_anr_global_switch = ```
+	measure kpi_anr_global_switch =
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_global_mensual_hm3],
-			    "12 meses", [anr_global_hm3_acum_12m],
+			    "Mensual", VALUES(fact_anr_global_mensual[anr_global_hm3]),
+			    "12 meses", VALUES(fact_anr_global_acum[anr_global_hm3]),
 			    BLANK()
 			)
-			
-			```
 		lineageTag: 11320d97-e99e-402d-9a99-c731e8870e8a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -158,6 +156,63 @@ table _switchs
 			
 			```
 		lineageTag: ab5d550c-8fe9-4056-abff-1f0d7ddafeb6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_anr_transporte_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [anr_transport_m3_mensual],
+			    "12 meses", [anr_transport_m3_acum_12m],
+			    BLANK()
+			)
+		formatString: 0
+		lineageTag: 67a9aaaf-d963-440b-b3dc-ebedbb624786
+
+	measure kpi_volum_consumit_transporte_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [volum_consumit_transport_mensual],
+			    "12 meses", [volum_consumit_transport_12m],
+			    BLANK()
+			)
+		formatString: 0
+		lineageTag: 7eb1e0c7-a033-46bf-b774-6551ea06f431
+
+	measure kpi_volum_lliurat_transporte_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [volum_lliurat_transport_mensual],
+			    "12 meses", [volum_lliurat_transport_12m],
+			    BLANK()
+			)
+		formatString: 0
+		lineageTag: d98f969c-1ed6-4b38-bfae-5d48b1f81eac
+
+	measure kpi_volum_consumit_mig_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [volum_consumit_mig_mensual],
+			    "12 meses", [volum_consumit_mig_acum_12m],
+			    BLANK()
+			)
+		lineageTag: 23e4662f-4247-4035-a5cd-eb59a2d072a9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_volum_consumit_estrategics_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [volum_consumit_estrategics_mensual],
+			    "12 meses", [volum_consumit_estrategics_12m],
+			    BLANK()
+			)
+		lineageTag: b584c719-3c78-4cb8-891c-0dbf44629d1e
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

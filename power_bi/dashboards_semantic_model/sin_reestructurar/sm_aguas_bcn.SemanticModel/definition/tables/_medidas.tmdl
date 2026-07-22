@@ -186,23 +186,44 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_transport_mensual_m3 =
-			
-			SUM(fact_rend_anr_arterias_mensual[entrat_m3]) - SUM(fact_rend_anr_arterias_mensual[sortit_m3])
+	measure anr_transport_m3_mensual = SUM(fact_rend_anr_arterias_mensual[entrat_m3]) - SUM(fact_rend_anr_arterias_mensual[sortit_m3])
 		formatString: 0
 		displayFolder: anr\mensual
 		lineageTag: 86a01aa5-ac54-48f3-a890-d503e630c5f2
 
 	measure anr_transport_m3_acum_12m =
 			
-			SUM(fact_rend_anr_arterias_12m[entrat_m3]) - SUM(fact_rend_anr_arterias_12m[sortit_m3])
+			CALCULATE(
+			    SUM(fact_rend_anr_arterias_12m[entrat_m3]) -
+			    SUM(fact_rend_anr_arterias_12m[sortit_m3]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
 		formatString: 0
 		displayFolder: anr\acum_12m
 		lineageTag: 2f2f14b0-c873-412b-8357-3a216a37df41
 
-	measure rendiment_transport_acum_12m =
+	measure rendiment_transport_acum_12m = ```
 			
-			DIVIDE( SUM(fact_rend_anr_arterias_12m[sortit_m3]), SUM(fact_rend_anr_arterias_12m[entrat_m3]) ) * 100
+						VAR FechaMax = MAX(dim_calendario[Date])
+						RETURN
+						CALCULATE(
+						    DIVIDE(
+						        SUM(fact_rend_anr_arterias_mensual[sortit_m3]),
+						        SUM(fact_rend_anr_arterias_mensual[entrat_m3])
+						    ) * 100,
+						    DATESINPERIOD(
+						        dim_calendario[Date],
+						        FechaMax,
+						        -12,
+						        MONTH
+						    )
+						)
+			```
 		displayFolder: anr\acum_12m
 		lineageTag: 65a14b58-b2d8-4fa0-8c00-a442979f5772
 
@@ -429,30 +450,7 @@ table _medidas
 		lineageTag: 05ea26b3-cfae-4913-a4b2-9d1307816a96
 
 	measure categoria_subcomptatge = ```
-			
-			VAR RTH =
-			    CALCULATE(
-			        AVERAGE(fact_anr_global_mensual[rth_global])
-			    )
-			
-			VAR ComptadorsProblematics =
-			        SUM(fact_comptadors[Q4_UP])
-			      + SUM(fact_comptadors[Q1_DOWN])
-			      + SUM(fact_comptadors[COMP_AVARIATS])
-			      + SUM(fact_comptadors[COMP_ESTIMATS_3P])
-			
-			VAR ComptadorsTotals =
-			    SUM(fact_comptadors[COMP_TOTALS])
-			
-			VAR RatioProblematics =
-			    DIVIDE(ComptadorsProblematics, ComptadorsTotals)
-			
-			RETURN
-			SWITCH(
-			    TRUE(),
-			    RTH < 0.9 && RatioProblematics > 0.8, "Subcomptatge",
-			    "Sense Subcomptatge"
-			)
+			DIVIDE(COUNTROWS('fact_bossa') , COUNTROWS('fact_dades_consum'))
 			
 			```
 		displayFolder: compatodrs\no_column
@@ -922,6 +920,68 @@ table _medidas
 			)
 		displayFolder: fraudes
 		lineageTag: a4e75447-828b-4094-97d1-7511a72133b5
+
+	measure volum_lliurat_transport_mensual = ```
+			SUM(fact_rend_anr_arterias_12m[entrat_m3]) 
+			
+			```
+		formatString: 0
+		displayFolder: volumen
+		lineageTag: 699b407e-7090-4b74-ad16-9b7a17dfce03
+
+	measure volum_consumit_transport_mensual = SUM(fact_rend_anr_arterias_12m[sortit_m3])
+		formatString: 0
+		displayFolder: volumen
+		lineageTag: 6b5f077d-fffc-431b-997a-ca2b11be4d19
+
+	measure volum_lliurat_transport_12m =
+			
+			CALCULATE(
+			    SUM(fact_rend_anr_arterias_12m[entrat_m3]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+		formatString: 0
+		displayFolder: volumen
+		lineageTag: 3a893691-7d55-4519-a880-dabd895705bd
+
+	measure volum_consumit_transport_12m =
+			
+			CALCULATE(
+			    SUM(fact_rend_anr_arterias_12m[sortit_m3]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+		formatString: 0
+		displayFolder: volumen
+		lineageTag: affa081f-3d6c-421b-a19c-bc2aaf0f784a
+
+	measure volum_consumit_mig_acum_12m =
+			
+			AVERAGEX(
+			    VALUES(dim_calendario[anio_mes]),
+			    CALCULATE(
+			        SUM(fact_volum_consumit[volum_consumit]),
+			        DATESINPERIOD(
+			            dim_calendario[Date],
+			            MAX(dim_calendario[Date]),
+			            -12,
+			            MONTH
+			        )
+			    )
+			)
+		displayFolder: volumen\consumit
+		lineageTag: f8865696-c424-43c5-83d9-113fdbaa6e5f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Column
 		isHidden
