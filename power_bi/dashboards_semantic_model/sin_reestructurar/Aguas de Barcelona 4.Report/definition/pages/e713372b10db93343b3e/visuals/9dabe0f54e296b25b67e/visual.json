@@ -10,7 +10,7 @@
     "tabOrder": 11000
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "lineChart",
     "query": {
       "queryState": {
         "Category": {
@@ -29,6 +29,24 @@
               "queryRef": "dim_calendario.anio_mes",
               "nativeQueryRef": "anio_mes",
               "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "fraus_recupera_euros"
+                }
+              },
+              "queryRef": "_medidas.fraus_recupera_euros",
+              "nativeQueryRef": "fraus_recupera_euros"
             }
           ]
         }

@@ -30,6 +30,66 @@
               "nativeQueryRef": "anio_mes"
             }
           ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_coordenadas_sector"
+                        }
+                      },
+                      "Property": "latitud"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(dim_coordenadas_sector.latitud)",
+              "nativeQueryRef": "Suma de latitud"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_coordenadas_sector"
+                        }
+                      },
+                      "Property": "longitud"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(dim_coordenadas_sector.longitud)",
+              "nativeQueryRef": "Suma de longitud"
+            }
+          ]
+        },
+        "Value": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "fraus_detectats"
+                }
+              },
+              "queryRef": "_medidas.fraus_detectats",
+              "nativeQueryRef": "fraus_detectats"
+            }
+          ]
         }
       }
     },
@@ -82,6 +142,43 @@
               "expr": {
                 "Literal": {
                   "Value": "'albersUsa'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fillRule": {
+              "linearGradient2": {
+                "min": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'minColor'"
+                      }
+                    }
+                  }
+                },
+                "max": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'maxColor'"
+                      }
+                    }
+                  }
+                },
+                "nullColoringStrategy": {
+                  "strategy": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'asZero'"
+                      }
+                    }
+                  }
                 }
               }
             }
