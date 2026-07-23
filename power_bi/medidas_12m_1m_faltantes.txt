@@ -1,0 +1,213 @@
+MEDIDAS _1M FALTANTES PARA ACUMULADOS 12 MESES
+================================================
+
+A continuación se listan las medidas DAX que faltan agregar al archivo _medidas.tmdl.
+Todas estas medidas deben insertarse inmediatamente después de su medida base correspondiente.
+
+---
+
+1. DELTA ANR ACUMULADO 12M - MES ANTERIOR
+------------------------------------------
+measure delta_anr_acum_12m_1m = ```
+	
+	VAR MesActualAnterior = CALCULATE(
+	    SUM(fact_anr_global_mensual[anr_global_hm3]),
+	    PREVIOUSMONTH(dim_calendario[Date])
+	)
+	VAR MesDosAnterior = 
+	    CALCULATE(
+	        SUM(fact_anr_global_mensual[anr_global_hm3]),
+	        DATEADD(dim_calendario[Date], -2, MONTH)
+	    )
+	RETURN 
+	    DIVIDE(MesActualAnterior - MesDosAnterior, MesDosAnterior, 0)
+	```
+	formatString: 0.00\ %;-0.00\ %;0.00\ %
+	displayFolder: anr\acum_12m
+	lineageTag: 1a1b1c1d-1e1f-2a2b-2c2d-2e2f3a3b3c3d
+
+Insertar después de la línea: measure delta_anr_acum_12m
+
+
+---
+
+2. VOLUMEN CONSUMIDO DISTRIBUCIÓN 12M - MES ANTERIOR
+-----------------------------------------------------
+measure volum_consumit_distribucion_12m_1m =
+		
+		CALCULATE(
+		    SUM(fact_volum_consumit[volum_consumit]),
+		    DATESINPERIOD(
+		        'dim_calendario'[Date],
+		        EOMONTH(MAX('dim_calendario'[Date]), -1),
+		        -12,
+		        MONTH
+		    )
+		)
+	formatString: 0
+	displayFolder: volumen\consumit\acum_12m
+	lineageTag: 2b2c2d2e-2f2a-3b3c-3d3e-3f3a4b4c4d4e
+
+Insertar después de la línea: measure volum_consumit_distribucion_12m
+
+
+---
+
+3. VOLUMEN ENTREGADO DISTRIBUCIÓN 12M - MES ANTERIOR
+----------------------------------------------------
+measure volum_lliurat_distribucion_12m_1m =
+		
+		CALCULATE(
+		    SUM(fact_volum_lliurat[volum_lliurat]),
+		    DATESINPERIOD(
+		        'dim_calendario'[Date],
+		        EOMONTH(MAX('dim_calendario'[Date]), -1),
+		        -12,
+		        MONTH
+		    )
+		)
+	formatString: 0
+	displayFolder: volumen\lliurat\acum_12m
+	lineageTag: 3c3d3e3f-3a3b-4c4d-4e4f-4a4b5c5d5e5f
+
+Insertar después de la línea: measure volum_lliurat_distribucion_12m
+
+
+---
+
+4. RTH DISTRIBUCIÓN 12M - MES ANTERIOR
+---------------------------------------
+measure rth_distribucion_12m_1m = [volum_consumit_distribucion_12m_1m] / [volum_lliurat_distribucion_12m_1m]
+	formatString: 0.00\ %;-0.00\ %;0.00\ %
+	displayFolder: volumen\rth
+	lineageTag: 4d4e4f4a-4b4c-5d5e-5f5a-5b5c6d6e6f6a
+
+Insertar después de la línea: measure rth_distribucion_12m
+
+
+---
+
+5. ANR DISTRIBUCIÓN ACUMULADO 12M - MES ANTERIOR
+-------------------------------------------------
+measure anr_dist_acum_12m_1m =
+		
+		CALCULATE(
+		    SUM(fact_aigua_no_registrada_mensual[anr]),
+		    DATESINPERIOD(
+		        dim_calendario[Date],
+		        EOMONTH(MAX(dim_calendario[Date]), -1),
+		        -12,
+		        MONTH
+		    )
+		)
+	formatString: 0
+	displayFolder: anr\acum_12m
+	lineageTag: 5e5f5a5b-5c5d-6e6f-6a6b-6c6d7e7f7a7b
+
+Insertar después de la línea: measure anr_dist_acum_12m
+
+
+---
+
+6. ANR ACUMULADO 12M - MES ANTERIOR (fact_aigua_no_registrada_mensual)
+----------------------------------------------------------------------
+measure anr_acum_12m_1m = ```
+		
+		VAR FechaMax =
+		    EOMONTH(MAX ( dim_calendario[Date] ), -1)
+		RETURN
+		CALCULATE(
+		    SUM( fact_aigua_no_registrada_mensual[anr] ),
+		    DATESINPERIOD(
+		        dim_calendario[Date],
+		        FechaMax,
+		        -12,
+		        MONTH
+		    )
+		)
+		
+		```
+	formatString: 0
+	displayFolder: anr\acum_12m
+	lineageTag: 6f6a6b6c-6d6e-7f7a-7b7c-7d7e8f8a8b8c
+
+Insertar después de la línea: measure anr_acum_12m (línea ~1054)
+
+
+---
+
+7. VOLUMEN ENTREGADO TRANSPORTE 12M - MES ANTERIOR
+---------------------------------------------------
+measure volum_lliurat_transport_12m_1m =
+		
+		CALCULATE(
+		    SUM(fact_rend_anr_arterias_12m[entrat_m3]),
+		    DATESINPERIOD(
+		        'dim_calendario'[Date],
+		        EOMONTH(MAX('dim_calendario'[Date]), -1),
+		        -12,
+		        MONTH
+		    )
+		)
+	formatString: 0
+	displayFolder: volumen
+	lineageTag: 7a7b7c7d-7e7f-8a8b-8c8d-8e8f9a9b9c9d
+
+Insertar después de la línea: measure volum_lliurat_transport_12m
+
+
+---
+
+8. VOLUMEN CONSUMIDO TRANSPORTE 12M - MES ANTERIOR
+---------------------------------------------------
+measure volum_consumit_transport_12m_1m =
+		
+		CALCULATE(
+		    SUM(fact_rend_anr_arterias_12m[sortit_m3]),
+		    DATESINPERIOD(
+		        'dim_calendario'[Date],
+		        EOMONTH(MAX('dim_calendario'[Date]), -1),
+		        -12,
+		        MONTH
+		    )
+		)
+	formatString: 0
+	displayFolder: volumen
+	lineageTag: 8b8c8d8e-8f8a-9b9c-9d9e-9f9a0b0c0d0e
+
+Insertar después de la línea: measure volum_consumit_transport_12m
+
+
+---
+
+9. VOLUMEN CONSUMIDO MEDIO ACUMULADO 12M - MES ANTERIOR
+--------------------------------------------------------
+measure volum_consumit_mig_acum_12m_1m =
+		
+		AVERAGEX(
+		    VALUES(dim_calendario[anio_mes]),
+		    CALCULATE(
+		        SUM(fact_volum_consumit[volum_consumit]),
+		        DATESINPERIOD(
+		            dim_calendario[Date],
+		            EOMONTH(MAX(dim_calendario[Date]), -1),
+		            -12,
+		            MONTH
+		        )
+		    )
+		)
+	displayFolder: volumen\consumit
+	lineageTag: 9c9d9e9f-9a9b-0c0d-0e0f-0a0b1c1d1e1f
+
+	annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+Insertar después de la línea: measure volum_consumit_mig_acum_12m
+
+
+================================================
+RESUMEN:
+- Total de medidas _1m que faltan: 9
+- Todas siguen el patrón de usar EOMONTH(MAX(...), -1) o PREVIOUSMONTH/DATEADD
+- Cada una debe tener su propio lineageTag único
+- Se deben insertar después de su medida base correspondiente
+================================================

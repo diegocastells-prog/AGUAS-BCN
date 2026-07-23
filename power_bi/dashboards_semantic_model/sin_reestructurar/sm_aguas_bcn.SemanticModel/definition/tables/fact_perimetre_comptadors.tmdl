@@ -65,14 +65,6 @@ table fact_perimetre_comptadors
 
 		annotation SummarizationSetBy = Automatic
 
-	column sector
-		dataType: string
-		lineageTag: 5861f19b-5f3b-46fd-b34f-7c28b43ed98c
-		summarizeBy: none
-		sourceColumn: sector
-
-		annotation SummarizationSetBy = Automatic
-
 	column gerencia
 		dataType: string
 		lineageTag: 9f44adc3-ad25-40ab-90d4-1a7a44995cf4
@@ -207,6 +199,14 @@ table fact_perimetre_comptadors
 
 		annotation SummarizationSetBy = Automatic
 
+	column sector_id
+		dataType: string
+		lineageTag: 47be6257-4914-4a45-8de7-4024f74b37c8
+		summarizeBy: none
+		sourceColumn: sector_id
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_perimetre_comptadors = m
 		mode: import
 		source =
@@ -223,5 +223,5 @@ table fact_perimetre_comptadors
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 

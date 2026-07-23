@@ -216,6 +216,209 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure kpi_anr_dia_m3_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [anr_dia_m3_mensual_1m],
+			    "12 meses", [anr_dia_m3_acum_12m],
+			    BLANK()
+			)
+			
+			```
+		lineageTag: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_volum_consumit_distribucion_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [volum_consumit_distribucion_mensual_1m],
+			    "12 meses", [volum_consumit_distribucion_12m],
+			    BLANK()
+			)
+			
+			```
+		formatString: #,0.00
+		lineageTag: b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e
+
+	measure kpi_volum_lliurat_distribucion_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [volum_lliurat_distribucion_mensual_1m],
+			    "12 meses", [volum_lliurat_distribucion_12m],
+			    BLANK()
+			)
+			
+			```
+		formatString: #,0.00
+		lineageTag: c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f
+
+	measure kpi_anr_m3_km_dia_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [anr_m3_km_dia_mensual_1m],
+			    "12 meses", [anr_m3_km_dia_acum_12m],
+			    BLANK()
+			)
+			
+			```
+		formatString: #,0.00
+		lineageTag: d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a
+
+	measure kpi_anr_l_esc_dia_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [anr_l_esc_dia_mensual_1m],
+			    "12 meses", [anr_l_esc_dia_acum_12m],
+			    BLANK()
+			)
+			
+			```
+		formatString: #,0.00
+		lineageTag: e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b
+
+	measure kpi_anr_l_subm_dia_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [anr_l_subm_dia_mensual_1m],
+			    "12 meses", [anr_l_subm_dia_acum_12m],
+			    BLANK()
+			)
+			
+			```
+		formatString: #,0.00
+		lineageTag: f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c
+
+	measure kpi_rth_distribucion_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [rth_distribucion_mensual_1m],
+			    "12 meses", [rth_distribucion_12m],
+			    BLANK()
+			)
+			
+			```
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d
+
+	measure kpi_q_min_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [q_min_mensual_1m],
+			    "12 meses", [q_min_12_mesos],
+			    BLANK()
+			)
+			
+			```
+		formatString: #,0.00
+		lineageTag: b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e
+
+	measure kpi_anr_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [anr_mensual_1m],
+			    "12 meses", [anr_acum_12m],
+			    BLANK()
+			)
+			
+			```
+		formatString: #,0.00
+		lineageTag: c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f
+
+	measure kpi_rth_transporte_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [rendiment_transport_mensual_1m],
+			    "12 meses", [rendiment_transport_acum_12m],
+			    BLANK()
+			)
+			
+			```
+		lineageTag: d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_rth_global_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [rendiment_global_mensual_1m],
+			    "12 meses", [rendiment_global_acum_12m],
+			    BLANK()
+			)
+			
+			```
+		lineageTag: e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_anr_transporte_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [anr_transport_m3_mensual_1m],
+			    "12 meses", [anr_transport_m3_acum_12m],
+			    BLANK()
+			)
+		formatString: 0
+		lineageTag: f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c
+
+	measure kpi_volum_consumit_transporte_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [volum_consumit_transport_mensual_1m],
+			    "12 meses", [volum_consumit_transport_12m],
+			    BLANK()
+			)
+		formatString: 0
+		lineageTag: a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d
+
+	measure kpi_volum_lliurat_transporte_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [volum_lliurat_transport_mensual_1m],
+			    "12 meses", [volum_lliurat_transport_12m],
+			    BLANK()
+			)
+		formatString: 0
+		lineageTag: b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e
+
+	measure kpi_volum_consumit_mig_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [volum_consumit_mig_mensual_1m],
+			    "12 meses", [volum_consumit_mig_acum_12m],
+			    BLANK()
+			)
+		lineageTag: c5d6e7f8-a9b0-1c2d-3e4f-5a6b7c8d9e0f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_volum_consumit_estrategics_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [volum_consumit_estrategics_mensual_1m],
+			    "12 meses", [volum_consumit_estrategics_12m],
+			    BLANK()
+			)
+		lineageTag: d6e7f8a9-b0c1-2d3e-4f5a-6b7c8d9e0f1a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0

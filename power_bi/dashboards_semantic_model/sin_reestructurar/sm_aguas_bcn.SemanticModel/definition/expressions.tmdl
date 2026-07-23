@@ -1168,9 +1168,10 @@ expression perimetre_comptadors_2024 = ```
 		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas en minúsculas",{{"data_alt_subm_serv", type date}, {"data_inst_comp", type date}}),
 		    #"Gerencia Tipo Título" = Table.TransformColumns(#"Tipo cambiado", {{"gerencia", Text.Proper, type text}}),
 		    #"Id Agregado" = Table.AddColumn(#"Gerencia Tipo Título", "id_marca_modelo", each [marca_comp] & "-" & Text.From([codi_model]), type text),
-		    #"Duplicados reales quitados" = Table.Distinct(#"Id Agregado")
+		    #"Duplicados reales quitados" = Table.Distinct(#"Id Agregado"),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Duplicados reales quitados",{{"sector", "sector_id"}})
 		in
-		    #"Duplicados reales quitados"
+		    #"Columnas con nombre cambiado"
 		```
 	lineageTag: b8d5e5e1-278f-4a27-981f-f6acff358b5f
 
@@ -1196,9 +1197,10 @@ expression perimetre_comptadors_2025 = ```
 		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas en minúsculas",{{"data_alt_subm_serv", type date}, {"data_inst_comp", type date}}),
 		    #"Gerencia Tipo Título" = Table.TransformColumns(#"Tipo cambiado", {{"gerencia", Text.Proper, type text}}),
 		    #"Id Agregado" = Table.AddColumn(#"Gerencia Tipo Título", "id_marca_modelo", each [marca_comp] & "-" & Text.From([codi_model]), type text),
-		    #"Duplicados reales quitados" = Table.Distinct(#"Id Agregado")
+		    #"Duplicados reales quitados" = Table.Distinct(#"Id Agregado"),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Duplicados reales quitados",{{"sector", "sector_id"}})
 		in
-		    #"Duplicados reales quitados"
+		    #"Columnas con nombre cambiado"
 		```
 	lineageTag: 2f928545-ccfa-41d8-ad6e-d443b531cf89
 
@@ -1224,9 +1226,10 @@ expression perimetre_comptadors_2026 = ```
 		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas en minúsculas",{{"data_alt_subm_serv", type date}, {"data_inst_comp", type date}}),
 		    #"Gerencia Tipo Título" = Table.TransformColumns(#"Tipo cambiado", {{"gerencia", Text.Proper, type text}}),
 		    #"Id Agregado" = Table.AddColumn(#"Gerencia Tipo Título", "id_marca_modelo", each [marca_comp] & "-" & Text.From([codi_model]), type text),
-		    #"Duplicados reales quitados" = Table.Distinct(#"Id Agregado")
+		    #"Duplicados reales quitados" = Table.Distinct(#"Id Agregado"),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Duplicados reales quitados",{{"sector", "sector_id"}})
 		in
-		    #"Duplicados reales quitados"
+		    #"Columnas con nombre cambiado"
 		```
 	lineageTag: 43bbe8d9-d98d-4139-90df-ae42107ff4fb
 
@@ -1877,6 +1880,49 @@ expression Bossa_de_Limitadors_BCNS = ```
 		 Resultado
 		```
 	lineageTag: 10e00cc1-e4c4-4532-8c9a-492394f79c96
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression fact_rend_anr_arterias_12m =
+		let
+		    Union =
+		        Table.Combine({
+		            fact_rend_anr_arterias_llobregadsub_12m,
+		            fact_rend_anr_arterias_llobregadnord_12m,
+		            fact_rend_anr_arterias_bcn_sud_12m,
+		            fact_rend_anr_arterias_bcn_nord_12m,
+		            fact_rend_anr_arterias_besos_12m,
+		            fact_rend_anr_arterias_multi_dz_12m
+		        }),
+		
+		    Transformado =
+		        Table.RenameColumns(
+		            Table.ReplaceValue(
+		                Table.ReplaceValue(
+		                    Table.Sort(
+		                        Union,
+		                        {
+		                            {"gerencia", Order.Ascending},
+		                            {"arteria", Order.Ascending},
+		                            {"date", Order.Ascending}
+		                        }
+		                    ),
+		                    "Bcn", "Barcelona", Replacer.ReplaceText, {"gerencia"}
+		                ),
+		                "Besos", "Besòs", Replacer.ReplaceText, {"gerencia"}
+		            ),
+		            {{"date", "fecha"}}
+		        ),
+		    sinVacios =
+		        Table.SelectRows(
+		            Transformado,
+		            each [sortit_m3] <> null
+		        )
+		in
+		    sinVacios
+	lineageTag: 10397739-4b1a-46da-86d9-73eb17f0892e
 
 	annotation PBI_NavigationStepName = Navegación
 
