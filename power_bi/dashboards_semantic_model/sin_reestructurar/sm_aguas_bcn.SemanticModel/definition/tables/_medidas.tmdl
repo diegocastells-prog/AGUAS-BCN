@@ -1192,8 +1192,7 @@ table _medidas
 	measure anr_transport_m3_acum_12m_1m =
 			
 			CALCULATE(
-			    SUM(fact_rend_anr_arterias_12m[entrat_m3]) -
-			    SUM(fact_rend_anr_arterias_12m[sortit_m3]),
+			    SUM(fact_rend_anr_arterias_mensual[entrat_m3]) -    SUM(fact_rend_anr_arterias_mensual[sortit_m3]),
 			    DATESINPERIOD(
 			        'dim_calendario'[Date],
 			        EOMONTH(MAX('dim_calendario'[Date]), -1),
