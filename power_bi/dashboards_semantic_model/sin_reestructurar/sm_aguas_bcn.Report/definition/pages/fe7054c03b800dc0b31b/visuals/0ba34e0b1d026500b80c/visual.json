@@ -1,0 +1,185 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "0ba34e0b1d026500b80c",
+  "position": {
+    "x": 156,
+    "y": 152,
+    "z": 6,
+    "height": 252,
+    "width": 1082,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "anio_mes"
+                }
+              },
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_anr_global_acum"
+                    }
+                  },
+                  "Property": "lliurada_hm3"
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_acum.lliurada_hm3)",
+              "nativeQueryRef": "A LLiurada_hm3",
+              "displayName": "A LLiurada_hm3"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_anr_global_acum"
+                    }
+                  },
+                  "Property": "consumida_hm3"
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_acum.consumida_hm3)",
+              "nativeQueryRef": "A Consumida hm3",
+              "displayName": "A Consumida hm3"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_anr_global_acum"
+                    }
+                  },
+                  "Property": "rth_global"
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_acum.rth_global)",
+              "nativeQueryRef": "RTH Global",
+              "displayName": "RTH Global"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_anr_global_acum"
+                    }
+                  },
+                  "Property": "anr_global_hm3"
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_acum.anr_global_hm3)",
+              "nativeQueryRef": "ANR Global hm3",
+              "displayName": "ANR Global hm3"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "count_dias_mes"
+                }
+              },
+              "queryRef": "_medidas.count_dias_mes",
+              "nativeQueryRef": "# Dias del Mes",
+              "displayName": "# Dias del Mes"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_calendario"
+                  }
+                },
+                "Property": "anio_mes"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Tabla de detalle'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

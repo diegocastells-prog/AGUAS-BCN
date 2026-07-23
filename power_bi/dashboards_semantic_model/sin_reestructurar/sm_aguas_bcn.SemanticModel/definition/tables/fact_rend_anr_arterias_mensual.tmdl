@@ -3,9 +3,12 @@ table fact_rend_anr_arterias_mensual
 
 	column gerencia
 		dataType: string
+		isHidden
 		lineageTag: 92f3603e-6580-42ac-8cb6-cc1f42791a2a
 		summarizeBy: none
 		sourceColumn: gerencia
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -19,17 +22,16 @@ table fact_rend_anr_arterias_mensual
 
 	column rendiment
 		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		lineageTag: bd43ac57-a12e-4b2b-a8c5-6bf97b7f833a
 		summarizeBy: sum
 		sourceColumn: rendiment
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column anr_m3
 		dataType: int64
-		formatString: 0
+		formatString: #,0
 		lineageTag: 442dd6c9-5363-4fb8-9f3b-982a0bedb571
 		summarizeBy: sum
 		sourceColumn: anr_m3
@@ -43,18 +45,13 @@ table fact_rend_anr_arterias_mensual
 		summarizeBy: none
 		sourceColumn: fecha
 
-		variation Variación
-			isDefault
-			relationship: 563efaee-807e-403d-a65b-28ad0d6b9645
-			defaultHierarchy: LocalDateTable_c0774671-c431-4f13-9f3e-0b61f26f53d7.'Jerarquía de fechas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
 
 	column sortit_m3
 		dataType: int64
-		formatString: 0
+		formatString: #,0
 		lineageTag: 7e56a2f3-4d4e-4a2d-bd56-0505b484e534
 		summarizeBy: sum
 		sourceColumn: sortit_m3
@@ -63,7 +60,7 @@ table fact_rend_anr_arterias_mensual
 
 	column entrat_m3
 		dataType: int64
-		formatString: 0
+		formatString: #,0
 		lineageTag: 9a1b8714-7c86-46f9-91ed-37ab0fb3bf26
 		summarizeBy: sum
 		sourceColumn: entrat_m3

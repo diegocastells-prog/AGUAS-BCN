@@ -23,7 +23,39 @@
   "filterConfig": {
     "filters": [
       {
+        "name": "0684f8eb3ddb00edba8a",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
         "name": "4b2da6058c5590b28400",
+        "ordinal": 1,
         "field": {
           "Column": {
             "Expression": {
@@ -35,49 +67,6 @@
           }
         },
         "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "d",
-              "Entity": "dim_calendario",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Not": {
-                  "Expression": {
-                    "In": {
-                      "Expressions": [
-                        {
-                          "Column": {
-                            "Expression": {
-                              "SourceRef": {
-                                "Source": "d"
-                              }
-                            },
-                            "Property": "Date"
-                          }
-                        }
-                      ],
-                      "Values": [
-                        [
-                          {
-                            "Literal": {
-                              "Value": "null"
-                            }
-                          }
-                        ]
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        },
         "howCreated": "User",
         "objects": {
           "general": [
@@ -97,6 +86,7 @@
       },
       {
         "name": "54615e6d21b0902d0256",
+        "ordinal": 2,
         "field": {
           "Column": {
             "Expression": {
@@ -166,7 +156,8 @@
         },
         "howCreated": "User"
       }
-    ]
+    ],
+    "filterSortOrder": "Custom"
   },
   "objects": {
     "section": [
@@ -188,7 +179,7 @@
           "expanded": {
             "expr": {
               "Literal": {
-                "Value": "true"
+                "Value": "false"
               }
             }
           }

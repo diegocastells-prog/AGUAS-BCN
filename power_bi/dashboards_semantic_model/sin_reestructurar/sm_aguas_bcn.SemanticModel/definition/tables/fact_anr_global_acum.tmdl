@@ -93,9 +93,10 @@ table fact_anr_global_acum
 				                {"rth_global", type number},
 				                {"anr_global_hm3", type number}
 				            }
-				        )
+				        ),
+				    #"Filas filtradas" = Table.SelectRows(Result, each ([lliurada_hm3] <> null))
 				in
-				    Result
+				    #"Filas filtradas"
 
 	annotation PBI_NavigationStepName = Navegación
 

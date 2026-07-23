@@ -1,0 +1,154 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "2667d8420b48da00b98d",
+  "position": {
+    "x": 154,
+    "y": 426,
+    "z": 9,
+    "height": 252,
+    "width": 1082,
+    "tabOrder": 9
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "anio_mes"
+                }
+              },
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "Any",
+              "displayName": "Any"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_anr_global_mensual"
+                    }
+                  },
+                  "Property": "lliurada_hm3"
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_mensual.lliurada_hm3)",
+              "nativeQueryRef": "A LLiurada hm3",
+              "displayName": "A LLiurada hm3"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_anr_global_mensual"
+                    }
+                  },
+                  "Property": "consumida_hm3"
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_mensual.consumida_hm3)",
+              "nativeQueryRef": "A Consumida hm3",
+              "displayName": "A Consumida hm3"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_anr_global_mensual"
+                    }
+                  },
+                  "Property": "rth_global"
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_mensual.rth_global)",
+              "nativeQueryRef": "RTH Global",
+              "displayName": "RTH Global"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_anr_global_mensual"
+                    }
+                  },
+                  "Property": "anr_global_hm3"
+                }
+              },
+              "queryRef": "Sum(fact_anr_global_mensual.anr_global_hm3)",
+              "nativeQueryRef": "ANR Global hm3",
+              "displayName": "ANR Global hm3"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Tabla de detalle'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

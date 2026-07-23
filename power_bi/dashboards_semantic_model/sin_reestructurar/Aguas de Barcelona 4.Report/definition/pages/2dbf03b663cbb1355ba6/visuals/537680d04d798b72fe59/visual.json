@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "537680d04d798b72fe59",
   "position": {
-    "x": 155,
+    "x": 156,
     "y": 152,
     "z": 4000,
-    "height": 520,
-    "width": 1083,
+    "height": 252,
+    "width": 1082,
     "tabOrder": 3000
   },
   "visual": {
@@ -17,17 +17,83 @@
           "projections": [
             {
               "field": {
-                "Measure": {
+                "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_medidas"
+                      "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "Dummy texto"
+                  "Property": "anio_mes"
                 }
               },
-              "queryRef": "_medidas.Dummy texto",
-              "nativeQueryRef": "Dummy texto"
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_sector"
+                    }
+                  },
+                  "Property": "gerencia"
+                }
+              },
+              "queryRef": "dim_sector.gerencia",
+              "nativeQueryRef": "gerencia"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_sector"
+                    }
+                  },
+                  "Property": "sector"
+                }
+              },
+              "queryRef": "dim_sector.sector",
+              "nativeQueryRef": "sector"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_volum_consumit"
+                        }
+                      },
+                      "Property": "volum_consumit"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_volum_consumit.volum_consumit)",
+              "nativeQueryRef": "Suma de volum_consumit"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_volum_lliurat"
+                        }
+                      },
+                      "Property": "volum_lliurat"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_volum_lliurat.volum_lliurat)",
+              "nativeQueryRef": "Suma de volum_lliurat"
             }
           ]
         }

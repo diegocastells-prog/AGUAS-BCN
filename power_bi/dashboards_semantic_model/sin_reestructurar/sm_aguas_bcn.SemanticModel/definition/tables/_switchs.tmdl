@@ -167,7 +167,7 @@ table _switchs
 			    "12 meses", [anr_transport_m3_acum_12m],
 			    BLANK()
 			)
-		formatString: 0
+		formatString: #,0
 		lineageTag: 67a9aaaf-d963-440b-b3dc-ebedbb624786
 
 	measure kpi_volum_consumit_transporte_switch =
@@ -189,7 +189,7 @@ table _switchs
 			    "12 meses", [volum_lliurat_transport_12m],
 			    BLANK()
 			)
-		formatString: 0
+		formatString: #,0
 		lineageTag: d98f969c-1ed6-4b38-bfae-5d48b1f81eac
 
 	measure kpi_volum_consumit_mig_switch =
@@ -221,7 +221,7 @@ table _switchs
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [anr_dia_m3_mensual_1m],
-			    "12 meses", [anr_dia_m3_acum_12m],
+			    "12 meses", [anr_dia_m3_acum_12m_1m],
 			    BLANK()
 			)
 			
@@ -367,10 +367,10 @@ table _switchs
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [anr_transport_m3_mensual_1m],
-			    "12 meses", [anr_transport_m3_acum_12m],
+			    "12 meses", [anr_transport_m3_acum_12m_1m],
 			    BLANK()
 			)
-		formatString: 0
+		formatString: #,0
 		lineageTag: f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c
 
 	measure kpi_volum_consumit_transporte_switch_1m =
@@ -381,7 +381,7 @@ table _switchs
 			    "12 meses", [volum_consumit_transport_12m],
 			    BLANK()
 			)
-		formatString: 0
+		formatString: #,0
 		lineageTag: a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d
 
 	measure kpi_volum_lliurat_transporte_switch_1m =
@@ -392,7 +392,7 @@ table _switchs
 			    "12 meses", [volum_lliurat_transport_12m],
 			    BLANK()
 			)
-		formatString: 0
+		formatString: #,0
 		lineageTag: b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e
 
 	measure kpi_volum_consumit_mig_switch_1m =
@@ -418,6 +418,28 @@ table _switchs
 		lineageTag: d6e7f8a9-b0c1-2d3e-4f5a-6b7c8d9e0f1a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_anr_distribucion_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [anr_dist_mensual],
+			    "12 meses", [anr_dist_acum_12m],
+			    BLANK()
+			)
+		formatString: #,0
+		lineageTag: af164dee-c6e7-47c4-bae5-3b4916ef0a91
+
+	measure kpi_anr_distribucion_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [anr_dist_mensual_1m],
+			    "12 meses", [anr_dist_acum_12m_1m],
+			    BLANK()
+			)
+		formatString: #,0
+		lineageTag: c6e4cca9-96d3-4ea3-ae1c-59963c9ae502
 
 	column Column
 		isHidden
