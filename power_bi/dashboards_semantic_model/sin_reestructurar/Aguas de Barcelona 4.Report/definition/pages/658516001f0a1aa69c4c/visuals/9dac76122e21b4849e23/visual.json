@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "9dac76122e21b4849e23",
   "position": {
     "x": 150.90909090909091,
@@ -10,7 +10,7 @@
     "tabOrder": 7000
   },
   "visual": {
-    "visualType": "shapeMap",
+    "visualType": "azureMap",
     "query": {
       "queryState": {
         "Series": {
@@ -20,60 +20,18 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_calendario"
+                      "Entity": "dim_sector"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "sector"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes"
+              "queryRef": "dim_sector.sector",
+              "nativeQueryRef": "sector"
             }
           ]
         },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_coordenadas_sector"
-                        }
-                      },
-                      "Property": "latitud"
-                    }
-                  },
-                  "Function": 0
-                }
-              },
-              "queryRef": "Sum(dim_coordenadas_sector.latitud)",
-              "nativeQueryRef": "Suma de latitud"
-            },
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_coordenadas_sector"
-                        }
-                      },
-                      "Property": "longitud"
-                    }
-                  },
-                  "Function": 0
-                }
-              },
-              "queryRef": "Sum(dim_coordenadas_sector.longitud)",
-              "nativeQueryRef": "Suma de longitud"
-            }
-          ]
-        },
-        "Value": {
+        "Size": {
           "projections": [
             {
               "field": {
@@ -83,102 +41,82 @@
                       "Entity": "_medidas"
                     }
                   },
-                  "Property": "fraus_detectats"
+                  "Property": "Frau_sin_match"
                 }
               },
-              "queryRef": "_medidas.fraus_detectats",
-              "nativeQueryRef": "fraus_detectats"
+              "queryRef": "_medidas.Frau_sin_match",
+              "nativeQueryRef": "Frau_sin_match"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_coordenadas_sector"
+                    }
+                  },
+                  "Property": "longitud"
+                }
+              },
+              "queryRef": "Avg(dim_coordenadas_sector.longitud)",
+              "nativeQueryRef": "longitud"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_coordenadas_sector"
+                    }
+                  },
+                  "Property": "latitud"
+                }
+              },
+              "queryRef": "Avg(dim_coordenadas_sector.latitud)",
+              "nativeQueryRef": "latitud"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
       }
     },
     "objects": {
-      "shape": [
-        {
-          "properties": {
-            "datasourceType": {
-              "expr": {
-                "Literal": {
-                  "Value": "'file_upload'"
-                }
-              }
-            },
-            "mapUrl": {
-              "expr": {
-                "Literal": {
-                  "Value": "''"
-                }
-              }
-            },
-            "map": {
-              "geoJson": {
-                "type": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'shared'"
-                    }
-                  }
-                },
-                "name": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'usa.states.topo'"
-                    }
-                  }
-                },
-                "content": {
-                  "expr": {
-                    "ResourcePackageItem": {
-                      "PackageName": "SharedResources",
-                      "PackageType": 2,
-                      "ItemName": "usa.states.topo"
-                    }
-                  }
-                }
-              }
-            },
-            "projectionEnum": {
-              "expr": {
-                "Literal": {
-                  "Value": "'albersUsa'"
-                }
-              }
-            }
-          }
-        }
-      ],
       "dataPoint": [
         {
+          "properties": {}
+        }
+      ],
+      "mapControls": [
+        {
           "properties": {
-            "fillRule": {
-              "linearGradient2": {
-                "min": {
-                  "color": {
-                    "expr": {
-                      "Literal": {
-                        "Value": "'minColor'"
-                      }
-                    }
-                  }
-                },
-                "max": {
-                  "color": {
-                    "expr": {
-                      "Literal": {
-                        "Value": "'maxColor'"
-                      }
-                    }
-                  }
-                },
-                "nullColoringStrategy": {
-                  "strategy": {
-                    "expr": {
-                      "Literal": {
-                        "Value": "'asZero'"
-                      }
-                    }
-                  }
+            "zoom": {
+              "expr": {
+                "Literal": {
+                  "Value": "9.62D"
+                }
+              }
+            },
+            "centerLatitude": {
+              "expr": {
+                "Literal": {
+                  "Value": "41.3882225564511D"
+                }
+              }
+            },
+            "centerLongitude": {
+              "expr": {
+                "Literal": {
+                  "Value": "2.0908375449999994D"
                 }
               }
             }

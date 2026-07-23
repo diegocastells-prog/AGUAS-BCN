@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "fc349b534d7fd3cddf47",
   "position": {
     "x": 1028.1818181818178,
@@ -23,14 +23,32 @@
                       "Entity": "_medidas"
                     }
                   },
-                  "Property": "categoria_subcomptatge"
+                  "Property": "pct_fraudes_recupera"
                 }
               },
-              "queryRef": "_medidas.categoria_subcomptatge",
-              "nativeQueryRef": "categoria_subcomptatge"
+              "queryRef": "_medidas.pct_fraudes_recupera",
+              "nativeQueryRef": "pct_fraudes_recupera"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_medidas"
+                  }
+                },
+                "Property": "pct_fraudes_recupera"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
       }
     },
     "objects": {
@@ -341,7 +359,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Categorització subcomptatge'"
+                  "Value": "'% recuperación'"
                 }
               }
             },

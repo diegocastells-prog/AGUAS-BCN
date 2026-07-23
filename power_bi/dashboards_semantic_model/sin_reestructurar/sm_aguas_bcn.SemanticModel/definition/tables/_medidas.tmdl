@@ -1554,6 +1554,50 @@ table _medidas
 		displayFolder: Filtros
 		lineageTag: 90649190-abd7-41c2-8900-593fa6fe0756
 
+	measure fraus_detectats_12m =
+			
+			CALCULATE(
+			    [fraus_detectats],
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        MAX(dim_calendario[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+		formatString: 0
+		displayFolder: fraudes
+		lineageTag: 26da5387-9b33-458a-b6ba-c3d01d36e4a8
+
+	measure fraus_detectats_1m =
+			
+			CALCULATE(
+			    [fraus_detectats],
+			    DATEADD(
+			        dim_calendario[Date],
+			        -1,
+			        MONTH
+			    )
+			)
+		formatString: 0
+		displayFolder: fraudes
+		lineageTag: d8fb4d08-3ceb-4dcf-9309-d7d441879eac
+
+	measure fraus_detectats_12m_1m =
+			
+			CALCULATE(
+			    [fraus_detectats],
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        EDATE(MAX(dim_calendario[Date]), -1),
+			        -12,
+			        MONTH
+			    )
+			)
+		formatString: 0
+		displayFolder: fraudes
+		lineageTag: d8616d45-c737-493f-a527-b2332e588238
+
 	column Column
 		isHidden
 		formatString: 0

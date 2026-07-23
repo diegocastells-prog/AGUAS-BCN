@@ -25,109 +25,6 @@
             "Property": "Date"
           }
         },
-        "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "d",
-              "Entity": "dim_calendario",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Not": {
-                  "Expression": {
-                    "In": {
-                      "Expressions": [
-                        {
-                          "Column": {
-                            "Expression": {
-                              "SourceRef": {
-                                "Source": "d"
-                              }
-                            },
-                            "Property": "Date"
-                          }
-                        }
-                      ],
-                      "Values": [
-                        [
-                          {
-                            "Literal": {
-                              "Value": "null"
-                            }
-                          }
-                        ]
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        },
-        "howCreated": "User",
-        "objects": {
-          "general": [
-            {
-              "properties": {
-                "isInvertedSelectionMode": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "true"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "name": "fc98937019c6a5ce8d00",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
-        },
-        "type": "Categorical",
-        "howCreated": "User",
-        "objects": {
-          "general": [
-            {
-              "properties": {
-                "isInvertedSelectionMode": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "true"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "name": "45399e69dec4ad63647e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "Date"
-          }
-        },
         "type": "RelativeDate",
         "filter": {
           "Version": 2,
@@ -157,27 +54,27 @@
                       "Expression": {
                         "DateAdd": {
                           "Expression": {
-                            "DateAdd": {
-                              "Expression": {
-                                "Now": {}
-                              },
-                              "Amount": 1,
-                              "TimeUnit": 0
-                            }
+                            "Now": {}
                           },
-                          "Amount": -18,
-                          "TimeUnit": 2
+                          "Amount": -2,
+                          "TimeUnit": 3
                         }
                       },
-                      "TimeUnit": 0
+                      "TimeUnit": 3
                     }
                   },
                   "UpperBound": {
                     "DateSpan": {
                       "Expression": {
-                        "Now": {}
+                        "DateAdd": {
+                          "Expression": {
+                            "Now": {}
+                          },
+                          "Amount": -1,
+                          "TimeUnit": 3
+                        }
                       },
-                      "TimeUnit": 0
+                      "TimeUnit": 3
                     }
                   }
                 }
@@ -185,7 +82,53 @@
             }
           ]
         },
-        "howCreated": "User"
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "fc98937019c6a5ce8d00",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
       }
     ]
   },
@@ -218,7 +161,8 @@
     ]
   },
   "publicCustomVisuals": [
-    "boxandwhiskerwithpoints6C29D629F202A5FF5B6B023486584FCA"
+    "boxandwhiskerwithpoints6C29D629F202A5FF5B6B023486584FCA",
+    "iconMapProE938B1CED4834168A55864E1F8E7242E"
   ],
   "resourcePackages": [
     {
@@ -229,11 +173,6 @@
           "name": "CY24SU10",
           "path": "BaseThemes/CY24SU10.json",
           "type": "BaseTheme"
-        },
-        {
-          "name": "usa.states.topo",
-          "path": "Shapemaps/usa.states.topo.json",
-          "type": "ShapeMap"
         }
       ]
     },

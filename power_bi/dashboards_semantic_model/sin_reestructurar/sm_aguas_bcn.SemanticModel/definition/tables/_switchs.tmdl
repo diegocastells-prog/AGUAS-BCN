@@ -441,6 +441,28 @@ table _switchs
 		formatString: #,0
 		lineageTag: c6e4cca9-96d3-4ea3-ae1c-59963c9ae502
 
+	measure kpi_fraus_detectats_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [fraus_detectats],
+			    "12 meses", [fraus_detectats_12m],
+			    BLANK()
+			)
+		formatString: 0
+		lineageTag: ee9d271c-5602-42ef-9ce6-bb36ac3f42c2
+
+	measure kpi_fraus_detectats_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [fraus_detectats_1m],
+			    "12 meses", [fraus_detectats_12m_1m],
+			    BLANK()
+			)
+		formatString: 0
+		lineageTag: 88962258-e8e1-4fe9-b03f-7e7f20518a1f
+
 	column Column
 		isHidden
 		formatString: 0
