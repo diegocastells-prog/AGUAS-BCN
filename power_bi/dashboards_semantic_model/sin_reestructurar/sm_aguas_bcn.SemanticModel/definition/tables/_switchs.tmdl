@@ -463,6 +463,48 @@ table _switchs
 		formatString: 0
 		lineageTag: 88962258-e8e1-4fe9-b03f-7e7f20518a1f
 
+	measure Metrica_Mapa_Seleccionada = ```
+			
+			VAR MetricaElegida = SELECTEDVALUE(Slicer_KPI[Metrica], "Rendimiento (%)")
+			VAR Periodoelegido = SELECTEDVALUE(dummy_slicer_periodo[Periodo], "Mensual")
+			RETURN
+			    SWITCH(
+			        MetricaElegida,
+			        "ANR (m³)",
+			            IF(Periodoelegido = "12 meses", [anr_acum_12m], [anr_mensual]),
+			        "Rendimiento (%)",
+			            IF(Periodoelegido = "12 meses", [rth_distribucion_12m], [rth_distribucion_mensual]),
+			        "Caudal Mínimo Nocturno",
+			            IF(Periodoelegido = "12 meses", [q_min_12_mesos], [q_min_mensual]),
+			        "Fraudes Detectados", 
+			            [fraus_detectats],
+			        [rth_distribucion_mensual] // Valor por defecto, aqui solo se pueden meter valores numericos
+			    )
+			```
+		lineageTag: 13cddcb7-0eef-4f96-93e4-a3a594f46a48
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure switch_KPI_activo_mapa =
+			
+			SELECTEDVALUE(Slicer_KPI[Metrica], "Rendimiento (%)")
+		lineageTag: f1331140-57ce-4cef-8a54-8278137f3b0a
+
+	measure Indicador_Contexto_Mapa =
+			
+			VAR MetricaElegida = SELECTEDVALUE(Slicer_KPI[Metrica], "Rendimiento (%)")
+			RETURN
+			    SWITCH(
+			        MetricaElegida,
+			        "Rendimiento (%)", [vategoria_fuita],
+			        "ANR (m³)", [vategoria_fuita],
+			        "Caudal Mínimo Nocturno", [vategoria_fuita],
+			        "Fraudes Detectados", FORMAT([fraus_recupera_euros], "#,##0 €"),
+			        "Volumen Fraude (m³)", FORMAT([fraus_recupera_euros], "#,##0 €"),
+			        [vategoria_fuita]
+			    )
+		lineageTag: e0c9011f-577e-497e-8f60-dfe5265779dc
+
 	column Column
 		isHidden
 		formatString: 0

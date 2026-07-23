@@ -1,0 +1,27 @@
+table Slicer_KPI
+	lineageTag: e7353c5b-4bab-47db-82b2-8cdce53eebae
+
+	column Metrica
+		lineageTag: dfc57016-03e9-4ce6-bf7e-7b71f101f38e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Metrica]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Slicer_KPI = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Metrica", STRING,
+				    {
+				        {"ANR (m³)"},
+				        {"Rendimiento (%)"},
+				        {"Caudal Mínimo Nocturno"},
+				        {"Fraudes Detectados"}
+				    }
+				)
+
+	annotation PBI_Id = 74cf418f22f34488ae03340cd89ff047
+

@@ -46,7 +46,8 @@
                 }
               },
               "queryRef": "_medidas.fraus_detectats",
-              "nativeQueryRef": "fraus_detectats"
+              "nativeQueryRef": "fraus detectats",
+              "displayName": "fraus detectats"
             },
             {
               "field": {
@@ -60,7 +61,8 @@
                 }
               },
               "queryRef": "_medidas.fraus_recuperat",
-              "nativeQueryRef": "fraus_recuperat"
+              "nativeQueryRef": "fraus recuperat",
+              "displayName": "fraus recuperat"
             }
           ]
         }
@@ -84,6 +86,13 @@
         {
           "properties": {
             "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "show": {
               "expr": {
                 "Literal": {
                   "Value": "true"
@@ -415,51 +424,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "bb6cf25ae34c27345547",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "71365ba5549d41d52e82",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "fraus_detectats"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "ca100050531dc7a28ae2",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "fraus_recuperat"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

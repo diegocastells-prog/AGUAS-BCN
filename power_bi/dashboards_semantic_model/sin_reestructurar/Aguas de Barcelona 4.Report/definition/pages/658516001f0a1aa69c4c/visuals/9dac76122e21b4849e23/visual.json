@@ -13,24 +13,6 @@
     "visualType": "azureMap",
     "query": {
       "queryState": {
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_sector"
-                    }
-                  },
-                  "Property": "sector"
-                }
-              },
-              "queryRef": "dim_sector.sector",
-              "nativeQueryRef": "sector"
-            }
-          ]
-        },
         "Size": {
           "projections": [
             {
@@ -38,14 +20,74 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_medidas"
+                      "Entity": "_switchs"
                     }
                   },
-                  "Property": "Frau_sin_match"
+                  "Property": "Metrica_Mapa_Seleccionada"
                 }
               },
-              "queryRef": "_medidas.Frau_sin_match",
-              "nativeQueryRef": "Frau_sin_match"
+              "queryRef": "_switchs.Metrica_Mapa_Seleccionada",
+              "nativeQueryRef": "Valor",
+              "displayName": "Valor"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "switch_KPI_activo_mapa"
+                }
+              },
+              "queryRef": "_switchs.switch_KPI_activo_mapa",
+              "nativeQueryRef": "KPI",
+              "displayName": "KPI"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_sector"
+                        }
+                      },
+                      "Property": "gerencia"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(dim_sector.gerencia)",
+              "nativeQueryRef": "Gerencia",
+              "displayName": "Gerencia"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_sector"
+                        }
+                      },
+                      "Property": "sector"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(dim_sector.sector)",
+              "nativeQueryRef": "Sector",
+              "displayName": "Sector"
             }
           ]
         },
@@ -102,7 +144,7 @@
             "zoom": {
               "expr": {
                 "Literal": {
-                  "Value": "9.62D"
+                  "Value": "9.74D"
                 }
               }
             },
@@ -117,6 +159,13 @@
               "expr": {
                 "Literal": {
                   "Value": "2.0908375449999994D"
+                }
+              }
+            },
+            "defaultStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "'road'"
                 }
               }
             }
