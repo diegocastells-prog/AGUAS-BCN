@@ -133,28 +133,36 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure kpi_anr_global_switch =
+	measure kpi_anr_global_switch = ```
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", VALUES(fact_anr_global_mensual[anr_global_hm3]),
-			    "12 meses", VALUES(fact_anr_global_acum[anr_global_hm3]),
+			    "Mensual", SELECTEDVALUE(fact_anr_global_mensual[anr_global_hm3]),
+			    "12 meses", SELECTEDVALUE(fact_anr_global_acum[anr_global_hm3]),
 			    BLANK()
 			)
+			 
+			```
 		lineageTag: 11320d97-e99e-402d-9a99-c731e8870e8a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure kpi_rth_global_switch = ```
+	measure kpi_rth_global_switch =
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [rendiment_global_mensual],
-			    "12 meses", [rendiment_global_acum_12m],
+			    "Mensual",
+			        DIVIDE(
+			            SELECTEDVALUE(fact_anr_global_mensual[consumida_hm3]),
+			            SELECTEDVALUE(fact_anr_global_mensual[lliurada_hm3])
+			        ),
+			    "12 meses",
+			        DIVIDE(
+			            SELECTEDVALUE(fact_anr_global_acum[consumida_hm3]),
+			            SELECTEDVALUE(fact_anr_global_acum[lliurada_hm3])
+			        ),
 			    BLANK()
 			)
-			
-			```
 		lineageTag: ab5d550c-8fe9-4056-abff-1f0d7ddafeb6
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -348,16 +356,31 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure kpi_rth_global_switch_1m = ```
+	measure kpi_rth_global_switch_1m =
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [rendiment_global_mensual_1m],
-			    "12 meses", [rendiment_global_acum_12m],
+			
+			    "Mensual",
+			        CALCULATE(
+			            DIVIDE(
+			                SELECTEDVALUE(fact_anr_global_mensual[consumida_hm3]),
+			                SELECTEDVALUE(fact_anr_global_mensual[lliurada_hm3])
+			            ),
+			            DATEADD(dim_calendario[Date], -1, MONTH)
+			        ),
+			
+			    "12 meses",
+			        CALCULATE(
+			            DIVIDE(
+			                SELECTEDVALUE(fact_anr_global_acum[consumida_hm3]),
+			                SELECTEDVALUE(fact_anr_global_acum[lliurada_hm3])
+			            ),
+			            DATEADD(dim_calendario[Date], -1, MONTH)
+			        ),
+			
 			    BLANK()
 			)
-			
-			```
 		lineageTag: e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -504,6 +527,115 @@ table _switchs
 			        [vategoria_fuita]
 			    )
 		lineageTag: e0c9011f-577e-497e-8f60-dfe5265779dc
+
+	measure kpi_anr_global_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", CALCULATE(SELECTEDVALUE(fact_anr_global_mensual[anr_global_hm3]),DATEADD(dim_calendario[Date], -1, MONTH)),
+			    "12 meses", CALCULATE(SELECTEDVALUE(fact_anr_global_acum[anr_global_hm3]),DATEADD(dim_calendario[Date], -1, MONTH)),
+			    BLANK()
+			)
+			 
+			 
+			```
+		lineageTag: b73ca3f3-62f3-4dac-a730-77c07f2d0d69
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_consumita_global_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", SELECTEDVALUE(fact_anr_global_mensual[consumida_hm3]),
+			    "12 meses", SELECTEDVALUE(fact_anr_global_acum[consumida_hm3]),
+			    BLANK()
+			)
+			 
+			```
+		lineageTag: 69633d97-baa9-454e-ba3e-6edc694da6c8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Medida
+		lineageTag: c093a057-b984-48ee-82d1-8f7b389188ab
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure kpi_consumita_global_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", CALCULATE(SELECTEDVALUE(fact_anr_global_mensual[consumida_hm3]),DATEADD(dim_calendario[Date], -1, MONTH)),
+			    "12 meses", CALCULATE(SELECTEDVALUE(fact_anr_global_acum[consumida_hm3]),DATEADD(dim_calendario[Date], -1, MONTH)),
+			    BLANK()
+			)
+			  
+			```
+		lineageTag: 11d78951-9582-455d-a6cb-69242d37abe7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_l_global_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", SELECTEDVALUE(fact_inventari_xarxa_mensual[l_+_t_km]),
+			    "12 meses", SELECTEDVALUE(fact_inventari_xarxa_mitjana_12m[l_+_t_km]),
+			    BLANK()
+			)
+			 
+			```
+		lineageTag: e140d3f6-46aa-412f-b626-fe4223411fa9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_l_global_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", CALCULATE(SELECTEDVALUE(fact_inventari_xarxa_mensual[l_+_t_km]),DATEADD(dim_calendario[Date], -1, MONTH)),
+			    "12 meses", CALCULATE(SELECTEDVALUE(fact_inventari_xarxa_mitjana_12m[l_+_t_km]),DATEADD(dim_calendario[Date], -1, MONTH)),
+			    BLANK()
+			)
+			  
+			 
+			```
+		lineageTag: 37752526-b543-4e78-a58b-a36f930a46e3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_lliurat_global_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", SELECTEDVALUE(fact_anr_global_mensual[lliurada_hm3]),
+			    "12 meses", SELECTEDVALUE(fact_anr_global_acum[lliurada_hm3]),
+			    BLANK()
+			) 
+			```
+		lineageTag: 5f689cec-0b1d-468a-b8ec-678148381402
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_lliurat_global_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", CALCULATE(SELECTEDVALUE(fact_anr_global_mensual[lliurada_hm3]),DATEADD(dim_calendario[Date], -1, MONTH)),
+			    "12 meses", CALCULATE(SELECTEDVALUE(fact_anr_global_acum[lliurada_hm3]),DATEADD(dim_calendario[Date], -1, MONTH)),
+			    BLANK()
+			)
+			  
+			```
+		lineageTag: 3c3bb92e-f5f8-49a4-8623-55e8a2a13b58
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Medida 2'
+		lineageTag: b3ce8999-7c47-4ff0-a6a1-25017021a9f5
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
 
 	column Column
 		isHidden
