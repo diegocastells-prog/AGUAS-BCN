@@ -28,7 +28,7 @@
               },
               "queryRef": "_medidas.fraus_detectats",
               "nativeQueryRef": "fraus_detectats",
-              "format": "#,0.000"
+              "format": "#,0"
             }
           ]
         }
@@ -84,6 +84,20 @@
           },
           "selector": {
             "id": "default"
+          }
+        },
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.fraus_detectats"
           }
         }
       ],
@@ -601,5 +615,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "e38743d68e658270700d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "fraus_detectats"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

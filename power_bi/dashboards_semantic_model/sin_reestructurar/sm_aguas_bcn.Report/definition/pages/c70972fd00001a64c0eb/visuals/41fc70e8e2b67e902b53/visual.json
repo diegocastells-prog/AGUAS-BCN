@@ -1,33 +1,33 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "36c51617b387051ee058",
+  "name": "41fc70e8e2b67e902b53",
   "position": {
-    "x": 746.36363636363626,
-    "y": 447.27272727272725,
-    "z": 17000,
-    "height": 214.54545454545453,
-    "width": 520.90909090909088,
-    "tabOrder": 17000
+    "x": 230,
+    "y": 65,
+    "z": 4000,
+    "height": 62,
+    "width": 169,
+    "tabOrder": 6000
   },
   "visual": {
-    "visualType": "boxandwhiskerwithpoints6C29D629F202A5FF5B6B023486584FCA",
+    "visualType": "slicer",
     "query": {
       "queryState": {
-        "col_0": {
+        "Values": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_calendario"
+                      "Entity": "dim_sector"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "sector"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
+              "queryRef": "dim_sector.sector",
+              "nativeQueryRef": "sector",
               "active": true
             }
           ]
@@ -35,13 +35,52 @@
       }
     },
     "objects": {
-      "hiddenProps": [
+      "data": [
         {
           "properties": {
-            "dataVersion": {
+            "mode": {
               "expr": {
                 "Literal": {
-                  "Value": "'5.2.0.0'"
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "selfFilterEnabled": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "header": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "items": [
+        {
+          "properties": {
+            "textSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
                 }
               }
             }
@@ -53,13 +92,6 @@
       "title": [
         {
           "properties": {
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Dispersión / Relación (scatter: Q min vs ANR normalizado para detectar sectores atípicos)'"
-                }
-              }
-            },
             "show": {
               "expr": {
                 "Literal": {
@@ -99,14 +131,14 @@
             "alignment": {
               "expr": {
                 "Literal": {
-                  "Value": "'center'"
+                  "Value": "'left'"
                 }
               }
             },
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "10D"
                 }
               }
             },
@@ -114,6 +146,13 @@
               "expr": {
                 "Literal": {
                   "Value": "'Segoe UI Semibold'"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sector'"
                 }
               }
             }
@@ -297,5 +336,6 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  }
+  },
+  "parentGroupName": "ff33f68f7846e0b04635"
 }

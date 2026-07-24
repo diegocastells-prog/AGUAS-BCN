@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "_medidas.pct_fraudes_recupera",
-              "nativeQueryRef": "pct_fraudes_recupera"
+              "nativeQueryRef": "pct_fraudes_recupera",
+              "format": "0.0 %;-0.0 %;0.0 %"
             }
           ]
         }
@@ -83,6 +84,20 @@
           },
           "selector": {
             "id": "default"
+          }
+        },
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.pct_fraudes_recupera"
           }
         }
       ],
@@ -600,5 +615,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "8ebad8e8a67787d00203",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "pct_fraudes_recupera"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

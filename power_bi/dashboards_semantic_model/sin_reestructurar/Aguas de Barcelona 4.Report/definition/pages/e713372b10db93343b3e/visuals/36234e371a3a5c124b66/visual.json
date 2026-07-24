@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "36234e371a3a5c124b66",
   "position": {
-    "x": 559.79147587178579,
-    "y": 12.984853821768228,
+    "x": 665.93406593406587,
+    "y": 6.5934065934065931,
     "z": 29000,
-    "height": 39.361702127659576,
-    "width": 232.97872340425533,
+    "height": 57.142857142857139,
+    "width": 143.95604395604394,
     "tabOrder": 29000
   },
   "visual": {
@@ -139,7 +139,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "2025L"
+                                "Value": "2026L"
                               }
                             }
                           ]
@@ -167,7 +167,7 @@
                                 "0": [
                                   {
                                     "Literal": {
-                                      "Value": "2025L"
+                                      "Value": "2026L"
                                     }
                                   }
                                 ]
@@ -191,7 +191,7 @@
                         },
                         "valueMap": [
                           {
-                            "0": "2025"
+                            "0": "2026"
                           }
                         ]
                       }
@@ -288,8 +288,67 @@
             }
           }
         }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Fecha'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "6c479cf015a9802c883b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "62f569b583de1596b44b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "mes"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

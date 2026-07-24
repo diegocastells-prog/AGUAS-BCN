@@ -5,7 +5,7 @@ table fact_cabals_mínims
 		dataType: int64
 		formatString: 0
 		lineageTag: 67379891-00af-44a9-96a8-13b6037aac08
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: sector_id
 
 		annotation SummarizationSetBy = Automatic
@@ -89,9 +89,10 @@ table fact_cabals_mínims
 				            {"fecha", type date},
 				            {"q_min", type number}
 				        }
-				    )
+				    ),
+				    #"Filas filtradas" = Table.SelectRows(Tipos, each true)
 				in
-				    Tipos
+				    #"Filas filtradas"
 
 	annotation PBI_NavigationStepName = Navegación
 

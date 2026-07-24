@@ -28,7 +28,7 @@
               },
               "queryRef": "_medidas.volum_agua_rec_fraud",
               "nativeQueryRef": "volum_agua_rec_fraud",
-              "format": "0.000"
+              "format": "#,0"
             }
           ]
         }
@@ -84,6 +84,20 @@
           },
           "selector": {
             "id": "default"
+          }
+        },
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.volum_agua_rec_fraud"
           }
         }
       ],
@@ -601,5 +615,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "dc2bd4ba3b822d98e5d1",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "volum_agua_rec_fraud"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

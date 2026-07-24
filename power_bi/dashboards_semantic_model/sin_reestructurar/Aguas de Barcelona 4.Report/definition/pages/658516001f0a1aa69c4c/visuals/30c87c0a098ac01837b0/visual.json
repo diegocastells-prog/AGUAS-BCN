@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "30c87c0a098ac01837b0",
   "position": {
-    "x": 421.2863684395914,
-    "y": 57.710461430081011,
+    "x": 399.64444444444445,
+    "y": 58.31111111111111,
     "z": 23000,
-    "height": 60.595984501585065,
-    "width": 152.93272278971469,
-    "tabOrder": 30004
+    "height": 59.733333333333334,
+    "width": 184.88888888888889,
+    "tabOrder": 23000
   },
   "visual": {
     "visualType": "slicer",
@@ -20,84 +20,20 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact_aigua_no_registrada_mensual"
+                      "Entity": "dim_sector"
                     }
                   },
                   "Property": "gerencia"
                 }
               },
-              "queryRef": "fact_aigua_no_registrada_mensual.gerencia",
+              "queryRef": "dim_sector.gerencia",
               "nativeQueryRef": "gerencia",
-              "active": true
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_sector"
-                    }
-                  },
-                  "Property": "sector"
-                }
-              },
-              "queryRef": "dim_sector.sector",
-              "nativeQueryRef": "sector",
               "active": true
             }
           ]
         }
       }
     },
-    "expansionStates": [
-      {
-        "roles": [
-          "Values"
-        ],
-        "levels": [
-          {
-            "queryRefs": [
-              "fact_aigua_no_registrada_mensual.gerencia"
-            ],
-            "isCollapsed": true,
-            "identityKeys": [
-              {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "fact_aigua_no_registrada_mensual"
-                    }
-                  },
-                  "Property": "gerencia"
-                }
-              }
-            ],
-            "isPinned": true
-          },
-          {
-            "queryRefs": [
-              "dim_sector.sector"
-            ],
-            "isCollapsed": true,
-            "isPinned": true
-          }
-        ],
-        "root": {
-          "children": [
-            {
-              "identityValues": [
-                {
-                  "Literal": {
-                    "Value": "'Barcelona Nord'"
-                  }
-                }
-              ],
-              "isToggled": true
-            }
-          ]
-        }
-      }
-    ],
     "objects": {
       "data": [
         {
@@ -172,7 +108,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Zona'"
+                  "Value": "'Gerencia'"
                 }
               }
             }
@@ -240,6 +176,7 @@
             }
           ]
         },
+        "howCreated": "User",
         "isHiddenInViewMode": true,
         "objects": {
           "general": [
