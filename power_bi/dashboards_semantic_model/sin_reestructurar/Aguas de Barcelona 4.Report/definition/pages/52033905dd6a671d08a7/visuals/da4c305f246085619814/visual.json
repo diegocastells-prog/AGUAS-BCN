@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "da4c305f246085619814",
   "position": {
     "x": 441,
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_sector"
+                      "Entity": "fact_vol_fraud"
                     }
                   },
-                  "Property": "sector"
+                  "Property": "Us Aigua Subm"
                 }
               },
-              "queryRef": "dim_sector.sector",
-              "nativeQueryRef": "sector",
+              "queryRef": "fact_vol_fraud.Us Aigua Subm",
+              "nativeQueryRef": "Us Aigua Subm",
               "active": true
             }
           ]
@@ -152,7 +152,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Presión'"
+                  "Value": "'Uso del Agua'"
                 }
               }
             }
@@ -337,5 +337,82 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "e8afa7955409ae3a08ee"
+  "parentGroupName": "e8afa7955409ae3a08ee",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "586663d5bd74e7032c15",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_vol_fraud"
+              }
+            },
+            "Property": "Us Aigua Subm"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "f",
+              "Entity": "fact_vol_fraud",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "f"
+                              }
+                            },
+                            "Property": "Us Aigua Subm"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'-'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "isHiddenInViewMode": true,
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
 }

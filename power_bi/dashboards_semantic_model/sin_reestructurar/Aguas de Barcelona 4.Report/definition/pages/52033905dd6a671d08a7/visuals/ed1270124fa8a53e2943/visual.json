@@ -20,18 +20,36 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_sector"
+                      "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "sector"
+                  "Property": "Date"
                 }
               },
-              "queryRef": "dim_sector.sector",
-              "nativeQueryRef": "sector",
+              "queryRef": "dim_calendario.Date",
+              "nativeQueryRef": "Date",
               "active": true
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_calendario"
+                  }
+                },
+                "Property": "Date"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
       }
     },
     "objects": {
@@ -337,23 +355,5 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "e8afa7955409ae3a08ee",
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "5f29be613050bd91ed54",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_sector"
-              }
-            },
-            "Property": "sector"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
-  }
+  "parentGroupName": "e8afa7955409ae3a08ee"
 }
