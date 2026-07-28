@@ -1597,6 +1597,25 @@ table _medidas
 		displayFolder: fraudes
 		lineageTag: d8616d45-c737-493f-a527-b2332e588238
 
+	measure subministraments_mas3_períodes_estimats =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(fact_bossa[polissa_subm]),
+			    fact_bossa[periodos_consecutivos_con_ea] > 3
+			)
+		formatString: 0
+		displayFolder: compatodrs
+		lineageTag: f388bf4e-d3c7-4ef8-b831-1ffc9f469392
+
+	measure subministraments_mas3_períodes_consum_0 =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(fact_dades_consum[polissa_subm]),
+			    fact_dades_consum[periodos_consecutivos_consum_0] > 3
+			)
+		displayFolder: compatodrs
+		lineageTag: 98f9391b-d675-4925-b187-c4f3de1f0f69
+
 	column Column
 		isHidden
 		formatString: 0

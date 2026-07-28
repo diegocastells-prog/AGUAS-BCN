@@ -52,24 +52,24 @@ table dim_sector
 				// TABLA 1 -Coordenadas
 				
 				let 
-				 Origen1 = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1l9btpQJf9bOrnwWyDpkAZpQXill8mdHHxKlHcdf_DVQ/edit?gid=1726033904#gid=1726033904"), 
-				 Nav1 = Origen1{[name = "coordenadas por sector bcn.csv", 
-				 ItemKind = "Table"]}[Data], 
-				 Quitadas = Table.RemoveColumns(Nav1,{"Column1", "Column2", "Column3"}), 
-				 Headers1 = Table.PromoteHeaders(Quitadas, [PromoteAllScalars=true]),
-				 Tipos1 = Table.TransformColumnTypes(Headers1,{{"sector_id", Int64.Type}, {"latitud", type number}, {"longitud", type number}}), 
-				 SinDuplicados = Table.Distinct(Tipos1), 
-				 Coordenadas = Table.SelectRows(SinDuplicados, each List.NonNullCount(Record.FieldValues(_)) > 0),
+				    Origen1 = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1l9btpQJf9bOrnwWyDpkAZpQXill8mdHHxKlHcdf_DVQ/edit?gid=1726033904#gid=1726033904"), 
+				    Nav1 = Origen1{[name = "coordenadas por sector bcn.csv", 
+				    ItemKind = "Table"]}[Data], 
+				    Quitadas = Table.RemoveColumns(Nav1,{"Column1", "Column2", "Column3"}), 
+				    Headers1 = Table.PromoteHeaders(Quitadas, [PromoteAllScalars=true]),
+				    Tipos1 = Table.TransformColumnTypes(Headers1,{{"sector_id", Int64.Type}, {"latitud", type number}, {"longitud", type number}}), 
+				    SinDuplicados = Table.Distinct(Tipos1), 
+				    Coordenadas = Table.SelectRows(SinDuplicados, each List.NonNullCount(Record.FieldValues(_)) > 0),
 				// TABLA 2 - Sectores 
-				 Origen2 = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRH4WiST8QUNFuYRZ1ilIw7p1mfJMiAz5bImbBz2ffnYgrxn2MyRB5O192pgqrP_SyFQdf6CJroUA9G/pub?gid=0&single=true&output=csv"), [Delimiter = ",", Columns = 3, Encoding = 65001, QuoteStyle = QuoteStyle.None]), 
-				 Headers2 = Table.PromoteHeaders(Origen2, [PromoteAllScalars = true]),
-				 Tipos2 = Table.TransformColumnTypes(Headers2, {{"sector_id", Int64.Type}, {"denomin", type text}, {"gerencia", type text}}, "es"), 
-				 Renombrada = Table.RenameColumns(Tipos2,{{"denomin", "sector"}}), 
-				 Sectores = Table.TransformColumns(Renombrada, {{"sector", Text.Proper, type text}}),
+				    Origen2 = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRH4WiST8QUNFuYRZ1ilIw7p1mfJMiAz5bImbBz2ffnYgrxn2MyRB5O192pgqrP_SyFQdf6CJroUA9G/pub?gid=0&single=true&output=csv"), [Delimiter = ",", Columns = 3, Encoding = 65001, QuoteStyle = QuoteStyle.None]), 
+				    Headers2 = Table.PromoteHeaders(Origen2, [PromoteAllScalars = true]),
+				    Tipos2 = Table.TransformColumnTypes(Headers2, {{"sector_id", Int64.Type}, {"denomin", type text}, {"gerencia", type text}}, "es"), 
+				    Renombrada = Table.RenameColumns(Tipos2,{{"denomin", "sector"}}), 
+				    Sectores = Table.TransformColumns(Renombrada, {{"sector", Text.Proper, type text}}),
 				// UNION
-				 Join = Table.NestedJoin( Coordenadas, {"sector_id"},
-				 Sectores, {"sector_id"},"Sectores", JoinKind.LeftOuter ),
-				 Resultado = Table.ExpandTableColumn( Join, "Sectores", {"sector", "gerencia"}, {"sector", "gerencia"} ) 
+				    Join = Table.NestedJoin( Coordenadas, {"sector_id"},
+				    Sectores, {"sector_id"},"Sectores", JoinKind.LeftOuter ),
+				    Resultado = Table.ExpandTableColumn( Join, "Sectores", {"sector", "gerencia"}, {"sector", "gerencia"} ) 
 				    
 				in
 				    Resultado
