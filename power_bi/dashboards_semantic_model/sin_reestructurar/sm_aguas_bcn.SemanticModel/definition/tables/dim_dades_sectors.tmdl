@@ -118,9 +118,9 @@ table dim_dades_sectors
 				    #"Consultas combinadas" = Table.NestedJoin(#"Valor reemplazado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
 				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
 				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
-				    #"Filas filtradas" = Table.SelectRows(#"Columnas quitadas", each ([sector_activo] = "SI"))
+				    #"Duplicados quitados" = Table.Distinct(#"Columnas quitadas")
 				in
-				    #"Filas filtradas"
+				    #"Duplicados quitados"
 
 	annotation PBI_NavigationStepName = Navegación
 

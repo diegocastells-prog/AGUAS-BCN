@@ -1,11 +1,12 @@
 table fact_aigua_no_registrada_mensual
 	lineageTag: f96f2e5b-1cad-4714-b87a-0b7f4562ce64
 
-	column sector
-		dataType: string
+	column sector_id
+		dataType: int64
+		formatString: 0
 		lineageTag: 81776734-9feb-42fa-8a73-f10a60e150fd
-		summarizeBy: none
-		sourceColumn: sector
+		summarizeBy: sum
+		sourceColumn: sector_id
 
 		annotation SummarizationSetBy = Automatic
 
@@ -15,8 +16,6 @@ table fact_aigua_no_registrada_mensual
 		lineageTag: 5765c0bb-158e-45bd-b184-2bff78c88416
 		summarizeBy: none
 		sourceColumn: fecha
-
-		changedProperty = DataType
 
 		annotation SummarizationSetBy = Automatic
 
@@ -102,9 +101,11 @@ table fact_aigua_no_registrada_mensual
 				    #"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado1",{"sectors"}),
 				    #"Consultas combinadas" = Table.NestedJoin(#"Columnas quitadas1", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
 				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
-				    #"Columnas quitadas4" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"})
+				    #"Columnas quitadas4" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
+				    #"Columnas con nombre cambiado3" = Table.RenameColumns(#"Columnas quitadas4",{{"sector", "sector_id"}}),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas con nombre cambiado3",{{"sector_id", Int64.Type}, {"fecha", type date}})
 				in
-				    #"Columnas quitadas4"
+				    #"Tipo cambiado"
 				```
 
 	annotation PBI_NavigationStepName = Navegación

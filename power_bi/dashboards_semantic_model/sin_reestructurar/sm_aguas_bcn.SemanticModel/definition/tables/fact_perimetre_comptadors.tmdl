@@ -65,14 +65,6 @@ table fact_perimetre_comptadors
 
 		annotation SummarizationSetBy = Automatic
 
-	column gerencia
-		dataType: string
-		lineageTag: 9f44adc3-ad25-40ab-90d4-1a7a44995cf4
-		summarizeBy: none
-		sourceColumn: gerencia
-
-		annotation SummarizationSetBy = Automatic
-
 	column num_complet
 		dataType: string
 		lineageTag: 5811a8ea-e8a3-452c-a106-b913881adb66
@@ -224,11 +216,13 @@ table fact_perimetre_comptadors
 				        }),
 				    #"Duplicados quitados" = Table.Distinct(Union),
 				    #"Consultas combinadas" = Table.NestedJoin(#"Duplicados quitados", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
-				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"})
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
+				    #"Filas filtradas" = Table.SelectRows(#"Columnas quitadas", each ([sector_id] = ""))
 				in
-				    #"Se expandió dim_gerencia"
+				    #"Filas filtradas"
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 
