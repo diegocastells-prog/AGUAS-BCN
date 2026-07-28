@@ -1,10 +1,39 @@
-relationship AutoDetected_f4d8d3e1-43dc-4a2f-aed4-5c9a52403c24
-	fromColumn: fact_aigua_no_registrada_mensual.sector
-	toColumn: dim_sector.sector_id
+relationship 2c0843f4-d55b-5db3-76fb-35d36e17fd83
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: fact_inventari_xarxa_mensual.fecha
+	toColumn: dim_calendario.Date
 
-relationship AutoDetected_d9e00979-4079-4fcf-bb6c-c34ce8785177
-	fromColumn: dim_polissa_fraude.sector_id
-	toColumn: dim_sector.sector_id
+relationship aa19f9d1-7402-3300-6409-3c6d9073dad9
+	crossFilteringBehavior: bothDirections
+	fromColumn: fact_inventari_xarxa_mitjana_12m.fecha
+	toColumn: dim_calendario.Date
+
+relationship c28b00dc-ddae-cc09-a094-042aff7256fd
+	fromColumn: fact_estadistiques_comp.fecha
+	toColumn: dim_calendario.Date
+
+relationship 7d115471-1de3-4301-bc17-edc8a939b8b7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_anr_global_mensual.fecha
+	toColumn: LocalDateTable_d1b90805-bd5a-402f-9490-942013cea1b8.Date
+
+relationship 0ae69dd9-1ce9-4724-bbfe-d1c75b278c9f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_anr_global_acum.fecha
+	toColumn: LocalDateTable_c6561612-6700-474a-ba57-f229b5aeb539.Date
+
+relationship 0f16dfbb-f5e5-d9ce-526d-c928ff9658cc
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: dim_calendario.Date
+	toColumn: fact_anr_global_mensual.fecha
+
+relationship 2ffa33f1-d27f-03d2-c6e4-b5812c8dc832
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: dim_calendario.Date
+	toColumn: fact_anr_global_acum.fecha
 
 relationship 2fc70948-9d9c-45be-8951-17760ee1eb52
 	joinOnDateBehavior: datePartOnly
@@ -44,55 +73,14 @@ relationship AutoDetected_fa068362-ff0a-4555-84b3-340a375e0c1f
 	fromColumn: fact_perimetre_comptadors.id_marca_modelo
 	toColumn: dim_comptadors.Id_marca_modelo
 
+relationship 70df98a5-d27d-92ab-f90e-152ce7d20191
+	fromColumn: fact_cabals_mínims.fecha
+	toColumn: dim_calendario.Date
+
 relationship 4c90cb05-4cad-48a6-9112-4930a85a791b
 	joinOnDateBehavior: datePartOnly
 	fromColumn: fact_bossa.data_alta_subm
 	toColumn: LocalDateTable_d7467889-0f0f-4b21-a13c-65fd8cde4c37.Date
-
-relationship AutoDetected_157e6c03-07dd-4c37-917f-93a914b1faa9
-	fromColumn: fact_volum_consumit.sector_id
-	toColumn: dim_sector.sector_id
-
-relationship AutoDetected_8a7509c9-3a72-4c31-9aa1-fe797161d134
-	fromColumn: fact_volum_lliurat.sector_id
-	toColumn: dim_sector.sector_id
-
-relationship AutoDetected_e1a91223-a893-4a52-9918-ac3221ae90f5
-	fromColumn: fact_z_sector.sector_id
-	toColumn: dim_ortomat.sector_id
-
-relationship AutoDetected_a8ac39fa-8bad-4360-8e3f-d65f95f7b017
-	fromColumn: fact_z_sector.sector_id
-	toColumn: dim_sector.sector_id
-
-relationship 11103316-591f-d468-00ef-0a246d796aaa
-	fromColumn: fact_vol_fraud.'Polissa Subm'
-	toColumn: dim_polissa_fraude.polissa_su
-
-relationship AutoDetected_b7ea796b-2393-406d-a540-7fc31918042a
-	fromColumn: dim_coordenadas_sector.sector_id
-	toColumn: dim_ortomat.sector_id
-
-relationship AutoDetected_675535a9-b3cb-4eb9-bc56-1dcbe4ded544
-	crossFilteringBehavior: bothDirections
-	fromColumn: dim_coordenadas_sector.sector_id
-	toColumn: dim_sector.sector_id
-
-relationship AutoDetected_8f32e086-276d-4322-8484-42ecc22cc9d0
-	fromColumn: dim_dades_sectors.sector_id
-	toColumn: dim_ortomat.sector_id
-
-relationship AutoDetected_26ce341f-2696-4101-a51f-ef0929df4ca2
-	fromColumn: dim_dades_sectors.sector_id
-	toColumn: dim_sector.sector_id
-
-relationship c28b00dc-ddae-cc09-a094-042aff7256fd
-	fromColumn: fact_estadistiques_comp.fecha
-	toColumn: dim_calendario.Date
-
-relationship 70df98a5-d27d-92ab-f90e-152ce7d20191
-	fromColumn: fact_cabals_mínims.fecha
-	toColumn: dim_calendario.Date
 
 relationship afe9962a-0928-8369-68d1-bbd0e4b5ff10
 	fromColumn: fact_volum_lliurat.fecha
@@ -106,6 +94,10 @@ relationship a12e6aac-5cfa-3fb3-9012-07a86c379643
 	fromColumn: fact_bossa.data_instalacion
 	toColumn: dim_calendario.Date
 
+relationship AutoDetected_e1a91223-a893-4a52-9918-ac3221ae90f5
+	fromColumn: fact_z_sector.sector_id
+	toColumn: dim_ortomat.sector_id
+
 relationship c4350338-ac8f-7bcd-39dc-14af6de27b72
 	fromColumn: fact_fraudes_all.data_creacio_original
 	toColumn: dim_calendario.Date
@@ -114,13 +106,17 @@ relationship 593b7e3e-5630-319a-cf59-56fcc99d17ea
 	fromColumn: fact_aigua_no_registrada_mensual.fecha
 	toColumn: dim_calendario.Date
 
+relationship 11103316-591f-d468-00ef-0a246d796aaa
+	fromColumn: fact_vol_fraud.'Polissa Subm'
+	toColumn: dim_polissa_fraude.polissa_su
+
+relationship AutoDetected_8f32e086-276d-4322-8484-42ecc22cc9d0
+	fromColumn: dim_dades_sectors.sector_id
+	toColumn: dim_ortomat.sector_id
+
 relationship 2d155cf4-eda1-bf1c-5df2-00686c2e6216
 	fromColumn: fact_vol_fraud.'Data Fi Execucio Final'
 	toColumn: dim_calendario.Date
-
-relationship 725b076f-8e82-882f-a265-c10b204931ce
-	fromColumn: fact_bossa.sector
-	toColumn: dim_sector.sector
 
 relationship 8e23439e-04fd-13e6-3e9e-40de6d4bd9d2
 	fromColumn: fact_dades_consum.fecha
@@ -138,44 +134,13 @@ relationship cf211dcf-d429-fba1-2299-ce149386634f
 	fromColumn: fact_rend_anr_arterias_mensual.arteria
 	toColumn: dim_arteria.arteria
 
-relationship 2c0843f4-d55b-5db3-76fb-35d36e17fd83
-	crossFilteringBehavior: bothDirections
-	toCardinality: many
-	fromColumn: fact_inventari_xarxa_mensual.fecha
-	toColumn: dim_calendario.Date
-
-relationship aa19f9d1-7402-3300-6409-3c6d9073dad9
-	crossFilteringBehavior: bothDirections
-	fromColumn: fact_inventari_xarxa_mitjana_12m.fecha
-	toColumn: dim_calendario.Date
-
-relationship 7d115471-1de3-4301-bc17-edc8a939b8b7
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_anr_global_mensual.fecha
-	toColumn: LocalDateTable_d1b90805-bd5a-402f-9490-942013cea1b8.Date
-
-relationship 0ae69dd9-1ce9-4724-bbfe-d1c75b278c9f
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_anr_global_acum.fecha
-	toColumn: LocalDateTable_c6561612-6700-474a-ba57-f229b5aeb539.Date
-
-relationship 0f16dfbb-f5e5-d9ce-526d-c928ff9658cc
-	crossFilteringBehavior: bothDirections
-	toCardinality: many
-	fromColumn: dim_calendario.Date
-	toColumn: fact_anr_global_mensual.fecha
-
-relationship 2ffa33f1-d27f-03d2-c6e4-b5812c8dc832
-	crossFilteringBehavior: bothDirections
-	toCardinality: many
-	fromColumn: dim_calendario.Date
-	toColumn: fact_anr_global_acum.fecha
-
-relationship ab7957d4-5914-d1a6-59ab-90ae9bdda4c0
-	fromColumn: fact_cabals_mínims.sector_id
-	toColumn: dim_sector.sector_id
-
 relationship cd1903c2-799d-d65b-df67-adc032a5eac3
 	fromColumn: fact_perimetre_comptadors.data_inst_comp
 	toColumn: dim_calendario.Date
+
+relationship AutoDetected_8a9ee728-9a9c-4059-9ea3-f2b7163c546d
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: dim_sector.sector_id
+	toColumn: dim_ortomat.sector_id
 
