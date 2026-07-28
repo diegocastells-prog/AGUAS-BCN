@@ -44,6 +44,7 @@ table fact_inventari_xarxa_mitjana_12m
 
 	partition fact_inventari_xarxa_mitjana_12m = m
 		mode: import
+		queryGroup: Hechos
 		source = ```
 				let
 				    Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vQYF-6nyJqkaezSpkqBN_a0Qmxw1GysBfL8py3eq4WzwX0xzzitdfbvqMzf9D-0YQ/pub?gid=664401204&single=true&output=csv"),[Delimiter=",", Columns=48, Encoding=65001, QuoteStyle=QuoteStyle.None]),

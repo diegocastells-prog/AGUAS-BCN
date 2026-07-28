@@ -38,11 +38,12 @@ table dim_sector
 
 		annotation SummarizationSetBy = Automatic
 
-	column gerencia
-		dataType: string
-		lineageTag: 86acfea8-4f80-45b8-ba28-8971fdd47d2a
-		summarizeBy: none
-		sourceColumn: gerencia
+	column gerencia_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 092a1534-ab98-4d23-952d-284e1de07e95
+		summarizeBy: sum
+		sourceColumn: gerencia_id
 
 		annotation SummarizationSetBy = Automatic
 
@@ -66,13 +67,17 @@ table dim_sector
 				    Tipos2 = Table.TransformColumnTypes(Headers2, {{"sector_id", Int64.Type}, {"denomin", type text}, {"gerencia", type text}}, "es"), 
 				    Renombrada = Table.RenameColumns(Tipos2,{{"denomin", "sector"}}), 
 				    Sectores = Table.TransformColumns(Renombrada, {{"sector", Text.Proper, type text}}),
-				// UNION
+				    // UNION
 				    Join = Table.NestedJoin( Coordenadas, {"sector_id"},
 				    Sectores, {"sector_id"},"Sectores", JoinKind.LeftOuter ),
-				    Resultado = Table.ExpandTableColumn( Join, "Sectores", {"sector", "gerencia"}, {"sector", "gerencia"} ) 
-				    
+				    Resultado = Table.ExpandTableColumn( Join, "Sectores", {"sector", "gerencia"}, {"sector", "gerencia"} ),
+				    #"Valor reemplazado" = Table.ReplaceValue(Resultado,null,"No Disponible",Replacer.ReplaceValue,{"gerencia"}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Valor reemplazado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
+				    #"Filas filtradas" = Table.SelectRows(#"Columnas quitadas", each true)
 				in
-				    Resultado
+				    #"Filas filtradas"
 				```
 
 	annotation PBI_NavigationStepName = Navegación

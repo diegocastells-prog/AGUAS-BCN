@@ -17,8 +17,18 @@ table dim_arteria
 
 		annotation SummarizationSetBy = Automatic
 
+	column gerencia_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 6563a7d1-99ce-420c-a034-d39dbc8635e7
+		summarizeBy: none
+		sourceColumn: gerencia_id
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_arteria = m
 		mode: import
+		queryGroup: Dimensiones
 		source =
 				let
 				    Union =
@@ -47,10 +57,11 @@ table dim_arteria
 				            "Besos", "Besòs",
 				            Replacer.ReplaceText,
 				            {"gerencia"}
-				        )
-				
+				        ),
+				    #"Consultas combinadas" = Table.NestedJoin(Resultado, {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"})
 				in
-				    Resultado
+				    #"Se expandió dim_gerencia"
 
 	annotation PBI_NavigationStepName = Navegación
 

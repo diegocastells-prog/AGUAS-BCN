@@ -1,17 +1,6 @@
 table fact_rend_anr_arterias_mensual
 	lineageTag: 2bd7fae2-b1ab-462b-971d-88c228ce16be
 
-	column gerencia
-		dataType: string
-		isHidden
-		lineageTag: 92f3603e-6580-42ac-8cb6-cc1f42791a2a
-		summarizeBy: none
-		sourceColumn: gerencia
-
-		changedProperty = IsHidden
-
-		annotation SummarizationSetBy = Automatic
-
 	column arteria
 		dataType: string
 		lineageTag: 98134d12-6770-4fc3-b461-9aeba5a05fb7
@@ -67,8 +56,18 @@ table fact_rend_anr_arterias_mensual
 
 		annotation SummarizationSetBy = Automatic
 
+	column gerencia_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 79214a7c-261c-4549-ad95-14a5b2c9c477
+		summarizeBy: sum
+		sourceColumn: gerencia_id
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_rend_anr_arterias_mensual = m
 		mode: import
+		queryGroup: Hechos
 		source =
 				let
 				    Union =
@@ -100,9 +99,14 @@ table fact_rend_anr_arterias_mensual
 				                {"arteria", Order.Ascending},
 				                {"fecha", Order.Ascending}
 				            }
-				        )
+				        ),
+				    #"Texto limpio" = Table.TransformColumns(Result,{{"gerencia", Text.Clean, type text}}),
+				    #"Texto recortado" = Table.TransformColumns(#"Texto limpio",{{"gerencia", Text.Trim, type text}}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Texto recortado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"})
 				in
-				    Result
+				    #"Columnas quitadas"
 
 	annotation PBI_NavigationStepName = Navegación
 

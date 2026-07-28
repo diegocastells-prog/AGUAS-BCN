@@ -94,6 +94,7 @@ table dim_comptadors
 
 	partition dim_comptadors = m
 		mode: import
+		queryGroup: Dimensiones
 		source =
 				let
 				  Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRj_sXDOyb1nGGY_XqjyRddxHFAjQZIAdDBjiikNuahnlZjUzp4dQpHiBaOeutBdw/pub?gid=1830409052&single=true&output=csv"), [Delimiter = ",", Columns = 26, Encoding = 65001, QuoteStyle = QuoteStyle.None]),

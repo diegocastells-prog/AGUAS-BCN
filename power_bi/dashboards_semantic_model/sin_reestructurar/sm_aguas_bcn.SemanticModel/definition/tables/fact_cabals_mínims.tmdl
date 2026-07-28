@@ -10,14 +10,6 @@ table fact_cabals_mínims
 
 		annotation SummarizationSetBy = Automatic
 
-	column gerencia
-		dataType: string
-		lineageTag: 90421e71-f9ff-4ff7-9c3d-e482ac1775b4
-		summarizeBy: none
-		sourceColumn: gerencia
-
-		annotation SummarizationSetBy = Automatic
-
 	column preguntar
 		dataType: string
 		lineageTag: 2d3bf6ae-e08b-4d16-9f24-0e4930f0329f
@@ -55,8 +47,18 @@ table fact_cabals_mínims
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	column gerencia_id
+		dataType: int64
+		formatString: 0
+		lineageTag: f27ea86a-c564-489d-a3f1-3a7b3dd8f244
+		summarizeBy: none
+		sourceColumn: gerencia_id
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_cabals_mínims = m
 		mode: import
+		queryGroup: Hechos
 		source =
 				let
 				    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=1259268357#gid=1259268357"),
@@ -90,9 +92,13 @@ table fact_cabals_mínims
 				            {"q_min", type number}
 				        }
 				    ),
-				    #"Filas filtradas" = Table.SelectRows(Tipos, each true)
+				    #"Filas filtradas" = Table.SelectRows(Tipos, each true),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Filas filtradas","","No Disponible",Replacer.ReplaceValue,{"gerencia"}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Valor reemplazado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"})
 				in
-				    #"Filas filtradas"
+				    #"Columnas quitadas"
 
 	annotation PBI_NavigationStepName = Navegación
 

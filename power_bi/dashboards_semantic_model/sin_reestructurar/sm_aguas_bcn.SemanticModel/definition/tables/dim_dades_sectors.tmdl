@@ -18,14 +18,6 @@ table dim_dades_sectors
 
 		annotation SummarizationSetBy = Automatic
 
-	column gerencia
-		dataType: string
-		lineageTag: 10dfaa77-14d4-486f-ad99-e8145dd96d12
-		summarizeBy: none
-		sourceColumn: gerencia
-
-		annotation SummarizationSetBy = Automatic
-
 	column long_xarxa
 		dataType: int64
 		formatString: 0
@@ -93,31 +85,42 @@ table dim_dades_sectors
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column sector_servei
+	column sector_activo
 		dataType: string
 		lineageTag: 58c38cfd-cca4-4ac8-8a3c-d0a8c6a09cc8
 		summarizeBy: none
-		sourceColumn: sector_servei
+		sourceColumn: sector_activo
+
+		annotation SummarizationSetBy = Automatic
+
+	column gerencia_id
+		dataType: int64
+		formatString: 0
+		lineageTag: b85ac79d-0599-4e72-8e15-615de54eb56f
+		summarizeBy: sum
+		sourceColumn: gerencia_id
 
 		annotation SummarizationSetBy = Automatic
 
 	partition dim_dades_sectors = m
 		mode: import
-		source = ```
+		source =
 				let
 					Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=1520384286#gid=1520384286"),
 				 	#"Navegación 1" = Origen{[name = "Dades Sectors", ItemKind = "Table"]}[Data],
 					#"Encabezados promovidos1" = Table.PromoteHeaders(#"Navegación 1", [PromoteAllScalars=true]),
-					#"Columnas con nombre cambiado2" = Table.RenameColumns(#"Encabezados promovidos1",{{"Sector / Artèria", "sector_id"}, {"Sector", "sector"}, {"Pis de Pressió", "pressio"}, {"Gerència", "gerencia"}, {"Long de xarxa", "long_xarxa"}, {"Ramals Controlats", "ramals_controlats"}, {"Subministraments Controlats", "subministraments_controlats"}, {"Pressió mitjana", "pressio_mitjana"}, {"Lambert", "lambert"}, {"afor (l/s)", "afor_l_s"}, {"Referència", "referencia"}}),
+					#"Columnas con nombre cambiado2" = Table.RenameColumns(#"Encabezados promovidos1",{{"Sector / Artèria", "sector_id"}, {"Sector", "sector"}, {"Pis de Pressió", "pressio"}, {"Gerència", "gerencia"}, {"Long de xarxa", "long_xarxa"}, {"Ramals Controlats", "ramals_controlats"}, {"Subministraments Controlats", "subministraments_controlats"}, {"Pressió mitjana", "pressio_mitjana"}, {"Lambert", "lambert"}, {"afor (l/s)", "afor_l_s"}, {"Referència", "referencia"}, {"Sector en Servei", "sector_activo"}}),
 					#"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado2",{""}),
-					#"Columnas con nombre cambiado3" = Table.RenameColumns(#"Columnas quitadas1",{{"Sector en Servei", "sector_servei"}}),
-					#"Columnas quitadas2" = Table.RemoveColumns(#"Columnas con nombre cambiado3",{"_1", "_2", "sector"}),
+					#"Columnas quitadas2" = Table.RemoveColumns(#"Columnas quitadas1",{"_1", "_2", "sector"}),
 					#"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas2",{{"long_xarxa", Int64.Type}, {"ramals_controlats", Int64.Type}, {"subministraments_controlats", Int64.Type}, {"pressio_mitjana", type number}, {"lambert", type number}, {"afor_l_s", type number}, {"referencia", type number}, {"sector_id", Int64.Type}}),
-				    #"Errores quitados" = Table.RemoveRowsWithErrors(#"Tipo cambiado", {"sector_id"})
-					
+				    #"Errores quitados" = Table.RemoveRowsWithErrors(#"Tipo cambiado", {"sector_id"}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Errores quitados","","No Disponible",Replacer.ReplaceValue,{"gerencia"}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Valor reemplazado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
+				    #"Filas filtradas" = Table.SelectRows(#"Columnas quitadas", each ([sector_activo] = "SI"))
 				in
-				    #"Errores quitados"
-				```
+				    #"Filas filtradas"
 
 	annotation PBI_NavigationStepName = Navegación
 

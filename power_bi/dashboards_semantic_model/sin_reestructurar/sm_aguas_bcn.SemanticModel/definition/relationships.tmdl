@@ -23,7 +23,7 @@ relationship 5d4923f7-0e43-4af5-829c-baeeebd09d6e
 
 relationship 818b4164-f6eb-db7a-e1d1-e0b4c4d85b65
 	fromColumn: fact_fraudes_all.polissa_subm
-	toColumn: dim_polissa_fraude.polissa_su
+	toColumn: fact_less_polissa_fraude.polissa_su
 
 relationship 17fff1c4-214d-4c04-afec-b3881b74383d
 	joinOnDateBehavior: datePartOnly
@@ -53,14 +53,6 @@ relationship 4c90cb05-4cad-48a6-9112-4930a85a791b
 	fromColumn: fact_bossa.data_alta_subm
 	toColumn: LocalDateTable_d7467889-0f0f-4b21-a13c-65fd8cde4c37.Date
 
-relationship afe9962a-0928-8369-68d1-bbd0e4b5ff10
-	fromColumn: fact_volum_lliurat.fecha
-	toColumn: dim_calendario.Date
-
-relationship e8072a3b-95a1-dd67-af1b-436a38929dab
-	fromColumn: fact_volum_consumit.fecha
-	toColumn: dim_calendario.Date
-
 relationship a12e6aac-5cfa-3fb3-9012-07a86c379643
 	fromColumn: fact_bossa.data_instalacion
 	toColumn: dim_calendario.Date
@@ -79,11 +71,7 @@ relationship 593b7e3e-5630-319a-cf59-56fcc99d17ea
 
 relationship 11103316-591f-d468-00ef-0a246d796aaa
 	fromColumn: fact_vol_fraud.'Polissa Subm'
-	toColumn: dim_polissa_fraude.polissa_su
-
-relationship AutoDetected_8f32e086-276d-4322-8484-42ecc22cc9d0
-	fromColumn: dim_dades_sectors.sector_id
-	toColumn: dim_ortomat.sector_id
+	toColumn: fact_less_polissa_fraude.polissa_su
 
 relationship 2d155cf4-eda1-bf1c-5df2-00686c2e6216
 	fromColumn: fact_vol_fraud.'Data Fi Execucio Final'
@@ -95,7 +83,7 @@ relationship 8e23439e-04fd-13e6-3e9e-40de6d4bd9d2
 
 relationship 607197d3-b65f-a33d-e199-df6a109be2a4
 	fromColumn: fact_dades_consum.polissa_subm
-	toColumn: dim_polissa_fraude.polissa_su
+	toColumn: fact_less_polissa_fraude.polissa_su
 
 relationship 395b468d-5a37-81d8-23ad-e64f24caecf6
 	fromColumn: fact_rend_anr_arterias_mensual.fecha
@@ -126,4 +114,38 @@ relationship 19a50ed2-8674-019b-12de-b729d66c7857
 relationship 9bc29081-d840-6d5b-9cdf-10ec33af09b3
 	fromColumn: fact_anr_global_mensual.fecha
 	toColumn: dim_calendario.Date
+
+relationship 525db73c-3bdc-56cb-3933-bbeed76c1f05
+	fromColumn: dim_dades_sectors.sector_id
+	toColumn: dim_sector.sector_id
+
+relationship AutoDetected_74ffd436-f204-4be2-8b30-5e87868e85a6
+	fromColumn: fact_estadistiques_comp.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
+relationship AutoDetected_8f046edc-d717-4354-ad8e-5c9313346506
+	fromColumn: dim_arteria.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
+relationship AutoDetected_062792fb-7a0e-4c3d-ad90-e16f67d64f69
+	fromColumn: fact_cabals_mínims.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
+relationship AutoDetected_0a7f4a0d-8557-4908-9f16-aeaa3fcebb34
+	isActive: false
+	fromColumn: dim_sector.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
+relationship c8b9d937-44fb-46dc-92e3-2a3f0a328c4b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_volum_cons_lliur.fecha
+	toColumn: LocalDateTable_9ea7648c-2b15-4d20-93c2-86c23652c4fa.Date
+
+relationship AutoDetected_e96c049e-08cc-46f6-8334-f28265b14086
+	fromColumn: fact_volum_cons_lliur.sector_id
+	toColumn: dim_sector.sector_id
+
+relationship 15a02a6d-6842-0847-9208-6ad40076f2b1
+	fromColumn: fact_less_polissa_fraude.sector_id
+	toColumn: dim_sector.sector_id
 

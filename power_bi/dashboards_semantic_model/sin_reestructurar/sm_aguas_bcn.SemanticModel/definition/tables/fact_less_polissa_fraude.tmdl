@@ -1,4 +1,4 @@
-table dim_polissa_fraude
+table fact_less_polissa_fraude
 	lineageTag: 512cd662-d6d6-4a2a-8ca0-0b6aa7614f88
 
 	column polissa_su
@@ -21,7 +21,7 @@ table dim_polissa_fraude
 		dataType: int64
 		formatString: 0
 		lineageTag: 8041b731-9b5f-42b1-ac9a-e50f6f2818b8
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: sector_id
 
 		annotation SummarizationSetBy = Automatic
@@ -46,8 +46,18 @@ table dim_polissa_fraude
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	partition dim_polissa_fraude = m
+	column gerencia_id
+		dataType: int64
+		formatString: 0
+		lineageTag: afc4954c-3731-400a-afca-8d0c337ac89a
+		summarizeBy: sum
+		sourceColumn: gerencia_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_less_polissa_fraude = m
 		mode: import
+		queryGroup: Hechos
 		source = ```
 				let
 				    Origen =
@@ -94,9 +104,12 @@ table dim_polissa_fraude
 				          textoLimpio,
 				
 				    sinDuplicados = Table.Distinct(#"Procesado"),
-				    #"Columnas quitadas" = Table.RemoveColumns(sinDuplicados,{"coordenada_latitud", "coordenada_longitud", "sector"})
+				    #"Columnas quitadas" = Table.RemoveColumns(sinDuplicados,{"coordenada_latitud", "coordenada_longitud", "sector"}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas quitadas","Besos","Besòs",Replacer.ReplaceText,{"gerencia"}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Valor reemplazado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"})
 				in
-				    #"Columnas quitadas"
+				    #"Se expandió dim_gerencia"
 				```
 
 	annotation PBI_NavigationStepName = Navegación

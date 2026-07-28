@@ -1,0 +1,88 @@
+table fact_volum_cons_lliur
+	lineageTag: 8286f1c2-e36e-429d-aba8-f580f0f4bf51
+
+	column fecha
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c17f293e-3776-4b77-a78b-54d692980570
+		summarizeBy: none
+		sourceColumn: fecha
+
+		variation Variación
+			isDefault
+			relationship: c8b9d937-44fb-46dc-92e3-2a3f0a328c4b
+			defaultHierarchy: LocalDateTable_9ea7648c-2b15-4d20-93c2-86c23652c4fa.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column sector_id
+		dataType: int64
+		formatString: 0
+		lineageTag: b64c3f90-11a5-4054-be24-92907a71ee32
+		summarizeBy: none
+		sourceColumn: sector_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column gerencia_id
+		dataType: int64
+		formatString: 0
+		lineageTag: bcc42484-0b2d-4d96-a481-399fcb7c5d0c
+		summarizeBy: sum
+		sourceColumn: gerencia_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column pis_pressio
+		dataType: string
+		lineageTag: 2d632057-c720-49a1-b2b0-e9e8076d247f
+		summarizeBy: none
+		sourceColumn: pis_pressio
+
+		annotation SummarizationSetBy = Automatic
+
+	column volum_consumit
+		dataType: int64
+		formatString: 0
+		lineageTag: 220f85c0-2b50-4b82-8280-0ee02a713013
+		summarizeBy: sum
+		sourceColumn: volum_consumit
+
+		annotation SummarizationSetBy = Automatic
+
+	column volum_lliurat
+		dataType: int64
+		formatString: 0
+		lineageTag: 8106c71b-5902-4bfb-9195-63a43868c216
+		summarizeBy: sum
+		sourceColumn: volum_lliurat
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_volum_cons_lliur = m
+		mode: import
+		queryGroup: Hechos
+		source = ```
+				let
+				    Union =
+				        Table.Combine({
+				            fact_volum_consumit,
+				            fact_volum_lliurat}),
+				    #"Columnas reordenadas" = Table.ReorderColumns(Union,{"fecha", "sector_id", "gerencia_id", "pis_pressio", "volum_consumit", "volum_lliurat"}),
+				    // Limpiar datos
+				    SinDuplicados = Table.Distinct(#"Columnas reordenadas"),
+				    SinFilasVacias = Table.SelectRows(
+				        SinDuplicados,
+				        each List.NonNullCount(Record.FieldValues(_)) > 0
+				    )
+				
+				in 
+				  SinFilasVacias
+				```
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

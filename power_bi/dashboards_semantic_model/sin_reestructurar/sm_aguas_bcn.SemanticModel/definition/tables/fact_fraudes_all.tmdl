@@ -121,6 +121,7 @@ table fact_fraudes_all
 
 	partition fact_fraudes_all = m
 		mode: import
+		queryGroup: Hechos
 		source =
 				let
 				  Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vTkaRRTpAF3cjORlQlBr64cW8dF1PQno-yNRXYHRo0G_2T6Nx_slDfrZQ6mfLL-uA/pub?gid=273809892&single=true&output=csv"), [Delimiter = ",", Columns = 11, QuoteStyle = QuoteStyle.None]),

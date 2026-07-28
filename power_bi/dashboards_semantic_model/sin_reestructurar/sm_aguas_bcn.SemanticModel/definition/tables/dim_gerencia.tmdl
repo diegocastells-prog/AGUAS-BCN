@@ -1,53 +1,26 @@
-table fact_volum_consumit
-	lineageTag: db69fb32-d17b-4449-bae1-e56bb433242d
-
-	column sector_id
-		dataType: int64
-		formatString: 0
-		lineageTag: 510938d3-d95c-449a-8511-df903e3c18dc
-		summarizeBy: sum
-		sourceColumn: sector_id
-
-		annotation SummarizationSetBy = Automatic
+table dim_gerencia
+	lineageTag: dc08000e-0521-4a9c-b187-025977458c00
 
 	column gerencia
 		dataType: string
-		lineageTag: 919f480d-40b5-4548-adf5-fb08f3aab773
+		lineageTag: d61826b4-ce97-44b7-a179-54a10466f6ea
 		summarizeBy: none
 		sourceColumn: gerencia
 
 		annotation SummarizationSetBy = Automatic
 
-	column pis_pressio
-		dataType: string
-		lineageTag: cb63881f-dbec-4f51-abc0-89bec15790bb
-		summarizeBy: none
-		sourceColumn: pis_pressio
-
-		annotation SummarizationSetBy = Automatic
-
-	column fecha
-		dataType: dateTime
-		formatString: Short Date
-		lineageTag: b0631d7f-72ba-4644-8c13-a58227a7c36e
-		summarizeBy: none
-		sourceColumn: fecha
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
-	column volum_consumit
+	column gerencia_id
 		dataType: int64
-		formatString: #,0
-		lineageTag: 7fbd1e80-bdf2-4a72-98ef-168d67282ecf
-		summarizeBy: sum
-		sourceColumn: volum_consumit
+		formatString: 0
+		lineageTag: 704bb49b-0c0a-42d4-b2ce-c0545c42a82a
+		summarizeBy: none
+		sourceColumn: gerencia_id
 
 		annotation SummarizationSetBy = Automatic
 
-	partition fact_volum_consumit = m
+	partition dim_gerencia = m
 		mode: import
+		queryGroup: Dimensiones
 		source =
 				let
 				  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=512415232#gid=512415232"),
@@ -56,10 +29,11 @@ table fact_volum_consumit
 				    // Preparación de datos
 				    SaltarFilas = Table.Skip(TablaOrigen, 2),
 				    PromoverEncabezados = Table.PromoteHeaders(SaltarFilas, [PromoteAllScalars = true]),
+				    #"Filas filtradas" = Table.SelectRows(PromoverEncabezados, each ([Gerència] <> "Total") and ([Pis Pressió] <> "Aigua Consumida Total" and [Pis Pressió] <> "Aigua Consumida Íntegre")),
 				
 				    // Eliminar columnas innecesarias
 				    EliminarColumnas = Table.RemoveColumns(
-				        PromoverEncabezados,
+				        #"Filas filtradas",
 				        {
 				            "_1", "", "01/06/2026", "01/07/2026", "01/08/2026",
 				            "01/09/2026", "01/10/2026", "01/11/2026", "01/12/2026"
@@ -105,9 +79,33 @@ table fact_volum_consumit
 				        SinDuplicados,
 				        each List.NonNullCount(Record.FieldValues(_)) > 0
 				    ),
-				    #"Valor reemplazado" = Table.ReplaceValue(SinFilasVacias,"",null,Replacer.ReplaceValue,{"pis_pressio"})
+				    #"Valor reemplazado" = Table.ReplaceValue(SinFilasVacias,"","No Disponible",Replacer.ReplaceValue,{"gerencia"}),
+				    #"Filas filtradas1" = Table.SelectRows(#"Valor reemplazado", each true),
+				    #"Otras columnas quitadas" = Table.SelectColumns(#"Filas filtradas1",{"gerencia"}),
+				    // Tabla manual con la gerencia que falta
+				    GerenciaExtra =
+				        #table(
+				            type table [gerencia = text],
+				            {
+				                {"Multi DZ"}
+				            }
+				        ),
+				
+				    // UNION
+				    #"Duplicados quitados" =
+				        Table.Distinct(
+				            Table.Combine({
+				                #"Otras columnas quitadas",
+				                GerenciaExtra
+				            })
+				        ),
+				    #"Filas ordenadas" = Table.Sort(#"Duplicados quitados",{{"gerencia", Order.Ascending}}),
+				    #"Índice agregado" = Table.AddIndexColumn(#"Filas ordenadas", "Índice", 1, 1, Int64.Type),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Índice agregado",{{"Índice", "gerencia_id"}}),
+				    #"Texto limpio" = Table.TransformColumns(#"Columnas con nombre cambiado",{{"gerencia", Text.Clean, type text}}),
+				    #"Texto recortado" = Table.TransformColumns(#"Texto limpio",{{"gerencia", Text.Trim, type text}})
 				in
-				    #"Valor reemplazado"
+				    #"Texto recortado"
 
 	annotation PBI_NavigationStepName = Navegación
 

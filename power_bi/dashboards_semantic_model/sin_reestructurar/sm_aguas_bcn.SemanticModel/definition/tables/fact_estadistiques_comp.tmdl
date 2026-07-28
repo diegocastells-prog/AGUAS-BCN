@@ -96,14 +96,6 @@ table fact_estadistiques_comp
 
 		annotation SummarizationSetBy = Automatic
 
-	column gerencia
-		dataType: string
-		lineageTag: 731aa6c4-f23e-4ce4-a85e-49047b1ec42a
-		summarizeBy: none
-		sourceColumn: gerencia
-
-		annotation SummarizationSetBy = Automatic
-
 	column agrupacio_edat_ga
 		dataType: string
 		lineageTag: 3ba52090-c2bc-466a-a515-37188d0475b7
@@ -120,8 +112,18 @@ table fact_estadistiques_comp
 
 		annotation SummarizationSetBy = Automatic
 
+	column gerencia_id
+		dataType: int64
+		formatString: 0
+		lineageTag: b8128d45-2a30-4ac7-ba4b-ee054c8ad8c1
+		summarizeBy: none
+		sourceColumn: gerencia_id
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_estadistiques_comp = m
 		mode: import
+		queryGroup: Hechos
 		source = ```
 				let
 				    Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vSBdujYtm-k6b1sHDL1XjoEupA6bWpiO7est-_tshOR30XuF361C6fvUabG2i616w/pub?gid=524487380&single=true&output=csv"),[Delimiter=",", Columns=48, Encoding=65001, QuoteStyle=QuoteStyle.None]),
@@ -160,9 +162,14 @@ table fact_estadistiques_comp
 				            {"nom_executor", Text.Proper, type text},
 				            {"gerencia", Text.Proper, type text}
 				        }
-				    )
+				    ),
+				    #"Texto limpio" = Table.TransformColumns(#"Texto en formato título",{{"gerencia", Text.Clean, type text}}),
+				    #"Texto recortado" = Table.TransformColumns(#"Texto limpio",{{"gerencia", Text.Trim, type text}}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Texto recortado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+				    #"Columnas quitadas1" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"})
 				in
-				    #"Texto en formato título"
+				    #"Columnas quitadas1"
 				```
 
 	annotation PBI_NavigationStepName = Navegación

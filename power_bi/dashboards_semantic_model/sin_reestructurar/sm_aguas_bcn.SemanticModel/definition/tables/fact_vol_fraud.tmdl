@@ -17,14 +17,6 @@ table fact_vol_fraud
 
 		annotation SummarizationSetBy = Automatic
 
-	column Gerencia
-		dataType: string
-		lineageTag: e44876b1-aae0-4069-981c-ff7e7837223d
-		summarizeBy: none
-		sourceColumn: Gerencia
-
-		annotation SummarizationSetBy = Automatic
-
 	column 'Data Fi Execucio Final'
 		dataType: dateTime
 		formatString: dd/mm/yyyy
@@ -90,8 +82,18 @@ table fact_vol_fraud
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	column gerencia_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 742e212f-6b18-4b72-88cf-647da8fff0a1
+		summarizeBy: sum
+		sourceColumn: gerencia_id
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_vol_fraud = m
 		mode: import
+		queryGroup: Hechos
 		source = ```
 				let
 				  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1w51CCzDW84rqW3XTHaf1JPJYDKfVQuy2vzKhTL01odo/edit?pli=1&gid=24661993#gid=24661993"),
@@ -138,10 +140,12 @@ table fact_vol_fraud
 				        Table.SelectRows(
 				            SinDuplicados,
 				            each List.NonNullCount(Record.FieldValues(_)) > 0
-				        )
-				
+				        ),
+				    #"Consultas combinadas" = Table.NestedJoin(SinFilasVacias, {"Gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"Gerencia"})
 				in
-				    SinFilasVacias
+				    #"Columnas quitadas"
 				```
 
 	annotation PBI_NavigationStepName = Navegación

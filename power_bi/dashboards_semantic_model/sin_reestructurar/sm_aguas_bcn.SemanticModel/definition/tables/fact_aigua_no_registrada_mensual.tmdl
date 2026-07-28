@@ -9,14 +9,6 @@ table fact_aigua_no_registrada_mensual
 
 		annotation SummarizationSetBy = Automatic
 
-	column gerencia
-		dataType: string
-		lineageTag: 33397c83-3084-446d-8603-c22d95df5769
-		summarizeBy: none
-		sourceColumn: gerencia
-
-		annotation SummarizationSetBy = Automatic
-
 	column fecha
 		dataType: dateTime
 		formatString: Short Date
@@ -47,8 +39,18 @@ table fact_aigua_no_registrada_mensual
 
 		annotation SummarizationSetBy = Automatic
 
+	column gerencia_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 743d1e4a-67de-4e72-b988-77739343e124
+		summarizeBy: sum
+		sourceColumn: gerencia_id
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_aigua_no_registrada_mensual = m
 		mode: import
+		queryGroup: Hechos
 		source = ```
 				let
 								    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=2003244827#gid=2003244827"),
@@ -97,9 +99,12 @@ table fact_aigua_no_registrada_mensual
 								    #"Columnas normalizadas" = Table.TransformColumnNames(#"Columnas con nombre cambiado2", each Text.Replace(Text.Lower(_), " ", "_")),
 								    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columnas normalizadas",{{"nº", "n"}, {"gerència", "gerencia"}, {"pis_pressió", "pis_pressio"}}),
 								    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columnas con nombre cambiado",{{"n", "sector"}}),
-				    #"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado1",{"sectors"})
-								    in
-								    #"Columnas quitadas1"
+				    #"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado1",{"sectors"}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Columnas quitadas1", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+				    #"Columnas quitadas4" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"})
+				in
+				    #"Columnas quitadas4"
 				```
 
 	annotation PBI_NavigationStepName = Navegación
