@@ -1,0 +1,47 @@
+table dim_aux_sector_combine
+	lineageTag: 3281f5fe-6692-465b-a228-5f55d9188618
+
+	column sector_id
+		dataType: double
+		lineageTag: 2a0b6fde-bc53-4dc3-91ef-88b4c76e0b41
+		summarizeBy: none
+		sourceColumn: sector_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sector
+		dataType: string
+		lineageTag: c4296d95-a477-465f-a6a4-a973c52722b2
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_aux_sector_combine = m
+		mode: import
+		source =
+				let
+				    Union =
+				        Table.Combine({
+				            aux_fact_volum_cons_lliu,
+				            aux_fact_bossa,
+				            aux_fact_less_polissa_fraude,
+				            aux_fact_cabals_mínims,
+				            dim_sector
+				        }),
+				    #"Otras columnas quitadas" = Table.SelectColumns(Union,{"sector_id", "sector"}),
+				      SinDuplicados =
+				        Table.Distinct(#"Otras columnas quitadas"),
+				    #"Filas filtradas" = Table.SelectRows(SinDuplicados, each ([sector] <> "Aigua Consumida Total Acumulada Anual" and [sector] <> "Aigua Consumida Íntegre Acumulada Anual" and [sector] <> "Aigua Lliurada Total Acumulada Anual" and [sector] <> "Aigua Lliurada Íntegre Acumulada Anual")),
+				    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(#"Filas filtradas",{{"sector", Text.Proper, type text}}),
+				    #"Texto recortado" = Table.TransformColumns(#"Poner En Mayúsculas Cada Palabra",{{"sector", Text.Trim, type text}}),
+				    #"Texto limpio" = Table.TransformColumns(#"Texto recortado",{{"sector", Text.Clean, type text}})
+				in
+				    #"Texto limpio"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

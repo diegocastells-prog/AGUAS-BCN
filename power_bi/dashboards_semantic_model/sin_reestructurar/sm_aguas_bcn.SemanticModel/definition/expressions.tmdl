@@ -1268,7 +1268,6 @@ expression Bossa_de_Limitadors_LLOBS = ```
 		  LLOBs_Table= Origen{[name = "LLOBS", ItemKind = "Table"]}[Data],
 		  Encabezados =
 		        Table.PromoteHeaders(LLOBs_Table, [PromoteAllScalars=true]),
-		
 		    Columnas =
 		        Table.TransformColumnNames(
 		            Encabezados,
@@ -1985,13 +1984,10 @@ expression fact_volum_consumit =
 		            {"Pis Pressió", "pis_pressio"}
 		        }
 		    ),
-		
-		    // Eliminar columnas no necesarias
-		    EliminarSectors = Table.RemoveColumns(RenombrarColumnas, {"Sectors"}),
-		
+		    #"Valor reemplazado1" = Table.ReplaceValue(RenombrarColumnas,"","No Disponible",Replacer.ReplaceValue,{"Sectors"}),
 		    // Asignar tipos de datos
 		    CambiarTipos = Table.TransformColumnTypes(
-		        EliminarSectors,
+		        #"Valor reemplazado1",
 		        {
 		            {"sector_id", Int64.Type},
 		            {"gerencia", type text},
@@ -2000,11 +1996,11 @@ expression fact_volum_consumit =
 		            {"volum_consumit", Int64.Type}
 		        }
 		    ),
-		
 		    // Limpiar datos
 		    SinDuplicados = Table.Distinct(CambiarTipos),
+		    #"Valor reemplazado2" = Table.ReplaceValue(SinDuplicados,null,-1,Replacer.ReplaceValue,{"sector_id"}),
 		    SinFilasVacias = Table.SelectRows(
-		        SinDuplicados,
+		        #"Valor reemplazado2",
 		        each List.NonNullCount(Record.FieldValues(_)) > 0
 		    ),
 		    #"Valor reemplazado" = Table.ReplaceValue(SinFilasVacias,"","No Disponible",Replacer.ReplaceValue,{"gerencia"}),
@@ -2056,12 +2052,9 @@ expression fact_volum_lliurat =
 		        }
 		    ),
 		
-		    // Eliminar columnas no necesarias
-		    EliminarSectors = Table.RemoveColumns(RenombrarColumnas, {"Sectors"}),
-		
 		    // Asignar tipos de datos
 		    CambiarTipos = Table.TransformColumnTypes(
-		        EliminarSectors,
+		        RenombrarColumnas,
 		        {
 		            {"sector_id", Int64.Type},
 		            {"gerencia", type text},
@@ -2083,10 +2076,34 @@ expression fact_volum_lliurat =
 		    #"Texto recortado" = Table.TransformColumns(#"Texto limpio",{{"gerencia", Text.Trim, type text}}),
 		    #"Consultas combinadas" = Table.NestedJoin(#"Texto recortado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
 		    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
-		    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"})
+		    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
+		    #"Valor reemplazado1" = Table.ReplaceValue(#"Columnas quitadas","","No Disponible",Replacer.ReplaceValue,{"Sectors"}),
+		    #"Valor reemplazado2" = Table.ReplaceValue(#"Valor reemplazado1",null,-1,Replacer.ReplaceValue,{"sector_id"})
 		in
-		    #"Columnas quitadas"
+		    #"Valor reemplazado2"
 	lineageTag: 1c9b8728-02b5-446c-9fb9-ee6278206a92
+	queryGroup: Auxiliares
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dim_sector_aux =
+		let
+		    Origen =
+		        #table(
+		            type table [
+		                sector_id = Int64.Type,
+		                sector = text,
+		                gerencia = text
+		            ],
+		            {
+		                {-1, "No Disponible", "No Disponible"}
+		            }
+		        )
+		in
+		    Origen
+	lineageTag: f24b549f-b8a8-4034-9cf3-cf746d84f092
 	queryGroup: Auxiliares
 
 	annotation PBI_NavigationStepName = Navegación

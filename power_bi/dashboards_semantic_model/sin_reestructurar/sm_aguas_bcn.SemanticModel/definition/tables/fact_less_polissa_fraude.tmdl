@@ -55,6 +55,14 @@ table fact_less_polissa_fraude
 
 		annotation SummarizationSetBy = Automatic
 
+	column sector
+		dataType: string
+		lineageTag: 11559b70-2ca0-4893-9bdd-b616e20db8d3
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_less_polissa_fraude = m
 		mode: import
 		queryGroup: Hechos
@@ -102,9 +110,9 @@ table fact_less_polissa_fraude
 				          })
 				        in
 				          textoLimpio,
-				
-				    sinDuplicados = Table.Distinct(#"Procesado"),
-				    #"Columnas quitadas" = Table.RemoveColumns(sinDuplicados,{"coordenada_latitud", "coordenada_longitud", "sector"}),
+				    #"Columnas reordenadas" = Table.ReorderColumns(Procesado,{"polissa_su", "sector", "coordenada_latitud", "coordenada_longitud", "gerencia", "sector_id", "shape_le_1", "shape_ar_1"}),
+				    sinDuplicados = Table.Distinct(#"Columnas reordenadas"),
+				    #"Columnas quitadas" = Table.RemoveColumns(sinDuplicados,{"coordenada_latitud", "coordenada_longitud"}),
 				    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas quitadas","Besos","Besòs",Replacer.ReplaceText,{"gerencia"}),
 				    #"Consultas combinadas" = Table.NestedJoin(#"Valor reemplazado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
 				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"})

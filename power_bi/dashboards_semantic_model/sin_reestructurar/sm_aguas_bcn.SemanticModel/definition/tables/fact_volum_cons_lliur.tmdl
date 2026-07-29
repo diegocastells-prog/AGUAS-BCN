@@ -18,7 +18,7 @@ table fact_volum_cons_lliur
 		annotation UnderlyingDateTimeDataType = Date
 
 	column sector_id
-		dataType: int64
+		dataType: double
 		formatString: 0
 		lineageTag: b64c3f90-11a5-4054-be24-92907a71ee32
 		summarizeBy: none
@@ -61,6 +61,14 @@ table fact_volum_cons_lliur
 
 		annotation SummarizationSetBy = Automatic
 
+	column sector
+		dataType: string
+		lineageTag: 23ce375a-5a99-4b6e-8942-b7d66d1eed19
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_volum_cons_lliur = m
 		mode: import
 		queryGroup: Hechos
@@ -76,10 +84,11 @@ table fact_volum_cons_lliur
 				    SinFilasVacias = Table.SelectRows(
 				        SinDuplicados,
 				        each List.NonNullCount(Record.FieldValues(_)) > 0
-				    )
+				    ),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(SinFilasVacias,{{"Sectors", "sector"}})
 				
 				in 
-				  SinFilasVacias
+				  #"Columnas con nombre cambiado"
 				```
 
 	annotation PBI_NavigationStepName = Navegación

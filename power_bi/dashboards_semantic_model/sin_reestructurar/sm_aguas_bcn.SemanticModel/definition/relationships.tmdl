@@ -127,12 +127,7 @@ relationship AutoDetected_8f046edc-d717-4354-ad8e-5c9313346506
 	fromColumn: dim_arteria.gerencia_id
 	toColumn: dim_gerencia.gerencia_id
 
-relationship AutoDetected_062792fb-7a0e-4c3d-ad90-e16f67d64f69
-	fromColumn: fact_cabals_mínims.gerencia_id
-	toColumn: dim_gerencia.gerencia_id
-
 relationship AutoDetected_0a7f4a0d-8557-4908-9f16-aeaa3fcebb34
-	isActive: false
 	fromColumn: dim_sector.gerencia_id
 	toColumn: dim_gerencia.gerencia_id
 
@@ -152,4 +147,82 @@ relationship 15a02a6d-6842-0847-9208-6ad40076f2b1
 relationship c03368ec-a802-ef47-10ae-14b97f6042b4
 	fromColumn: fact_perimetre_comptadors.sector_id
 	toColumn: dim_sector.sector_id
+
+relationship 560a1cab-bf34-8e61-beae-eee4e4f249e0
+	fromColumn: fact_aigua_no_registrada_mensual.sector_id
+	toColumn: dim_sector.sector_id
+
+relationship d76fc299-206b-4f66-8d1e-1d43106ef22a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: aux_fact_volum_cons_lliu.fecha
+	toColumn: LocalDateTable_a4f9a594-2795-42f8-9c47-2e4f602db595.Date
+
+relationship AutoDetected_91168793-96bc-4faf-af1a-5cfcafd93017
+	fromColumn: aux_fact_volum_cons_lliu.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
+relationship AutoDetected_50fbd8fc-ad17-42ea-bca8-eb5e27d7fdd2
+	fromColumn: aux_fact_bossa.sector_id
+	toColumn: dim_sector.sector_id
+
+relationship AutoDetected_225b415f-bd47-4cf7-a2e0-64a496b07776
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: aux_fact_less_polissa_fraude.sector_id
+	toColumn: dim_sector.sector_id
+
+relationship AutoDetected_b9a44614-117f-49df-b5f5-eb00b25a7394
+	fromColumn: fact_less_polissa_fraude.sector
+	toColumn: aux_fact_cabals_mínims.sector
+
+relationship AutoDetected_1bbc7b70-fedc-4045-8998-5a30541af84e
+	fromColumn: dim_dades_sectors.sector
+	toColumn: aux_fact_cabals_mínims.sector
+
+relationship AutoDetected_86065e63-00f3-40c2-acdd-b4ba5542b6fd
+	isActive: false
+	fromColumn: dim_sector.sector
+	toColumn: aux_fact_cabals_mínims.sector
+
+relationship AutoDetected_be6fbc1c-6070-46a5-9d17-551137f9d3b6
+	fromColumn: fact_volum_cons_lliur.sector
+	toColumn: aux_fact_cabals_mínims.sector
+
+relationship AutoDetected_a2d4eb77-96cf-486a-b5c8-1a9f4fade5de
+	fromColumn: aux_fact_volum_cons_lliu.sector
+	toColumn: aux_fact_cabals_mínims.sector
+
+relationship AutoDetected_b44a843d-96a3-48ae-b4af-746c4bee6415
+	fromColumn: aux_fact_volum_lliurat.sector
+	toColumn: aux_fact_cabals_mínims.sector
+
+relationship AutoDetected_e0a3b5d1-9342-41b4-97c2-a477788bbc8c
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: aux_fact_less_polissa_fraude.sector
+	toColumn: aux_fact_cabals_mínims.sector
+
+relationship AutoDetected_03832f6f-280f-4cfd-b260-67cd3055c15c
+	fromColumn: fact_cabals_mínims.sector_id
+	toColumn: aux_fact_volum_lliurat.sector_id
+
+relationship AutoDetected_7e9b56d3-ff26-40ae-98d2-67a5de1d30f3
+	isActive: false
+	fromColumn: fact_volum_cons_lliur.sector_id
+	toColumn: aux_fact_volum_lliurat.sector_id
+
+relationship AutoDetected_187cdb64-833f-4629-b2b5-3015d292bba9
+	isActive: false
+	fromColumn: aux_fact_volum_cons_lliu.sector_id
+	toColumn: aux_fact_volum_lliurat.sector_id
+
+relationship AutoDetected_03b6e13c-64a1-4da2-9e16-761df541aa92
+	fromColumn: dim_aux_sector_combine.sector_id
+	toColumn: aux_fact_volum_lliurat.sector_id
+
+relationship AutoDetected_db0fa02c-add4-45e9-91a3-05daa84d5fa0
+	isActive: false
+	fromColumn: fact_cabals_mínims.sector_id
+	toColumn: aux_fact_cabals_mínims.sector_id
 

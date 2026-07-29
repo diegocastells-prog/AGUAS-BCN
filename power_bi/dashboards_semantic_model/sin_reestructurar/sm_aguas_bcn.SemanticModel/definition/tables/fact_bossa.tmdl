@@ -219,9 +219,12 @@ table fact_bossa
 				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"dop", "gerencia"}}),
 				    #"Consultas combinadas" = Table.NestedJoin(#"Columnas con nombre cambiado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
 				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
-				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"})
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas quitadas",null,"No Disponible",Replacer.ReplaceValue,{"sector"}),
+				    #"Texto limpio" = Table.TransformColumns(#"Valor reemplazado",{{"sector", Text.Clean, type text}}),
+				    #"Texto recortado" = Table.TransformColumns(#"Texto limpio",{{"sector", Text.Trim, type text}})
 				in
-				    #"Columnas quitadas"
+				    #"Texto recortado"
 
 	annotation PBI_NavigationStepName = Navegación
 

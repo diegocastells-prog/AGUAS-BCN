@@ -42,7 +42,7 @@ table dim_sector
 		dataType: int64
 		formatString: 0
 		lineageTag: 092a1534-ab98-4d23-952d-284e1de07e95
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: gerencia_id
 
 		annotation SummarizationSetBy = Automatic
@@ -68,13 +68,17 @@ table dim_sector
 				    Renombrada = Table.RenameColumns(Tipos2,{{"denomin", "sector"}}), 
 				    Sectores = Table.TransformColumns(Renombrada, {{"sector", Text.Proper, type text}}),
 				    // UNION
-				    Join = Table.NestedJoin( Coordenadas, {"sector_id"},
-				    Sectores, {"sector_id"},"Sectores", JoinKind.LeftOuter ),
+				    Join = Table.NestedJoin( Coordenadas, {"sector_id"},Sectores, {"sector_id"},"Sectores", JoinKind.LeftOuter ),
 				    Resultado = Table.ExpandTableColumn( Join, "Sectores", {"sector", "gerencia"}, {"sector", "gerencia"} ),
 				    #"Valor reemplazado" = Table.ReplaceValue(Resultado,null,"No Disponible",Replacer.ReplaceValue,{"gerencia"}),
 				    #"Consultas combinadas" = Table.NestedJoin(#"Valor reemplazado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
 				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
-				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"})
+				    auxiliar =
+				    Table.Combine({
+				        #"Se expandió dim_gerencia",
+				        dim_sector_aux
+				    }),
+				    #"Columnas quitadas" = Table.RemoveColumns(auxiliar,{"gerencia"})
 				in
 				    #"Columnas quitadas"
 				```
