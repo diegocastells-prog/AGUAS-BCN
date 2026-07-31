@@ -21,7 +21,7 @@ table fact_volum_cons_lliur
 		dataType: double
 		formatString: 0
 		lineageTag: b64c3f90-11a5-4054-be24-92907a71ee32
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: sector_id
 
 		annotation SummarizationSetBy = Automatic
@@ -61,18 +61,10 @@ table fact_volum_cons_lliur
 
 		annotation SummarizationSetBy = Automatic
 
-	column sector
-		dataType: string
-		lineageTag: 23ce375a-5a99-4b6e-8942-b7d66d1eed19
-		summarizeBy: none
-		sourceColumn: sector
-
-		annotation SummarizationSetBy = Automatic
-
 	partition fact_volum_cons_lliur = m
 		mode: import
 		queryGroup: Hechos
-		source = ```
+		source =
 				let
 				    Union =
 				        Table.Combine({
@@ -85,11 +77,11 @@ table fact_volum_cons_lliur
 				        SinDuplicados,
 				        each List.NonNullCount(Record.FieldValues(_)) > 0
 				    ),
-				    #"Columnas con nombre cambiado" = Table.RenameColumns(SinFilasVacias,{{"Sectors", "sector"}})
-				
-				in 
-				  #"Columnas con nombre cambiado"
-				```
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(SinFilasVacias,{{"Sectors", "sector"}}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas con nombre cambiado","Río","Rio",Replacer.ReplaceText,{"sector"}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Valor reemplazado",{"sector"})
+				in
+				    #"Columnas quitadas"
 
 	annotation PBI_NavigationStepName = Navegación
 

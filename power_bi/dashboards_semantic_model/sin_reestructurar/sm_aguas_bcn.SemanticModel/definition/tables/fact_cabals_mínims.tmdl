@@ -18,14 +18,6 @@ table fact_cabals_mínims
 
 		annotation SummarizationSetBy = Automatic
 
-	column sectors
-		dataType: string
-		lineageTag: b091a18d-3b1d-41a3-b9c4-c4a53b8d4a5e
-		summarizeBy: none
-		sourceColumn: sectors
-
-		annotation SummarizationSetBy = Automatic
-
 	column fecha
 		dataType: dateTime
 		formatString: Short Date
@@ -86,15 +78,16 @@ table fact_cabals_mínims
 				            {"q_min", type number}
 				        }
 				    ),
-				    #"Filas filtradas" = Table.SelectRows(Tipos, each true),
-				    #"Valor reemplazado" = Table.ReplaceValue(#"Filas filtradas","","No Disponible",Replacer.ReplaceValue,{"gerencia"}),
+				    #"Valor reemplazado" = Table.ReplaceValue(Tipos,"","No Disponible",Replacer.ReplaceValue,{"gerencia"}),
 				    #"Consultas combinadas" = Table.NestedJoin(#"Valor reemplazado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
 				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
 				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
 				    #"Valores reemplazados" = Table.ReplaceValue(Table.ReplaceValue(#"Columnas quitadas","","No Disponible",Replacer.ReplaceValue,{"sectors"}),null,-1,Replacer.ReplaceValue,{"sector_id"}),
-				    #"Valor reemplazado1" = Table.ReplaceValue(#"Valores reemplazados","","No Disponible",Replacer.ReplaceValue,{"arteria"})
+				    #"Valor reemplazado1" = Table.ReplaceValue(#"Valores reemplazados","","No Disponible",Replacer.ReplaceValue,{"arteria"}),
+				    #"Valor reemplazado2" = Table.ReplaceValue(#"Valor reemplazado1","Río","Rio",Replacer.ReplaceText,{"sectors"}),
+				    #"Columnas quitadas1" = Table.RemoveColumns(#"Valor reemplazado2",{"sectors"})
 				in
-				    #"Valor reemplazado1"
+				    #"Columnas quitadas1"
 
 	annotation PBI_NavigationStepName = Navegación
 

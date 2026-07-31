@@ -218,9 +218,9 @@ table fact_perimetre_comptadors
 				    #"Consultas combinadas" = Table.NestedJoin(#"Duplicados quitados", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
 				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
 				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
-				    #"Filas filtradas" = Table.SelectRows(#"Columnas quitadas", each ([sector_id] = ""))
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas quitadas","","-1",Replacer.ReplaceValue,{"sector_id"})
 				in
-				    #"Filas filtradas"
+				    #"Valor reemplazado"
 
 	annotation PBI_NavigationStepName = Navegación
 
