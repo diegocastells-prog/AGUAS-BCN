@@ -95,30 +95,6 @@ table fact_fraudes_all
 
 		annotation SummarizationSetBy = Automatic
 
-	column tipus_ope_pendent
-		dataType: string
-		lineageTag: 436ce439-8c29-4562-9f60-5d6d8fec93a6
-		summarizeBy: none
-		sourceColumn: tipus_ope_pendent
-
-		annotation SummarizationSetBy = Automatic
-
-	column data_creacio_actual
-		dataType: dateTime
-		formatString: Short Date
-		lineageTag: dff58697-da08-4c16-8297-b282e16c4e71
-		summarizeBy: none
-		sourceColumn: data_creacio_actual
-
-		variation Variación
-			isDefault
-			relationship: 5d4923f7-0e43-4af5-829c-baeeebd09d6e
-			defaultHierarchy: LocalDateTable_084fd0ed-46dd-41aa-9f1d-e4b9df9ed9c1.'Jerarquía de fechas'
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
 	partition fact_fraudes_all = m
 		mode: import
 		queryGroup: Hechos
@@ -171,12 +147,13 @@ table fact_fraudes_all
 				        Table.SelectRows(
 				            SinDuplicados,
 				            each List.NonNullCount(Record.FieldValues(_)) > 0
-				        )
+				        ),
+				    #"Columnas quitadas" = Table.RemoveColumns(SinFilasVacias,{"tipus_ope_pendent", "data_creacio_actual"})
 				
 				
 				
 				in
-				    SinFilasVacias
+				    #"Columnas quitadas"
 
 	annotation PBI_NavigationStepName = Navegación
 

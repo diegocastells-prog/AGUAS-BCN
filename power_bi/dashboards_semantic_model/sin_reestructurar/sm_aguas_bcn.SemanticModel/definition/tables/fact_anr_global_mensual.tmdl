@@ -3,10 +3,13 @@ table fact_anr_global_mensual
 
 	column fecha
 		dataType: dateTime
+		isHidden
 		formatString: Short Date
 		lineageTag: fc6bd2b9-8631-4bab-b96c-8999c9c885a5
 		summarizeBy: none
 		sourceColumn: fecha
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -54,7 +57,7 @@ table fact_anr_global_mensual
 
 	partition fact_anr_global_mensual = m
 		mode: import
-		queryGroup: Hechos
+		queryGroup: 'To delete'
 		source =
 				let
 				    Source = Csv.Document(

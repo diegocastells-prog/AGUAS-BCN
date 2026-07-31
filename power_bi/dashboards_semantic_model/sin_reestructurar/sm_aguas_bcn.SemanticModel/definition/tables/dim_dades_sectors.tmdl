@@ -2,7 +2,8 @@ table dim_dades_sectors
 	lineageTag: 7dda3706-9e1d-480c-91fe-1f379530847f
 
 	column sector_id
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 3c909e2b-60b0-42c3-86c7-4518524ba32e
 		summarizeBy: none
 		sourceColumn: sector_id
@@ -18,60 +19,71 @@ table dim_dades_sectors
 		annotation SummarizationSetBy = Automatic
 
 	column long_xarxa
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 38e1e369-ea48-4acb-987b-e87957e13d4d
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: long_xarxa
 
 		annotation SummarizationSetBy = Automatic
 
 	column ramals_controlats
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: e07528cd-4df1-4a7e-a330-29c4691d5794
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: ramals_controlats
 
 		annotation SummarizationSetBy = Automatic
 
 	column subministraments_controlats
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: df39eec1-ba21-47aa-b007-0d3800d9375f
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: subministraments_controlats
 
 		annotation SummarizationSetBy = Automatic
 
 	column pressio_mitjana
-		dataType: string
+		dataType: double
 		lineageTag: 0a24ec85-f43e-4334-9e26-0409bd53484c
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: pressio_mitjana
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column lambert
-		dataType: string
+		dataType: double
 		lineageTag: f4bd4f08-9bfd-4fa7-961c-0de1436ea245
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: lambert
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column afor_l_s
-		dataType: string
+		dataType: double
 		lineageTag: 8d9940a6-b13e-4106-9196-e73525f1f498
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: afor_l_s
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column referencia
-		dataType: string
+		dataType: double
 		lineageTag: 015d8aba-932b-46eb-8fc1-c3544cdedd47
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: referencia
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column sector_activo
 		dataType: string
@@ -82,9 +94,9 @@ table dim_dades_sectors
 		annotation SummarizationSetBy = Automatic
 
 	column gerencia_id
-		dataType: double
+		dataType: int64
 		lineageTag: b85ac79d-0599-4e72-8e15-615de54eb56f
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: gerencia_id
 
 		annotation SummarizationSetBy = Automatic
@@ -99,37 +111,25 @@ table dim_dades_sectors
 
 		annotation SummarizationSetBy = Automatic
 
-	column _1
-		dataType: string
-		lineageTag: b3f27fab-974b-475c-b8c8-227214e60798
-		summarizeBy: none
-		sourceColumn: _1
-
-		annotation SummarizationSetBy = Automatic
-
-	column _2
-		dataType: string
-		lineageTag: 41b9ac43-6087-4bc1-bbb4-c7382da93d25
-		summarizeBy: none
-		sourceColumn: _2
-
-		annotation SummarizationSetBy = Automatic
-
 	column latitud
-		dataType: string
+		dataType: double
 		lineageTag: e7e6061b-cf89-4d33-8f27-41de3dad2bcd
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: latitud
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column longitud
-		dataType: string
+		dataType: double
 		lineageTag: fd8f2174-a0c6-4332-a756-e85cb1ccd1c6
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: longitud
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	partition dim_dades_sectors = m
 		mode: import
@@ -167,9 +167,12 @@ table dim_dades_sectors
 				    #"Filas filtradas" =Table.SelectRows(
 				        #"Duplicados quitados",
 				        each not ([latitud] = null and [longitud] = null)
-				    )
+				    ),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Filas filtradas",{{"sector_id", Int64.Type}, {"long_xarxa", Int64.Type}, {"ramals_controlats", Int64.Type}, {"subministraments_controlats", Int64.Type}, {"pressio_mitjana", type number}, {"lambert", type number}, {"afor_l_s", type number}, {"referencia", type number}, {"sector_activo", type text}}),
+				    #"Columnas quitadas2" = Table.RemoveColumns(#"Tipo cambiado1",{"_1", "_2"}),
+				    #"Tipo cambiado2" = Table.TransformColumnTypes(#"Columnas quitadas2",{{"gerencia_id", Int64.Type}, {"latitud", type number}, {"longitud", type number}})
 				in
-				    #"Filas filtradas"
+				    #"Tipo cambiado2"
 
 	annotation PBI_NavigationStepName = Navegación
 

@@ -2098,18 +2098,7 @@ expression dim_sector_aux =
 		                gerencia = text
 		            ],
 		            {
-		                {-1, "No Disponible", "No Disponible"},
-		                {3073, "Canyelles", "No Disponible"},
-		                {3290, "Depuradora", "No Disponible"},
-		                {3166, "Ferran Junoy", "Barcelona Nord"},
-		                {3400, "Gornal", "Llobregat Nord"},
-		                {3221, "Indústria", "Barcelona Sud"},
-		                {3241, "La Vallensana", "Besòs"},
-		                {3444, "Passeig De Sant Gervasi", "Barcelona Sud"},
-		                {3308, "Plaça Barraquer", "Barcelona Sud"},
-		                {3319, "Santa Rosa", "Besòs"},
-		                {3354, "Santelvira", "Besòs"},
-		                {3004, "Tibidabo Torreó", "Barcelona Sud"}
+		                {-1, "No Disponible", "No Disponible"}
 		            }
 		        )
 		in
@@ -2235,6 +2224,68 @@ expression aux_sector_no_disp = ```
 		        #"Valor reemplazado"
 		```
 	lineageTag: cbac59f6-5a89-46bc-a8f3-66d34f006385
+	queryGroup: Auxiliares
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dim_ortomat =
+		let
+		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1dca9OE3HQzH16kwQty0mn2sH6krPn0RFOmR9uFBWXJI/edit?gid=709331709#gid=709331709"),
+		  #"Navegación 1" = Origen{[name = "Sectores_sembrados_numero", ItemKind = "Table"]}[Data],
+		
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Navegación 1", [PromoteAllScalars=true]),
+		    #"Columnas quitadas" = Table.RemoveColumns(
+		        #"Encabezados promovidos",
+		        {"OBJECTID", "DENOMIN_2", "SHAPE_Le_1"}
+		    ),
+		
+		    #"Columnas renombradas" = Table.RenameColumns(
+		        #"Columnas quitadas",
+		        {
+		            {"SAP_ID_2", "sector_id"},
+		            {"NUMPOINTS", "unidad_sensors"},
+		            { "SHAPE_Ar_1", "area"}
+		        }
+		    ),
+		
+		    #"Valores reemplazados" = Table.ReplaceValue(
+		        #"Columnas renombradas",
+		        "",
+		        null,
+		        Replacer.ReplaceValue,
+		        {"sector_id","unidad_sensors"}
+		    ),
+		
+		    #"Tiene sensor agregado" = Table.AddColumn(
+		        #"Valores reemplazados",
+		        "tiene_sensor",
+		        each if [unidad_sensors] = null or [unidad_sensors] = 0 then 0 else 1,
+		        Int64.Type
+		    ),
+		
+		    #"Filas vacías eliminadas" = Table.SelectRows(
+		        #"Tiene sensor agregado",
+		        each not (
+		            [sector_id] = null and
+		            ([unidad_sensors] = null or [unidad_sensors] = 0) and
+		            [tiene_sensor] = 0
+		        )
+		    ),
+		
+		    #"Filas en blanco eliminadas" = Table.SelectRows(
+		        #"Filas vacías eliminadas",
+		        each not List.IsEmpty(
+		            List.RemoveMatchingItems(Record.FieldValues(_), {"", null})
+		        )
+		    ),
+		
+		    #"Duplicados quitados" = Table.Distinct(#"Filas en blanco eliminadas"),
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Duplicados quitados",{{"sector_id", Int64.Type}, {"area", type number}, {"unidad_sensors", Int64.Type}})
+		in
+		    #"Tipo cambiado"
+	lineageTag: 64dad9b2-ac2a-479e-84fe-d6e39a7c4cbf
 	queryGroup: Auxiliares
 
 	annotation PBI_NavigationStepName = Navegación

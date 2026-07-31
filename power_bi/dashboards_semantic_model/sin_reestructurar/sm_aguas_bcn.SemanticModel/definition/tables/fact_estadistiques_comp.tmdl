@@ -35,12 +35,13 @@ table fact_estadistiques_comp
 
 	column fecha
 		dataType: dateTime
+		isHidden
 		formatString: Short Date
 		lineageTag: 29a42bfc-1365-45b5-919e-eed0d7895a79
 		summarizeBy: none
 		sourceColumn: fecha
 
-		changedProperty = DataType
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -167,9 +168,10 @@ table fact_estadistiques_comp
 				    #"Texto recortado" = Table.TransformColumns(#"Texto limpio",{{"gerencia", Text.Trim, type text}}),
 				    #"Consultas combinadas" = Table.NestedJoin(#"Texto recortado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
 				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
-				    #"Columnas quitadas1" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"})
+				    #"Columnas quitadas1" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Columnas quitadas1",{{"fecha", type date}})
 				in
-				    #"Columnas quitadas1"
+				    #"Tipo cambiado1"
 				```
 
 	annotation PBI_NavigationStepName = Navegación
