@@ -4,7 +4,7 @@ table _medidas
 	measure anr_dia_m3_mensual =
 			
 			DIVIDE(
-			    SUM(fact_anr_global_mensual[anr_global_hm3]) * 1000000,
+			    [anr_mensual] * 1000000,
 			    [count_dias_mes],
 			    0
 			)
@@ -24,12 +24,7 @@ table _medidas
 		lineageTag: 8c5e8213-05f3-474c-bea4-04624f51c582
 
 	measure anr_dia_m3_acum_12m = ```
-			
-			DIVIDE(
-			    SUM( fact_anr_global_acum[anr_global_hm3] ),
-			    365,
-			    0
-			) * 1000000
+			DIVIDE(    [anr_acum_12m],    365,    0) * 1000000
 			
 			```
 		displayFolder: anr\acum_12m
@@ -37,39 +32,46 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_l_esc_dia_mensual = 1000 * [anr_dia_m3_mensual] /sum(fact_inventari_xarxa[nombre_escomeses_totals])
+	measure anr_l_esc_dia_mensual = [anr_mensual] /[escomeses_mensual]/[count_dias_mes]*1000
 		displayFolder: anr\mensual
 		lineageTag: ebd07ed5-8585-4fd4-9192-b2503c07f0ad
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_l_subm_dia_mensual = 1000 * [anr_dia_m3_mensual] /sum(fact_inventari_xarxa[nombre_subministraments_totals])
+	measure anr_l_subm_dia_mensual = [anr_mensual] /[subministraments_mensual]/[count_dias_mes]*1000
 		displayFolder: anr\mensual
 		lineageTag: e0720a62-8277-4ecd-80da-2a9e35bef545
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_m3_km_dia_mensual = [anr_dia_m3_mensual]/ SUM((fact_inventari_xarxa[l_+_t_km]))
+	measure anr_m3_km_dia_mensual = [anr_mensual] /[l_km_mensual]/[count_dias_mes]
 		displayFolder: anr\mensual
 		lineageTag: 78d04585-54b5-497b-81cf-f7e36005e56a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure anr_l_esc_dia_acum_12m = ```
-			1000 * [anr_dia_m3_acum_12m] /sum(fact_inventari_xarxa_mitjana_12m[nombre_escomeses_totals]) 
+			[anr_acum_12m] /[escomeses_12m_mitjana]/365*1000
+			
 			```
 		displayFolder: anr\acum_12m
 		lineageTag: c07ebc2d-9770-4399-8398-35032f01c224
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_m3_km_dia_acum_12m = [anr_dia_m3_acum_12m]/ SUM((fact_inventari_xarxa_mitjana_12m[l_+_t_km]))
+	measure anr_m3_km_dia_mitjana_12m = ```
+			[anr_acum_12m] /[l_km_12m_mitjana]/365
+			
+			```
 		displayFolder: anr\acum_12m
 		lineageTag: 5103700e-6cc8-4d0f-90e7-3ee6aaf9efd7
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_l_subm_dia_acum_12m = 1000 * [anr_dia_m3_acum_12m] /sum(fact_inventari_xarxa_mitjana_12m[nombre_subministraments_totals])
+	measure anr_l_subm_dia_mitjana_12m = ```
+			[anr_acum_12m] /[subministraments_12m_mitjana]/365*1000
+			
+			```
 		displayFolder: anr\acum_12m
 		lineageTag: e87af0a5-460e-49b4-b044-6ac55d2cb825
 
@@ -693,19 +695,15 @@ table _medidas
 
 	measure anr_acum_12m = ```
 			
-			VAR FechaMax =
-			    MAX ( dim_calendario[Date] )
-			RETURN
-			CALCULATE(
-			    SUM( fact_aigua_no_registrada[anr] ),
+			    CALCULATE( 
+			    SUM(fact_aigua_no_registrada[anr]),
 			    DATESINPERIOD(
-			        dim_calendario[Date],
-			        FechaMax,
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
 			        -12,
 			        MONTH
 			    )
-			)
-			
+			) 
 			```
 		formatString: 0
 		displayFolder: anr\acum_12m
@@ -979,17 +977,12 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_dia_m3_mensual_1m = ```
+	measure anr_dia_m3_mensual_smly = ```
 			
-			CALCULATE(
-			    DIVIDE(
-			        SUM( fact_anr_global_mensual[anr_global_hm3] ),
-			        [count_dias_mes],
-			        0
-			    ) * 1000000,
+			CALCULATE( 
+			    DIVIDE(    [anr_mensual] * 1000000,    [count_dias_mes],    0),
 			    PREVIOUSMONTH(dim_calendario[Date])
-			)
-			
+			) 
 			```
 		displayFolder: anr\mensual
 		lineageTag: 48b1f7c8-9d2f-4e6a-8f7d-2f3c0a5e6d7f
@@ -999,11 +992,7 @@ table _medidas
 	measure anr_dia_m3_acum_12m_1m = ```
 			
 			CALCULATE(
-			    DIVIDE(
-			        SUM( fact_anr_global_acum[anr_global_hm3] ),
-			        365,
-			        0
-			    ) * 1000000,
+			    DIVIDE(    [anr_acum_12m],    365,    0) * 1000000,
 			    PREVIOUSMONTH(dim_calendario[Date])
 			)
 			
@@ -1013,31 +1002,93 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_l_esc_dia_mensual_1m =
-			CALCULATE(
-			    1000 * [anr_dia_m3_mensual] /sum(fact_inventari_xarxa[nombre_escomeses_totals]),
-			    PREVIOUSMONTH(dim_calendario[Date])
-			)
+	measure anr_l_esc_dia_mensual_smly = ```
+			
+			VAR AnrSM =
+			    CALCULATE(
+			        [anr_mensual],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			    )
+			
+			VAR EscomesesSM =
+			    CALCULATE(
+			        [escomeses_mensual],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			    )
+			
+			VAR DiasSM =
+			    CALCULATE(
+			        [count_dias_mes],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			    )
+			
+			RETURN
+			    DIVIDE( AnrSM, EscomesesSM, 0 )
+			        / DiasSM
+			        * 1000
+			
+			```
 		displayFolder: anr\mensual
 		lineageTag: 1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_l_subm_dia_mensual_1m =
-			CALCULATE(
-			    1000 * [anr_dia_m3_mensual] /sum(fact_inventari_xarxa[nombre_subministraments_totals]),
-			    PREVIOUSMONTH(dim_calendario[Date])
-			)
+	measure anr_l_subm_dia_mensual_smly = ```
+			
+			VAR AnrSM =
+			    CALCULATE(
+			        [anr_mensual],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			    )
+			
+			VAR SubmSM =
+			    CALCULATE(
+			        [subministraments_mensual],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			    )
+			
+			VAR DiasSM =
+			    CALCULATE(
+			        [count_dias_mes],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			    )
+			
+			RETURN
+			    DIVIDE( AnrSM, SubmSM, 0 )
+			        / DiasSM
+			        * 1000
+			
+			```
 		displayFolder: anr\mensual
 		lineageTag: 2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_m3_km_dia_mensual_1m =
-			CALCULATE(
-			    [anr_dia_m3_mensual]/ SUM((fact_inventari_xarxa[l_+_t_km])),
-			    PREVIOUSMONTH(dim_calendario[Date])
-			)
+	measure anr_m3_km_dia_mensual_smly = ```
+			
+			VAR AnrSM =
+			    CALCULATE(
+			        [anr_mensual],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			    )
+			
+			VAR KmSM =
+			    CALCULATE(
+			        [l_km_mensual],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			    )
+			
+			VAR DiasSM =
+			    CALCULATE(
+			        [count_dias_mes],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			    )
+			
+			RETURN
+			    DIVIDE( AnrSM, KmSM, 0 )
+			        / DiasSM
+			
+			```
 		displayFolder: anr\mensual
 		lineageTag: 3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f
 
@@ -1045,7 +1096,7 @@ table _medidas
 
 	measure anr_l_esc_dia_acum_12m_1m = ```
 			CALCULATE(
-			    1000 * [anr_dia_m3_acum_12m] /sum(fact_inventari_xarxa_mitjana_12m[nombre_escomeses_totals]),
+			    [anr_acum_12m] /[escomeses_12m_mitjana]/365*1000,
 			    PREVIOUSMONTH(dim_calendario[Date])
 			) 
 			```
@@ -1054,9 +1105,9 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_m3_km_dia_acum_12m_1m =
+	measure anr_m3_km_dia_mitjana_12m_1m =
 			CALCULATE(
-			    [anr_dia_m3_acum_12m]/ SUM((fact_inventari_xarxa_mitjana_12m[l_+_t_km])),
+			    [anr_acum_12m] /[l_km_12m_mitjana]/365,
 			    PREVIOUSMONTH(dim_calendario[Date])
 			)
 		displayFolder: anr\acum_12m
@@ -1064,9 +1115,9 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_l_subm_dia_acum_12m_1m =
+	measure anr_l_subm_dia_mitjana_12m_1m =
 			CALCULATE(
-			    1000 * [anr_dia_m3_acum_12m] /sum(fact_inventari_xarxa_mitjana_12m[nombre_subministraments_totals]),
+			    [anr_acum_12m] /[subministraments_12m_mitjana]/365*1000,
 			    PREVIOUSMONTH(dim_calendario[Date])
 			)
 		displayFolder: anr\acum_12m

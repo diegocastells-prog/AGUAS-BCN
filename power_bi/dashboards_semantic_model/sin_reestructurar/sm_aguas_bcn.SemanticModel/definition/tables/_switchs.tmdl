@@ -46,7 +46,7 @@ table _switchs
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [anr_m3_km_dia_mensual],
-			    "12 meses", [anr_m3_km_dia_acum_12m],
+			    "12 meses", [anr_m3_km_dia_mitjana_12m],
 			    BLANK()
 			)
 			
@@ -72,7 +72,7 @@ table _switchs
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [anr_l_subm_dia_mensual],
-			    "12 meses", [anr_l_subm_dia_acum_12m],
+			    "12 meses", [anr_l_subm_dia_mitjana_12m],
 			    BLANK()
 			)
 			
@@ -228,15 +228,13 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_dia_m3_mensual_1m],
+			    "Mensual", [anr_dia_m3_mensual_smly],
 			    "12 meses", [anr_dia_m3_acum_12m_1m],
 			    BLANK()
 			)
 			
 			```
 		lineageTag: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_volum_consumit_distribucion_switch_1m = ```
 			
@@ -268,8 +266,8 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_m3_km_dia_mensual_1m],
-			    "12 meses", [anr_m3_km_dia_acum_12m],
+			    "Mensual", [anr_m3_km_dia_mensual_smly],
+			    "12 meses", [anr_m3_km_dia_mitjana_12m],
 			    BLANK()
 			)
 			
@@ -281,7 +279,7 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_l_esc_dia_mensual_1m],
+			    "Mensual", [anr_l_esc_dia_mensual_smly],
 			    "12 meses", [anr_l_esc_dia_acum_12m],
 			    BLANK()
 			)
@@ -294,14 +292,15 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_l_subm_dia_mensual_1m],
-			    "12 meses", [anr_l_subm_dia_acum_12m],
+			    "Mensual", [anr_l_subm_dia_mensual_smly],
+			    "12 meses", [anr_l_subm_dia_mitjana_12m],
 			    BLANK()
 			)
 			
 			```
-		formatString: #,0.00
 		lineageTag: f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_rth_distribucion_switch_1m = ```
 			

@@ -130,6 +130,14 @@ table dim_calendario
 
 		annotation SummarizationSetBy = Automatic
 
+	column status_date
+		lineageTag: 30d443dd-3889-413a-9e2c-aad914627d5a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [status_date]
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_calendario = calculated
 		mode: import
 		source =
@@ -151,7 +159,20 @@ table dim_calendario
 				    "dia", DAY([Date]),
 				    "dia_semana_num", WEEKDAY([Date], 2),
 				    "dia_semana", FORMAT([Date], "dddd"),
-				    "fin_de_semana", IF(WEEKDAY([Date], 2) >= 6, "si", "no")
+				    "fin_de_semana", IF(WEEKDAY([Date], 2) >= 6, "si", "no"),
+				    // ⭐ NUEVO CAMPO STATUS_DATE ⭐
+				    "status_date",
+				        VAR FechaHoy = TODAY()
+				        VAR MesActual = EOMONTH(FechaHoy, 0)
+				        VAR MesCerradoReal = EOMONTH(FechaHoy, -3)   // abril 2026
+				        RETURN
+				            SWITCH(
+				                TRUE(),
+				                [Date] <= MesCerradoReal, "REAL",
+				                [Date] <= MesActual, "ESTIMADO",
+				                "FUTURO"
+				            )
+				
 				)
 
 	annotation PBI_Id = 06946a9e57dd4dfe845e9b08d6bd99d1
