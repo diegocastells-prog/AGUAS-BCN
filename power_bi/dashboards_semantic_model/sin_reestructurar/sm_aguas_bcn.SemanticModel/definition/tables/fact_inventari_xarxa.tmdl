@@ -1,0 +1,258 @@
+table fact_inventari_xarxa
+	lineageTag: 2b91454c-c160-4687-a602-165ee754b802
+
+	column fecha
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: dc357952-415c-45f0-8a6c-b03e55b17232
+		summarizeBy: none
+		sourceColumn: fecha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column xarxa
+		dataType: double
+		lineageTag: 583c8eac-7578-40e4-88c1-1b11f6b07286
+		summarizeBy: sum
+		sourceColumn: xarxa
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column escomeses
+		dataType: double
+		lineageTag: 96c4993e-478b-4192-b222-432fe4758673
+		summarizeBy: sum
+		sourceColumn: escomeses
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column subministraments
+		dataType: double
+		lineageTag: 13ff4302-7961-4e1a-af86-f510cea67cf6
+		summarizeBy: sum
+		sourceColumn: subministraments
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column gerencia_fecha
+		dataType: string
+		lineageTag: f69a3172-7cd1-4e1e-8781-8872fe0acab1
+		summarizeBy: none
+		sourceColumn: gerencia_fecha
+
+		annotation SummarizationSetBy = Automatic
+
+	column gerencia_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 4d50e330-dd67-4e40-a86d-e2d08297f028
+		summarizeBy: none
+		sourceColumn: gerencia_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_inventari_xarxa = m
+		mode: import
+		queryGroup: Hechos
+		source = ```
+				let
+				    //==========================================================
+				    // Origen
+				    //==========================================================
+				    Origen =
+				        GoogleSheets.Contents(
+				            "https://docs.google.com/spreadsheets/d/1LK5D7QclVwCBGy5-hONVLgP1GgW35okgrxNLr1kJCoE/edit?gid=112073621#gid=112073621"
+				        ),
+				
+				    Datos =
+				        Origen{[name="Inventari xarxa", ItemKind="Table"]}[Data],
+				
+				    Tabla =
+				        Table.SelectColumns(
+				            Table.FirstN(
+				                Table.Skip(
+				                    Table.RemoveColumns(Datos, {"Column1"}),
+				                    2
+				                ),
+				                182
+				            ),
+				            List.FirstN(
+				                Table.ColumnNames(
+				                    Table.FirstN(
+				                        Table.Skip(
+				                            Table.RemoveColumns(Datos, {"Column1"}),
+				                            2
+				                        ),
+				                        164
+				                    )
+				                ),
+				                19
+				            )
+				        ),
+				
+				    //==========================================================
+				    // Cabeceras
+				    //==========================================================
+				    Sectores =
+				        List.Transform(
+				            Record.ToList(Tabla{0}),
+				            each try Text.Trim(Text.From(_)) otherwise ""
+				        ),
+				
+				    Zonas =
+				        List.Transform(
+				            Record.ToList(Tabla{1}),
+				            each try Text.Trim(Text.From(_)) otherwise ""
+				        ),
+				
+				    SectoresRellenos =
+				        List.Accumulate(
+				            Sectores,
+				            {},
+				            (estado, actual) =>
+				                estado &
+				                {
+				                    if actual = "" then
+				                        if List.Count(estado) = 0 then ""
+				                        else List.Last(estado)
+				                    else
+				                        actual
+				                }
+				        ),
+				
+				    NuevosNombres =
+				        List.Transform(
+				            List.Positions(SectoresRellenos),
+				            (i) =>
+				                if i = 0 then
+				                    "Mes"
+				                else if Zonas{i} = "" then
+				                    SectoresRellenos{i}
+				                else
+				                    SectoresRellenos{i} & " - " & Zonas{i}
+				        ),
+				
+				    //==========================================================
+				    // Transformación
+				    //==========================================================
+				    Renombrada =
+				        Table.RenameColumns(
+				            Table.Skip(Tabla, 2),
+				            List.Zip({Table.ColumnNames(Tabla), NuevosNombres}),
+				            MissingField.Ignore
+				        ),
+				
+				    Despivotada =
+				        Table.UnpivotOtherColumns(
+				            Renombrada,
+				            {"Mes"},
+				            "kpi",
+				            "valor"
+				        ),
+				
+				    Split =
+				        Table.SplitColumn(
+				            Despivotada,
+				            "kpi",
+				            Splitter.SplitTextByDelimiter(" - ", QuoteStyle.Csv),
+				            {"kpi", "gerencia"}
+				        ),
+				
+				    Resultado =
+				        Table.TransformColumns(
+				            Split,
+				            {
+				                {"kpi", Text.Trim, type text},
+				                {"gerencia", Text.Trim, type text}
+				            }
+				        ),
+				
+				    //==========================================================
+				    // Mapeo de KPIs
+				    //==========================================================
+				    MapaKPI =
+				        [
+				            #"XARXA DISTRIBUCIÓ (DM Xarxes)" = "xarxa",
+				            #"SUBMINISTRAMENTS CONTROLATS (DM Xarxes)" = "subministraments",
+				            #"RAMALS CONTROLATS (DM Xarxes)" = "escomeses"
+				        ],
+				
+				    KPIMapeado =
+				        Table.TransformColumns(
+				            Resultado,
+				            {
+				                {
+				                    "kpi",
+				                    each Record.FieldOrDefault(MapaKPI, _, _),
+				                    type text
+				                }
+				            }
+				        ),
+				
+				    //==========================================================
+				    // Limpieza
+				    //==========================================================
+				    ValorLimpio =
+				        Table.TransformColumns(
+				            KPIMapeado,
+				            {
+				                {
+				                    "valor",
+				                    each
+				                        if _ = null or _ = "" then
+				                            0
+				                        else
+				                            Number.From(_),
+				                    type number
+				                }
+				            }
+				        ),
+				
+				    Pivotado =
+				        Table.Pivot(
+				            ValorLimpio,
+				            List.Distinct(ValorLimpio[kpi]),
+				            "kpi",
+				            "valor",
+				            List.Sum
+				        ),
+				    #"Valor reemplazado" = Table.ReplaceValue(Pivotado,"BCN Nord","Barcelona Nord",Replacer.ReplaceText,{"gerencia"}),
+				    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado","BCN Sud","Barcelona Sud",Replacer.ReplaceText,{"gerencia"}),
+				    #"Mes convertido" =
+				        Table.TransformColumns(
+				            #"Valor reemplazado1",
+				            {
+				                {
+				                    "Mes",
+				                    each 
+				                        #date(
+				                            Number.FromText(Text.Start(Text.From(_),4)),
+				                            Number.FromText(Text.End(Text.From(_),2)),
+				                            1
+				                        ),
+				                    type date
+				                }
+				            }
+				        ),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Mes convertido",{{"Mes", "fecha"}}),
+				    #"Columna combinada insertada" = Table.AddColumn(#"Columnas con nombre cambiado", "gerencia_fecha", each Text.Combine({[gerencia], "-", Text.From([fecha], "es-ES"), " "}), type text),
+				    #"Filas filtradas" = Table.SelectRows(#"Columna combinada insertada", each ([fecha] = #date(2025, 1, 1) or [fecha] = #date(2025, 2, 1) or [fecha] = #date(2025, 3, 1) or [fecha] = #date(2025, 4, 1) or [fecha] = #date(2025, 5, 1) or [fecha] = #date(2025, 6, 1) or [fecha] = #date(2025, 7, 1) or [fecha] = #date(2025, 8, 1) or [fecha] = #date(2025, 9, 1) or [fecha] = #date(2025, 10, 1) or [fecha] = #date(2025, 11, 1) or [fecha] = #date(2025, 12, 1) or [fecha] = #date(2026, 1, 1) or [fecha] = #date(2026, 2, 1) or [fecha] = #date(2026, 3, 1) or [fecha] = #date(2026, 4, 1) or [fecha] = #date(2026, 5, 1) or [fecha] = #date(2026, 6, 1) or [fecha] = #date(2026, 7, 1) or [fecha] = #date(2026, 8, 1) or [fecha] = #date(2026, 9, 1) or [fecha] = #date(2026, 10, 1) or [fecha] = #date(2026, 11, 1) or [fecha] = #date(2026, 12, 1))),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Filas filtradas", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"})
+				in
+				    #"Columnas quitadas"
+				```
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

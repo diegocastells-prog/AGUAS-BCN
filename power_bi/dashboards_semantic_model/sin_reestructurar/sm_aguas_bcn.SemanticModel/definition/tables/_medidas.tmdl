@@ -37,19 +37,19 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_l_esc_dia_mensual = 1000 * [anr_dia_m3_mensual] /sum(fact_inventari_xarxa_mensual[nombre_escomeses_totals])
+	measure anr_l_esc_dia_mensual = 1000 * [anr_dia_m3_mensual] /sum(fact_inventari_xarxa[nombre_escomeses_totals])
 		displayFolder: anr\mensual
 		lineageTag: ebd07ed5-8585-4fd4-9192-b2503c07f0ad
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_l_subm_dia_mensual = 1000 * [anr_dia_m3_mensual] /sum(fact_inventari_xarxa_mensual[nombre_subministraments_totals])
+	measure anr_l_subm_dia_mensual = 1000 * [anr_dia_m3_mensual] /sum(fact_inventari_xarxa[nombre_subministraments_totals])
 		displayFolder: anr\mensual
 		lineageTag: e0720a62-8277-4ecd-80da-2a9e35bef545
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_m3_km_dia_mensual = [anr_dia_m3_mensual]/ SUM((fact_inventari_xarxa_mensual[l_+_t_km]))
+	measure anr_m3_km_dia_mensual = [anr_dia_m3_mensual]/ SUM((fact_inventari_xarxa[l_+_t_km]))
 		displayFolder: anr\mensual
 		lineageTag: 78d04585-54b5-497b-81cf-f7e36005e56a
 
@@ -178,13 +178,13 @@ table _medidas
 
 	measure rendiment_transport_mensual =
 			
-			DIVIDE( SUM(fact_rend_anr_arterias_mensual[sortit_m3]), SUM(fact_rend_anr_arterias_mensual[entrat_m3]) ) * 100
+			DIVIDE( SUM(fact_rend_anr_arterias[sortit_m3]), SUM(fact_rend_anr_arterias[entrat_m3]) ) * 100
 		displayFolder: anr\mensual
 		lineageTag: 75b88512-c6e4-4daa-989d-4d62f410fed0
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_transport_m3_mensual = SUM(fact_rend_anr_arterias_mensual[entrat_m3]) - SUM(fact_rend_anr_arterias_mensual[sortit_m3])
+	measure anr_transport_m3_mensual = SUM(fact_rend_anr_arterias[entrat_m3]) - SUM(fact_rend_anr_arterias[sortit_m3])
 		formatString: 0
 		displayFolder: anr\mensual
 		lineageTag: 86a01aa5-ac54-48f3-a890-d503e630c5f2
@@ -192,7 +192,7 @@ table _medidas
 	measure anr_transport_m3_acum_12m =
 			
 			CALCULATE(
-			    SUM(fact_rend_anr_arterias_mensual[entrat_m3]) - SUM(fact_rend_anr_arterias_mensual[sortit_m3]),
+			    SUM(fact_rend_anr_arterias[entrat_m3]) - SUM(fact_rend_anr_arterias[sortit_m3]),
 			    DATESINPERIOD(
 			        'dim_calendario'[Date],
 			        MAX('dim_calendario'[Date]),
@@ -210,8 +210,8 @@ table _medidas
 						RETURN
 						CALCULATE(
 						    DIVIDE(
-						        SUM(fact_rend_anr_arterias_mensual[sortit_m3]),
-						        SUM(fact_rend_anr_arterias_mensual[entrat_m3])
+						        SUM(fact_rend_anr_arterias[sortit_m3]),
+						        SUM(fact_rend_anr_arterias[entrat_m3])
 						    ) * 100,
 						    DATESINPERIOD(
 						        dim_calendario[Date],
@@ -489,10 +489,10 @@ table _medidas
 
 	measure delta_anr_mensual = ```
 			
-			VAR MesActual = SUM(fact_aigua_no_registrada_mensual[anr])
+			VAR MesActual = SUM(fact_aigua_no_registrada[anr])
 			VAR MesAnterior = 
 			    CALCULATE(
-			        SUM(fact_aigua_no_registrada_mensual[anr]),
+			        SUM(fact_aigua_no_registrada[anr]),
 			        PREVIOUSMONTH(dim_calendario[Date])
 			    )
 			RETURN 
@@ -596,7 +596,7 @@ table _medidas
 			AVERAGEX(
 			    VALUES(dim_calendario[date]),
 			    CALCULATE(
-			        SUM(fact_aigua_no_registrada_mensual[anr])
+			        SUM(fact_aigua_no_registrada[anr])
 			    )
 			)
 		displayFolder: anr\mensual
@@ -697,7 +697,7 @@ table _medidas
 			    MAX ( dim_calendario[Date] )
 			RETURN
 			CALCULATE(
-			    SUM( fact_aigua_no_registrada_mensual[anr] ),
+			    SUM( fact_aigua_no_registrada[anr] ),
 			    DATESINPERIOD(
 			        dim_calendario[Date],
 			        FechaMax,
@@ -711,7 +711,7 @@ table _medidas
 		displayFolder: anr\acum_12m
 		lineageTag: 09d1ddf2-cf3e-415c-9600-b2a858e18609
 
-	measure anr_mensual = SUM(fact_aigua_no_registrada_mensual[anr])
+	measure anr_mensual = SUM(fact_aigua_no_registrada[anr])
 		formatString: 0
 		displayFolder: anr\mensual
 		lineageTag: fab88f37-a457-4d36-baf8-0cec151a3ce5
@@ -918,14 +918,14 @@ table _medidas
 		lineageTag: a4e75447-828b-4094-97d1-7511a72133b5
 
 	measure volum_lliurat_transport_mensual = ```
-			SUM(fact_rend_anr_arterias_mensual[entrat_m3]) 
+			SUM(fact_rend_anr_arterias[entrat_m3]) 
 			
 			```
 		formatString: 0
 		displayFolder: volumen
 		lineageTag: 699b407e-7090-4b74-ad16-9b7a17dfce03
 
-	measure volum_consumit_transport_mensual = SUM(fact_rend_anr_arterias_mensual[sortit_m3])
+	measure volum_consumit_transport_mensual = SUM(fact_rend_anr_arterias[sortit_m3])
 		formatString: 0
 		displayFolder: volumen
 		lineageTag: 6b5f077d-fffc-431b-997a-ca2b11be4d19
@@ -933,7 +933,7 @@ table _medidas
 	measure volum_lliurat_transport_12m =
 			
 			CALCULATE(
-			    SUM(fact_rend_anr_arterias_mensual[entrat_m3]),
+			    SUM(fact_rend_anr_arterias[entrat_m3]),
 			    DATESINPERIOD(
 			        'dim_calendario'[Date],
 			        MAX('dim_calendario'[Date]),
@@ -948,7 +948,7 @@ table _medidas
 	measure volum_consumit_transport_12m =
 			
 			CALCULATE(
-			    SUM(fact_rend_anr_arterias_mensual[sortit_m3]),
+			    SUM(fact_rend_anr_arterias[sortit_m3]),
 			    DATESINPERIOD(
 			        'dim_calendario'[Date],
 			        MAX('dim_calendario'[Date]),
@@ -1015,7 +1015,7 @@ table _medidas
 
 	measure anr_l_esc_dia_mensual_1m =
 			CALCULATE(
-			    1000 * [anr_dia_m3_mensual] /sum(fact_inventari_xarxa_mensual[nombre_escomeses_totals]),
+			    1000 * [anr_dia_m3_mensual] /sum(fact_inventari_xarxa[nombre_escomeses_totals]),
 			    PREVIOUSMONTH(dim_calendario[Date])
 			)
 		displayFolder: anr\mensual
@@ -1025,7 +1025,7 @@ table _medidas
 
 	measure anr_l_subm_dia_mensual_1m =
 			CALCULATE(
-			    1000 * [anr_dia_m3_mensual] /sum(fact_inventari_xarxa_mensual[nombre_subministraments_totals]),
+			    1000 * [anr_dia_m3_mensual] /sum(fact_inventari_xarxa[nombre_subministraments_totals]),
 			    PREVIOUSMONTH(dim_calendario[Date])
 			)
 		displayFolder: anr\mensual
@@ -1035,7 +1035,7 @@ table _medidas
 
 	measure anr_m3_km_dia_mensual_1m =
 			CALCULATE(
-			    [anr_dia_m3_mensual]/ SUM((fact_inventari_xarxa_mensual[l_+_t_km])),
+			    [anr_dia_m3_mensual]/ SUM((fact_inventari_xarxa[l_+_t_km])),
 			    PREVIOUSMONTH(dim_calendario[Date])
 			)
 		displayFolder: anr\mensual
@@ -1168,7 +1168,7 @@ table _medidas
 	measure rendiment_transport_mensual_1m =
 			
 			CALCULATE(
-			    DIVIDE( SUM(fact_rend_anr_arterias_mensual[sortit_m3]), SUM(fact_rend_anr_arterias_mensual[entrat_m3]) ) * 100,
+			    DIVIDE( SUM(fact_rend_anr_arterias[sortit_m3]), SUM(fact_rend_anr_arterias[entrat_m3]) ) * 100,
 			    PREVIOUSMONTH(dim_calendario[Date])
 			)
 		displayFolder: anr\mensual
@@ -1178,7 +1178,7 @@ table _medidas
 
 	measure anr_transport_m3_mensual_1m =
 			CALCULATE(
-			    SUM(fact_rend_anr_arterias_mensual[entrat_m3]) - SUM(fact_rend_anr_arterias_mensual[sortit_m3]),
+			    SUM(fact_rend_anr_arterias[entrat_m3]) - SUM(fact_rend_anr_arterias[sortit_m3]),
 			    PREVIOUSMONTH(dim_calendario[Date])
 			)
 		formatString: 0
@@ -1188,7 +1188,7 @@ table _medidas
 	measure anr_transport_m3_acum_12m_1m =
 			
 			CALCULATE(
-			    SUM(fact_rend_anr_arterias_mensual[entrat_m3]) - SUM(fact_rend_anr_arterias_mensual[sortit_m3]),
+			    SUM(fact_rend_anr_arterias[entrat_m3]) - SUM(fact_rend_anr_arterias[sortit_m3]),
 			    DATESINPERIOD(
 			        'dim_calendario'[Date],
 			        EOMONTH(MAX('dim_calendario'[Date]), -1),
@@ -1206,8 +1206,8 @@ table _medidas
 						RETURN
 						CALCULATE(
 						    DIVIDE(
-						        SUM(fact_rend_anr_arterias_mensual[sortit_m3]),
-						        SUM(fact_rend_anr_arterias_mensual[entrat_m3])
+						        SUM(fact_rend_anr_arterias[sortit_m3]),
+						        SUM(fact_rend_anr_arterias[entrat_m3])
 						    ) * 100,
 						    DATESINPERIOD(
 						        dim_calendario[Date],
@@ -1409,7 +1409,7 @@ table _medidas
 			    EOMONTH(MAX ( dim_calendario[Date] ), -1)
 			RETURN
 			CALCULATE(
-			    SUM( fact_aigua_no_registrada_mensual[anr] ),
+			    SUM( fact_aigua_no_registrada[anr] ),
 			    DATESINPERIOD(
 			        dim_calendario[Date],
 			        FechaMax,
@@ -1425,7 +1425,7 @@ table _medidas
 
 	measure anr_mensual_1m =
 			CALCULATE(
-			    SUM(fact_aigua_no_registrada_mensual[anr]),
+			    SUM(fact_aigua_no_registrada[anr]),
 			    PREVIOUSMONTH(dim_calendario[Date])
 			)
 		formatString: 0
@@ -1434,7 +1434,7 @@ table _medidas
 
 	measure volum_lliurat_transport_mensual_1m = ```
 			CALCULATE(
-			    SUM(fact_rend_anr_arterias_mensual[entrat_m3]),
+			    SUM(fact_rend_anr_arterias[entrat_m3]),
 			    PREVIOUSMONTH(dim_calendario[Date])
 			) 
 			
@@ -1445,7 +1445,7 @@ table _medidas
 
 	measure volum_consumit_transport_mensual_1m =
 			CALCULATE(
-			    SUM(fact_rend_anr_arterias_mensual[sortit_m3]),
+			    SUM(fact_rend_anr_arterias[sortit_m3]),
 			    PREVIOUSMONTH(dim_calendario[Date])
 			)
 		formatString: 0
@@ -1455,7 +1455,7 @@ table _medidas
 	measure volum_lliurat_transport_12m_1m =
 			
 			CALCULATE(
-			    SUM(fact_rend_anr_arterias_mensual[entrat_m3]),
+			    SUM(fact_rend_anr_arterias[entrat_m3]),
 			    DATESINPERIOD(
 			        'dim_calendario'[Date],
 			        EOMONTH(MAX('dim_calendario'[Date]), -1),
@@ -1470,7 +1470,7 @@ table _medidas
 	measure volum_consumit_transport_12m_1m =
 			
 			CALCULATE(
-			    SUM(fact_rend_anr_arterias_mensual[sortit_m3]),
+			    SUM(fact_rend_anr_arterias[sortit_m3]),
 			    DATESINPERIOD(
 			        'dim_calendario'[Date],
 			        EOMONTH(MAX('dim_calendario'[Date]), -1),

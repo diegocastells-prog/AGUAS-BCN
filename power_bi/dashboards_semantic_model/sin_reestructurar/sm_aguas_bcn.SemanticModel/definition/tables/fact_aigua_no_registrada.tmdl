@@ -1,9 +1,8 @@
-table fact_aigua_no_registrada_mensual
+table fact_aigua_no_registrada
 	lineageTag: f96f2e5b-1cad-4714-b87a-0b7f4562ce64
 
 	column sector_id
-		dataType: int64
-		formatString: 0
+		dataType: string
 		lineageTag: 81776734-9feb-42fa-8a73-f10a60e150fd
 		summarizeBy: none
 		sourceColumn: sector_id
@@ -50,7 +49,15 @@ table fact_aigua_no_registrada_mensual
 
 		annotation SummarizationSetBy = Automatic
 
-	partition fact_aigua_no_registrada_mensual = m
+	column gerencia_fecha
+		dataType: string
+		lineageTag: 53b573ed-4ab3-4266-9efa-145f9d0f02b9
+		summarizeBy: none
+		sourceColumn: gerencia_fecha
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_aigua_no_registrada = m
 		mode: import
 		queryGroup: Hechos
 		source = ```
@@ -102,13 +109,15 @@ table fact_aigua_no_registrada_mensual
 								    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columnas normalizadas",{{"nº", "n"}, {"gerència", "gerencia"}, {"pis_pressió", "pis_pressio"}}),
 								    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columnas con nombre cambiado",{{"n", "sector"}}),
 				    #"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado1",{"sectors"}),
-				    #"Consultas combinadas" = Table.NestedJoin(#"Columnas quitadas1", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Columna combinada insertada" = Table.AddColumn(#"Columnas quitadas1", "gerencia_fecha", each Text.Combine({[gerencia], "-", [fecha]}), type text),
+				    #"Filas ordenadas" = Table.Sort(#"Columna combinada insertada",{{"fecha", Order.Descending}}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Filas ordenadas", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
 				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
 				    #"Columnas quitadas4" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
-				    #"Columnas con nombre cambiado3" = Table.RenameColumns(#"Columnas quitadas4",{{"sector", "sector_id"}}),
-				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas con nombre cambiado3",{{"sector_id", Int64.Type}, {"fecha", type date}})
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas4",{{"fecha", type date}}),
+				    #"Columnas con nombre cambiado3" = Table.RenameColumns(#"Tipo cambiado",{{"sector", "sector_id"}})
 				in
-				    #"Tipo cambiado"
+				    #"Columnas con nombre cambiado3"
 				```
 
 	annotation PBI_NavigationStepName = Navegación
