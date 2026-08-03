@@ -1,0 +1,79 @@
+MEDIDAS
+
+anr_mensual = SUM(fact_aigua_no_registrada_mensual[anr])
+
+
+anr_acum_12m = 
+    CALCULATE( 
+    SUM(fact_aigua_no_registrada_mensual[anr]),
+    DATESINPERIOD(
+        'dim_calendario'[Date],
+        MAX('dim_calendario'[Date]),
+        -12,
+        MONTH
+    )
+)  
+
+
+
+escomeses_12m_mitjana = 
+    CALCULATE(
+    AVERAGE( 'fact_inventari_xarxa'[escomeses] ),
+    DATESINPERIOD(
+        dim_calendario[Date],
+        MAX(dim_calendario[Date]),
+        -12,
+        MONTH
+    )
+) 
+
+
+escomeses_mensual = SUM(fact_inventari_xarxa[escomeses]) 
+
+l_km_12m_mitjana = 
+
+VAR L =
+    CALCULATE(
+    AVERAGE(fact_inventari_xarxa[xarxa]),
+    DATESINPERIOD(
+        'dim_calendario'[Date],
+        MAX('dim_calendario'[Date]),
+        -12,
+        MONTH
+    )
+) 
+RETURN
+    DIVIDE(L, 1000)
+
+l_km_mensual = 
+VAR L = SUM(fact_inventari_xarxa[xarxa])
+RETURN
+    DIVIDE(L, 1000)
+
+
+subministraments_mensual = SUM(fact_inventari_xarxa[subministraments])  
+
+subministraments_mensual = SUM(fact_inventari_xarxa[subministraments])  
+
+
+
+MITJANA
+
+ANR_l_esc_dia = [anr_acum_12m] /[escomeses_12m_mitjana]/365*1000
+
+ANR_l_subm_dia = [anr_acum_12m] /[subministraments_12m_mitjana]/365*1000
+
+ANR_m3_km_dia = [anr_acum_12m] /[l_km_12m_mitjana]/365
+
+
+
+
+
+MENSUAL
+
+
+    ANR_l_esc_dia_m = [anr_mensual] /[escomeses_mensual]/[count_dias_mes]*1000
+
+    ANR_l_subm_dia_m = [anr_mensual] /[subministraments__mensual]/[count_dias_mes]*1000
+
+    ANR_m3_km_dia_m = [anr_mensual] /[l_km_mensual]/[count_dias_mes]
