@@ -2292,3 +2292,254 @@ expression dim_ortomat =
 
 	annotation PBI_ResultType = Table
 
+expression fact_volumns_sector = ```
+		let
+		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1QAwPgMYUa33LLrGc2TCLDtDaYu1inIL_qmOiQ07tcSI/edit?gid=1447921658#gid=1447921658"),
+		    Informe_Table = Origen{[name="Informe",ItemKind="Table"]}[Data],
+		    
+		    // 1. Quitar filas superiores y extraer encabezados
+		    #"Filas superiores quitadas" = Table.Skip(Informe_Table, 3),
+		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1", "Column2"}),
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
+		    #"Filas filtradas1" = Table.SelectRows(#"Encabezados promovidos", each ([DATA MÍNIM] <> "----")),
+		    
+		    // 2. Filtramos la "basura" antes de nada
+		    #"Filas filtradas" = Table.SelectRows(#"Filas filtradas1", each ([PRIMER VALOR] <> "----")),
+		    
+		    // 3. Limpieza de nombres de columna (minúsculas, sin tildes, saltos de línea a guiones)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Filas filtradas", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    
+		    // 4. Seleccionar columnas clave
+		    ColumnasSeleccionadas = Table.SelectColumns(EncabezadosLimpios, 
+		        {"sector", "cabal_mig", "volum", "valids_originals", "editats", "primer_valor", "darrer_valor", "cabal_minim", "data_minim"}, 
+		        MissingField.Ignore
+		    ),
+		    
+		    // 5. Renombrar sector a sector_id
+		    ColumnasRenombradas = Table.RenameColumns(ColumnasSeleccionadas, {{"sector", "sector_id"}}),
+		    
+		    // 6. Asignar tipos base a TODAS las columnas (usamos datetime para absorber los ceros de Sheets)
+		    TiposBase = Table.TransformColumnTypes(ColumnasRenombradas,{
+		        {"sector_id", Int64.Type}, 
+		        {"cabal_mig", type number}, 
+		        {"volum", type number}, 
+		        {"valids_originals", type number}, 
+		        {"editats", type number}, 
+		        {"primer_valor", type datetime}, 
+		        {"darrer_valor", type datetime}, 
+		        {"cabal_minim", type number}, 
+		        {"data_minim", type datetime}    
+		    }),
+		    
+		    // 7. Limpiar las fechas dejándolas como fechas puras y devolviendo LA TABLA (no un valor suelto)
+		    TablaFinal = Table.TransformColumnTypes(TiposBase,{
+		        {"primer_valor", type date},
+		        {"darrer_valor", type date},
+		        {"data_minim", type date}
+		    })
+		in
+		    TablaFinal
+		```
+	lineageTag: 8cd0c385-efa7-482b-9c8b-f099ec3b1387
+	queryGroup: Hechos
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression fact_actuacions_zones_2026 = ```
+		let
+		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/10RJ9dh0FLUPfG_zGxGNgFNosF-NQ9ztOAY61R5YPB-E/edit?gid=1813366036#gid=1813366036"),
+		    #"RESUM ACTUACIONS_Table" = Origen{[name="RESUM ACTUACIONS",ItemKind="Table"]}[Data],
+		    
+		    // 1. Preparación inicial
+		    #"Filas superiores quitadas" = Table.Skip(#"RESUM ACTUACIONS_Table", 3),
+		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
+		    
+		    // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    
+		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
+		    SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
+		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
+		
+		    // 4. Seleccionar las columnas útiles (esto elimina automáticamente "zona" y cualquier otra columna fantasma)
+		    ColumnasSeleccionadas = Table.SelectColumns(SectorRenombrado, 
+		        {"sector_id", "tipus_actuacio", "data_inici", "data_fi", "km_inspeccionats_heli", "km_inspeccionats_acustic", "fuites_reparades_heli", "fuites_reparades_acustic", "fuites_reparades_altres", "maniobres_realitzades"},
+		        MissingField.Ignore
+		    ),
+		    
+		    // 5. Un solo paso unificado para cambiar los tipos de datos
+		    TiposCambiados = Table.TransformColumnTypes(ColumnasSeleccionadas,{
+		        {"sector_id", Int64.Type}, 
+		        {"tipus_actuacio", type text}, 
+		        {"data_inici", type date}, 
+		        {"data_fi", type date}, 
+		        {"km_inspeccionats_heli", type number}, 
+		        {"km_inspeccionats_acustic", type number}, 
+		        {"fuites_reparades_heli", type number}, 
+		        {"fuites_reparades_acustic", type number}, 
+		        {"fuites_reparades_altres", type number}, 
+		        {"maniobres_realitzades", type number}
+		    }),
+		    
+		    // 6. Quitar errores de fechas
+		    ErroresQuitados = Table.RemoveRowsWithErrors(TiposCambiados, {"data_inici"}),
+		    #"Valor reemplazado" = Table.ReplaceValue(ErroresQuitados,null,#date(2100, 1, 1),Replacer.ReplaceValue,{"data_fi"})
+		in
+		    #"Valor reemplazado"
+		```
+	lineageTag: 72727c2f-98d0-4e16-998d-89d235f5a1e9
+	queryGroup: Auxiliares\fact_actuacions_zones
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression fact_actuacions_zones_2025 = ```
+		let
+		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ipFAfJGrPVqCxClRGAIMg2tngsjCZrIfh9QJPRksQ5M/edit?gid=424334213#gid=424334213"),
+		    #"RESUM ACTUACIONS_Table" = Origen{[name="RESUM ACTUACIONS",ItemKind="Table"]}[Data],
+		    
+		    // 1. Preparación inicial
+		    #"Filas superiores quitadas" = Table.Skip(#"RESUM ACTUACIONS_Table", 3),
+		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
+		    
+		    // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    
+		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
+		    SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
+		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
+		
+		    // 4. Seleccionar las columnas útiles (esto elimina automáticamente "zona" y cualquier otra columna fantasma)
+		    ColumnasSeleccionadas = Table.SelectColumns(SectorRenombrado, 
+		        {"sector_id", "tipus_actuacio", "data_inici", "data_fi", "km_inspeccionats_heli", "km_inspeccionats_acustic", "fuites_reparades_heli", "fuites_reparades_acustic", "fuites_reparades_altres", "maniobres_realitzades"},
+		        MissingField.Ignore
+		    ),
+		    
+		    // 5. Un solo paso unificado para cambiar los tipos de datos
+		    TiposCambiados = Table.TransformColumnTypes(ColumnasSeleccionadas,{
+		        {"sector_id", Int64.Type}, 
+		        {"tipus_actuacio", type text}, 
+		        {"data_inici", type date}, 
+		        {"data_fi", type date}, 
+		        {"km_inspeccionats_heli", type number}, 
+		        {"km_inspeccionats_acustic", type number}, 
+		        {"fuites_reparades_heli", type number}, 
+		        {"fuites_reparades_acustic", type number}, 
+		        {"fuites_reparades_altres", type number}, 
+		        {"maniobres_realitzades", type number}
+		    }),
+		    
+		    // 6. Quitar errores de fechas
+		    ErroresQuitados = Table.RemoveRowsWithErrors(TiposCambiados, {"data_inici"})
+		in
+		    ErroresQuitados
+		```
+	lineageTag: 882e00e2-dfa1-4460-bbbb-6825f2395c9d
+	queryGroup: Auxiliares\fact_actuacions_zones
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression fact_actuacions_zones_2024 = ```
+		let
+		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1eK5HByx0PmNaCwBNNMEqTIEkM4rFYZRYpvoCqRLY93g/edit?gid=721733280#gid=721733280"),
+		    #"RESUM ACTUACIONS_Table" = Origen{[name="RESUM ACTUACIONS",ItemKind="Table"]}[Data],
+		    
+		    // 1. Preparación inicial
+		    #"Filas superiores quitadas" = Table.Skip(#"RESUM ACTUACIONS_Table", 3),
+		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
+		    
+		    // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    
+		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
+		    SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
+		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
+		
+		    // 4. Seleccionar las columnas útiles (esto elimina automáticamente "zona" y cualquier otra columna fantasma)
+		    ColumnasSeleccionadas = Table.SelectColumns(SectorRenombrado, 
+		        {"sector_id", "tipus_actuacio", "data_inici", "data_fi", "km_inspeccionats_heli", "km_inspeccionats_acustic", "fuites_reparades_heli", "fuites_reparades_acustic", "fuites_reparades_altres", "maniobres_realitzades"},
+		        MissingField.Ignore
+		    ),
+		    
+		    // 5. Un solo paso unificado para cambiar los tipos de datos
+		    TiposCambiados = Table.TransformColumnTypes(ColumnasSeleccionadas,{
+		        {"sector_id", Int64.Type}, 
+		        {"tipus_actuacio", type text}, 
+		        {"data_inici", type date}, 
+		        {"data_fi", type date}, 
+		        {"km_inspeccionats_heli", type number}, 
+		        {"km_inspeccionats_acustic", type number}, 
+		        {"fuites_reparades_heli", type number}, 
+		        {"fuites_reparades_acustic", type number}, 
+		        {"fuites_reparades_altres", type number}, 
+		        {"maniobres_realitzades", type number}
+		    }),
+		    
+		    // 6. Quitar errores de fechas
+		    ErroresQuitados = Table.RemoveRowsWithErrors(TiposCambiados, {"data_inici"})
+		in
+		    ErroresQuitados
+		```
+	lineageTag: 64242837-c95c-4b18-8af7-69b052bad739
+	queryGroup: Auxiliares\fact_actuacions_zones
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
