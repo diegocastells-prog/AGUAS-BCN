@@ -2383,9 +2383,12 @@ expression fact_actuacions_zones_2026 = ```
 		        in
 		            textoLimpio
 		    ),
+		
+		    // NUEVO PASO: Filtrar solo los sectores que empiezan por "S"
+		    #"Sectores filtrados" = Table.SelectRows(EncabezadosLimpios, each Text.StartsWith([sector], "S")),
 		    
 		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
-		    SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
+		    SectorTransformado = Table.TransformColumns(#"Sectores filtrados", {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
 		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
 		
 		    // 4. Seleccionar las columnas útiles (esto elimina automáticamente "zona" y cualquier otra columna fantasma)
@@ -2430,9 +2433,10 @@ expression fact_actuacions_zones_2025 = ```
 		    #"Filas superiores quitadas" = Table.Skip(#"RESUM ACTUACIONS_Table", 3),
 		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
 		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
+		    #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([ZONA] = "Barcelona Nord" or [ZONA] = "Barcelona Sud" or [ZONA] = "Besòs" or [ZONA] = "Llobregat Nord" or [ZONA] = "Llobregat Sud")),
 		    
 		    // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
-		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Filas filtradas", each 
 		        let
 		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
 		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
@@ -2446,8 +2450,11 @@ expression fact_actuacions_zones_2025 = ```
 		            textoLimpio
 		    ),
 		    
+		    // NUEVO PASO: Filtrar solo los sectores que empiezan por "S"
+		    #"Sectores filtrados" = Table.SelectRows(EncabezadosLimpios, each Text.StartsWith([sector], "S")),
+		    
 		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
-		    SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
+		    SectorTransformado = Table.TransformColumns(#"Sectores filtrados", {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
 		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
 		
 		    // 4. Seleccionar las columnas útiles (esto elimina automáticamente "zona" y cualquier otra columna fantasma)
@@ -2507,8 +2514,11 @@ expression fact_actuacions_zones_2024 = ```
 		            textoLimpio
 		    ),
 		    
+		    // NUEVO PASO: Filtrar solo los sectores que empiezan por "S"
+		    #"Sectores filtrados" = Table.SelectRows(EncabezadosLimpios, each Text.StartsWith([sector], "S")),
+		    
 		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
-		    SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
+		    SectorTransformado = Table.TransformColumns(#"Sectores filtrados", {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
 		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
 		
 		    // 4. Seleccionar las columnas útiles (esto elimina automáticamente "zona" y cualquier otra columna fantasma)
@@ -2532,9 +2542,10 @@ expression fact_actuacions_zones_2024 = ```
 		    }),
 		    
 		    // 6. Quitar errores de fechas
-		    ErroresQuitados = Table.RemoveRowsWithErrors(TiposCambiados, {"data_inici"})
+		    ErroresQuitados = Table.RemoveRowsWithErrors(TiposCambiados, {"data_inici"}),
+		    #"Filas filtradas" = Table.SelectRows(ErroresQuitados, each true)
 		in
-		    ErroresQuitados
+		    #"Filas filtradas"
 		```
 	lineageTag: 64242837-c95c-4b18-8af7-69b052bad739
 	queryGroup: Auxiliares\fact_actuacions_zones
@@ -2571,12 +2582,13 @@ expression fact_reparacions_zones_2026 = ```
 		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
 		    SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
 		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
-		    #"Columnas quitadas" = Table.RemoveColumns(SectorRenombrado,{""})
+		    #"Columnas quitadas" = Table.RemoveColumns(SectorRenombrado,{""}),
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas",{{"zona", type text}, {"sector_id", Int64.Type}})
 		
 		
 		 
 		in
-		    #"Columnas quitadas"
+		    #"Tipo cambiado"
 		```
 	lineageTag: ea29d66e-7050-4d8c-ba55-43f0f751fa89
 	queryGroup: Auxiliares\fact_actuacions_zones
@@ -2588,10 +2600,11 @@ expression fact_reparacions_zones_2026 = ```
 expression fact_reparacions_zones_2025 = ```
 		let
 		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ipFAfJGrPVqCxClRGAIMg2tngsjCZrIfh9QJPRksQ5M/edit?gid=1299432866#gid=1299432866"),
-		    #"RESUM ACTUACIONS_Table" = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
+		    REPARACIONS_Table = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
+		
 		    
 		    // 1. Preparación inicial
-		    #"Filas superiores quitadas" = Table.Skip(#"RESUM ACTUACIONS_Table", 3),
+		    #"Filas superiores quitadas" = Table.Skip(REPARACIONS_Table, 3),
 		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
 		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
 		    
@@ -2664,6 +2677,87 @@ expression fact_reparacions_zones_2024 = ```
 		```
 	lineageTag: 203bd2e4-c5bf-405c-91e4-78e0c2a9df3b
 	queryGroup: Auxiliares\fact_actuacions_zones
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression fact_actuacions_zones =
+		let
+		    // 1. Unir las tablas
+		    Union = Table.Combine({
+		        fact_actuacions_zones_2026, fact_actuacions_zones_2025, fact_actuacions_zones_2024,
+		        fact_reparacions_zones_2026, fact_reparacions_zones_2025, fact_reparacions_zones_2024
+		    }),
+		    // 2. Filtrar las filas innecesarias ANTES para procesar menos datos
+		    TextosAFiltrar = {
+		        " Canviada montura boda d'aire Ø40", " Canviat creuament sencer Ø100FG", " Canviat ramal de Ø40 a la seva totalitat,",
+		        " Reparada boca de Ø40 a la toma,", " Reparada canonada Ø63PEB", " Reparada fuita en canonada Ø60U, varies rases,",
+		        " Reparada fuita ramal Ø20 T2,", " Reparat ramal Ø20 en la seva totalitat,", " Torrent de l'Olla, 102"
+		    },
+		    FilasFiltradas = Table.SelectRows(Union, each not List.Contains(TextosAFiltrar, [cabal_recuperat])),
+		    // 3. Crear funciones para limpiar textos (Aplica Trim, Clean, Proper y cubre nulos/vacíos/guiones)
+		    LimpiarTexto = (texto as any) as text =>
+		        let
+		            t = if texto = null then "" else Text.From(texto),
+		            limpio = Text.Proper(Text.Trim(Text.Clean(t)))
+		        in
+		            if limpio = "" or limpio = "--" then "No Disponible" else limpio,
+		
+		    LimpiarTextoSinProper = (texto as any) as text =>
+		        let
+		            t = if texto = null then "" else Text.From(texto),
+		            limpio = Text.Trim(Text.Clean(t))
+		        in
+		            if limpio = "" or limpio = "--" then "No Disponible" else limpio,
+		
+		    // 4. Aplicar la limpieza a todas las columnas de texto en UN SOLO PASO
+		    TextosLimpios = Table.TransformColumns(FilasFiltradas, {
+		        {"zona", LimpiarTextoSinProper, type text}, // Zona la dejamos sin Proper para respetar tu código original
+		        {"descripcio", LimpiarTexto, type text},
+		        {"cerca_activa", LimpiarTexto, type text},
+		        {"tipus_recerca", LimpiarTexto, type text},
+		        {"ubicacio_fuita", LimpiarTexto, type text}
+		    }),
+		    #"Valor reemplazado" = Table.ReplaceValue(TextosLimpios,",",null,Replacer.ReplaceValue,{"ordre"}),
+		    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado","--",null,Replacer.ReplaceValue,{"ordre"}),
+		    #"Valor reemplazado2" = Table.ReplaceValue(#"Valor reemplazado1","",0,Replacer.ReplaceValue,{"ordre"}),
+		
+		    // 5. Crear función para limpiar basura (guiones, comas, espacios) en columnas numéricas
+		    LimpiarNumero = (num as any) as any =>
+		        let
+		            txt = Text.Trim(Text.From(num))
+		        in
+		            if txt = "" or txt = "--" or txt = "," or txt = "null" then 0 else num,
+		
+		    // 6. Aplicar limpieza de basura numérica en un solo paso
+		    BasuraNumericaCero = Table.TransformColumns(#"Valor reemplazado2", {
+		        {"cabal_recuperat", LimpiarNumero},
+		        {"ordre", LimpiarNumero}
+		    }),
+		
+		    // 7. Reemplazos masivos de valores nulos
+		    SectorIdNulos = Table.ReplaceValue(BasuraNumericaCero, null, -1, Replacer.ReplaceValue, {"sector_id"}),
+		    // 8. (Opcional pero recomendado) Cambiar el tipo de dato final de las columnas numéricas
+		    TiposCambiados = Table.TransformColumnTypes(SectorIdNulos, {
+		        {"cabal_recuperat", type number},
+		        {"ordre", Int64.Type},
+		        {"sector_id", Int64.Type},
+		        {"km_inspeccionats_heli", type number},
+		        {"km_inspeccionats_acustic", type number},
+		        {"fuites_reparades_heli", type number},
+		        {"fuites_reparades_acustic", type number},
+		        {"fuites_reparades_altres", type number},
+		        {"maniobres_realitzades", type number}
+		    }),
+		    NumerosNulosCero = Table.ReplaceValue(TiposCambiados, null, 0, Replacer.ReplaceValue, {
+		        "cabal_recuperat", "ordre", "km_inspeccionats_heli", "km_inspeccionats_acustic",
+		        "fuites_reparades_heli", "fuites_reparades_acustic", "fuites_reparades_altres", "maniobres_realitzades"
+		    })
+		in
+		    NumerosNulosCero
+	lineageTag: 228d8ed7-6b10-4e3b-90ff-26d53f5ce34e
+	queryGroup: Hechos
 
 	annotation PBI_NavigationStepName = Navegación
 
