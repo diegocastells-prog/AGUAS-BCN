@@ -2,10 +2,9 @@ table fact_actuacions_zones
 	lineageTag: ee7fa9b9-81c2-4f38-8d46-94435f243ba6
 
 	column sector_id
-		dataType: int64
-		formatString: 0
+		dataType: string
 		lineageTag: 229682be-a7bd-4089-af0f-5a4d68d00519
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: sector_id
 
 		annotation SummarizationSetBy = Automatic
@@ -35,20 +34,12 @@ table fact_actuacions_zones
 		annotation UnderlyingDateTimeDataType = Date
 
 	column data_fi
-		dataType: dateTime
-		formatString: Long Date
+		dataType: string
 		lineageTag: 5e3f71de-0f5f-4974-b6d9-d5566726c4bb
 		summarizeBy: none
 		sourceColumn: data_fi
 
-		variation Variación
-			isDefault
-			relationship: 91798978-4a53-4987-bda9-d78b16eb1fe0
-			defaultHierarchy: LocalDateTable_d581f551-bca7-4f85-a225-6508913cb340.'Jerarquía de fechas'
-
 		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
 
 	column km_inspeccionats_heli
 		dataType: double
@@ -110,6 +101,62 @@ table fact_actuacions_zones
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	column zona
+		dataType: string
+		lineageTag: ab5e374b-65a4-4231-956e-ae104e4490fb
+		summarizeBy: none
+		sourceColumn: zona
+
+		annotation SummarizationSetBy = Automatic
+
+	column descripcio
+		dataType: string
+		lineageTag: a00141f6-5821-41eb-bce1-2b196cc99681
+		summarizeBy: none
+		sourceColumn: descripcio
+
+		annotation SummarizationSetBy = Automatic
+
+	column cabal_recuperat
+		dataType: string
+		lineageTag: 2ebef522-5ea6-4f2a-8e14-cd0440644b9c
+		summarizeBy: none
+		sourceColumn: cabal_recuperat
+
+		annotation SummarizationSetBy = Automatic
+
+	column cerca_activa
+		dataType: string
+		lineageTag: 90a73867-4cce-43f7-9d63-63af464b7828
+		summarizeBy: none
+		sourceColumn: cerca_activa
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipus_recerca
+		dataType: string
+		lineageTag: 3a59522a-c006-4cf1-a1df-8a4caa3f4187
+		summarizeBy: none
+		sourceColumn: tipus_recerca
+
+		annotation SummarizationSetBy = Automatic
+
+	column ubicacio_fuita
+		dataType: string
+		lineageTag: 0314bef9-6480-45a0-b46b-5d1bcb6da001
+		summarizeBy: none
+		sourceColumn: ubicacio_fuita
+
+		annotation SummarizationSetBy = Automatic
+
+	column ordre
+		dataType: string
+		lineageTag: 5fd379e7-460a-4fb9-803d-17d54213a83c
+		summarizeBy: none
+		sourceColumn: ordre
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_actuacions_zones = m
 		mode: import
 		queryGroup: Hechos
@@ -119,7 +166,10 @@ table fact_actuacions_zones
 				        Table.Combine({
 				           fact_actuacions_zones_2026,
 				            fact_actuacions_zones_2025,
-				            fact_actuacions_zones_2024
+				            fact_actuacions_zones_2024,
+				            fact_reparacions_zones_2026,
+				            fact_reparacions_zones_2025,
+				            fact_reparacions_zones_2024
 				        })
 				   in 
 				   Union

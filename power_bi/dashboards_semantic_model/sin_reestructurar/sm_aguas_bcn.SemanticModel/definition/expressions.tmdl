@@ -2543,3 +2543,129 @@ expression fact_actuacions_zones_2024 = ```
 
 	annotation PBI_ResultType = Table
 
+expression fact_reparacions_zones_2026 = ```
+		let
+		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/10RJ9dh0FLUPfG_zGxGNgFNosF-NQ9ztOAY61R5YPB-E/edit?gid=2126002923#gid=2126002923"),
+		    #"RESUM ACTUACIONS_Table" = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
+		    
+		    // 1. Preparación inicial
+		    #"Filas superiores quitadas" = Table.Skip(#"RESUM ACTUACIONS_Table", 3),
+		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
+		    
+		    // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    
+		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
+		    SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
+		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
+		    #"Columnas quitadas" = Table.RemoveColumns(SectorRenombrado,{""})
+		
+		
+		 
+		in
+		    #"Columnas quitadas"
+		```
+	lineageTag: ea29d66e-7050-4d8c-ba55-43f0f751fa89
+	queryGroup: Auxiliares\fact_actuacions_zones
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression fact_reparacions_zones_2025 = ```
+		let
+		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ipFAfJGrPVqCxClRGAIMg2tngsjCZrIfh9QJPRksQ5M/edit?gid=1299432866#gid=1299432866"),
+		    #"RESUM ACTUACIONS_Table" = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
+		    
+		    // 1. Preparación inicial
+		    #"Filas superiores quitadas" = Table.Skip(#"RESUM ACTUACIONS_Table", 3),
+		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
+		    
+		    // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    
+		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
+		    SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
+		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
+		    #"Columnas quitadas" = Table.RemoveColumns(SectorRenombrado,{""})
+		
+		
+		 
+		in
+		    #"Columnas quitadas"
+		```
+	lineageTag: f5d104a8-0336-4699-bd72-bcf9781d336d
+	queryGroup: Auxiliares\fact_actuacions_zones
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression fact_reparacions_zones_2024 = ```
+		let
+		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1eK5HByx0PmNaCwBNNMEqTIEkM4rFYZRYpvoCqRLY93g/edit?gid=981540650#gid=981540650"),
+		    #"RESUM ACTUACIONS_Table" = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
+		    
+		    // 1. Preparación inicial
+		    #"Filas superiores quitadas" = Table.Skip(#"RESUM ACTUACIONS_Table", 3),
+		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
+		    
+		    // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    
+		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
+		    SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
+		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
+		    #"Columnas quitadas" = Table.RemoveColumns(SectorRenombrado,{""})
+		
+		
+		 
+		in
+		    #"Columnas quitadas"
+		```
+	lineageTag: 203bd2e4-c5bf-405c-91e4-78e0c2a9df3b
+	queryGroup: Auxiliares\fact_actuacions_zones
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
