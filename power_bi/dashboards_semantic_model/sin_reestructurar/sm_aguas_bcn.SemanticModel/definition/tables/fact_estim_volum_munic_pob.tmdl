@@ -1,0 +1,74 @@
+table fact_estim_volum_munic_pob
+	lineageTag: 26711050-4e1d-45b1-ba7c-e72fb7fa0cd7
+
+	column fecha
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 6b79d0e3-f954-46ce-b0bf-87e107e1e19e
+		summarizeBy: none
+		sourceColumn: fecha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column volum_estimado
+		dataType: int64
+		formatString: 0
+		lineageTag: 99bdad57-0cb3-4cd2-b97c-87f47acd8a93
+		summarizeBy: sum
+		sourceColumn: volum_estimado
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_mun
+		dataType: int64
+		formatString: 0
+		lineageTag: e4194b1c-ea77-4f89-8d1f-e9195f9ed71d
+		summarizeBy: none
+		sourceColumn: id_mun
+
+		annotation SummarizationSetBy = Automatic
+
+	column poblacion
+		dataType: int64
+		formatString: 0
+		lineageTag: b94cd5c4-0f08-4bb9-b85f-1fe4b8b515a8
+		summarizeBy: sum
+		sourceColumn: poblacion
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_estim_volum_munic_pob = m
+		mode: import
+		queryGroup: Hechos
+		source =
+				let
+				  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1PBcQDIOXuGzSvnWbbKL8akVRAcNYzv6ubxLW1zldlPU/edit?gid=1903089532#gid=1903089532"),
+				  #"Navegación 1" = Origen{[name = "Estimació Volums Municipals", ItemKind = "Table"]}[Data],
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Navegación 1",{"Column62"}),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas", [PromoteAllScalars=true]),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados promovidos",{{"ESTACIO", "municipio"}}),
+				    #"Filas inferiores quitadas" = Table.RemoveLastN(#"Columnas con nombre cambiado",5),
+				    #"Otras columnas con anulación de dinamización" = Table.UnpivotOtherColumns(#"Filas inferiores quitadas", {"municipio"}, "Atributo", "Valor"),
+				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Otras columnas con anulación de dinamización",{{"Atributo", "fecha"}, {"Valor", "volum_estimado"}}),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas con nombre cambiado1",{{"volum_estimado", type number}, {"fecha", type date}}),
+				    #"Texto limpio" = Table.TransformColumns(#"Tipo cambiado",{{"municipio", Text.Clean, type text}}),
+				    #"Texto recortado" = Table.TransformColumns(#"Texto limpio",{{"municipio", Text.Trim, type text}}),
+				    #"Columnas reordenadas" = Table.ReorderColumns(#"Texto recortado",{ "municipio", "fecha", "volum_estimado"}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas reordenadas",null,0,Replacer.ReplaceValue,{"volum_estimado"}),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Valor reemplazado",{{"volum_estimado", Int64.Type}}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Tipo cambiado1", {"municipio"}, dim_municipio, {"municipio"}, "dim_municipio", JoinKind.LeftOuter),
+				    #"Se expandió dim_municipio" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_municipio", {"id_mun"}, {"id_mun"}),
+				    #"Columnas quitadas1" = Table.RemoveColumns(#"Se expandió dim_municipio",{"municipio"}),
+				    #"Consultas combinadas1" = Table.NestedJoin(#"Columnas quitadas1", {"id_mun"}, aux_fact_poblacion_munic, {"id_mun"}, "aux_fact_poblacion_munic", JoinKind.LeftOuter),
+				    #"Se expandió aux_fact_poblacion_munic" = Table.ExpandTableColumn(#"Consultas combinadas1", "aux_fact_poblacion_munic", {"Valor"}, {"Valor"}),
+				    #"Columnas con nombre cambiado2" = Table.RenameColumns(#"Se expandió aux_fact_poblacion_munic",{{"Valor", "poblacion"}}),
+				    #"Tipo cambiado2" = Table.TransformColumnTypes(#"Columnas con nombre cambiado2",{{"poblacion", Int64.Type}})
+				in
+				    #"Tipo cambiado2"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

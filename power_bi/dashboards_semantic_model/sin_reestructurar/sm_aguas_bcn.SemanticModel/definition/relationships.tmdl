@@ -137,3 +137,25 @@ relationship ac41d6bf-3fa9-46ed-a3eb-1092ac2f0451
 	fromColumn: fact_actuacions_zones.data_inici
 	toColumn: LocalDateTable_88579457-e211-4bc1-bb73-2468a28024ec.Date
 
+relationship fd987926-1f39-4a08-a417-338a1a238440
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_consum_no_control.Fecha
+	toColumn: LocalDateTable_29c03b30-cb8b-4dce-8c7f-ee0bb554b41d.Date
+
+relationship AutoDetected_7d8633f5-bc45-4955-ab08-416e3b5967bd
+	fromColumn: fact_consum_no_control.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
+relationship AutoDetected_32eea993-5f9a-43a0-a3f6-5922890c4aa7
+	fromColumn: fact_estim_volum_munic_pob.id_mun
+	toColumn: dim_municipio.id_mun
+
+relationship b4b51624-12c5-4f05-a8e5-3797d8dab378
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_aigua_consu_historic.fecha
+	toColumn: LocalDateTable_40d89539-1f1a-4527-87e9-1ea56ee3f2a1.Date
+
+relationship 0ecfccaa-983a-aab3-a4ed-e7bb583318ba
+	fromColumn: fact_estim_volum_munic_pob.fecha
+	toColumn: dim_calendario.Date
+

@@ -1667,6 +1667,27 @@ table _medidas
 		displayFolder: compatodrs
 		lineageTag: 98f9391b-d675-4925-b187-c4f3de1f0f69
 
+	measure dotacio_volumen_munic =
+			
+			VAR Volumen =
+			    SUM(fact_estim_volum_munic_pob[volum_estimado])
+			
+			VAR Poblacion =
+			    SUM(fact_estim_volum_munic_pob[poblacion])
+			
+			VAR DiasMes =
+			    [count_dias_mes]
+			
+			RETURN
+			DIVIDE(
+			    Volumen * 1000,
+			    Poblacion * DiasMes
+			)
+		displayFolder: volumen
+		lineageTag: 2a7e257c-b65d-4c32-a56a-de2834157dd3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0
