@@ -1,0 +1,74 @@
+table dim_neccesi_bossa
+	lineageTag: bebca31f-5849-466c-aae1-79ca3c173652
+
+	column necessitat
+		dataType: string
+		lineageTag: fafc674b-3228-4087-815c-669420bf78ca
+		summarizeBy: none
+		sourceColumn: necessitat
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_neccesitat
+		dataType: int64
+		formatString: 0
+		lineageTag: a086e7dd-5575-42c9-95b3-3020fa204c39
+		summarizeBy: none
+		sourceColumn: id_neccesitat
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_neccesi_bossa = m
+		mode: import
+		queryGroup: Dimensiones
+		source =
+				let
+				    AgregarColumnas = (t as table) as table =>
+				        let
+				            t1 = if List.Contains(Table.ColumnNames(t), "períodes_amb_estimades") then t else Table.AddColumn(t, "períodes_amb_estimades", each null, Int64.Type),
+				            t2 = if List.Contains(Table.ColumnNames(t1), "periodos_consecutivos_con_ea") then t1 else Table.AddColumn(t1, "periodos_consecutivos_con_ea", each null, Int64.Type)
+				        in
+				            t2,
+				
+				    Union = Table.Combine({
+				        AgregarColumnas(Bossa_de_Limitadors_BCNS),
+				        AgregarColumnas(Bossa_de_Limitadors_BCNN),
+				        AgregarColumnas(Bossa_de_Limitadors_BES),
+				        AgregarColumnas(Bossa_de_Limitadors_LLOBN),
+				        AgregarColumnas(Bossa_de_Limitadors_LLOBS)
+				    }),
+				
+				    SinDuplicados = Table.Distinct(Union),
+				    SinFilasVacias = Table.SelectRows(SinDuplicados, each List.NonNullCount(Record.FieldValues(_)) > 0),
+				
+				    #"Tipo cambiado" = Table.TransformColumnTypes(SinFilasVacias, {{"dop", type text}, {"tipus_subm", type text}, {"dn_limitador", Int64.Type}}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"dop", "gerencia"}}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Columnas con nombre cambiado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
+				
+				    #"Sector normalizado" = Table.TransformColumns(
+				        Table.ReplaceValue(
+				            Table.ReplaceValue(#"Columnas quitadas", null, "No Disponible", Replacer.ReplaceValue, {"sector"}),
+				            "0", "No Disponible", Replacer.ReplaceText, {"sector"}
+				        ),
+				        {{"sector", each Text.Proper(Text.Replace(Text.Trim(Text.Clean(_)), "Pg Sant Gervasi", "Passeig De Sant Gervasi")), type text}}
+				    ),
+				
+				    #"Consultas combinadas1" = Table.FuzzyNestedJoin(#"Sector normalizado", {"sector"}, dim_dades_sectors, {"sector"}, "dim_dades_sectors", JoinKind.LeftOuter, [IgnoreCase=true, IgnoreSpace=true]),
+				    #"Se expandió dim_dades_sectors" = Table.ExpandTableColumn(#"Consultas combinadas1", "dim_dades_sectors", {"sector_id"}, {"sector_id"}),
+				    #"Sector_id corregido" = Table.TransformColumnTypes(Table.ReplaceValue(#"Se expandió dim_dades_sectors", null, -1, Replacer.ReplaceValue, {"sector_id"}), {{"sector_id", Int64.Type}}),
+				    #"Columnas quitadas1" = Table.RemoveColumns(#"Sector_id corregido",{"sector"}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas quitadas1","Estimades/Consums 0 O Similars","Estimades/Consums 0 O Similar",Replacer.ReplaceText,{"necessitat"}),
+				    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado","Canvi Per Avaria Gran","Canvis Per Avaria Gran",Replacer.ReplaceText,{"necessitat"}),
+				    #"Otras columnas quitadas" = Table.SelectColumns(#"Valor reemplazado1",{"necessitat"}),
+				    #"Duplicados quitados" = Table.Distinct(#"Otras columnas quitadas"),
+				    #"Índice agregado" = Table.AddIndexColumn(#"Duplicados quitados", "Índice", 1, 1, Int64.Type),
+				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Índice agregado",{{"Índice", "id_neccesitat"}})
+				in
+				    #"Columnas con nombre cambiado1"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

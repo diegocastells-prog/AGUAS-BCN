@@ -1263,8 +1263,9 @@ expression Bossa_de_Limitadors_LLOBS = ```
 		
 		//              LLOBS
 		
-		let
-		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1G9GggBeQbtbK0kD-I7o1ypbgcIGSwQGkRXSvvtn8MaE/edit?gid=1653593212#gid=1653593212"),
+		
+		 let 
+		  Origen = GoogleSheets.Contents(#"Bossa Limitadors_Canvis per DOP"),
 		  LLOBs_Table= Origen{[name = "LLOBS", ItemKind = "Table"]}[Data],
 		  Encabezados =
 		        Table.PromoteHeaders(LLOBs_Table, [PromoteAllScalars=true]),
@@ -1370,10 +1371,20 @@ expression Bossa_de_Limitadors_LLOBS = ```
 		        Table.SelectRows(
 		            SinDuplicados,
 		            each List.NonNullCount(Record.FieldValues(_)) > 0
+		        ),
+		    #"Texto limpio" = Table.TransformColumns(Resultado,{{"necessitat", Text.Clean, type text}}),
+		    #"Texto recortado" = Table.TransformColumns(#"Texto limpio",{{"necessitat", Text.Trim, type text}}),
+		    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(#"Texto recortado",{{"necessitat", Text.Proper, type text}}),
+		    #"Filas vacias quitadas" = Table.SelectRows(#"Poner En Mayúsculas Cada Palabra", each 
+		        not List.IsEmpty(
+		            List.RemoveMatchingItems(
+		                Record.FieldValues(_), 
+		                {null, "", "null", "NULL"}
+		            )
 		        )
-		
+		    )
 		in
-		    Resultado
+		    #"Filas vacias quitadas"
 		```
 	lineageTag: 8621254e-0f6c-43d0-9703-f52d1acf6667
 	queryGroup: Auxiliares
@@ -1393,15 +1404,15 @@ expression Bossa_de_Limitadors_LLOBN = ```
 		
 		//              LLOBN
 		
-		let
-		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1G9GggBeQbtbK0kD-I7o1ypbgcIGSwQGkRXSvvtn8MaE/edit?gid=3033074#gid=3033074"),
+		let 
+		  Origen = GoogleSheets.Contents(#"Bossa Limitadors_Canvis per DOP"),
 		   LLOBN_Table = Origen{[name = "LLOBN", ItemKind = "Table"]}[Data],
 		   Encabezados =
 		        Table.PromoteHeaders(LLOBN_Table, [PromoteAllScalars=true]),
-		
+		    #"Filas filtradas1" = Table.SelectRows(Encabezados, each ([DOP] = "Llobregat Nord")),
 		    Columnas =
 		        Table.TransformColumnNames(
-		            Encabezados,
+		            #"Filas filtradas1",
 		            each Text.Replace(Text.Lower(_), " ", "_")
 		        ),
 		
@@ -1485,10 +1496,17 @@ expression Bossa_de_Limitadors_LLOBN = ```
 		        Table.SelectRows(
 		            SinDuplicados,
 		            each List.NonNullCount(Record.FieldValues(_)) > 0
-		        )
-		
+		        ),
+		    #"Filas filtradas" = Table.SelectRows(Resultado, each true),
+		    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(#"Filas filtradas",{{"necessitat", Text.Proper, type text}}),
+		    #"Texto limpio" = Table.TransformColumns(#"Poner En Mayúsculas Cada Palabra",{{"necessitat", Text.Clean, type text}}),
+		    #"Texto recortado" = Table.TransformColumns(#"Texto limpio",{{"necessitat", Text.Trim, type text}}),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Texto recortado",null,0,Replacer.ReplaceValue,{"consum_mig_dia"}),
+		    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado",null,0,Replacer.ReplaceValue,{"consum_anual_estimat"}),
+		    #"Valor reemplazado2" = Table.ReplaceValue(#"Valor reemplazado1",null,0,Replacer.ReplaceValue,{"v12_en_m3"}),
+		    #"Valor reemplazado3" = Table.ReplaceValue(#"Valor reemplazado2",null,0,Replacer.ReplaceValue,{"periodos_consecutivos_con_ea"})
 		in
-		    Resultado
+		    #"Valor reemplazado3"
 		```
 	lineageTag: f78a8613-99ae-4386-9f3e-1aeee9438881
 	queryGroup: Auxiliares
@@ -1508,12 +1526,11 @@ expression Bossa_de_Limitadors_BES = ```
 		
 		//              BES
 		
-		let
-		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1G9GggBeQbtbK0kD-I7o1ypbgcIGSwQGkRXSvvtn8MaE/edit?gid=999620324#gid=999620324"),
+		let 
+		    Origen = GoogleSheets.Contents(#"Bossa Limitadors_Canvis per DOP"),
 		    BES_Table = Origen{[name = "BES", ItemKind = "Table"]}[Data],
 		    Encabezados =
 		        Table.PromoteHeaders(BES_Table, [PromoteAllScalars=true]),
-		
 		    Columnas =
 		        Table.TransformColumnNames(
 		            Encabezados,
@@ -1619,10 +1636,14 @@ expression Bossa_de_Limitadors_BES = ```
 		        Table.SelectRows(
 		            SinDuplicados,
 		            each List.NonNullCount(Record.FieldValues(_)) > 0
-		        )
-		
+		        ),
+		    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(Resultado,{{"necessitat", Text.Proper, type text}}),
+		    #"Texto recortado" = Table.TransformColumns(#"Poner En Mayúsculas Cada Palabra",{{"necessitat", Text.Trim, type text}}),
+		    #"Texto limpio" = Table.TransformColumns(#"Texto recortado",{{"necessitat", Text.Clean, type text}}),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Texto limpio",null,0,Replacer.ReplaceValue,{"v12_en_m3"}),
+		    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado",null,0,Replacer.ReplaceValue,{"periodos_consecutivos_con_ea"})
 		in
-		    Resultado
+		    #"Valor reemplazado1"
 		```
 	lineageTag: 84689605-9909-4e67-b9cb-289bab219901
 	queryGroup: Auxiliares
@@ -1642,15 +1663,16 @@ expression Bossa_de_Limitadors_BCNN = ```
 		
 		//              BCNN
 		
-		let
-		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1G9GggBeQbtbK0kD-I7o1ypbgcIGSwQGkRXSvvtn8MaE/edit?gid=1742937846#gid=1742937846"),
+		let 
+		  Origen = GoogleSheets.Contents(#"Bossa Limitadors_Canvis per DOP"),
 		  BCNN_Table = Origen{[name = "BCNN", ItemKind = "Table"]}[Data],
 		  Encabezados =
 		        Table.PromoteHeaders(BCNN_Table, [PromoteAllScalars=true]),
+		    #"Filas filtradas1" = Table.SelectRows(Encabezados, each ([DOP] = "Barcelona Nord")),
 		
 		    Columnas =
 		        Table.TransformColumnNames(
-		            Encabezados,
+		            #"Filas filtradas1",
 		            each Text.Replace(Text.Lower(_), " ", "_")
 		        ),
 		
@@ -1750,10 +1772,25 @@ expression Bossa_de_Limitadors_BCNN = ```
 		        Table.SelectRows(
 		            SinDuplicados,
 		            each List.NonNullCount(Record.FieldValues(_)) > 0
+		        ),
+		    #"Filas filtradas" = Table.SelectRows(Resultado, each true),
+		    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(#"Filas filtradas",{{"necessitat", Text.Proper, type text}}),
+		    #"Texto recortado" = Table.TransformColumns(#"Poner En Mayúsculas Cada Palabra",{{"necessitat", Text.Trim, type text}}),
+		    #"Texto limpio" = Table.TransformColumns(#"Texto recortado",{{"necessitat", Text.Clean, type text}}),
+		      #"Filas vacias quitadas" = Table.SelectRows(#"Texto limpio", each 
+		        not List.IsEmpty(
+		            List.RemoveMatchingItems(
+		                Record.FieldValues(_), 
+		                {null, "", "null", "NULL"}
+		            )
 		        )
-		
+		    ),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Filas vacias quitadas",null,0,Replacer.ReplaceValue,{"consum_mig_dia"}),
+		    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado",null,0,Replacer.ReplaceValue,{"consum_anual_estimat"}),
+		    #"Valor reemplazado2" = Table.ReplaceValue(#"Valor reemplazado1",null,0,Replacer.ReplaceValue,{"v12_en_m3"}),
+		    #"Valor reemplazado3" = Table.ReplaceValue(#"Valor reemplazado2",null,0,Replacer.ReplaceValue,{"períodes_amb_estimades"})
 		in
-		    Resultado
+		    #"Valor reemplazado3"
 		```
 	lineageTag: 73752ae1-a183-488d-b303-871aeedc6f31
 	queryGroup: Auxiliares
@@ -1774,16 +1811,17 @@ expression Bossa_de_Limitadors_BCNS = ```
 		//              BCNS
 		
 		
-		let
-		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1G9GggBeQbtbK0kD-I7o1ypbgcIGSwQGkRXSvvtn8MaE/edit?gid=1640328521#gid=1640328521"),
+		let 
+		    Origen = GoogleSheets.Contents(#"Bossa Limitadors_Canvis per DOP"),
 		     BCNS_Table = Origen{[name="BCNS", ItemKind="Table"]}[Data],
 		
 		    Encabezados =
 		        Table.PromoteHeaders(BCNS_Table, [PromoteAllScalars=true]),
+		    #"Filas filtradas" = Table.SelectRows(Encabezados, each ([DOP] = "Barcelona Sud")),
 		
 		    Columnas =
 		        Table.TransformColumnNames(
-		            Encabezados,
+		            #"Filas filtradas",
 		            each Text.Replace(Text.Lower(_), " ", "_")
 		        ),
 		
@@ -1834,7 +1872,6 @@ expression Bossa_de_Limitadors_BCNS = ```
 		            Seleccionadas,
 		            List.Transform(Table.ColumnNames(Seleccionadas), each {_, null})
 		        ),
-		
 		    LimpiezaInicial =
 		        Table.ReplaceValue(
 		            Table.ReplaceValue(
@@ -1892,10 +1929,25 @@ expression Bossa_de_Limitadors_BCNS = ```
 		        Table.SelectRows(
 		            SinDuplicados,
 		            each List.NonNullCount(Record.FieldValues(_)) > 0
+		        ),
+		    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(Resultado,{{"necessitat", Text.Proper, type text}}),
+		    #"Texto recortado" = Table.TransformColumns(#"Poner En Mayúsculas Cada Palabra",{{"necessitat", Text.Trim, type text}}),
+		    #"Texto limpio" = Table.TransformColumns(#"Texto recortado",{{"necessitat", Text.Clean, type text}}),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Texto limpio","Estimades/Consums 0 O Similars","Estimades/Consums 0 O Similar",Replacer.ReplaceText,{"necessitat"}),
+		    #"Filas vacias quitadas" = Table.SelectRows(#"Valor reemplazado", each 
+		        not List.IsEmpty(
+		            List.RemoveMatchingItems(
+		                Record.FieldValues(_), 
+		                {null, "", "null", "NULL"}
+		            )
 		        )
-		
-		in 
-		 Resultado
+		    ),
+		    #"Valor reemplazado1" = Table.ReplaceValue(#"Filas vacias quitadas",null,0,Replacer.ReplaceValue,{"consum_mig_dia"}),
+		    #"Valor reemplazado2" = Table.ReplaceValue(#"Valor reemplazado1",null,0,Replacer.ReplaceValue,{"consum_anual_estimat"}),
+		    #"Valor reemplazado3" = Table.ReplaceValue(#"Valor reemplazado2",null,0,Replacer.ReplaceValue,{"v12_en_m3"}),
+		    #"Valor reemplazado4" = Table.ReplaceValue(#"Valor reemplazado3",null,0,Replacer.ReplaceValue,{"períodes_amb_estimades"})
+		in
+		    #"Valor reemplazado4"
 		```
 	lineageTag: 10e00cc1-e4c4-4532-8c9a-492394f79c96
 	queryGroup: Auxiliares
@@ -2760,4 +2812,13 @@ expression aux_fact_poblacion_munic =
 	annotation PBI_NavigationStepName = Navegación
 
 	annotation PBI_ResultType = Table
+
+/// URL ARCHIVO EN DRIVE
+expression 'Bossa Limitadors_Canvis per DOP' = "https://docs.google.com/spreadsheets/d/1HUfB0OYZONhc10W_mpLSlqYlKc8y27_T4gcRf6T1aro/edit?gid=1640328521#gid=1640328521" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: ba45ed40-e7e8-48f3-9a1d-cc71d4e56de9
+	queryGroup: Parametros
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
 
