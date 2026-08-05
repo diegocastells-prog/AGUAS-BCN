@@ -2737,19 +2737,23 @@ expression aux_fact_poblacion_munic =
 		    #"Texto extraído después del delimitador" = Table.TransformColumns(#"Filas inferiores quitadas", {{"municipio", each Text.AfterDelimiter(_, "- "), type text}}),
 		    #"Otras columnas quitadas" = Table.SelectColumns(#"Texto extraído después del delimitador",{"municipio", "Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Setembre", "Octubre", "Novembre", "Desembre"}),
 		    #"Otras columnas con anulación de dinamización" = Table.UnpivotOtherColumns(#"Otras columnas quitadas", {"municipio"}, "Atributo", "Valor"),
-		    #"Personalizada agregada" = Table.AddColumn(#"Otras columnas con anulación de dinamización", "fecha", each #date(
-		    2025,
-		    List.PositionOf(
-		        {"Gener","Febrer","Març","Abril","Maig","Juny","Juliol","Agost","Setembre","Octubre","Novembre","Desembre"},
-		        [Atributo]
-		    ) + 1,
-		    1
-		)),
+		      AnioActual = Date.Year(DateTime.LocalNow()),
+		    #"Lista de años agregada" = Table.AddColumn(#"Otras columnas con anulación de dinamización", "Anio", each {AnioActual, AnioActual - 1, AnioActual - 2}),
+		    #"Se expandió Anio" = Table.ExpandListColumn(#"Lista de años agregada", "Anio"),
+		    #"Personalizada agregada" = Table.AddColumn(#"Se expandió Anio", "fecha", each #date(
+		        [Anio],
+		        List.PositionOf(
+		            {"Gener","Febrer","Març","Abril","Maig","Juny","Juliol","Agost","Setembre","Octubre","Novembre","Desembre"},
+		            [Atributo]
+		        ) + 1,
+		        1
+		    ), type date),
 		    #"Columnas quitadas" = Table.RemoveColumns(#"Personalizada agregada",{"Atributo"}),
 		    #"Consultas combinadas" = Table.NestedJoin(#"Columnas quitadas", {"municipio"}, dim_municipio, {"municipio"}, "dim_municipio", JoinKind.LeftOuter),
-		    #"Se expandió dim_municipio" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_municipio", {"id_mun"}, {"id_mun"})
+		    #"Se expandió dim_municipio" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_municipio", {"id_mun"}, {"id_mun"}),
+		    #"Columna combinada insertada" = Table.AddColumn(#"Se expandió dim_municipio", "fecha_id_mun", each Text.Combine({Text.From([fecha], "es-ES"), "-", Text.From([id_mun], "es-ES")}), type text)
 		in
-		    #"Se expandió dim_municipio"
+		    #"Columna combinada insertada"
 	lineageTag: acb1473b-1406-45d5-a8a9-c3a1fab3821e
 	queryGroup: Auxiliares
 

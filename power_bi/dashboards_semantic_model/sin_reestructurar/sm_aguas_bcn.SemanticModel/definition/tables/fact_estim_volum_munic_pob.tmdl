@@ -39,6 +39,17 @@ table fact_estim_volum_munic_pob
 
 		annotation SummarizationSetBy = Automatic
 
+	column fecha_id_mun
+		dataType: string
+		isHidden
+		lineageTag: 9cc0d053-07fb-428f-92fd-253b7d46f5a6
+		summarizeBy: none
+		sourceColumn: fecha_id_mun
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_estim_volum_munic_pob = m
 		mode: import
 		queryGroup: Hechos
@@ -60,13 +71,15 @@ table fact_estim_volum_munic_pob
 				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Valor reemplazado",{{"volum_estimado", Int64.Type}}),
 				    #"Consultas combinadas" = Table.NestedJoin(#"Tipo cambiado1", {"municipio"}, dim_municipio, {"municipio"}, "dim_municipio", JoinKind.LeftOuter),
 				    #"Se expandió dim_municipio" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_municipio", {"id_mun"}, {"id_mun"}),
-				    #"Columnas quitadas1" = Table.RemoveColumns(#"Se expandió dim_municipio",{"municipio"}),
-				    #"Consultas combinadas1" = Table.NestedJoin(#"Columnas quitadas1", {"id_mun"}, aux_fact_poblacion_munic, {"id_mun"}, "aux_fact_poblacion_munic", JoinKind.LeftOuter),
+				    #"Columna combinada insertada" = Table.AddColumn(#"Se expandió dim_municipio", "fecha_id_mun", each Text.Combine({Text.From([fecha], "es-ES"), "-", Text.From([id_mun], "es-ES")}), type text),
+				    #"Columnas quitadas1" = Table.RemoveColumns(#"Columna combinada insertada",{"municipio"}),
+				    #"Consultas combinadas1" = Table.NestedJoin(#"Columnas quitadas1", {"fecha_id_mun"}, aux_fact_poblacion_munic, {"fecha_id_mun"}, "aux_fact_poblacion_munic", JoinKind.LeftOuter),
 				    #"Se expandió aux_fact_poblacion_munic" = Table.ExpandTableColumn(#"Consultas combinadas1", "aux_fact_poblacion_munic", {"Valor"}, {"Valor"}),
 				    #"Columnas con nombre cambiado2" = Table.RenameColumns(#"Se expandió aux_fact_poblacion_munic",{{"Valor", "poblacion"}}),
-				    #"Tipo cambiado2" = Table.TransformColumnTypes(#"Columnas con nombre cambiado2",{{"poblacion", Int64.Type}})
+				    #"Tipo cambiado2" = Table.TransformColumnTypes(#"Columnas con nombre cambiado2",{{"poblacion", Int64.Type}}),
+				    #"Filas filtradas" = Table.SelectRows(#"Tipo cambiado2", each ([poblacion] <> null))
 				in
-				    #"Tipo cambiado2"
+				    #"Filas filtradas"
 
 	annotation PBI_NavigationStepName = Navegación
 

@@ -150,12 +150,13 @@ relationship AutoDetected_32eea993-5f9a-43a0-a3f6-5922890c4aa7
 	fromColumn: fact_estim_volum_munic_pob.id_mun
 	toColumn: dim_municipio.id_mun
 
-relationship b4b51624-12c5-4f05-a8e5-3797d8dab378
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_aigua_consu_historic.fecha
-	toColumn: LocalDateTable_40d89539-1f1a-4527-87e9-1ea56ee3f2a1.Date
-
 relationship 0ecfccaa-983a-aab3-a4ed-e7bb583318ba
 	fromColumn: fact_estim_volum_munic_pob.fecha
+	toColumn: dim_calendario.Date
+
+relationship e16c2ec0-b71c-6456-32b7-11b09845b5a2
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: fact_aigua_consu_historic.fecha
 	toColumn: dim_calendario.Date
 
