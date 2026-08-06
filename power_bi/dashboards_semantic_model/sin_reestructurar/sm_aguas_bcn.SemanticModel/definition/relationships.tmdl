@@ -145,3 +145,30 @@ relationship 24fe3ec5-be5b-154c-26fd-06ec077bf916
 	fromColumn: fact_actuacions_zones.data_inici
 	toColumn: dim_calendario.Date
 
+relationship fd987926-1f39-4a08-a417-338a1a238440
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_consum_no_control.Fecha
+	toColumn: LocalDateTable_29c03b30-cb8b-4dce-8c7f-ee0bb554b41d.Date
+
+relationship AutoDetected_7d8633f5-bc45-4955-ab08-416e3b5967bd
+	fromColumn: fact_consum_no_control.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
+relationship AutoDetected_32eea993-5f9a-43a0-a3f6-5922890c4aa7
+	fromColumn: fact_estim_volum_munic_pob.id_mun
+	toColumn: dim_municipio.id_mun
+
+relationship 0ecfccaa-983a-aab3-a4ed-e7bb583318ba
+	fromColumn: fact_estim_volum_munic_pob.fecha
+	toColumn: dim_calendario.Date
+
+relationship e16c2ec0-b71c-6456-32b7-11b09845b5a2
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: fact_aigua_consu_historic.fecha
+	toColumn: dim_calendario.Date
+
+relationship AutoDetected_fefa2b66-ae81-40db-9d2e-4f5dc8123121
+	fromColumn: fact_bossa.id_neccesitat
+	toColumn: dim_neccesi_bossa.id_neccesitat
+

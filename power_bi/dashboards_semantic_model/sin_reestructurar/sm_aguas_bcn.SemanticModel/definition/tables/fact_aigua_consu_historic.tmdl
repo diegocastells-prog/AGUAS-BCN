@@ -1,0 +1,96 @@
+table fact_aigua_consu_historic
+	lineageTag: cee7e26a-4883-4ae3-bf87-bc668c600f1b
+
+	column fecha
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 20e4ce51-c9f5-4bf9-b672-f9a3955e7a0e
+		summarizeBy: none
+		sourceColumn: fecha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column lliurada
+		dataType: double
+		lineageTag: 2c3cd7b2-4ed6-425c-9933-6f6bebfee8b7
+		summarizeBy: sum
+		sourceColumn: lliurada
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column consumida_baixa
+		dataType: double
+		lineageTag: 4aebf974-0ed3-4326-bc64-1856037413e7
+		summarizeBy: sum
+		sourceColumn: consumida_baixa
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column consumida_alta
+		dataType: double
+		lineageTag: 7bcdc1c8-4a64-4baa-803e-a110b8253a28
+		summarizeBy: sum
+		sourceColumn: consumida_alta
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column a_c_f
+		dataType: double
+		lineageTag: ffcaf7d0-1819-4d18-a068-a5077253ac9d
+		summarizeBy: sum
+		sourceColumn: a_c_f
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column peatges
+		dataType: double
+		lineageTag: 55752888-4f87-480b-91f9-4230c8cf8093
+		summarizeBy: sum
+		sourceColumn: peatges
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column autoconsum
+		dataType: double
+		lineageTag: 7414bc7a-3da1-4113-922f-c92ca26e2b4a
+		summarizeBy: sum
+		sourceColumn: autoconsum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fact_aigua_consu_historic = m
+		mode: import
+		queryGroup: Hechos
+		source =
+				let
+				  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1GcZpQqbGihEftG7cP56wk9-AIIv07FLtQQT95_s6ZJw/edit?gid=763204073#gid=763204073"),
+				  #"Navegación 1" = Origen{[name = "Històric Mesos", ItemKind = "Table"]}[Data],
+				    #"Otras columnas quitadas" = Table.SelectColumns(#"Navegación 1",{"Column2", "Column3", "Column4", "Column5", "Column6", "Column7", "Column8"}),
+				    #"Filas en blanco eliminadas" = Table.SelectRows(#"Otras columnas quitadas", each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null}))),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Filas en blanco eliminadas",{{"Column3", "lliurada"}, {"Column4", "consumida_baixa"}, {"Column5", "consumida_alta"}, {"Column6", "a_c_f"}, {"Column7", "peatges"}, {"Column8", "autoconsum"}, {"Column2", "fecha"}}),
+				    #"Filas superiores quitadas" = Table.Skip(#"Columnas con nombre cambiado",2),
+				    #"Filas inferiores quitadas" = Table.RemoveLastN(#"Filas superiores quitadas",36),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Filas inferiores quitadas",{{"lliurada", type number}, {"consumida_baixa", type number}, {"consumida_alta", type number}, {"a_c_f", type number}, {"peatges", type number}, {"autoconsum", type number}}),
+				    #"Filas filtradas" = Table.SelectRows(#"Tipo cambiado", each [fecha] > #date(2022, 1, 1)),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Filas filtradas",{{"fecha", type date}})
+				in
+				    #"Tipo cambiado1"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

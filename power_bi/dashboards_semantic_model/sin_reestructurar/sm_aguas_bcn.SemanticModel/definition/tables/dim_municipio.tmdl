@@ -1,0 +1,55 @@
+table dim_municipio
+	lineageTag: 540ed024-290e-409f-886c-f73490724b90
+
+	column municipio
+		dataType: string
+		lineageTag: 1199e40d-c2da-48ee-bafd-559e2fb722e7
+		summarizeBy: none
+		sourceColumn: municipio
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_mun
+		dataType: int64
+		formatString: 0
+		lineageTag: 53668d66-abd6-43ba-b845-562ad020d6f3
+		summarizeBy: none
+		sourceColumn: id_mun
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_municipio = m
+		mode: import
+		queryGroup: Dimensiones
+		source =
+				let
+				  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1PBcQDIOXuGzSvnWbbKL8akVRAcNYzv6ubxLW1zldlPU/edit?gid=1903089532#gid=1903089532"),
+				    #"Població Municipal_Table" = Origen{[name="Població Municipal",ItemKind="Table"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Població Municipal_Table", [PromoteAllScalars=true]),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados promovidos",{{"ESTACIO", "municipio"}}),
+				    #"Filas inferiores quitadas" = Table.RemoveLastN(#"Columnas con nombre cambiado",202),
+				    #"Texto extraído después del delimitador" = Table.TransformColumns(#"Filas inferiores quitadas", {{"municipio", each Text.AfterDelimiter(_, "- "), type text}}),
+				    #"Otras columnas quitadas" = Table.SelectColumns(#"Texto extraído después del delimitador",{"municipio", "Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Setembre", "Octubre", "Novembre", "Desembre"}),
+				    #"Otras columnas con anulación de dinamización" = Table.UnpivotOtherColumns(#"Otras columnas quitadas", {"municipio"}, "Atributo", "Valor"),
+				    #"Personalizada agregada" = Table.AddColumn(#"Otras columnas con anulación de dinamización", "fecha", each #date(
+				    2025,
+				    List.PositionOf(
+				        {"Gener","Febrer","Març","Abril","Maig","Juny","Juliol","Agost","Setembre","Octubre","Novembre","Desembre"},
+				        [Atributo]
+				    ) + 1,
+				    1
+				)),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Personalizada agregada",{"Atributo", "Valor", "fecha"}),
+				    #"Índice agregado" = Table.AddIndexColumn(#"Columnas quitadas", "Índice", 1, 1, Int64.Type),
+				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Índice agregado",{{"Índice", "id"}}),
+				    #"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado1",{"id"}),
+				    #"Duplicados quitados" = Table.Distinct(#"Columnas quitadas1"),
+				    #"Índice agregado1" = Table.AddIndexColumn(#"Duplicados quitados", "Índice", 1, 1, Int64.Type),
+				    #"Columnas con nombre cambiado2" = Table.RenameColumns(#"Índice agregado1",{{"Índice", "id_mun"}})
+				in
+				    #"Columnas con nombre cambiado2"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

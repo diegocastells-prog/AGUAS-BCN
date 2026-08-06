@@ -384,7 +384,7 @@ table _medidas
 		displayFolder: compatodrs
 		lineageTag: 03a95399-c62a-4e9b-9d1e-50545ea39119
 
-	measure vategoria_fuita = ```
+	measure categoria_fuita = ```
 			
 			//VAR RTH = AVERAGE(fact_dades_consum[RTH])
 			VAR RTH = AVERAGE(fact_anr_global_mensual[rth_global])
@@ -790,8 +790,8 @@ table _medidas
 	measure compt_per_sobre_q4 =
 			
 			CALCULATE(
-			    COUNT('fact_bossa'[necessitat]),
-			    'fact_bossa'[necessitat] = "Q4"
+			    COUNT('fact_bossa'[id_neccesitat]),
+			    'fact_bossa'[id_neccesitat] = 3
 			)
 		formatString: 0
 		displayFolder: compatodrs
@@ -1658,14 +1658,40 @@ table _medidas
 		displayFolder: compatodrs
 		lineageTag: f388bf4e-d3c7-4ef8-b831-1ffc9f469392
 
+	measure dotacio_volumen_munic =
+			
+			VAR Volumen =
+			    SUM(fact_estim_volum_munic_pob[volum_estimado])
+			
+			VAR Poblacion =
+			    SUM(fact_estim_volum_munic_pob[poblacion])
+			
+			VAR DiasMes =
+			    [count_dias_mes]
+			
+			RETURN
+			DIVIDE(
+			        DIVIDE(Volumen * 1000, Poblacion),
+			        DiasMes
+			    )
+		displayFolder: volumen
+		lineageTag: 2a7e257c-b65d-4c32-a56a-de2834157dd3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Medida 3'
+		lineageTag: 13f832e5-521f-4fd5-a556-c0cd36b26c80
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
 	measure subministraments_mas3_períodes_consum_0 =
 			
 			CALCULATE(
-			    DISTINCTCOUNT(fact_dades_consum[polissa_subm]),
-			    fact_dades_consum[periodos_consecutivos_consum_0] > 3
+			    COUNT(fact_bossa[polissa_subm]),
+			    fact_bossa[id_neccesitat]= 5
 			)
-		displayFolder: compatodrs
-		lineageTag: 98f9391b-d675-4925-b187-c4f3de1f0f69
+		formatString: 0
+		lineageTag: b7e948fd-55f5-4d95-8a44-88c5fe8213f7
 
 	column Column
 		isHidden
