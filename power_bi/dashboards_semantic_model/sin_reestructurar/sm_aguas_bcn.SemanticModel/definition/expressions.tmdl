@@ -2391,14 +2391,9 @@ expression fact_actuacions_zones_2026 = ```
 		    SectorTransformado = Table.TransformColumns(#"Sectores filtrados", {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
 		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
 		
-		    // 4. Seleccionar las columnas útiles (esto elimina automáticamente "zona" y cualquier otra columna fantasma)
-		    ColumnasSeleccionadas = Table.SelectColumns(SectorRenombrado, 
-		        {"sector_id", "tipus_actuacio", "data_inici", "data_fi", "km_inspeccionats_heli", "km_inspeccionats_acustic", "fuites_reparades_heli", "fuites_reparades_acustic", "fuites_reparades_altres", "maniobres_realitzades"},
-		        MissingField.Ignore
-		    ),
-		    
 		    // 5. Un solo paso unificado para cambiar los tipos de datos
-		    TiposCambiados = Table.TransformColumnTypes(ColumnasSeleccionadas,{
+		    TiposCambiados = Table.TransformColumnTypes(SectorRenombrado,{
+		        {"zona", type text}, 
 		        {"sector_id", Int64.Type}, 
 		        {"tipus_actuacio", type text}, 
 		        {"data_inici", type date}, 
@@ -2411,9 +2406,9 @@ expression fact_actuacions_zones_2026 = ```
 		        {"maniobres_realitzades", type number}
 		    }),
 		    
-		    // 6. Quitar errores de fechas
-		    ErroresQuitados = Table.RemoveRowsWithErrors(TiposCambiados, {"data_inici"}),
-		    #"Valor reemplazado" = Table.ReplaceValue(ErroresQuitados,null,#date(2100, 1, 1),Replacer.ReplaceValue,{"data_fi"})
+		
+		    #"Valor reemplazado" = Table.ReplaceValue(TiposCambiados,null,#date(2100, 1, 1),Replacer.ReplaceValue,{"data_fi"})
+		 
 		in
 		    #"Valor reemplazado"
 		```
@@ -2457,14 +2452,10 @@ expression fact_actuacions_zones_2025 = ```
 		    SectorTransformado = Table.TransformColumns(#"Sectores filtrados", {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
 		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
 		
-		    // 4. Seleccionar las columnas útiles (esto elimina automáticamente "zona" y cualquier otra columna fantasma)
-		    ColumnasSeleccionadas = Table.SelectColumns(SectorRenombrado, 
-		        {"sector_id", "tipus_actuacio", "data_inici", "data_fi", "km_inspeccionats_heli", "km_inspeccionats_acustic", "fuites_reparades_heli", "fuites_reparades_acustic", "fuites_reparades_altres", "maniobres_realitzades"},
-		        MissingField.Ignore
-		    ),
 		    
 		    // 5. Un solo paso unificado para cambiar los tipos de datos
-		    TiposCambiados = Table.TransformColumnTypes(ColumnasSeleccionadas,{
+		    TiposCambiados = Table.TransformColumnTypes(SectorRenombrado,{
+		        {"zona", type text}, 
 		        {"sector_id", Int64.Type}, 
 		        {"tipus_actuacio", type text}, 
 		        {"data_inici", type date}, 
@@ -2475,12 +2466,9 @@ expression fact_actuacions_zones_2025 = ```
 		        {"fuites_reparades_acustic", type number}, 
 		        {"fuites_reparades_altres", type number}, 
 		        {"maniobres_realitzades", type number}
-		    }),
-		    
-		    // 6. Quitar errores de fechas
-		    ErroresQuitados = Table.RemoveRowsWithErrors(TiposCambiados, {"data_inici"})
+		    })
 		in
-		    ErroresQuitados
+		    TiposCambiados
 		```
 	lineageTag: 882e00e2-dfa1-4460-bbbb-6825f2395c9d
 	queryGroup: Auxiliares\fact_actuacions_zones
@@ -2521,14 +2509,10 @@ expression fact_actuacions_zones_2024 = ```
 		    SectorTransformado = Table.TransformColumns(#"Sectores filtrados", {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
 		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
 		
-		    // 4. Seleccionar las columnas útiles (esto elimina automáticamente "zona" y cualquier otra columna fantasma)
-		    ColumnasSeleccionadas = Table.SelectColumns(SectorRenombrado, 
-		        {"sector_id", "tipus_actuacio", "data_inici", "data_fi", "km_inspeccionats_heli", "km_inspeccionats_acustic", "fuites_reparades_heli", "fuites_reparades_acustic", "fuites_reparades_altres", "maniobres_realitzades"},
-		        MissingField.Ignore
-		    ),
 		    
 		    // 5. Un solo paso unificado para cambiar los tipos de datos
-		    TiposCambiados = Table.TransformColumnTypes(ColumnasSeleccionadas,{
+		    TiposCambiados = Table.TransformColumnTypes(SectorRenombrado,{
+		        {"zona", type text}, 
 		        {"sector_id", Int64.Type}, 
 		        {"tipus_actuacio", type text}, 
 		        {"data_inici", type date}, 
@@ -2541,9 +2525,7 @@ expression fact_actuacions_zones_2024 = ```
 		        {"maniobres_realitzades", type number}
 		    }),
 		    
-		    // 6. Quitar errores de fechas
-		    ErroresQuitados = Table.RemoveRowsWithErrors(TiposCambiados, {"data_inici"}),
-		    #"Filas filtradas" = Table.SelectRows(ErroresQuitados, each true)
+		    #"Filas filtradas" = Table.SelectRows(TiposCambiados, each true)
 		in
 		    #"Filas filtradas"
 		```
@@ -2573,22 +2555,50 @@ expression fact_reparacions_zones_2026 = ```
 		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
 		                {"à","a"}, {"è","e"}, {"ò","o"}, 
 		                {"ï","i"}, {"ü","u"}
-		            },
-		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		            }
 		        in
-		            textoLimpio
+		            List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
 		    ),
 		    
-		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
-		    SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
-		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
-		    #"Columnas quitadas" = Table.RemoveColumns(SectorRenombrado,{""}),
-		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas",{{"zona", type text}, {"sector_id", Int64.Type}})
+		    // 3. Ajuste de estructura Rango, eliminar vacías y renombrar
+		    #"Datos Base" = Table.RenameColumns(
+		        Table.RemoveColumns(Table.Range(EncabezadosLimpios, 0, 339), {""}), 
+		        {{"sector", "sector_id"}}
+		    ),
+		    
+		    // 4. AGRUPACIÓN 1: Transformaciones de Texto en un solo recorrido de tabla
+		    #"Transformaciones de Texto" = Table.TransformColumns(#"Datos Base", {
+		        {"sector_id", each Text.Select(Text.From(_), {"0".."9"}), type text},
+		        {"ordre", each Text.Trim(Text.Clean(Text.From(_))), type text},
+		        {"descripcio", Text.Proper, type text},
+		        {"ubicacio_fuita", Text.Proper, type text}
+		    }),
+		    
+		    // 5. AGRUPACIÓN 2: Todos los reemplazos previos a la conversión de tipo anidados
+		    #"Reemplazos Varios" = Table.ReplaceValue(
+		        Table.ReplaceValue(
+		            Table.ReplaceValue(
+		                #"Transformaciones de Texto",
+		                ",", null, Replacer.ReplaceValue, {"ordre"}
+		            ),
+		            "--", null, Replacer.ReplaceValue, {"cabal_recuperat"}
+		        ),
+		        "--", "No Disponible", Replacer.ReplaceText, {"tipus_actuacio"}
+		    ),
+		    
+		    // 6. Un único paso para definir todos los tipos de datos a la vez
+		    #"Tipo Cambiado" = Table.TransformColumnTypes(#"Reemplazos Varios", {
+		        {"zona", type text}, {"sector_id", Int64.Type}, {"tipus_actuacio", type text}, 
+		        {"descripcio", type text}, {"cabal_recuperat", type number}, {"data_fi", type date}, 
+		        {"cerca_activa", type text}, {"tipus_recerca", type text}, {"ubicacio_fuita", type text}, 
+		        {"ordre", type number}
+		    }),
+		    
+		    // 7. AGRUPACIÓN 3: Rellenar nulos por ceros en ambas columnas numéricas al mismo tiempo
+		    #"Reemplazar Nulos por Cero" = Table.ReplaceValue(#"Tipo Cambiado", null, 0, Replacer.ReplaceValue, {"ordre", "cabal_recuperat"})
 		
-		
-		 
 		in
-		    #"Tipo cambiado"
+		    #"Reemplazar Nulos por Cero"
 		```
 	lineageTag: ea29d66e-7050-4d8c-ba55-43f0f751fa89
 	queryGroup: Auxiliares\fact_actuacions_zones
@@ -2599,39 +2609,82 @@ expression fact_reparacions_zones_2026 = ```
 
 expression fact_reparacions_zones_2025 = ```
 		let
-		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ipFAfJGrPVqCxClRGAIMg2tngsjCZrIfh9QJPRksQ5M/edit?gid=1299432866#gid=1299432866"),
-		    REPARACIONS_Table = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
+		        Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ipFAfJGrPVqCxClRGAIMg2tngsjCZrIfh9QJPRksQ5M/edit?gid=1299432866#gid=1299432866"),
+		        #"RESUM ACTUACIONS_Table" = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
+		        #"Rango de filas conservado" = Table.Range(#"RESUM ACTUACIONS_Table",3,997),
+		        
+		        #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Rango de filas conservado", {"Column1"}, MissingField.Ignore),
+		        #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
+		        
+		        // 1. Limpieza de nombres de columna (sin 'let' anidado, lista definida en el bloque principal)
+		        ReemplazosAcentos = {{"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, {"à","a"}, {"è","e"}, {"ò","o"}, {"ï","i"}, {"ü","u"}},
+		        EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each List.Accumulate(ReemplazosAcentos, Text.Replace(Text.Lower(Text.Trim(Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "))), " ", "_"), (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))),
+		        
+		        // 2. Transformar sector, filtrar, renombrar y quitar vacías
+		        SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(Text.From(_), {"0".."9"}), type text}}),
+		        #"Filas filtradas" = Table.SelectRows(SectorTransformado, each ([sector] <> "8001" and [sector] <> "8003")),
+		        SectorRenombrado = Table.RenameColumns(#"Filas filtradas", {{"sector", "sector_id"}}),
+		        #"Valor reemplazado Sector" = Table.ReplaceValue(SectorRenombrado,"335722","3357",Replacer.ReplaceText,{"sector_id"}),
+		        #"Columnas quitadas" = Table.RemoveColumns(#"Valor reemplazado Sector",{""}),
+		        
+		        // 3. Eliminar filas en blanco de forma dinámica (comprimido en una sola expresión)
+		        #"Filas en blanco eliminadas" = Table.SelectRows(#"Columnas quitadas", each not List.IsEmpty(List.RemoveMatchingItems(List.Transform(Record.FieldValues(_), (x) => try Text.Trim(Text.From(x)) otherwise x), {"", null}))),
 		
-		    
-		    // 1. Preparación inicial
-		    #"Filas superiores quitadas" = Table.Skip(REPARACIONS_Table, 3),
-		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
-		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
-		    
-		    // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
-		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
-		        let
-		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
-		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
-		            reemplazos = {
-		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
-		                {"à","a"}, {"è","e"}, {"ò","o"}, 
-		                {"ï","i"}, {"ü","u"}
-		            },
-		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
-		        in
-		            textoLimpio
-		    ),
-		    
-		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
-		    SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
-		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
-		    #"Columnas quitadas" = Table.RemoveColumns(SectorRenombrado,{""})
+		        // 4. Formatos de Texto y Primeros Reemplazos "--"
+		        #"Mayúsculas Aplicadas" = Table.TransformColumns(#"Filas en blanco eliminadas", {
+		            {"ubicacio_fuita", Text.Proper, type text}, 
+		            {"descripcio", Text.Proper, type text}
+		        }),
+		        #"Reemplazar Guiones Previos" = Table.ReplaceValue(
+		            Table.ReplaceValue(
+		                #"Mayúsculas Aplicadas",
+		                "--", "No Disponible", Replacer.ReplaceText, {"tipus_actuacio"}
+		            ),
+		            "--", null, Replacer.ReplaceValue, {"cabal_recuperat"}
+		        ),
 		
+		        // 5. Corrección de filas desplazadas (expresión if...then...else directa)
+		        #"Desplazar filas movidas" = Table.FromRecords(
+		            Table.TransformRows(
+		                #"Reemplazar Guiones Previos",
+		                each 
+		                    if [cabal_recuperat] <> null and (try Number.From([cabal_recuperat]) otherwise null) = null then 
+		                        Record.Combine({_, [descripcio = Text.Trim(Text.From([descripcio]) & " " & Text.From([cabal_recuperat])), cabal_recuperat = [data_fi], data_fi = [cerca_activa], cerca_activa = [tipus_recerca], tipus_recerca = [ubicacio_fuita], ubicacio_fuita = [ordre], ordre = null]}) 
+		                    else 
+		                        _
+		            )
+		        ),
 		
-		 
+		        // 6. Reemplazos Finales (Nulos por 0 y guiones en descripción)
+		        #"Reemplazos Finales" = Table.ReplaceValue(
+		            Table.ReplaceValue(
+		                #"Desplazar filas movidas",
+		                "--", "No Disponible", Replacer.ReplaceText, {"descripcio"}
+		            ),
+		            null, 0, Replacer.ReplaceValue, {"cabal_recuperat"}
+		        ),
+		
+		        // 7. Corrección de la columna 'ordre'
+		        #"Ordre Corregido" = Table.TransformColumns(#"Reemplazos Finales", {
+		            {"ordre", each try Number.FromText(Text.From(_)) otherwise 0, type number}
+		        }),
+		
+		        // 8. Único paso centralizado para aplicar todos los tipos de datos
+		        #"Tipo Cambiado Final" = Table.TransformColumnTypes(#"Ordre Corregido", {
+		            {"zona", type text}, 
+		            {"sector_id", Int64.Type}, 
+		            {"tipus_actuacio", type text}, 
+		            {"descripcio", type text}, 
+		            {"cabal_recuperat", type number},
+		            {"data_fi", type date}, 
+		            {"cerca_activa", type text}, 
+		            {"tipus_recerca", type text}, 
+		            {"ubicacio_fuita", type text}
+		        }),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Tipo Cambiado Final",null,0,Replacer.ReplaceValue,{"ordre", "cabal_recuperat"}),
+		    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado","--","No Disponible",Replacer.ReplaceText,{"ubicacio_fuita"})
 		in
-		    #"Columnas quitadas"
+		    #"Valor reemplazado1"
 		```
 	lineageTag: f5d104a8-0336-4699-bd72-bcf9781d336d
 	queryGroup: Auxiliares\fact_actuacions_zones
@@ -2642,122 +2695,85 @@ expression fact_reparacions_zones_2025 = ```
 
 expression fact_reparacions_zones_2024 = ```
 		let
-		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1eK5HByx0PmNaCwBNNMEqTIEkM4rFYZRYpvoCqRLY93g/edit?gid=981540650#gid=981540650"),
-		    #"RESUM ACTUACIONS_Table" = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
-		    
-		    // 1. Preparación inicial
-		    #"Filas superiores quitadas" = Table.Skip(#"RESUM ACTUACIONS_Table", 3),
-		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
-		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
-		    
-		    // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
-		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
-		        let
-		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
-		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
-		            reemplazos = {
-		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
-		                {"à","a"}, {"è","e"}, {"ò","o"}, 
-		                {"ï","i"}, {"ü","u"}
-		            },
-		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
-		        in
-		            textoLimpio
-		    ),
-		    
-		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
-		    SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
-		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
-		    #"Columnas quitadas" = Table.RemoveColumns(SectorRenombrado,{""})
+		        Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1eK5HByx0PmNaCwBNNMEqTIEkM4rFYZRYpvoCqRLY93g/edit?gid=981540650#gid=981540650"),
+		        #"RESUM ACTUACIONS_Table" = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
+		        #"Rango de filas conservado" = Table.Range(#"RESUM ACTUACIONS_Table",3,997),
+		        
+		        #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Rango de filas conservado", {"Column1"}, MissingField.Ignore),
+		        #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
+		        
+		        // 1. Limpieza de nombres de columna (sin 'let' anidado, lista definida en el bloque principal)
+		        ReemplazosAcentos = {{"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, {"à","a"}, {"è","e"}, {"ò","o"}, {"ï","i"}, {"ü","u"}},
+		        EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each List.Accumulate(ReemplazosAcentos, Text.Replace(Text.Lower(Text.Trim(Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "))), " ", "_"), (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))),
+		        
+		        // 2. Transformar sector, filtrar, renombrar y quitar vacías
+		        SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(Text.From(_), {"0".."9"}), type text}}),
+		        #"Filas filtradas" = Table.SelectRows(SectorTransformado, each ([sector] <> "8001" and [sector] <> "8003")),
+		        SectorRenombrado = Table.RenameColumns(#"Filas filtradas", {{"sector", "sector_id"}}),
+		        #"Valor reemplazado Sector" = Table.ReplaceValue(SectorRenombrado,"335722","3357",Replacer.ReplaceText,{"sector_id"}),
+		        #"Columnas quitadas" = Table.RemoveColumns(#"Valor reemplazado Sector",{""}),
+		        
+		        // 3. Eliminar filas en blanco de forma dinámica (comprimido en una sola expresión)
+		        #"Filas en blanco eliminadas" = Table.SelectRows(#"Columnas quitadas", each not List.IsEmpty(List.RemoveMatchingItems(List.Transform(Record.FieldValues(_), (x) => try Text.Trim(Text.From(x)) otherwise x), {"", null}))),
 		
+		        // 4. Formatos de Texto y Primeros Reemplazos "--"
+		        #"Mayúsculas Aplicadas" = Table.TransformColumns(#"Filas en blanco eliminadas", {
+		            {"ubicacio_fuita", Text.Proper, type text}, 
+		            {"descripcio", Text.Proper, type text}
+		        }),
+		        #"Reemplazar Guiones Previos" = Table.ReplaceValue(
+		            Table.ReplaceValue(
+		                #"Mayúsculas Aplicadas",
+		                "--", "No Disponible", Replacer.ReplaceText, {"tipus_actuacio"}
+		            ),
+		            "--", null, Replacer.ReplaceValue, {"cabal_recuperat"}
+		        ),
 		
-		 
+		        // 5. Corrección de filas desplazadas (expresión if...then...else directa)
+		        #"Desplazar filas movidas" = Table.FromRecords(
+		            Table.TransformRows(
+		                #"Reemplazar Guiones Previos",
+		                each 
+		                    if [cabal_recuperat] <> null and (try Number.From([cabal_recuperat]) otherwise null) = null then 
+		                        Record.Combine({_, [descripcio = Text.Trim(Text.From([descripcio]) & " " & Text.From([cabal_recuperat])), cabal_recuperat = [data_fi], data_fi = [cerca_activa], cerca_activa = [tipus_recerca], tipus_recerca = [ubicacio_fuita], ubicacio_fuita = [ordre], ordre = null]}) 
+		                    else 
+		                        _
+		            )
+		        ),
+		
+		        // 6. Reemplazos Finales (Nulos por 0 y guiones en descripción)
+		        #"Reemplazos Finales" = Table.ReplaceValue(
+		            Table.ReplaceValue(
+		                #"Desplazar filas movidas",
+		                "--", "No Disponible", Replacer.ReplaceText, {"descripcio"}
+		            ),
+		            null, 0, Replacer.ReplaceValue, {"cabal_recuperat"}
+		        ),
+		
+		        // 7. Corrección de la columna 'ordre'
+		        #"Ordre Corregido" = Table.TransformColumns(#"Reemplazos Finales", {
+		            {"ordre", each try Number.FromText(Text.From(_)) otherwise 0, type number}
+		        }),
+		
+		        // 8. Único paso centralizado para aplicar todos los tipos de datos
+		        #"Tipo Cambiado Final" = Table.TransformColumnTypes(#"Ordre Corregido", {
+		            {"zona", type text}, 
+		            {"sector_id", Int64.Type}, 
+		            {"tipus_actuacio", type text}, 
+		            {"descripcio", type text}, 
+		            {"cabal_recuperat", type number},
+		            {"data_fi", type date}, 
+		            {"cerca_activa", type text}, 
+		            {"tipus_recerca", type text}, 
+		            {"ubicacio_fuita", type text}
+		        }),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Tipo Cambiado Final",null,0,Replacer.ReplaceValue,{"ordre", "cabal_recuperat"})
+		
 		in
-		    #"Columnas quitadas"
+		    #"Valor reemplazado"
 		```
 	lineageTag: 203bd2e4-c5bf-405c-91e4-78e0c2a9df3b
 	queryGroup: Auxiliares\fact_actuacions_zones
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Table
-
-expression fact_actuacions_zones =
-		let
-		    // 1. Unir las tablas
-		    Union = Table.Combine({
-		        fact_actuacions_zones_2026, fact_actuacions_zones_2025, fact_actuacions_zones_2024,
-		        fact_reparacions_zones_2026, fact_reparacions_zones_2025, fact_reparacions_zones_2024
-		    }),
-		    // 2. Filtrar las filas innecesarias ANTES para procesar menos datos
-		    TextosAFiltrar = {
-		        " Canviada montura boda d'aire Ø40", " Canviat creuament sencer Ø100FG", " Canviat ramal de Ø40 a la seva totalitat,",
-		        " Reparada boca de Ø40 a la toma,", " Reparada canonada Ø63PEB", " Reparada fuita en canonada Ø60U, varies rases,",
-		        " Reparada fuita ramal Ø20 T2,", " Reparat ramal Ø20 en la seva totalitat,", " Torrent de l'Olla, 102"
-		    },
-		    FilasFiltradas = Table.SelectRows(Union, each not List.Contains(TextosAFiltrar, [cabal_recuperat])),
-		    // 3. Crear funciones para limpiar textos (Aplica Trim, Clean, Proper y cubre nulos/vacíos/guiones)
-		    LimpiarTexto = (texto as any) as text =>
-		        let
-		            t = if texto = null then "" else Text.From(texto),
-		            limpio = Text.Proper(Text.Trim(Text.Clean(t)))
-		        in
-		            if limpio = "" or limpio = "--" then "No Disponible" else limpio,
-		
-		    LimpiarTextoSinProper = (texto as any) as text =>
-		        let
-		            t = if texto = null then "" else Text.From(texto),
-		            limpio = Text.Trim(Text.Clean(t))
-		        in
-		            if limpio = "" or limpio = "--" then "No Disponible" else limpio,
-		
-		    // 4. Aplicar la limpieza a todas las columnas de texto en UN SOLO PASO
-		    TextosLimpios = Table.TransformColumns(FilasFiltradas, {
-		        {"zona", LimpiarTextoSinProper, type text}, // Zona la dejamos sin Proper para respetar tu código original
-		        {"descripcio", LimpiarTexto, type text},
-		        {"cerca_activa", LimpiarTexto, type text},
-		        {"tipus_recerca", LimpiarTexto, type text},
-		        {"ubicacio_fuita", LimpiarTexto, type text}
-		    }),
-		    #"Valor reemplazado" = Table.ReplaceValue(TextosLimpios,",",null,Replacer.ReplaceValue,{"ordre"}),
-		    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado","--",null,Replacer.ReplaceValue,{"ordre"}),
-		    #"Valor reemplazado2" = Table.ReplaceValue(#"Valor reemplazado1","",0,Replacer.ReplaceValue,{"ordre"}),
-		
-		    // 5. Crear función para limpiar basura (guiones, comas, espacios) en columnas numéricas
-		    LimpiarNumero = (num as any) as any =>
-		        let
-		            txt = Text.Trim(Text.From(num))
-		        in
-		            if txt = "" or txt = "--" or txt = "," or txt = "null" then 0 else num,
-		
-		    // 6. Aplicar limpieza de basura numérica en un solo paso
-		    BasuraNumericaCero = Table.TransformColumns(#"Valor reemplazado2", {
-		        {"cabal_recuperat", LimpiarNumero},
-		        {"ordre", LimpiarNumero}
-		    }),
-		
-		    // 7. Reemplazos masivos de valores nulos
-		    SectorIdNulos = Table.ReplaceValue(BasuraNumericaCero, null, -1, Replacer.ReplaceValue, {"sector_id"}),
-		    // 8. (Opcional pero recomendado) Cambiar el tipo de dato final de las columnas numéricas
-		    TiposCambiados = Table.TransformColumnTypes(SectorIdNulos, {
-		        {"cabal_recuperat", type number},
-		        {"ordre", Int64.Type},
-		        {"sector_id", Int64.Type},
-		        {"km_inspeccionats_heli", type number},
-		        {"km_inspeccionats_acustic", type number},
-		        {"fuites_reparades_heli", type number},
-		        {"fuites_reparades_acustic", type number},
-		        {"fuites_reparades_altres", type number},
-		        {"maniobres_realitzades", type number}
-		    }),
-		    NumerosNulosCero = Table.ReplaceValue(TiposCambiados, null, 0, Replacer.ReplaceValue, {
-		        "cabal_recuperat", "ordre", "km_inspeccionats_heli", "km_inspeccionats_acustic",
-		        "fuites_reparades_heli", "fuites_reparades_acustic", "fuites_reparades_altres", "maniobres_realitzades"
-		    })
-		in
-		    NumerosNulosCero
-	lineageTag: 228d8ed7-6b10-4e3b-90ff-26d53f5ce34e
-	queryGroup: Hechos
 
 	annotation PBI_NavigationStepName = Navegación
 

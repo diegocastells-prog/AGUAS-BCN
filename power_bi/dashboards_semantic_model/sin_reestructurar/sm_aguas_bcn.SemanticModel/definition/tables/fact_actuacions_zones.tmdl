@@ -1,0 +1,242 @@
+table fact_actuacions_zones
+	lineageTag: 5f4e5718-2d75-481f-a6be-0f35e44d53ec
+
+	column sector_id
+		dataType: int64
+		formatString: 0
+		lineageTag: aa4ecbaf-d049-4fca-a017-8c1907a7dce3
+		summarizeBy: none
+		sourceColumn: sector_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipus_actuacio
+		dataType: string
+		lineageTag: ec825361-fae1-4af9-9496-acf8f6ba1994
+		summarizeBy: none
+		sourceColumn: tipus_actuacio
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_inici
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: da3ca2d7-194f-48fe-b574-bc960d620dbb
+		summarizeBy: none
+		sourceColumn: data_inici
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_fi
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 73f898e8-e1ff-411b-8d85-4e8ec5d6015c
+		summarizeBy: none
+		sourceColumn: data_fi
+
+		variation Variación
+			isDefault
+			relationship: 06c9534e-7f2b-4c35-8981-3ef704cc5d05
+			defaultHierarchy: LocalDateTable_0e554163-44b3-4363-90c9-2e8ba4bfc6f5.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column km_inspeccionats_heli
+		dataType: double
+		lineageTag: d4daa3e6-ca98-494d-b538-3fd87febf6e9
+		summarizeBy: sum
+		sourceColumn: km_inspeccionats_heli
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column km_inspeccionats_acustic
+		dataType: double
+		lineageTag: b9996e16-d3f4-48d7-bf75-02b40ef2a144
+		summarizeBy: sum
+		sourceColumn: km_inspeccionats_acustic
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fuites_reparades_heli
+		dataType: double
+		lineageTag: 6fcc8fa7-9e3e-4df1-8f27-d1b44acca71d
+		summarizeBy: sum
+		sourceColumn: fuites_reparades_heli
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fuites_reparades_acustic
+		dataType: double
+		lineageTag: 22d4ae58-91be-4a92-a071-0ef4664715cd
+		summarizeBy: sum
+		sourceColumn: fuites_reparades_acustic
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fuites_reparades_altres
+		dataType: double
+		lineageTag: 1f2dee46-dcba-4e4c-8eb8-dfe2157fbe6c
+		summarizeBy: sum
+		sourceColumn: fuites_reparades_altres
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column maniobres_realitzades
+		dataType: double
+		lineageTag: 34161a73-39cf-4cae-85d7-6f1e9390792b
+		summarizeBy: sum
+		sourceColumn: maniobres_realitzades
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column descripcio
+		dataType: string
+		lineageTag: fac34d68-e49c-4353-8298-2cc075f42e70
+		summarizeBy: none
+		sourceColumn: descripcio
+
+		annotation SummarizationSetBy = Automatic
+
+	column cabal_recuperat
+		dataType: double
+		lineageTag: 86333e5a-ebd1-4d8b-a201-0e512ffdd1a6
+		summarizeBy: sum
+		sourceColumn: cabal_recuperat
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column cerca_activa
+		dataType: string
+		lineageTag: 12ad11cb-0e76-4d16-ac12-3bc31f181bfa
+		summarizeBy: none
+		sourceColumn: cerca_activa
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipus_recerca
+		dataType: string
+		lineageTag: 455e44c4-31ce-44dc-8258-f33627d6a0d4
+		summarizeBy: none
+		sourceColumn: tipus_recerca
+
+		annotation SummarizationSetBy = Automatic
+
+	column ubicacio_fuita
+		dataType: string
+		lineageTag: d0a0764e-b79c-4cb8-8cc8-213a18cfbcbf
+		summarizeBy: none
+		sourceColumn: ubicacio_fuita
+
+		annotation SummarizationSetBy = Automatic
+
+	column ordre
+		dataType: double
+		lineageTag: 4e39d198-ede7-4ad0-b51c-458242eaf007
+		summarizeBy: sum
+		sourceColumn: ordre
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column gerencia_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 1799607b-d093-42f3-aa07-9688ac0d2237
+		summarizeBy: sum
+		sourceColumn: gerencia_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_actuacions_zones = m
+		mode: import
+		queryGroup: Hechos
+		source = ```
+				let
+				    // 1. Unir las tablas
+				    Union = Table.Combine({
+				        fact_actuacions_zones_2026, fact_actuacions_zones_2025, fact_actuacions_zones_2024,
+				        fact_reparacions_zones_2026, fact_reparacions_zones_2025, fact_reparacions_zones_2024
+				    }),
+				
+				    // 2. Agrupar el reemplazo de nulos por "No Disponible" en todas las columnas de texto a la vez
+				    NulosTexto = Table.ReplaceValue(
+				        Union, 
+				        null, 
+				        "No Disponible", 
+				        Replacer.ReplaceValue, 
+				        {"descripcio", "cerca_activa", "tipus_recerca", "ubicacio_fuita"}
+				    ),
+				
+				    // 3. Función optimizada: Ahora también absorbe los valores extraños de "ordre" de forma segura
+				    LimpiarNumero = (num as any) as any =>
+				        let
+				            // Controlamos si viene un null real para que Text.From no dé error
+				            txt = if num = null then "" else Text.Trim(Text.From(num))
+				        in
+				            // Añadimos "Interior" para ahorrarte los 4 pasos manuales que tenías antes
+				            if txt = "" or txt = "--" or txt = "," or txt = "null" or txt = "Interior" then 0 else num,
+				
+				    // 4. Aplicar limpieza de basura numérica en un solo paso
+				    BasuraNumericaCero = Table.TransformColumns(NulosTexto, {
+				        {"cabal_recuperat", LimpiarNumero},
+				        {"ordre", LimpiarNumero}
+				    }),
+				
+				    // 5. Reemplazo de nulos a -1 específico para sector_id
+				    SectorIdNulos = Table.ReplaceValue(BasuraNumericaCero, null, -1, Replacer.ReplaceValue, {"sector_id"}),
+				
+				    // 6. Cambiar el tipo de dato final de las columnas numéricas
+				    TiposCambiados = Table.TransformColumnTypes(SectorIdNulos, {
+				        {"cabal_recuperat", type number},
+				        {"ordre", Int64.Type},
+				        {"sector_id", Int64.Type},
+				        {"km_inspeccionats_heli", type number},
+				        {"km_inspeccionats_acustic", type number},
+				        {"fuites_reparades_heli", type number},
+				        {"fuites_reparades_acustic", type number},
+				        {"fuites_reparades_altres", type number},
+				        {"maniobres_realitzades", type number}
+				    }),
+				
+				    // 7. Un único paso masivo para reemplazar TODOS los nulos por 0 en las columnas numéricas
+				    NumerosNulosCero = Table.ReplaceValue(
+				        TiposCambiados, 
+				        null, 
+				        0, 
+				        Replacer.ReplaceValue, 
+				        {
+				            "cabal_recuperat", "ordre", "km_inspeccionats_heli", "km_inspeccionats_acustic",
+				            "fuites_reparades_heli", "fuites_reparades_acustic", "fuites_reparades_altres", "maniobres_realitzades"
+				        }
+				    ),
+				    #"Valor reemplazado" = Table.ReplaceValue(NumerosNulosCero,null,#date(2100, 1, 1),Replacer.ReplaceValue,{"data_inici"}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Valor reemplazado", {"zona"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"zona"})
+				in
+				    #"Columnas quitadas"
+				```
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
