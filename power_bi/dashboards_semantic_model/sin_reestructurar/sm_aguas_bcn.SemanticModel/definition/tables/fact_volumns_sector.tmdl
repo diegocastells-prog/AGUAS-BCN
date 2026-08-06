@@ -1,0 +1,180 @@
+table fact_volumns_sector
+	lineageTag: 8eccad2e-ade8-4a8e-9710-a43a7fe843ff
+
+	column sector_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a92a05d6-786d-41b2-a6ca-a3c2abeec058
+		summarizeBy: none
+		sourceColumn: sector_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column cabal_mig
+		dataType: double
+		lineageTag: e52adfd2-9dca-40c3-820e-5a893b34b6a2
+		summarizeBy: sum
+		sourceColumn: cabal_mig
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column volum
+		dataType: double
+		lineageTag: e136e32a-cffe-4b08-959b-41593fe48423
+		summarizeBy: sum
+		sourceColumn: volum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column valids_originals
+		dataType: double
+		lineageTag: 8d9f636e-77b2-4df7-85bc-91a98cf314da
+		summarizeBy: sum
+		sourceColumn: valids_originals
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column editats
+		dataType: double
+		lineageTag: 0ef1200e-191d-4444-8744-3ad11033a781
+		summarizeBy: sum
+		sourceColumn: editats
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fecha_ini
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9b502478-511f-4526-ae1e-3f057bd95299
+		summarizeBy: none
+		sourceColumn: fecha_ini
+
+		variation Variación
+			isDefault
+			relationship: 4414af57-1a8b-4c58-a747-ced7529d7f50
+			defaultHierarchy: LocalDateTable_d7f16e7b-bd04-4198-82db-baf0c472851a.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column fecha_fin
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4d94a860-74ce-433d-9fac-c63e8ffe6ff6
+		summarizeBy: none
+		sourceColumn: fecha_fin
+
+		variation Variación
+			isDefault
+			relationship: 4f5aa69f-60ba-46e9-a3a0-9ea0decd575d
+			defaultHierarchy: LocalDateTable_ea01bd51-d36d-400b-b10b-a267a84ebed3.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column cabal_minim
+		dataType: double
+		lineageTag: e815090f-3c05-402e-8564-2949419a6694
+		summarizeBy: sum
+		sourceColumn: cabal_minim
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fecha_minim
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 56b35aa2-3da4-41a9-a637-1fd662b166cc
+		summarizeBy: none
+		sourceColumn: fecha_minim
+
+		variation Variación
+			isDefault
+			relationship: 4bc49790-1fa3-4003-bb84-a967bfcb05fc
+			defaultHierarchy: LocalDateTable_9c76c377-503b-4bd3-a5a6-92eacc9d1897.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition fact_volumns_sector = m
+		mode: import
+		queryGroup: Hechos
+		source = ```
+				let
+				    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1QAwPgMYUa33LLrGc2TCLDtDaYu1inIL_qmOiQ07tcSI/edit?gid=1447921658#gid=1447921658"),
+				    Informe_Table = Origen{[name="Informe",ItemKind="Table"]}[Data],
+				    
+				    // 1. Quitar filas superiores y extraer encabezados
+				    #"Filas superiores quitadas" = Table.Skip(Informe_Table, 3),
+				    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1", "Column2"}),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
+				    #"Filas filtradas1" = Table.SelectRows(#"Encabezados promovidos", each ([DATA MÍNIM] <> "----")),
+				    
+				    // 2. Filtramos la "basura" antes de nada
+				    #"Filas filtradas" = Table.SelectRows(#"Filas filtradas1", each ([PRIMER VALOR] <> "----")),
+				    
+				    // 3. Limpieza de nombres de columna (minúsculas, sin tildes, saltos de línea a guiones)
+				    EncabezadosLimpios = Table.TransformColumnNames(#"Filas filtradas", each 
+				        let
+				            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+				            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+				            reemplazos = {
+				                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+				                {"à","a"}, {"è","e"}, {"ò","o"}, 
+				                {"ï","i"}, {"ü","u"}
+				            },
+				            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+				        in
+				            textoLimpio
+				    ),
+				    
+				    // 4. Seleccionar columnas clave
+				    ColumnasSeleccionadas = Table.SelectColumns(EncabezadosLimpios, 
+				        {"sector", "cabal_mig", "volum", "valids_originals", "editats", "primer_valor", "darrer_valor", "cabal_minim", "data_minim"}, 
+				        MissingField.Ignore
+				    ),
+				    
+				    // 5. Renombrar sector a sector_id
+				    ColumnasRenombradas = Table.RenameColumns(ColumnasSeleccionadas, {{"sector", "sector_id"}}),
+				    
+				    // 6. Asignar tipos base a TODAS las columnas (usamos datetime para absorber los ceros de Sheets)
+				    TiposBase = Table.TransformColumnTypes(ColumnasRenombradas,{
+				        {"sector_id", Int64.Type}, 
+				        {"cabal_mig", type number}, 
+				        {"volum", type number}, 
+				        {"valids_originals", type number}, 
+				        {"editats", type number}, 
+				        {"primer_valor", type datetime}, 
+				        {"darrer_valor", type datetime}, 
+				        {"cabal_minim", type number}, 
+				        {"data_minim", type datetime}    
+				    }),
+				    
+				    // 7. Limpiar las fechas dejándolas como fechas puras y devolviendo LA TABLA (no un valor suelto)
+				    TablaFinal = Table.TransformColumnTypes(TiposBase,{
+				        {"primer_valor", type date},
+				        {"darrer_valor", type date},
+				        {"data_minim", type date}
+				    }),
+				    #"Rango de filas conservado" = Table.Range(TablaFinal,0,318),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Rango de filas conservado",{{"primer_valor", "fecha_ini"}, {"darrer_valor", "fecha_fin"}, {"data_minim", "fecha_minim"}})
+				in
+				    #"Columnas con nombre cambiado"
+				```
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

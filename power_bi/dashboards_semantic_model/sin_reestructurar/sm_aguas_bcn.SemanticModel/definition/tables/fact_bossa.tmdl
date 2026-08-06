@@ -117,6 +117,14 @@ table fact_bossa
 
 		annotation SummarizationSetBy = Automatic
 
+	column necessitat
+		dataType: string
+		lineageTag: 28e872e7-4651-4d8a-bc47-d76aeb3679bb
+		summarizeBy: none
+		sourceColumn: necessitat
+
+		annotation SummarizationSetBy = Automatic
+
 	column v12_en_m3
 		dataType: double
 		lineageTag: 54761c7f-edaa-4bc4-bd7e-910ee6ff70d0
@@ -128,7 +136,7 @@ table fact_bossa
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column períodes_amb_estimades
-		dataType: double
+		dataType: int64
 		formatString: 0
 		lineageTag: a894a6f7-12f7-449b-ba71-3b7d443abade
 		summarizeBy: sum
@@ -137,7 +145,7 @@ table fact_bossa
 		annotation SummarizationSetBy = Automatic
 
 	column periodos_consecutivos_con_ea
-		dataType: double
+		dataType: int64
 		formatString: 0
 		lineageTag: 4ea94cd8-ae98-4322-89e6-3d40207a2313
 		summarizeBy: sum
@@ -160,15 +168,6 @@ table fact_bossa
 		lineageTag: 6f48f899-446b-48cc-bb2d-3984a3bd8234
 		summarizeBy: none
 		sourceColumn: sector_id
-
-		annotation SummarizationSetBy = Automatic
-
-	column id_neccesitat
-		dataType: int64
-		formatString: 0
-		lineageTag: 71464f26-76d2-482e-9623-50bd586b3496
-		summarizeBy: none
-		sourceColumn: id_neccesitat
 
 		annotation SummarizationSetBy = Automatic
 
@@ -212,18 +211,9 @@ table fact_bossa
 				    #"Consultas combinadas1" = Table.FuzzyNestedJoin(#"Sector normalizado", {"sector"}, dim_dades_sectors, {"sector"}, "dim_dades_sectors", JoinKind.LeftOuter, [IgnoreCase=true, IgnoreSpace=true]),
 				    #"Se expandió dim_dades_sectors" = Table.ExpandTableColumn(#"Consultas combinadas1", "dim_dades_sectors", {"sector_id"}, {"sector_id"}),
 				    #"Sector_id corregido" = Table.TransformColumnTypes(Table.ReplaceValue(#"Se expandió dim_dades_sectors", null, -1, Replacer.ReplaceValue, {"sector_id"}), {{"sector_id", Int64.Type}}),
-				    #"Columnas quitadas1" = Table.RemoveColumns(#"Sector_id corregido",{"sector"}),
-				    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas quitadas1","Estimades/Consums 0 O Similars","Estimades/Consums 0 O Similar",Replacer.ReplaceText,{"necessitat"}),
-				    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado","Canvi Per Avaria Gran","Canvis Per Avaria Gran",Replacer.ReplaceText,{"necessitat"}),
-				    #"Consultas combinadas2" = Table.NestedJoin(#"Valor reemplazado1", {"necessitat"}, dim_neccesi_bossa, {"necessitat"}, "dim_neccesi_bossa", JoinKind.LeftOuter),
-				    #"Se expandió dim_neccesi_bossa" = Table.ExpandTableColumn(#"Consultas combinadas2", "dim_neccesi_bossa", {"id_neccesitat"}, {"id_neccesitat"}),
-				    #"Columnas quitadas2" = Table.RemoveColumns(#"Se expandió dim_neccesi_bossa",{"necessitat"}),
-				    #"Valor reemplazado2" = Table.ReplaceValue(#"Columnas quitadas2",null,0,Replacer.ReplaceValue,{"consum_mig_dia"}),
-				    #"Valor reemplazado3" = Table.ReplaceValue(#"Valor reemplazado2",null,0,Replacer.ReplaceValue,{"consum_anual_estimat"}),
-				    #"Valor reemplazado4" = Table.ReplaceValue(#"Valor reemplazado3",null,0,Replacer.ReplaceValue,{"períodes_amb_estimades"}),
-				    #"Valor reemplazado5" = Table.ReplaceValue(#"Valor reemplazado4",null,0,Replacer.ReplaceValue,{"periodos_consecutivos_con_ea"})
+				    #"Columnas quitadas1" = Table.RemoveColumns(#"Sector_id corregido",{"sector"})
 				in
-				    #"Valor reemplazado5"
+				    #"Columnas quitadas1"
 
 	annotation PBI_NavigationStepName = Navegación
 

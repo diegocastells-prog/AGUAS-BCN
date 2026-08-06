@@ -145,30 +145,26 @@ relationship 24fe3ec5-be5b-154c-26fd-06ec077bf916
 	fromColumn: fact_actuacions_zones.data_inici
 	toColumn: dim_calendario.Date
 
-relationship fd987926-1f39-4a08-a417-338a1a238440
+relationship 4414af57-1a8b-4c58-a747-ced7529d7f50
 	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_consum_no_control.Fecha
-	toColumn: LocalDateTable_29c03b30-cb8b-4dce-8c7f-ee0bb554b41d.Date
+	fromColumn: fact_volumns_sector.fecha_ini
+	toColumn: LocalDateTable_d7f16e7b-bd04-4198-82db-baf0c472851a.Date
 
-relationship AutoDetected_7d8633f5-bc45-4955-ab08-416e3b5967bd
-	fromColumn: fact_consum_no_control.gerencia_id
-	toColumn: dim_gerencia.gerencia_id
+relationship 4f5aa69f-60ba-46e9-a3a0-9ea0decd575d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_volumns_sector.fecha_fin
+	toColumn: LocalDateTable_ea01bd51-d36d-400b-b10b-a267a84ebed3.Date
 
-relationship AutoDetected_32eea993-5f9a-43a0-a3f6-5922890c4aa7
-	fromColumn: fact_estim_volum_munic_pob.id_mun
-	toColumn: dim_municipio.id_mun
+relationship 4bc49790-1fa3-4003-bb84-a967bfcb05fc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_volumns_sector.fecha_minim
+	toColumn: LocalDateTable_9c76c377-503b-4bd3-a5a6-92eacc9d1897.Date
 
-relationship 0ecfccaa-983a-aab3-a4ed-e7bb583318ba
-	fromColumn: fact_estim_volum_munic_pob.fecha
-	toColumn: dim_calendario.Date
+relationship AutoDetected_aea53a7c-8815-4e81-818a-dc2669132546
+	fromColumn: dim_less_polissa_fraude.sector_id
+	toColumn: fact_volumns_sector.sector_id
 
-relationship e16c2ec0-b71c-6456-32b7-11b09845b5a2
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
-	fromColumn: fact_aigua_consu_historic.fecha
-	toColumn: dim_calendario.Date
-
-relationship AutoDetected_fefa2b66-ae81-40db-9d2e-4f5dc8123121
-	fromColumn: fact_bossa.id_neccesitat
-	toColumn: dim_neccesi_bossa.id_neccesitat
+relationship AutoDetected_8cc92c02-d408-465e-b1a4-2148e20d310e
+	fromColumn: fact_z_sector.sector_id
+	toColumn: fact_volumns_sector.sector_id
 
