@@ -120,24 +120,39 @@ relationship 6e55d5b9-0aa9-8a41-a362-c2d9965931e4
 	fromColumn: fact_volum_cons_lliur.fecha
 	toColumn: dim_calendario.Date
 
-relationship 25db9410-1baa-7209-b011-0c5bd9cc4fa3
-	fromColumn: fact_inventari_xarxa_distribucion.fecha
+relationship 06c9534e-7f2b-4c35-8981-3ef704cc5d05
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_actuacions_zones.data_fi
+	toColumn: LocalDateTable_0e554163-44b3-4363-90c9-2e8ba4bfc6f5.Date
+
+relationship cbfcafd6-edbd-a7bc-b866-8733e8b32f83
+	fromColumn: fact_actuacions_zones.sector_id
+	toColumn: dim_dades_sectors.sector_id
+
+relationship 24fe3ec5-be5b-154c-26fd-06ec077bf916
+	fromColumn: fact_actuacions_zones.data_inici
 	toColumn: dim_calendario.Date
 
-relationship AutoDetected_5263daa9-b29a-4f30-a0ec-3c0be7973d4c
-	fromColumn: fact_volum_cons_lliur.sector
-	toColumn: dim_dades_sectors.sector
+relationship 4414af57-1a8b-4c58-a747-ced7529d7f50
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_volumns_sector.fecha_ini
+	toColumn: LocalDateTable_d7f16e7b-bd04-4198-82db-baf0c472851a.Date
 
-relationship db0a4b86-42d5-400e-1622-b71bb4317c83
-	fromColumn: dim_dades_sectors.gerencia_id
-	toColumn: dim_gerencia.gerencia_id
+relationship 4f5aa69f-60ba-46e9-a3a0-9ea0decd575d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_volumns_sector.fecha_fin
+	toColumn: LocalDateTable_ea01bd51-d36d-400b-b10b-a267a84ebed3.Date
 
-relationship b9deed17-5665-984d-f599-7042c51961e3
-	crossFilteringBehavior: bothDirections
-	fromColumn: fact_aigua_consum_historic.fecha
-	toColumn: dim_calendario.Date
+relationship 4bc49790-1fa3-4003-bb84-a967bfcb05fc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_volumns_sector.fecha_minim
+	toColumn: LocalDateTable_9c76c377-503b-4bd3-a5a6-92eacc9d1897.Date
 
-relationship 8012a739-78a4-357f-cfeb-557d3ffdccec
-	fromColumn: fact_inventari_xarxa_transporte_total.fecha
-	toColumn: dim_calendario.Date
+relationship AutoDetected_aea53a7c-8815-4e81-818a-dc2669132546
+	fromColumn: dim_less_polissa_fraude.sector_id
+	toColumn: fact_volumns_sector.sector_id
+
+relationship AutoDetected_8cc92c02-d408-465e-b1a4-2148e20d310e
+	fromColumn: fact_z_sector.sector_id
+	toColumn: fact_volumns_sector.sector_id
 
