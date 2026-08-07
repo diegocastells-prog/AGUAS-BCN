@@ -14,7 +14,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "45399e69dec4ad63647e",
+        "name": "fc98937019c6a5ce8d00",
         "field": {
           "Column": {
             "Expression": {
@@ -22,12 +22,75 @@
                 "Entity": "dim_calendario"
               }
             },
-            "Property": "Date"
+            "Property": "anio_mes"
           }
         },
-        "type": "Advanced",
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_calendario",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "anio_mes"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2026-06'"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2026-07'"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2026-05'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
         "howCreated": "User",
-        "isHiddenInViewMode": true,
         "objects": {
           "general": [
             {
@@ -45,34 +108,19 @@
         }
       },
       {
-        "name": "fc98937019c6a5ce8d00",
+        "name": "a22414ce230e998b90ae",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "dim_calendario"
+                "Entity": "dim_arteria"
               }
             },
-            "Property": "anio_mes"
+            "Property": "gerencia"
           }
         },
         "type": "Categorical",
-        "howCreated": "User",
-        "objects": {
-          "general": [
-            {
-              "properties": {
-                "isInvertedSelectionMode": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "true"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        }
+        "howCreated": "User"
       }
     ]
   },
@@ -96,7 +144,7 @@
           "expanded": {
             "expr": {
               "Literal": {
-                "Value": "false"
+                "Value": "true"
               }
             }
           }

@@ -1,13 +1,7 @@
 table _medidas
 	lineageTag: 1cfb93bc-b117-4679-93ca-631a08faced9
 
-	measure anr_dia_m3_mensual =
-			
-			DIVIDE(
-			    [anr_mensual] * 1000000,
-			    [count_dias_mes],
-			    0
-			)
+	measure anr_dia_m3_mensual = DIVIDE(    [anr_mensual] * 1000000,    [count_dias_mes],    0)
 		displayFolder: anr\mensual
 		lineageTag: adaf3334-5699-4baf-b2c6-dfcffbf821a2
 
@@ -122,58 +116,95 @@ table _medidas
 		displayFolder: anr\acum_12m
 		lineageTag: 5f1378c2-905a-4109-9cf9-571560b351e0
 
-	measure volum_lliurat_global_mensual = SUM(fact_anr_global_mensual[lliurada_hm3])
-		displayFolder: anr\mensual
+	measure volum_lliurat_global_mensual_hm3 = ```
+			SUM(fact_aigua_consum_historic[aigua_lliurada_total])/1000000
+			
+			```
+		displayFolder: anr_global\volum\mensual
 		lineageTag: 6c32f9d3-73d4-4cee-8719-3c99bc6c0211
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure volum_consumit_global_mensual = SUM(fact_anr_global_mensual[consumida_hm3])
-		displayFolder: anr\mensual
+	measure volum_consumit_global_mensual_hm3 = SUM(fact_aigua_consum_historic[aigua_consumida_total])/1000000
+		displayFolder: anr_global\volum\mensual
 		lineageTag: 8bad2009-0f2d-49b7-a5d6-5f57e5a19d68
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure rendiment_global_mensual =
-			
-			DIVIDE( [volum_consumit_global_mensual], [volum_lliurat_global_mensual] ) * 100
-		displayFolder: anr\mensual
+	measure rendiment_global_mensual = ```
+			SUM(fact_aigua_consum_historic[rendiment_mes]) 
+			```
+		displayFolder: anr_global\rth\mensual
 		lineageTag: 34283a5c-9a4a-44b1-9f15-bd8e048e4de3
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_global_mensual_hm3 =
+	measure anr_global_mensual_smly_hm3 = ```
 			
-			[volum_lliurat_global_mensual] - [volum_consumit_global_mensual]
-		displayFolder: anr\mensual
+			    CALCULATE(
+			        [anr_global_mensual_hm3],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			
+			```
+		displayFolder: anr_global\anr\mensual
 		lineageTag: 008b8502-9603-4472-b60f-a04215d278d1
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure volum_consumit_global_acum_12m = SUM(fact_anr_global_acum[consumida_hm3])
-		displayFolder: anr\acum_12m
+	measure volum_consumit_global_acum_12m = ```
+			
+			VAR FechaMax = MAX(dim_calendario[Date])
+			RETURN
+			CALCULATE(
+			    SUM(fact_aigua_consum_historic[aigua_consumida_total]),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
+			)/1000000
+			 
+			```
+		displayFolder: anr_global\volum\acum_12m
 		lineageTag: 5e8091e2-7345-4596-bd59-172605b3082a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure volum_lliurat_global_acum_12m = SUM(fact_anr_global_acum[lliurada_hm3])
-		displayFolder: anr\acum_12m
+	measure volum_lliurat_global_acum_12m_hm3 = ```
+			
+			VAR FechaMax = MAX(dim_calendario[Date])
+			RETURN
+			CALCULATE(
+			    SUM(fact_aigua_consum_historic[aigua_lliurada_total]),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
+			)/1000000
+			
+			```
+		displayFolder: anr_global\volum\acum_12m
 		lineageTag: 58e5e941-c4d8-422a-8288-e80857cf8667
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure rendiment_global_acum_12m =
-			
-			DIVIDE( [volum_consumit_global_acum_12m], [volum_lliurat_global_acum_12m] ) * 100
-		displayFolder: anr\acum_12m
+	measure rendiment_global_acum_12m = ```
+			SUM(fact_aigua_consum_historic[rendiment_12_umc])            
+			```
+		displayFolder: anr_global\rth\acum_12m
 		lineageTag: 760e412b-c9fa-4435-a5eb-dac15e21a270
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_global_hm3_acum_12m =
+	measure anr_global_acum_12m_hm3 = ```
+			SUM(fact_aigua_consum_historic[anr_12_umc])/1000000            
 			
-			[volum_lliurat_global_acum_12m] - [volum_consumit_global_acum_12m]
-		displayFolder: anr\acum_12m
+			```
+		displayFolder: anr_global\anr\acum_12m
 		lineageTag: 0ffca9d8-d9dc-4ea1-b6f0-991379f73982
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -510,16 +541,19 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure q_min_12_mesos = ```
+	measure q_min_12_mesos_mitjana = ```
 			
-			CALCULATE(
-			    AVERAGE('fact_cabals_mínims'[q_min]),
+			VAR UltimaFecha =
+			    MAX(dim_calendario[Date])
+			RETURN
+			AVERAGEX(
 			    DATESINPERIOD(
-			        'fact_cabals_mínims'[fecha],
-			        MAX('fact_cabals_mínims'[fecha]),
+			        dim_calendario[Date],
+			        UltimaFecha,
 			        -12,
 			        MONTH
-			    )
+			    ),
+			    [q_min_mensual]
 			)
 			
 			```
@@ -544,15 +578,15 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure volum_consumit_distribucion_mensual = SUM(fact_volum_consumit[volum_consumit])
+	measure volum_consumit_distribucion_mensual = SUM(fact_volum_cons_lliur[volum_consumit])
 		formatString: 0
-		displayFolder: volumen\consumit\mensual
+		displayFolder: anr_distribucion\volumns\consumit
 		lineageTag: 434c4f79-b648-44c1-8033-3d8c0ffff3f2
 
-	measure volum_consumit_distribucion_12m =
+	measure volum_consumit_distribucion_12m = ```
 			
 			CALCULATE(
-			    SUM(fact_volum_consumit[volum_consumit]),
+			    SUM(fact_volum_cons_lliur[volum_consumit]),
 			    DATESINPERIOD(
 			        'dim_calendario'[Date],
 			        MAX('dim_calendario'[Date]),
@@ -560,8 +594,10 @@ table _medidas
 			        MONTH
 			    )
 			)
+			 
+			```
 		formatString: 0
-		displayFolder: volumen\consumit\acum_12m
+		displayFolder: anr_distribucion\volumns\consumit
 		lineageTag: cd964112-8b9f-4c04-af0f-5c115db821ff
 
 	measure volum_consumit_mig_mensual =
@@ -625,10 +661,10 @@ table _medidas
 
 	measure delta_anr_global_mensual = ```
 			
-			VAR MesActual = [anr_global_mensual_hm3]
+			VAR MesActual = [anr_global_mensual_smly_hm3]
 			VAR MesAnterior =
 			    CALCULATE(
-			        [anr_global_mensual_hm3],
+			        [anr_global_mensual_smly_hm3],
 			        PREVIOUSMONTH(dim_calendario[Date])
 			    )
 			RETURN 
@@ -640,7 +676,7 @@ table _medidas
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure anr_dist_mensual = ```
-			SUM(fact_volum_lliurat[volum_lliurat]) - SUM(fact_volum_consumit[volum_consumit])  
+			SUM(fact_volum_cons_lliur[volum_lliurat]) - SUM(fact_volum_cons_lliur[volum_consumit])  
 			```
 		formatString: 0
 		displayFolder: anr\mensual
@@ -649,7 +685,7 @@ table _medidas
 	measure anr_dist_acum_12m =
 			
 			CALCULATE(
-			    SUM(fact_volum_lliurat[volum_lliurat]) - SUM(fact_volum_consumit[volum_consumit])  ,
+			    SUM(fact_volum_cons_lliur[volum_lliurat]) - SUM(fact_volum_cons_lliur[volum_consumit])  ,
 			    DATESINPERIOD(
 			        dim_calendario[Date],
 			        MAX(dim_calendario[Date]),
@@ -661,10 +697,10 @@ table _medidas
 		displayFolder: anr\acum_12m
 		lineageTag: b68700bb-5970-4285-a863-1dc818df0e6c
 
-	measure volum_lliurat_distribucion_12m =
+	measure volum_lliurat_distribucion_12m = ```
 			
 			CALCULATE(
-			    SUM(fact_volum_lliurat[volum_lliurat]),
+			    SUM(fact_volum_cons_lliur[volum_lliurat]),
 			    DATESINPERIOD(
 			        'dim_calendario'[Date],
 			        MAX('dim_calendario'[Date]),
@@ -672,25 +708,28 @@ table _medidas
 			        MONTH
 			    )
 			)
-		formatString: 0
-		displayFolder: volumen\lliurat\acum_12m
+			  
+			```
+		displayFolder: anr_distribucion\volumns\lliurat
 		lineageTag: 4da0b64d-3d7e-4180-a632-0583630e559b
 
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	measure volum_lliurat_distribucion_mensual = ```
-			SUM(fact_volum_lliurat[volum_lliurat]) 
+			SUM(fact_volum_cons_lliur[volum_lliurat]) 
 			```
 		formatString: 0
-		displayFolder: volumen\lliurat\mensual
+		displayFolder: anr_distribucion\volumns\lliurat
 		lineageTag: 24d97ac5-af0d-4d7c-b586-003659382b05
 
 	measure rth_distribucion_mensual = [volum_consumit_distribucion_mensual] / [volum_lliurat_distribucion_mensual]
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: volumen\rth
+		displayFolder: anr_distribucion\rth
 		lineageTag: 9e118bbd-de00-4672-8065-c04b2bf119aa
 
 	measure rth_distribucion_12m = [volum_consumit_distribucion_12m] / [volum_lliurat_distribucion_12m]
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: volumen\rth
+		displayFolder: anr_distribucion\rth
 		lineageTag: 37994a34-9e85-44c5-9f3b-d75d08144abb
 
 	measure anr_acum_12m = ```
@@ -979,10 +1018,22 @@ table _medidas
 
 	measure anr_dia_m3_mensual_smly = ```
 			
-			CALCULATE( 
-			    DIVIDE(    [anr_mensual] * 1000000,    [count_dias_mes],    0),
-			    PREVIOUSMONTH(dim_calendario[Date])
-			) 
+			VAR anrSM =
+			    CALCULATE(
+			        [anr_mensual] * 1000000,
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			    )
+			 
+			
+			VAR DiasSM =
+			    CALCULATE(
+			        [count_dias_mes],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			    )
+			
+			RETURN
+			    DIVIDE( AnrSM, DiasSM, 0 ) 
+			
 			```
 		displayFolder: anr\mensual
 		lineageTag: 48b1f7c8-9d2f-4e6a-8f7d-2f3c0a5e6d7f
@@ -1143,53 +1194,62 @@ table _medidas
 		displayFolder: anr\acum_12m
 		lineageTag: 1a1b1c1d-1e1f-2a2b-2c2d-2e2f3a3b3c3d
 
-	measure volum_lliurat_global_mensual_1m =
+	measure volum_lliurat_global_mensual_smly_hm3 = ```
+			
 			CALCULATE(
-			    SUM(fact_anr_global_mensual[lliurada_hm3]),
-			    PREVIOUSMONTH(dim_calendario[Date])
+			        [volum_lliurat_global_mensual_hm3],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
 			)
-		displayFolder: anr\mensual
+			
+			
+			```
+		displayFolder: anr_global\volum\mensual
 		lineageTag: 4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure volum_consumit_global_mensual_1m =
+	measure volum_consumit_global_mensual_smly_hm3 = ```
 			CALCULATE(
-			    SUM(fact_anr_global_mensual[consumida_hm3]),
-			    PREVIOUSMONTH(dim_calendario[Date])
+			    CALCULATE(
+			        [volum_consumit_global_mensual_hm3]),
+			        DATEADD( dim_calendario[Date], -12, MONTH )
 			)
-		displayFolder: anr\mensual
+			
+			
+			```
+		displayFolder: anr_global\volum\mensual
 		lineageTag: 5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure rendiment_global_mensual_1m =
-			
+	measure rendiment_global_mensual_smly =
 			CALCULATE(
-			    DIVIDE( [volum_consumit_global_mensual], [volum_lliurat_global_mensual] ) * 100,
-			    PREVIOUSMONTH(dim_calendario[Date])
+			    CALCULATE(
+			        [rendiment_global_mensual]),
+			        DATEADD( dim_calendario[Date], -11, MONTH )
 			)
-		displayFolder: anr\mensual
+		displayFolder: anr_global\rth\mensual
 		lineageTag: 6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure volum_consumit_global_acum_12m_1m =
+	measure volum_consumit_global_acum_12m_1m_hm3 =
+			
 			CALCULATE(
-			    SUM(fact_anr_global_acum[consumida_hm3]),
-			    PREVIOUSMONTH(dim_calendario[Date])
+			    [volum_consumit_global_acum_12m],
+			    DATEADD(dim_calendario[Date], -1, MONTH)
 			)
-		displayFolder: anr\acum_12m
+		displayFolder: anr_global\volum\acum_12m
 		lineageTag: 5e5f5a5b-5c5d-5e5f-5a5b-5c5d5e5f5a5b
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure volum_lliurat_global_acum_12m_1m =
+	measure volum_lliurat_global_acum_12m_1m_hm3 =
 			CALCULATE(
-			    SUM(fact_anr_global_acum[lliurada_hm3]),
-			    PREVIOUSMONTH(dim_calendario[Date])
+			    [volum_lliurat_global_acum_12m_hm3],
+			    DATEADD(dim_calendario[Date], -1, MONTH)
 			)
-		displayFolder: anr\acum_12m
+		displayFolder: anr_global\volum\acum_12m
 		lineageTag: 6f6a6b6c-6d6e-6f6a-6b6c-6d6e6f6a6b6c
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -1197,40 +1257,41 @@ table _medidas
 	measure rendiment_global_acum_12m_1m =
 			
 			CALCULATE(
-			    DIVIDE( [volum_consumit_global_acum_12m], [volum_lliurat_global_acum_12m] ) * 100,
-			    PREVIOUSMONTH(dim_calendario[Date])
+			    [rendiment_global_acum_12m],
+			    DATEADD(dim_calendario[Date], -1, MONTH)
 			)
-		displayFolder: anr\acum_12m
+		displayFolder: anr_global\rth\acum_12m
 		lineageTag: 7a7b7c7d-7e7f-7a7b-7c7d-7e7f7a7b7c7d
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_global_hm3_acum_12m_1m =
+	measure anr_global_acum_12m_1m_hm3 = ```
 			
 			CALCULATE(
-			    [volum_lliurat_global_acum_12m] - [volum_consumit_global_acum_12m],
-			    PREVIOUSMONTH(dim_calendario[Date])
-			)
-		displayFolder: anr\acum_12m
+			    [anr_global_acum_12m_hm3],
+			    DATEADD(dim_calendario[Date], -1, MONTH)
+			) 
+			```
+		displayFolder: anr_global\anr\acum_12m
 		lineageTag: 8b8c8d8e-8f8a-8b8c-8d8e-8f8a8b8c8d8e
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure rendiment_transport_mensual_1m =
+	measure rendiment_transport_mensual_smly =
 			
 			CALCULATE(
 			    DIVIDE( SUM(fact_rend_anr_arterias[sortit_m3]), SUM(fact_rend_anr_arterias[entrat_m3]) ) * 100,
-			    PREVIOUSMONTH(dim_calendario[Date])
+			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
 		displayFolder: anr\mensual
 		lineageTag: 7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_transport_m3_mensual_1m =
+	measure anr_transport_m3_mensual_smly =
 			CALCULATE(
 			    SUM(fact_rend_anr_arterias[entrat_m3]) - SUM(fact_rend_anr_arterias[sortit_m3]),
-			    PREVIOUSMONTH(dim_calendario[Date])
+			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
 		formatString: 0
 		displayFolder: anr\mensual
@@ -1334,14 +1395,14 @@ table _medidas
 	measure q_min_mensual_1m =
 			CALCULATE(
 			    sum('fact_cabals_mínims'[q_min]),
-			    PREVIOUSMONTH('fact_cabals_mínims'[fecha])
+			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
 		displayFolder: cabals
 		lineageTag: 1e2f3a4b-5c6d-7e8f-9a0b-1c2d3e4f5a6b
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure q_min_12_mesos_1m = ```
+	measure q_min_12_mesos_mitjana_1m = ```
 			
 			CALCULATE(
 			    AVERAGE('fact_cabals_mínims'[q_min]),
@@ -1359,20 +1420,23 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure volum_consumit_distribucion_mensual_1m =
+	measure volum_consumit_distribucion_mensual_smly = ```
 			
 			CALCULATE(
-			    SUM(fact_volum_consumit[volum_consumit]),
-			    PREVIOUSMONTH(dim_calendario[Date])
+			    SUM(fact_volum_cons_lliur[volum_consumit]),
+			    DATEADD( dim_calendario[Date], -12, MONTH )
 			)
+			
+			
+			```
 		formatString: 0
-		displayFolder: volumen\consumit\mensual
+		displayFolder: anr_distribucion\volumns\consumit
 		lineageTag: 2f3a4b5c-6d7e-8f9a-0b1c-2d3e4f5a6b7c
 
 	measure volum_consumit_distribucion_12m_1m =
 			
 			CALCULATE(
-			    SUM(fact_volum_consumit[volum_consumit]),
+			    SUM(fact_volum_cons_lliur[volum_consumit]),
 			    DATESINPERIOD(
 			        'dim_calendario'[Date],
 			        EOMONTH(MAX('dim_calendario'[Date]), -1),
@@ -1381,20 +1445,21 @@ table _medidas
 			    )
 			)
 		formatString: 0
-		displayFolder: volumen\consumit\acum_12m
+		displayFolder: anr_distribucion\volumns\consumit
 		lineageTag: 2b2c2d2e-2f2a-3b3c-3d3e-3f3a4b4c4d4e
 
-	measure volum_consumit_mig_mensual_1m =
+	measure volum_consumit_mig_mensual_smly = ```
 			
 			CALCULATE(
 			    AVERAGEX(
 			        VALUES(dim_calendario[date]),
 			        CALCULATE(
-			            SUM(fact_volum_consumit[volum_consumit])
+			            SUM(fact_volum_cons_lliur[volum_consumit])
 			        )
 			    ),
-			    PREVIOUSMONTH(dim_calendario[Date])
-			)
+			     DATEADD( dim_calendario[Date], -12, MONTH )
+			) 
+			```
 		displayFolder: volumen\consumit
 		lineageTag: 8f9a0b1c-2d3e-4f5a-6b7c-8d9e0f1a2b3c
 
@@ -1403,7 +1468,7 @@ table _medidas
 	measure anr_dist_acum_12m_1m =
 			
 			CALCULATE(
-			    SUM(fact_volum_lliurat[volum_lliurat]) - SUM(fact_volum_consumit[volum_consumit])  ,
+			    SUM(fact_volum_cons_lliur[volum_lliurat]) - SUM(fact_volum_cons_lliur[volum_consumit])  ,
 			    DATESINPERIOD(
 			        dim_calendario[Date],
 			        EOMONTH(MAX(dim_calendario[Date]), -1),
@@ -1418,7 +1483,7 @@ table _medidas
 	measure volum_lliurat_distribucion_12m_1m =
 			
 			CALCULATE(
-			    SUM(fact_volum_lliurat[volum_lliurat]),
+			    SUM(fact_volum_cons_lliur[volum_lliurat]),
 			    DATESINPERIOD(
 			        'dim_calendario'[Date],
 			        EOMONTH(MAX('dim_calendario'[Date]), -1),
@@ -1427,17 +1492,20 @@ table _medidas
 			    )
 			)
 		formatString: 0
-		displayFolder: volumen\lliurat\acum_12m
+		displayFolder: anr_distribucion\volumns\lliurat
 		lineageTag: 3c3d3e3f-3a3b-4c4d-4e4f-4a4b5c5d5e5f
 
 	measure volum_lliurat_distribucion_mensual_1m = ```
 			CALCULATE(
-			    SUM(fact_volum_lliurat[volum_lliurat]),
+			    SUM(fact_volum_cons_lliur[volum_lliurat]),
 			    PREVIOUSMONTH(dim_calendario[Date])
 			) 
+			
+			
+			
 			```
 		formatString: 0
-		displayFolder: volumen\lliurat\mensual
+		displayFolder: anr_distribucion\volumns\lliurat
 		lineageTag: 3a4b5c6d-7e8f-9a0b-1c2d-3e4f5a6b7c8d
 
 	measure rth_distribucion_mensual_1m =
@@ -1446,12 +1514,12 @@ table _medidas
 			    PREVIOUSMONTH(dim_calendario[Date])
 			)
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: volumen\rth
+		displayFolder: anr_distribucion\rth
 		lineageTag: 4b5c6d7e-8f9a-0b1c-2d3e-4f5a6b7c8d9e
 
 	measure rth_distribucion_12m_1m = [volum_consumit_distribucion_12m_1m] / [volum_lliurat_distribucion_12m_1m]
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: volumen\rth
+		displayFolder: anr_distribucion\rth
 		lineageTag: 4d4e4f4a-4b4c-5d5e-5f5a-5b5c6d6e6f6a
 
 	measure anr_acum_12m_1m = ```
@@ -1474,11 +1542,13 @@ table _medidas
 		displayFolder: anr\acum_12m
 		lineageTag: 6f6a6b6c-6d6e-7f7a-7b7c-7d7e8f8a8b8c
 
-	measure anr_mensual_1m =
+	measure anr_mensual_smly = ```
 			CALCULATE(
 			    SUM(fact_aigua_no_registrada[anr]),
-			    PREVIOUSMONTH(dim_calendario[Date])
+			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
+			 
+			```
 		formatString: 0
 		displayFolder: anr\mensual
 		lineageTag: 5c6d7e8f-9a0b-1c2d-3e4f-5a6b7c8d9e0f
@@ -1557,7 +1627,7 @@ table _medidas
 			
 			```
 		formatString: 0
-		displayFolder: anr\acum_12m
+		displayFolder: anr_distribucion\anr
 		lineageTag: f946dbe1-a12d-4616-83ff-15a6a3d113c9
 
 	measure anr_distribucion_12m_1m = ```
@@ -1565,7 +1635,7 @@ table _medidas
 			
 			```
 		formatString: 0
-		displayFolder: anr\acum_12m
+		displayFolder: anr_distribucion\anr
 		lineageTag: 7fd2fd53-f5f6-4294-a26c-94aca746aa4d
 
 	measure anr_distribucion_mensual = ```
@@ -1573,23 +1643,27 @@ table _medidas
 			
 			```
 		formatString: 0
-		displayFolder: anr\mensual
+		displayFolder: anr_distribucion\anr
 		lineageTag: c1945846-0cbb-4157-af21-a36a089b7ad9
 
-	measure anr_distribucion_mensual_1m =
+	measure anr_distribucion_mensual_smly = ```
 			CALCULATE(
 			    [volum_consumit_distribucion_mensual] - [volum_lliurat_distribucion_mensual],
-			    PREVIOUSMONTH(dim_calendario[Date])
+			    DATEADD( dim_calendario[Date], -12, MONTH )
 			)
+			 
+			```
 		formatString: 0
-		displayFolder: anr\mensual
+		displayFolder: anr_distribucion\anr
 		lineageTag: fd91a794-62d5-4749-986a-6067a114d441
 
-	measure anr_dist_mensual_1m =
-			CALCULATE(
-			    SUM(fact_volum_lliurat[volum_lliurat]) - SUM(fact_volum_consumit[volum_consumit])  ,
-			    PREVIOUSMONTH(dim_calendario[Date])
-			)
+	measure anr_dist_mensual_smly = ```
+			
+			    CALCULATE(
+			        SUM(fact_volum_cons_lliur[volum_lliurat]) - SUM(fact_volum_cons_lliur[volum_consumit])  ,
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			    ) 
+			```
 		formatString: 0
 		displayFolder: anr\mensual
 		lineageTag: ceb001ce-ddcd-420f-b8cb-e4c85d2bee08
@@ -1666,6 +1740,295 @@ table _medidas
 			)
 		displayFolder: compatodrs
 		lineageTag: 98f9391b-d675-4925-b187-c4f3de1f0f69
+
+	measure anr_global_mensual_hm3 = SUM(fact_aigua_consum_historic[anr_mes])/1000000
+		displayFolder: anr_global\anr\mensual
+		lineageTag: 0654636b-f135-436f-9748-efb105d9d565
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_acf_global_mensual_hm3 = ```
+			SUM(fact_aigua_consum_historic[aigua_consumida_acf])/1000000    
+			
+			```
+		formatString: 0
+		displayFolder: aigua_consumida\acf
+		lineageTag: 3c3d0a02-f3fc-4a79-af54-8eeedfcf6789
+
+	measure aigua_consumida_acf_global_mensual_smly_hm3 = ```
+			
+			    CALCULATE(
+			        [aigua_consumida_acf_global_mensual_hm3],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			```
+		displayFolder: aigua_consumida\acf
+		lineageTag: 713f0649-3646-4c92-ac46-343f209dc528
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_acf_global_acum_12m_hm3 = ```
+			
+			VAR FechaMax = MAX(dim_calendario[Date])
+			RETURN
+			CALCULATE(
+			    SUM(fact_aigua_consum_historic[aigua_consumida_acf]),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
+			)/1000000 
+			```
+		displayFolder: aigua_consumida\acf
+		lineageTag: 55da804c-66da-4610-af54-76e0e519ad00
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_acf_global_acum_12m_1m_hm3 = ```
+			
+			CALCULATE(
+			    [aigua_consumida_acf_global_acum_12m_hm3],
+			    DATEADD(dim_calendario[Date], -1, MONTH)
+			) 
+			```
+		displayFolder: aigua_consumida\acf
+		lineageTag: c946b678-a54c-4316-bf5b-80b0dd63c2a7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_alta_global_acum_12m_1m_hm3 = ```
+			
+			CALCULATE(
+			    [aigua_consumida_alta_global_acum_12m_hm3], 
+			    DATEADD(dim_calendario[Date], -1, MONTH)
+			) 
+			```
+		displayFolder: aigua_consumida\alta
+		lineageTag: 09a8df37-712d-4843-864e-047e1cc09e9c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_alta_global_acum_12m_hm3 = ```
+			
+			VAR FechaMax = MAX(dim_calendario[Date])
+			RETURN
+			CALCULATE(
+			    SUM(fact_aigua_consum_historic[aigua_consumida_alta]),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
+			)/1000000  
+			
+			```
+		displayFolder: aigua_consumida\alta
+		lineageTag: 48f2a3da-c6fe-4264-9f02-2adc65efd8e1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_alta_global_mensual_hm3 = ```
+			SUM(fact_aigua_consum_historic[aigua_consumida_alta])/1000000    
+			
+			```
+		displayFolder: aigua_consumida\alta
+		lineageTag: d77ee6d6-da97-466d-b4bd-cb3e79ee2a36
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_alta_global_mensual_smly_hm3 = ```
+			
+			    CALCULATE(
+			        [aigua_consumida_alta_global_mensual_hm3],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			```
+		displayFolder: aigua_consumida\alta
+		lineageTag: 51d06aac-8585-4bbf-8ce4-022e0658af84
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_baixa_global_acum_12m_hm3 = ```
+			
+			VAR FechaMax = MAX(dim_calendario[Date])
+			RETURN
+			CALCULATE(
+			    SUM(fact_aigua_consum_historic[aigua_consumida_baixa]),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
+			)/1000000  
+			```
+		displayFolder: aigua_consumida\baixa
+		lineageTag: 1f79e41e-b940-4e1e-991d-82b06ccf1610
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_baixa_global_acum_12m_1m_hm3 = ```
+			
+			CALCULATE(
+			    [aigua_consumida_baixa_global_acum_12m_hm3],
+			    DATEADD(dim_calendario[Date], -1, MONTH)
+			) 
+			```
+		displayFolder: aigua_consumida\baixa
+		lineageTag: dbe9d079-0c27-4c59-9743-aff55cc61709
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_baixa_global_mensual_hm3 = ```
+			SUM(fact_aigua_consum_historic[aigua_consumida_baixa])/1000000    
+			
+			```
+		displayFolder: aigua_consumida\baixa
+		lineageTag: 34153362-36a5-44ea-9cff-1bffab05545d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_baixa_global_mensual_smly_hm3 = ```
+			
+			    CALCULATE(
+			        [aigua_consumida_baixa_global_mensual_hm3],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			```
+		displayFolder: aigua_consumida\baixa
+		lineageTag: f2a8cf4c-6dae-46fa-afb3-e6dfdd65bf4a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_autoconsum_global_acum_12m_hm3 = ```
+			
+			VAR FechaMax = MAX(dim_calendario[Date])
+			RETURN
+			CALCULATE(
+			    SUM(fact_aigua_consum_historic[aigua_consumida_autoconsum]),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
+			)/1000000 
+			```
+		formatString: 0
+		displayFolder: aigua_consumida\autoconsum
+		lineageTag: d47fad54-f0ba-416e-95ca-2e3ffece51ab
+
+	measure aigua_consumida_autoconsum_global_acum_12m_1m_hm3 = ```
+			
+			CALCULATE(
+			    [aigua_consumida_autoconsum_global_acum_12m_hm3],
+			    DATEADD(dim_calendario[Date], -1, MONTH)
+			) 
+			```
+		formatString: 0
+		displayFolder: aigua_consumida\autoconsum
+		lineageTag: 5c68e6d6-4a16-4fa8-a203-59d6f0abfe86
+
+	measure aigua_consumida_autoconsum_global_mensual_hm3 = ```
+			SUM(fact_aigua_consum_historic[aigua_consumida_autoconsum])/1000000    
+			
+			```
+		formatString: 0
+		displayFolder: aigua_consumida\autoconsum
+		lineageTag: 5b7e04bd-bc08-4bb8-9879-7a0e5bdd23b8
+
+	measure aigua_consumida_autoconsum_global_mensual_smly_hm3 = ```
+			
+			    CALCULATE(
+			        [anr_global_mensual_smly_hm3],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			
+			```
+		displayFolder: aigua_consumida\autoconsum
+		lineageTag: 50bff2b3-5dee-496c-87f9-dc66bbd29440
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_peatges_global_acum_12m_hm3 = ```
+			
+			VAR FechaMax = MAX(dim_calendario[Date])
+			RETURN
+			CALCULATE(
+			    SUM(fact_aigua_consum_historic[aigua_consumida_peatges]),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
+			)/1000000  
+			
+			```
+		displayFolder: aigua_consumida\peatges
+		lineageTag: 89384ace-09b3-4dbb-9636-f03fc195a6d3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_peatges_global_acum_12m_1m_hm3 = ```
+			
+			CALCULATE(
+			    [aigua_consumida_peatges_global_acum_12m_hm3],
+			    DATEADD(dim_calendario[Date], -1, MONTH)
+			) 
+			```
+		displayFolder: aigua_consumida\peatges
+		lineageTag: f238730d-bb97-4955-9681-960978ad9619
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_peatges_global_mensual_hm3 = ```
+			SUM(fact_aigua_consum_historic[aigua_consumida_peatges])/1000000    
+			
+			```
+		displayFolder: aigua_consumida\peatges
+		lineageTag: be37dd64-2aa7-4caf-8518-7f0086991a68
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_peatges_global_mensual_smly_hm3 = ```
+			
+			    CALCULATE(
+			        [anr_global_mensual_smly_hm3],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			```
+		displayFolder: aigua_consumida\peatges
+		lineageTag: 700e4dc3-7ddc-479b-a2ff-1642e691a892
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure l_global_mensual = ```
+			SUM(fact_inventari_xarxa_transporte_total[xarxa]) + SUM(fact_inventari_xarxa_distribucion[xarxa]) 
+			```
+		displayFolder: anr_global\xarxa
+		lineageTag: 73380145-4d7b-4903-a202-d766331dee1b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure escomeses_global_mensual = ```
+			SUM(fact_inventari_xarxa_distribucion[escomeses]) 
+			```
+		displayFolder: anr_global\xarxa
+		lineageTag: 2ba18a50-9761-4ffc-9a62-aa57b190a11c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure subministraments_global_mensual = ```
+			SUM(fact_inventari_xarxa_distribucion[subministraments]) 
+			```
+		displayFolder: anr_global\xarxa
+		lineageTag: 25c7fcd8-ff6a-48cd-b4a9-f70531b5bc75
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Column
 		isHidden

@@ -1956,11 +1956,10 @@ expression fact_volum_consumit =
 		    // Preparación de datos
 		    SaltarFilas = Table.Skip(TablaOrigen, 2),
 		    PromoverEncabezados = Table.PromoteHeaders(SaltarFilas, [PromoteAllScalars = true]),
-		    #"Filas filtradas" = Table.SelectRows(PromoverEncabezados, each ([Gerència] <> "Total") and ([Pis Pressió] <> "Aigua Consumida Total" and [Pis Pressió] <> "Aigua Consumida Íntegre")),
-		
+		    #"Filas filtradas3" = Table.SelectRows(PromoverEncabezados, each ([Nº] <> "")),
 		    // Eliminar columnas innecesarias
 		    EliminarColumnas = Table.RemoveColumns(
-		        #"Filas filtradas",
+		        #"Filas filtradas3",
 		        {
 		            "_1", "", "01/06/2026", "01/07/2026", "01/08/2026",
 		            "01/09/2026", "01/10/2026", "01/11/2026", "01/12/2026"
@@ -1996,20 +1995,12 @@ expression fact_volum_consumit =
 		            {"volum_consumit", Int64.Type}
 		        }
 		    ),
-		    // Limpiar datos
-		    SinDuplicados = Table.Distinct(CambiarTipos),
-		    #"Valor reemplazado2" = Table.ReplaceValue(SinDuplicados,null,-1,Replacer.ReplaceValue,{"sector_id"}),
-		    SinFilasVacias = Table.SelectRows(
-		        #"Valor reemplazado2",
-		        each List.NonNullCount(Record.FieldValues(_)) > 0
-		    ),
-		    #"Valor reemplazado" = Table.ReplaceValue(SinFilasVacias,"","No Disponible",Replacer.ReplaceValue,{"gerencia"}),
-		    #"Filas filtradas1" = Table.SelectRows(#"Valor reemplazado", each true),
-		    #"Consultas combinadas" = Table.NestedJoin(#"Filas filtradas1", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
-		    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
-		    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"})
+		    #"Valor reemplazado2" = Table.ReplaceValue(CambiarTipos,null,-1,Replacer.ReplaceValue,{"sector_id"}),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Valor reemplazado2","","No Disponible",Replacer.ReplaceValue,{"gerencia"}),
+		    #"Consultas combinadas" = Table.NestedJoin(#"Valor reemplazado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+		    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"})
 		in
-		    #"Columnas quitadas"
+		    #"Se expandió dim_gerencia"
 	lineageTag: 83aa9477-3963-4c9a-be3b-cff1b9f513af
 	queryGroup: Auxiliares
 
@@ -2020,17 +2011,17 @@ expression fact_volum_consumit =
 expression fact_volum_lliurat =
 		let
 		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=512415232#gid=512415232"),
-		  TablaOrigen = Origen{[name = "Volums Lliurats", ItemKind = "Table"]}[Data],
+		  TablaOrigen = Origen{[name = "Lliurats Corregits", ItemKind = "Table"]}[Data],
 		
 		    // Preparación de datos
 		    SaltarFilas = Table.Skip(TablaOrigen, 2),
 		    PromoverEncabezados = Table.PromoteHeaders(SaltarFilas, [PromoteAllScalars = true]),
+		    #"Filas filtradas2" = Table.SelectRows(PromoverEncabezados, each ([Nº] <> "")),
 		    // Eliminar columnas innecesarias
 		    EliminarColumnas = Table.RemoveColumns(
-		        PromoverEncabezados,
+		        #"Filas filtradas2",
 		        {
-		            "_1", "", "01/06/2026", "01/07/2026", "01/08/2026",
-		            "01/09/2026", "01/10/2026", "01/11/2026", "01/12/2026"
+		            "_1", ""
 		        }
 		    ),
 		    #"Filas filtradas" = Table.SelectRows(EliminarColumnas, each ([Gerència] <> "Total") and ([Pis Pressió] <> "Aigua Lliurada Total" and [Pis Pressió] <> "Aigua Lliurada Íntegre")),
@@ -2041,10 +2032,11 @@ expression fact_volum_lliurat =
 		        "fecha",
 		        "volum_lliurat"
 		    ),
+		    #"Errores reemplazados" = Table.ReplaceErrorValues(DespivotarFechas, {{"volum_lliurat", 0}}),
 		
 		    // Renombrar columnas
 		    RenombrarColumnas = Table.RenameColumns(
-		        DespivotarFechas,
+		        #"Errores reemplazados",
 		        {
 		            {"Nº", "sector_id"},
 		            {"Gerència", "gerencia"},
@@ -2076,8 +2068,7 @@ expression fact_volum_lliurat =
 		    #"Texto recortado" = Table.TransformColumns(#"Texto limpio",{{"gerencia", Text.Trim, type text}}),
 		    #"Consultas combinadas" = Table.NestedJoin(#"Texto recortado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
 		    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
-		    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
-		    #"Valor reemplazado1" = Table.ReplaceValue(#"Columnas quitadas","","No Disponible",Replacer.ReplaceValue,{"Sectors"}),
+		    #"Valor reemplazado1" = Table.ReplaceValue(#"Se expandió dim_gerencia","","No Disponible",Replacer.ReplaceValue,{"Sectors"}),
 		    #"Valor reemplazado2" = Table.ReplaceValue(#"Valor reemplazado1",null,-1,Replacer.ReplaceValue,{"sector_id"})
 		in
 		    #"Valor reemplazado2"
@@ -2291,6 +2282,21 @@ expression dim_ortomat =
 	annotation PBI_NavigationStepName = Navegación
 
 	annotation PBI_ResultType = Table
+
+/// URL AL SPREEDSHET "Informe Aigua Consumida 2026" QUE CONTIENE EL AIGUA LLIURADA
+expression 'Informe Aigua Consumida 2026' = "https://docs.google.com/spreadsheets/d/1GcZpQqbGihEftG7cP56wk9-AIIv07FLtQQT95_s6ZJw/edit?gid=763204073#gid=763204073" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: f9661877-db08-4896-abf1-5be8a090f507
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression 'Indicadors ANR 2026' = "https://docs.google.com/spreadsheets/d/1LK5D7QclVwCBGy5-hONVLgP1GgW35okgrxNLr1kJCoE" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: e64e325d-25f0-488d-9232-c93a1fa3c3df
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
 
 expression fact_actuacions_zones_2026 = ```
 		let

@@ -1,0 +1,179 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "1c48362245882b44cecd",
+  "position": {
+    "x": 0,
+    "y": 108.88888888888889,
+    "z": 5005,
+    "height": 555.55555555555554,
+    "width": 924.44444444444446,
+    "tabOrder": 6005
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "anio_mes"
+                }
+              },
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_lliurat_global_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_lliurat_global_switch",
+              "nativeQueryRef": "lliurat",
+              "displayName": "lliurat"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_consumita_global_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_consumita_global_switch",
+              "nativeQueryRef": "consumita",
+              "displayName": "consumita"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_rth_global_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_rth_global_switch",
+              "nativeQueryRef": "rth",
+              "displayName": "rth"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_rth_global_switch_1m"
+                }
+              },
+              "queryRef": "_switchs.kpi_rth_global_switch_1m",
+              "nativeQueryRef": "kpi_rth_global_switch_1m"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_inventari_xarxa_distribucion"
+                        }
+                      },
+                      "Property": "xarxa"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_inventari_xarxa_distribucion.xarxa)",
+              "nativeQueryRef": "Suma de xarxa"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_inventari_xarxa_transporte_total"
+                        }
+                      },
+                      "Property": "xarxa"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(fact_inventari_xarxa_transporte.xarxa)",
+              "nativeQueryRef": "Suma de xarxa1"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "l_global_mensual"
+                }
+              },
+              "queryRef": "_medidas.l_global_mensual",
+              "nativeQueryRef": "l_global_mensual"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "escomeses_global_mensual"
+                }
+              },
+              "queryRef": "_medidas.escomeses_global_mensual",
+              "nativeQueryRef": "escomeses",
+              "displayName": "escomeses"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "subministraments_global_mensual"
+                }
+              },
+              "queryRef": "_medidas.subministraments_global_mensual",
+              "nativeQueryRef": "subministraments",
+              "displayName": "subministraments"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

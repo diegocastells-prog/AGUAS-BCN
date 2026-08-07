@@ -1,7 +1,3 @@
-relationship c28b00dc-ddae-cc09-a094-042aff7256fd
-	fromColumn: fact_estadistiques_comp.fecha
-	toColumn: dim_calendario.Date
-
 relationship 2fc70948-9d9c-45be-8951-17760ee1eb52
 	joinOnDateBehavior: datePartOnly
 	fromColumn: fact_fraudes_all.data_creacio_final
@@ -35,54 +31,22 @@ relationship AutoDetected_fa068362-ff0a-4555-84b3-340a375e0c1f
 	fromColumn: fact_perimetre_comptadors.id_marca_modelo
 	toColumn: dim_comptadors.Id_marca_modelo
 
-relationship 70df98a5-d27d-92ab-f90e-152ce7d20191
-	fromColumn: fact_cabals_mínims.fecha
-	toColumn: dim_calendario.Date
-
 relationship 4c90cb05-4cad-48a6-9112-4930a85a791b
 	joinOnDateBehavior: datePartOnly
 	fromColumn: fact_bossa.data_alta_subm
 	toColumn: LocalDateTable_d7467889-0f0f-4b21-a13c-65fd8cde4c37.Date
 
-relationship a12e6aac-5cfa-3fb3-9012-07a86c379643
-	fromColumn: fact_bossa.data_instalacion
-	toColumn: dim_calendario.Date
-
-relationship c4350338-ac8f-7bcd-39dc-14af6de27b72
-	fromColumn: fact_fraudes_all.data_creacio_original
-	toColumn: dim_calendario.Date
-
-relationship 593b7e3e-5630-319a-cf59-56fcc99d17ea
-	fromColumn: fact_aigua_no_registrada.fecha
-	toColumn: dim_calendario.Date
-
 relationship 11103316-591f-d468-00ef-0a246d796aaa
 	fromColumn: fact_vol_fraud.'Polissa Subm'
 	toColumn: dim_less_polissa_fraude.polissa_su
-
-relationship 2d155cf4-eda1-bf1c-5df2-00686c2e6216
-	fromColumn: fact_vol_fraud.'Data Fi Execucio Final'
-	toColumn: dim_calendario.Date
-
-relationship 8e23439e-04fd-13e6-3e9e-40de6d4bd9d2
-	fromColumn: fact_dades_consum.fecha
-	toColumn: dim_calendario.Date
 
 relationship 607197d3-b65f-a33d-e199-df6a109be2a4
 	fromColumn: fact_dades_consum.polissa_subm
 	toColumn: dim_less_polissa_fraude.polissa_su
 
-relationship 395b468d-5a37-81d8-23ad-e64f24caecf6
-	fromColumn: fact_rend_anr_arterias.fecha
-	toColumn: dim_calendario.Date
-
 relationship cf211dcf-d429-fba1-2299-ce149386634f
 	fromColumn: fact_rend_anr_arterias.arteria
 	toColumn: dim_arteria.arteria
-
-relationship cd1903c2-799d-d65b-df67-adc032a5eac3
-	fromColumn: fact_perimetre_comptadors.data_inst_comp
-	toColumn: dim_calendario.Date
 
 relationship AutoDetected_74ffd436-f204-4be2-8b30-5e87868e85a6
 	fromColumn: fact_estadistiques_comp.gerencia_id
@@ -100,14 +64,6 @@ relationship 8a45c3fd-d687-46a7-8aea-e7bd07961837
 	fromColumn: fact_perimetre_comptadors.sector_id
 	toColumn: dim_dades_sectors.sector_id
 
-relationship 5872cc34-488f-e15c-3cc1-8a3ce6da034e
-	fromColumn: dim_dades_sectors.gerencia_id
-	toColumn: dim_gerencia.gerencia_id
-
-relationship 9239a9a9-2502-5e6c-eba7-ceda6e1a67b3
-	fromColumn: fact_volum_cons_lliur.sector_id
-	toColumn: dim_dades_sectors.sector_id
-
 relationship eaf14c69-fc82-c44a-754b-cfe67804b55c
 	fromColumn: dim_less_polissa_fraude.sector_id
 	toColumn: dim_dades_sectors.sector_id
@@ -116,21 +72,53 @@ relationship 4e9d30b0-9c98-f8fb-e744-8ab7c4406aa6
 	fromColumn: fact_bossa.sector_id
 	toColumn: dim_dades_sectors.sector_id
 
-relationship 6e55d5b9-0aa9-8a41-a362-c2d9965931e4
-	fromColumn: fact_volum_cons_lliur.fecha
-	toColumn: dim_calendario.Date
-
 relationship AutoDetected_815c86f1-a27f-494d-adf3-02feef9e45ef
-	fromColumn: fact_inventari_xarxa.gerencia_id
+	fromColumn: fact_inventari_xarxa_distribucion.gerencia_id
 	toColumn: dim_gerencia.gerencia_id
-
-relationship 25db9410-1baa-7209-b011-0c5bd9cc4fa3
-	fromColumn: fact_inventari_xarxa.fecha
-	toColumn: dim_calendario.Date
 
 relationship e6a403eb-0d8c-bafa-1bb8-b60ea18398b0
 	fromColumn: fact_aigua_no_registrada.sector_id
 	toColumn: dim_dades_sectors.sector_id
+
+relationship c28b00dc-ddae-cc09-a094-042aff7256fd
+	fromColumn: fact_estadistiques_comp.fecha
+	toColumn: dim_calendario.Date
+
+relationship 70df98a5-d27d-92ab-f90e-152ce7d20191
+	fromColumn: fact_cabals_mínims.fecha
+	toColumn: dim_calendario.Date
+
+relationship a12e6aac-5cfa-3fb3-9012-07a86c379643
+	fromColumn: fact_bossa.data_instalacion
+	toColumn: dim_calendario.Date
+
+relationship c4350338-ac8f-7bcd-39dc-14af6de27b72
+	fromColumn: fact_fraudes_all.data_creacio_original
+	toColumn: dim_calendario.Date
+
+relationship 593b7e3e-5630-319a-cf59-56fcc99d17ea
+	fromColumn: fact_aigua_no_registrada.fecha
+	toColumn: dim_calendario.Date
+
+relationship 2d155cf4-eda1-bf1c-5df2-00686c2e6216
+	fromColumn: fact_vol_fraud.'Data Fi Execucio Final'
+	toColumn: dim_calendario.Date
+
+relationship 8e23439e-04fd-13e6-3e9e-40de6d4bd9d2
+	fromColumn: fact_dades_consum.fecha
+	toColumn: dim_calendario.Date
+
+relationship 395b468d-5a37-81d8-23ad-e64f24caecf6
+	fromColumn: fact_rend_anr_arterias.fecha
+	toColumn: dim_calendario.Date
+
+relationship cd1903c2-799d-d65b-df67-adc032a5eac3
+	fromColumn: fact_perimetre_comptadors.data_inst_comp
+	toColumn: dim_calendario.Date
+
+relationship 6e55d5b9-0aa9-8a41-a362-c2d9965931e4
+	fromColumn: fact_volum_cons_lliur.fecha
+	toColumn: dim_calendario.Date
 
 relationship 06c9534e-7f2b-4c35-8981-3ef704cc5d05
 	joinOnDateBehavior: datePartOnly
