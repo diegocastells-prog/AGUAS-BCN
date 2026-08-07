@@ -15,6 +15,7 @@
     "filters": [
       {
         "name": "fc98937019c6a5ce8d00",
+        "ordinal": 0,
         "field": {
           "Column": {
             "Expression": {
@@ -60,21 +61,129 @@
                               "Value": "null"
                             }
                           }
-                        ],
-                        [
-                          {
-                            "Literal": {
-                              "Value": "'2026-06'"
-                            }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "58774e6a0a8508eb91a0",
+        "ordinal": 1,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "status_date"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_calendario",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
                           }
-                        ],
-                        [
-                          {
-                            "Literal": {
-                              "Value": "'2026-07'"
-                            }
+                        },
+                        "Property": "status_date"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'REAL'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "d93dda1ba71c902049e8",
+        "ordinal": 2,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_calendario",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "anio_mes"
                           }
-                        ],
+                        }
+                      ],
+                      "Values": [
                         [
                           {
                             "Literal": {
@@ -109,6 +218,7 @@
       },
       {
         "name": "a22414ce230e998b90ae",
+        "ordinal": 3,
         "field": {
           "Column": {
             "Expression": {
@@ -122,7 +232,8 @@
         "type": "Categorical",
         "howCreated": "User"
       }
-    ]
+    ],
+    "filterSortOrder": "Custom"
   },
   "objects": {
     "section": [
@@ -144,7 +255,7 @@
           "expanded": {
             "expr": {
               "Literal": {
-                "Value": "true"
+                "Value": "false"
               }
             }
           }

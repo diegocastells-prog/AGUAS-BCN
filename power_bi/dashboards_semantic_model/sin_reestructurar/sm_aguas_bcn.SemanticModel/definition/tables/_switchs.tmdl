@@ -11,6 +11,7 @@ table _switchs
 			)
 			
 			```
+		displayFolder: estandarizadas
 		lineageTag: aefdb69b-7672-4b20-bde5-a92f86277203
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -54,6 +55,7 @@ table _switchs
 			
 			```
 		formatString: #,0.00
+		displayFolder: estandarizadas
 		lineageTag: 4dd0ca4b-97a4-467d-a3e6-0298f4457562
 
 	measure kpi_anr_l_esc_dia_switch = ```
@@ -67,6 +69,7 @@ table _switchs
 			
 			```
 		formatString: #,0.00
+		displayFolder: estandarizadas
 		lineageTag: d76f2ddc-e783-4915-b386-6d6c9e88b4cb
 
 	measure kpi_anr_l_subm_dia_switch = ```
@@ -80,6 +83,7 @@ table _switchs
 			
 			```
 		formatString: #,0.00
+		displayFolder: estandarizadas
 		lineageTag: add1648f-29b3-436e-84f1-a62778c04907
 
 	measure kpi_rth_distribucion_switch = ```
@@ -110,19 +114,6 @@ table _switchs
 		displayFolder: cabals
 		lineageTag: c7c175be-b942-4e59-b6cb-d53de227af82
 
-	measure kpi_anr_switch = ```
-			
-			SWITCH(
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_mensual],
-			    "12 meses", [anr_acum_12m],
-			    BLANK()
-			)
-			
-			```
-		formatString: #,0.00
-		lineageTag: 77d5aada-5d87-42b0-a2d2-2b55cf0afdca
-
 	measure kpi_rth_transporte_switch = ```
 			
 			SWITCH(
@@ -133,6 +124,7 @@ table _switchs
 			)
 			
 			```
+		displayFolder: anr_transporte\rth
 		lineageTag: ac946c00-aba8-45b5-84c8-5d496df3d700
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -171,6 +163,7 @@ table _switchs
 			    BLANK()
 			)
 		formatString: #,0.00
+		displayFolder: anr_transporte\anr
 		lineageTag: 67a9aaaf-d963-440b-b3dc-ebedbb624786
 
 	measure kpi_volum_consumit_transporte_switch =
@@ -182,6 +175,7 @@ table _switchs
 			    BLANK()
 			)
 		formatString: #,0
+		displayFolder: anr_transporte\volumns
 		lineageTag: 7eb1e0c7-a033-46bf-b774-6551ea06f431
 
 	measure kpi_volum_lliurat_transporte_switch =
@@ -193,6 +187,7 @@ table _switchs
 			    BLANK()
 			)
 		formatString: #,0
+		displayFolder: anr_transporte\volumns
 		lineageTag: d98f969c-1ed6-4b38-bfae-5d48b1f81eac
 
 	measure kpi_volum_consumit_mig_switch =
@@ -229,7 +224,10 @@ table _switchs
 			)
 			
 			```
+		displayFolder: estandarizadas
 		lineageTag: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_volum_consumit_distribucion_switch_1m = ```
 			
@@ -270,6 +268,7 @@ table _switchs
 			
 			```
 		formatString: #,0.00
+		displayFolder: estandarizadas
 		lineageTag: d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a
 
 	measure kpi_anr_l_esc_dia_switch_1m = ```
@@ -283,6 +282,7 @@ table _switchs
 			
 			```
 		formatString: #,0.00
+		displayFolder: estandarizadas
 		lineageTag: e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b
 
 	measure kpi_anr_l_subm_dia_switch_1m = ```
@@ -295,6 +295,7 @@ table _switchs
 			)
 			
 			```
+		displayFolder: estandarizadas
 		lineageTag: f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -326,19 +327,6 @@ table _switchs
 		displayFolder: cabals
 		lineageTag: b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e
 
-	measure kpi_anr_switch_1m = ```
-			
-			SWITCH(
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_mensual_smly],
-			    "12 meses", [anr_acum_12m],
-			    BLANK()
-			)
-			
-			```
-		formatString: #,0.00
-		lineageTag: c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f
-
 	measure kpi_rth_transporte_switch_1m = ```
 			
 			SWITCH(
@@ -349,6 +337,7 @@ table _switchs
 			)
 			
 			```
+		displayFolder: anr_transporte\rth
 		lineageTag: d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -374,6 +363,7 @@ table _switchs
 			    BLANK()
 			)
 		formatString: #,0
+		displayFolder: anr_transporte\anr
 		lineageTag: f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c
 
 	measure kpi_volum_consumit_transporte_switch_1m =
@@ -385,6 +375,7 @@ table _switchs
 			    BLANK()
 			)
 		formatString: #,0
+		displayFolder: anr_transporte\volumns
 		lineageTag: a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d
 
 	measure kpi_volum_lliurat_transporte_switch_1m =
@@ -396,6 +387,7 @@ table _switchs
 			    BLANK()
 			)
 		formatString: #,0
+		displayFolder: anr_transporte\volumns
 		lineageTag: b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e
 
 	measure kpi_volum_consumit_mig_switch_1m =
@@ -455,6 +447,7 @@ table _switchs
 			    BLANK()
 			)
 		formatString: 0
+		displayFolder: fraus
 		lineageTag: ee9d271c-5602-42ef-9ce6-bb36ac3f42c2
 
 	measure kpi_fraus_detectats_switch_1m =
@@ -466,6 +459,7 @@ table _switchs
 			    BLANK()
 			)
 		formatString: 0
+		displayFolder: fraus
 		lineageTag: 88962258-e8e1-4fe9-b03f-7e7f20518a1f
 
 	measure Metrica_Mapa_Seleccionada = ```
@@ -539,11 +533,6 @@ table _switchs
 		displayFolder: anr_global\volumns
 		lineageTag: 69633d97-baa9-454e-ba3e-6edc694da6c8
 
-	measure Medida
-		lineageTag: c093a057-b984-48ee-82d1-8f7b389188ab
-
-		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
-
 	measure kpi_consumita_global_switch_1m = ```
 			
 			SWITCH(
@@ -613,11 +602,6 @@ table _switchs
 		formatString: #,0.000
 		displayFolder: anr_global\volumns
 		lineageTag: 3c3bb92e-f5f8-49a4-8623-55e8a2a13b58
-
-	measure 'Medida 2'
-		lineageTag: b3ce8999-7c47-4ff0-a6a1-25017021a9f5
-
-		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
 
 	measure kpi_aigua_consumida_acf_global_switch_1m = ```
 			
