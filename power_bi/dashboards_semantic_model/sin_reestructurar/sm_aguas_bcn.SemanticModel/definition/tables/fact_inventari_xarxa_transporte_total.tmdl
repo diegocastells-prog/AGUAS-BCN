@@ -1,0 +1,89 @@
+table fact_inventari_xarxa_transporte_total
+	lineageTag: 1bcf0242-272b-49e4-af03-3380777fb87f
+
+	column fecha
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 3229de7a-c5f7-470f-91cc-055f822a1095
+		summarizeBy: none
+		sourceColumn: fecha
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column xarxa
+		dataType: double
+		formatString: #,0.00
+		lineageTag: a69815c3-7da1-4b93-be75-c52320ca087d
+		summarizeBy: sum
+		sourceColumn: xarxa
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_inventari_xarxa_transporte_total = m
+		mode: import
+		queryGroup: Hechos
+		source = ```
+				let
+				    //==========================================================
+				    // Origen
+				    //==========================================================
+				    Origen =
+				        GoogleSheets.Contents(
+				            #"Indicadors ANR 2026"
+				        ),
+				
+				    Datos =
+				        Origen{[name="Inventari xarxa", ItemKind="Table"]}[Data],
+				
+				    // Eliminar la primera columna, saltar las 2 primeras filas y quedarse con las 182 siguientes
+				    Base =
+				        Table.FirstN(
+				            Table.Skip(
+				                Table.RemoveColumns(Datos, {"Column1"}),
+				                2
+				            ),
+				            182
+				        ),
+				
+				    // Conservar únicamente las columnas necesarias
+				    Tabla =
+				        Table.SelectColumns(
+				            Base,
+				            {"Column2", "Column21"}
+				        ),
+				    #"Filas filtradas" = Table.SelectRows(Tabla, each ([Column2] <> "")),
+				
+				    #"Mes convertido" =
+				        Table.TransformColumns(
+				            #"Filas filtradas",
+				            {
+				                {
+				                    "Column2",
+				                    each 
+				                        #date(
+				                            Number.FromText(Text.Start(Text.From(_),4)),
+				                            Number.FromText(Text.End(Text.From(_),2)),
+				                            1
+				                        ),
+				                    type date
+				                }
+				            }
+				        ),
+				        
+				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Mes convertido",{{"Column2", "fecha"}, {"Column21", "xarxa"}}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas con nombre cambiado1","",0,Replacer.ReplaceValue,{"xarxa"}),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Valor reemplazado",{{"xarxa", type number}}),
+				    #"Columna dividida" = Table.TransformColumns(#"Tipo cambiado", {{"xarxa", each _ / 1000, type number}})
+				in
+				    #"Columna dividida"
+				```
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

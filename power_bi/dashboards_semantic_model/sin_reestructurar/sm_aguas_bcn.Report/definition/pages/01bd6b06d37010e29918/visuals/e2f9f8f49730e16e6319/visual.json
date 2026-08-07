@@ -1,0 +1,108 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "e2f9f8f49730e16e6319",
+  "position": {
+    "x": 0,
+    "y": 185.27553269654666,
+    "z": 0,
+    "height": 206.90668626010287,
+    "width": 1070.2718589272595,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "anio_mes"
+                }
+              },
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_volum_cons_lliur"
+                    }
+                  },
+                  "Property": "gerencia"
+                }
+              },
+              "queryRef": "fact_volum_cons_lliur.gerencia",
+              "nativeQueryRef": "gerencia"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_volum_lliurat_distribucion_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_volum_lliurat_distribucion_switch",
+              "nativeQueryRef": "kpi_volum_lliurat_distribucion_switch"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_volum_consumit_distribucion_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_volum_consumit_distribucion_switch",
+              "nativeQueryRef": "kpi_volum_consumit_distribucion_switch"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_anr_distribucion_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_anr_distribucion_switch",
+              "nativeQueryRef": "kpi_anr_distribucion_switch"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_rth_distribucion_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_rth_distribucion_switch",
+              "nativeQueryRef": "kpi_rth_distribucion_switch"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -26,6 +26,7 @@ table _switchs
 			
 			```
 		formatString: #,0.00
+		displayFolder: anr_distribucion
 		lineageTag: 8ee3746b-d263-4907-a46c-c3fe130e5c49
 
 	measure kpi_volum_lliurat_distribucion_switch = ```
@@ -39,6 +40,7 @@ table _switchs
 			
 			```
 		formatString: #,0.00
+		displayFolder: anr_distribucion
 		lineageTag: 38d067e3-fceb-484e-adf7-3660a9ab62b3
 
 	measure kpi_anr_m3_km_dia_switch = ```
@@ -91,6 +93,7 @@ table _switchs
 			
 			```
 		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: anr_distribucion
 		lineageTag: 9d3e0964-f7dc-4d68-910d-51909eb86273
 
 	measure kpi_q_min_switch = ```
@@ -98,12 +101,13 @@ table _switchs
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [q_min_mensual],
-			    "12 meses", [q_min_12_mesos],
+			    "12 meses", [q_min_12_mesos_mitjana],
 			    BLANK()
 			)
 			
 			```
 		formatString: #,0.00
+		displayFolder: cabals
 		lineageTag: c7c175be-b942-4e59-b6cb-d53de227af82
 
 	measure kpi_anr_switch = ```
@@ -137,45 +141,36 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", SELECTEDVALUE(fact_anr_global_mensual[anr_global_hm3]),
-			    "12 meses", SELECTEDVALUE(fact_anr_global_acum[anr_global_hm3]),
+			    "Mensual", [anr_global_mensual_hm3],
+			    "12 meses", [anr_global_acum_12m_hm3],
 			    BLANK()
-			)
-			 
+			)            
 			```
+		formatString: #,0.000000
+		displayFolder: anr_global\anr
 		lineageTag: 11320d97-e99e-402d-9a99-c731e8870e8a
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_rth_global_switch =
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual",
-			        DIVIDE(
-			            SELECTEDVALUE(fact_anr_global_mensual[consumida_hm3]),
-			            SELECTEDVALUE(fact_anr_global_mensual[lliurada_hm3])
-			        ),
-			    "12 meses",
-			        DIVIDE(
-			            SELECTEDVALUE(fact_anr_global_acum[consumida_hm3]),
-			            SELECTEDVALUE(fact_anr_global_acum[lliurada_hm3])
-			        ),
+			    "Mensual",[rendiment_global_mensual],
+			    "12 meses",[rendiment_global_acum_12m],
 			    BLANK()
 			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: anr_global\rth
 		lineageTag: ab5d550c-8fe9-4056-abff-1f0d7ddafeb6
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_anr_transporte_switch =
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_transport_m3_mensual],
-			    "12 meses", [anr_transport_m3_acum_12m],
+			    "Mensual", [anr_transport_m3_mensual]/1000000,
+			    "12 meses", [anr_transport_m3_acum_12m]/1000000,
 			    BLANK()
 			)
-		formatString: #,0
+		formatString: #,0.00
 		lineageTag: 67a9aaaf-d963-440b-b3dc-ebedbb624786
 
 	measure kpi_volum_consumit_transporte_switch =
@@ -186,7 +181,7 @@ table _switchs
 			    "12 meses", [volum_consumit_transport_12m],
 			    BLANK()
 			)
-		formatString: 0
+		formatString: #,0
 		lineageTag: 7eb1e0c7-a033-46bf-b774-6551ea06f431
 
 	measure kpi_volum_lliurat_transporte_switch =
@@ -240,13 +235,14 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [volum_consumit_distribucion_mensual_1m],
+			    "Mensual", [volum_consumit_distribucion_mensual_smly],
 			    "12 meses", [volum_consumit_distribucion_12m],
 			    BLANK()
 			)
 			
 			```
 		formatString: #,0.00
+		displayFolder: anr_distribucion
 		lineageTag: b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e
 
 	measure kpi_volum_lliurat_distribucion_switch_1m = ```
@@ -260,6 +256,7 @@ table _switchs
 			
 			```
 		formatString: #,0.00
+		displayFolder: anr_distribucion
 		lineageTag: c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f
 
 	measure kpi_anr_m3_km_dia_switch_1m = ```
@@ -313,6 +310,7 @@ table _switchs
 			
 			```
 		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: anr_distribucion
 		lineageTag: a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d
 
 	measure kpi_q_min_switch_1m = ```
@@ -320,19 +318,19 @@ table _switchs
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [q_min_mensual_1m],
-			    "12 meses", [q_min_12_mesos],
+			    "12 meses", [q_min_12_mesos_mitjana_1m],
 			    BLANK()
 			)
 			
 			```
-		formatString: #,0.00
+		displayFolder: cabals
 		lineageTag: b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e
 
 	measure kpi_anr_switch_1m = ```
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_mensual_1m],
+			    "Mensual", [anr_mensual_smly],
 			    "12 meses", [anr_acum_12m],
 			    BLANK()
 			)
@@ -345,7 +343,7 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [rendiment_transport_mensual_1m],
+			    "Mensual", [rendiment_transport_mensual_smly],
 			    "12 meses", [rendiment_transport_acum_12m],
 			    BLANK()
 			)
@@ -359,36 +357,19 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			
-			    "Mensual",
-			        CALCULATE(
-			            DIVIDE(
-			                SELECTEDVALUE(fact_anr_global_mensual[consumida_hm3]),
-			                SELECTEDVALUE(fact_anr_global_mensual[lliurada_hm3])
-			            ),
-			            DATEADD(dim_calendario[Date], -1, MONTH)
-			        ),
-			
-			    "12 meses",
-			        CALCULATE(
-			            DIVIDE(
-			                SELECTEDVALUE(fact_anr_global_acum[consumida_hm3]),
-			                SELECTEDVALUE(fact_anr_global_acum[lliurada_hm3])
-			            ),
-			            DATEADD(dim_calendario[Date], -1, MONTH)
-			        ),
-			
+			    "Mensual",[rendiment_global_mensual_smly],
+			    "12 meses",[rendiment_global_acum_12m_1m],
 			    BLANK()
 			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: anr_global\rth
 		lineageTag: e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_anr_transporte_switch_1m =
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_transport_m3_mensual_1m],
+			    "Mensual", [anr_transport_m3_mensual_smly],
 			    "12 meses", [anr_transport_m3_acum_12m_1m],
 			    BLANK()
 			)
@@ -421,7 +402,7 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [volum_consumit_mig_mensual_1m],
+			    "Mensual", [volum_consumit_mig_mensual_smly],
 			    "12 meses", [volum_consumit_mig_acum_12m],
 			    BLANK()
 			)
@@ -445,22 +426,24 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_dist_mensual],
-			    "12 meses", [anr_dist_acum_12m],
+			    "Mensual", [anr_dist_mensual]/1000000,
+			    "12 meses", [anr_dist_acum_12m]/1000000,
 			    BLANK()
 			)
-		formatString: #,0
+		formatString: #,0.00
+		displayFolder: anr_distribucion
 		lineageTag: af164dee-c6e7-47c4-bae5-3b4916ef0a91
 
 	measure kpi_anr_distribucion_switch_1m =
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_dist_mensual_1m],
+			    "Mensual", [anr_dist_mensual_smly],
 			    "12 meses", [anr_dist_acum_12m_1m],
 			    BLANK()
 			)
 		formatString: #,0
+		displayFolder: anr_distribucion
 		lineageTag: c6e4cca9-96d3-4ea3-ae1c-59963c9ae502
 
 	measure kpi_fraus_detectats_switch =
@@ -497,7 +480,7 @@ table _switchs
 			        "Rendimiento (%)",
 			            IF(Periodoelegido = "12 meses", [rth_distribucion_12m], [rth_distribucion_mensual]),
 			        "Caudal Mínimo Nocturno",
-			            IF(Periodoelegido = "12 meses", [q_min_12_mesos], [q_min_mensual]),
+			            IF(Periodoelegido = "12 meses", [q_min_12_mesos_mitjana], [q_min_mensual]),
 			        "Fraudes Detectados", 
 			            [fraus_detectats],
 			        [rth_distribucion_mensual] // Valor por defecto, aqui solo se pueden meter valores numericos
@@ -531,30 +514,30 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", CALCULATE(SELECTEDVALUE(fact_anr_global_mensual[anr_global_hm3]),DATEADD(dim_calendario[Date], -1, MONTH)),
-			    "12 meses", CALCULATE(SELECTEDVALUE(fact_anr_global_acum[anr_global_hm3]),DATEADD(dim_calendario[Date], -1, MONTH)),
+			    "Mensual", [anr_global_mensual_smly_hm3],
+			    "12 meses", [anr_global_acum_12m_1m_hm3],
 			    BLANK()
 			)
 			 
 			 
 			```
+		formatString: #,0.000000
+		displayFolder: anr_global\anr
 		lineageTag: b73ca3f3-62f3-4dac-a730-77c07f2d0d69
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_consumita_global_switch = ```
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", SELECTEDVALUE(fact_anr_global_mensual[consumida_hm3]),
-			    "12 meses", SELECTEDVALUE(fact_anr_global_acum[consumida_hm3]),
+			    "Mensual", [volum_consumit_global_mensual_hm3],
+			    "12 meses", [volum_consumit_global_acum_12m],
 			    BLANK()
 			)
 			 
 			```
+		formatString: #,0.000
+		displayFolder: anr_global\volumns
 		lineageTag: 69633d97-baa9-454e-ba3e-6edc694da6c8
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure Medida
 		lineageTag: c093a057-b984-48ee-82d1-8f7b389188ab
@@ -565,15 +548,15 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", CALCULATE(SELECTEDVALUE(fact_anr_global_mensual[consumida_hm3]),DATEADD(dim_calendario[Date], -1, MONTH)),
-			    "12 meses", CALCULATE(SELECTEDVALUE(fact_anr_global_acum[consumida_hm3]),DATEADD(dim_calendario[Date], -1, MONTH)),
+			    "Mensual", [volum_consumit_global_mensual_smly_hm3],
+			    "12 meses", [volum_consumit_global_acum_12m_1m_hm3],
 			    BLANK()
 			)
 			  
 			```
+		formatString: #,0.000
+		displayFolder: anr_global\volumns
 		lineageTag: 11d78951-9582-455d-a6cb-69242d37abe7
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_l_global_switch = ```
 			
@@ -585,6 +568,7 @@ table _switchs
 			)
 			 
 			```
+		displayFolder: anr_global\l
 		lineageTag: e140d3f6-46aa-412f-b626-fe4223411fa9
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -593,48 +577,180 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", CALCULATE(SELECTEDVALUE(fact_inventari_xarxa_mensual[l_+_t_km]),DATEADD(dim_calendario[Date], -1, MONTH)),
+			    "Mensual", CALCULATE(SELECTEDVALUE(fact_inventari_xarxa_mensual[l_+_t_km]),DATEADD(dim_calendario[Date], -12, MONTH)),
 			    "12 meses", CALCULATE(SELECTEDVALUE(fact_inventari_xarxa_mitjana_12m[l_+_t_km]),DATEADD(dim_calendario[Date], -1, MONTH)),
 			    BLANK()
 			)
 			  
 			 
 			```
+		displayFolder: anr_global\l
 		lineageTag: 37752526-b543-4e78-a58b-a36f930a46e3
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_lliurat_global_switch = ```
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", SELECTEDVALUE(fact_anr_global_mensual[lliurada_hm3]),
-			    "12 meses", SELECTEDVALUE(fact_anr_global_acum[lliurada_hm3]),
+			    "Mensual", [volum_lliurat_global_mensual_hm3],
+			    "12 meses", [volum_lliurat_global_acum_12m_hm3],
 			    BLANK()
 			) 
 			```
+		formatString: #,0.000
+		displayFolder: anr_global\volumns
 		lineageTag: 5f689cec-0b1d-468a-b8ec-678148381402
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_lliurat_global_switch_1m = ```
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", CALCULATE(SELECTEDVALUE(fact_anr_global_mensual[lliurada_hm3]),DATEADD(dim_calendario[Date], -1, MONTH)),
-			    "12 meses", CALCULATE(SELECTEDVALUE(fact_anr_global_acum[lliurada_hm3]),DATEADD(dim_calendario[Date], -1, MONTH)),
+			    "Mensual",[volum_lliurat_global_mensual_smly_hm3],
+			    "12 meses", [volum_lliurat_global_acum_12m_1m_hm3],
 			    BLANK()
 			)
 			  
 			```
+		formatString: #,0.000
+		displayFolder: anr_global\volumns
 		lineageTag: 3c3bb92e-f5f8-49a4-8623-55e8a2a13b58
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure 'Medida 2'
 		lineageTag: b3ce8999-7c47-4ff0-a6a1-25017021a9f5
 
 		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure kpi_aigua_consumida_acf_global_switch_1m = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [aigua_consumida_acf_global_mensual_smly_hm3],
+			    "12 meses", [aigua_consumida_acf_global_acum_12m_1m_hm3],
+			    BLANK()
+			)
+			 
+			 
+			```
+		displayFolder: aigua_consumida
+		lineageTag: 6cdadc29-2b07-4e8c-a833-c3af8262dd2c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_aigua_consumida_acf_global_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [aigua_consumida_acf_global_mensual_hm3],
+			    "12 meses", [aigua_consumida_acf_global_acum_12m_hm3],
+			    BLANK()
+			)
+		displayFolder: aigua_consumida
+		lineageTag: 90539b9d-a778-4a36-995d-ee431e40e37a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_aigua_consumida_baixa_global_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [aigua_consumida_baixa_global_mensual_hm3],
+			    "12 meses", [aigua_consumida_baixa_global_acum_12m_hm3],
+			    BLANK()
+			)
+		displayFolder: aigua_consumida
+		lineageTag: 9779e7b6-c7ee-41aa-8316-fc1282fb0baa
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_aigua_consumida_baixa_global_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [aigua_consumida_baixa_global_mensual_smly_hm3],
+			    "12 meses", [aigua_consumida_baixa_global_acum_12m_1m_hm3],
+			    BLANK()
+			)
+		displayFolder: aigua_consumida
+		lineageTag: 3b1cc17a-2b98-4873-a949-7d2f14ab9a53
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_aigua_consumida_alta_global_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [aigua_consumida_alta_global_mensual_hm3],
+			    "12 meses", [aigua_consumida_alta_global_acum_12m_hm3],
+			    BLANK()
+			)
+		displayFolder: aigua_consumida
+		lineageTag: 431315b5-64c0-49f0-a4af-2bd45c454cd8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_aigua_consumida_alta_global_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [aigua_consumida_alta_global_mensual_smly_hm3],
+			    "12 meses", [aigua_consumida_alta_global_acum_12m_1m_hm3],
+			    BLANK()
+			)
+		displayFolder: aigua_consumida
+		lineageTag: 1723c7dd-664c-4bda-adcc-d3699ce2376a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_aigua_consumida_peatges_global_switch = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [aigua_consumida_peatges_global_mensual_hm3],
+			    "12 meses", [aigua_consumida_peatges_global_acum_12m_hm3],
+			    BLANK()
+			)
+			
+			```
+		displayFolder: aigua_consumida
+		lineageTag: 34fb6053-e503-4fbc-ab49-8b10c97e60c6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_aigua_consumida_peatges_global_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [aigua_consumida_peatges_global_mensual_smly_hm3],
+			    "12 meses", [aigua_consumida_peatges_global_acum_12m_1m_hm3],
+			    BLANK()
+			)
+		displayFolder: aigua_consumida
+		lineageTag: 407f1c67-6b41-40bb-abb6-c1e13723dc1e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_aigua_consumida_autoconsum_global_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [aigua_consumida_autoconsum_global_mensual_hm3],
+			    "12 meses", [aigua_consumida_autoconsum_global_acum_12m_hm3],
+			    BLANK()
+			)
+		formatString: #,0.00
+		displayFolder: aigua_consumida
+		lineageTag: add73023-51e1-40de-847a-7a01e83d4b23
+
+	measure kpi_aigua_consumida_autoconsum_global_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [aigua_consumida_autoconsum_global_mensual_smly_hm3],
+			    "12 meses", [aigua_consumida_autoconsum_global_acum_12m_1m_hm3],
+			    BLANK()
+			)
+		formatString: #,0.00
+		displayFolder: aigua_consumida
+		lineageTag: 731b4cac-ecec-4af1-9e39-54fba5591b53
 
 	column Column
 		isHidden

@@ -10,7 +10,7 @@
     "tabOrder": 28000
   },
   "visual": {
-    "visualType": "lineStackedColumnComboChart",
+    "visualType": "areaChart",
     "query": {
       "queryState": {
         "Category": {
@@ -47,6 +47,24 @@
               },
               "queryRef": "_switchs.kpi_q_min_switch",
               "nativeQueryRef": "kpi_q_min_switch"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_q_min_switch_1m"
+                }
+              },
+              "queryRef": "_switchs.kpi_q_min_switch_1m",
+              "nativeQueryRef": "kpi_q_min_switch_1m"
             }
           ]
         }
@@ -300,5 +318,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "279aa8ea65338a09cd4d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "01f87221bd290297b6ac",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_q_min_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3eedda1a33e408065898",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_q_min_switch_1m"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

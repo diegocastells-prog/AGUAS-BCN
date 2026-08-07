@@ -62,7 +62,8 @@ table fact_cabals_mínims
 				        Table.Skip(Datos, 2),
 				        [PromoteAllScalars = true]
 				    ),
-				    Renombradas = Table.RenameColumns(DatosLimpios,{{"Nº", "sector_id"}, {"Gerència", "gerencia"}, {"Sectors", "sectors"}, {"Q ref", "q_ref"}, {"", "arteria"}}),
+				    #"Filas filtradas" = Table.SelectRows(DatosLimpios, each ([Nº] <> "")),
+				    Renombradas = Table.RenameColumns(#"Filas filtradas",{{"Nº", "sector_id"}, {"Gerència", "gerencia"}, {"Sectors", "sectors"}, {"Q ref", "q_ref"}, {"", "arteria"}}),
 				    Eliminadas = Table.RemoveColumns(Renombradas, {"q_ref", "_1", "_2", "_3"}),
 				    Despivotadas = Table.UnpivotOtherColumns(
 				        Eliminadas,

@@ -17,21 +17,22 @@ table fact_volum_cons_lliur
 
 	column sector_id
 		dataType: int64
-		formatString: 0
 		lineageTag: b64c3f90-11a5-4054-be24-92907a71ee32
 		summarizeBy: none
 		sourceColumn: sector_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column gerencia_id
 		dataType: int64
 		formatString: 0
 		lineageTag: bcc42484-0b2d-4d96-a481-399fcb7c5d0c
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: gerencia_id
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column pis_pressio
 		dataType: string
@@ -59,6 +60,22 @@ table fact_volum_cons_lliur
 
 		annotation SummarizationSetBy = Automatic
 
+	column gerencia
+		dataType: string
+		lineageTag: a0822bb5-03f6-418a-bbce-c4b83e13895f
+		summarizeBy: none
+		sourceColumn: gerencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column sector
+		dataType: string
+		lineageTag: 21c2b51a-0a88-4340-88c5-bd444e64c8b2
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_volum_cons_lliur = m
 		mode: import
 		queryGroup: Hechos
@@ -77,8 +94,7 @@ table fact_volum_cons_lliur
 				    ),
 				    #"Columnas con nombre cambiado" = Table.RenameColumns(SinFilasVacias,{{"Sectors", "sector"}}),
 				    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas con nombre cambiado","Río","Rio",Replacer.ReplaceText,{"sector"}),
-				    #"Columnas quitadas" = Table.RemoveColumns(#"Valor reemplazado",{"sector"}),
-				    #"Valor reemplazado1" = Table.ReplaceValue(#"Columnas quitadas",null,0,Replacer.ReplaceValue,{"volum_consumit"}),
+				    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado",null,0,Replacer.ReplaceValue,{"volum_consumit"}),
 				    #"Valor reemplazado2" = Table.ReplaceValue(#"Valor reemplazado1",null,0,Replacer.ReplaceValue,{"volum_lliurat"}),
 				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Valor reemplazado2",{{"sector_id", Int64.Type}})
 				in

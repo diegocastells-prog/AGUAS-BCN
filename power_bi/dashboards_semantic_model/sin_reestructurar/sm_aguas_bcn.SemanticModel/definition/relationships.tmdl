@@ -64,14 +64,6 @@ relationship 8a45c3fd-d687-46a7-8aea-e7bd07961837
 	fromColumn: fact_perimetre_comptadors.sector_id
 	toColumn: dim_dades_sectors.sector_id
 
-relationship 5872cc34-488f-e15c-3cc1-8a3ce6da034e
-	fromColumn: dim_dades_sectors.gerencia_id
-	toColumn: dim_gerencia.gerencia_id
-
-relationship 9239a9a9-2502-5e6c-eba7-ceda6e1a67b3
-	fromColumn: fact_volum_cons_lliur.sector_id
-	toColumn: dim_dades_sectors.sector_id
-
 relationship eaf14c69-fc82-c44a-754b-cfe67804b55c
 	fromColumn: dim_less_polissa_fraude.sector_id
 	toColumn: dim_dades_sectors.sector_id
@@ -81,7 +73,7 @@ relationship 4e9d30b0-9c98-f8fb-e744-8ab7c4406aa6
 	toColumn: dim_dades_sectors.sector_id
 
 relationship AutoDetected_815c86f1-a27f-494d-adf3-02feef9e45ef
-	fromColumn: fact_inventari_xarxa.gerencia_id
+	fromColumn: fact_inventari_xarxa_distribucion.gerencia_id
 	toColumn: dim_gerencia.gerencia_id
 
 relationship e6a403eb-0d8c-bafa-1bb8-b60ea18398b0
@@ -129,6 +121,23 @@ relationship 6e55d5b9-0aa9-8a41-a362-c2d9965931e4
 	toColumn: dim_calendario.Date
 
 relationship 25db9410-1baa-7209-b011-0c5bd9cc4fa3
-	fromColumn: fact_inventari_xarxa.fecha
+	fromColumn: fact_inventari_xarxa_distribucion.fecha
+	toColumn: dim_calendario.Date
+
+relationship AutoDetected_5263daa9-b29a-4f30-a0ec-3c0be7973d4c
+	fromColumn: fact_volum_cons_lliur.sector
+	toColumn: dim_dades_sectors.sector
+
+relationship db0a4b86-42d5-400e-1622-b71bb4317c83
+	fromColumn: dim_dades_sectors.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
+relationship b9deed17-5665-984d-f599-7042c51961e3
+	crossFilteringBehavior: bothDirections
+	fromColumn: fact_aigua_consum_historic.fecha
+	toColumn: dim_calendario.Date
+
+relationship 8012a739-78a4-357f-cfeb-557d3ffdccec
+	fromColumn: fact_inventari_xarxa_transporte_total.fecha
 	toColumn: dim_calendario.Date
 

@@ -1,0 +1,108 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "cfbdc178b90159755d1d",
+  "position": {
+    "x": 0,
+    "y": 406.99507389162562,
+    "z": 6000,
+    "height": 206.60098522167488,
+    "width": 946.10837438423641,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "anio_mes"
+                }
+              },
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_rend_anr_arterias"
+                    }
+                  },
+                  "Property": "gerencia_id"
+                }
+              },
+              "queryRef": "Sum(fact_rend_anr_arterias.gerencia_id)",
+              "nativeQueryRef": "gerencia_id"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_volum_lliurat_transporte_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_volum_lliurat_transporte_switch",
+              "nativeQueryRef": "kpi_volum_lliurat_transporte_switch"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_volum_consumit_transporte_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_volum_consumit_transporte_switch",
+              "nativeQueryRef": "kpi_volum_consumit_transporte_switch"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_anr_transporte_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_anr_transporte_switch",
+              "nativeQueryRef": "kpi_anr_transporte_switch"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_rth_transporte_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_rth_transporte_switch",
+              "nativeQueryRef": "kpi_rth_transporte_switch"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
