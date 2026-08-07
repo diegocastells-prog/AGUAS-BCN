@@ -2294,7 +2294,7 @@ expression dim_ortomat =
 
 expression fact_actuacions_zones_2026 = ```
 		let
-		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/10RJ9dh0FLUPfG_zGxGNgFNosF-NQ9ztOAY61R5YPB-E/edit?gid=1813366036#gid=1813366036"),
+		    Origen = GoogleSheets.Contents(ActuacionsZones2026_D),
 		    #"RESUM ACTUACIONS_Table" = Origen{[name="RESUM ACTUACIONS",ItemKind="Table"]}[Data],
 		    
 		    // 1. Preparación inicial
@@ -2354,7 +2354,7 @@ expression fact_actuacions_zones_2026 = ```
 
 expression fact_actuacions_zones_2025 = ```
 		let
-		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ipFAfJGrPVqCxClRGAIMg2tngsjCZrIfh9QJPRksQ5M/edit?gid=424334213#gid=424334213"),
+		    Origen = GoogleSheets.Contents(ActuacionsZones2025_D),
 		    #"RESUM ACTUACIONS_Table" = Origen{[name="RESUM ACTUACIONS",ItemKind="Table"]}[Data],
 		    
 		    // 1. Preparación inicial
@@ -2412,7 +2412,7 @@ expression fact_actuacions_zones_2025 = ```
 
 expression fact_actuacions_zones_2024 = ```
 		let
-		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1eK5HByx0PmNaCwBNNMEqTIEkM4rFYZRYpvoCqRLY93g/edit?gid=721733280#gid=721733280"),
+		    Origen = GoogleSheets.Contents(ActuacionsZones2024_D),
 		    #"RESUM ACTUACIONS_Table" = Origen{[name="RESUM ACTUACIONS",ItemKind="Table"]}[Data],
 		    
 		    // 1. Preparación inicial
@@ -2471,7 +2471,7 @@ expression fact_actuacions_zones_2024 = ```
 
 expression fact_reparacions_zones_2026 = ```
 		let
-		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/10RJ9dh0FLUPfG_zGxGNgFNosF-NQ9ztOAY61R5YPB-E/edit?gid=2126002923#gid=2126002923"),
+		    Origen = GoogleSheets.Contents(ActuacionsZones2026_D),
 		    #"RESUM ACTUACIONS_Table" = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
 		    
 		    // 1. Preparación inicial
@@ -2542,7 +2542,7 @@ expression fact_reparacions_zones_2026 = ```
 
 expression fact_reparacions_zones_2025 = ```
 		let
-		        Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ipFAfJGrPVqCxClRGAIMg2tngsjCZrIfh9QJPRksQ5M/edit?gid=1299432866#gid=1299432866"),
+		        Origen = GoogleSheets.Contents(ActuacionsZones2025_D),
 		        #"RESUM ACTUACIONS_Table" = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
 		        #"Rango de filas conservado" = Table.Range(#"RESUM ACTUACIONS_Table",3,997),
 		        
@@ -2628,7 +2628,7 @@ expression fact_reparacions_zones_2025 = ```
 
 expression fact_reparacions_zones_2024 = ```
 		let
-		        Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1eK5HByx0PmNaCwBNNMEqTIEkM4rFYZRYpvoCqRLY93g/edit?gid=981540650#gid=981540650"),
+		        Origen = GoogleSheets.Contents(ActuacionsZones2024_D),
 		        #"RESUM ACTUACIONS_Table" = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
 		        #"Rango de filas conservado" = Table.Range(#"RESUM ACTUACIONS_Table",3,997),
 		        
@@ -2707,6 +2707,384 @@ expression fact_reparacions_zones_2024 = ```
 		```
 	lineageTag: 203bd2e4-c5bf-405c-91e4-78e0c2a9df3b
 	queryGroup: Auxiliares\fact_actuacions_zones
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression 'LLOB G Pressio' = "https://docs.google.com/spreadsheets/d/1JJVUoHtJZK16tn6k2aj4uEDcZ1U7cgFJr2NhRjJZBeE" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 00a9ae76-572a-4ac8-ae31-2512e09a0c52
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression ActuacionsZones2026_D = "https://docs.google.com/spreadsheets/d/10RJ9dh0FLUPfG_zGxGNgFNosF-NQ9ztOAY61R5YPB-E/edit?gid=1813366036#gid=1813366036" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: af42b690-e68b-4da3-868c-a92082a18b7a
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression ActuacionsZones2025_D = "https://docs.google.com/spreadsheets/d/1ipFAfJGrPVqCxClRGAIMg2tngsjCZrIfh9QJPRksQ5M/edit?gid=424334213#gid=424334213" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: d0c1d43a-49c8-4099-9675-269ece997012
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression ActuacionsZones2024_D = "https://docs.google.com/spreadsheets/d/1eK5HByx0PmNaCwBNNMEqTIEkM4rFYZRYpvoCqRLY93g/edit?gid=721733280#gid=721733280" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 6625b6a9-f8e1-47b4-b397-b978e850a61b
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression VolumsMensualsSectors_D = "https://docs.google.com/spreadsheets/d/1QAwPgMYUa33LLrGc2TCLDtDaYu1inIL_qmOiQ07tcSI/edit?gid=1447921658#gid=1447921658" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 057964b9-87d1-4298-977a-0fbc647e9c0d
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression 'BES G Pressio' = "https://docs.google.com/spreadsheets/d/1NWEo4SaqS5977DA2jWtzZh8UJ1LXOYtpMUvwB_HxOkg" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 9a94c68f-e83d-42f3-84eb-d610888c05e2
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression 'BCN G Pressio' = "https://docs.google.com/spreadsheets/d/1NknnQkvQTlpWVaHLJML1QFtsnHEDRmkFK71aCEnrR5Q/edit?gid=1464564071#gid=1464564071" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 496dabf9-9532-4f5e-b419-1bbc4acb1896
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression dim_art_llob_g_pressio_100ESF_CDE = ```
+		let
+		    Origen = GoogleSheets.Contents(#"LLOB G Pressio"),
+		    #"100ESF_CDE_Table" = Origen{[name="100ESF_CDE",ItemKind="Table"]}[Data],
+		     #"Encabezados promovidos" = Table.PromoteHeaders(#"100ESF_CDE_Table", [PromoteAllScalars=true]),
+		     // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    #"Columnas quitadas" = Table.RemoveColumns(EncabezadosLimpios,{"zona", "20-130", "pzedifici_1", "pteorica_2", "20-130_4"}),
+		
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas",{{"z(m)", type number}, {"profundidad(m)", type number}, {"zona_2", type number}, {"pz_nit", type number}, {"pzedifici", type number}, {"pteorica", type number}, {"preal", type number}, {"grup_pressio", type number}, {"te_?", type text}}),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"te_?", "te_nit"}, {"te_?_6", "te_dia"}}),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas con nombre cambiado","","No Disponible",Replacer.ReplaceValue,{"te_nit", "te_dia"}),
+		    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Valor reemplazado",{{"pz_dia", type number}, {"preal_3", type number}, {"grup_pressio_5", type number}}),
+		    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Tipo cambiado1",{{"grup_pressio", "grup_pressio_nit"}, {"grup_pressio_5", "grup_pressio_dia"}})
+		in
+		    #"Columnas con nombre cambiado1"
+		```
+	lineageTag: d6f5f411-8292-47e7-89de-e3cf8fd56a75
+	queryGroup: Dimensiones\dim_art_llob_g_pressio
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dim_art_llob_g_pressio_100LLO = ```
+		let
+		    Origen = GoogleSheets.Contents(#"LLOB G Pressio"),
+		    #"100LLO_Table" = Origen{[name="100LLO",ItemKind="Table"]}[Data],
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"100LLO_Table", [PromoteAllScalars=true]),
+		     // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    #"Columnas quitadas" = Table.RemoveColumns(EncabezadosLimpios,{"zona", "20-130", "pzedifici_1", "pteorica_2", "20-130_4", ""}),
+		
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas",{{"z(m)", type number}, {"profundidad(m)", type number}, {"zona_2", type number}, {"pz_nit", type number}, {"pzedifici", type number}, {"pteorica", type number}, {"preal", type number}, {"grup_pressio", type number}, {"te_?", type text}}),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"te_?", "te_nit"}, {"te_?1", "te_dia"}}),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas con nombre cambiado","","No Disponible",Replacer.ReplaceValue,{"te_nit", "te_dia"}),
+		    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Valor reemplazado",{{"pz_dia", type number}, {"preal_3", type number}, {"grup_pressio_5", type number}}),
+		    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Tipo cambiado1",{{"grup_pressio", "grup_pressio_nit"}, {"grup_pressio_5", "grup_pressio_dia"}})
+		in
+		    #"Columnas con nombre cambiado1"
+		```
+	lineageTag: 0bfed4e0-70f4-4626-8eea-3810dcdb4480
+	queryGroup: Dimensiones\dim_art_llob_g_pressio
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dim_art_llob_g_pressio_070LLO = ```
+		let
+		    Origen = GoogleSheets.Contents(#"LLOB G Pressio"),
+		    #"070LLO_Table" = Origen{[name="070LLO",ItemKind="Table"]}[Data],
+		     #"Encabezados promovidos" = Table.PromoteHeaders(#"070LLO_Table", [PromoteAllScalars=true]),
+		     // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    #"Columnas quitadas" = Table.RemoveColumns(EncabezadosLimpios,{"zona", "20-130", "pzedifici_1", "pteorica_2", "20-130_4"}),
+		
+		
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas",{{"z(m)", type number}, {"profundidad(m)", type number}, {"zona_2", type number}, {"pz_nit", type number}, {"pzedifici", type number}, {"pteorica", type number}, {"preal", type number}, {"grup_pressio", type number}, {"te_?", type text}}),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"te_?", "te_nit"}, {"te_?_6", "te_dia"}}),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas con nombre cambiado","","No Disponible",Replacer.ReplaceValue,{"te_nit", "te_dia"}),
+		    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Valor reemplazado",{{"pz_dia", type number}, {"preal_3", type number}, {"grup_pressio_5", type number}}),
+		    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Tipo cambiado1",{{"grup_pressio", "grup_pressio_nit"}, {"grup_pressio_5", "grup_pressio_dia"}})
+		in
+		    #"Columnas con nombre cambiado1"
+		```
+	lineageTag: 00c1fb95-0835-46b0-accf-75b43149b796
+	queryGroup: Dimensiones\dim_art_llob_g_pressio
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dim_art_llob_g_pressio_140LLO = ```
+		let
+		    Origen = GoogleSheets.Contents(#"LLOB G Pressio"),
+		    #"140LLO_Table" = Origen{[name="140LLO",ItemKind="Table"]}[Data],
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"140LLO_Table", [PromoteAllScalars=true]),
+		     // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    #"Columnas quitadas" = Table.RemoveColumns(EncabezadosLimpios,{"zona", "20-130", "pzedifici_1", "pteorica_2", "20-130_4"}),
+		
+		
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas",{{"z(m)", type number}, {"profundidad(m)", type number}, {"zona_2", type number}, {"pz_nit", type number}, {"pzedifici", type number}, {"pteorica", type number}, {"preal", type number}, {"grup_pressio", type number}, {"te_?", type text}}),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"te_?", "te_nit"}, {"te_?_6", "te_dia"}}),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas con nombre cambiado","","No Disponible",Replacer.ReplaceValue,{"te_nit", "te_dia"}),
+		    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Valor reemplazado",{{"pz_dia", type number}, {"preal_3", type number}, {"grup_pressio_5", type number}}),
+		    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Tipo cambiado1",{{"grup_pressio", "grup_pressio_nit"}, {"grup_pressio_5", "grup_pressio_dia"}})
+		in
+		    #"Columnas con nombre cambiado1"
+		```
+	lineageTag: fff6e7d4-eeb9-48e7-86c7-3cfe2452ce32
+	queryGroup: Dimensiones\dim_art_llob_g_pressio
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dim_art_llob_g_pressio_Begues = ```
+		let
+		    Origen = GoogleSheets.Contents(#"LLOB G Pressio"),
+		    Begues_Table = Origen{[name="Begues",ItemKind="Table"]}[Data],
+		     #"Encabezados promovidos" = Table.PromoteHeaders(#"Begues_Table", [PromoteAllScalars=true]),
+		     // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    #"Columnas quitadas" = Table.RemoveColumns(EncabezadosLimpios,{"zona", "20-130", "pzedifici_1", "pteorica_2", "20-130_4"}),
+		
+		
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas",{{"z(m)", type number}, {"profundidad(m)", type number}, {"zona_2", type number}, {"pz_nit", type number}, {"pzedifici", type number}, {"pteorica", type number}, {"preal", type number}, {"grup_pressio", type number}, {"te_?", type text}}),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"te_?", "te_nit"}, {"te_?_6", "te_dia"}}),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas con nombre cambiado","","No Disponible",Replacer.ReplaceValue,{"te_nit", "te_dia"}),
+		    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Valor reemplazado",{{"pz_dia", type number}, {"preal_3", type number}, {"grup_pressio_5", type number}}),
+		    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Tipo cambiado1",{{"grup_pressio", "grup_pressio_nit"}, {"grup_pressio_5", "grup_pressio_dia"}})
+		in
+		    #"Columnas con nombre cambiado1"
+		```
+	lineageTag: f07fe234-f462-4776-afd1-b00c75c53c25
+	queryGroup: Dimensiones\dim_art_llob_g_pressio
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dim_art_llob_g_pressio_Cesalpina_Torrelles = ```
+		let
+		    Origen = GoogleSheets.Contents(#"LLOB G Pressio"),
+		    Cesalpina_Torrelles_Table = Origen{[name="Cesalpina_Torrelles",ItemKind="Table"]}[Data],
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Cesalpina_Torrelles_Table", [PromoteAllScalars=true]),
+		     // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    #"Columnas quitadas" = Table.RemoveColumns(EncabezadosLimpios,{"zona", "20-130", "pzedifici_1", "pteorica_2", "20-130_4"}),
+		
+		
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas",{{"z(m)", type number}, {"profundidad(m)", type number}, {"zona_2", type number}, {"pz_nit", type number}, {"pzedifici", type number}, {"pteorica", type number}, {"preal", type number}, {"grup_pressio", type number}, {"te_?", type text}}),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"te_?", "te_nit"}, {"te_?_6", "te_dia"}}),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas con nombre cambiado","","No Disponible",Replacer.ReplaceValue,{"te_nit", "te_dia"}),
+		    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Valor reemplazado",{{"pz_dia", type number}, {"preal_3", type number}, {"grup_pressio_5", type number}}),
+		    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Tipo cambiado1",{{"grup_pressio", "grup_pressio_nit"}, {"grup_pressio_5", "grup_pressio_dia"}})
+		in
+		    #"Columnas con nombre cambiado1"
+		```
+	lineageTag: 0f7d1c13-dd67-400e-a0e9-78f588146a37
+	queryGroup: Dimensiones\dim_art_llob_g_pressio
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dim_art_llob_g_pressio_El_Papiol = ```
+		let
+		    Origen = GoogleSheets.Contents(#"LLOB G Pressio"),
+		    #"El Papiol_Table" = Origen{[name="El Papiol",ItemKind="Table"]}[Data],
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"El Papiol_Table", [PromoteAllScalars=true]),
+		     // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    #"Columnas quitadas" = Table.RemoveColumns(EncabezadosLimpios,{"zona", "20-130", "pzedifici_1", "pteorica_2", "20-130_4"}),
+		
+		
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas",{{"z(m)", type number}, {"profundidad(m)", type number}, {"zona_2", type number}, {"pz_nit", type number}, {"pzedifici", type number}, {"pteorica", type number}, {"preal", type number}, {"grup_pressio", type number}, {"te_?", type text}}),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"te_?", "te_nit"}, {"te_?_6", "te_dia"}}),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas con nombre cambiado","","No Disponible",Replacer.ReplaceValue,{"te_nit", "te_dia"}),
+		    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Valor reemplazado",{{"pz_dia", type number}, {"preal_3", type number}, {"grup_pressio_5", type number}}),
+		    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Tipo cambiado1",{{"grup_pressio", "grup_pressio_nit"}, {"grup_pressio_5", "grup_pressio_dia"}})
+		in
+		    #"Columnas con nombre cambiado1"
+		```
+	lineageTag: 86c71a86-5acc-4d16-9529-555f1b0dafeb
+	queryGroup: Dimensiones\dim_art_llob_g_pressio
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dim_art_llob_g_pressio_Palleja = ```
+		let
+		    Origen = GoogleSheets.Contents(#"LLOB G Pressio"),
+		    Pallejà_Table = Origen{[name="Pallejà",ItemKind="Table"]}[Data],
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Pallejà_Table", [PromoteAllScalars=true]),
+		     // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    #"Columnas quitadas" = Table.RemoveColumns(EncabezadosLimpios,{"zona", "20-130", "pzedifici_1", "pteorica_2", "20-130_4"}),
+		
+		
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas",{{"z(m)", type number}, {"profundidad(m)", type number}, {"zona_2", type number}, {"pz_nit", type number}, {"pzedifici", type number}, {"pteorica", type number}, {"preal", type number}, {"grup_pressio", type number}, {"te_?", type text}}),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"te_?", "te_nit"}, {"te_?_6", "te_dia"}}),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas con nombre cambiado","","No Disponible",Replacer.ReplaceValue,{"te_nit", "te_dia"}),
+		    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Valor reemplazado",{{"pz_dia", type number}, {"preal_3", type number}, {"grup_pressio_5", type number}}),
+		    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Tipo cambiado1",{{"grup_pressio", "grup_pressio_nit"}, {"grup_pressio_5", "grup_pressio_dia"}})
+		in
+		    #"Columnas con nombre cambiado1"
+		```
+	lineageTag: ab5dfc5b-000e-4cec-8350-1eda026b6bd2
+	queryGroup: Dimensiones\dim_art_llob_g_pressio
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dim_gerencia_pressio =
+		let
+		    // Unir todas las tablas de la dimensión en una sola
+		    UnionTablas = Table.Combine({
+		        dim_art_llob_g_pressio_100ESF_CDE,
+		        dim_art_llob_g_pressio_100LLO,
+		        dim_art_llob_g_pressio_070LLO,
+		        dim_art_llob_g_pressio_140LLO,
+		        dim_art_llob_g_pressio_Begues,
+		        dim_art_llob_g_pressio_Cesalpina_Torrelles,
+		        dim_art_llob_g_pressio_El_Papiol,
+		        dim_art_llob_g_pressio_Palleja,
+		        dim_art_bes_g_pressio_100BES,
+		        dim_art_bes_g_pressio_130SCG,
+		        dim_art_bes_g_pressio_Cerdanyola,
+		        dim_art_bes_g_pressio_Montgat,
+		        dim_art_bcn_g_pressio_055BAR,
+		        dim_art_bcn_g_pressio_070BBE,
+		        dim_art_bcn_g_pressio_070FLL,
+		        dim_art_bcn_g_pressio_100BLL,
+		        dim_art_bcn_g_pressio_101MIR,
+		        dim_art_bcn_g_pressio_130BAR,
+		        dim_art_bcn_g_pressio_176BAR,
+		        dim_art_bcn_g_pressio_200BAR_BLL,
+		        dim_art_bcn_g_pressio_300BAR
+		    })
+		in
+		    UnionTablas
+	lineageTag: b1015575-a746-4d93-9f9b-0e67bb92dba9
+	queryGroup: Auxiliares
 
 	annotation PBI_NavigationStepName = Navegación
 

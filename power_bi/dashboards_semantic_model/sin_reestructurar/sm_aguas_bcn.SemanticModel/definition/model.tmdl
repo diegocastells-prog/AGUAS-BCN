@@ -17,15 +17,27 @@ queryGroup Dimensiones
 
 queryGroup Hechos
 
-	annotation PBI_QueryGroupOrder = 2
+	annotation PBI_QueryGroupOrder = 3
 
 queryGroup Auxiliares\fact_actuacions_zones
 
 	annotation PBI_QueryGroupOrder = 0
 
+queryGroup Dimensiones\dim_art_llob_g_pressio
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup Dimensiones\dim_art_bes_g_pressio
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup Dimensiones\dim_art_bcn_g_pressio
+
+	annotation PBI_QueryGroupOrder = 2
+
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["fact_rend_anr_arterias_llobregadsub_mensual","fact_rend_anr_arterias_llobregadnord_mensual","fact_rend_anr_arterias_besos_mensual","fact_rend_anr_arterias_bcn_sud_mensual","fact_rend_anr_arterias_bcn_nord_mensual","fact_rend_anr_arterias_multi_dz_mensual","fact_rend_anr_arterias_bcn_nord_12m","fact_rend_anr_arterias_bcn_sud_12m","fact_rend_anr_arterias_besos_12m","fact_rend_anr_arterias_llobregadnord_12m","fact_rend_anr_arterias_llobregadsub_12m","fact_rend_anr_arterias_multi_dz_12m","fact_rend_anr_arterias_12m","fact_volumns_sector","fact_inventari_xarxa","fact_fraudes_all","perimetre_comptadors_2024","perimetre_comptadors_2025","perimetre_comptadors_2026","fact_perimetre_comptadors","fact_volum_consumit","Bossa_de_Limitadors_LLOBS","Bossa_de_Limitadors_LLOBN","Bossa_de_Limitadors_BES","Bossa_de_Limitadors_BCNN","Bossa_de_Limitadors_BCNS","fact_volum_lliurat","aux_dim_sector","dim_sector_aux","aux_sector_no_disp","dim_ortomat","fact_estadistiques_comp","fact_aigua_no_registrada","fact_z_sector","fact_vol_fraud","fact_dades_consum","fact_rend_anr_arterias","fact_volum_cons_lliur","fact_cabals_mínims","fact_bossa","dim_gerencia","dim_comptadors","dim_arteria","dim_dades_sectors","dim_less_polissa_fraude","fact_actuacions_zones_2026","fact_actuacions_zones_2025","fact_actuacions_zones_2024","fact_actuacions_zones","fact_reparacions_zones_2026","fact_reparacions_zones_2025","fact_reparacions_zones_2024"]
+annotation PBI_QueryOrder = ["fact_rend_anr_arterias_llobregadsub_mensual","fact_rend_anr_arterias_llobregadnord_mensual","fact_rend_anr_arterias_besos_mensual","fact_rend_anr_arterias_bcn_sud_mensual","fact_rend_anr_arterias_bcn_nord_mensual","fact_rend_anr_arterias_multi_dz_mensual","fact_rend_anr_arterias_bcn_nord_12m","fact_rend_anr_arterias_bcn_sud_12m","fact_rend_anr_arterias_besos_12m","fact_rend_anr_arterias_llobregadnord_12m","fact_rend_anr_arterias_llobregadsub_12m","fact_rend_anr_arterias_multi_dz_12m","fact_rend_anr_arterias_12m","fact_volumns_sector","fact_inventari_xarxa","fact_fraudes_all","perimetre_comptadors_2024","perimetre_comptadors_2025","perimetre_comptadors_2026","fact_perimetre_comptadors","fact_volum_consumit","Bossa_de_Limitadors_LLOBS","Bossa_de_Limitadors_LLOBN","Bossa_de_Limitadors_BES","Bossa_de_Limitadors_BCNN","Bossa_de_Limitadors_BCNS","fact_volum_lliurat","aux_dim_sector","dim_sector_aux","aux_sector_no_disp","dim_ortomat","fact_estadistiques_comp","fact_aigua_no_registrada","fact_z_sector","fact_vol_fraud","fact_dades_consum","fact_rend_anr_arterias","fact_volum_cons_lliur","fact_cabals_mínims","fact_bossa","dim_comptadors","dim_gerencia","dim_arteria","dim_dades_sectors","dim_less_polissa_fraude","dim_art_llob_g_pressio_100ESF_CDE","dim_art_llob_g_pressio_100LLO","fact_actuacions_zones_2026","fact_actuacions_zones_2025","fact_actuacions_zones_2024","fact_actuacions_zones","fact_reparacions_zones_2026","fact_reparacions_zones_2025","fact_reparacions_zones_2024","dim_art_llob_g_pressio_070LLO","dim_art_llob_g_pressio_140LLO","dim_art_llob_g_pressio_Begues","LLOB G Pressio","ActuacionsZones2026_D","ActuacionsZones2025_D","ActuacionsZones2024_D","VolumsMensualsSectors_D","dim_art_llob_g_pressio_Cesalpina_Torrelles","dim_art_llob_g_pressio_El_Papiol","dim_art_llob_g_pressio_Palleja","dim_gerencia_pressio","BES G Pressio","dim_art_bes_g_pressio_100BES","dim_art_bes_g_pressio_130SCG","dim_art_bes_g_pressio_Cerdanyola","dim_art_bes_g_pressio_Montgat","dim_art_bcn_g_pressio_055BAR","dim_art_bcn_g_pressio_070BBE","dim_art_bcn_g_pressio_070FLL","dim_art_bcn_g_pressio_100BLL","dim_art_bcn_g_pressio_101MIR","dim_art_bcn_g_pressio_130BAR","dim_art_bcn_g_pressio_176BAR","dim_art_bcn_g_pressio_200BAR_BLL","dim_art_bcn_g_pressio_300BAR","BCN G Pressio"]
 
 annotation PBI_ProTooling = ["WebModelingEdit","DevMode"]
 
@@ -66,6 +78,19 @@ ref table fact_volumns_sector
 ref table LocalDateTable_d7f16e7b-bd04-4198-82db-baf0c472851a
 ref table LocalDateTable_ea01bd51-d36d-400b-b10b-a267a84ebed3
 ref table LocalDateTable_9c76c377-503b-4bd3-a5a6-92eacc9d1897
+ref table dim_art_bes_g_pressio_100BES
+ref table dim_art_bes_g_pressio_130SCG
+ref table dim_art_bes_g_pressio_Cerdanyola
+ref table dim_art_bes_g_pressio_Montgat
+ref table dim_art_bcn_g_pressio_055BAR
+ref table dim_art_bcn_g_pressio_070BBE
+ref table dim_art_bcn_g_pressio_070FLL
+ref table dim_art_bcn_g_pressio_100BLL
+ref table dim_art_bcn_g_pressio_101MIR
+ref table dim_art_bcn_g_pressio_130BAR
+ref table dim_art_bcn_g_pressio_176BAR
+ref table dim_art_bcn_g_pressio_200BAR_BLL
+ref table dim_art_bcn_g_pressio_300BAR
 
 ref cultureInfo es-ES
 
