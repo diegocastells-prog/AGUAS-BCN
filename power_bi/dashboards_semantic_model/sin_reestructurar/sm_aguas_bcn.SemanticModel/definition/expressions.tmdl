@@ -2283,21 +2283,6 @@ expression dim_ortomat =
 
 	annotation PBI_ResultType = Table
 
-/// URL AL SPREEDSHET "Informe Aigua Consumida 2026" QUE CONTIENE EL AIGUA LLIURADA
-expression 'Informe Aigua Consumida 2026' = "https://docs.google.com/spreadsheets/d/1GcZpQqbGihEftG7cP56wk9-AIIv07FLtQQT95_s6ZJw/edit?gid=763204073#gid=763204073" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: f9661877-db08-4896-abf1-5be8a090f507
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
-expression 'Indicadors ANR 2026' = "https://docs.google.com/spreadsheets/d/1LK5D7QclVwCBGy5-hONVLgP1GgW35okgrxNLr1kJCoE" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: e64e325d-25f0-488d-9232-c93a1fa3c3df
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
 expression fact_actuacions_zones_2026 = ```
 		let
 		    Origen = GoogleSheets.Contents(ActuacionsZones2026_D),
@@ -2405,9 +2390,10 @@ expression fact_actuacions_zones_2025 = ```
 		        {"fuites_reparades_acustic", type number}, 
 		        {"fuites_reparades_altres", type number}, 
 		        {"maniobres_realitzades", type number}
-		    })
+		    }),
+		    #"Filas filtradas1" = Table.SelectRows(TiposCambiados, each ([data_fi] = #date(2025, 1, 3) or [data_fi] = #date(2025, 1, 7) or [data_fi] = #date(2025, 1, 8) or [data_fi] = #date(2025, 1, 9) or [data_fi] = #date(2025, 1, 13) or [data_fi] = #date(2025, 1, 14) or [data_fi] = #date(2025, 1, 15) or [data_fi] = #date(2025, 1, 17) or [data_fi] = #date(2025, 1, 20) or [data_fi] = #date(2025, 1, 21) or [data_fi] = #date(2025, 1, 22) or [data_fi] = #date(2025, 1, 23) or [data_fi] = #date(2025, 1, 27) or [data_fi] = #date(2025, 1, 29) or [data_fi] = #date(2025, 1, 30)))
 		in
-		    TiposCambiados
+		    #"Filas filtradas1"
 		```
 	lineageTag: 882e00e2-dfa1-4460-bbbb-6825f2395c9d
 	queryGroup: Auxiliares\fact_actuacions_zones
@@ -2621,9 +2607,10 @@ expression fact_reparacions_zones_2025 = ```
 		            {"ubicacio_fuita", type text}
 		        }),
 		    #"Valor reemplazado" = Table.ReplaceValue(#"Tipo Cambiado Final",null,0,Replacer.ReplaceValue,{"ordre", "cabal_recuperat"}),
-		    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado","--","No Disponible",Replacer.ReplaceText,{"ubicacio_fuita"})
+		    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado","--","No Disponible",Replacer.ReplaceText,{"ubicacio_fuita"}),
+		    #"Filas filtradas1" = Table.SelectRows(#"Valor reemplazado1", each ([data_fi] = #date(2025, 1, 2) or [data_fi] = #date(2025, 1, 3) or [data_fi] = #date(2025, 1, 7) or [data_fi] = #date(2025, 1, 8) or [data_fi] = #date(2025, 1, 9) or [data_fi] = #date(2025, 1, 10) or [data_fi] = #date(2025, 1, 11) or [data_fi] = #date(2025, 1, 12) or [data_fi] = #date(2025, 1, 13) or [data_fi] = #date(2025, 1, 14) or [data_fi] = #date(2025, 1, 15) or [data_fi] = #date(2025, 1, 16) or [data_fi] = #date(2025, 1, 17) or [data_fi] = #date(2025, 1, 19) or [data_fi] = #date(2025, 1, 20) or [data_fi] = #date(2025, 1, 21) or [data_fi] = #date(2025, 1, 22) or [data_fi] = #date(2025, 1, 23) or [data_fi] = #date(2025, 1, 24) or [data_fi] = #date(2025, 1, 25) or [data_fi] = #date(2025, 1, 26) or [data_fi] = #date(2025, 1, 27) or [data_fi] = #date(2025, 1, 28) or [data_fi] = #date(2025, 1, 29) or [data_fi] = #date(2025, 1, 30) or [data_fi] = #date(2025, 1, 31)))
 		in
-		    #"Valor reemplazado1"
+		    #"Filas filtradas1"
 		```
 	lineageTag: f5d104a8-0336-4699-bd72-bcf9781d336d
 	queryGroup: Auxiliares\fact_actuacions_zones
@@ -3061,38 +3048,18 @@ expression dim_art_llob_g_pressio_Palleja = ```
 
 	annotation PBI_ResultType = Table
 
-expression dim_gerencia_pressio =
-		let
-		    // Unir todas las tablas de la dimensión en una sola
-		    UnionTablas = Table.Combine({
-		        dim_art_llob_g_pressio_100ESF_CDE,
-		        dim_art_llob_g_pressio_100LLO,
-		        dim_art_llob_g_pressio_070LLO,
-		        dim_art_llob_g_pressio_140LLO,
-		        dim_art_llob_g_pressio_Begues,
-		        dim_art_llob_g_pressio_Cesalpina_Torrelles,
-		        dim_art_llob_g_pressio_El_Papiol,
-		        dim_art_llob_g_pressio_Palleja,
-		        dim_art_bes_g_pressio_100BES,
-		        dim_art_bes_g_pressio_130SCG,
-		        dim_art_bes_g_pressio_Cerdanyola,
-		        dim_art_bes_g_pressio_Montgat,
-		        dim_art_bcn_g_pressio_055BAR,
-		        dim_art_bcn_g_pressio_070BBE,
-		        dim_art_bcn_g_pressio_070FLL,
-		        dim_art_bcn_g_pressio_100BLL,
-		        dim_art_bcn_g_pressio_101MIR,
-		        dim_art_bcn_g_pressio_130BAR,
-		        dim_art_bcn_g_pressio_176BAR,
-		        dim_art_bcn_g_pressio_200BAR_BLL,
-		        dim_art_bcn_g_pressio_300BAR
-		    })
-		in
-		    UnionTablas
-	lineageTag: b1015575-a746-4d93-9f9b-0e67bb92dba9
-	queryGroup: Auxiliares
+/// URL AL SPREEDSHET "Informe Aigua Consumida 2026" QUE CONTIENE EL AIGUA LLIURADA
+expression 'Informe Aigua Consumida 2026' = "https://docs.google.com/spreadsheets/d/1GcZpQqbGihEftG7cP56wk9-AIIv07FLtQQT95_s6ZJw/edit?gid=763204073#gid=763204073" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: f9661877-db08-4896-abf1-5be8a090f507
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Text
+
+expression 'Indicadors ANR 2026' = "https://docs.google.com/spreadsheets/d/1LK5D7QclVwCBGy5-hONVLgP1GgW35okgrxNLr1kJCoE" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: e64e325d-25f0-488d-9232-c93a1fa3c3df
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
 

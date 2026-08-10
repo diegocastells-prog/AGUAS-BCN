@@ -1,0 +1,189 @@
+table dim_gerencia_pressio
+	lineageTag: 8bd3453a-ca02-40e0-b9ba-03769caa2e10
+
+	column nº_de_nudo
+		dataType: string
+		lineageTag: cbc158ca-585b-42d7-9886-30ef9bc0a24c
+		summarizeBy: none
+		sourceColumn: nº_de_nudo
+
+		annotation SummarizationSetBy = Automatic
+
+	column z(m)
+		dataType: double
+		lineageTag: 6ecb48b8-9bc4-4866-adf7-57c9bc2b0779
+		summarizeBy: sum
+		sourceColumn: z(m)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column profundidad(m)
+		dataType: double
+		lineageTag: 7b6eb697-9a9b-4585-8b32-c7ee2341a602
+		summarizeBy: sum
+		sourceColumn: profundidad(m)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column zona_2
+		dataType: double
+		lineageTag: 002c5497-bf0a-4c26-bfbf-f9ef60ede5a6
+		summarizeBy: sum
+		sourceColumn: zona_2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column nombre
+		dataType: string
+		lineageTag: 50b4fbe6-dc2c-4042-912f-7aa683a9030e
+		summarizeBy: none
+		sourceColumn: nombre
+
+		annotation SummarizationSetBy = Automatic
+
+	column pz_nit
+		dataType: double
+		lineageTag: 464c1188-548b-48d7-9d54-02b6a5a6ae52
+		summarizeBy: sum
+		sourceColumn: pz_nit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pzedifici
+		dataType: double
+		lineageTag: 812a63d2-91d6-4dc2-9a6d-0395bc5fd469
+		summarizeBy: sum
+		sourceColumn: pzedifici
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pteorica
+		dataType: double
+		lineageTag: 242bea2f-ef88-4f9a-a2ec-c1692e36669b
+		summarizeBy: sum
+		sourceColumn: pteorica
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column preal
+		dataType: double
+		lineageTag: 1cf99bb2-dc73-4fb6-9d6b-d7f6d19a6bd0
+		summarizeBy: sum
+		sourceColumn: preal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column grup_pressio_nit
+		dataType: double
+		lineageTag: 59b03489-483e-4399-9e8d-61fd6d5b4e62
+		summarizeBy: sum
+		sourceColumn: grup_pressio_nit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column te_nit
+		dataType: string
+		lineageTag: a32f3711-695c-45d3-90ae-4576f3f41393
+		summarizeBy: none
+		sourceColumn: te_nit
+
+		annotation SummarizationSetBy = Automatic
+
+	column pz_dia
+		dataType: double
+		lineageTag: 4099fb4a-5b0d-4be7-834b-8de529695c9f
+		summarizeBy: sum
+		sourceColumn: pz_dia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column preal_3
+		dataType: double
+		lineageTag: 99f081de-f3a2-4743-b1f6-7d5b9a212f81
+		summarizeBy: sum
+		sourceColumn: preal_3
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column grup_pressio_dia
+		dataType: double
+		lineageTag: abd04282-fe94-4728-9be6-fb56fd7775fd
+		summarizeBy: sum
+		sourceColumn: grup_pressio_dia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column te_dia
+		dataType: string
+		lineageTag: d158fc85-137e-4c6e-b9ac-160ec53888b9
+		summarizeBy: none
+		sourceColumn: te_dia
+
+		annotation SummarizationSetBy = Automatic
+
+	column complim?
+		dataType: string
+		lineageTag: f387b012-6bb5-4bf5-bd23-53896c866ced
+		summarizeBy: none
+		sourceColumn: complim?
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_gerencia_pressio = m
+		mode: import
+		queryGroup: Auxiliares
+		source =
+				let
+				    // Unir todas las tablas de la dimensión en una sola
+				    UnionTablas = Table.Combine({
+				        dim_art_llob_g_pressio_100ESF_CDE,
+				        dim_art_llob_g_pressio_100LLO,
+				        dim_art_llob_g_pressio_070LLO,
+				        dim_art_llob_g_pressio_140LLO,
+				        dim_art_llob_g_pressio_Begues,
+				        dim_art_llob_g_pressio_Cesalpina_Torrelles,
+				        dim_art_llob_g_pressio_El_Papiol,
+				        dim_art_llob_g_pressio_Palleja,
+				        dim_art_bes_g_pressio_100BES,
+				        dim_art_bes_g_pressio_130SCG,
+				        dim_art_bes_g_pressio_Cerdanyola,
+				        dim_art_bes_g_pressio_Montgat,
+				        dim_art_bcn_g_pressio_055BAR,
+				        dim_art_bcn_g_pressio_070BBE,
+				        dim_art_bcn_g_pressio_070FLL,
+				        dim_art_bcn_g_pressio_100BLL,
+				        dim_art_bcn_g_pressio_101MIR,
+				        dim_art_bcn_g_pressio_130BAR,
+				        dim_art_bcn_g_pressio_176BAR,
+				        dim_art_bcn_g_pressio_200BAR_BLL,
+				        dim_art_bcn_g_pressio_300BAR
+				    })
+				in
+				    UnionTablas
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
