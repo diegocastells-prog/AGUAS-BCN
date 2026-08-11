@@ -2030,6 +2030,45 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure Tfuita_%_reparacio_15_dies =
+			
+			VAR TotalAvisos =
+			    COUNTROWS('fact_tfuita_tinst')
+			VAR Avisos15Dies =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        'fact_tfuita_tinst'[durada_dies] <= 15
+			    )
+			RETURN
+			    DIVIDE(Avisos15Dies, TotalAvisos, 0)
+		lineageTag: 755337ae-d56f-41f1-88c0-e4b308da94f8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Tfuita_%_reparacio_10_dies = ```
+			
+			VAR TotalAvisos =
+			    COUNTROWS('fact_tfuita_tinst')
+			VAR Avisos10Dies =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        'fact_tfuita_tinst'[durada_dies]< 10
+			    )
+			RETURN
+			    DIVIDE(Avisos10Dies, TotalAvisos, 0)
+			
+			```
+		lineageTag: 26556089-6286-4921-8dea-1a33a88b5830
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Tinst_dies =
+			
+			AVERAGE('fact_tfuita_tinst'[durada_dies])
+		lineageTag: ef97e62c-7bf9-46ef-a50a-20ff4ebc0944
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0
