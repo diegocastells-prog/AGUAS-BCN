@@ -1,0 +1,50 @@
+table _parametre_avaries
+	lineageTag: 29443814-8e59-4bd1-be09-6c6d37ea7cb4
+
+	column _parametre_avaries
+		lineageTag: 200e2409-d20d-451f-a8d9-0feb7f38e536
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: '_parametre_avaries Orden'
+
+		relatedColumnDetails
+			groupByColumn: '_parametre_avaries Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_parametre_avaries Campos'
+		isHidden
+		lineageTag: 6feeeab9-5a54-4581-8cfa-de06888d2052
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: '_parametre_avaries Orden'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_parametre_avaries Orden'
+		isHidden
+		formatString: 0
+		lineageTag: 1266fd29-3c3a-47fb-9211-4e05b07897e0
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _parametre_avaries = calculated
+		mode: import
+		source =
+				{
+				    ("Avaries", NAMEOF('_switchs'[kpi_avaries_switch]), 0),
+				    ("Cabal Recuperat", NAMEOF('_switchs'[kpi_cabal_recuperat_switch]), 1),
+				    ("Km Inspeccionats Acustic ", NAMEOF('_switchs'[kpi_km_inspeccionats_acustic_switch]), 2),
+				    ("Km Inspeccionats Heli ", NAMEOF('_switchs'[kpi_km_inspeccionats_heli_switch]), 3)
+				}
+
+	annotation PBI_Id = 6bca0d8d8c11445ea7805aae88ac200c
+

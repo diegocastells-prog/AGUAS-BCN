@@ -1748,7 +1748,7 @@ table _medidas
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure aigua_consumida_acf_global_mensual_hm3 = ```
-			SUM(fact_aigua_consum_historic[aigua_consumida_acf])/1000000    
+			SUM(fact_aigua_consum_historic[aigua_consumida_acf])   
 			
 			```
 		formatString: 0
@@ -1767,7 +1767,7 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure aigua_consumida_acf_global_acum_12m_hm3 = ```
+	measure aigua_consumida_acf_global_acum_12m_hm3 =
 			
 			VAR FechaMax = MAX(dim_calendario[Date])
 			RETURN
@@ -1779,8 +1779,7 @@ table _medidas
 			        -12,
 			        MONTH
 			    )
-			)/1000000 
-			```
+			)
 		displayFolder: aigua_consumida\acf
 		lineageTag: 55da804c-66da-4610-af54-76e0e519ad00
 
@@ -1822,7 +1821,7 @@ table _medidas
 			        -12,
 			        MONTH
 			    )
-			)/1000000  
+			)
 			
 			```
 		displayFolder: aigua_consumida\alta
@@ -1831,7 +1830,7 @@ table _medidas
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure aigua_consumida_alta_global_mensual_hm3 = ```
-			SUM(fact_aigua_consum_historic[aigua_consumida_alta])/1000000    
+			SUM(fact_aigua_consum_historic[aigua_consumida_alta])   
 			
 			```
 		displayFolder: aigua_consumida\alta
@@ -1851,7 +1850,7 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure aigua_consumida_baixa_global_acum_12m_hm3 = ```
+	measure aigua_consumida_baixa_global_acum_12m_hm3 =
 			
 			VAR FechaMax = MAX(dim_calendario[Date])
 			RETURN
@@ -1863,8 +1862,7 @@ table _medidas
 			        -12,
 			        MONTH
 			    )
-			)/1000000  
-			```
+			)
 		displayFolder: aigua_consumida\baixa
 		lineageTag: 1f79e41e-b940-4e1e-991d-82b06ccf1610
 
@@ -1883,7 +1881,7 @@ table _medidas
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure aigua_consumida_baixa_global_mensual_hm3 = ```
-			SUM(fact_aigua_consum_historic[aigua_consumida_baixa])/1000000    
+			SUM(fact_aigua_consum_historic[aigua_consumida_baixa])  
 			
 			```
 		displayFolder: aigua_consumida\baixa
@@ -1903,7 +1901,7 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure aigua_consumida_autoconsum_global_acum_12m_hm3 = ```
+	measure aigua_consumida_autoconsum_global_acum_12m_hm3 =
 			
 			VAR FechaMax = MAX(dim_calendario[Date])
 			RETURN
@@ -1915,8 +1913,7 @@ table _medidas
 			        -12,
 			        MONTH
 			    )
-			)/1000000 
-			```
+			)
 		formatString: 0
 		displayFolder: aigua_consumida\autoconsum
 		lineageTag: d47fad54-f0ba-416e-95ca-2e3ffece51ab
@@ -1933,7 +1930,7 @@ table _medidas
 		lineageTag: 5c68e6d6-4a16-4fa8-a203-59d6f0abfe86
 
 	measure aigua_consumida_autoconsum_global_mensual_hm3 = ```
-			SUM(fact_aigua_consum_historic[aigua_consumida_autoconsum])/1000000    
+			SUM(fact_aigua_consum_historic[aigua_consumida_autoconsum])
 			
 			```
 		formatString: 0
@@ -1965,7 +1962,7 @@ table _medidas
 			        -12,
 			        MONTH
 			    )
-			)/1000000  
+			)  
 			
 			```
 		displayFolder: aigua_consumida\peatges
@@ -1986,7 +1983,7 @@ table _medidas
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure aigua_consumida_peatges_global_mensual_hm3 = ```
-			SUM(fact_aigua_consum_historic[aigua_consumida_peatges])/1000000    
+			SUM(fact_aigua_consum_historic[aigua_consumida_peatges])   
 			
 			```
 		displayFolder: aigua_consumida\peatges

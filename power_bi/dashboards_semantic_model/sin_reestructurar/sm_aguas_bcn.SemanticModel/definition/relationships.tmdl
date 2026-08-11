@@ -143,12 +143,6 @@ relationship AutoDetected_8cc92c02-d408-465e-b1a4-2148e20d310e
 	fromColumn: fact_z_sector.sector_id
 	toColumn: fact_volumns_sector.sector_id
 
-relationship 8fb0e0ae-88a1-4983-2c95-25a551a10bc3
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
-	fromColumn: fact_aigua_consum_historic.fecha
-	toColumn: dim_calendario.Date
-
 relationship c65d628d-a1a9-a2b9-e12d-fd231356e061
 	fromColumn: fact_inventari_xarxa_transporte_total.fecha
 	toColumn: dim_calendario.Date
@@ -161,10 +155,6 @@ relationship c17fccfe-b9ec-f0e0-9955-c5eb785bd431
 	fromColumn: dim_dades_sectors.gerencia_id
 	toColumn: dim_gerencia.gerencia_id
 
-relationship d66dd877-01b4-dfa4-5a09-bcf5552c2038
-	fromColumn: fact_actuacions_zones.gerencia_id
-	toColumn: dim_gerencia.gerencia_id
-
 relationship ea3898c3-5898-4eb8-b833-eee901a10303
 	joinOnDateBehavior: datePartOnly
 	fromColumn: fact_actuacions_zones.data_fi
@@ -173,4 +163,19 @@ relationship ea3898c3-5898-4eb8-b833-eee901a10303
 relationship 7c4ee2dd-5d18-5e73-05b3-5e3f95182f54
 	fromColumn: fact_actuacions_zones.data_inici
 	toColumn: dim_calendario.Date
+
+relationship 3a91c416-5eba-20e6-c3c4-85d7c3bdac49
+	fromColumn: fact_actuacions_zones.sector_id
+	toColumn: dim_dades_sectors.sector_id
+
+relationship d7af26e9-2307-4d24-8a1e-9d761ed9b56b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_aigua_consum_historic.fecha
+	toColumn: LocalDateTable_7d5a41ee-ea6b-48b2-aa0b-ab89f8c03115.Date
+
+relationship db1942ac-3c9f-751d-0de6-1fd5a1882d75
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: dim_calendario.Date
+	toColumn: fact_aigua_consum_historic.fecha
 

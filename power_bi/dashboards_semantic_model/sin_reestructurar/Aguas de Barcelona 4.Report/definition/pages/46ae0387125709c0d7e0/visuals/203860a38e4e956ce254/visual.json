@@ -1,19 +1,55 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "3923d93276431161d9b5",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "203860a38e4e956ce254",
   "position": {
-    "x": 735.45454545454538,
-    "y": 447.27272727272725,
-    "z": 12000,
-    "height": 214.54545454545453,
-    "width": 531.81818181818176,
-    "tabOrder": 12000
+    "x": 156.07201309328968,
+    "y": 455.64648117839607,
+    "z": 25000,
+    "height": 85.89198036006546,
+    "width": 219.9672667757774,
+    "tabOrder": 18000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "kpi",
     "query": {
       "queryState": {
-        "Category": {
+        "Goal": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_aigua_consumida_alta_global_switch_1m"
+                }
+              },
+              "queryRef": "_switchs.kpi_aigua_consumida_alta_global_switch_1m",
+              "nativeQueryRef": "kpi_aigua_consumida_alta_global_switch_1m"
+            }
+          ]
+        },
+        "Indicator": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_aigua_consumida_alta_global_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_aigua_consumida_alta_global_switch",
+              "nativeQueryRef": "kpi_aigua_consumida_alta_global_switch"
+            }
+          ]
+        },
+        "TrendLine": {
           "projections": [
             {
               "field": {
@@ -27,8 +63,7 @@
                 }
               },
               "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
-              "active": true
+              "nativeQueryRef": "anio_mes"
             }
           ]
         }
@@ -41,7 +76,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Parque y anomalías'"
+                  "Value": "'Aigua Consumida Alta '"
                 }
               }
             },
@@ -105,33 +140,6 @@
           }
         }
       ],
-      "spacing": [
-        {
-          "properties": {
-            "verticalSpacing": {
-              "expr": {
-                "Literal": {
-                  "Value": "2D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "id": "default"
-          }
-        },
-        {
-          "properties": {
-            "verticalSpacing": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
-                }
-              }
-            }
-          }
-        }
-      ],
       "background": [
         {
           "properties": {
@@ -163,6 +171,33 @@
           }
         }
       ],
+      "spacing": [
+        {
+          "properties": {
+            "verticalSpacing": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "verticalSpacing": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
       "padding": [
         {
           "properties": {
@@ -177,6 +212,19 @@
               "expr": {
                 "Literal": {
                   "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
@@ -215,19 +263,6 @@
               "expr": {
                 "Literal": {
                   "Value": "1D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "dropShadow": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
                 }
               }
             }
@@ -279,33 +314,6 @@
             }
           }
         }
-      ],
-      "subTitle": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Models de comptadors, compatadors averiats o telelectura, comptapdors per sobre de Q4, comptadors per sota de Q1, Subiministratements ambs lectres estimades > 3 periodos, subimnistraments amb lectures 0> 3 periodes'"
-                }
-              }
-            },
-            "titleWrap": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
-        }
       ]
     },
     "drillFilterOtherVisuals": true
@@ -313,7 +321,8 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "9ed0ce543f9b242b864f",
+        "name": "4e86ad50318b8c00c6bb",
+        "ordinal": 0,
         "field": {
           "Column": {
             "Expression": {
@@ -324,144 +333,69 @@
             "Property": "anio_mes"
           }
         },
-        "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "d",
-              "Entity": "dim_calendario",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Not": {
-                  "Expression": {
-                    "In": {
-                      "Expressions": [
-                        {
-                          "Column": {
-                            "Expression": {
-                              "SourceRef": {
-                                "Source": "d"
-                              }
-                            },
-                            "Property": "anio_mes"
-                          }
-                        }
-                      ],
-                      "Values": [
-                        [
-                          {
-                            "Literal": {
-                              "Value": "null"
-                            }
-                          }
-                        ]
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        },
-        "objects": {
-          "general": [
-            {
-              "properties": {
-                "isInvertedSelectionMode": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "true"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        }
+        "type": "Categorical"
       },
       {
-        "name": "64d960d66b73dfe672aa",
+        "name": "16b623fc491100b7d035",
+        "ordinal": 1,
         "field": {
-          "Column": {
+          "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "dim_calendario"
+                "Entity": "_switchs"
               }
             },
-            "Property": "Date"
+            "Property": "kpi_anr_m3_km_dia_switch"
           }
         },
-        "type": "RelativeDate",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "d",
-              "Entity": "dim_calendario",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Between": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Source": "d"
-                        }
-                      },
-                      "Property": "Date"
-                    }
-                  },
-                  "LowerBound": {
-                    "DateSpan": {
-                      "Expression": {
-                        "DateAdd": {
-                          "Expression": {
-                            "DateAdd": {
-                              "Expression": {
-                                "Now": {}
-                              },
-                              "Amount": 1,
-                              "TimeUnit": 0
-                            }
-                          },
-                          "Amount": -1,
-                          "TimeUnit": 3
-                        }
-                      },
-                      "TimeUnit": 0
-                    }
-                  },
-                  "UpperBound": {
-                    "DateSpan": {
-                      "Expression": {
-                        "Now": {}
-                      },
-                      "TimeUnit": 0
-                    }
-                  }
-                }
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "a22acd720730a914e784",
+        "ordinal": 2,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
               }
-            }
-          ]
+            },
+            "Property": "kpi_anr_m3_km_dia_switch_1m"
+          }
         },
-        "howCreated": "User",
-        "objects": {
-          "general": [
-            {
-              "properties": {}
-            }
-          ]
-        }
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "d7eacc783e61b3ba693b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_aigua_consumida_alta_global_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d9051e35669a0d15c101",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_aigua_consumida_alta_global_switch_1m"
+          }
+        },
+        "type": "Advanced"
       }
-    ]
+    ],
+    "filterSortOrder": "Custom"
   }
 }
