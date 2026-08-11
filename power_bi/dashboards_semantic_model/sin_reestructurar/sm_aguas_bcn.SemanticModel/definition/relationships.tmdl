@@ -157,28 +157,20 @@ relationship ed86575e-5d89-020f-18ca-c2483a75cb13
 	fromColumn: fact_inventari_xarxa_distribucion.fecha
 	toColumn: dim_calendario.Date
 
-relationship AutoDetected_d9f155cc-8605-4940-9cc2-59260e8be65e
-	fromColumn: dim_gerencia_pressio.nº_de_nudo
-	toColumn: dim_art_bcn_g_pressio_070FLL.nº_de_nudo
-
-relationship AutoDetected_d4ef1aff-02c6-44e8-a7ac-d1736291bad4
-	fromColumn: dim_gerencia_pressio.nº_de_nudo
-	toColumn: dim_art_bcn_g_pressio_130BAR.nº_de_nudo
-
 relationship c17fccfe-b9ec-f0e0-9955-c5eb785bd431
 	fromColumn: dim_dades_sectors.gerencia_id
 	toColumn: dim_gerencia.gerencia_id
 
-relationship c332a81e-4234-42de-a1ff-ef8c52da158a
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_actuacions_zones.data_inici
-	toColumn: LocalDateTable_6623ec57-36c1-48cd-a3b3-770fef07d210.Date
-
-relationship 8cc67019-95d3-e0ea-c988-e1226eb50bac
-	fromColumn: fact_actuacions_zones.data_fi
-	toColumn: dim_calendario.Date
-
 relationship d66dd877-01b4-dfa4-5a09-bcf5552c2038
 	fromColumn: fact_actuacions_zones.gerencia_id
 	toColumn: dim_gerencia.gerencia_id
+
+relationship ea3898c3-5898-4eb8-b833-eee901a10303
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_actuacions_zones.data_fi
+	toColumn: LocalDateTable_e7f95b56-f1b4-4438-99f0-0781693877e0.Date
+
+relationship 7c4ee2dd-5d18-5e73-05b3-5e3f95182f54
+	fromColumn: fact_actuacions_zones.data_inici
+	toColumn: dim_calendario.Date
 
