@@ -1,19 +1,19 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "fca00e94834d5015e397",
+  "name": "5062d4dd5728e8a6a818",
   "position": {
-    "x": 202.85714285714286,
-    "y": 0,
-    "z": 2000,
-    "height": 80,
-    "width": 202.85714285714286,
-    "tabOrder": 5000
+    "x": 11.069182389937106,
+    "y": 91.572327044025158,
+    "z": 5001,
+    "height": 89.559748427672957,
+    "width": 145.91194968553458,
+    "tabOrder": 5001
   },
   "visual": {
-    "visualType": "slicer",
+    "visualType": "pivotTable",
     "query": {
       "queryState": {
-        "Values": {
+        "Columns": {
           "projections": [
             {
               "field": {
@@ -31,28 +31,27 @@
               "active": true
             }
           ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "anio_mes"
+                }
+              },
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes",
+              "active": true
+            }
+          ]
         }
       }
-    },
-    "objects": {
-      "data": [
-        {
-          "properties": {
-            "mode": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Dropdown'"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "general": [
-        {
-          "properties": {}
-        }
-      ]
     },
     "drillFilterOtherVisuals": true
   }

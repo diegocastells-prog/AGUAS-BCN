@@ -139,16 +139,9 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_global_mensual_smly_hm3 = ```
-			
-			    CALCULATE(
-			        [anr_global_mensual_hm3],
-			        DATEADD( dim_calendario[Date], -12, MONTH )
-			)
-			
-			```
+	measure anr_global_mensual_hm3 = SUM(fact_aigua_consum_historic[anr_mes])/1000000
 		displayFolder: anr_global\anr\mensual
-		lineageTag: 008b8502-9603-4472-b60f-a04215d278d1
+		lineageTag: 0654636b-f135-436f-9748-efb105d9d565
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -536,7 +529,7 @@ table _medidas
 		lineageTag: 3bee1bda-5daa-4d40-9b48-c16b546b4003
 
 	measure q_min_mensual = sum('fact_cabals_mínims'[q_min])
-		displayFolder: cabals
+		displayFolder: actuacions\cabals\q_min
 		lineageTag: 6d0caa36-bd03-4a32-82dd-84c61a870ec0
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -557,7 +550,7 @@ table _medidas
 			)
 			
 			```
-		displayFolder: cabals
+		displayFolder: actuacions\cabals\q_min
 		lineageTag: d701ce49-bb42-4d33-80ab-56e3df3f37a2
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -1397,7 +1390,7 @@ table _medidas
 			    sum('fact_cabals_mínims'[q_min]),
 			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
-		displayFolder: cabals
+		displayFolder: actuacions\cabals\q_min
 		lineageTag: 1e2f3a4b-5c6d-7e8f-9a0b-1c2d3e4f5a6b
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -1415,7 +1408,7 @@ table _medidas
 			)
 			
 			```
-		displayFolder: cabals
+		displayFolder: actuacions\cabals\q_min
 		lineageTag: 3d3e3f3a-3b3c-3d3e-3f3a-3b3c3d3e3f3a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -1741,9 +1734,16 @@ table _medidas
 		displayFolder: compatodrs
 		lineageTag: 98f9391b-d675-4925-b187-c4f3de1f0f69
 
-	measure anr_global_mensual_hm3 = SUM(fact_aigua_consum_historic[anr_mes])/1000000
+	measure anr_global_mensual_smly_hm3 = ```
+			
+			    CALCULATE(
+			        [anr_global_mensual_hm3],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			
+			```
 		displayFolder: anr_global\anr\mensual
-		lineageTag: 0654636b-f135-436f-9748-efb105d9d565
+		lineageTag: 008b8502-9603-4472-b60f-a04215d278d1
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -2068,6 +2068,242 @@ table _medidas
 		lineageTag: ef97e62c-7bf9-46ef-a50a-20ff4ebc0944
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure cabal_recuperat_mensual = SUM(fact_actuacions_zones[cabal_recuperat])
+		displayFolder: actuacions\cabals\cabal_recuperat
+		lineageTag: d3033c0d-99fe-41c0-9f37-302948bd94a1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure cabal_recuperat_acum_12m = ```
+			
+			CALCULATE(
+			    SUM(fact_actuacions_zones[cabal_recuperat]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		displayFolder: actuacions\cabals\cabal_recuperat
+		lineageTag: a972fe07-d70b-4ce2-b848-59c26a8b97b1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure cabal_recuperat_mensual_smly =
+			CALCULATE(
+			    SUM(fact_actuacions_zones[cabal_recuperat]),
+			     DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+		displayFolder: actuacions\cabals\cabal_recuperat
+		lineageTag: 7b95f94a-d33c-4132-a3c3-81c2314f1e5c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure cabal_recuperat_acum_12m_1m = ```
+			
+			CALCULATE(
+			    SUM(fact_actuacions_zones[cabal_recuperat]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			         EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		displayFolder: actuacions\cabals\cabal_recuperat
+		lineageTag: 26de2f33-f46f-41de-9d70-b3d9584ec11d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure km_inspeccionats_acustic_mensual = SUM(fact_actuacions_zones[km_inspeccionats_acustic])
+		formatString: 0
+		displayFolder: actuacions\km_inspeccionats_acustic
+		lineageTag: 091deadf-c5fa-456d-8f16-682f331e80b7
+
+	measure km_inspeccionats_acustic_mensual_smly =
+			CALCULATE(
+			    SUM(fact_actuacions_zones[km_inspeccionats_acustic]),
+			     DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+		displayFolder: actuacions\km_inspeccionats_acustic
+		lineageTag: f3355d72-d453-41c0-8974-cf7d138f7c77
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure km_inspeccionats_acustic_acum_12m = ```
+			
+			CALCULATE(
+			    SUM(fact_actuacions_zones[km_inspeccionats_acustic]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		displayFolder: actuacions\km_inspeccionats_acustic
+		lineageTag: e8b3d9b3-5540-4307-a87b-8304a9392dd8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure km_inspeccionats_acustic_acum_12m_1m = ```
+			
+			CALCULATE(
+			    SUM(fact_actuacions_zones[km_inspeccionats_acustic]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			         EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		displayFolder: actuacions\km_inspeccionats_acustic
+		lineageTag: d84966eb-ee53-4846-bc36-2c514de515fd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure avaries_mensual = ```
+			
+			sum('fact_actuacions_zones'[fuites_reparades_acustic])+
+			sum('fact_actuacions_zones'[fuites_reparades_altres])+
+			sum('fact_actuacions_zones'[fuites_reparades_heli]) 
+			
+			
+			```
+		displayFolder: actuacions\avaries
+		lineageTag: e9f4d086-86db-493f-871d-cf88ae923db4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure avaries_acum_12m = ```
+			
+			CALCULATE(
+			    [avaries_mensual],
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		displayFolder: actuacions\avaries
+		lineageTag: 137454b1-2da4-4c00-b41a-5622caae9ab5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure avaries_mensual_smly = ```
+			CALCULATE(
+			    [avaries_mensual],
+			     DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			
+			```
+		displayFolder: actuacions\avaries
+		lineageTag: d121f391-2044-49fd-a0e4-348d8e81592a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure avaries_acum_12m_1m = ```
+			
+			CALCULATE(
+			    [avaries_mensual],
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			         EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		displayFolder: actuacions\avaries
+		lineageTag: 58388925-869a-43ed-a1ce-49915ab10c83
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure km_inspeccionats_heli_mensual = SUM(fact_actuacions_zones[km_inspeccionats_heli])
+		displayFolder: actuacions\km_inspeccionats_heli
+		lineageTag: 82686bab-c953-4dd9-b62e-ab8e47387143
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure km_inspeccionats_heli_acum_12m = ```
+			
+			CALCULATE(
+			    SUM(fact_actuacions_zones[km_inspeccionats_heli]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		displayFolder: actuacions\km_inspeccionats_heli
+		lineageTag: cefb5b37-271a-406b-8e51-eeee923fd7e3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure km_inspeccionats_heli_mensual_smly =
+			CALCULATE(
+			    SUM(fact_actuacions_zones[km_inspeccionats_heli]),
+			     DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+		displayFolder: actuacions\km_inspeccionats_heli
+		lineageTag: 19ffcd14-1d32-4679-acbc-5e7d4c2d8adc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure km_inspeccionats_heli_acum_12m_1m = ```
+			
+			CALCULATE(
+			    SUM(fact_actuacions_zones[km_inspeccionats_heli]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			         EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		displayFolder: actuacions\km_inspeccionats_heli
+		lineageTag: ffb8e570-1b8c-4cd0-a9c8-3d409f0a482b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure total_grups_amb_bomba_dia =
+			
+			CALCULATE(
+			    COUNTROWS('dim_gerencia_pressio'),
+			    'dim_gerencia_pressio'[te_dia] = "SI"
+			)
+		formatString: 0
+		displayFolder: pressio
+		lineageTag: 4835bf3a-b5c1-4b2e-95f9-f80175ac554f
+
+	measure total_grups_amb_bomba_nit =
+			
+			CALCULATE(
+			    COUNTROWS('dim_gerencia_pressio'),
+			    'dim_gerencia_pressio'[te_nit] = "SI"
+			)
+		formatString: 0
+		displayFolder: pressio
+		lineageTag: 9f15b926-c1c9-49a9-8a74-46f4e765041c
 
 	column Column
 		isHidden
