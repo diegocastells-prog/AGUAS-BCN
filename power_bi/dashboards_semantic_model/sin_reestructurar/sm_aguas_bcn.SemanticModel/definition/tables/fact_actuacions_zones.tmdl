@@ -5,7 +5,7 @@ table fact_actuacions_zones
 		dataType: int64
 		formatString: 0
 		lineageTag: aa4ecbaf-d049-4fca-a017-8c1907a7dce3
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: sector_id
 
 		annotation SummarizationSetBy = Automatic
@@ -25,11 +25,6 @@ table fact_actuacions_zones
 		summarizeBy: none
 		sourceColumn: data_inici
 
-		variation Variación
-			isDefault
-			relationship: c332a81e-4234-42de-a1ff-ef8c52da158a
-			defaultHierarchy: LocalDateTable_6623ec57-36c1-48cd-a3b3-770fef07d210.'Jerarquía de fechas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -40,6 +35,11 @@ table fact_actuacions_zones
 		lineageTag: 73f898e8-e1ff-411b-8d85-4e8ec5d6015c
 		summarizeBy: none
 		sourceColumn: data_fi
+
+		variation Variación
+			isDefault
+			relationship: ea3898c3-5898-4eb8-b833-eee901a10303
+			defaultHierarchy: LocalDateTable_e7f95b56-f1b4-4438-99f0-0781693877e0.'Jerarquía de fechas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -161,7 +161,7 @@ table fact_actuacions_zones
 		dataType: int64
 		formatString: 0
 		lineageTag: 1799607b-d093-42f3-aa07-9688ac0d2237
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: gerencia_id
 
 		annotation SummarizationSetBy = Automatic

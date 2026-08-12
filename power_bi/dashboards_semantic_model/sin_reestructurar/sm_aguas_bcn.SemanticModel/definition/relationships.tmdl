@@ -56,10 +56,6 @@ relationship 593b7e3e-5630-319a-cf59-56fcc99d17ea
 	fromColumn: fact_aigua_no_registrada.fecha
 	toColumn: dim_calendario.Date
 
-relationship 11103316-591f-d468-00ef-0a246d796aaa
-	fromColumn: fact_vol_fraud.'Polissa Subm'
-	toColumn: dim_less_polissa_fraude.polissa_su
-
 relationship 2d155cf4-eda1-bf1c-5df2-00686c2e6216
 	fromColumn: fact_vol_fraud.'Data Fi Execucio Final'
 	toColumn: dim_calendario.Date
@@ -142,12 +138,6 @@ relationship AutoDetected_aea53a7c-8815-4e81-818a-dc2669132546
 relationship AutoDetected_8cc92c02-d408-465e-b1a4-2148e20d310e
 	fromColumn: fact_z_sector.sector_id
 	toColumn: fact_volumns_sector.sector_id
-
-relationship 8fb0e0ae-88a1-4983-2c95-25a551a10bc3
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
-	fromColumn: fact_aigua_consum_historic.fecha
-	toColumn: dim_calendario.Date
 
 relationship c65d628d-a1a9-a2b9-e12d-fd231356e061
 	fromColumn: fact_inventari_xarxa_transporte_total.fecha
@@ -251,28 +241,39 @@ relationship AutoDetected_bf589676-bfd9-4235-b31d-03d515ae2e91
 	fromColumn: fact_tfuita_tinst.Gerencia
 	toColumn: dim_gerencia.gerencia
 
-relationship AutoDetected_d9f155cc-8605-4940-9cc2-59260e8be65e
-	fromColumn: dim_gerencia_pressio.nº_de_nudo
-	toColumn: dim_art_bcn_g_pressio_070FLL.nº_de_nudo
-
-relationship AutoDetected_d4ef1aff-02c6-44e8-a7ac-d1736291bad4
-	fromColumn: dim_gerencia_pressio.nº_de_nudo
-	toColumn: dim_art_bcn_g_pressio_130BAR.nº_de_nudo
-
 relationship c17fccfe-b9ec-f0e0-9955-c5eb785bd431
 	fromColumn: dim_dades_sectors.gerencia_id
 	toColumn: dim_gerencia.gerencia_id
 
-relationship c332a81e-4234-42de-a1ff-ef8c52da158a
+relationship ea3898c3-5898-4eb8-b833-eee901a10303
 	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_actuacions_zones.data_inici
-	toColumn: LocalDateTable_6623ec57-36c1-48cd-a3b3-770fef07d210.Date
-
-relationship 8cc67019-95d3-e0ea-c988-e1226eb50bac
 	fromColumn: fact_actuacions_zones.data_fi
+	toColumn: LocalDateTable_e7f95b56-f1b4-4438-99f0-0781693877e0.Date
+
+relationship 7c4ee2dd-5d18-5e73-05b3-5e3f95182f54
+	fromColumn: fact_actuacions_zones.data_inici
 	toColumn: dim_calendario.Date
 
-relationship d66dd877-01b4-dfa4-5a09-bcf5552c2038
-	fromColumn: fact_actuacions_zones.gerencia_id
-	toColumn: dim_gerencia.gerencia_id
+relationship 3a91c416-5eba-20e6-c3c4-85d7c3bdac49
+	fromColumn: fact_actuacions_zones.sector_id
+	toColumn: dim_dades_sectors.sector_id
+
+relationship d7af26e9-2307-4d24-8a1e-9d761ed9b56b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_aigua_consum_historic.fecha
+	toColumn: LocalDateTable_7d5a41ee-ea6b-48b2-aa0b-ab89f8c03115.Date
+
+relationship db1942ac-3c9f-751d-0de6-1fd5a1882d75
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: dim_calendario.Date
+	toColumn: fact_aigua_consum_historic.fecha
+
+relationship caf1f8eb-e1a1-65e7-5397-a66bd05b1cfe
+	fromColumn: fact_volum_cons_lliur.sector_id
+	toColumn: dim_dades_sectors.sector_id
+
+relationship beccf909-bd77-3fbe-2b9d-7ab84f40e840
+	fromColumn: fact_vol_fraud.'Polissa Subm'
+	toColumn: dim_less_polissa_fraude.polissa_su
 

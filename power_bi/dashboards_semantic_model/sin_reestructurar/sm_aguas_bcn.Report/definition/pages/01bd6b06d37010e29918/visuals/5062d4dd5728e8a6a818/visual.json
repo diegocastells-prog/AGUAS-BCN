@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "5062d4dd5728e8a6a818",
   "position": {
-    "x": 11.069182389937106,
-    "y": 91.572327044025158,
+    "x": 51.862068965517238,
+    "y": 241.65517241379311,
     "z": 5001,
-    "height": 89.559748427672957,
-    "width": 145.91194968553458,
+    "height": 333.24137931034483,
+    "width": 566.06896551724139,
     "tabOrder": 5001
   },
   "visual": {
@@ -50,9 +50,73 @@
               "active": true
             }
           ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "km_inspeccionats_acustic_mensual"
+                }
+              },
+              "queryRef": "_medidas.km_inspeccionats_acustic_mensual",
+              "nativeQueryRef": "km_inspeccionats_acustic_mensual"
+            }
+          ]
         }
       }
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "5fe77f4b360a098d0392",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_gerencia"
+              }
+            },
+            "Property": "gerencia"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "acf05d9302de369a6d95",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "3c4acbe6653c6c86617c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "km_inspeccionats_acustic_mensual"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

@@ -49,11 +49,7 @@
               "queryRef": "_medidas.fraus_recupera_euros",
               "nativeQueryRef": "Importe recuperado (€)",
               "displayName": "Importe recuperado (€)"
-            }
-          ]
-        },
-        "Y2": {
-          "projections": [
+            },
             {
               "field": {
                 "Measure": {
@@ -396,5 +392,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "0e3d3761be3764c8b114",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "mes_corto"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "22a33917550833e73cd8",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "fraus_recupera_euros"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "a251bb82411c9e10b13e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "volum_agua_rec_fraud"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

@@ -133,15 +133,7 @@ table fact_vol_fraud
 				            }
 				        ),
 				    
-				    SinDuplicados =
-				        Table.Distinct( #"Valores en título"),
-				
-				    SinFilasVacias =
-				        Table.SelectRows(
-				            SinDuplicados,
-				            each List.NonNullCount(Record.FieldValues(_)) > 0
-				        ),
-				    #"Consultas combinadas" = Table.NestedJoin(SinFilasVacias, {"Gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Valores en título", {"Gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
 				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
 				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"Gerencia"})
 				in

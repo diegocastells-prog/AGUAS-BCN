@@ -1,19 +1,19 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "0340360c8f6559b282ce",
   "position": {
-    "x": 150.90909090909091,
-    "y": 447.27272727272725,
+    "x": 124.83120780195048,
+    "y": 457.07426856714176,
     "z": 11000,
-    "height": 214.54545454545453,
-    "width": 531.81818181818176,
+    "height": 214.13353338334582,
+    "width": 1115.7989497374342,
     "tabOrder": 11000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "pivotTable",
     "query": {
       "queryState": {
-        "Category": {
+        "Columns": {
           "projections": [
             {
               "field": {
@@ -29,6 +29,75 @@
               "queryRef": "dim_calendario.anio_mes",
               "nativeQueryRef": "anio_mes",
               "active": true
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_gerencia"
+                    }
+                  },
+                  "Property": "gerencia"
+                }
+              },
+              "queryRef": "dim_gerencia.gerencia",
+              "nativeQueryRef": "gerencia1",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_dades_sectors"
+                    }
+                  },
+                  "Property": "sector"
+                }
+              },
+              "queryRef": "dim_dades_sectors.sector",
+              "nativeQueryRef": "sector",
+              "active": false
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_km_inspeccionats_acustic_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_km_inspeccionats_acustic_switch",
+              "nativeQueryRef": "Km Inspeccionats Acustic ",
+              "displayName": "Km Inspeccionats Acustic "
+            }
+          ],
+          "fieldParameters": [
+            {
+              "parameterExpr": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_parametre_avaries"
+                    }
+                  },
+                  "Property": "_parametre_avaries"
+                }
+              },
+              "index": 0,
+              "length": 1
             }
           ]
         }

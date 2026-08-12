@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "19963f2f90b9d3c99929",
   "position": {
     "x": 0,
@@ -29,6 +29,66 @@
               "queryRef": "dim_calendario.anio_mes",
               "nativeQueryRef": "anio_mes",
               "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_avaries_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_avaries_switch",
+              "nativeQueryRef": "kpi_avaries_switch"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_cabal_recuperat_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_cabal_recuperat_switch",
+              "nativeQueryRef": "kpi_cabal_recuperat_switch"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_km_inspeccionats_acustic_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_km_inspeccionats_acustic_switch",
+              "nativeQueryRef": "kpi_km_inspeccionats_acustic_switch"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_km_inspeccionats_heli_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_km_inspeccionats_heli_switch",
+              "nativeQueryRef": "kpi_km_inspeccionats_heli_switch"
             }
           ]
         }
