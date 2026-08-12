@@ -2241,6 +2241,41 @@ table _medidas
 		displayFolder: pressio
 		lineageTag: 9f15b926-c1c9-49a9-8a74-46f4e765041c
 
+	measure Tinst_dies = AVERAGE('fact_tfuita_tinst'[durada_dies])
+		lineageTag: e2500360-3fd7-4581-a780-479f15e096ca
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Tfuita_%_reparacio_15_dies =
+			
+			VAR TotalAvisos =
+			    COUNTROWS('fact_tfuita_tinst')
+			VAR Avisos15Dies =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        'fact_tfuita_tinst'[durada_dies] <= 15
+			    )
+			RETURN
+			    DIVIDE(Avisos15Dies, TotalAvisos, 0)
+		lineageTag: 38c44c09-9257-4e42-b5e7-6664e103b9b7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Tfuita_%_reparacio_10_dies =
+			
+			VAR TotalAvisos =
+			    COUNTROWS('fact_tfuita_tinst')
+			VAR Avisos10Dies =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        'fact_tfuita_tinst'[durada_dies]< 10
+			    )
+			RETURN
+			    DIVIDE(Avisos10Dies, TotalAvisos, 0)
+		lineageTag: b3c3d074-7b1b-4cf1-a9fd-dc2c4cd22d70
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0
