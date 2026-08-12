@@ -1751,7 +1751,7 @@ table _medidas
 			SUM(fact_aigua_consum_historic[aigua_consumida_acf])   
 			
 			```
-		formatString: 0
+		formatString: #,0
 		displayFolder: aigua_consumida\acf
 		lineageTag: 3c3d0a02-f3fc-4a79-af54-8eeedfcf6789
 
@@ -1762,10 +1762,9 @@ table _medidas
 			        DATEADD( dim_calendario[Date], -12, MONTH )
 			)
 			```
+		formatString: #,0.00
 		displayFolder: aigua_consumida\acf
 		lineageTag: 713f0649-3646-4c92-ac46-343f209dc528
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure aigua_consumida_acf_global_acum_12m_hm3 =
 			
@@ -1780,10 +1779,9 @@ table _medidas
 			        MONTH
 			    )
 			)
+		formatString: #,0.00
 		displayFolder: aigua_consumida\acf
 		lineageTag: 55da804c-66da-4610-af54-76e0e519ad00
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure aigua_consumida_acf_global_acum_12m_1m_hm3 = ```
 			
@@ -1792,10 +1790,9 @@ table _medidas
 			    DATEADD(dim_calendario[Date], -1, MONTH)
 			) 
 			```
+		formatString: #,0.00
 		displayFolder: aigua_consumida\acf
 		lineageTag: c946b678-a54c-4316-bf5b-80b0dd63c2a7
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure aigua_consumida_alta_global_acum_12m_1m_hm3 = ```
 			
@@ -1804,10 +1801,9 @@ table _medidas
 			    DATEADD(dim_calendario[Date], -1, MONTH)
 			) 
 			```
+		formatString: #,0.00
 		displayFolder: aigua_consumida\alta
 		lineageTag: 09a8df37-712d-4843-864e-047e1cc09e9c
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure aigua_consumida_alta_global_acum_12m_hm3 = ```
 			
@@ -1824,19 +1820,17 @@ table _medidas
 			)
 			
 			```
+		formatString: #,0.00
 		displayFolder: aigua_consumida\alta
 		lineageTag: 48f2a3da-c6fe-4264-9f02-2adc65efd8e1
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure aigua_consumida_alta_global_mensual_hm3 = ```
 			SUM(fact_aigua_consum_historic[aigua_consumida_alta])   
 			
 			```
+		formatString: #,0.00
 		displayFolder: aigua_consumida\alta
 		lineageTag: d77ee6d6-da97-466d-b4bd-cb3e79ee2a36
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure aigua_consumida_alta_global_mensual_smly_hm3 = ```
 			
@@ -1845,10 +1839,9 @@ table _medidas
 			        DATEADD( dim_calendario[Date], -12, MONTH )
 			)
 			```
+		formatString: #,0.00
 		displayFolder: aigua_consumida\alta
 		lineageTag: 51d06aac-8585-4bbf-8ce4-022e0658af84
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure aigua_consumida_baixa_global_acum_12m_hm3 =
 			
@@ -2028,10 +2021,9 @@ table _medidas
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure cabal_recuperat_mensual = SUM(fact_actuacions_zones[cabal_recuperat])
+		formatString: #,0.00
 		displayFolder: actuacions\cabals\cabal_recuperat
 		lineageTag: d3033c0d-99fe-41c0-9f37-302948bd94a1
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure cabal_recuperat_acum_12m = ```
 			
@@ -2046,20 +2038,18 @@ table _medidas
 			)
 			
 			```
+		formatString: #,0.00
 		displayFolder: actuacions\cabals\cabal_recuperat
 		lineageTag: a972fe07-d70b-4ce2-b848-59c26a8b97b1
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure cabal_recuperat_mensual_smly =
 			CALCULATE(
 			    SUM(fact_actuacions_zones[cabal_recuperat]),
 			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
+		formatString: #,0.00
 		displayFolder: actuacions\cabals\cabal_recuperat
 		lineageTag: 7b95f94a-d33c-4132-a3c3-81c2314f1e5c
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure cabal_recuperat_acum_12m_1m = ```
 			
@@ -2074,13 +2064,12 @@ table _medidas
 			)
 			
 			```
+		formatString: #,0.00
 		displayFolder: actuacions\cabals\cabal_recuperat
 		lineageTag: 26de2f33-f46f-41de-9d70-b3d9584ec11d
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	measure km_inspeccionats_acustic_mensual = SUM(fact_actuacions_zones[km_inspeccionats_acustic])
-		formatString: 0
+		formatString: #,0
 		displayFolder: actuacions\km_inspeccionats_acustic
 		lineageTag: 091deadf-c5fa-456d-8f16-682f331e80b7
 
@@ -2089,10 +2078,9 @@ table _medidas
 			    SUM(fact_actuacions_zones[km_inspeccionats_acustic]),
 			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
+		formatString: #,0.00
 		displayFolder: actuacions\km_inspeccionats_acustic
 		lineageTag: f3355d72-d453-41c0-8974-cf7d138f7c77
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure km_inspeccionats_acustic_acum_12m = ```
 			
@@ -2107,10 +2095,9 @@ table _medidas
 			)
 			
 			```
+		formatString: #,0.00
 		displayFolder: actuacions\km_inspeccionats_acustic
 		lineageTag: e8b3d9b3-5540-4307-a87b-8304a9392dd8
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure km_inspeccionats_acustic_acum_12m_1m = ```
 			
@@ -2125,10 +2112,9 @@ table _medidas
 			)
 			
 			```
+		formatString: #,0.00
 		displayFolder: actuacions\km_inspeccionats_acustic
 		lineageTag: d84966eb-ee53-4846-bc36-2c514de515fd
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure avaries_mensual = ```
 			
@@ -2138,10 +2124,9 @@ table _medidas
 			
 			
 			```
+		formatString: #,0.00
 		displayFolder: actuacions\avaries
 		lineageTag: e9f4d086-86db-493f-871d-cf88ae923db4
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure avaries_acum_12m = ```
 			
@@ -2156,10 +2141,9 @@ table _medidas
 			)
 			
 			```
+		formatString: #,0.00
 		displayFolder: actuacions\avaries
 		lineageTag: 137454b1-2da4-4c00-b41a-5622caae9ab5
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure avaries_mensual_smly = ```
 			CALCULATE(
@@ -2168,10 +2152,9 @@ table _medidas
 			)
 			
 			```
+		formatString: #,0.00
 		displayFolder: actuacions\avaries
 		lineageTag: d121f391-2044-49fd-a0e4-348d8e81592a
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure avaries_acum_12m_1m = ```
 			
@@ -2186,16 +2169,14 @@ table _medidas
 			)
 			
 			```
+		formatString: #,0.00
 		displayFolder: actuacions\avaries
 		lineageTag: 58388925-869a-43ed-a1ce-49915ab10c83
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	measure km_inspeccionats_heli_mensual = SUM(fact_actuacions_zones[km_inspeccionats_heli])
+		formatString: #,0.00
 		displayFolder: actuacions\km_inspeccionats_heli
 		lineageTag: 82686bab-c953-4dd9-b62e-ab8e47387143
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure km_inspeccionats_heli_acum_12m = ```
 			
@@ -2210,20 +2191,18 @@ table _medidas
 			)
 			
 			```
+		formatString: #,0.00
 		displayFolder: actuacions\km_inspeccionats_heli
 		lineageTag: cefb5b37-271a-406b-8e51-eeee923fd7e3
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure km_inspeccionats_heli_mensual_smly =
 			CALCULATE(
 			    SUM(fact_actuacions_zones[km_inspeccionats_heli]),
 			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
+		formatString: #,0.00
 		displayFolder: actuacions\km_inspeccionats_heli
 		lineageTag: 19ffcd14-1d32-4679-acbc-5e7d4c2d8adc
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure km_inspeccionats_heli_acum_12m_1m = ```
 			
@@ -2238,10 +2217,9 @@ table _medidas
 			)
 			
 			```
+		formatString: #,0.00
 		displayFolder: actuacions\km_inspeccionats_heli
 		lineageTag: ffb8e570-1b8c-4cd0-a9c8-3d409f0a482b
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure total_grups_amb_bomba_dia =
 			

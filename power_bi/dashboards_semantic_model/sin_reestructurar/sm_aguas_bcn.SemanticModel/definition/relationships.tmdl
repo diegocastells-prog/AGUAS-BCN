@@ -56,10 +56,6 @@ relationship 593b7e3e-5630-319a-cf59-56fcc99d17ea
 	fromColumn: fact_aigua_no_registrada.fecha
 	toColumn: dim_calendario.Date
 
-relationship 11103316-591f-d468-00ef-0a246d796aaa
-	fromColumn: fact_vol_fraud.'Polissa Subm'
-	toColumn: dim_less_polissa_fraude.polissa_su
-
 relationship 2d155cf4-eda1-bf1c-5df2-00686c2e6216
 	fromColumn: fact_vol_fraud.'Data Fi Execucio Final'
 	toColumn: dim_calendario.Date
@@ -178,4 +174,12 @@ relationship db1942ac-3c9f-751d-0de6-1fd5a1882d75
 	fromCardinality: one
 	fromColumn: dim_calendario.Date
 	toColumn: fact_aigua_consum_historic.fecha
+
+relationship caf1f8eb-e1a1-65e7-5397-a66bd05b1cfe
+	fromColumn: fact_volum_cons_lliur.sector_id
+	toColumn: dim_dades_sectors.sector_id
+
+relationship beccf909-bd77-3fbe-2b9d-7ab84f40e840
+	fromColumn: fact_vol_fraud.'Polissa Subm'
+	toColumn: dim_less_polissa_fraude.polissa_su
 

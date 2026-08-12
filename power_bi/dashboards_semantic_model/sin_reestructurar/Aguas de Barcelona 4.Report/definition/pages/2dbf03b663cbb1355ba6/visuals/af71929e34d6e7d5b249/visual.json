@@ -34,68 +34,58 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_sector"
+                      "Entity": "dim_gerencia"
                     }
                   },
                   "Property": "gerencia"
                 }
               },
-              "queryRef": "dim_sector.gerencia",
-              "nativeQueryRef": "gerencia"
+              "queryRef": "dim_gerencia.gerencia",
+              "nativeQueryRef": "gerencia1"
             },
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_sector"
+                      "Entity": "dim_dades_sectors"
                     }
                   },
                   "Property": "sector"
                 }
               },
-              "queryRef": "dim_sector.sector",
-              "nativeQueryRef": "sector"
+              "queryRef": "dim_dades_sectors.sector",
+              "nativeQueryRef": "sector1"
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "fact_volum_consumit"
-                        }
-                      },
-                      "Property": "volum_consumit"
+                    "SourceRef": {
+                      "Entity": "_medidas"
                     }
                   },
-                  "Function": 0
+                  "Property": "volum_lliurat_distribucion_mensual"
                 }
               },
-              "queryRef": "Sum(fact_volum_consumit.volum_consumit)",
-              "nativeQueryRef": "Volum Consumit",
-              "displayName": "Volum Consumit"
-            },
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "fact_volum_lliurat"
-                        }
-                      },
-                      "Property": "volum_lliurat"
-                    }
-                  },
-                  "Function": 0
-                }
-              },
-              "queryRef": "Sum(fact_volum_lliurat.volum_lliurat)",
-              "nativeQueryRef": "Volum LLiurat",
+              "queryRef": "_medidas.volum_lliurat_distribucion_mensual",
+              "nativeQueryRef": "Volum LLiurat1",
               "displayName": "Volum LLiurat"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "volum_consumit_distribucion_mensual"
+                }
+              },
+              "queryRef": "_medidas.volum_consumit_distribucion_mensual",
+              "nativeQueryRef": "Volum Consumit1",
+              "displayName": "Volum Consumit"
             },
             {
               "field": {
@@ -145,20 +135,6 @@
           },
           "selector": {
             "metadata": "_medidas.anr_distribucion_mensual"
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "103.26787435110651D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "dim_sector.sector"
           }
         },
         {
