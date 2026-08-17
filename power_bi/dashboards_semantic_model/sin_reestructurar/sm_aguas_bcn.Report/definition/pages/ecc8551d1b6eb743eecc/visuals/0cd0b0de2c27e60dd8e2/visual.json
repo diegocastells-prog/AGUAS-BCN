@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "f81bcd42600c8073772a",
+  "name": "0cd0b0de2c27e60dd8e2",
   "position": {
-    "x": 592.59259259259261,
-    "y": 0,
-    "z": 1000,
-    "height": 39.822222222222223,
-    "width": 233.24444444444444,
-    "tabOrder": 1000
+    "x": 1038.7841945288753,
+    "y": 18.480243161094226,
+    "z": 2003,
+    "height": 73.9209726443769,
+    "width": 231.48936170212767,
+    "tabOrder": 2003
   },
   "visual": {
     "visualType": "slicer",
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dummy_slicer_periodo"
+                      "Entity": "fact_perimetre_comptadors"
                     }
                   },
-                  "Property": "Periodo"
+                  "Property": "us_aigua_gest"
                 }
               },
-              "queryRef": "dummy_slicer_periodo.Periodo",
-              "nativeQueryRef": "Periodo",
+              "queryRef": "fact_perimetre_comptadors.us_aigua_gest",
+              "nativeQueryRef": "us_aigua_gest",
               "active": true
             }
           ]
@@ -41,7 +41,7 @@
             "mode": {
               "expr": {
                 "Literal": {
-                  "Value": "'Basic'"
+                  "Value": "'Dropdown'"
                 }
               }
             }
@@ -51,20 +51,13 @@
       "general": [
         {
           "properties": {
-            "orientation": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            },
             "filter": {
               "filter": {
                 "Version": 2,
                 "From": [
                   {
-                    "Name": "d",
-                    "Entity": "dummy_slicer_periodo",
+                    "Name": "f",
+                    "Entity": "fact_perimetre_comptadors",
                     "Type": 0
                   }
                 ],
@@ -77,10 +70,10 @@
                             "Column": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Source": "d"
+                                  "Source": "f"
                                 }
                               },
-                              "Property": "Periodo"
+                              "Property": "us_aigua_gest"
                             }
                           }
                         ],
@@ -88,7 +81,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'Mensual'"
+                                "Value": "'D'"
                               }
                             }
                           ]
@@ -102,51 +95,24 @@
           }
         }
       ],
-      "header": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
       "selection": [
         {
           "properties": {
-            "strictSingleSelect": {
+            "selectAllCheckboxEnabled": {
               "expr": {
                 "Literal": {
                   "Value": "true"
                 }
               }
-            }
-          }
-        }
-      ]
-    },
-    "visualContainerObjects": {
-      "background": [
-        {
-          "properties": {
-            "show": {
+            },
+            "singleSelect": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
-            }
-          }
-        }
-      ],
-      "border": [
-        {
-          "properties": {
-            "show": {
+            },
+            "strictSingleSelect": {
               "expr": {
                 "Literal": {
                   "Value": "false"
@@ -156,12 +122,25 @@
           }
         }
       ]
-    },
-    "syncGroup": {
-      "groupName": "Periodo",
-      "fieldChanges": true,
-      "filterChanges": true
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "eea5be75db444d3f52d4",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_perimetre_comptadors"
+              }
+            },
+            "Property": "us_aigua_gest"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }
