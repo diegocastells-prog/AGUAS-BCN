@@ -128,10 +128,17 @@ table _medidas
 		displayFolder: anr_global\rth\mensual
 		lineageTag: 34283a5c-9a4a-44b1-9f15-bd8e048e4de3
 
-	measure anr_global_mensual_hm3 = SUM(fact_aigua_consum_historic[anr_mes])/1000000
+	measure anr_global_mensual_smly_hm3 = ```
+			
+			    CALCULATE(
+			        [anr_global_mensual_hm3],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			
+			```
 		formatString: #,0.00
 		displayFolder: anr_global\anr\mensual
-		lineageTag: 0654636b-f135-436f-9748-efb105d9d565
+		lineageTag: 008b8502-9603-4472-b60f-a04215d278d1
 
 	measure volum_consumit_global_acum_12m = ```
 			
@@ -1696,17 +1703,10 @@ table _medidas
 		displayFolder: compatodrs
 		lineageTag: 98f9391b-d675-4925-b187-c4f3de1f0f69
 
-	measure anr_global_mensual_smly_hm3 = ```
-			
-			    CALCULATE(
-			        [anr_global_mensual_hm3],
-			        DATEADD( dim_calendario[Date], -12, MONTH )
-			)
-			
-			```
+	measure anr_global_mensual_hm3 = SUM(fact_aigua_consum_historic[anr_mes])/1000000
 		formatString: #,0.00
 		displayFolder: anr_global\anr\mensual
-		lineageTag: 008b8502-9603-4472-b60f-a04215d278d1
+		lineageTag: 0654636b-f135-436f-9748-efb105d9d565
 
 	measure aigua_consumida_acf_global_mensual_hm3 = ```
 			SUM(fact_aigua_consum_historic[aigua_consumida_acf])   
@@ -1969,6 +1969,10 @@ table _medidas
 		displayFolder: anr_global\xarxa
 		lineageTag: 25c7fcd8-ff6a-48cd-b4a9-f70531b5bc75
 
+	measure Tinst_dies = AVERAGE('fact_tfuita_tinst'[durada_dies])
+		formatString: #,0.00
+		lineageTag: 9a945ec6-1d4e-4d59-a32d-6d1e9b2793f5
+
 	measure cabal_recuperat_mensual = SUM(fact_actuacions_zones[cabal_recuperat])
 		formatString: #,0.00
 		displayFolder: actuacions\cabals\cabal_recuperat
@@ -2193,7 +2197,7 @@ table _medidas
 	measure tinst_dies_mensual = AVERAGE('fact_tfuita_tinst'[durada_dies])
 		formatString: #,0.00
 		displayFolder: tinst_dies
-		lineageTag: e2500360-3fd7-4581-a780-479f15e096ca
+		lineageTag: 5db4599a-0a74-4c16-b164-3b5ee0b74885
 
 	measure Tfuita_%_reparacio_15_dies =
 			

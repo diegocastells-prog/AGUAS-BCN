@@ -1,0 +1,70 @@
+table aux_fact_poblacion_munic
+	lineageTag: acf25404-4837-49b4-a6a9-e3ce31fccc40
+
+	column municipio
+		dataType: string
+		lineageTag: df6c0964-ca68-4548-85be-c894e7bb9682
+		summarizeBy: none
+		sourceColumn: municipio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Valor
+		dataType: string
+		lineageTag: 0f2bfd58-c920-4539-aeb8-9fe39fa81354
+		summarizeBy: none
+		sourceColumn: Valor
+
+		annotation SummarizationSetBy = Automatic
+
+	column fecha
+		dataType: string
+		lineageTag: b96fc303-8823-4aa8-a243-d3b66414f332
+		summarizeBy: none
+		sourceColumn: fecha
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_mun
+		dataType: int64
+		formatString: 0
+		lineageTag: dda83e04-5292-46a3-9e0f-4aced5d2059c
+		summarizeBy: sum
+		sourceColumn: id_mun
+
+		annotation SummarizationSetBy = Automatic
+
+	partition aux_fact_poblacion_munic = m
+		mode: import
+		queryGroup: Auxiliares
+		source =
+				let
+				    Origen = let
+						  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1PBcQDIOXuGzSvnWbbKL8akVRAcNYzv6ubxLW1zldlPU/edit?gid=1903089532#gid=1903089532"),
+						    #"Població Municipal_Table" = Origen{[name="Població Municipal",ItemKind="Table"]}[Data],
+						    #"Encabezados promovidos" = Table.PromoteHeaders(#"Població Municipal_Table", [PromoteAllScalars=true]),
+						    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados promovidos",{{"ESTACIO", "municipio"}}),
+						    #"Filas inferiores quitadas" = Table.RemoveLastN(#"Columnas con nombre cambiado",202),
+						    #"Texto extraído después del delimitador" = Table.TransformColumns(#"Filas inferiores quitadas", {{"municipio", each Text.AfterDelimiter(_, "- "), type text}}),
+						    #"Otras columnas quitadas" = Table.SelectColumns(#"Texto extraído después del delimitador",{"municipio", "Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Setembre", "Octubre", "Novembre", "Desembre"}),
+						    #"Otras columnas con anulación de dinamización" = Table.UnpivotOtherColumns(#"Otras columnas quitadas", {"municipio"}, "Atributo", "Valor"),
+						    #"Personalizada agregada" = Table.AddColumn(#"Otras columnas con anulación de dinamización", "fecha", each #date(
+						    2025,
+						    List.PositionOf(
+						        {"Gener","Febrer","Març","Abril","Maig","Juny","Juliol","Agost","Setembre","Octubre","Novembre","Desembre"},
+						        [Atributo]
+						    ) + 1,
+						    1
+						)),
+						    #"Columnas quitadas" = Table.RemoveColumns(#"Personalizada agregada",{"Atributo"}),
+						    #"Consultas combinadas" = Table.NestedJoin(#"Columnas quitadas", {"municipio"}, dim_municipio, {"municipio"}, "dim_municipio", JoinKind.LeftOuter),
+						    #"Se expandió dim_municipio" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_municipio", {"id_mun"}, {"id_mun"})
+						in
+						    #"Se expandió dim_municipio"
+				in
+				    Origen
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
