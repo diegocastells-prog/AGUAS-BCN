@@ -13,46 +13,8 @@
     "visualType": "azureMap",
     "query": {
       "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_sector"
-                    }
-                  },
-                  "Property": "sector_id"
-                }
-              },
-              "queryRef": "dim_sector.sector_id",
-              "nativeQueryRef": "sector_id",
-              "active": true
-            }
-          ]
-        },
         "Tooltips": {
           "projections": [
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_sector"
-                        }
-                      },
-                      "Property": "gerencia"
-                    }
-                  },
-                  "Function": 3
-                }
-              },
-              "queryRef": "Min(dim_sector.gerencia)",
-              "nativeQueryRef": "gerencia"
-            },
             {
               "field": {
                 "Measure": {
@@ -165,68 +127,7 @@
           }
         },
         {
-          "properties": {
-            "polygonFillColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "FillRule": {
-                      "Input": {
-                        "Measure": {
-                          "Expression": {
-                            "SourceRef": {
-                              "Entity": "tCabalMin"
-                            }
-                          },
-                          "Property": "AVG_CM"
-                        }
-                      },
-                      "FillRule": {
-                        "linearGradient2": {
-                          "min": {
-                            "color": {
-                              "Literal": {
-                                "Value": "'#FFFBFB'"
-                              }
-                            },
-                            "value": {
-                              "Literal": {
-                                "Value": "0.1D"
-                              }
-                            }
-                          },
-                          "max": {
-                            "color": {
-                              "Literal": {
-                                "Value": "'#CE3658'"
-                              }
-                            },
-                            "value": {
-                              "Literal": {
-                                "Value": "10.6D"
-                              }
-                            }
-                          },
-                          "nullColoringStrategy": {
-                            "strategy": {
-                              "Literal": {
-                                "Value": "'specificColor'"
-                              }
-                            },
-                            "color": {
-                              "Literal": {
-                                "Value": "'#e6e6e6'"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
+          "properties": {},
           "selector": {
             "data": [
               {
@@ -341,21 +242,21 @@
             "zoom": {
               "expr": {
                 "Literal": {
-                  "Value": "11.52D"
+                  "Value": "0.06D"
                 }
               }
             },
             "centerLatitude": {
               "expr": {
                 "Literal": {
-                  "Value": "41.42564944043136D"
+                  "Value": "2.842170943040401e-14D"
                 }
               }
             },
             "centerLongitude": {
               "expr": {
                 "Literal": {
-                  "Value": "2.1870739500000127D"
+                  "Value": "2.8125D"
                 }
               }
             }
@@ -392,37 +293,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "99c79204045b1703c549",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "switch_KPI_activo_mapa"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "98c84f3438ca0d2cd5d2",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "Metrica_Mapa_Seleccionada"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

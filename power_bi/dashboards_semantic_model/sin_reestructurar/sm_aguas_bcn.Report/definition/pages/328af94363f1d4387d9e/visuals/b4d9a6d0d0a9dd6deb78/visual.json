@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "0cd0b0de2c27e60dd8e2",
+  "name": "b4d9a6d0d0a9dd6deb78",
   "position": {
-    "x": 1038.7841945288753,
-    "y": 18.480243161094226,
-    "z": 2003,
-    "height": 73.9209726443769,
-    "width": 231.48936170212767,
-    "tabOrder": 2003
+    "x": 555.27494908350309,
+    "y": 59.959266802443992,
+    "z": 2,
+    "height": 80,
+    "width": 202.85714285714286,
+    "tabOrder": 2
   },
   "visual": {
     "visualType": "slicer",
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact_perimetre_comptadors"
+                      "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "us_aigua_gest"
+                  "Property": "anio_mes"
                 }
               },
-              "queryRef": "fact_perimetre_comptadors.us_aigua_gest",
-              "nativeQueryRef": "us_aigua_gest",
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes",
               "active": true
             }
           ]
@@ -56,8 +56,8 @@
                 "Version": 2,
                 "From": [
                   {
-                    "Name": "f",
-                    "Entity": "fact_perimetre_comptadors",
+                    "Name": "d",
+                    "Entity": "dim_calendario",
                     "Type": 0
                   }
                 ],
@@ -70,10 +70,10 @@
                             "Column": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Source": "f"
+                                  "Source": "d"
                                 }
                               },
-                              "Property": "us_aigua_gest"
+                              "Property": "anio_mes"
                             }
                           }
                         ],
@@ -81,7 +81,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'D'"
+                                "Value": "'2026-01'"
                               }
                             }
                           ]
@@ -94,49 +94,27 @@
             }
           }
         }
-      ],
-      "selection": [
-        {
-          "properties": {
-            "selectAllCheckboxEnabled": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "singleSelect": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "strictSingleSelect": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
       ]
+    },
+    "syncGroup": {
+      "groupName": "anio_mes",
+      "fieldChanges": true,
+      "filterChanges": true
     },
     "drillFilterOtherVisuals": true
   },
   "filterConfig": {
     "filters": [
       {
-        "name": "eea5be75db444d3f52d4",
+        "name": "0e85016c94f03871863f",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "fact_perimetre_comptadors"
+                "Entity": "dim_calendario"
               }
             },
-            "Property": "us_aigua_gest"
+            "Property": "anio_mes"
           }
         },
         "type": "Categorical"

@@ -31,6 +31,52 @@
               "active": true
             }
           ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_fuites_reparades_acustic_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_fuites_reparades_acustic_switch",
+              "nativeQueryRef": "kpi_fuites_reparades_acustic_switch"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_fuites_reparades_altres_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_fuites_reparades_altres_switch",
+              "nativeQueryRef": "kpi_fuites_reparades_altres_switch"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_fuites_reparades_heli_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_fuites_reparades_heli_switch",
+              "nativeQueryRef": "kpi_fuites_reparades_heli_switch"
+            }
+          ]
         }
       }
     },
@@ -41,7 +87,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Gráfico barras preventivo vs correctivo'"
+                  "Value": "'Gráfico barras Acustic, Altres y Heli'"
                 }
               }
             },
@@ -302,23 +348,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "333015896c149d14e005",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

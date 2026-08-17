@@ -958,6 +958,32 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure tinst_dies_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [tinst_dies_mensual_smly],
+			    "12 meses", [tinst_dies_acum_12m_1m],
+			    BLANK()
+			)
+		displayFolder: tinst_dies
+		lineageTag: 59dff17c-a059-4f7c-b661-169bb71ccf41
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure tinst_dies_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [tinst_dies_mensual],
+			    "12 meses", [tinst_dies_acum_12m],
+			    BLANK()
+			)
+		displayFolder: tinst_dies
+		lineageTag: 72251e29-31c0-4a41-9350-9cd25a5bc9af
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0

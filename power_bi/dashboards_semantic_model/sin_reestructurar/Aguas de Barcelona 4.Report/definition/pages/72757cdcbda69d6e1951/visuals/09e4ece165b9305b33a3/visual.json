@@ -31,86 +31,6 @@
             },
             {
               "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "fact_anr_global_acum"
-                        }
-                      },
-                      "Property": "lliurada_hm3"
-                    }
-                  },
-                  "Function": 0
-                }
-              },
-              "queryRef": "Sum(fact_anr_global_acum.lliurada_hm3)",
-              "nativeQueryRef": "lliurada_hm3",
-              "displayName": "lliurada_hm3"
-            },
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "fact_anr_global_acum"
-                        }
-                      },
-                      "Property": "consumida_hm3"
-                    }
-                  },
-                  "Function": 0
-                }
-              },
-              "queryRef": "Sum(fact_anr_global_acum.consumida_hm3)",
-              "nativeQueryRef": "consumida_hm3",
-              "displayName": "consumida_hm3"
-            },
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "fact_anr_global_acum"
-                        }
-                      },
-                      "Property": "rth_global"
-                    }
-                  },
-                  "Function": 0
-                }
-              },
-              "queryRef": "Sum(fact_anr_global_acum.rth_global)",
-              "nativeQueryRef": "rth_global1",
-              "displayName": "rth_global"
-            },
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "fact_anr_global_acum"
-                        }
-                      },
-                      "Property": "anr_global_hm3"
-                    }
-                  },
-                  "Function": 0
-                }
-              },
-              "queryRef": "Sum(fact_anr_global_acum.anr_global_hm3)",
-              "nativeQueryRef": "anr_global_hm31",
-              "displayName": "anr_global_hm3"
-            },
-            {
-              "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
@@ -136,34 +56,6 @@
               },
               "queryRef": "_medidas.anr_l_esc_dia_12m1",
               "nativeQueryRef": "anr_l_esc_dia_12m1"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_medidas"
-                    }
-                  },
-                  "Property": "anr_l_subm_dia_acum_12m"
-                }
-              },
-              "queryRef": "_medidas.anr_l_subm_dia_12m1",
-              "nativeQueryRef": "anr_l_subm_dia_12m1"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_medidas"
-                    }
-                  },
-                  "Property": "anr_m3_km_dia_acum_12m"
-                }
-              },
-              "queryRef": "_medidas.anr_m3_km_dia_12m1",
-              "nativeQueryRef": "anr_m3_km_dia_12m1"
             },
             {
               "field": {
@@ -283,5 +175,65 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "22a700ce2205ed9eaa3f",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a09cf27a7b0f3740a91d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "anr_dia_m3_acum_12m"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "89e9bb281219f95ba99c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "anr_l_esc_dia_acum_12m"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9a83916a3cb05b60638e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "delta_anr_acum_12m"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

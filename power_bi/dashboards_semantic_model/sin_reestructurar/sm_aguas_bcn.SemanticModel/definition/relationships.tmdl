@@ -248,25 +248,10 @@ relationship e283b35c-c4a5-4bf7-915e-f927772f6f3d
 	fromColumn: fact_tfuita_tinst.inicio_deseado
 	toColumn: LocalDateTable_88238511-f17a-45b8-a920-04ef3ba68df1.Date
 
-relationship 20629e4c-0144-409c-8a26-13b7cfc3933f
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_tfuita_tinst.inicio_de_averia
-	toColumn: LocalDateTable_56e051ae-f3b7-40da-a5a5-d38756f17beb.Date
-
-relationship 37520006-8bbd-4feb-96b8-5666d2b665f7
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_tfuita_tinst.fin_de_averia
-	toColumn: LocalDateTable_7de4f205-a4f3-4f11-9150-63e298973e7c.Date
-
 relationship 19759a95-c131-4f50-8e56-b2430a58fc76
 	joinOnDateBehavior: datePartOnly
 	fromColumn: fact_tfuita_tinst.creado_el
 	toColumn: LocalDateTable_128da89c-a294-40fd-841e-9837d8e29e23.Date
-
-relationship 61c0f9c2-fc93-4aca-9fda-6c09b9cdf761
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_tfuita_tinst.fecha_de_aviso
-	toColumn: LocalDateTable_b2e6b767-320c-4c48-95df-db99937f6992.Date
 
 relationship 0ab61ee6-d60b-4226-9417-109e5cf04cae
 	joinOnDateBehavior: datePartOnly
@@ -280,4 +265,28 @@ relationship AutoDetected_19ff4377-bed6-4be6-8332-b14dcb2d3dca
 relationship AutoDetected_908a0836-297c-4d36-b467-d8641fa92bf3
 	fromColumn: Tfuita_Tinst_2026.aviso
 	toColumn: fact_tfuita_tinst.aviso
+
+relationship 11d025bf-eb13-9ac7-7049-dca202dfed30
+	isActive: false
+	fromColumn: fact_perimetre_comptadors.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
+relationship 8e2036f8-c0fc-a0f8-a9fb-12112b5117ee
+	isActive: false
+	fromColumn: fact_actuacions_zones.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
+relationship 755fa5c5-8144-47eb-a7f7-3c5a54eb904f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_tfuita_tinst.fecha_de_aviso
+	toColumn: LocalDateTable_dba143e3-0999-4dac-8063-86de03046139.Date
+
+relationship 0ea36e55-b9d7-3010-1bcb-23e44add1dae
+	fromColumn: fact_tfuita_tinst.fin_de_averia
+	toColumn: dim_calendario.Date
+
+relationship 5b66073c-e66d-ade3-202d-993b7f478381
+	isActive: false
+	fromColumn: fact_tfuita_tinst.inicio_de_averia
+	toColumn: dim_calendario.Date
 

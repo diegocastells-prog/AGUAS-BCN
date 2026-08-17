@@ -2190,8 +2190,9 @@ table _medidas
 		displayFolder: pressio
 		lineageTag: 9f15b926-c1c9-49a9-8a74-46f4e765041c
 
-	measure Tinst_dies = AVERAGE('fact_tfuita_tinst'[durada_dies])
+	measure tinst_dies_mensual = AVERAGE('fact_tfuita_tinst'[durada_dies])
 		formatString: #,0.00
+		displayFolder: tinst_dies
 		lineageTag: e2500360-3fd7-4581-a780-479f15e096ca
 
 	measure Tfuita_%_reparacio_15_dies =
@@ -2205,7 +2206,7 @@ table _medidas
 			    )
 			RETURN
 			    DIVIDE(Avisos15Dies, TotalAvisos, 0)
-		formatString: #,0.00
+		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
 		lineageTag: 38c44c09-9257-4e42-b5e7-6664e103b9b7
 
 	measure Tfuita_%_reparacio_10_dies =
@@ -2219,7 +2220,7 @@ table _medidas
 			    )
 			RETURN
 			    DIVIDE(Avisos10Dies, TotalAvisos, 0)
-		formatString: #,0.00
+		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
 		lineageTag: b3c3d074-7b1b-4cf1-a9fd-dc2c4cd22d70
 
 	measure us_aigua_acum_12m =
@@ -2394,6 +2395,50 @@ table _medidas
 		formatString: #,0.00
 		displayFolder: fuites\heli
 		lineageTag: f2ccbf5f-3ab5-4f51-99f1-79b22fbc2738
+
+	measure tinst_dies_mensual_smly = ```
+			CALCULATE(
+			    AVERAGE('fact_tfuita_tinst'[durada_dies]),
+			    DATEADD( 'dim_calendario'[Date], -12, MONTH )
+			)
+			
+			```
+		displayFolder: tinst_dies
+		lineageTag: bc18b0b9-f445-4f38-9ee8-9d8a1568609e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure tinst_dies_acum_12m_1m =
+			
+			CALCULATE(
+			    AVERAGE('fact_tfuita_tinst'[durada_dies]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
+			)
+		displayFolder: tinst_dies
+		lineageTag: f09e73cc-4906-4a8e-8356-0a251c8422a1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure tinst_dies_acum_12m =
+			
+			CALCULATE(
+			    AVERAGE('fact_tfuita_tinst'[durada_dies]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+		displayFolder: tinst_dies
+		lineageTag: 4294af21-a9b6-430e-892b-d136009a28ec
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Column
 		isHidden
