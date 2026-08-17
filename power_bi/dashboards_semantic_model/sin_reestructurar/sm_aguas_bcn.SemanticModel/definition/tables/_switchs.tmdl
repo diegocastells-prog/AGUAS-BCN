@@ -856,6 +856,108 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure kpi_us_aigua_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [us_aigua_mensual_smly],
+			    "12 meses", [us_aigua_acum_12m_1m],
+			    BLANK()
+			)
+		formatString: 0
+		displayFolder: us_aigua
+		lineageTag: 728ff4ee-93d9-46d8-bdf1-1376bcd47177
+
+	measure kpi_us_aigua_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [us_aigua_mensual],
+			    "12 meses", [us_aigua_acum_12m],
+			    BLANK()
+			)
+		formatString: 0
+		displayFolder: us_aigua
+		lineageTag: c09f2a67-dec5-4ead-b9b5-8d0921a33f77
+
+	measure kpi_fuites_reparades_acustic_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [fuites_reparades_acustic_mensual],
+			    "12 meses", [fuites_reparades_acustic_acum_12m],
+			    BLANK()
+			)
+		displayFolder: fuites\acustic
+		lineageTag: 152ffc36-3acc-44c6-8bf8-8851a1e0816f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_fuites_reparades_acustic_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [fuites_reparades_acustic_mensual_smly],
+			    "12 meses", [fuites_reparades_acustic_acum_12m_1m],
+			    BLANK()
+			)
+		displayFolder: fuites\acustic
+		lineageTag: 3e064fc3-fb43-441d-bf5a-a1d4705f332f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_fuites_reparades_altres_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [fuites_reparades_altres_mensual],
+			    "12 meses", [fuites_reparades_altres_acum_12m],
+			    BLANK()
+			)
+		displayFolder: fuites\altres
+		lineageTag: f5ed91de-6c78-4b54-a46f-ec5e3cc3adb6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_fuites_reparades_altres_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [fuites_reparades_altres_mensual_smly],
+			    "12 meses", [fuites_reparades_altres_acum_12m_1m],
+			    BLANK()
+			)
+		displayFolder: fuites\altres
+		lineageTag: be0287c0-77dc-476c-a057-8559bc95be1a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_fuites_reparades_heli_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [fuites_reparades_heli_mensual],
+			    "12 meses", [fuites_reparades_heli_acum_12m],
+			    BLANK()
+			)
+		displayFolder: fuites\heli
+		lineageTag: 4a4f489f-0ca3-4748-ba2f-21d7fe0bc7e3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_fuites_reparades_heli_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [fuites_reparades_heli_mensual_smly],
+			    "12 meses", [fuites_reparades_heli_acum_12m_1m],
+			    BLANK()
+			)
+		displayFolder: fuites\heli
+		lineageTag: 06dcfcd1-1c3a-47ae-9ec9-7857da29288a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0
