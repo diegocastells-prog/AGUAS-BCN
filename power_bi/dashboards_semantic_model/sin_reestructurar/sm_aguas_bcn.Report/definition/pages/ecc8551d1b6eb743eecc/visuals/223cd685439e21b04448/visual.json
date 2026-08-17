@@ -1,12 +1,12 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "5b10fb3e744bdb4dcb19",
+  "name": "223cd685439e21b04448",
   "position": {
-    "x": 575.59748427672957,
-    "y": 346.1635220125786,
+    "x": 120.60790273556232,
+    "y": 18.480243161094226,
     "z": 2000,
-    "height": 84.528301886792448,
-    "width": 250.56603773584905,
+    "height": 73.955555555555549,
+    "width": 228.97777777777779,
     "tabOrder": 2000
   },
   "visual": {
@@ -20,21 +20,49 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_parametre_avaries"
+                      "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "_parametre_avaries"
+                  "Property": "anio"
                 }
               },
-              "queryRef": "_parametre_avaries._parametre_avaries",
-              "nativeQueryRef": "_parametre_avaries",
+              "queryRef": "dim_calendario.anio",
+              "nativeQueryRef": "anio",
               "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "mes"
+                }
+              },
+              "queryRef": "dim_calendario.mes",
+              "nativeQueryRef": "mes",
+              "active": false
             }
           ]
         }
       }
     },
     "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ],
       "general": [
         {
           "properties": {
@@ -43,8 +71,8 @@
                 "Version": 2,
                 "From": [
                   {
-                    "Name": "_",
-                    "Entity": "_parametre_avaries",
+                    "Name": "d",
+                    "Entity": "dim_calendario",
                     "Type": 0
                   }
                 ],
@@ -57,10 +85,10 @@
                             "Column": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Source": "_"
+                                  "Source": "d"
                                 }
                               },
-                              "Property": "_parametre_avaries Campos"
+                              "Property": "anio"
                             }
                           }
                         ],
@@ -68,7 +96,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'''_switchs''[kpi_km_inspeccionats_heli_switch]'"
+                                "Value": "2026L"
                               }
                             }
                           ]
@@ -82,10 +110,10 @@
                             "Column": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Entity": "_parametre_avaries"
+                                  "Entity": "dim_calendario"
                                 }
                               },
-                              "Property": "_parametre_avaries"
+                              "Property": "anio"
                             }
                           }
                         ],
@@ -96,7 +124,7 @@
                                 "0": [
                                   {
                                     "Literal": {
-                                      "Value": "'''_switchs''[kpi_km_inspeccionats_heli_switch]'"
+                                      "Value": "2026L"
                                     }
                                   }
                                 ]
@@ -109,10 +137,10 @@
                                 "Column": {
                                   "Expression": {
                                     "SourceRef": {
-                                      "Entity": "_parametre_avaries"
+                                      "Entity": "dim_calendario"
                                     }
                                   },
-                                  "Property": "_parametre_avaries Campos"
+                                  "Property": "anio"
                                 }
                               }
                             }
@@ -120,7 +148,7 @@
                         },
                         "valueMap": [
                           {
-                            "0": "Km Inspeccionats Heli "
+                            "0": "2026"
                           }
                         ]
                       }
@@ -135,23 +163,24 @@
       "selection": [
         {
           "properties": {
-            "strictSingleSelect": {
+            "selectAllCheckboxEnabled": {
               "expr": {
                 "Literal": {
                   "Value": "true"
                 }
               }
-            }
-          }
-        }
-      ],
-      "data": [
-        {
-          "properties": {
-            "mode": {
+            },
+            "singleSelect": {
               "expr": {
                 "Literal": {
-                  "Value": "'Dropdown'"
+                  "Value": "true"
+                }
+              }
+            },
+            "strictSingleSelect": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -159,6 +188,43 @@
         }
       ]
     },
+    "syncGroup": {
+      "groupName": "anio",
+      "fieldChanges": true,
+      "filterChanges": true
+    },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "161cd58dad64675f0b87",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "bda4ae77a74562ac5ddf",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "mes"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

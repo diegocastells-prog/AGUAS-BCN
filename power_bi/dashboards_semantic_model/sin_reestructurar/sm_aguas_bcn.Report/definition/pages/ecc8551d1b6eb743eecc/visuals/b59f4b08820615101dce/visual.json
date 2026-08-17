@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "41f46a2e333e5a00228d",
+  "name": "b59f4b08820615101dce",
   "position": {
-    "x": 492,
-    "y": 0,
-    "z": 2000,
-    "height": 80,
-    "width": 326,
-    "tabOrder": 0
+    "x": 578.72340425531922,
+    "y": 18.480243161094226,
+    "z": 2001,
+    "height": 73.955555555555549,
+    "width": 228.97777777777779,
+    "tabOrder": 2001
   },
   "visual": {
     "visualType": "slicer",
@@ -20,13 +20,13 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fact_volum_cons_lliur"
+                      "Entity": "dim_dades_sectors"
                     }
                   },
                   "Property": "sector"
                 }
               },
-              "queryRef": "fact_volum_cons_lliur.sector",
+              "queryRef": "dim_dades_sectors.sector",
               "nativeQueryRef": "sector",
               "active": true
             }
@@ -50,11 +50,30 @@
       ],
       "general": [
         {
+          "properties": {}
+        }
+      ],
+      "selection": [
+        {
           "properties": {
-            "selfFilterEnabled": {
+            "selectAllCheckboxEnabled": {
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            },
+            "singleSelect": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "strictSingleSelect": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -63,5 +82,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "314a2ff08f165f222ca3",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "sector"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }
