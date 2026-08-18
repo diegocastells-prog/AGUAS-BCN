@@ -23,6 +23,14 @@ queryGroup Auxiliares\fact_actuacions_zones
 
 	annotation PBI_QueryGroupOrder = 0
 
+queryGroup Dimensiones\dim_art_bes_g_pressio
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup Dimensiones\dim_art_bcn_g_pressio
+
+	annotation PBI_QueryGroupOrder = 3
+
 queryGroup Auxiliares\dim_art_llob_g_pressio
 
 	annotation PBI_QueryGroupOrder = 1
@@ -43,21 +51,12 @@ queryGroup Tfuita_Tinst
 
 	annotation PBI_QueryGroupOrder = 0
 
-queryGroup Dimensiones\dim_art_bes_g_pressio
-
-	annotation PBI_QueryGroupOrder = 2
-
-queryGroup Dimensiones\dim_art_bcn_g_pressio
-
-	annotation PBI_QueryGroupOrder = 3
-
-annotation __PBI_TimeIntelligenceEnabled = 1
+annotation __PBI_TimeIntelligenceEnabled = 0
 
 annotation PBI_QueryOrder = ["fact_rend_anr_arterias_llobregadsub_mensual","fact_rend_anr_arterias_llobregadnord_mensual","fact_rend_anr_arterias_besos_mensual","fact_rend_anr_arterias_bcn_sud_mensual","fact_rend_anr_arterias_bcn_nord_mensual","fact_rend_anr_arterias_multi_dz_mensual","fact_rend_anr_arterias_bcn_nord_12m","fact_rend_anr_arterias_bcn_sud_12m","fact_rend_anr_arterias_besos_12m","fact_rend_anr_arterias_llobregadnord_12m","fact_rend_anr_arterias_llobregadsub_12m","fact_rend_anr_arterias_multi_dz_12m","fact_rend_anr_arterias_12m","fact_volumns_sector","fact_fraudes_all","perimetre_comptadors_2024","perimetre_comptadors_2025","perimetre_comptadors_2026","fact_perimetre_comptadors","fact_volum_consumit","Bossa_de_Limitadors_LLOBS","Bossa_de_Limitadors_LLOBN","Bossa_de_Limitadors_BES","Bossa_de_Limitadors_BCNN","Bossa_de_Limitadors_BCNS","fact_volum_lliurat","aux_dim_sector","dim_sector_aux","aux_sector_no_disp","dim_ortomat","fact_estadistiques_comp","fact_aigua_no_registrada","fact_z_sector","fact_vol_fraud","fact_dades_consum","fact_rend_anr_arterias","fact_volum_cons_lliur","fact_cabals_mínims","fact_bossa","dim_comptadors","dim_gerencia","dim_arteria","dim_dades_sectors","dim_less_polissa_fraude","dim_art_llob_g_pressio_100ESF_CDE","dim_art_llob_g_pressio_100LLO","fact_actuacions_zones_2026","fact_actuacions_zones_2025","fact_actuacions_zones_2024","fact_actuacions_zones","fact_reparacions_zones_2026","fact_reparacions_zones_2025","fact_reparacions_zones_2024","dim_art_llob_g_pressio_070LLO","dim_art_llob_g_pressio_140LLO","dim_art_llob_g_pressio_Begues","LLOB G Pressio","ActuacionsZones2026_D","ActuacionsZones2025_D","ActuacionsZones2024_D","VolumsMensualsSectors_D","dim_art_llob_g_pressio_Cesalpina_Torrelles","dim_art_llob_g_pressio_El_Papiol","dim_art_llob_g_pressio_Palleja","dim_gerencia_pressio","BES G Pressio","dim_art_bes_g_pressio_100BES","dim_art_bes_g_pressio_130SCG","dim_art_bes_g_pressio_Cerdanyola","dim_art_bes_g_pressio_Montgat","dim_art_bcn_g_pressio_055BAR","dim_art_bcn_g_pressio_070BBE","dim_art_bcn_g_pressio_070FLL","dim_art_bcn_g_pressio_100BLL","dim_art_bcn_g_pressio_101MIR","dim_art_bcn_g_pressio_130BAR","dim_art_bcn_g_pressio_176BAR","dim_art_bcn_g_pressio_200BAR_BLL","dim_art_bcn_g_pressio_300BAR","BCN G Pressio","fact_inventari_xarxa_distribucion","fact_aigua_consum_historic","fact_inventari_xarxa_transporte_total","Informe Aigua Consumida 2026","Indicadors ANR 2026","Tfuita_Tinst_2025","12_S7 desembre 2025_Tfuita_Tinst","12_S7 desembre 2026_Tfuita_Tinst","Tfuita_Tinst_2026","fact_tfuita_tinst","fact_estim_volum_munic_pob","dim_municipio","Estimació_Volums_Lliurats_i_Dotacions_Municipis_AB","fact_consum_no_control","aux_fact_poblacion_munic"]
 
 annotation PBI_ProTooling = ["WebModelingEdit","DevMode"]
 
-ref table DateTableTemplate_1f005d60-d41c-4d25-8333-f6264d3525dd
 ref table dim_calendario
 ref table fact_rend_anr_arterias
 ref table fact_inventari_xarxa_distribucion
@@ -82,10 +81,16 @@ ref table _parameter_anr
 ref table Slicer_KPI
 ref table dim_gerencia
 ref table fact_volum_cons_lliur
-ref table fact_aigua_consum_historic
-ref table fact_inventari_xarxa_transporte_total
 ref table fact_actuacions_zones
 ref table fact_volumns_sector
+ref table fact_aigua_consum_historic
+ref table fact_inventari_xarxa_transporte_total
+ref table dim_gerencia_pressio
+ref table _parametre_avaries
+ref table Tfuita_Tinst_2025
+ref table Tfuita_Tinst_2026
+ref table fact_tfuita_tinst
+ref table 'Eje de Análisis'
 ref table dim_art_bes_g_pressio_100BES
 ref table dim_art_bes_g_pressio_130SCG
 ref table dim_art_bes_g_pressio_Cerdanyola
@@ -99,46 +104,9 @@ ref table dim_art_bcn_g_pressio_130BAR
 ref table dim_art_bcn_g_pressio_176BAR
 ref table dim_art_bcn_g_pressio_200BAR_BLL
 ref table dim_art_bcn_g_pressio_300BAR
-ref table Tfuita_Tinst_2025
-ref table Tfuita_Tinst_2026
-ref table fact_tfuita_tinst
-ref table dim_gerencia_pressio
-ref table _parametre_avaries
-ref table 'Eje de Análisis'
 ref table fact_estim_volum_munic_pob
-ref table LocalDateTable_eaae3d15-b881-4834-a6b1-2066030d5c60
-ref table LocalDateTable_92bd1bad-c7dc-4aba-a019-a45540189e3a
-ref table LocalDateTable_abe492a1-7ce8-4ad3-8800-5ca0a0de984f
-ref table LocalDateTable_c35c9646-12b8-4916-9ead-9c6c57f059fb
-ref table LocalDateTable_0ec4bb9b-a1ad-4cca-bbe0-5bf832e5b030
-ref table LocalDateTable_cc19babf-6c96-4976-9703-06d3e20e0b3d
-ref table LocalDateTable_adb2dd9c-acb7-40f6-9647-811b54e54bcc
-ref table LocalDateTable_f0bd3c65-da8d-440d-9061-a1817035895b
-ref table LocalDateTable_39d6d833-7227-4943-a51f-e44ebec6fc7a
-ref table LocalDateTable_f84a7e56-a568-4f48-a76f-37e978bb8b3d
-ref table LocalDateTable_2a624b58-b9d4-412e-b8cb-035c95f1219f
-ref table LocalDateTable_1df7d4f2-7d02-4e9c-a831-8e4db4e5f7f2
-ref table LocalDateTable_cb62f932-ab42-42a2-94ff-b9ee24d19a20
-ref table LocalDateTable_057549f1-75a2-42bd-9b8d-2669ecba5fae
-ref table LocalDateTable_47bf05d9-af3a-4784-ba0a-5d7600944546
-ref table LocalDateTable_c92de276-191f-4797-acd4-af78c87511bb
-ref table LocalDateTable_41723570-4b3d-44bd-9c1f-8c588d8898ce
-ref table LocalDateTable_c3721670-f4e7-48e5-bbc3-edc4cfb93d82
-ref table LocalDateTable_a4fb450c-eb91-4ab7-b03f-ed1a7fe34347
-ref table LocalDateTable_30f65360-1601-4601-9049-0b827f92b057
-ref table LocalDateTable_9a3b20fb-989f-47e0-a46d-69f4a60994f8
-ref table LocalDateTable_fbef6dd4-7373-46ed-a515-a64f7dda6a08
-ref table LocalDateTable_d45c8364-a599-4524-a1ae-778950c97363
-ref table LocalDateTable_b480c33a-2edc-4e9d-b4e0-19cf90c48a90
-ref table LocalDateTable_e147d9b5-b9d7-424e-8f6f-b4eb8dc67278
-ref table LocalDateTable_45460af1-cca6-4aed-b3fa-9f9f4fcb3eb0
-ref table LocalDateTable_c40bc9ee-ccfc-49ad-a094-8c57fff3fd1b
-ref table LocalDateTable_0682300b-4298-46bc-89c2-97863e03836d
-ref table LocalDateTable_e347e876-76b9-4f33-8680-6e60e4db901b
-ref table LocalDateTable_54b0cfa8-85fd-4ef8-976c-9076156e6d6a
 ref table dim_municipio
 ref table fact_consum_no_control
-ref table LocalDateTable_35b0143e-c83d-4ce8-9d2d-bee94855bde6
 ref table aux_fact_poblacion_munic
 
 ref cultureInfo es-ES

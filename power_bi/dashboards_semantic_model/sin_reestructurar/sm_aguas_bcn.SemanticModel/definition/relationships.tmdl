@@ -1,3 +1,7 @@
+relationship c28b00dc-ddae-cc09-a094-042aff7256fd
+	fromColumn: fact_estadistiques_comp.fecha
+	toColumn: dim_calendario.Date
+
 relationship 818b4164-f6eb-db7a-e1d1-e0b4c4d85b65
 	fromColumn: fact_fraudes_all.polissa_subm
 	toColumn: dim_less_polissa_fraude.polissa_su
@@ -5,50 +9,6 @@ relationship 818b4164-f6eb-db7a-e1d1-e0b4c4d85b65
 relationship AutoDetected_fa068362-ff0a-4555-84b3-340a375e0c1f
 	fromColumn: fact_perimetre_comptadors.id_marca_modelo
 	toColumn: dim_comptadors.Id_marca_modelo
-
-relationship 607197d3-b65f-a33d-e199-df6a109be2a4
-	fromColumn: fact_dades_consum.polissa_subm
-	toColumn: dim_less_polissa_fraude.polissa_su
-
-relationship cf211dcf-d429-fba1-2299-ce149386634f
-	fromColumn: fact_rend_anr_arterias.arteria
-	toColumn: dim_arteria.arteria
-
-relationship AutoDetected_74ffd436-f204-4be2-8b30-5e87868e85a6
-	fromColumn: fact_estadistiques_comp.gerencia_id
-	toColumn: dim_gerencia.gerencia_id
-
-relationship AutoDetected_8f046edc-d717-4354-ad8e-5c9313346506
-	fromColumn: dim_arteria.gerencia_id
-	toColumn: dim_gerencia.gerencia_id
-
-relationship 960c1120-09fa-bb9b-9436-e269604f0e07
-	fromColumn: fact_cabals_mínims.sector_id
-	toColumn: dim_dades_sectors.sector_id
-
-relationship 8a45c3fd-d687-46a7-8aea-e7bd07961837
-	fromColumn: fact_perimetre_comptadors.sector_id
-	toColumn: dim_dades_sectors.sector_id
-
-relationship eaf14c69-fc82-c44a-754b-cfe67804b55c
-	fromColumn: dim_less_polissa_fraude.sector_id
-	toColumn: dim_dades_sectors.sector_id
-
-relationship 4e9d30b0-9c98-f8fb-e744-8ab7c4406aa6
-	fromColumn: fact_bossa.sector_id
-	toColumn: dim_dades_sectors.sector_id
-
-relationship AutoDetected_815c86f1-a27f-494d-adf3-02feef9e45ef
-	fromColumn: fact_inventari_xarxa_distribucion.gerencia_id
-	toColumn: dim_gerencia.gerencia_id
-
-relationship e6a403eb-0d8c-bafa-1bb8-b60ea18398b0
-	fromColumn: fact_aigua_no_registrada.sector_id
-	toColumn: dim_dades_sectors.sector_id
-
-relationship c28b00dc-ddae-cc09-a094-042aff7256fd
-	fromColumn: fact_estadistiques_comp.fecha
-	toColumn: dim_calendario.Date
 
 relationship 70df98a5-d27d-92ab-f90e-152ce7d20191
 	fromColumn: fact_cabals_mínims.fecha
@@ -74,17 +34,57 @@ relationship 8e23439e-04fd-13e6-3e9e-40de6d4bd9d2
 	fromColumn: fact_dades_consum.fecha
 	toColumn: dim_calendario.Date
 
+relationship 607197d3-b65f-a33d-e199-df6a109be2a4
+	fromColumn: fact_dades_consum.polissa_subm
+	toColumn: dim_less_polissa_fraude.polissa_su
+
 relationship 395b468d-5a37-81d8-23ad-e64f24caecf6
 	fromColumn: fact_rend_anr_arterias.fecha
 	toColumn: dim_calendario.Date
+
+relationship cf211dcf-d429-fba1-2299-ce149386634f
+	fromColumn: fact_rend_anr_arterias.arteria
+	toColumn: dim_arteria.arteria
 
 relationship cd1903c2-799d-d65b-df67-adc032a5eac3
 	fromColumn: fact_perimetre_comptadors.data_inst_comp
 	toColumn: dim_calendario.Date
 
+relationship AutoDetected_74ffd436-f204-4be2-8b30-5e87868e85a6
+	fromColumn: fact_estadistiques_comp.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
+relationship AutoDetected_8f046edc-d717-4354-ad8e-5c9313346506
+	fromColumn: dim_arteria.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
+relationship 960c1120-09fa-bb9b-9436-e269604f0e07
+	fromColumn: fact_cabals_mínims.sector_id
+	toColumn: dim_dades_sectors.sector_id
+
+relationship 8a45c3fd-d687-46a7-8aea-e7bd07961837
+	fromColumn: fact_perimetre_comptadors.sector_id
+	toColumn: dim_dades_sectors.sector_id
+
+relationship eaf14c69-fc82-c44a-754b-cfe67804b55c
+	fromColumn: dim_less_polissa_fraude.sector_id
+	toColumn: dim_dades_sectors.sector_id
+
+relationship 4e9d30b0-9c98-f8fb-e744-8ab7c4406aa6
+	fromColumn: fact_bossa.sector_id
+	toColumn: dim_dades_sectors.sector_id
+
 relationship 6e55d5b9-0aa9-8a41-a362-c2d9965931e4
 	fromColumn: fact_volum_cons_lliur.fecha
 	toColumn: dim_calendario.Date
+
+relationship AutoDetected_815c86f1-a27f-494d-adf3-02feef9e45ef
+	fromColumn: fact_inventari_xarxa_distribucion.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
+relationship e6a403eb-0d8c-bafa-1bb8-b60ea18398b0
+	fromColumn: fact_aigua_no_registrada.sector_id
+	toColumn: dim_dades_sectors.sector_id
 
 relationship AutoDetected_aea53a7c-8815-4e81-818a-dc2669132546
 	fromColumn: dim_less_polissa_fraude.sector_id
@@ -101,10 +101,6 @@ relationship c65d628d-a1a9-a2b9-e12d-fd231356e061
 relationship ed86575e-5d89-020f-18ca-c2483a75cb13
 	fromColumn: fact_inventari_xarxa_distribucion.fecha
 	toColumn: dim_calendario.Date
-
-relationship AutoDetected_bf589676-bfd9-4235-b31d-03d515ae2e91
-	fromColumn: fact_tfuita_tinst.Gerencia
-	toColumn: dim_gerencia.gerencia
 
 relationship c17fccfe-b9ec-f0e0-9955-c5eb785bd431
 	fromColumn: dim_dades_sectors.gerencia_id
@@ -136,164 +132,22 @@ relationship AutoDetected_908a0836-297c-4d36-b467-d8641fa92bf3
 	fromColumn: Tfuita_Tinst_2026.aviso
 	toColumn: fact_tfuita_tinst.aviso
 
-relationship 394fe072-aa48-4673-97f7-27fa7c660b97
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_fraudes_all.data_creacio_final
-	toColumn: LocalDateTable_eaae3d15-b881-4834-a6b1-2066030d5c60.Date
-
-relationship cee0e1d4-96e3-4f63-b1fb-269f49701657
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_fraudes_all.data_fi_execucio_final
-	toColumn: LocalDateTable_92bd1bad-c7dc-4aba-a019-a45540189e3a.Date
-
-relationship 5ee016c6-f43a-45fa-9000-16a93ebe1695
-	joinOnDateBehavior: datePartOnly
-	fromColumn: dim_comptadors.Modcon_Ts
-	toColumn: LocalDateTable_abe492a1-7ce8-4ad3-8800-5ca0a0de984f.Date
-
-relationship 6f75ccdb-cc4c-47e1-b882-73f4b54538b3
-	joinOnDateBehavior: datePartOnly
-	fromColumn: dim_comptadors.Data_Fi_Vigor
-	toColumn: LocalDateTable_c35c9646-12b8-4916-9ead-9c6c57f059fb.Date
-
-relationship 905aa1e9-4b13-4606-87ce-56914dbdd1eb
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_perimetre_comptadors.data_alt_subm_serv
-	toColumn: LocalDateTable_0ec4bb9b-a1ad-4cca-bbe0-5bf832e5b030.Date
-
-relationship de2f69e7-2b1d-481c-8132-bb27358f136c
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_bossa.data_alta_subm
-	toColumn: LocalDateTable_cc19babf-6c96-4976-9703-06d3e20e0b3d.Date
-
-relationship 96db5105-fbbe-4b81-92c4-d03a15e06ea5
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_aigua_consum_historic.fecha
-	toColumn: LocalDateTable_adb2dd9c-acb7-40f6-9647-811b54e54bcc.Date
-
-relationship 497371d4-4aec-45cb-b8d6-c22a82fd0d98
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_actuacions_zones.data_fi
-	toColumn: LocalDateTable_f0bd3c65-da8d-440d-9061-a1817035895b.Date
-
-relationship 6773325c-d295-48b2-bbed-81322e61b33e
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_volumns_sector.fecha_ini
-	toColumn: LocalDateTable_39d6d833-7227-4943-a51f-e44ebec6fc7a.Date
-
-relationship f7d83aff-703f-4da9-a2c8-7ca1a9cd5941
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_volumns_sector.fecha_fin
-	toColumn: LocalDateTable_f84a7e56-a568-4f48-a76f-37e978bb8b3d.Date
-
-relationship 169e82fa-4452-45e0-bddd-056da6fd56ae
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_volumns_sector.fecha_minim
-	toColumn: LocalDateTable_2a624b58-b9d4-412e-b8cb-035c95f1219f.Date
-
-relationship 3e46602b-27ed-4905-ae40-03fa58a898d9
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Tfuita_Tinst_2025.inicio_deseado
-	toColumn: LocalDateTable_1df7d4f2-7d02-4e9c-a831-8e4db4e5f7f2.Date
-
-relationship 6c09faa4-9919-41b5-8e0e-12e95ba31a10
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Tfuita_Tinst_2025.inicio_de_averia
-	toColumn: LocalDateTable_cb62f932-ab42-42a2-94ff-b9ee24d19a20.Date
-
-relationship d00d2ef9-90b5-48b0-8612-ae8ebf40269e
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Tfuita_Tinst_2025.fin_de_averia
-	toColumn: LocalDateTable_057549f1-75a2-42bd-9b8d-2669ecba5fae.Date
-
-relationship ee4943f9-7f3c-47ed-81fe-cdf795ef4185
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Tfuita_Tinst_2025.creado_el
-	toColumn: LocalDateTable_47bf05d9-af3a-4784-ba0a-5d7600944546.Date
-
-relationship 22df0c21-6f06-4ea8-bbb7-ba491a3f3969
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Tfuita_Tinst_2025.fecha_de_aviso
-	toColumn: LocalDateTable_c92de276-191f-4797-acd4-af78c87511bb.Date
-
-relationship 9da1a799-8206-4d26-82f1-97e8fe824c09
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Tfuita_Tinst_2025.fecha_de_referencia
-	toColumn: LocalDateTable_41723570-4b3d-44bd-9c1f-8c588d8898ce.Date
-
-relationship 6b958c35-4bc0-4a92-8f2f-0388a23a2d3f
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Tfuita_Tinst_2026.inicio_deseado
-	toColumn: LocalDateTable_c3721670-f4e7-48e5-bbc3-edc4cfb93d82.Date
-
-relationship aa79b244-d3ef-454e-840f-f2044a019a5a
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Tfuita_Tinst_2026.inicio_de_averia
-	toColumn: LocalDateTable_a4fb450c-eb91-4ab7-b03f-ed1a7fe34347.Date
-
-relationship a187e98a-62e2-4fec-ba90-0421bad80a7f
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Tfuita_Tinst_2026.fin_de_averia
-	toColumn: LocalDateTable_30f65360-1601-4601-9049-0b827f92b057.Date
-
-relationship 658dc866-a776-424c-ada4-b3458b052f45
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Tfuita_Tinst_2026.creado_el
-	toColumn: LocalDateTable_9a3b20fb-989f-47e0-a46d-69f4a60994f8.Date
-
-relationship 38f9dce3-3ea2-4b9a-bcf3-1f6af005cb87
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Tfuita_Tinst_2026.fecha_de_aviso
-	toColumn: LocalDateTable_fbef6dd4-7373-46ed-a515-a64f7dda6a08.Date
-
-relationship 3d2cb620-9b0b-43fe-b306-770d9478c1bf
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Tfuita_Tinst_2026.fecha_de_referencia
-	toColumn: LocalDateTable_d45c8364-a599-4524-a1ae-778950c97363.Date
-
-relationship e1ace401-ddea-4390-8eb2-d0c915189bf2
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_tfuita_tinst.inicio_deseado
-	toColumn: LocalDateTable_b480c33a-2edc-4e9d-b4e0-19cf90c48a90.Date
-
-relationship 4fd51915-6e67-4a55-b20b-6fd9eb9183c0
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_tfuita_tinst.inicio_de_averia
-	toColumn: LocalDateTable_e147d9b5-b9d7-424e-8f6f-b4eb8dc67278.Date
-
-relationship 5354e93e-748f-48d6-a664-aef14c0baac5
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_tfuita_tinst.fin_de_averia
-	toColumn: LocalDateTable_45460af1-cca6-4aed-b3fa-9f9f4fcb3eb0.Date
-
-relationship 6acf8c47-d015-4af8-824f-c338cba03585
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_tfuita_tinst.creado_el
-	toColumn: LocalDateTable_c40bc9ee-ccfc-49ad-a094-8c57fff3fd1b.Date
-
-relationship 78447037-bfe9-458d-96b1-2d1c87048e64
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_tfuita_tinst.fecha_de_aviso
-	toColumn: LocalDateTable_0682300b-4298-46bc-89c2-97863e03836d.Date
-
-relationship 2ed8aaa7-e634-4e40-bee4-4033d136867a
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_tfuita_tinst.fecha_de_referencia
-	toColumn: LocalDateTable_e347e876-76b9-4f33-8680-6e60e4db901b.Date
-
-relationship 3242c189-723e-4fbf-bbe7-dc95fbf9d4e1
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_estim_volum_munic_pob.fecha
-	toColumn: LocalDateTable_54b0cfa8-85fd-4ef8-976c-9076156e6d6a.Date
-
-relationship aa097ef4-7883-4baa-8baa-389b1a11fa18
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_consum_no_control.Fecha
-	toColumn: LocalDateTable_35b0143e-c83d-4ce8-9d2d-bee94855bde6.Date
+relationship AutoDetected_bf589676-bfd9-4235-b31d-03d515ae2e91
+	fromColumn: fact_tfuita_tinst.Gerencia
+	toColumn: dim_gerencia.gerencia
 
 relationship cb678c9c-e5b4-4987-bbd9-0552fbdb11b4
 	fromColumn: aux_fact_poblacion_munic.municipio
 	toColumn: dim_municipio.municipio
 
 	annotation PBI_IsFromSource = FS
+
+relationship d9ea4868-2ca4-2a7a-018b-352d0a1e3057
+	isActive: false
+	fromColumn: fact_tfuita_tinst.inicio_de_averia
+	toColumn: dim_calendario.Date
+
+relationship bc67c907-f155-61a4-df8b-db4acb247d27
+	fromColumn: fact_tfuita_tinst.fin_de_averia
+	toColumn: dim_calendario.Date
 

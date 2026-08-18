@@ -984,6 +984,54 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure kpi_tfuita_reparacio_10_dies_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [Tfuita_%_reparacio_10_dies_mensual],
+			    "12 meses", [Tfuita_%_reparacio_10_dies_acum_12m],
+			    BLANK()
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: tfuita_reparacio_10_dies
+		lineageTag: 1b7defd9-cd4c-4d4f-a950-43b4e67cf878
+
+	measure kpi_tfuita_reparacio_10_dies_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [Tfuita_%_reparacio_10_dies_mensual_smly],
+			    "12 meses", [Tfuita_%_reparacio_10_dies_acum_12m_1m],
+			    BLANK()
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: tfuita_reparacio_10_dies
+		lineageTag: 24cd9267-d781-4234-8a05-d5a0d9a647fe
+
+	measure kpi_tfuita_reparacio_15_dies_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [Tfuita_%_reparacio_15_dies_mensual],
+			    "12 meses", [Tfuita_%_reparacio_15_dies_acum_12m],
+			    BLANK()
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: tfuita_reparacio_15_dies
+		lineageTag: 76876f47-bf1d-4abf-808a-45f2d19265f9
+
+	measure kpi_tfuita_reparacio_15_dies_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [Tfuita_%_reparacio_15_dies_mensual_smly],
+			    "12 meses", [Tfuita_%_reparacio_15_dies_acum_12m_1m],
+			    BLANK()
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: tfuita_reparacio_15_dies
+		lineageTag: 8533f742-a8ba-41f3-9eaa-2cfaabba8776
+
 	column Column
 		isHidden
 		formatString: 0

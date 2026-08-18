@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "b4d9a6d0d0a9dd6deb78",
+  "name": "1ac557db7bf3d3daee42",
   "position": {
-    "x": 411.3303124053021,
-    "y": 103.14265780590404,
-    "z": 1000,
+    "x": 31.093117408906885,
+    "y": 142.51012145748987,
+    "z": 4004,
     "height": 80,
     "width": 202.85714285714286,
-    "tabOrder": 1000
+    "tabOrder": 4004
   },
   "visual": {
     "visualType": "slicer",
@@ -23,15 +23,33 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "Date"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
+              "queryRef": "dim_calendario.Date",
+              "nativeQueryRef": "Date",
               "active": true
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_calendario"
+                  }
+                },
+                "Property": "Date"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
       }
     },
     "objects": {
@@ -73,7 +91,7 @@
                                   "Source": "d"
                                 }
                               },
-                              "Property": "anio_mes"
+                              "Property": "Date"
                             }
                           }
                         ],
@@ -81,7 +99,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'2026-01'"
+                                "Value": "datetime'2026-01-26T00:00:00'"
                               }
                             }
                           ]
@@ -96,11 +114,24 @@
         }
       ]
     },
-    "syncGroup": {
-      "groupName": "anio_mes",
-      "fieldChanges": true,
-      "filterChanges": true
-    },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "ff49e5d3cadf4867f5c5",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "Date"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

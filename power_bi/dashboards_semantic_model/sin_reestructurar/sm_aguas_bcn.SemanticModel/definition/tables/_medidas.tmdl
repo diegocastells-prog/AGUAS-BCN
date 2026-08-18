@@ -128,17 +128,10 @@ table _medidas
 		displayFolder: anr_global\rth\mensual
 		lineageTag: 34283a5c-9a4a-44b1-9f15-bd8e048e4de3
 
-	measure anr_global_mensual_smly_hm3 = ```
-			
-			    CALCULATE(
-			        [anr_global_mensual_hm3],
-			        DATEADD( dim_calendario[Date], -12, MONTH )
-			)
-			
-			```
+	measure anr_global_mensual_hm3 = SUM(fact_aigua_consum_historic[anr_mes])/1000000
 		formatString: #,0.00
 		displayFolder: anr_global\anr\mensual
-		lineageTag: 008b8502-9603-4472-b60f-a04215d278d1
+		lineageTag: 0654636b-f135-436f-9748-efb105d9d565
 
 	measure volum_consumit_global_acum_12m = ```
 			
@@ -1703,10 +1696,17 @@ table _medidas
 		displayFolder: compatodrs
 		lineageTag: 98f9391b-d675-4925-b187-c4f3de1f0f69
 
-	measure anr_global_mensual_hm3 = SUM(fact_aigua_consum_historic[anr_mes])/1000000
+	measure anr_global_mensual_smly_hm3 = ```
+			
+			    CALCULATE(
+			        [anr_global_mensual_hm3],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			
+			```
 		formatString: #,0.00
 		displayFolder: anr_global\anr\mensual
-		lineageTag: 0654636b-f135-436f-9748-efb105d9d565
+		lineageTag: 008b8502-9603-4472-b60f-a04215d278d1
 
 	measure aigua_consumida_acf_global_mensual_hm3 = ```
 			SUM(fact_aigua_consum_historic[aigua_consumida_acf])   
@@ -1969,10 +1969,6 @@ table _medidas
 		displayFolder: anr_global\xarxa
 		lineageTag: 25c7fcd8-ff6a-48cd-b4a9-f70531b5bc75
 
-	measure Tinst_dies = AVERAGE('fact_tfuita_tinst'[durada_dies])
-		formatString: #,0.00
-		lineageTag: 9a945ec6-1d4e-4d59-a32d-6d1e9b2793f5
-
 	measure cabal_recuperat_mensual = SUM(fact_actuacions_zones[cabal_recuperat])
 		formatString: #,0.00
 		displayFolder: actuacions\cabals\cabal_recuperat
@@ -2199,7 +2195,7 @@ table _medidas
 		displayFolder: tinst_dies
 		lineageTag: 5db4599a-0a74-4c16-b164-3b5ee0b74885
 
-	measure Tfuita_%_reparacio_15_dies =
+	measure Tfuita_%_reparacio_15_dies_mensual =
 			
 			VAR TotalAvisos =
 			    COUNTROWS('fact_tfuita_tinst')
@@ -2211,9 +2207,10 @@ table _medidas
 			RETURN
 			    DIVIDE(Avisos15Dies, TotalAvisos, 0)
 		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
+		displayFolder: tfuita_%_reparacio_15_dies
 		lineageTag: 38c44c09-9257-4e42-b5e7-6664e103b9b7
 
-	measure Tfuita_%_reparacio_10_dies =
+	measure Tfuita_%_reparacio_10_dies_mensual =
 			
 			VAR TotalAvisos =
 			    COUNTROWS('fact_tfuita_tinst')
@@ -2225,6 +2222,7 @@ table _medidas
 			RETURN
 			    DIVIDE(Avisos10Dies, TotalAvisos, 0)
 		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
+		displayFolder: tfuita_%_reparacio_10_dies
 		lineageTag: b3c3d074-7b1b-4cf1-a9fd-dc2c4cd22d70
 
 	measure us_aigua_acum_12m =
@@ -2443,6 +2441,138 @@ table _medidas
 		lineageTag: 4294af21-a9b6-430e-892b-d136009a28ec
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Tfuita_%_reparacio_10_dies_mensual_smly =
+			
+			CALCULATE(
+			    [Tfuita_%_reparacio_10_dies_mensual],
+			    DATEADD('dim_calendario'[Date], -12, MONTH)
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: tfuita_%_reparacio_10_dies
+		lineageTag: 0e7d8a91-91c2-4b38-a580-ecd5b1b937dc
+
+	measure Tfuita_%_reparacio_10_dies_acum_12m_1m = ```
+			
+			VAR VentanaTiempo = 
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
+			VAR TotalAvisos12M1M =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        VentanaTiempo
+			    )
+			VAR Avisos10Dies12M1M =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        'fact_tfuita_tinst'[durada_dies] < 10,
+			        VentanaTiempo
+			    )
+			RETURN
+			    DIVIDE(Avisos10Dies12M1M, TotalAvisos12M1M, 0)
+			```
+		displayFolder: tfuita_%_reparacio_10_dies
+		lineageTag: ae79c010-09ee-4774-b9bc-b5b30fddc5b1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Tfuita_%_reparacio_10_dies_acum_12m = ```
+			
+			VAR VentanaTiempo = 
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			VAR TotalAvisos12M =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        VentanaTiempo
+			    )
+			VAR Avisos10Dies12M =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        'fact_tfuita_tinst'[durada_dies] < 10,
+			        VentanaTiempo
+			    )
+			RETURN
+			    DIVIDE(Avisos10Dies12M, TotalAvisos12M, 0)
+			```
+		displayFolder: tfuita_%_reparacio_10_dies
+		lineageTag: 5639fda0-7214-4293-bc0e-24fcf95008eb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Tfuita_%_reparacio_15_dies_acum_12m = ```
+			
+			VAR VentanaTiempo = 
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			VAR TotalAvisos12M =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        VentanaTiempo
+			    )
+			VAR Avisos15Dies12M =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        'fact_tfuita_tinst'[durada_dies] <= 15,
+			        VentanaTiempo
+			    )
+			RETURN
+			    DIVIDE(Avisos15Dies12M, TotalAvisos12M, 0)
+			```
+		displayFolder: tfuita_%_reparacio_15_dies
+		lineageTag: 81bf1b8a-768a-422d-9b68-d1817fa04e98
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Tfuita_%_reparacio_15_dies_acum_12m_1m = ```
+			
+			VAR VentanaTiempo = 
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
+			VAR TotalAvisos12M1M =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        VentanaTiempo
+			    )
+			VAR Avisos15Dies12M1M =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        'fact_tfuita_tinst'[durada_dies] <= 15,
+			        VentanaTiempo
+			    )
+			RETURN
+			    DIVIDE(Avisos15Dies12M1M, TotalAvisos12M1M, 0)
+			```
+		displayFolder: tfuita_%_reparacio_15_dies
+		lineageTag: 43ea1fa7-0239-40c8-a551-8e083ecd70fb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Tfuita_%_reparacio_15_dies_mensual_smly =
+			
+			CALCULATE(
+			    [Tfuita_%_reparacio_15_dies_mensual],
+			    DATEADD('dim_calendario'[Date], -12, MONTH)
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: tfuita_%_reparacio_15_dies
+		lineageTag: 4e93e075-6ffe-44f7-9a19-259cb451c532
 
 	column Column
 		isHidden

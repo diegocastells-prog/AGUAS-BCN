@@ -1,0 +1,107 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "7cae7380ed5f0d666beb",
+  "position": {
+    "x": 788.98785425101221,
+    "y": 360.16194331983809,
+    "z": 0,
+    "height": 344.35986159169551,
+    "width": 437.37024221453288,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "donutChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_perimetre_comptadors"
+                    }
+                  },
+                  "Property": "us_aigua_gest"
+                }
+              },
+              "queryRef": "fact_perimetre_comptadors.us_aigua_gest",
+              "nativeQueryRef": "us_aigua_gest",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "us_aigua_mensual"
+                }
+              },
+              "queryRef": "_medidas.us_aigua_mensual",
+              "nativeQueryRef": "us_aigua_mensual"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_medidas"
+                  }
+                },
+                "Property": "us_aigua_mensual"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "2a3575b5bbca153cd894",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_perimetre_comptadors"
+              }
+            },
+            "Property": "us_aigua_gest"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "dba71220ee1721e7b617",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "us_aigua_mensual"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
