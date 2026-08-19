@@ -200,7 +200,8 @@ table fact_perimetre_comptadors
 				    #"Consultas combinadas" = Table.NestedJoin(#"Duplicados quitados", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
 				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
 				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
-				    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas quitadas","","-1",Replacer.ReplaceValue,{"sector_id"}),
+				    #"Valor reemplazado1" = Table.ReplaceValue(#"Columnas quitadas","XXXXXX","0",Replacer.ReplaceText,{"pis_pressio"}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Valor reemplazado1","","-1",Replacer.ReplaceValue,{"sector_id"}),
 				    #"Columnas quitadas1" = Table.RemoveColumns(#"Valor reemplazado",{"marca_comp", "codi_model"}),
 				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas1",{{"polissa_subm", Int64.Type}, {"ratio_comp", Int64.Type}, {"diam_comp_cte", Int64.Type}, {"diam_comp", Int64.Type}, {"sector_id", Int64.Type}, {"pis_pressio", Int64.Type}})
 				in

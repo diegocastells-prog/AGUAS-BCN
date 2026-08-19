@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "1ac557db7bf3d3daee42",
   "position": {
-    "x": 31.093117408906885,
-    "y": 142.51012145748987,
+    "x": 32.388663967611336,
+    "y": 51.821862348178136,
     "z": 4004,
     "height": 80,
     "width": 202.85714285714286,
@@ -23,35 +23,68 @@
                       "Entity": "dim_calendario"
                     }
                   },
+                  "Property": "anio_mes"
+                }
+              },
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
                   "Property": "Date"
                 }
               },
               "queryRef": "dim_calendario.Date",
               "nativeQueryRef": "Date",
-              "active": true
+              "active": false
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dim_calendario"
-                  }
-                },
-                "Property": "Date"
-              }
-            },
-            "direction": "Ascending"
-          }
-        ],
-        "isDefaultSort": true
       }
     },
+    "expansionStates": [
+      {
+        "roles": [
+          "Values"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "dim_calendario.anio_mes"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "anio_mes"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "dim_calendario.Date"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          }
+        ],
+        "root": {}
+      }
+    ],
     "objects": {
       "data": [
         {
@@ -91,7 +124,7 @@
                                   "Source": "d"
                                 }
                               },
-                              "Property": "Date"
+                              "Property": "anio_mes"
                             }
                           }
                         ],
@@ -99,10 +132,60 @@
                           [
                             {
                               "Literal": {
-                                "Value": "datetime'2026-01-26T00:00:00'"
+                                "Value": "'2026-01'"
                               }
                             }
                           ]
+                        ]
+                      }
+                    },
+                    "Annotations": {
+                      "filterExpressionMetadata": {
+                        "expressions": [
+                          {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Entity": "dim_calendario"
+                                }
+                              },
+                              "Property": "Date"
+                            }
+                          }
+                        ],
+                        "decomposedIdentities": {
+                          "values": [
+                            [
+                              {
+                                "0": [
+                                  {
+                                    "Literal": {
+                                      "Value": "'2026-01'"
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          ],
+                          "columns": [
+                            {
+                              "value": {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "dim_calendario"
+                                    }
+                                  },
+                                  "Property": "anio_mes"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "valueMap": [
+                          {
+                            "0": "2026-01"
+                          }
                         ]
                       }
                     }
@@ -128,6 +211,20 @@
               }
             },
             "Property": "Date"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "8a48c95f8ce46d60f708",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
           }
         },
         "type": "Categorical"

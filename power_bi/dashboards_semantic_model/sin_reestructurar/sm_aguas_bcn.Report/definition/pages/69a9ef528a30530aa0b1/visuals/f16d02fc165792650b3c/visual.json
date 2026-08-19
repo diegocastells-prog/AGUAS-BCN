@@ -1,0 +1,116 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "f16d02fc165792650b3c",
+  "position": {
+    "x": 614.089068825911,
+    "y": 199.51417004048582,
+    "z": 4005,
+    "height": 243.56275303643724,
+    "width": 309.63562753036439,
+    "tabOrder": 4005
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_perimetre_comptadors"
+                    }
+                  },
+                  "Property": "polissa_subm"
+                }
+              },
+              "queryRef": "fact_perimetre_comptadors.polissa_subm",
+              "nativeQueryRef": "polissa_subm"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_perimetre_comptadors"
+                        }
+                      },
+                      "Property": "polissa_subm"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "Sum(fact_perimetre_comptadors.polissa_subm)",
+              "nativeQueryRef": "Recuento de polissa_subm"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "fact_perimetre_comptadors"
+                      }
+                    },
+                    "Property": "polissa_subm"
+                  }
+                },
+                "Function": 5
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "e957a2a062b515c8c8a5",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_perimetre_comptadors"
+              }
+            },
+            "Property": "polissa_subm"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ea31d942f676a60791c9",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_perimetre_comptadors"
+                  }
+                },
+                "Property": "polissa_subm"
+              }
+            },
+            "Function": 5
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
