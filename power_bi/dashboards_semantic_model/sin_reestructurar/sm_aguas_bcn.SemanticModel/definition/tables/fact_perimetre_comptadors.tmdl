@@ -2,17 +2,16 @@ table fact_perimetre_comptadors
 	lineageTag: 91320900-a8f9-4598-9593-2168faea73b4
 
 	column polissa_subm
-		dataType: int64
-		formatString: 0
+		dataType: string
 		lineageTag: e23071de-9336-4599-ab97-fdddbc9203a4
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: polissa_subm
 
 		annotation SummarizationSetBy = Automatic
 
 	column data_alt_subm_serv
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: 8110aba9-dbff-4e5a-b0fd-c57d5066dc33
 		summarizeBy: none
 		sourceColumn: data_alt_subm_serv
@@ -54,10 +53,9 @@ table fact_perimetre_comptadors
 		annotation SummarizationSetBy = Automatic
 
 	column pis_pressio
-		dataType: int64
-		formatString: 0
+		dataType: string
 		lineageTag: 115bc88c-2627-4a13-a0b6-acb3da6835f9
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: pis_pressio
 
 		annotation SummarizationSetBy = Automatic
@@ -85,7 +83,7 @@ table fact_perimetre_comptadors
 		annotation UnderlyingDateTimeDataType = Date
 
 	column diam_comp
-		dataType: int64
+		dataType: double
 		formatString: 0
 		lineageTag: dbddfc9d-a0ff-439e-bc4d-1744aa9f754b
 		summarizeBy: sum
@@ -94,7 +92,7 @@ table fact_perimetre_comptadors
 		annotation SummarizationSetBy = Automatic
 
 	column diam_comp_cte
-		dataType: int64
+		dataType: double
 		formatString: 0
 		lineageTag: 300fe662-dac2-4af7-a982-1eb69ad52c5b
 		summarizeBy: sum
@@ -103,15 +101,17 @@ table fact_perimetre_comptadors
 		annotation SummarizationSetBy = Automatic
 
 	column cabal_q3
-		dataType: string
+		dataType: double
 		lineageTag: 904b9e3e-2c14-4258-ab2e-f622b709d3b2
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: cabal_q3
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column ratio_comp
-		dataType: int64
+		dataType: double
 		formatString: 0
 		lineageTag: 93a68a4e-ca57-4472-beb9-7191f0c8bb2b
 		summarizeBy: sum
@@ -168,20 +168,34 @@ table fact_perimetre_comptadors
 		annotation SummarizationSetBy = Automatic
 
 	column sector_id
-		dataType: int64
-		formatString: 0
-		lineageTag: 47be6257-4914-4a45-8de7-4024f74b37c8
+		dataType: string
+		lineageTag: 79fb6a37-66ba-498b-a930-fe0074dc745d
 		summarizeBy: none
 		sourceColumn: sector_id
 
 		annotation SummarizationSetBy = Automatic
 
-	column gerencia_id
-		dataType: int64
-		formatString: 0
-		lineageTag: f700d126-c835-4b69-82b0-89f59278c17f
-		summarizeBy: sum
-		sourceColumn: gerencia_id
+	column gerencia
+		dataType: string
+		lineageTag: 8b493fea-b98b-4520-a64b-811e8bddd9de
+		summarizeBy: none
+		sourceColumn: gerencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column marca_comp
+		dataType: string
+		lineageTag: ba8d08b1-eca3-4034-bf4b-295262d3fdbf
+		summarizeBy: none
+		sourceColumn: marca_comp
+
+		annotation SummarizationSetBy = Automatic
+
+	column codi_model
+		dataType: string
+		lineageTag: 879e47c1-19a4-4e7d-93c4-1f11b75b67da
+		summarizeBy: none
+		sourceColumn: codi_model
 
 		annotation SummarizationSetBy = Automatic
 
@@ -190,22 +204,17 @@ table fact_perimetre_comptadors
 		queryGroup: Hechos
 		source =
 				let
-				    Union =
-				        Table.Combine({
-				           perimetre_comptadors_2026,
-				            perimetre_comptadors_2025,
-				            perimetre_comptadors_2024
-				        }),
-				    #"Duplicados quitados" = Table.Distinct(Union),
-				    #"Consultas combinadas" = Table.NestedJoin(#"Duplicados quitados", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
-				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
-				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
-				    #"Valor reemplazado1" = Table.ReplaceValue(#"Columnas quitadas","XXXXXX","0",Replacer.ReplaceText,{"pis_pressio"}),
-				    #"Valor reemplazado" = Table.ReplaceValue(#"Valor reemplazado1","","-1",Replacer.ReplaceValue,{"sector_id"}),
-				    #"Columnas quitadas1" = Table.RemoveColumns(#"Valor reemplazado",{"marca_comp", "codi_model"}),
-				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas1",{{"polissa_subm", Int64.Type}, {"ratio_comp", Int64.Type}, {"diam_comp_cte", Int64.Type}, {"diam_comp", Int64.Type}, {"sector_id", Int64.Type}, {"pis_pressio", Int64.Type}})
+				    // Cargar parquet 2025
+				    T2025 = Parquet.Document(File.Contents("C:\data\dades_parc_comptadors.parquet"), [Compression=null, LegacyColumnNameEncoding=false, MaxDepth=null]),
+				    #"Columnas en minúsculas" = Table.TransformColumnNames(T2025, Text.Lower),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas en minúsculas",{{"data_alt_subm_serv", type date}, {"data_inst_comp", type date}}),
+				    #"Gerencia Tipo Título" = Table.TransformColumns(#"Tipo cambiado", {{"gerencia", Text.Proper, type text}}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Gerencia Tipo Título","Bes�S","Besòs",Replacer.ReplaceText,{"gerencia"}),
+				    #"Id Agregado" = Table.AddColumn(#"Valor reemplazado", "id_marca_modelo", each [marca_comp] & "-" & Text.From([codi_model]), type text),
+				    #"Duplicados reales quitados" = Table.Distinct(#"Id Agregado"),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Duplicados reales quitados",{{"sector", "sector_id"}})
 				in
-				    #"Tipo cambiado"
+				    #"Columnas con nombre cambiado"
 
 	annotation PBI_NavigationStepName = Navegación
 

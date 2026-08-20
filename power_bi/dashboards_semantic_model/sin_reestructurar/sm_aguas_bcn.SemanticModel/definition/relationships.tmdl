@@ -30,14 +30,6 @@ relationship 2d155cf4-eda1-bf1c-5df2-00686c2e6216
 	fromColumn: fact_vol_fraud.'Data Fi Execucio Final'
 	toColumn: dim_calendario.Date
 
-relationship 8e23439e-04fd-13e6-3e9e-40de6d4bd9d2
-	fromColumn: fact_dades_consum.fecha
-	toColumn: dim_calendario.Date
-
-relationship 607197d3-b65f-a33d-e199-df6a109be2a4
-	fromColumn: fact_dades_consum.polissa_subm
-	toColumn: dim_less_polissa_fraude.polissa_su
-
 relationship 395b468d-5a37-81d8-23ad-e64f24caecf6
 	fromColumn: fact_rend_anr_arterias.fecha
 	toColumn: dim_calendario.Date
@@ -45,10 +37,6 @@ relationship 395b468d-5a37-81d8-23ad-e64f24caecf6
 relationship cf211dcf-d429-fba1-2299-ce149386634f
 	fromColumn: fact_rend_anr_arterias.arteria
 	toColumn: dim_arteria.arteria
-
-relationship cd1903c2-799d-d65b-df67-adc032a5eac3
-	fromColumn: fact_perimetre_comptadors.data_inst_comp
-	toColumn: dim_calendario.Date
 
 relationship AutoDetected_74ffd436-f204-4be2-8b30-5e87868e85a6
 	fromColumn: fact_estadistiques_comp.gerencia_id
@@ -60,10 +48,6 @@ relationship AutoDetected_8f046edc-d717-4354-ad8e-5c9313346506
 
 relationship 960c1120-09fa-bb9b-9436-e269604f0e07
 	fromColumn: fact_cabals_mínims.sector_id
-	toColumn: dim_dades_sectors.sector_id
-
-relationship 8a45c3fd-d687-46a7-8aea-e7bd07961837
-	fromColumn: fact_perimetre_comptadors.sector_id
 	toColumn: dim_dades_sectors.sector_id
 
 relationship eaf14c69-fc82-c44a-754b-cfe67804b55c
@@ -151,8 +135,16 @@ relationship bc67c907-f155-61a4-df8b-db4acb247d27
 	fromColumn: fact_tfuita_tinst.fin_de_averia
 	toColumn: dim_calendario.Date
 
-relationship 43cdc02e-4693-3c65-58cf-681e439dece5
-	isActive: false
-	fromColumn: fact_perimetre_comptadors.data_alt_subm_serv
+relationship a1c8bca7-7f40-0223-e352-98ac2881f063
+	crossFilteringBehavior: bothDirections
+	fromColumn: fact_dades_consum.polissa_subm
+	toColumn: fact_perimetre_comptadors.polissa_subm
+
+relationship a98bf179-c173-70bb-0bfd-92ad367372dd
+	fromColumn: fact_dades_consum.fecha
 	toColumn: dim_calendario.Date
+
+relationship 4509abf2-cc1c-7590-979d-ac75c75243a2
+	fromColumn: fact_perimetre_comptadors.sector_id
+	toColumn: dim_dades_sectors.sector_id
 

@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "7cae7380ed5f0d666beb",
   "position": {
-    "x": 984.61538461538464,
-    "y": 360.16194331983809,
+    "x": 284.28571428571428,
+    "y": 161.42857142857144,
     "z": 0,
-    "height": 226.72064777327935,
-    "width": 250.04048582995952,
+    "height": 271.25,
+    "width": 327.5,
     "tabOrder": 0
   },
   "visual": {
-    "visualType": "donutChart",
+    "visualType": "columnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -36,17 +36,22 @@
           "projections": [
             {
               "field": {
-                "Measure": {
+                "Aggregation": {
                   "Expression": {
-                    "SourceRef": {
-                      "Entity": "_medidas"
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_perimetre_comptadors"
+                        }
+                      },
+                      "Property": "polissa_subm"
                     }
                   },
-                  "Property": "us_aigua_mensual"
+                  "Function": 5
                 }
               },
-              "queryRef": "_medidas.us_aigua_mensual",
-              "nativeQueryRef": "us_aigua_mensual"
+              "queryRef": "CountNonNull(fact_perimetre_comptadors.polissa_subm)",
+              "nativeQueryRef": "Recuento de polissa_subm"
             }
           ]
         }
@@ -55,13 +60,18 @@
         "sort": [
           {
             "field": {
-              "Measure": {
+              "Aggregation": {
                 "Expression": {
-                  "SourceRef": {
-                    "Entity": "_medidas"
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "fact_perimetre_comptadors"
+                      }
+                    },
+                    "Property": "polissa_subm"
                   }
                 },
-                "Property": "us_aigua_mensual"
+                "Function": 5
               }
             },
             "direction": "Descending"
@@ -71,37 +81,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "2a3575b5bbca153cd894",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "fact_perimetre_comptadors"
-              }
-            },
-            "Property": "us_aigua_gest"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "dba71220ee1721e7b617",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "us_aigua_mensual"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

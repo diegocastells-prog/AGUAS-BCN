@@ -1180,8 +1180,7 @@ expression perimetre_comptadors_2024 = ```
 		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas en minúsculas",{{"data_alt_subm_serv", type date}, {"data_inst_comp", type date}}),
 		    #"Gerencia Tipo Título" = Table.TransformColumns(#"Tipo cambiado", {{"gerencia", Text.Proper, type text}}),
 		    #"Id Agregado" = Table.AddColumn(#"Gerencia Tipo Título", "id_marca_modelo", each [marca_comp] & "-" & Text.From([codi_model]), type text),
-		    #"Duplicados reales quitados" = Table.Distinct(#"Id Agregado"),
-		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Duplicados reales quitados",{{"sector", "sector_id"}})
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Id Agregado",{{"sector", "sector_id"}})
 		in
 		    #"Columnas con nombre cambiado"
 		```
@@ -1190,7 +1189,7 @@ expression perimetre_comptadors_2024 = ```
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 
 expression perimetre_comptadors_2025 = ```
 		// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO DE GOOGLE DRIVE 
@@ -1210,8 +1209,7 @@ expression perimetre_comptadors_2025 = ```
 		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas en minúsculas",{{"data_alt_subm_serv", type date}, {"data_inst_comp", type date}}),
 		    #"Gerencia Tipo Título" = Table.TransformColumns(#"Tipo cambiado", {{"gerencia", Text.Proper, type text}}),
 		    #"Id Agregado" = Table.AddColumn(#"Gerencia Tipo Título", "id_marca_modelo", each [marca_comp] & "-" & Text.From([codi_model]), type text),
-		    #"Duplicados reales quitados" = Table.Distinct(#"Id Agregado"),
-		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Duplicados reales quitados",{{"sector", "sector_id"}})
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Id Agregado",{{"sector", "sector_id"}})
 		in
 		    #"Columnas con nombre cambiado"
 		```
@@ -1220,7 +1218,7 @@ expression perimetre_comptadors_2025 = ```
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 
 expression perimetre_comptadors_2026 = ```
 		// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO DE GOOGLE DRIVE 
@@ -1240,8 +1238,7 @@ expression perimetre_comptadors_2026 = ```
 		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas en minúsculas",{{"data_alt_subm_serv", type date}, {"data_inst_comp", type date}}),
 		    #"Gerencia Tipo Título" = Table.TransformColumns(#"Tipo cambiado", {{"gerencia", Text.Proper, type text}}),
 		    #"Id Agregado" = Table.AddColumn(#"Gerencia Tipo Título", "id_marca_modelo", each [marca_comp] & "-" & Text.From([codi_model]), type text),
-		    #"Duplicados reales quitados" = Table.Distinct(#"Id Agregado"),
-		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Duplicados reales quitados",{{"sector", "sector_id"}})
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Id Agregado",{{"sector", "sector_id"}})
 		in
 		    #"Columnas con nombre cambiado"
 		```
