@@ -70,7 +70,7 @@ table _medidas
 			    'fact_fraudes_all'[ind_resultat] = "S"
 			)
 		formatString: #,0
-		displayFolder: fraudes
+		displayFolder: fraudes\fraus_detectats\mensual
 		lineageTag: d053b592-f1a5-4dea-9e53-52004065736d
 
 	measure polisses_reincidents =
@@ -113,12 +113,12 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: anr_global\volum\mensual
+		displayFolder: anr_global\volum\lliurat\mensual
 		lineageTag: 6c32f9d3-73d4-4cee-8719-3c99bc6c0211
 
 	measure volum_consumit_global_mensual_hm3 = SUM(fact_aigua_consum_historic[aigua_consumida_total])/1000000
 		formatString: #,0.00
-		displayFolder: anr_global\volum\mensual
+		displayFolder: anr_global\volum\consumit\mensual
 		lineageTag: 8bad2009-0f2d-49b7-a5d6-5f57e5a19d68
 
 	measure rendiment_global_mensual = ```
@@ -149,7 +149,7 @@ table _medidas
 			 
 			```
 		formatString: #,0.00
-		displayFolder: anr_global\volum\acum_12m
+		displayFolder: anr_global\volum\consumit\acum_12m
 		lineageTag: 5e8091e2-7345-4596-bd59-172605b3082a
 
 	measure volum_lliurat_global_acum_12m_hm3 = ```
@@ -168,7 +168,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: anr_global\volum\acum_12m
+		displayFolder: anr_global\volum\lliurat\acum_12m
 		lineageTag: 58e5e941-c4d8-422a-8288-e80857cf8667
 
 	measure rendiment_global_acum_12m = ```
@@ -190,12 +190,12 @@ table _medidas
 			
 			DIVIDE( SUM(fact_rend_anr_arterias[sortit_m3]), SUM(fact_rend_anr_arterias[entrat_m3]) ) * 100
 		formatString: #,0.00
-		displayFolder: anr_transporte\rendiment
+		displayFolder: anr_transporte\rendiment\mensual
 		lineageTag: 75b88512-c6e4-4daa-989d-4d62f410fed0
 
 	measure anr_transport_m3_mensual = SUM(fact_rend_anr_arterias[entrat_m3]) - SUM(fact_rend_anr_arterias[sortit_m3])
 		formatString: #,0
-		displayFolder: anr_transporte\anr
+		displayFolder: anr_transporte\anr\mensual
 		lineageTag: 86a01aa5-ac54-48f3-a890-d503e630c5f2
 
 	measure anr_transport_m3_acum_12m =
@@ -210,7 +210,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0
-		displayFolder: anr_transporte\anr
+		displayFolder: anr_transporte\anr\acum_12
 		lineageTag: 2f2f14b0-c873-412b-8357-3a216a37df41
 
 	measure rendiment_transport_acum_12m = ```
@@ -231,7 +231,7 @@ table _medidas
 						)
 			```
 		formatString: #,0.00
-		displayFolder: anr_transporte\rendiment
+		displayFolder: anr_transporte\rendiment\acum_12
 		lineageTag: 65a14b58-b2d8-4fa0-8c00-a442979f5772
 
 	measure 'Label titulo' = "Cuadro de mando de Agua No Registrada"
@@ -313,7 +313,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: compatodrs
+		displayFolder: compatodrs\volum\consumit_estrategics\mensual
 		lineageTag: 16d076e1-94de-4d7d-800e-b8c999bd78a1
 
 	measure volum_consumit_estrategics_12m = ```
@@ -331,7 +331,7 @@ table _medidas
 			
 			```
 		formatString: #,0
-		displayFolder: compatodrs
+		displayFolder: compatodrs\volum\consumit_estrategics\acum_12
 		lineageTag: 3f91133b-d089-4cde-bb13-50fe7d087c4e
 
 	measure volum_mesurat = ```
@@ -339,7 +339,7 @@ table _medidas
 			
 			```
 		formatString: #,0
-		displayFolder: compatodrs
+		displayFolder: compatodrs\volum\mensurat\mensual
 		lineageTag: aa599b71-479a-4fcc-8b57-0e5baad402f9
 
 	measure volum_mesurat_12m = ```
@@ -356,7 +356,7 @@ table _medidas
 			
 			```
 		formatString: #,0
-		displayFolder: compatodrs
+		displayFolder: compatodrs\volum\mensurat\acum_12
 		lineageTag: f046b454-09e7-4f76-832a-b5415b80a533
 
 	measure pct_lectures_visuals = ```
@@ -368,7 +368,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: compatodrs
+		displayFolder: compatodrs\pct_lectures
 		lineageTag: c1ad079c-b095-4cd3-afcf-3631f1e316be
 
 	measure pct_lectures_estimades = ```
@@ -380,17 +380,17 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: compatodrs
+		displayFolder: compatodrs\pct_lectures
 		lineageTag: 4416c39f-e6e4-4056-b3f2-0ebc153e14f7
 
 	measure tipus_subministrament = COUNT(fact_perimetre_comptadors[tip_subm_serv])
 		formatString: #,0
-		displayFolder: compatodrs
+		displayFolder: compatodrs\subministraments
 		lineageTag: f92cc95e-c377-46c0-9258-62f7fe374581
 
 	measure us_aigua_mensual = COUNT(fact_perimetre_comptadors[us_aigua_gest])
 		formatString: #,0
-		displayFolder: us_aigua
+		displayFolder: us_aigua\mensual
 		lineageTag: 03a95399-c62a-4e9b-9d1e-50545ea39119
 
 	measure vategoria_fuita = ```
@@ -420,7 +420,7 @@ table _medidas
 			    0
 			)
 		formatString: #,0.00
-		displayFolder: compatodrs
+		displayFolder: compatodrs\pct_lectures
 		lineageTag: c8ffb8a1-b828-4c92-b90c-8e76084a953e
 
 	measure pct_lectures_estimades_vs_totals =
@@ -431,7 +431,7 @@ table _medidas
 			    0
 			)
 		formatString: #,0.00
-		displayFolder: compatodrs
+		displayFolder: compatodrs\pct_lectures
 		lineageTag: ea81a32a-6f82-45cc-8ff2-b9f1ff5b7d09
 
 	measure categoria_fraus = ```
@@ -516,7 +516,7 @@ table _medidas
 		lineageTag: 3bee1bda-5daa-4d40-9b48-c16b546b4003
 
 	measure q_min_mensual = sum('fact_cabals_mínims'[q_min])
-		displayFolder: actuacions\cabals\q_min
+		displayFolder: actuacions\cabals\q_min\mensual
 		lineageTag: 6d0caa36-bd03-4a32-82dd-84c61a870ec0
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -537,14 +537,14 @@ table _medidas
 			)
 			
 			```
-		displayFolder: actuacions\cabals\q_min
+		displayFolder: actuacions\cabals\q_min\acum_12
 		lineageTag: d701ce49-bb42-4d33-80ab-56e3df3f37a2
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure models_comptadors = COUNT(dim_comptadors[Codi_Model])
 		formatString: #,0
-		displayFolder: compatodrs
+		displayFolder: compatodrs\canvis
 		lineageTag: 99ae7970-16b8-43f0-8d4b-d925b901de4e
 
 	measure edat_mitjana_compt =
@@ -554,7 +554,7 @@ table _medidas
 			    YEAR(TODAY()) - YEAR('fact_perimetre_comptadors'[data_inst_comp])
 			)
 		formatString: #,0.00
-		displayFolder: compatodrs
+		displayFolder: compatodrs\canvis
 		lineageTag: fcd9cc07-1026-41c2-8b30-d90bcf9bd4e9
 
 	measure volum_consumit_distribucion_mensual = SUM(fact_volum_cons_lliur[volum_consumit])
@@ -588,7 +588,7 @@ table _medidas
 			        SUM(fact_volum_consumit[volum_consumit])
 			    )
 			)
-		displayFolder: volumen\consumit
+		displayFolder: volumen\consumit\mensual
 		lineageTag: e05caf8f-d1d2-4ae8-91a7-6811f66b8895
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -809,7 +809,7 @@ table _medidas
 			    'fact_bossa'[necessitat] = "Q4"
 			)
 		formatString: #,0
-		displayFolder: compatodrs
+		displayFolder: compatodrs\canvis
 		lineageTag: 5bd0460b-958f-457b-9460-f7a5410d8bf8
 
 	measure compt_per_sobre_q1 =
@@ -931,12 +931,12 @@ table _medidas
 			
 			```
 		formatString: #,0
-		displayFolder: anr_transporte\volumens\lliurat
+		displayFolder: anr_transporte\volumens\lliurat\mensual
 		lineageTag: 699b407e-7090-4b74-ad16-9b7a17dfce03
 
 	measure volum_consumit_transport_mensual = SUM(fact_rend_anr_arterias[sortit_m3])
 		formatString: #,0
-		displayFolder: anr_transporte\volumens\consumit
+		displayFolder: anr_transporte\volumens\consumit\mensual
 		lineageTag: 6b5f077d-fffc-431b-997a-ca2b11be4d19
 
 	measure volum_lliurat_transport_12m =
@@ -951,7 +951,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0
-		displayFolder: anr_transporte\volumens\lliurat
+		displayFolder: anr_transporte\volumens\lliurat\acum_12
 		lineageTag: 3a893691-7d55-4519-a880-dabd895705bd
 
 	measure volum_consumit_transport_12m =
@@ -966,7 +966,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0
-		displayFolder: anr_transporte\volumens\consumit
+		displayFolder: anr_transporte\volumens\consumit\acum_12
 		lineageTag: affa081f-3d6c-421b-a19c-bc2aaf0f784a
 
 	measure volum_consumit_mig_acum_12m =
@@ -983,7 +983,7 @@ table _medidas
 			        )
 			    )
 			)
-		displayFolder: volumen\consumit
+		displayFolder: volumen\consumit\acum_12
 		lineageTag: f8865696-c424-43c5-83d9-113fdbaa6e5f
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -1168,7 +1168,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: anr_global\volum\mensual
+		displayFolder: anr_global\volum\lliurat\mensual
 		lineageTag: 4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a
 
 	measure volum_consumit_global_mensual_smly_hm3 = ```
@@ -1181,7 +1181,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: anr_global\volum\mensual
+		displayFolder: anr_global\volum\consumit\mensual
 		lineageTag: 5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b
 
 	measure rendiment_global_mensual_smly =
@@ -1201,7 +1201,7 @@ table _medidas
 			    DATEADD(dim_calendario[Date], -1, MONTH)
 			)
 		formatString: #,0.00
-		displayFolder: anr_global\volum\acum_12m
+		displayFolder: anr_global\volum\consumit\acum_12m
 		lineageTag: 5e5f5a5b-5c5d-5e5f-5a5b-5c5d5e5f5a5b
 
 	measure volum_lliurat_global_acum_12m_1m_hm3 =
@@ -1210,7 +1210,7 @@ table _medidas
 			    DATEADD(dim_calendario[Date], -1, MONTH)
 			)
 		formatString: #,0.00
-		displayFolder: anr_global\volum\acum_12m
+		displayFolder: anr_global\volum\lliurat\acum_12m
 		lineageTag: 6f6a6b6c-6d6e-6f6a-6b6c-6d6e6f6a6b6c
 
 	measure rendiment_global_acum_12m_1m =
@@ -1241,7 +1241,7 @@ table _medidas
 			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
 		formatString: #,0.00
-		displayFolder: anr_transporte\rendiment
+		displayFolder: anr_transporte\rendiment\mensual
 		lineageTag: 7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d
 
 	measure anr_transport_m3_mensual_smly =
@@ -1250,7 +1250,7 @@ table _medidas
 			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
 		formatString: #,0
-		displayFolder: anr_transporte\anr
+		displayFolder: anr_transporte\anr\mensual
 		lineageTag: 8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e
 
 	measure anr_transport_m3_acum_12m_1m =
@@ -1265,7 +1265,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0
-		displayFolder: anr_transporte\anr
+		displayFolder: anr_transporte\anr\acum_12
 		lineageTag: 9c9d9e9f-9a9b-9c9d-9e9f-9a9b9c9d9e9f
 
 	measure rendiment_transport_acum_12m_1m = ```
@@ -1286,7 +1286,7 @@ table _medidas
 						)
 			```
 		formatString: #,0.00
-		displayFolder: anr_transporte\rendiment
+		displayFolder: anr_transporte\rendiment\acum_12
 		lineageTag: 0a0b0c0d-0e0f-0a0b-0c0d-0e0f0a0b0c0d
 
 	measure volum_consumit_estrategics_mensual_1m = ```
@@ -1299,7 +1299,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: compatodrs
+		displayFolder: compatodrs\volum\consumit_estrategics\mensual
 		lineageTag: 9c0d1e2f-3a4b-5c6d-7e8f-9a0b1c2d3e4f
 
 	measure volum_consumit_estrategics_12m_1m = ```
@@ -1317,7 +1317,7 @@ table _medidas
 			
 			```
 		formatString: #,0
-		displayFolder: compatodrs
+		displayFolder: compatodrs\volum\consumit_estrategics\acum_12
 		lineageTag: 1b1c1d1e-1f1a-1b1c-1d1e-1f1a1b1c1d1e
 
 	measure volum_mesurat_1m = ```
@@ -1328,7 +1328,7 @@ table _medidas
 			
 			```
 		formatString: #,0
-		displayFolder: compatodrs
+		displayFolder: compatodrs\volum\mensurat\mensual
 		lineageTag: 0d1e2f3a-4b5c-6d7e-8f9a-0b1c2d3e4f5a
 
 	measure volum_mesurat_12m_1m = ```
@@ -1345,7 +1345,7 @@ table _medidas
 			
 			```
 		formatString: #,0
-		displayFolder: compatodrs
+		displayFolder: compatodrs\volum\mensurat\acum_12
 		lineageTag: 2c2d2e2f-2a2b-2c2d-2e2f-2a2b2c2d2e2f
 
 	measure q_min_mensual_1m =
@@ -1353,7 +1353,7 @@ table _medidas
 			    sum('fact_cabals_mínims'[q_min]),
 			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
-		displayFolder: actuacions\cabals\q_min
+		displayFolder: actuacions\cabals\q_min\mensual
 		lineageTag: 1e2f3a4b-5c6d-7e8f-9a0b-1c2d3e4f5a6b
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -1371,7 +1371,7 @@ table _medidas
 			)
 			
 			```
-		displayFolder: actuacions\cabals\q_min
+		displayFolder: actuacions\cabals\q_min\acum_12
 		lineageTag: 3d3e3f3a-3b3c-3d3e-3f3a-3b3c3d3e3f3a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -1417,7 +1417,7 @@ table _medidas
 			) 
 			```
 		formatString: #,0.00
-		displayFolder: volumen\consumit
+		displayFolder: volumen\consumit\mensual
 		lineageTag: 8f9a0b1c-2d3e-4f5a-6b7c-8d9e0f1a2b3c
 
 	measure anr_dist_acum_12m_1m =
@@ -1516,7 +1516,7 @@ table _medidas
 			
 			```
 		formatString: #,0
-		displayFolder: anr_transporte\volumens\lliurat
+		displayFolder: anr_transporte\volumens\lliurat\mensual
 		lineageTag: 6d7e8f9a-0b1c-2d3e-4f5a-6b7c8d9e0f1a
 
 	measure volum_consumit_transport_mensual_1m =
@@ -1525,7 +1525,7 @@ table _medidas
 			    PREVIOUSMONTH(dim_calendario[Date])
 			)
 		formatString: #,0
-		displayFolder: anr_transporte\volumens\consumit
+		displayFolder: anr_transporte\volumens\consumit\mensual
 		lineageTag: 7e8f9a0b-1c2d-3e4f-5a6b-7c8d9e0f1a2b
 
 	measure volum_lliurat_transport_12m_1m =
@@ -1540,7 +1540,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0
-		displayFolder: anr_transporte\volumens\lliurat
+		displayFolder: anr_transporte\volumens\lliurat\acum_12
 		lineageTag: 7a7b7c7d-7e7f-8a8b-8c8d-8e8f9a9b9c9d
 
 	measure volum_consumit_transport_12m_1m =
@@ -1555,7 +1555,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0
-		displayFolder: anr_transporte\volumens\consumit
+		displayFolder: anr_transporte\volumens\consumit\acum_12
 		lineageTag: 8b8c8d8e-8f8a-9b9c-9d9e-9f9a0b0c0d0e
 
 	measure volum_consumit_mig_acum_12m_1m =
@@ -1572,7 +1572,7 @@ table _medidas
 			        )
 			    )
 			)
-		displayFolder: volumen\consumit
+		displayFolder: volumen\consumit\acum_12
 		lineageTag: 9c9d9e9f-9a9b-0c0d-0e0f-0a0b1c1d1e1f
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -1582,7 +1582,7 @@ table _medidas
 			
 			```
 		formatString: #,0
-		displayFolder: anr_distribucion\anr
+		displayFolder: anr_distribucion\anr\acum_12
 		lineageTag: f946dbe1-a12d-4616-83ff-15a6a3d113c9
 
 	measure anr_distribucion_12m_1m = ```
@@ -1590,7 +1590,7 @@ table _medidas
 			
 			```
 		formatString: #,0
-		displayFolder: anr_distribucion\anr
+		displayFolder: anr_distribucion\anr\acum_12
 		lineageTag: 7fd2fd53-f5f6-4294-a26c-94aca746aa4d
 
 	measure anr_distribucion_mensual = ```
@@ -1598,7 +1598,7 @@ table _medidas
 			
 			```
 		formatString: #,0
-		displayFolder: anr_distribucion\anr
+		displayFolder: anr_distribucion\anr\mensual
 		lineageTag: c1945846-0cbb-4157-af21-a36a089b7ad9
 
 	measure anr_distribucion_mensual_smly = ```
@@ -1609,7 +1609,7 @@ table _medidas
 			 
 			```
 		formatString: #,0
-		displayFolder: anr_distribucion\anr
+		displayFolder: anr_distribucion\anr\mensual
 		lineageTag: fd91a794-62d5-4749-986a-6067a114d441
 
 	measure anr_dist_mensual_smly = ```
@@ -1645,7 +1645,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0
-		displayFolder: fraudes
+		displayFolder: fraudes\fraus_detectats\acum_12
 		lineageTag: 26da5387-9b33-458a-b6ba-c3d01d36e4a8
 
 	measure fraus_detectats_1m =
@@ -1659,7 +1659,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0
-		displayFolder: fraudes
+		displayFolder: fraudes\fraus_detectats\mensual
 		lineageTag: d8fb4d08-3ceb-4dcf-9309-d7d441879eac
 
 	measure fraus_detectats_12m_1m =
@@ -1674,7 +1674,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0
-		displayFolder: fraudes
+		displayFolder: fraudes\fraus_detectats\acum_12
 		lineageTag: d8616d45-c737-493f-a527-b2332e588238
 
 	measure subministraments_mas3_períodes_estimats =
@@ -1684,7 +1684,7 @@ table _medidas
 			    fact_bossa[periodos_consecutivos_con_ea] > 3
 			)
 		formatString: #,0
-		displayFolder: compatodrs
+		displayFolder: compatodrs\subministraments
 		lineageTag: f388bf4e-d3c7-4ef8-b831-1ffc9f469392
 
 	measure subministraments_mas3_períodes_consum_0 =
@@ -1693,7 +1693,7 @@ table _medidas
 			    DISTINCTCOUNT(fact_dades_consum[polissa_subm]),
 			    fact_dades_consum[periodos_consecutivos_consum_0] > 3
 			)
-		displayFolder: compatodrs
+		displayFolder: compatodrs\subministraments
 		lineageTag: 98f9391b-d675-4925-b187-c4f3de1f0f69
 
 	measure anr_global_mensual_smly_hm3 = ```
@@ -1713,7 +1713,7 @@ table _medidas
 			
 			```
 		formatString: #,0
-		displayFolder: aigua_consumida\acf
+		displayFolder: aigua_consumida\acf\mensual
 		lineageTag: 3c3d0a02-f3fc-4a79-af54-8eeedfcf6789
 
 	measure aigua_consumida_acf_global_mensual_smly_hm3 = ```
@@ -1724,7 +1724,7 @@ table _medidas
 			)
 			```
 		formatString: #,0.00
-		displayFolder: aigua_consumida\acf
+		displayFolder: aigua_consumida\acf\mensual
 		lineageTag: 713f0649-3646-4c92-ac46-343f209dc528
 
 	measure aigua_consumida_acf_global_acum_12m_hm3 =
@@ -1741,7 +1741,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0.00
-		displayFolder: aigua_consumida\acf
+		displayFolder: aigua_consumida\acf\acum_12
 		lineageTag: 55da804c-66da-4610-af54-76e0e519ad00
 
 	measure aigua_consumida_acf_global_acum_12m_1m_hm3 = ```
@@ -1752,7 +1752,7 @@ table _medidas
 			) 
 			```
 		formatString: #,0.00
-		displayFolder: aigua_consumida\acf
+		displayFolder: aigua_consumida\acf\acum_12
 		lineageTag: c946b678-a54c-4316-bf5b-80b0dd63c2a7
 
 	measure aigua_consumida_alta_global_acum_12m_1m_hm3 = ```
@@ -1763,7 +1763,7 @@ table _medidas
 			) 
 			```
 		formatString: #,0.00
-		displayFolder: aigua_consumida\alta
+		displayFolder: aigua_consumida\alta\acum_12
 		lineageTag: 09a8df37-712d-4843-864e-047e1cc09e9c
 
 	measure aigua_consumida_alta_global_acum_12m_hm3 = ```
@@ -1782,7 +1782,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: aigua_consumida\alta
+		displayFolder: aigua_consumida\alta\acum_12
 		lineageTag: 48f2a3da-c6fe-4264-9f02-2adc65efd8e1
 
 	measure aigua_consumida_alta_global_mensual_hm3 = ```
@@ -1790,7 +1790,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: aigua_consumida\alta
+		displayFolder: aigua_consumida\alta\mensual
 		lineageTag: d77ee6d6-da97-466d-b4bd-cb3e79ee2a36
 
 	measure aigua_consumida_alta_global_mensual_smly_hm3 = ```
@@ -1801,7 +1801,7 @@ table _medidas
 			)
 			```
 		formatString: #,0.00
-		displayFolder: aigua_consumida\alta
+		displayFolder: aigua_consumida\alta\mensual
 		lineageTag: 51d06aac-8585-4bbf-8ce4-022e0658af84
 
 	measure aigua_consumida_baixa_global_acum_12m_hm3 =
@@ -1818,7 +1818,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0.00
-		displayFolder: aigua_consumida\baixa
+		displayFolder: aigua_consumida\baixa\acum_12
 		lineageTag: 1f79e41e-b940-4e1e-991d-82b06ccf1610
 
 	measure aigua_consumida_baixa_global_acum_12m_1m_hm3 = ```
@@ -1829,7 +1829,7 @@ table _medidas
 			) 
 			```
 		formatString: #,0.00
-		displayFolder: aigua_consumida\baixa
+		displayFolder: aigua_consumida\baixa\acum_12
 		lineageTag: dbe9d079-0c27-4c59-9743-aff55cc61709
 
 	measure aigua_consumida_baixa_global_mensual_hm3 = ```
@@ -1837,7 +1837,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: aigua_consumida\baixa
+		displayFolder: aigua_consumida\baixa\mensual
 		lineageTag: 34153362-36a5-44ea-9cff-1bffab05545d
 
 	measure aigua_consumida_baixa_global_mensual_smly_hm3 = ```
@@ -1848,7 +1848,7 @@ table _medidas
 			)
 			```
 		formatString: #,0.00
-		displayFolder: aigua_consumida\baixa
+		displayFolder: aigua_consumida\baixa\mensual
 		lineageTag: f2a8cf4c-6dae-46fa-afb3-e6dfdd65bf4a
 
 	measure aigua_consumida_autoconsum_global_acum_12m_hm3 =
@@ -1865,7 +1865,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0
-		displayFolder: aigua_consumida\autoconsum
+		displayFolder: aigua_consumida\autoconsum\acum_12
 		lineageTag: d47fad54-f0ba-416e-95ca-2e3ffece51ab
 
 	measure aigua_consumida_autoconsum_global_acum_12m_1m_hm3 = ```
@@ -1876,7 +1876,7 @@ table _medidas
 			) 
 			```
 		formatString: #,0
-		displayFolder: aigua_consumida\autoconsum
+		displayFolder: aigua_consumida\autoconsum\acum_12
 		lineageTag: 5c68e6d6-4a16-4fa8-a203-59d6f0abfe86
 
 	measure aigua_consumida_autoconsum_global_mensual_hm3 = ```
@@ -1884,7 +1884,7 @@ table _medidas
 			
 			```
 		formatString: #,0
-		displayFolder: aigua_consumida\autoconsum
+		displayFolder: aigua_consumida\autoconsum\mensual
 		lineageTag: 5b7e04bd-bc08-4bb8-9879-7a0e5bdd23b8
 
 	measure aigua_consumida_autoconsum_global_mensual_smly_hm3 = ```
@@ -1896,7 +1896,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: aigua_consumida\autoconsum
+		displayFolder: aigua_consumida\autoconsum\mensual
 		lineageTag: 50bff2b3-5dee-496c-87f9-dc66bbd29440
 
 	measure aigua_consumida_peatges_global_acum_12m_hm3 = ```
@@ -1915,7 +1915,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: aigua_consumida\peatges
+		displayFolder: aigua_consumida\peatges\acum_12
 		lineageTag: 89384ace-09b3-4dbb-9636-f03fc195a6d3
 
 	measure aigua_consumida_peatges_global_acum_12m_1m_hm3 = ```
@@ -1926,7 +1926,7 @@ table _medidas
 			) 
 			```
 		formatString: #,0.00
-		displayFolder: aigua_consumida\peatges
+		displayFolder: aigua_consumida\peatges\acum_12
 		lineageTag: f238730d-bb97-4955-9681-960978ad9619
 
 	measure aigua_consumida_peatges_global_mensual_hm3 = ```
@@ -1934,7 +1934,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: aigua_consumida\peatges
+		displayFolder: aigua_consumida\peatges\mensual
 		lineageTag: be37dd64-2aa7-4caf-8518-7f0086991a68
 
 	measure aigua_consumida_peatges_global_mensual_smly_hm3 = ```
@@ -1945,7 +1945,7 @@ table _medidas
 			)
 			```
 		formatString: #,0.00
-		displayFolder: aigua_consumida\peatges
+		displayFolder: aigua_consumida\peatges\mensual
 		lineageTag: 700e4dc3-7ddc-479b-a2ff-1642e691a892
 
 	measure l_global_mensual = ```
@@ -1971,7 +1971,7 @@ table _medidas
 
 	measure cabal_recuperat_mensual = SUM(fact_actuacions_zones[cabal_recuperat])
 		formatString: #,0.00
-		displayFolder: actuacions\cabals\cabal_recuperat
+		displayFolder: actuacions\cabals\cabal_recuperat\mensual
 		lineageTag: d3033c0d-99fe-41c0-9f37-302948bd94a1
 
 	measure cabal_recuperat_acum_12m = ```
@@ -1988,7 +1988,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: actuacions\cabals\cabal_recuperat
+		displayFolder: actuacions\cabals\cabal_recuperat\acum_12
 		lineageTag: a972fe07-d70b-4ce2-b848-59c26a8b97b1
 
 	measure cabal_recuperat_mensual_smly =
@@ -1997,7 +1997,7 @@ table _medidas
 			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
 		formatString: #,0.00
-		displayFolder: actuacions\cabals\cabal_recuperat
+		displayFolder: actuacions\cabals\cabal_recuperat\mensual
 		lineageTag: 7b95f94a-d33c-4132-a3c3-81c2314f1e5c
 
 	measure cabal_recuperat_acum_12m_1m = ```
@@ -2014,12 +2014,12 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: actuacions\cabals\cabal_recuperat
+		displayFolder: actuacions\cabals\cabal_recuperat\acum_12
 		lineageTag: 26de2f33-f46f-41de-9d70-b3d9584ec11d
 
 	measure km_inspeccionats_acustic_mensual = SUM(fact_actuacions_zones[km_inspeccionats_acustic])
 		formatString: #,0
-		displayFolder: actuacions\km_inspeccionats_acustic
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic\mensual
 		lineageTag: 091deadf-c5fa-456d-8f16-682f331e80b7
 
 	measure km_inspeccionats_acustic_mensual_smly =
@@ -2028,7 +2028,7 @@ table _medidas
 			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
 		formatString: #,0.00
-		displayFolder: actuacions\km_inspeccionats_acustic
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic\mensual
 		lineageTag: f3355d72-d453-41c0-8974-cf7d138f7c77
 
 	measure km_inspeccionats_acustic_acum_12m = ```
@@ -2045,7 +2045,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: actuacions\km_inspeccionats_acustic
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic\acum_12
 		lineageTag: e8b3d9b3-5540-4307-a87b-8304a9392dd8
 
 	measure km_inspeccionats_acustic_acum_12m_1m = ```
@@ -2062,7 +2062,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: actuacions\km_inspeccionats_acustic
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic\acum_12
 		lineageTag: d84966eb-ee53-4846-bc36-2c514de515fd
 
 	measure avaries_mensual = ```
@@ -2074,7 +2074,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: actuacions\avaries
+		displayFolder: actuacions\avaries\mensual
 		lineageTag: e9f4d086-86db-493f-871d-cf88ae923db4
 
 	measure avaries_acum_12m = ```
@@ -2091,7 +2091,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: actuacions\avaries
+		displayFolder: actuacions\avaries\acum_12
 		lineageTag: 137454b1-2da4-4c00-b41a-5622caae9ab5
 
 	measure avaries_mensual_smly = ```
@@ -2102,7 +2102,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: actuacions\avaries
+		displayFolder: actuacions\avaries\mensual
 		lineageTag: d121f391-2044-49fd-a0e4-348d8e81592a
 
 	measure avaries_acum_12m_1m = ```
@@ -2119,12 +2119,12 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: actuacions\avaries
+		displayFolder: actuacions\avaries\acum_12
 		lineageTag: 58388925-869a-43ed-a1ce-49915ab10c83
 
 	measure km_inspeccionats_heli_mensual = SUM(fact_actuacions_zones[km_inspeccionats_heli])
 		formatString: #,0.00
-		displayFolder: actuacions\km_inspeccionats_heli
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli\mensual
 		lineageTag: 82686bab-c953-4dd9-b62e-ab8e47387143
 
 	measure km_inspeccionats_heli_acum_12m = ```
@@ -2141,7 +2141,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: actuacions\km_inspeccionats_heli
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli\acum_12
 		lineageTag: cefb5b37-271a-406b-8e51-eeee923fd7e3
 
 	measure km_inspeccionats_heli_mensual_smly =
@@ -2150,7 +2150,7 @@ table _medidas
 			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
 		formatString: #,0.00
-		displayFolder: actuacions\km_inspeccionats_heli
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli\mensual
 		lineageTag: 19ffcd14-1d32-4679-acbc-5e7d4c2d8adc
 
 	measure km_inspeccionats_heli_acum_12m_1m = ```
@@ -2167,7 +2167,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: actuacions\km_inspeccionats_heli
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli\acum_12
 		lineageTag: ffb8e570-1b8c-4cd0-a9c8-3d409f0a482b
 
 	measure total_grups_amb_bomba_dia =
@@ -2192,7 +2192,7 @@ table _medidas
 
 	measure tinst_dies_mensual = AVERAGE('fact_tfuita_tinst'[durada_dies])
 		formatString: #,0.00
-		displayFolder: tinst_dies
+		displayFolder: tinst_dies\mensual
 		lineageTag: 5db4599a-0a74-4c16-b164-3b5ee0b74885
 
 	measure Tfuita_%_reparacio_15_dies_mensual =
@@ -2207,7 +2207,7 @@ table _medidas
 			RETURN
 			    DIVIDE(Avisos15Dies, TotalAvisos, 0)
 		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
-		displayFolder: tfuita_%_reparacio_15_dies
+		displayFolder: tfuita\tfuita_%_reparacio_15_dies\mensual
 		lineageTag: 38c44c09-9257-4e42-b5e7-6664e103b9b7
 
 	measure Tfuita_%_reparacio_10_dies_mensual =
@@ -2222,7 +2222,7 @@ table _medidas
 			RETURN
 			    DIVIDE(Avisos10Dies, TotalAvisos, 0)
 		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
-		displayFolder: tfuita_%_reparacio_10_dies
+		displayFolder: tfuita\tfuita_%_reparacio_10_dies\mensual
 		lineageTag: b3c3d074-7b1b-4cf1-a9fd-dc2c4cd22d70
 
 	measure us_aigua_acum_12m =
@@ -2237,7 +2237,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0
-		displayFolder: us_aigua
+		displayFolder: us_aigua\acum_12
 		lineageTag: fb8fe624-b992-4ac0-92ed-45fe77b6ccfd
 
 	measure us_aigua_acum_12m_1m = ```
@@ -2254,7 +2254,7 @@ table _medidas
 			
 			```
 		formatString: #,0
-		displayFolder: us_aigua
+		displayFolder: us_aigua\acum_12
 		lineageTag: 2f9133b8-6579-46e1-90f3-d62ee40382c1
 
 	measure us_aigua_mensual_smly =
@@ -2263,12 +2263,12 @@ table _medidas
 			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
 		formatString: #,0
-		displayFolder: us_aigua
+		displayFolder: us_aigua\mensual
 		lineageTag: 070f4395-1a85-4949-81ff-2e675d1fc86a
 
 	measure fuites_reparades_acustic_mensual = SUM('fact_actuacions_zones'[fuites_reparades_acustic])
 		formatString: #,0
-		displayFolder: fuites\acustic
+		displayFolder: fuites\acustic\mensual
 		lineageTag: 8ca67c05-0872-437e-b0b7-037d216c76aa
 
 	measure fuites_reparades_acustic_acum_12m =
@@ -2283,7 +2283,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0.00
-		displayFolder: fuites\acustic
+		displayFolder: fuites\acustic\acum_12
 		lineageTag: 9b97bdb6-893f-409a-b739-2c524c9b6350
 
 	measure fuites_reparades_acustic_acum_12m_1m =
@@ -2298,7 +2298,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0.00
-		displayFolder: fuites\acustic
+		displayFolder: fuites\acustic\acum_12
 		lineageTag: 4b8d73f7-1b44-4fa0-aaa3-7b354435fb40
 
 	measure fuites_reparades_acustic_mensual_smly =
@@ -2307,12 +2307,12 @@ table _medidas
 			    DATEADD( 'dim_calendario'[Date], -12, MONTH )
 			)
 		formatString: #,0.00
-		displayFolder: fuites\acustic
+		displayFolder: fuites\acustic\mensual
 		lineageTag: 2aaaf8da-9ae6-4f24-af18-f4bb1ed4cc5e
 
 	measure fuites_reparades_altres_mensual = SUM('fact_actuacions_zones'[fuites_reparades_altres])
 		formatString: #,0.00
-		displayFolder: fuites\altres
+		displayFolder: fuites\altres\mensual
 		lineageTag: a3117f49-43fc-4160-aa32-e78460bed65b
 
 	measure fuites_reparades_altres_acum_12m =
@@ -2327,7 +2327,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0.00
-		displayFolder: fuites\altres
+		displayFolder: fuites\altres\acum_12
 		lineageTag: 703a663c-bd13-4cd4-8433-376237feb321
 
 	measure fuites_reparades_altres_acum_12m_1m =
@@ -2342,7 +2342,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0.00
-		displayFolder: fuites\altres
+		displayFolder: fuites\altres\acum_12
 		lineageTag: 16538f43-07da-45be-9930-645099535f27
 
 	measure fuites_reparades_altres_mensual_smly =
@@ -2351,12 +2351,12 @@ table _medidas
 			    DATEADD( 'dim_calendario'[Date], -12, MONTH )
 			)
 		formatString: #,0.00
-		displayFolder: fuites\altres
+		displayFolder: fuites\altres\mensual
 		lineageTag: 53537b91-5d13-40a2-9d20-8078376a3e3b
 
 	measure fuites_reparades_heli_mensual = SUM('fact_actuacions_zones'[fuites_reparades_heli])
 		formatString: #,0.00
-		displayFolder: fuites\heli
+		displayFolder: fuites\heli\mensual
 		lineageTag: d05c49cc-0c0b-4547-b0d2-21786a9c2ed5
 
 	measure fuites_reparades_heli_acum_12m =
@@ -2371,7 +2371,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0.00
-		displayFolder: fuites\heli
+		displayFolder: fuites\heli\acum_12
 		lineageTag: 003f0282-57fa-4649-80ac-16304bfe85d3
 
 	measure fuites_reparades_heli_acum_12m_1m =
@@ -2386,7 +2386,7 @@ table _medidas
 			    )
 			)
 		formatString: #,0.00
-		displayFolder: fuites\heli
+		displayFolder: fuites\heli\acum_12
 		lineageTag: f9481262-9b0c-48da-a92f-74b95fb8a0e5
 
 	measure fuites_reparades_heli_mensual_smly =
@@ -2395,7 +2395,7 @@ table _medidas
 			    DATEADD( 'dim_calendario'[Date], -12, MONTH )
 			)
 		formatString: #,0.00
-		displayFolder: fuites\heli
+		displayFolder: fuites\heli\mensual
 		lineageTag: f2ccbf5f-3ab5-4f51-99f1-79b22fbc2738
 
 	measure tinst_dies_mensual_smly = ```
@@ -2405,7 +2405,7 @@ table _medidas
 			)
 			
 			```
-		displayFolder: tinst_dies
+		displayFolder: tinst_dies\mensual
 		lineageTag: bc18b0b9-f445-4f38-9ee8-9d8a1568609e
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -2421,7 +2421,7 @@ table _medidas
 			        MONTH
 			    )
 			)
-		displayFolder: tinst_dies
+		displayFolder: tinst_dies\acum_12
 		lineageTag: f09e73cc-4906-4a8e-8356-0a251c8422a1
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -2437,7 +2437,7 @@ table _medidas
 			        MONTH
 			    )
 			)
-		displayFolder: tinst_dies
+		displayFolder: tinst_dies\acum_12
 		lineageTag: 4294af21-a9b6-430e-892b-d136009a28ec
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -2449,7 +2449,7 @@ table _medidas
 			    DATEADD('dim_calendario'[Date], -12, MONTH)
 			)
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: tfuita_%_reparacio_10_dies
+		displayFolder: tfuita\tfuita_%_reparacio_10_dies\mensual
 		lineageTag: 0e7d8a91-91c2-4b38-a580-ecd5b1b937dc
 
 	measure Tfuita_%_reparacio_10_dies_acum_12m_1m = ```
@@ -2475,7 +2475,7 @@ table _medidas
 			RETURN
 			    DIVIDE(Avisos10Dies12M1M, TotalAvisos12M1M, 0)
 			```
-		displayFolder: tfuita_%_reparacio_10_dies
+		displayFolder: tfuita\tfuita_%_reparacio_10_dies\acum_12
 		lineageTag: ae79c010-09ee-4774-b9bc-b5b30fddc5b1
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -2503,7 +2503,7 @@ table _medidas
 			RETURN
 			    DIVIDE(Avisos10Dies12M, TotalAvisos12M, 0)
 			```
-		displayFolder: tfuita_%_reparacio_10_dies
+		displayFolder: tfuita\tfuita_%_reparacio_10_dies\acum_12
 		lineageTag: 5639fda0-7214-4293-bc0e-24fcf95008eb
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -2531,7 +2531,7 @@ table _medidas
 			RETURN
 			    DIVIDE(Avisos15Dies12M, TotalAvisos12M, 0)
 			```
-		displayFolder: tfuita_%_reparacio_15_dies
+		displayFolder: tfuita\tfuita_%_reparacio_15_dies\acum_12
 		lineageTag: 81bf1b8a-768a-422d-9b68-d1817fa04e98
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -2559,7 +2559,7 @@ table _medidas
 			RETURN
 			    DIVIDE(Avisos15Dies12M1M, TotalAvisos12M1M, 0)
 			```
-		displayFolder: tfuita_%_reparacio_15_dies
+		displayFolder: tfuita\tfuita_%_reparacio_15_dies\acum_12
 		lineageTag: 43ea1fa7-0239-40c8-a551-8e083ecd70fb
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -2571,7 +2571,7 @@ table _medidas
 			    DATEADD('dim_calendario'[Date], -12, MONTH)
 			)
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
-		displayFolder: tfuita_%_reparacio_15_dies
+		displayFolder: tfuita\tfuita_%_reparacio_15_dies\mensual
 		lineageTag: 4e93e075-6ffe-44f7-9a19-259cb451c532
 
 	measure anr_global_ytd = ```
@@ -2585,7 +2585,7 @@ table _medidas
 			
 			```
 		formatString: 0
-		displayFolder: anr_global\anr
+		displayFolder: anr_global\anr\ytd
 		lineageTag: 27ca9c98-472b-4669-a2dd-afaeaf17fda2
 
 	measure volum_consumit_distribucion_ytd = ```
@@ -2628,7 +2628,7 @@ table _medidas
 			)
 			
 			```
-		displayFolder: anr_distribucion\anr
+		displayFolder: anr_distribucion\anr\ytd
 		lineageTag: e930ea4c-e992-4f56-83a4-5808c08130d9
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -2644,7 +2644,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: anr_global\volum
+		displayFolder: anr_global\volum\consumit\ytd
 		lineageTag: e296a2e0-681c-4814-82c8-d14f7eced12d
 
 	measure volum_lliurat_global_ytd = ```
@@ -2658,7 +2658,7 @@ table _medidas
 			
 			```
 		formatString: #,0.00
-		displayFolder: anr_global\volum
+		displayFolder: anr_global\volum\lliurat\ytd
 		lineageTag: f3b487d5-661b-430b-9703-08109fe59c50
 
 	column Column
