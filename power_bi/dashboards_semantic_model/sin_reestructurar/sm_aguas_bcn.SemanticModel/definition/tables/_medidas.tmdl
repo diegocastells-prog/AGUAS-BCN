@@ -2577,7 +2577,7 @@ table _medidas
 	measure anr_global_ytd = ```
 			
 			CALCULATE(
-			     [anr_global_acum_12m_hm3],
+			     [anr_global_mensual_hm3],
 			    DATESYTD(
 			        'dim_calendario'[Date]
 			    )
@@ -2621,7 +2621,7 @@ table _medidas
 	measure anr_distribucion_ytd = ```
 			
 			CALCULATE(
-			    [anr_distribucion_12m],
+			    [anr_distribucion_mensual],
 			    DATESYTD(
 			        'dim_calendario'[Date]
 			    )
@@ -2643,10 +2643,9 @@ table _medidas
 			)
 			
 			```
+		formatString: #,0.00
 		displayFolder: anr_global\volum
 		lineageTag: e296a2e0-681c-4814-82c8-d14f7eced12d
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure volum_lliurat_global_ytd = ```
 			
@@ -2658,10 +2657,9 @@ table _medidas
 			)
 			
 			```
+		formatString: #,0.00
 		displayFolder: anr_global\volum
 		lineageTag: f3b487d5-661b-430b-9703-08109fe59c50
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Column
 		isHidden
