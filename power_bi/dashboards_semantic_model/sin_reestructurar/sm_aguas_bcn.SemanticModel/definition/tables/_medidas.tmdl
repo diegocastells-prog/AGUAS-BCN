@@ -2574,6 +2574,95 @@ table _medidas
 		displayFolder: tfuita_%_reparacio_15_dies
 		lineageTag: 4e93e075-6ffe-44f7-9a19-259cb451c532
 
+	measure anr_global_ytd = ```
+			
+			CALCULATE(
+			     [anr_global_acum_12m_hm3],
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+			
+			```
+		formatString: 0
+		displayFolder: anr_global\anr
+		lineageTag: 27ca9c98-472b-4669-a2dd-afaeaf17fda2
+
+	measure volum_consumit_distribucion_ytd = ```
+			
+			CALCULATE(
+			    SUM(fact_volum_cons_lliur[volum_consumit]),
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+			
+			```
+		displayFolder: anr_distribucion\volumns\consumit
+		lineageTag: f6a36497-9170-44f2-9bcc-b36a80d9a885
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_lliurat_distribucion_ytd = ```
+			
+			CALCULATE(
+			    SUM(fact_volum_cons_lliur[volum_lliurat]),
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+			
+			```
+		displayFolder: anr_distribucion\volumns\lliurat
+		lineageTag: 211a7d96-ee40-46cc-a556-7ae4896dee67
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_distribucion_ytd = ```
+			
+			CALCULATE(
+			    [anr_distribucion_12m],
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+			
+			```
+		displayFolder: anr_distribucion\anr
+		lineageTag: e930ea4c-e992-4f56-83a4-5808c08130d9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_consumit_global_ytd = ```
+			
+			CALCULATE(
+			  SUM(fact_aigua_consum_historic[aigua_consumida_total]),
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+			
+			```
+		displayFolder: anr_global\volum
+		lineageTag: e296a2e0-681c-4814-82c8-d14f7eced12d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_lliurat_global_ytd = ```
+			
+			CALCULATE(
+			  SUM(fact_aigua_consum_historic[aigua_lliurada_total]),
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+			
+			```
+		displayFolder: anr_global\volum
+		lineageTag: f3b487d5-661b-430b-9703-08109fe59c50
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0

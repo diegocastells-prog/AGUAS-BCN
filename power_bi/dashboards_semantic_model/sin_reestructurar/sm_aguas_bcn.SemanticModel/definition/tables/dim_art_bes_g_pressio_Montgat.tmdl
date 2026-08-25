@@ -1,0 +1,182 @@
+table dim_art_bes_g_pressio_Montgat
+	lineageTag: 22b074d3-e032-4d18-8b72-75d31e235ede
+
+	column nº_de_nudo
+		dataType: string
+		lineageTag: 5d2379d6-5116-4c63-a5e2-12a9d9c01bf1
+		summarizeBy: none
+		sourceColumn: nº_de_nudo
+
+		annotation SummarizationSetBy = Automatic
+
+	column z(m)
+		dataType: double
+		lineageTag: 53fd9d51-3b2d-4a65-b945-f22082df588f
+		summarizeBy: sum
+		sourceColumn: z(m)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column profundidad(m)
+		dataType: double
+		lineageTag: 8fa952dc-abb9-4f5b-8fad-7708577526e1
+		summarizeBy: sum
+		sourceColumn: profundidad(m)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column zona_2
+		dataType: double
+		lineageTag: 7b060d90-ed76-4252-a2b9-b8e4c4b65bb7
+		summarizeBy: sum
+		sourceColumn: zona_2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column nombre
+		dataType: string
+		lineageTag: d256ff5e-78f6-4c83-82cf-4fa984bfd2b6
+		summarizeBy: none
+		sourceColumn: nombre
+
+		annotation SummarizationSetBy = Automatic
+
+	column pz_nit
+		dataType: double
+		lineageTag: 495dfb6c-1e8d-4527-858d-04f634930e87
+		summarizeBy: sum
+		sourceColumn: pz_nit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pzedifici
+		dataType: double
+		lineageTag: 412db8d7-3858-4b0e-ae84-cdbe9172df54
+		summarizeBy: sum
+		sourceColumn: pzedifici
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pteorica
+		dataType: double
+		lineageTag: d6605d60-096b-4b16-a44c-16175614a4fc
+		summarizeBy: sum
+		sourceColumn: pteorica
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column preal
+		dataType: double
+		lineageTag: 2166225b-8cd1-4e13-ac68-82d4eb4fa77c
+		summarizeBy: sum
+		sourceColumn: preal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column grup_pressio_nit
+		dataType: double
+		lineageTag: f2fbcd5b-9d98-41ec-8cac-aab7646e68e1
+		summarizeBy: sum
+		sourceColumn: grup_pressio_nit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column te_nit
+		dataType: string
+		lineageTag: 49d6e24f-525c-4a3a-b5d7-07c383a456a6
+		summarizeBy: none
+		sourceColumn: te_nit
+
+		annotation SummarizationSetBy = Automatic
+
+	column pz_dia
+		dataType: double
+		lineageTag: 2a0046d0-98d9-4c7c-af15-60cdf77c136b
+		summarizeBy: sum
+		sourceColumn: pz_dia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column preal_3
+		dataType: double
+		lineageTag: 60c5204f-e4d7-429c-aaf3-5c1e6d909e6d
+		summarizeBy: sum
+		sourceColumn: preal_3
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column grup_pressio_dia
+		dataType: double
+		lineageTag: 509c57d8-6c62-4b36-95a5-13640d21b19d
+		summarizeBy: sum
+		sourceColumn: grup_pressio_dia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column te_dia
+		dataType: string
+		lineageTag: 91ba1abe-00c5-4c00-b0aa-834cf45fba6a
+		summarizeBy: none
+		sourceColumn: te_dia
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_art_bes_g_pressio_Montgat = m
+		mode: import
+		source = ```
+				let
+				    Origen = GoogleSheets.Contents(#"BES G Pressio"),
+				    Montgat_Table = Origen{[name="Montgat",ItemKind="Table"]}[Data],
+				     #"Encabezados promovidos" = Table.PromoteHeaders(#"Montgat_Table", [PromoteAllScalars=true]),
+				     // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+				    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+				        let
+				            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+				            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+				            reemplazos = {
+				                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+				                {"à","a"}, {"è","e"}, {"ò","o"}, 
+				                {"ï","i"}, {"ü","u"}
+				            },
+				            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+				        in
+				            textoLimpio
+				    ),
+				    #"Columnas quitadas" = Table.RemoveColumns(EncabezadosLimpios,{"zona", "20-130", "pzedifici_1", "pteorica_2", "20-130_4"}),
+				
+				
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas",{{"z(m)", type number}, {"profundidad(m)", type number}, {"zona_2", type number}, {"pz_nit", type number}, {"pzedifici", type number}, {"pteorica", type number}, {"preal", type number}, {"grup_pressio", type number}, {"te_?", type text}}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"te_?", "te_nit"}, {"te_?_6", "te_dia"}}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Columnas con nombre cambiado","","No Disponible",Replacer.ReplaceValue,{"te_nit", "te_dia"}),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Valor reemplazado",{{"pz_dia", type number}, {"preal_3", type number}, {"grup_pressio_5", type number}}),
+				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Tipo cambiado1",{{"grup_pressio", "grup_pressio_nit"}, {"grup_pressio_5", "grup_pressio_dia"}})
+				in
+				    #"Columnas con nombre cambiado1"
+				```
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
