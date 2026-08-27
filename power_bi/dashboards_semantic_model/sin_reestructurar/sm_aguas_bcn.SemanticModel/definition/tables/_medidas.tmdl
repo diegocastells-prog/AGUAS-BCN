@@ -698,14 +698,20 @@ table _medidas
 		displayFolder: anr_distribucion\volumns\lliurat
 		lineageTag: 24d97ac5-af0d-4d7c-b586-003659382b05
 
-	measure rth_distribucion_mensual = [volum_consumit_distribucion_mensual] / [volum_lliurat_distribucion_mensual]
+	measure rth_distribucion_mensual =
+			
+			DIVIDE(
+			    [volum_consumit_distribucion_mensual],
+			    [volum_lliurat_distribucion_mensual],
+			    BLANK()
+			)
 		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
-		displayFolder: anr_distribucion\rth
+		displayFolder: anr_distribucion\rth\mensual
 		lineageTag: 9e118bbd-de00-4672-8065-c04b2bf119aa
 
 	measure rth_distribucion_12m = [volum_consumit_distribucion_12m] / [volum_lliurat_distribucion_12m]
 		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
-		displayFolder: anr_distribucion\rth
+		displayFolder: anr_distribucion\rth\acum_12m
 		lineageTag: 37994a34-9e85-44c5-9f3b-d75d08144abb
 
 	measure anr_acum_12m = ```
@@ -1469,12 +1475,12 @@ table _medidas
 			    PREVIOUSMONTH(dim_calendario[Date])
 			)
 		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
-		displayFolder: anr_distribucion\rth
+		displayFolder: anr_distribucion\rth\mensual
 		lineageTag: 4b5c6d7e-8f9a-0b1c-2d3e-4f5a6b7c8d9e
 
 	measure rth_distribucion_12m_1m = [volum_consumit_distribucion_12m_1m] / [volum_lliurat_distribucion_12m_1m]
 		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
-		displayFolder: anr_distribucion\rth
+		displayFolder: anr_distribucion\rth\acum_12m
 		lineageTag: 4d4e4f4a-4b4c-5d5e-5f5a-5b5c6d6e6f6a
 
 	measure anr_acum_12m_1m = ```
@@ -2750,6 +2756,20 @@ table _medidas
 		lineageTag: 1eebe7ab-c31d-4530-8b73-a4673e9918bc
 
 		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure rth_distribucion_ytd = ```
+			
+			CALCULATE(
+			    [rth_distribucion_mensual],
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: anr_distribucion\rth\ytd
+		lineageTag: cb87168f-a22e-4a66-b826-1cded5501bdb
 
 	column Column
 		isHidden

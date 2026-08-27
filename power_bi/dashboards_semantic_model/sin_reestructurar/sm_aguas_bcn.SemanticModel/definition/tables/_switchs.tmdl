@@ -22,6 +22,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_consumit_distribucion_mensual],
 			    "12 meses", [volum_consumit_distribucion_12m],
+			    "Acumulat",[volum_consumit_distribucion_ytd],
 			    BLANK()
 			)
 			
@@ -36,6 +37,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_lliurat_distribucion_mensual],
 			    "12 meses", [volum_lliurat_distribucion_12m],
+			    "Acumulat",[volum_lliurat_distribucion_ytd],
 			    BLANK()
 			)
 			
@@ -92,6 +94,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [rth_distribucion_mensual],
 			    "12 meses", [rth_distribucion_12m],
+			    "Acumulat",[rth_distribucion_ytd],
 			    BLANK()
 			)
 			
@@ -237,6 +240,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_consumit_distribucion_mensual_smly],
 			    "12 meses", [volum_consumit_distribucion_12m],
+			    "Acumulat",[volum_consumit_distribucion_ytd],
 			    BLANK()
 			)
 			
@@ -251,6 +255,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_lliurat_distribucion_mensual_1m],
 			    "12 meses", [volum_lliurat_distribucion_12m],
+			    "Acumulat",[volum_lliurat_distribucion_ytd],
 			    BLANK()
 			)
 			
@@ -308,6 +313,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [rth_distribucion_mensual_1m],
 			    "12 meses", [rth_distribucion_12m],
+			    "Acumulat",[rth_distribucion_ytd],
 			    BLANK()
 			)
 			
@@ -425,6 +431,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [anr_dist_mensual]/1000000,
 			    "12 meses", [anr_dist_acum_12m]/1000000,
+			    "Acumulat",[anr_distribucion_ytd]/1000000,
 			    BLANK()
 			)
 		formatString: #,0.00
@@ -437,6 +444,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [anr_dist_mensual_smly],
 			    "12 meses", [anr_dist_acum_12m_1m],
+			    "Acumulat",[anr_distribucion_ytd],
 			    BLANK()
 			)
 		formatString: #,0
@@ -651,7 +659,7 @@ table _switchs
 			 
 			 
 			```
-		displayFolder: aigua_consumida
+		displayFolder: aigua_consumida\acf
 		lineageTag: 6cdadc29-2b07-4e8c-a833-c3af8262dd2c
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -665,7 +673,7 @@ table _switchs
 			    "Acumulat",[aigua_consumida_acf_global_ytd],
 			    BLANK()
 			)
-		displayFolder: aigua_consumida
+		displayFolder: aigua_consumida\acf
 		lineageTag: 90539b9d-a778-4a36-995d-ee431e40e37a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -679,7 +687,7 @@ table _switchs
 			    "Acumulat",[aigua_consumida_baixa_global_ytd],
 			    BLANK()
 			)
-		displayFolder: aigua_consumida
+		displayFolder: aigua_consumida\baixa
 		lineageTag: 9779e7b6-c7ee-41aa-8316-fc1282fb0baa
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -707,7 +715,7 @@ table _switchs
 			    "Acumulat",[aigua_consumida_alta_global_ytd],
 			    BLANK()
 			)
-		displayFolder: aigua_consumida
+		displayFolder: aigua_consumida\alta
 		lineageTag: 431315b5-64c0-49f0-a4af-2bd45c454cd8
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -721,7 +729,7 @@ table _switchs
 			    "Acumulat",[aigua_consumida_alta_global_ytd],
 			    BLANK()
 			)
-		displayFolder: aigua_consumida
+		displayFolder: aigua_consumida\alta
 		lineageTag: 1723c7dd-664c-4bda-adcc-d3699ce2376a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -767,7 +775,7 @@ table _switchs
 			    BLANK()
 			)
 		formatString: #,0.00
-		displayFolder: aigua_consumida
+		displayFolder: aigua_consumida\autoconsum
 		lineageTag: add73023-51e1-40de-847a-7a01e83d4b23
 
 	measure kpi_aigua_consumida_autoconsum_global_switch_1m =
@@ -780,7 +788,7 @@ table _switchs
 			    BLANK()
 			)
 		formatString: #,0.00
-		displayFolder: aigua_consumida
+		displayFolder: aigua_consumida\autoconsum
 		lineageTag: 731b4cac-ecec-4af1-9e39-54fba5591b53
 
 	measure kpi_cabal_recuperat_switch = ```
