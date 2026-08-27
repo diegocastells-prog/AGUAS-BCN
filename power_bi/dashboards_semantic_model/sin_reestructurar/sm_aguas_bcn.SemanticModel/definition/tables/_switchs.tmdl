@@ -135,6 +135,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [anr_global_mensual_hm3],
 			    "12 meses", [anr_global_acum_12m_hm3],
+			    "Acumulat", [anr_global_ytd],
 			    BLANK()
 			)            
 			```
@@ -148,6 +149,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual",[rendiment_global_mensual],
 			    "12 meses",[rendiment_global_acum_12m],
+			    "Acumulat", [rendiment_global_ytd],
 			    BLANK()
 			)
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
@@ -350,6 +352,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual",[rendiment_global_mensual_smly],
 			    "12 meses",[rendiment_global_acum_12m_1m],
+			    "Acumulat", [rendiment_global_ytd],
 			    BLANK()
 			)
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
@@ -512,6 +515,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [anr_global_mensual_smly_hm3],
 			    "12 meses", [anr_global_acum_12m_1m_hm3],
+			    "Acumulat", [anr_global_ytd],
 			    BLANK()
 			)
 			 
@@ -527,13 +531,15 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_consumit_global_mensual_hm3],
 			    "12 meses", [volum_consumit_global_acum_12m],
+			    "Acumulat",[volum_consumit_global_ytd],
 			    BLANK()
 			)
-			 
+			
 			```
-		formatString: #,0.000
 		displayFolder: anr_global\volumns
 		lineageTag: 69633d97-baa9-454e-ba3e-6edc694da6c8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_consumita_global_switch_1m = ```
 			
@@ -541,42 +547,67 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_consumit_global_mensual_smly_hm3],
 			    "12 meses", [volum_consumit_global_acum_12m_1m_hm3],
+			    "Acumulat",[volum_consumit_global_ytd],
 			    BLANK()
 			)
-			  
+			
 			```
-		formatString: #,0.000
 		displayFolder: anr_global\volumns
 		lineageTag: 11d78951-9582-455d-a6cb-69242d37abe7
 
-	measure kpi_l_global_switch = ```
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_l_global_switch =
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", SELECTEDVALUE(fact_inventari_xarxa_mensual[l_+_t_km]),
-			    "12 meses", SELECTEDVALUE(fact_inventari_xarxa_mitjana_12m[l_+_t_km]),
+			    "Mensual", [l_km_mensual],
+			    "12 meses", [l_km_12m_mitjana],
+			    "Acumulat",[l_km_ytd],
 			    BLANK()
 			)
-			 
-			```
 		displayFolder: anr_global\l
 		lineageTag: e140d3f6-46aa-412f-b626-fe4223411fa9
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure kpi_l_global_switch_1m = ```
+	measure kpi_l_global_switch_1m =
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", CALCULATE(SELECTEDVALUE(fact_inventari_xarxa_mensual[l_+_t_km]),DATEADD(dim_calendario[Date], -12, MONTH)),
-			    "12 meses", CALCULATE(SELECTEDVALUE(fact_inventari_xarxa_mitjana_12m[l_+_t_km]),DATEADD(dim_calendario[Date], -1, MONTH)),
+			
+			    "Mensual",
+			        CALCULATE(
+			            [l_km_mensual],
+			            DATEADD(
+			                dim_calendario[Date],
+			                -12,
+			                MONTH
+			            )
+			        ),
+			
+			 "Acumulat",
+			        CALCULATE(
+			            [l_km_ytd],
+			            DATEADD(dim_calendario[Date], -12, MONTH)
+			        ),
+			
+			    "12 meses",
+			        CALCULATE(
+			            [l_km_12m_mitjana],
+			            DATEADD(
+			                dim_calendario[Date],
+			                -1,
+			                MONTH
+			            )
+			        ),
+			
 			    BLANK()
 			)
-			  
-			 
-			```
 		displayFolder: anr_global\l
 		lineageTag: 37752526-b543-4e78-a58b-a36f930a46e3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_lliurat_global_switch = ```
 			
@@ -584,6 +615,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_lliurat_global_mensual_hm3],
 			    "12 meses", [volum_lliurat_global_acum_12m_hm3],
+			    "Acumulat", [volum_lliurat_global_ytd],
 			    BLANK()
 			) 
 			```
@@ -597,6 +629,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual",[volum_lliurat_global_mensual_smly_hm3],
 			    "12 meses", [volum_lliurat_global_acum_12m_1m_hm3],
+			    "Acumulat", [volum_lliurat_global_ytd],
 			    BLANK()
 			)
 			  
@@ -611,6 +644,8 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [aigua_consumida_acf_global_mensual_smly_hm3],
 			    "12 meses", [aigua_consumida_acf_global_acum_12m_1m_hm3],
+			    "Acumulat",[aigua_consumida_acf_global_ytd],
+			
 			    BLANK()
 			)
 			 
@@ -627,6 +662,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [aigua_consumida_acf_global_mensual_hm3],
 			    "12 meses", [aigua_consumida_acf_global_acum_12m_hm3],
+			    "Acumulat",[aigua_consumida_acf_global_ytd],
 			    BLANK()
 			)
 		displayFolder: aigua_consumida
@@ -640,6 +676,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [aigua_consumida_baixa_global_mensual_hm3],
 			    "12 meses", [aigua_consumida_baixa_global_acum_12m_hm3],
+			    "Acumulat",[aigua_consumida_baixa_global_ytd],
 			    BLANK()
 			)
 		displayFolder: aigua_consumida
@@ -653,6 +690,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [aigua_consumida_baixa_global_mensual_smly_hm3],
 			    "12 meses", [aigua_consumida_baixa_global_acum_12m_1m_hm3],
+			    "Acumulat",[aigua_consumida_baixa_global_ytd],
 			    BLANK()
 			)
 		displayFolder: aigua_consumida
@@ -666,6 +704,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [aigua_consumida_alta_global_mensual_hm3],
 			    "12 meses", [aigua_consumida_alta_global_acum_12m_hm3],
+			    "Acumulat",[aigua_consumida_alta_global_ytd],
 			    BLANK()
 			)
 		displayFolder: aigua_consumida
@@ -679,6 +718,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [aigua_consumida_alta_global_mensual_smly_hm3],
 			    "12 meses", [aigua_consumida_alta_global_acum_12m_1m_hm3],
+			    "Acumulat",[aigua_consumida_alta_global_ytd],
 			    BLANK()
 			)
 		displayFolder: aigua_consumida
@@ -692,6 +732,8 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [aigua_consumida_peatges_global_mensual_hm3],
 			    "12 meses", [aigua_consumida_peatges_global_acum_12m_hm3],
+			    "Acumulat",[aigua_consumida_peatges_global_ytd],
+			
 			    BLANK()
 			)
 			
@@ -707,6 +749,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [aigua_consumida_peatges_global_mensual_smly_hm3],
 			    "12 meses", [aigua_consumida_peatges_global_acum_12m_1m_hm3],
+			    "Acumulat",[aigua_consumida_peatges_global_ytd],
 			    BLANK()
 			)
 		displayFolder: aigua_consumida
@@ -720,6 +763,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [aigua_consumida_autoconsum_global_mensual_hm3],
 			    "12 meses", [aigua_consumida_autoconsum_global_acum_12m_hm3],
+			    "Acumulat",[aigua_consumida_autoconsum_global_ytd],
 			    BLANK()
 			)
 		formatString: #,0.00
@@ -732,6 +776,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [aigua_consumida_autoconsum_global_mensual_smly_hm3],
 			    "12 meses", [aigua_consumida_autoconsum_global_acum_12m_1m_hm3],
+			    "Acumulat",[aigua_consumida_autoconsum_global_ytd],
 			    BLANK()
 			)
 		formatString: #,0.00

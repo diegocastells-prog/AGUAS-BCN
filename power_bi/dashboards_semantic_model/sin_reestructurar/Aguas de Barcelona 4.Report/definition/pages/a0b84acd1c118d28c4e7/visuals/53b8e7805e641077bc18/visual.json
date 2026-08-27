@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "53b8e7805e641077bc18",
   "position": {
-    "x": 704.44444444444446,
-    "y": 432.22222222222223,
+    "x": 701.11111111111109,
+    "y": 395.55555555555554,
     "z": 8000,
-    "height": 175.55555555555554,
-    "width": 560,
-    "tabOrder": 9000
+    "height": 220,
+    "width": 562.22222222222217,
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "lineChart",
@@ -23,11 +23,11 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "anio2_mes"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
+              "queryRef": "dim_calendario.anio2_mes",
+              "nativeQueryRef": "anio2_mes",
               "active": true
             }
           ]
@@ -58,14 +58,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_medidas"
+                      "Entity": "_switchs"
                     }
                   },
-                  "Property": "aigua_consumida_baixa_global_mensual_hm3"
+                  "Property": "kpi_aigua_consumida_baixa_global_switch"
                 }
               },
-              "queryRef": "_medidas.aigua_consumida_baixa_global_mensual_hm3",
-              "nativeQueryRef": "Aigua en baixa",
+              "queryRef": "_switchs.kpi_aigua_consumida_baixa_global_switch",
+              "nativeQueryRef": "Aigua en baixa1",
               "displayName": "Aigua en baixa"
             }
           ]
@@ -77,25 +77,87 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_medidas"
+                      "Entity": "_switchs"
                     }
                   },
-                  "Property": "aigua_consumida_autoconsum_global_mensual_hm3"
+                  "Property": "kpi_aigua_consumida_autoconsum_global_switch"
                 }
               },
-              "queryRef": "_medidas.aigua_consumida_autoconsum_global_mensual_hm3",
-              "nativeQueryRef": "Autoconsum",
+              "queryRef": "_switchs.kpi_aigua_consumida_autoconsum_global_switch",
+              "nativeQueryRef": "Autoconsum1",
               "displayName": "Autoconsum"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_calendario"
+                  }
+                },
+                "Property": "anio2_mes"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
       }
     },
     "objects": {
-      "categoryAxis": [
+      "labels": [
         {
           "properties": {
             "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.6
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "showMarker": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "markerSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
               "expr": {
                 "Literal": {
                   "Value": "false"

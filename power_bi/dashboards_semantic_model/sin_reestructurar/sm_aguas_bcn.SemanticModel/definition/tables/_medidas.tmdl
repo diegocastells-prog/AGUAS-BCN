@@ -2574,19 +2574,18 @@ table _medidas
 		displayFolder: tfuita\tfuita_%_reparacio_15_dies\mensual
 		lineageTag: 4e93e075-6ffe-44f7-9a19-259cb451c532
 
-	measure anr_global_ytd = ```
+	measure anr_global_ytd =
 			
 			CALCULATE(
-			     [anr_global_mensual_hm3],
+			     SUM(fact_aigua_consum_historic[anr_mes]),
 			    DATESYTD(
 			        'dim_calendario'[Date]
 			    )
-			)
-			
-			```
-		formatString: 0
+			)/1000000
 		displayFolder: anr_global\anr\ytd
 		lineageTag: 27ca9c98-472b-4669-a2dd-afaeaf17fda2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure volum_consumit_distribucion_ytd = ```
 			
@@ -2640,7 +2639,7 @@ table _medidas
 			    DATESYTD(
 			        'dim_calendario'[Date]
 			    )
-			)
+			)/1000000
 			
 			```
 		formatString: #,0.00
@@ -2654,12 +2653,103 @@ table _medidas
 			    DATESYTD(
 			        'dim_calendario'[Date]
 			    )
-			)
+			)/1000000
 			
 			```
 		formatString: #,0.00
 		displayFolder: anr_global\volum\lliurat\ytd
 		lineageTag: f3b487d5-661b-430b-9703-08109fe59c50
+
+	measure rendiment_global_ytd =
+			
+			CALCULATE(
+			     SUM(fact_aigua_consum_historic[rendiment_mes]) ,
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+		displayFolder: anr_global\rth\ytd
+		lineageTag: c5f4e486-1741-4409-a673-49648c73d2a9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_peatges_global_ytd =
+			
+			CALCULATE(
+			     SUM(fact_aigua_consum_historic[aigua_consumida_peatges]),
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+		displayFolder: aigua_consumida\peatges\ytd
+		lineageTag: 5f0cef98-f705-4afc-ab32-91c264d6bfb4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_alta_global_ytd = ```
+			
+			CALCULATE(
+			     SUM(fact_aigua_consum_historic[aigua_consumida_alta]),
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+			
+			
+			```
+		displayFolder: aigua_consumida\alta\ytd
+		lineageTag: fc73db77-a4a1-442c-a1bd-048aa62ecaaf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_baixa_global_ytd = ```
+			
+			CALCULATE(
+			     SUM(fact_aigua_consum_historic[aigua_consumida_baixa]),
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+			
+			```
+		displayFolder: aigua_consumida\baixa\ytd
+		lineageTag: 792e5dac-0a06-4d8c-8845-42e17bce295d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure aigua_consumida_autoconsum_global_ytd = ```
+			
+			CALCULATE(
+			     SUM(fact_aigua_consum_historic[aigua_consumida_autoconsum]),
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+			
+			
+			```
+		formatString: #,0
+		displayFolder: aigua_consumida\autoconsum\ytd
+		lineageTag: d3274618-d40b-4de0-9297-f265d01a1c9e
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure aigua_consumida_acf_global_ytd = ```
+			
+			CALCULATE(
+			     SUM(fact_aigua_consum_historic[aigua_consumida_acf]),   
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+			
+			
+			```
+		formatString: #,0
+		displayFolder: aigua_consumida\acf\ytd
+		lineageTag: 1eebe7ab-c31d-4530-8b73-a4673e9918bc
+
+		annotation PBI_FormatHint = {"isDecimal":true}
 
 	column Column
 		isHidden

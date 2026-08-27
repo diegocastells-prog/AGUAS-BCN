@@ -109,6 +109,22 @@ table fact_inventari_xarxa_distribucion
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure l_km_ytd = ```
+			
+			CALCULATE(
+			    SUM(fact_inventari_xarxa_distribucion[xarxa]),
+			     DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)/1000
+			
+			
+			```
+		displayFolder: _medidas
+		lineageTag: 15bd9e8e-0814-4cde-9ad9-bb012757b6bd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column fecha
 		dataType: dateTime
 		isHidden

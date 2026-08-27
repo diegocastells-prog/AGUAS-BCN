@@ -60,15 +60,6 @@ table dim_calendario
 
 		annotation SummarizationSetBy = Automatic
 
-	column anio_mes
-		lineageTag: a4df3d30-38cb-4efd-9a60-c58b8f1d9f13
-		summarizeBy: none
-		isNameInferred
-		sourceColumn: [anio_mes]
-		sortByColumn: aniomes
-
-		annotation SummarizationSetBy = Automatic
-
 	column trimestre
 		lineageTag: f7e71b1b-b786-478a-881c-e224082a3b7e
 		summarizeBy: none
@@ -138,9 +129,49 @@ table dim_calendario
 
 		annotation SummarizationSetBy = Automatic
 
+	column aniomes_corto
+		lineageTag: 5dc84b09-a18d-48e1-9921-0ef4354ef3a9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [aniomes_corto]
+
+		annotation SummarizationSetBy = Automatic
+
+	column aniomes_num_corto
+		lineageTag: e5333665-87d7-4450-b7f6-c038d21fccef
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [aniomes_num_corto]
+
+		annotation SummarizationSetBy = Automatic
+
+	column aniomes_corto_con_guion
+		lineageTag: 5f6d6259-1172-49b6-830e-237d3dba4d82
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [aniomes_corto_con_guion]
+
+		annotation SummarizationSetBy = Automatic
+
+	column anio2_mes
+		lineageTag: f9dd63c4-8209-46cd-af48-c2f2c09b3fa5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [anio2_mes]
+
+		annotation SummarizationSetBy = Automatic
+
+	column anio_mes
+		lineageTag: 7f2ff2d6-7c83-47e8-b182-31110f306b20
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [anio_mes]
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_calendario = calculated
 		mode: import
-		source =
+		source = ```
 				
 				ADDCOLUMNS(
 				    CALENDAR(
@@ -152,6 +183,10 @@ table dim_calendario
 				    "mes", FORMAT([Date], "MMMM"),
 				    "mes_corto", FORMAT([Date], "MMM"),
 				    "aniomes", FORMAT([Date], "YYYYMM"),
+				    "aniomes_corto", FORMAT([Date], "MM YY"), 
+				    "aniomes_corto_con_guion", FORMAT([Date], "MM-YY"), 
+				    "aniomes_num_corto", FORMAT([Date], "MM") & "/" & FORMAT([Date],"YY"),
+				    "anio2_mes", FORMAT([Date], "YY-MM"),
 				    "anio_mes", FORMAT([Date], "YYYY-MM"),
 				    "trimestre", "T" & FORMAT([Date], "Q"),
 				    "anio_trimestre", YEAR([Date]) & "-T" & FORMAT([Date], "Q"),
@@ -174,6 +209,7 @@ table dim_calendario
 				            )
 				
 				)
+				```
 
 	annotation PBI_Id = 06946a9e57dd4dfe845e9b08d6bd99d1
 
