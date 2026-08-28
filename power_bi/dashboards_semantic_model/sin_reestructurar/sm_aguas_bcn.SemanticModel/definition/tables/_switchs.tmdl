@@ -28,7 +28,7 @@ table _switchs
 			
 			```
 		formatString: #,0.00
-		displayFolder: anr_distribucion
+		displayFolder: anr_distribucion\volum\consumit
 		lineageTag: 8ee3746b-d263-4907-a46c-c3fe130e5c49
 
 	measure kpi_volum_lliurat_distribucion_switch = ```
@@ -43,7 +43,7 @@ table _switchs
 			
 			```
 		formatString: #,0.00
-		displayFolder: anr_distribucion
+		displayFolder: anr_distribucion\volum\lliurat
 		lineageTag: 38d067e3-fceb-484e-adf7-3660a9ab62b3
 
 	measure kpi_anr_m3_km_dia_switch = ```
@@ -100,7 +100,7 @@ table _switchs
 			
 			```
 		formatString: 0.0\ %;-0.0\ %;0.0\ %
-		displayFolder: anr_distribucion
+		displayFolder: anr_distribucion\rth
 		lineageTag: 9d3e0964-f7dc-4d68-910d-51909eb86273
 
 	measure kpi_q_min_switch = ```
@@ -123,6 +123,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [rendiment_transport_mensual],
 			    "12 meses", [rendiment_transport_acum_12m],
+			    "Acumulat",[rendiment_transport_ytd],
 			    BLANK()
 			)
 			
@@ -165,6 +166,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [anr_transport_m3_mensual]/1000000,
 			    "12 meses", [anr_transport_m3_acum_12m]/1000000,
+			    "Acumulat",[anr_transporte_ytd]/1000000,
 			    BLANK()
 			)
 		formatString: #,0.00
@@ -177,6 +179,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_consumit_transport_mensual],
 			    "12 meses", [volum_consumit_transport_12m],
+			    "Acumulat",[volum_consumit_transport_ytd],
 			    BLANK()
 			)
 		formatString: #,0
@@ -189,6 +192,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_lliurat_transport_mensual],
 			    "12 meses", [volum_lliurat_transport_12m],
+			    "Acumulat",[volum_lliurat_transport_ytd],
 			    BLANK()
 			)
 		formatString: #,0
@@ -246,7 +250,7 @@ table _switchs
 			
 			```
 		formatString: #,0.00
-		displayFolder: anr_distribucion
+		displayFolder: anr_distribucion\volum\consumit
 		lineageTag: b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e
 
 	measure kpi_volum_lliurat_distribucion_switch_1m = ```
@@ -261,7 +265,7 @@ table _switchs
 			
 			```
 		formatString: #,0.00
-		displayFolder: anr_distribucion
+		displayFolder: anr_distribucion\volum\lliurat
 		lineageTag: c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f
 
 	measure kpi_anr_m3_km_dia_switch_1m = ```
@@ -319,7 +323,7 @@ table _switchs
 			
 			```
 		formatString: 0.0\ %;-0.0\ %;0.0\ %
-		displayFolder: anr_distribucion
+		displayFolder: anr_distribucion\rth
 		lineageTag: a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d
 
 	measure kpi_q_min_switch_1m = ```
@@ -343,6 +347,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [rendiment_transport_mensual_smly],
 			    "12 meses", [rendiment_transport_acum_12m],
+			    "Acumulat",[rendiment_transport_ytd],
 			    BLANK()
 			)
 			
@@ -371,6 +376,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [anr_transport_m3_mensual_smly],
 			    "12 meses", [anr_transport_m3_acum_12m_1m],
+			    "Acumulat",[anr_transporte_ytd],
 			    BLANK()
 			)
 		formatString: #,0
@@ -383,6 +389,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_consumit_transport_mensual_1m],
 			    "12 meses", [volum_consumit_transport_12m],
+			    "Acumulat",[volum_consumit_transport_ytd],
 			    BLANK()
 			)
 		formatString: #,0
@@ -395,6 +402,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_lliurat_transport_mensual_1m],
 			    "12 meses", [volum_lliurat_transport_12m],
+			    "Acumulat",[volum_lliurat_transport_ytd],
 			    BLANK()
 			)
 		formatString: #,0
@@ -435,7 +443,7 @@ table _switchs
 			    BLANK()
 			)
 		formatString: #,0.00
-		displayFolder: anr_distribucion
+		displayFolder: anr_distribucion\anr
 		lineageTag: af164dee-c6e7-47c4-bae5-3b4916ef0a91
 
 	measure kpi_anr_distribucion_switch_1m =
@@ -448,7 +456,7 @@ table _switchs
 			    BLANK()
 			)
 		formatString: #,0
-		displayFolder: anr_distribucion
+		displayFolder: anr_distribucion\anr
 		lineageTag: c6e4cca9-96d3-4ea3-ae1c-59963c9ae502
 
 	measure kpi_fraus_detectats_switch =

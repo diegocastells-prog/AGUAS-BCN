@@ -2633,10 +2633,11 @@ table _medidas
 			)
 			
 			```
+		formatString: #,0
 		displayFolder: anr_distribucion\anr\ytd
 		lineageTag: e930ea4c-e992-4f56-83a4-5808c08130d9
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		annotation PBI_FormatHint = {"isDecimal":true}
 
 	measure volum_consumit_global_ytd = ```
 			
@@ -2770,6 +2771,57 @@ table _medidas
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: anr_distribucion\rth\ytd
 		lineageTag: cb87168f-a22e-4a66-b826-1cded5501bdb
+
+	measure anr_transporte_ytd = ```
+			
+			CALCULATE(
+			    [anr_transport_m3_mensual],
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: anr_transporte\anr\ytd
+		lineageTag: 250b650a-212e-4c82-b40b-ecc1a6da1013
+
+	measure rendiment_transport_ytd =
+			
+			CALCULATE(
+			     [rendiment_transport_mensual] ,
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+		displayFolder: anr_transporte\rendiment\ytd
+		lineageTag: a6b76179-3cb0-46fa-8564-78aabc955997
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_consumit_transport_ytd =
+			
+			CALCULATE(
+			     SUM(fact_rend_anr_arterias[sortit_m3]) ,
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+		formatString: #,0
+		displayFolder: anr_transporte\volumens\consumit\ytd
+		lineageTag: 64f9313f-7452-4740-bdd2-4a6629a19e1d
+
+	measure volum_lliurat_transport_ytd =
+			
+			CALCULATE(
+			     SUM(fact_rend_anr_arterias[entrat_m3]) ,
+			    DATESYTD(
+			        'dim_calendario'[Date]
+			    )
+			)
+		formatString: #,0
+		displayFolder: anr_transporte\volumens\lliurat\ytd
+		lineageTag: 074810e3-f0b2-405a-9bff-36d2b4c491cf
 
 	column Column
 		isHidden
