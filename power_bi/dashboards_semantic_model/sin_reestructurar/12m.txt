@@ -1,0 +1,30 @@
+volum_consumit_global_ytd =
+VAR _FechaInicio =
+    DATE ( YEAR ( TODAY () ), 1, 1 )
+ 
+VAR _FechaFin =
+    TODAY ()
+ 
+VAR _FechaMinContexto =
+    MIN ( 'dim_calendario'[Date] )
+ 
+VAR _FechaMaxContexto =
+    MAX ( 'dim_calendario'[Date] )
+ 
+VAR _Valor =
+    CALCULATE (
+        SUM ( fact_aigua_consum_historic[aigua_consumida_total] ),
+        DATESBETWEEN (
+            'dim_calendario'[Date],
+            _FechaInicio,
+            _FechaMaxContexto
+        )
+    )
+ 
+RETURN
+IF (
+    _FechaMaxContexto < _FechaInicio
+        || _FechaMinContexto > _FechaFin,
+    BLANK (),
+    DIVIDE ( _Valor, 1000000 )
+)

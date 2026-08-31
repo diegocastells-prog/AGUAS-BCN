@@ -1,0 +1,70 @@
+-------------------------       _ValorAA    -----------------------
+
+dummy_volum_consumit_global_mensual_diff_aa =
+ 
+VAR _FechaInicio =
+    DATE ( YEAR ( TODAY () ), 1, 1 )
+ 
+VAR _FechaFin =
+    TODAY ()
+ 
+VAR _FechaMinContexto =
+    MIN ( 'dim_calendario'[Date] )
+ 
+VAR _FechaMaxContexto =
+    MAX ( 'dim_calendario'[Date] )
+ 
+VAR _ValorActual =
+    [volum_consumit_global_mensual_hm3]
+ 
+VAR _ValorAA =
+    CALCULATE (
+        [volum_consumit_global_mensual_hm3],
+        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+    )
+ 
+RETURN
+IF (
+    _FechaMaxContexto < _FechaInicio
+        || _FechaMinContexto > _FechaFin
+        || ISBLANK ( _ValorActual )
+        || ISBLANK ( _ValorAA ),
+    BLANK (),
+    _ValorActual - _ValorAA
+)
+ 
+
+-------------------------       _ValorAA    -----------------------
+
+
+dummy_volum_lliurat_global_mensual_diff_aa =
+VAR _FechaInicio =
+    DATE ( YEAR ( TODAY () ), 1, 1 )
+ 
+VAR _FechaFin =
+    TODAY ()
+ 
+VAR _FechaMinContexto =
+    MIN ( 'dim_calendario'[Date] )
+ 
+VAR _FechaMaxContexto =
+    MAX ( 'dim_calendario'[Date] )
+ 
+VAR _ValorActual =
+    [volum_lliurat_global_mensual_hm3]
+ 
+VAR _ValorAA =
+    CALCULATE (
+        [volum_lliurat_global_mensual_hm3],
+        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+    )
+ 
+RETURN
+IF (
+    _FechaMaxContexto < _FechaInicio
+        || _FechaMinContexto > _FechaFin
+        || ISBLANK ( _ValorActual )
+        || ISBLANK ( _ValorAA ),
+    BLANK (),
+    _ValorActual - _ValorAA
+)

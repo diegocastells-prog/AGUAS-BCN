@@ -38,59 +38,6 @@ relationship e6a403eb-0d8c-bafa-1bb8-b60ea18398b0
 	fromColumn: fact_aigua_no_registrada.sector_id
 	toColumn: dim_dades_sectors.sector_id
 
-relationship AutoDetected_aea53a7c-8815-4e81-818a-dc2669132546
-	fromColumn: dim_less_polissa_fraude.sector_id
-	toColumn: fact_volumns_sector.sector_id
-
-relationship AutoDetected_8cc92c02-d408-465e-b1a4-2148e20d310e
-	fromColumn: fact_z_sector.sector_id
-	toColumn: fact_volumns_sector.sector_id
-
-relationship c17fccfe-b9ec-f0e0-9955-c5eb785bd431
-	fromColumn: dim_dades_sectors.gerencia_id
-	toColumn: dim_gerencia.gerencia_id
-
-relationship 3a91c416-5eba-20e6-c3c4-85d7c3bdac49
-	fromColumn: fact_actuacions_zones.sector_id
-	toColumn: dim_dades_sectors.sector_id
-
-relationship caf1f8eb-e1a1-65e7-5397-a66bd05b1cfe
-	fromColumn: fact_volum_cons_lliur.sector_id
-	toColumn: dim_dades_sectors.sector_id
-
-relationship beccf909-bd77-3fbe-2b9d-7ab84f40e840
-	fromColumn: fact_vol_fraud.'Polissa Subm'
-	toColumn: dim_less_polissa_fraude.polissa_su
-
-relationship AutoDetected_908a0836-297c-4d36-b467-d8641fa92bf3
-	fromColumn: Tfuita_Tinst_2026.aviso
-	toColumn: fact_tfuita_tinst.aviso
-
-relationship AutoDetected_bf589676-bfd9-4235-b31d-03d515ae2e91
-	fromColumn: fact_tfuita_tinst.Gerencia
-	toColumn: dim_gerencia.gerencia
-
-relationship cb678c9c-e5b4-4987-bbd9-0552fbdb11b4
-	fromColumn: aux_fact_poblacion_munic.municipio
-	toColumn: dim_municipio.municipio
-
-	annotation PBI_IsFromSource = FS
-
-relationship a1c8bca7-7f40-0223-e352-98ac2881f063
-	crossFilteringBehavior: bothDirections
-	fromColumn: fact_dades_consum.polissa_subm
-	toColumn: fact_perimetre_comptadors.polissa_subm
-
-relationship 4509abf2-cc1c-7590-979d-ac75c75243a2
-	fromColumn: fact_perimetre_comptadors.sector_id
-	toColumn: dim_dades_sectors.sector_id
-
-relationship db1942ac-3c9f-751d-0de6-1fd5a1882d75
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
-	fromColumn: dim_calendario.Date
-	toColumn: fact_aigua_consum_historic.fecha
-
 relationship c28b00dc-ddae-cc09-a094-042aff7256fd
 	fromColumn: fact_estadistiques_comp.fecha
 	toColumn: dim_calendario.Date
@@ -123,6 +70,14 @@ relationship 6e55d5b9-0aa9-8a41-a362-c2d9965931e4
 	fromColumn: fact_volum_cons_lliur.fecha
 	toColumn: dim_calendario.Date
 
+relationship AutoDetected_aea53a7c-8815-4e81-818a-dc2669132546
+	fromColumn: dim_less_polissa_fraude.sector_id
+	toColumn: fact_volumns_sector.sector_id
+
+relationship AutoDetected_8cc92c02-d408-465e-b1a4-2148e20d310e
+	fromColumn: fact_z_sector.sector_id
+	toColumn: fact_volumns_sector.sector_id
+
 relationship c65d628d-a1a9-a2b9-e12d-fd231356e061
 	fromColumn: fact_inventari_xarxa_transporte_total.fecha
 	toColumn: dim_calendario.Date
@@ -131,9 +86,41 @@ relationship ed86575e-5d89-020f-18ca-c2483a75cb13
 	fromColumn: fact_inventari_xarxa_distribucion.fecha
 	toColumn: dim_calendario.Date
 
+relationship AutoDetected_bf589676-bfd9-4235-b31d-03d515ae2e91
+	fromColumn: fact_tfuita_tinst.Gerencia
+	toColumn: dim_gerencia.gerencia
+
+relationship c17fccfe-b9ec-f0e0-9955-c5eb785bd431
+	fromColumn: dim_dades_sectors.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
 relationship 7c4ee2dd-5d18-5e73-05b3-5e3f95182f54
 	fromColumn: fact_actuacions_zones.data_inici
 	toColumn: dim_calendario.Date
+
+relationship 3a91c416-5eba-20e6-c3c4-85d7c3bdac49
+	fromColumn: fact_actuacions_zones.sector_id
+	toColumn: dim_dades_sectors.sector_id
+
+relationship db1942ac-3c9f-751d-0de6-1fd5a1882d75
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: dim_calendario.Date
+	toColumn: fact_aigua_consum_historic.fecha
+
+relationship caf1f8eb-e1a1-65e7-5397-a66bd05b1cfe
+	fromColumn: fact_volum_cons_lliur.sector_id
+	toColumn: dim_dades_sectors.sector_id
+
+relationship beccf909-bd77-3fbe-2b9d-7ab84f40e840
+	fromColumn: fact_vol_fraud.'Polissa Subm'
+	toColumn: dim_less_polissa_fraude.polissa_su
+
+relationship cb678c9c-e5b4-4987-bbd9-0552fbdb11b4
+	fromColumn: aux_fact_poblacion_munic.municipio
+	toColumn: dim_municipio.municipio
+
+	annotation PBI_IsFromSource = FS
 
 relationship d9ea4868-2ca4-2a7a-018b-352d0a1e3057
 	isActive: false
@@ -144,7 +131,20 @@ relationship bc67c907-f155-61a4-df8b-db4acb247d27
 	fromColumn: fact_tfuita_tinst.fin_de_averia
 	toColumn: dim_calendario.Date
 
+relationship a1c8bca7-7f40-0223-e352-98ac2881f063
+	crossFilteringBehavior: bothDirections
+	fromColumn: fact_dades_consum.polissa_subm
+	toColumn: fact_perimetre_comptadors.polissa_subm
+
 relationship a98bf179-c173-70bb-0bfd-92ad367372dd
 	fromColumn: fact_dades_consum.fecha
 	toColumn: dim_calendario.Date
+
+relationship 4509abf2-cc1c-7590-979d-ac75c75243a2
+	fromColumn: fact_perimetre_comptadors.sector_id
+	toColumn: dim_dades_sectors.sector_id
+
+relationship AutoDetected_908a0836-297c-4d36-b467-d8641fa92bf3
+	fromColumn: Tfuita_Tinst_2026.aviso
+	toColumn: fact_tfuita_tinst.aviso
 
