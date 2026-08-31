@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
-  "name": "a7e10a800081c3a72b90",
+  "name": "21816ec0a678c2c81f25",
   "position": {
-    "x": 157.77777777777777,
-    "y": 76.805216386248276,
-    "z": 10000,
-    "height": 86.666666666666671,
-    "width": 192.22222222222223,
-    "tabOrder": 9000
+    "x": 1069.882747068677,
+    "y": 81.474036850921266,
+    "z": 11000,
+    "height": 85.762144053601332,
+    "width": 197.25293132328306,
+    "tabOrder": 11000
   },
   "visual": {
     "visualType": "kpi",
@@ -23,12 +23,11 @@
                       "Entity": "_switchs"
                     }
                   },
-                  "Property": "kpi_rth_distribucion_switch_1m"
+                  "Property": "kpi_q_min_switch_1m"
                 }
               },
-              "queryRef": "_switchs.kpi_rth_distribucion_switch_1m",
-              "nativeQueryRef": "kpi_rth_distribucion_switch_1m",
-              "format": "0.00 %;-0.00 %;0.00 %"
+              "queryRef": "_switchs.kpi_q_min_switch_1m",
+              "nativeQueryRef": "kpi_q_min_switch_1m"
             }
           ]
         },
@@ -42,12 +41,11 @@
                       "Entity": "_switchs"
                     }
                   },
-                  "Property": "kpi_rth_distribucion_switch"
+                  "Property": "kpi_q_min_switch"
                 }
               },
-              "queryRef": "_switchs.kpi_rth_distribucion_switch",
-              "nativeQueryRef": "kpi_rth_distribucion_switch",
-              "format": "0.00 %;-0.00 %;0.00 %"
+              "queryRef": "_switchs.kpi_q_min_switch",
+              "nativeQueryRef": "kpi_q_min_switch"
             }
           ]
         },
@@ -69,40 +67,9 @@
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Measure": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "_switchs"
-                  }
-                },
-                "Property": "kpi_rth_distribucion_switch"
-              }
-            },
-            "direction": "Descending"
-          }
-        ],
-        "isDefaultSort": true
       }
     },
     "objects": {
-      "goals": [
-        {
-          "properties": {
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "10D"
-                }
-              }
-            }
-          }
-        }
-      ],
       "indicator": [
         {
           "properties": {
@@ -135,6 +102,19 @@
             }
           }
         }
+      ],
+      "goals": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -144,7 +124,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Rendiment Distr'"
+                  "Value": "'QMin'"
                 }
               }
             },
@@ -271,5 +251,57 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4e86ad50318b8c00c6bb",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "16b623fc491100b7d035",
+        "ordinal": 1,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_anr_m3_km_dia_switch"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "a22acd720730a914e784",
+        "ordinal": 2,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_anr_m3_km_dia_switch_1m"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      }
+    ],
+    "filterSortOrder": "Custom"
   }
 }

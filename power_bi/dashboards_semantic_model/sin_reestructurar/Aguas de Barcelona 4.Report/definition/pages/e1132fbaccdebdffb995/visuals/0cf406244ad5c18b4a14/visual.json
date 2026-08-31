@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "0cf406244ad5c18b4a14",
   "position": {
-    "x": 416.66666666666663,
-    "y": 293.4718830529149,
-    "z": 19001,
-    "height": 321.11111111111109,
-    "width": 837.77777777777771,
-    "tabOrder": 34041
+    "x": 179.02847571189278,
+    "y": 176.88442211055275,
+    "z": 10000,
+    "height": 211.18927973199328,
+    "width": 1063.4505862646565,
+    "tabOrder": 14000
   },
   "visual": {
     "visualType": "lineChart",
@@ -23,11 +23,11 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "anio2_mes"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
+              "queryRef": "dim_calendario.anio2_mes",
+              "nativeQueryRef": "anio2_mes",
               "active": true
             }
           ]
@@ -53,21 +53,6 @@
         },
         "Y": {
           "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_switchs"
-                    }
-                  },
-                  "Property": "kpi_anr_transporte_switch"
-                }
-              },
-              "queryRef": "_switchs.kpi_anr_transporte_switch",
-              "nativeQueryRef": "ANR Transporte",
-              "displayName": "ANR Transporte"
-            },
             {
               "field": {
                 "Measure": {
@@ -105,20 +90,79 @@
         "sort": [
           {
             "field": {
-              "Measure": {
+              "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "_switchs"
+                    "Entity": "dim_calendario"
                   }
                 },
-                "Property": "kpi_anr_transporte_switch"
+                "Property": "anio2_mes"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
           }
-        ],
-        "isDefaultSort": true
+        ]
       }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.6
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "showMarker": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "markerSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [
@@ -127,7 +171,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Evolución Distribucion'"
+                  "Value": "'Evolución Volumen Transporte'"
                 }
               }
             },

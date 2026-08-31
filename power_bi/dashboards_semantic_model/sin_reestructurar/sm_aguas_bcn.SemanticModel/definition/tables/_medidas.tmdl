@@ -2580,14 +2580,41 @@ table _medidas
 		displayFolder: tfuita\tfuita_%_reparacio_15_dies\mensual
 		lineageTag: 4e93e075-6ffe-44f7-9a19-259cb451c532
 
-	measure anr_global_ytd =
+	measure anr_global_ytd = ```
 			
-			CALCULATE(
-			     SUM(fact_aigua_consum_historic[anr_mes]),
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			         SUM(fact_aigua_consum_historic[anr_mes]),
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
-			)/1000000
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
+			)
+			
+			
+			
+			```
 		displayFolder: anr_global\anr\ytd
 		lineageTag: 27ca9c98-472b-4669-a2dd-afaeaf17fda2
 
@@ -2595,12 +2622,37 @@ table _medidas
 
 	measure volum_consumit_distribucion_ytd = ```
 			
-			CALCULATE(
-			    SUM(fact_volum_cons_lliur[volum_consumit]),
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			          SUM(fact_volum_cons_lliur[volum_consumit]),
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
 			)
+			
+			
 			
 			```
 		displayFolder: anr_distribucion\volumns\consumit
@@ -2610,12 +2662,37 @@ table _medidas
 
 	measure volum_lliurat_distribucion_ytd = ```
 			
-			CALCULATE(
-			    SUM(fact_volum_cons_lliur[volum_lliurat]),
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			         SUM(fact_volum_cons_lliur[volum_lliurat]),
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
 			)
+			
+			
 			
 			```
 		displayFolder: anr_distribucion\volumns\lliurat
@@ -2625,28 +2702,77 @@ table _medidas
 
 	measure anr_distribucion_ytd = ```
 			
-			CALCULATE(
-			    [anr_distribucion_mensual],
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			         [anr_distribucion_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
 			)
 			
+			
 			```
-		formatString: #,0
 		displayFolder: anr_distribucion\anr\ytd
 		lineageTag: e930ea4c-e992-4f56-83a4-5808c08130d9
 
-		annotation PBI_FormatHint = {"isDecimal":true}
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure volum_consumit_global_ytd = ```
 			
-			CALCULATE(
-			  SUM(fact_aigua_consum_historic[aigua_consumida_total]),
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        SUM(fact_aigua_consum_historic[aigua_consumida_total]),
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
-			)/1000000
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
+			)
+			
+			
+			
 			
 			```
 		formatString: #,0.00
@@ -2655,39 +2781,118 @@ table _medidas
 
 	measure volum_lliurat_global_ytd = ```
 			
-			CALCULATE(
-			  SUM(fact_aigua_consum_historic[aigua_lliurada_total]),
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        SUM(fact_aigua_consum_historic[aigua_lliurada_total]),
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
-			)/1000000
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
+			)
+			
+			
+			
 			
 			```
 		formatString: #,0.00
 		displayFolder: anr_global\volum\lliurat\ytd
 		lineageTag: f3b487d5-661b-430b-9703-08109fe59c50
 
-	measure rendiment_global_ytd =
+	measure rendiment_global_ytd = ```
 			
-			CALCULATE(
-			     SUM(fact_aigua_consum_historic[rendiment_mes]) ,
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        SUM(fact_aigua_consum_historic[rendiment_mes]) ,
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
 			)
+			
+			
+			
+			```
 		displayFolder: anr_global\rth\ytd
 		lineageTag: c5f4e486-1741-4409-a673-49648c73d2a9
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure aigua_consumida_peatges_global_ytd =
+	measure aigua_consumida_peatges_global_ytd = ```
 			
-			CALCULATE(
-			     SUM(fact_aigua_consum_historic[aigua_consumida_peatges]),
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			         SUM(fact_aigua_consum_historic[aigua_consumida_peatges]),
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
 			)
+			
+			
+			```
 		displayFolder: aigua_consumida\peatges\ytd
 		lineageTag: 5f0cef98-f705-4afc-ab32-91c264d6bfb4
 
@@ -2695,13 +2900,36 @@ table _medidas
 
 	measure aigua_consumida_alta_global_ytd = ```
 			
-			CALCULATE(
-			     SUM(fact_aigua_consum_historic[aigua_consumida_alta]),
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        SUM(fact_aigua_consum_historic[aigua_consumida_alta]),
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
 			)
-			
+			 
 			
 			```
 		displayFolder: aigua_consumida\alta\ytd
@@ -2711,12 +2939,36 @@ table _medidas
 
 	measure aigua_consumida_baixa_global_ytd = ```
 			
-			CALCULATE(
-			     SUM(fact_aigua_consum_historic[aigua_consumida_baixa]),
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			         SUM(fact_aigua_consum_historic[aigua_consumida_baixa]),
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
 			)
+			
 			
 			```
 		displayFolder: aigua_consumida\baixa\ytd
@@ -2726,13 +2978,35 @@ table _medidas
 
 	measure aigua_consumida_autoconsum_global_ytd = ```
 			
-			CALCULATE(
-			     SUM(fact_aigua_consum_historic[aigua_consumida_autoconsum]),
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        SUM(fact_aigua_consum_historic[aigua_consumida_autoconsum]),
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
 			)
-			
 			
 			```
 		formatString: #,0
@@ -2743,13 +3017,36 @@ table _medidas
 
 	measure aigua_consumida_acf_global_ytd = ```
 			
-			CALCULATE(
-			     SUM(fact_aigua_consum_historic[aigua_consumida_acf]),   
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        SUM(fact_aigua_consum_historic[aigua_consumida_acf]), 
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
 			)
-			
+			 
 			
 			```
 		formatString: #,0
@@ -2760,12 +3057,37 @@ table _medidas
 
 	measure rth_distribucion_ytd = ```
 			
-			CALCULATE(
-			    [rth_distribucion_mensual],
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			         [rth_distribucion_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
 			)
+			
+			
 			
 			```
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
@@ -2774,54 +3096,203 @@ table _medidas
 
 	measure anr_transporte_ytd = ```
 			
-			CALCULATE(
-			    [anr_transport_m3_mensual],
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        [anr_transport_m3_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
 			)
+			
+			
+			
 			
 			```
 		formatString: #,0
 		displayFolder: anr_transporte\anr\ytd
 		lineageTag: 250b650a-212e-4c82-b40b-ecc1a6da1013
 
-	measure rendiment_transport_ytd =
+	measure rendiment_transport_ytd = ```
 			
-			CALCULATE(
-			     [rendiment_transport_mensual] ,
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			         [rendiment_transport_mensual] ,
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
 			)
+			
+			
+			
+			
+			```
 		displayFolder: anr_transporte\rendiment\ytd
 		lineageTag: a6b76179-3cb0-46fa-8564-78aabc955997
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure volum_consumit_transport_ytd =
+	measure volum_consumit_transport_ytd = ```
 			
-			CALCULATE(
-			     SUM(fact_rend_anr_arterias[sortit_m3]) ,
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        SUM(fact_rend_anr_arterias[sortit_m3]) ,
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
 			)
+			
+			
+			
+			
+			```
 		formatString: #,0
 		displayFolder: anr_transporte\volumens\consumit\ytd
 		lineageTag: 64f9313f-7452-4740-bdd2-4a6629a19e1d
 
-	measure volum_lliurat_transport_ytd =
+	measure volum_lliurat_transport_ytd = ```
 			
-			CALCULATE(
-			     SUM(fact_rend_anr_arterias[entrat_m3]) ,
-			    DATESYTD(
-			        'dim_calendario'[Date]
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        SUM(fact_rend_anr_arterias[entrat_m3]) ,
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
 			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
 			)
+			
+			
+			
+			
+			```
 		formatString: #,0
 		displayFolder: anr_transporte\volumens\lliurat\ytd
 		lineageTag: 074810e3-f0b2-405a-9bff-36d2b4c491cf
+
+	measure anr_dia_m3_ytd = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			         [anr_dia_m3_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
+			)
+			
+			
+			```
+		displayFolder: anr\dia_m3\ytd
+		lineageTag: 760e79a6-b24d-46e6-a29f-9dcb6f302de8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Column
 		isHidden

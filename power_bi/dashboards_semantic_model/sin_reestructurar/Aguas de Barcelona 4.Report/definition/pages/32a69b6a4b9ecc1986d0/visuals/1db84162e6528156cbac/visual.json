@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
-  "name": "be2783fc5c9972686689",
+  "name": "1db84162e6528156cbac",
   "position": {
-    "x": 150.90909090909091,
-    "y": 447.27272727272725,
-    "z": 6000,
-    "height": 214.54545454545453,
-    "width": 565.45454545454538,
-    "tabOrder": 7000
+    "x": 165.09212730318256,
+    "y": 201.54103852596313,
+    "z": 12000,
+    "height": 199.3969849246231,
+    "width": 1102.0435510887771,
+    "tabOrder": 12000
   },
   "visual": {
-    "visualType": "areaChart",
+    "visualType": "lineClusteredColumnComboChart",
     "query": {
       "queryState": {
         "Category": {
@@ -23,11 +23,11 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "anio2_mes"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
+              "queryRef": "dim_calendario.anio2_mes",
+              "nativeQueryRef": "anio2_mes",
               "active": true
             }
           ]
@@ -42,11 +42,25 @@
                       "Entity": "_switchs"
                     }
                   },
-                  "Property": "kpi_q_min_switch"
+                  "Property": "kpi_anr_l_esc_dia_switch"
                 }
               },
-              "queryRef": "_switchs.kpi_q_min_switch",
-              "nativeQueryRef": "kpi_q_min_switch"
+              "queryRef": "_switchs.kpi_anr_l_esc_dia_switch",
+              "nativeQueryRef": "kpi_anr_l_esc_dia_switch"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_anr_l_subm_dia_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_anr_l_subm_dia_switch",
+              "nativeQueryRef": "kpi_anr_l_subm_dia_switch"
             }
           ]
         },
@@ -60,15 +74,92 @@
                       "Entity": "_switchs"
                     }
                   },
-                  "Property": "kpi_q_min_switch_1m"
+                  "Property": "kpi_anr_m3_km_dia_switch"
                 }
               },
-              "queryRef": "_switchs.kpi_q_min_switch_1m",
-              "nativeQueryRef": "kpi_q_min_switch_1m"
+              "queryRef": "_switchs.kpi_anr_m3_km_dia_switch",
+              "nativeQueryRef": "kpi_anr_m3_km_dia_switch"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_calendario"
+                  }
+                },
+                "Property": "anio2_mes"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
       }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.6
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "showMarker": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "markerSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [
@@ -77,7 +168,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Q min (linea o columnas por mes)'"
+                  "Value": "'Evolución de indicadores ANR'"
                 }
               }
             },
@@ -141,33 +232,6 @@
           }
         }
       ],
-      "spacing": [
-        {
-          "properties": {
-            "verticalSpacing": {
-              "expr": {
-                "Literal": {
-                  "Value": "2D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "id": "default"
-          }
-        },
-        {
-          "properties": {
-            "verticalSpacing": {
-              "expr": {
-                "Literal": {
-                  "Value": "0D"
-                }
-              }
-            }
-          }
-        }
-      ],
       "background": [
         {
           "properties": {
@@ -199,6 +263,33 @@
           }
         }
       ],
+      "spacing": [
+        {
+          "properties": {
+            "verticalSpacing": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "verticalSpacing": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
       "padding": [
         {
           "properties": {
@@ -213,6 +304,19 @@
               "expr": {
                 "Literal": {
                   "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
@@ -251,19 +355,6 @@
               "expr": {
                 "Literal": {
                   "Value": "1D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "dropShadow": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
                 }
               }
             }
@@ -318,5 +409,26 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "482756040eaede541767",
+        "ordinal": 3,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_anr_dia_m3_switch"
+          }
+        },
+        "type": "Advanced",
+        "howCreated": "User"
+      }
+    ],
+    "filterSortOrder": "Custom"
   }
 }

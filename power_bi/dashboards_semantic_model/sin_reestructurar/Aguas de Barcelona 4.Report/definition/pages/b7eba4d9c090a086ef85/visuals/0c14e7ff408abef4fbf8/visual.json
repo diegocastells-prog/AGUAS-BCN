@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
-  "name": "95c55409f317676dcb92",
+  "name": "0c14e7ff408abef4fbf8",
   "position": {
-    "x": 416.66666666666663,
-    "y": 76.805216386248276,
-    "z": 19002,
-    "height": 186.66666666666666,
-    "width": 415.55555555555554,
-    "tabOrder": 34038
+    "x": 179.02847571189278,
+    "y": 176.88442211055275,
+    "z": 11000,
+    "height": 211.18927973199328,
+    "width": 1063.4505862646565,
+    "tabOrder": 12000
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "lineChart",
     "query": {
       "queryState": {
         "Category": {
@@ -23,16 +23,146 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "anio2_mes"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
+              "queryRef": "dim_calendario.anio2_mes",
+              "nativeQueryRef": "anio2_mes",
               "active": true
             }
           ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_rth_transporte_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_rth_transporte_switch",
+              "nativeQueryRef": "RTH Transporte",
+              "displayName": "RTH Transporte"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_volum_consumit_distribucion_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_volum_consumit_distribucion_switch",
+              "nativeQueryRef": "Volum Consumit Distribucion",
+              "displayName": "Volum Consumit Distribucion"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_volum_lliurat_distribucion_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_volum_lliurat_distribucion_switch",
+              "nativeQueryRef": "Volum Lliurat Distribucion",
+              "displayName": "Volum Lliurat Distribucion"
+            }
+          ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_calendario"
+                  }
+                },
+                "Property": "anio2_mes"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
       }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.6
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "showMarker": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "markerSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [
@@ -41,7 +171,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Balance de distribución'"
+                  "Value": "'Evolución Volumen Distribucion'"
                 }
               }
             },

@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
-  "name": "64cd6aed3568c19ff202",
+  "name": "4f982f21bae5b181acea",
   "position": {
-    "x": 416.66666666666663,
-    "y": 76.805216386248276,
-    "z": 5000,
-    "height": 186.66666666666666,
-    "width": 415.55555555555554,
-    "tabOrder": 2000
+    "x": 405.2261306532663,
+    "y": 94.338358458961466,
+    "z": 12001,
+    "height": 566.03015075376879,
+    "width": 849.04522613065319,
+    "tabOrder": 27033
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "lineClusteredColumnComboChart",
     "query": {
       "queryState": {
         "Category": {
@@ -23,16 +23,163 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "mes"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
+              "queryRef": "dim_calendario.mes",
+              "nativeQueryRef": "mes",
               "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "anio"
+                }
+              },
+              "queryRef": "dim_calendario.anio",
+              "nativeQueryRef": "anio"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_lliurat_global_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_lliurat_global_switch",
+              "nativeQueryRef": "kpi_lliurat_global_switch"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_consumita_global_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_consumita_global_switch",
+              "nativeQueryRef": "kpi_consumita_global_switch"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "backgroundTransparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "84D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            },
+            "backgroundTransparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "81D"
+                }
+              }
+            },
+            "backgroundColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#605E5C'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_switchs.kpi_lliura_global_switch"
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "alignZeros": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "secRoundRange": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "secShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [
@@ -41,7 +188,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Balance de distribución'"
+                  "Value": "'Consumita'"
                 }
               }
             },
