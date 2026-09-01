@@ -234,7 +234,7 @@ table _medidas
 		displayFolder: anr_transporte\rendiment\acum_12
 		lineageTag: 65a14b58-b2d8-4fa0-8c00-a442979f5772
 
-	measure 'Label titulo' = "Cuadro de mando de Agua No Registrada"
+	measure 'Label titulo' = "Cuadro de mando de ANR"
 		displayFolder: Etiquetas
 		lineageTag: 15bfb53a-bbf6-4206-95ee-200572615c25
 
@@ -3291,6 +3291,156 @@ table _medidas
 			```
 		displayFolder: anr\dia_m3\ytd
 		lineageTag: 760e79a6-b24d-46e6-a29f-9dcb6f302de8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure subministraments_12m_mitjana = ```
+			
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaInicio =
+			    EDATE ( _FechaFin, -12 )
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        AVERAGE( 'fact_inventari_xarxa_distribucion'[subministraments] ),
+			        DATESINPERIOD (
+			            'dim_calendario'[Date],
+			            _FechaMaxContexto,
+			            -12,
+			            MONTH
+			        )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
+			)
+			```
+		displayFolder: red\subm\acum_12
+		lineageTag: cab12659-0007-4466-bc57-1a4becc6d53a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure subministraments_mensual = ```
+			SUM(fact_inventari_xarxa_distribucion[subministraments])  
+			
+			```
+		displayFolder: red\subm\mensual
+		lineageTag: 226d8b9b-7fff-4884-bc3c-2aaec60afccf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure subministraments_mensual_smly = ```
+			
+			    CALCULATE(
+			        SUM(fact_inventari_xarxa_distribucion[subministraments]),  
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			```
+		displayFolder: red\subm\mensual
+		lineageTag: 62e1f1cc-2eb1-4188-818c-b52a8811a268
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure subministraments_12m_mitjana_1m = ```
+			
+			CALCULATE(
+			    AVERAGE( 'fact_inventari_xarxa_distribucion'[subministraments] ),
+			    DATEADD(dim_calendario[Date], -1, MONTH)
+			) 
+			
+			```
+		displayFolder: red\subm\acum_12
+		lineageTag: f2fba21c-5c0e-4731-aaa3-8a445e14298f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure subministraments_ytd = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        SUM(fact_inventari_xarxa_distribucion[subministraments]),  
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
+			)
+			
+			```
+		displayFolder: red\subm\ytd
+		lineageTag: 69141be4-29e4-4af0-b298-31fe4507cca2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure distribucion_diff = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual =
+			    SUM(fact_inventari_xarxa_distribucion[subministraments])
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			        SUM(fact_inventari_xarxa_distribucion[subministraments]) ,
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			 
+			
+			```
+		displayFolder: red\subm\diff
+		lineageTag: aa26c3c5-c722-4204-a670-5c5483a12f0c
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
