@@ -13,7 +13,7 @@ table fact_inventari_xarxa_distribucion
 			    )
 			) 
 			```
-		displayFolder: _medidas
+		displayFolder: _medidas_2
 		lineageTag: 3e5694ec-4087-44a6-a248-c3829d5cef0a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -22,7 +22,7 @@ table fact_inventari_xarxa_distribucion
 			SUM(fact_inventari_xarxa_distribucion[escomeses]) 
 			
 			```
-		displayFolder: _medidas
+		displayFolder: _medidas_2
 		lineageTag: 42333873-7464-4cbb-a175-96c232591efc
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -43,7 +43,7 @@ table fact_inventari_xarxa_distribucion
 			RETURN
 			    DIVIDE(L, 1000)
 			```
-		displayFolder: _medidas
+		displayFolder: _medidas_2
 		lineageTag: ea72ced7-49b5-4576-bf6a-722dade6303a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -53,17 +53,8 @@ table fact_inventari_xarxa_distribucion
 			VAR L = SUM(fact_inventari_xarxa_distribucion[xarxa])
 			RETURN
 			    DIVIDE(L, 1000)
-		displayFolder: _medidas
+		displayFolder: _medidas_2
 		lineageTag: 9ac0b385-e8bc-40f7-9bbe-77005439c4c2
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure subministraments_mensual = ```
-			SUM(fact_inventari_xarxa_distribucion[subministraments])  
-			
-			```
-		displayFolder: _medidas
-		lineageTag: 226d8b9b-7fff-4884-bc3c-2aaec60afccf
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -71,7 +62,7 @@ table fact_inventari_xarxa_distribucion
 			[anr_acum_12m] /[escomeses_12m_mitjana]/365*1000
 			
 			```
-		displayFolder: _medidas
+		displayFolder: _medidas_2
 		lineageTag: f8e5e9a0-479d-4e58-bc42-3e5f8e16358b
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -80,32 +71,15 @@ table fact_inventari_xarxa_distribucion
 			[anr_acum_12m] /[subministraments_12m_mitjana]/365*1000
 			
 			```
-		displayFolder: _medidas
+		displayFolder: _medidas_2
 		lineageTag: 1e024d7c-0645-4bc0-9570-c412449875de
 
 	measure ANR_m3_km_dia = ```
 			[anr_acum_12m] /[l_km_12m_mitjana]/365
 			
 			```
-		displayFolder: _medidas
+		displayFolder: _medidas_2
 		lineageTag: 82b87267-a640-4b09-9de5-0309f22184a3
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure subministraments_12m_mitjana = ```
-			
-			    CALCULATE(
-			    AVERAGE( 'fact_inventari_xarxa_distribucion'[subministraments] ),
-			    DATESINPERIOD(
-			        dim_calendario[Date],
-			        MAX(dim_calendario[Date]),
-			        -12,
-			        MONTH
-			    )
-			) 
-			```
-		displayFolder: _medidas
-		lineageTag: cab12659-0007-4466-bc57-1a4becc6d53a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -120,7 +94,7 @@ table fact_inventari_xarxa_distribucion
 			
 			
 			```
-		displayFolder: _medidas
+		displayFolder: _medidas_2
 		lineageTag: 15bd9e8e-0814-4cde-9ad9-bb012757b6bd
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}

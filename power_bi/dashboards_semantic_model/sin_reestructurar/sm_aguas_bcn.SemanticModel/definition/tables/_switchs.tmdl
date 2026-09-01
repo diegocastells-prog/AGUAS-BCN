@@ -1108,6 +1108,21 @@ table _switchs
 		displayFolder: tfuita_reparacio_15_dies
 		lineageTag: 8533f742-a8ba-41f3-9eaa-2cfaabba8776
 
+	measure kpi_subministraments_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [subministraments_mensual],
+			    "12 meses", [subministraments_12m_mitjana],
+			    "Diff", [distribucion_diff],
+			
+			    BLANK()
+			)
+		displayFolder: red\subm
+		lineageTag: eda5fc67-8a53-4d12-8bbc-fe3d23406a1e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0
