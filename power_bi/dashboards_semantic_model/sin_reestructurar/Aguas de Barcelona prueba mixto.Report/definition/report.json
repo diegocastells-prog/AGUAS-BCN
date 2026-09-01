@@ -1,0 +1,442 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY24SU10",
+      "reportVersionAtImport": {
+        "visual": "1.8.95",
+        "report": "2.0.95",
+        "page": "1.3.95"
+      },
+      "type": "SharedResources"
+    }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "fc98937019c6a5ce8d00",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "58774e6a0a8508eb91a0",
+        "ordinal": 1,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "status_date"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "d93dda1ba71c902049e8",
+        "ordinal": 2,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "a22414ce230e998b90ae",
+        "ordinal": 3,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_arteria"
+              }
+            },
+            "Property": "gerencia"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "16399afc8b40789ec2a0",
+        "ordinal": 4,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "Date"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_calendario",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "Date"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "45399e69dec4ad63647e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "Date"
+          }
+        },
+        "type": "RelativeDate",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_calendario",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Between": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "d"
+                        }
+                      },
+                      "Property": "Date"
+                    }
+                  },
+                  "LowerBound": {
+                    "DateSpan": {
+                      "Expression": {
+                        "DateAdd": {
+                          "Expression": {
+                            "DateAdd": {
+                              "Expression": {
+                                "Now": {}
+                              },
+                              "Amount": 1,
+                              "TimeUnit": 0
+                            }
+                          },
+                          "Amount": -18,
+                          "TimeUnit": 2
+                        }
+                      },
+                      "TimeUnit": 0
+                    }
+                  },
+                  "UpperBound": {
+                    "DateSpan": {
+                      "Expression": {
+                        "Now": {}
+                      },
+                      "TimeUnit": 0
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ],
+    "filterSortOrder": "Custom"
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "publicCustomVisuals": [
+    "boxandwhiskerwithpoints6C29D629F202A5FF5B6B023486584FCA",
+    "iconMapProE938B1CED4834168A55864E1F8E7242E"
+  ],
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY24SU10",
+          "path": "BaseThemes/CY24SU10.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "1_-_FondoBlanco4608269938479864.png",
+          "path": "1_-_FondoBlanco4608269938479864.png",
+          "type": "Image"
+        },
+        {
+          "name": "2_-_FondoBlanco3439717747123535.png",
+          "path": "2_-_FondoBlanco3439717747123535.png",
+          "type": "Image"
+        },
+        {
+          "name": "3_-_FondoBlanco5416905247691307.png",
+          "path": "3_-_FondoBlanco5416905247691307.png",
+          "type": "Image"
+        },
+        {
+          "name": "3_-_Seleccionado6700015836962525.png",
+          "path": "3_-_Seleccionado6700015836962525.png",
+          "type": "Image"
+        },
+        {
+          "name": "4_-_FondoBlanco036785110427639545.png",
+          "path": "4_-_FondoBlanco036785110427639545.png",
+          "type": "Image"
+        },
+        {
+          "name": "4.5_-_FondoBlanco9613176950262774.png",
+          "path": "4.5_-_FondoBlanco9613176950262774.png",
+          "type": "Image"
+        },
+        {
+          "name": "5_-_FondoBlanco2705942761731609.png",
+          "path": "5_-_FondoBlanco2705942761731609.png",
+          "type": "Image"
+        },
+        {
+          "name": "6_-_FondoBlanco08581710411094534.png",
+          "path": "6_-_FondoBlanco08581710411094534.png",
+          "type": "Image"
+        },
+        {
+          "name": "7_-_FondoBlanco4591466596616566.png",
+          "path": "7_-_FondoBlanco4591466596616566.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_15_jul_2026,_09_2911138051827945.png",
+          "path": "ChatGPT_Image_15_jul_2026,_09_2911138051827945.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_26_ago_2026,_10_02464169462771637.png",
+          "path": "ChatGPT_Image_26_ago_2026,_10_02464169462771637.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_26_ago_2026,_10_029854738700000105.png",
+          "path": "ChatGPT_Image_26_ago_2026,_10_029854738700000105.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_26_ago_2026,_10_0930647021138834.png",
+          "path": "ChatGPT_Image_26_ago_2026,_10_0930647021138834.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_26_ago_2026,_10_09902987495434368.png",
+          "path": "ChatGPT_Image_26_ago_2026,_10_09902987495434368.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_26_ago_2026,_10_11813012813652979.png",
+          "path": "ChatGPT_Image_26_ago_2026,_10_11813012813652979.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_26_ago_2026,_10_23569909269385914.png",
+          "path": "ChatGPT_Image_26_ago_2026,_10_23569909269385914.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_26_ago_2026,_10_4436308017412336.png",
+          "path": "ChatGPT_Image_26_ago_2026,_10_4436308017412336.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_26_ago_2026,_10_5180555223061454.png",
+          "path": "ChatGPT_Image_26_ago_2026,_10_5180555223061454.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_26_ago_2026,_10_6132011517053301.png",
+          "path": "ChatGPT_Image_26_ago_2026,_10_6132011517053301.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_26_ago_2026,_10_7979471040292956.png",
+          "path": "ChatGPT_Image_26_ago_2026,_10_7979471040292956.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_26_ago_2026,_10_8100815617483861.png",
+          "path": "ChatGPT_Image_26_ago_2026,_10_8100815617483861.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_8_jul_2026,_13_14977776337862797.png",
+          "path": "ChatGPT_Image_8_jul_2026,_13_14977776337862797.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_8_jul_2026,_13_16316865206516374.png",
+          "path": "ChatGPT_Image_8_jul_2026,_13_16316865206516374.png",
+          "type": "Image"
+        },
+        {
+          "name": "logoAguasBarcelona18869455587958017.png",
+          "path": "logoAguasBarcelona18869455587958017.png",
+          "type": "Image"
+        },
+        {
+          "name": "Mapa_-_FondoBlanco18221081630240832.png",
+          "path": "Mapa_-_FondoBlanco18221081630240832.png",
+          "type": "Image"
+        },
+        {
+          "name": "MostrarFiltros8147760435380084.png",
+          "path": "MostrarFiltros8147760435380084.png",
+          "type": "Image"
+        },
+        {
+          "name": "QuitarFiltros5040228120213663.png",
+          "path": "QuitarFiltros5040228120213663.png",
+          "type": "Image"
+        },
+        {
+          "name": "sectors11980072000445896.geojson",
+          "path": "sectors11980072000445896.geojson",
+          "type": "ShapeMap"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true
+  }
+}
