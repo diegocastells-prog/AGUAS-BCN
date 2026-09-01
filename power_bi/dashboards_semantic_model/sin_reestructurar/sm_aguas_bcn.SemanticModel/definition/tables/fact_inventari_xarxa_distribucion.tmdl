@@ -1,63 +1,6 @@
 table fact_inventari_xarxa_distribucion
 	lineageTag: 2b91454c-c160-4687-a602-165ee754b802
 
-	measure escomeses_12m_mitjana = ```
-			
-			    CALCULATE(
-			    AVERAGE( 'fact_inventari_xarxa_distribucion'[escomeses] ),
-			    DATESINPERIOD(
-			        dim_calendario[Date],
-			        MAX(dim_calendario[Date]),
-			        -12,
-			        MONTH
-			    )
-			) 
-			```
-		displayFolder: _medidas_2
-		lineageTag: 3e5694ec-4087-44a6-a248-c3829d5cef0a
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure escomeses_mensual = ```
-			SUM(fact_inventari_xarxa_distribucion[escomeses]) 
-			
-			```
-		displayFolder: _medidas_2
-		lineageTag: 42333873-7464-4cbb-a175-96c232591efc
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure l_km_12m_mitjana = ```
-			
-			
-			VAR L =
-			    CALCULATE(
-			    AVERAGE(fact_inventari_xarxa_distribucion[xarxa]),
-			    DATESINPERIOD(
-			        'dim_calendario'[Date],
-			        MAX('dim_calendario'[Date]),
-			        -12,
-			        MONTH
-			    )
-			) 
-			RETURN
-			    DIVIDE(L, 1000)
-			```
-		displayFolder: _medidas_2
-		lineageTag: ea72ced7-49b5-4576-bf6a-722dade6303a
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure l_km_mensual =
-			
-			VAR L = SUM(fact_inventari_xarxa_distribucion[xarxa])
-			RETURN
-			    DIVIDE(L, 1000)
-		displayFolder: _medidas_2
-		lineageTag: 9ac0b385-e8bc-40f7-9bbe-77005439c4c2
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	measure ANR_l_esc_dia = ```
 			[anr_acum_12m] /[escomeses_12m_mitjana]/365*1000
 			

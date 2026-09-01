@@ -60,14 +60,6 @@ table dim_calendario
 
 		annotation SummarizationSetBy = Automatic
 
-	column anio_mes
-		lineageTag: 7f2ff2d6-7c83-47e8-b182-31110f306b20
-		summarizeBy: none
-		isNameInferred
-		sourceColumn: [anio_mes]
-
-		annotation SummarizationSetBy = Automatic
-
 	column trimestre
 		lineageTag: f7e71b1b-b786-478a-881c-e224082a3b7e
 		summarizeBy: none
@@ -169,46 +161,109 @@ table dim_calendario
 
 		annotation SummarizationSetBy = Automatic
 
+	column anio_mes
+		lineageTag: 7f2ff2d6-7c83-47e8-b182-31110f306b20
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [anio_mes]
+
+		annotation SummarizationSetBy = Automatic
+
+	column flag_anio_actual_anterior
+		lineageTag: f5cbcffb-e5d2-487d-b5ad-c37139cd7c49
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [flag_anio_actual_anterior]
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_calendario = calculated
 		mode: import
 		source = ```
 				
+				 
 				ADDCOLUMNS(
+				
 				    CALENDAR(
+				
 				        DATE(2020,1,1),
+				
 				        EOMONTH(TODAY(), -1)
+				
 				    ),
+				 
 				    "anio", YEAR([Date]),
+				
 				    "mes_num", MONTH([Date]),
+				
 				    "mes", FORMAT([Date], "MMMM"),
+				
 				    "mes_corto", FORMAT([Date], "MMM"),
+				
 				    "aniomes", FORMAT([Date], "YYYYMM"),
+				
 				    "aniomes_corto", FORMAT([Date], "MM YY"), 
+				
 				    "aniomes_corto_con_guion", FORMAT([Date], "MM-YY"), 
+				
 				    "aniomes_num_corto", FORMAT([Date], "MM") & "/" & FORMAT([Date],"YY"),
+				
 				    "anio2_mes", FORMAT([Date], "YY-MM"),
+				
 				    "anio_mes", FORMAT([Date], "YYYY-MM"),
+				
 				    "trimestre", "T" & FORMAT([Date], "Q"),
+				
 				    "anio_trimestre", YEAR([Date]) & "-T" & FORMAT([Date], "Q"),
+				
 				    "semana_anio", WEEKNUM([Date], 2),
+				
 				    "dia", DAY([Date]),
+				
 				    "dia_semana_num", WEEKDAY([Date], 2),
+				
 				    "dia_semana", FORMAT([Date], "dddd"),
+				
 				    "fin_de_semana", IF(WEEKDAY([Date], 2) >= 6, "si", "no"),
-				    // ⭐ NUEVO CAMPO STATUS_DATE ⭐
+				 
 				    "status_date",
+				
 				        VAR FechaHoy = TODAY()
+				
 				        VAR MesActual = EOMONTH(FechaHoy, 0)
-				        VAR MesCerradoReal = EOMONTH(FechaHoy, -3)   // abril 2026
+				
+				        VAR MesCerradoReal = EOMONTH(FechaHoy, -3)
+				
 				        RETURN
+				
 				            SWITCH(
+				
 				                TRUE(),
+				
 				                [Date] <= MesCerradoReal, "REAL",
+				
 				                [Date] <= MesActual, "ESTIMADO",
+				
 				                "FUTURO"
-				            )
+				
+				            ),
+				 
+				    "flag_anio_actual_anterior",
+				
+				        SWITCH(
+				
+				            TRUE(),
+				
+				            YEAR([Date]) = YEAR(TODAY()), "ACTUAL",
+				
+				            YEAR([Date]) = YEAR(TODAY()) - 1, "ANTERIOR",
+				
+				            "OTRO"
+				
+				        )
 				
 				)
+				 
 				```
 
 	annotation PBI_Id = 06946a9e57dd4dfe845e9b08d6bd99d1

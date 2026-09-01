@@ -140,6 +140,8 @@ table _switchs
 			    "Mensual", [anr_global_mensual_hm3],
 			    "12 meses", [anr_global_acum_12m_hm3],
 			    "Acumulat", [anr_global_ytd],
+			    "Diff", [anr_global_diff],
+			
 			    BLANK()
 			)            
 			```
@@ -154,6 +156,7 @@ table _switchs
 			    "Mensual",[rendiment_global_mensual],
 			    "12 meses",[rendiment_global_acum_12m],
 			    "Acumulat", [rendiment_global_ytd],
+			    "Diff", [rendiment_global_diff],
 			    BLANK()
 			)
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
@@ -363,7 +366,8 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual",[rendiment_global_mensual_smly],
 			    "12 meses",[rendiment_global_acum_12m_1m],
-			    "Acumulat", [rendiment_global_ytd],
+			    "Acumulat", [rendiment_global_lytd],
+			    "Diff", [_cero_acumulat],
 			    BLANK()
 			)
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
@@ -455,9 +459,10 @@ table _switchs
 			    "Acumulat",[anr_distribucion_ytd],
 			    BLANK()
 			)
-		formatString: #,0
 		displayFolder: anr_distribucion\anr
 		lineageTag: c6e4cca9-96d3-4ea3-ae1c-59963c9ae502
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_fraus_detectats_switch =
 			
@@ -531,7 +536,8 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [anr_global_mensual_smly_hm3],
 			    "12 meses", [anr_global_acum_12m_1m_hm3],
-			    "Acumulat", [anr_global_ytd],
+			    "Acumulat", [anr_global_lytd],
+			    "Diff", [_cero_acumulat],
 			    BLANK()
 			)
 			 
@@ -548,6 +554,7 @@ table _switchs
 			    "Mensual", [volum_consumit_global_mensual_hm3],
 			    "12 meses", [volum_consumit_global_acum_12m],
 			    "Acumulat",[volum_consumit_global_ytd],
+			    "Diff", [volum_consumit_global_diff],
 			    BLANK()
 			)
 			
@@ -564,6 +571,7 @@ table _switchs
 			    "Mensual", [volum_consumit_global_mensual_smly_hm3],
 			    "12 meses", [volum_consumit_global_acum_12m_1m_hm3],
 			    "Acumulat",[volum_consumit_global_ytd],
+			    "Diff", [volum_consumit_global_diff],
 			    BLANK()
 			)
 			
@@ -579,7 +587,8 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [l_km_mensual],
 			    "12 meses", [l_km_12m_mitjana],
-			    "Acumulat",[l_km_ytd],
+			    "Acumulat",[l_km_global_ytd],
+			    "Diff", [l_km_diff],
 			    BLANK()
 			)
 		displayFolder: anr_global\l
@@ -591,33 +600,10 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			
-			    "Mensual",
-			        CALCULATE(
-			            [l_km_mensual],
-			            DATEADD(
-			                dim_calendario[Date],
-			                -12,
-			                MONTH
-			            )
-			        ),
-			
-			 "Acumulat",
-			        CALCULATE(
-			            [l_km_ytd],
-			            DATEADD(dim_calendario[Date], -12, MONTH)
-			        ),
-			
-			    "12 meses",
-			        CALCULATE(
-			            [l_km_12m_mitjana],
-			            DATEADD(
-			                dim_calendario[Date],
-			                -1,
-			                MONTH
-			            )
-			        ),
-			
+			    "Mensual", [l_km_mensual_smly],
+			    "12 meses", [l_km_12m_mitjana_1m],
+			    "Acumulat",[l_km_global_lytd],
+			    "Diff", [_cero_acumulat],
 			    BLANK()
 			)
 		displayFolder: anr_global\l
@@ -632,6 +618,7 @@ table _switchs
 			    "Mensual", [volum_lliurat_global_mensual_hm3],
 			    "12 meses", [volum_lliurat_global_acum_12m_hm3],
 			    "Acumulat", [volum_lliurat_global_ytd],
+			    "Diff", [volum_lliurat_global_diff],
 			    BLANK()
 			) 
 			```
@@ -645,12 +632,12 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual",[volum_lliurat_global_mensual_smly_hm3],
 			    "12 meses", [volum_lliurat_global_acum_12m_1m_hm3],
-			    "Acumulat", [volum_lliurat_global_ytd],
+			    "Acumulat", [volum_lliurat_global_lytd],
+			    "Diff", [_cero_acumulat],
 			    BLANK()
 			)
 			  
 			```
-		formatString: #,0.000
 		displayFolder: anr_global\volumns
 		lineageTag: 3c3bb92e-f5f8-49a4-8623-55e8a2a13b58
 
@@ -1114,12 +1101,87 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [subministraments_mensual],
 			    "12 meses", [subministraments_12m_mitjana],
-			    "Diff", [distribucion_diff],
+			    "Diff", [subministraments_diff],
 			
 			    BLANK()
 			)
 		displayFolder: red\subm
 		lineageTag: eda5fc67-8a53-4d12-8bbc-fe3d23406a1e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_subministraments_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [subministraments_mensual_smly],
+			    "12 meses", [subministraments_12m_mitjana_1m],
+			    "Diff", [subministraments_diff],
+			
+			    BLANK()
+			)
+		displayFolder: red\subm
+		lineageTag: e4e868ed-050f-410d-ae5a-e514a50d4822
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_escomeses_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [escomeses_mensual],
+			    "12 meses", [escomeses_12m_mitjana],
+			    "Diff", [escomeses_diff],
+			
+			    BLANK()
+			)
+		displayFolder: red\escomeses
+		lineageTag: f880c7a5-aa11-489c-b5c7-d6027d4b7922
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_escomeses_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [escomeses_mensual_smly],
+			    "12 meses", [escomeses_12m_mitjana_1m],
+			    "Diff", [escomeses_diff],
+			
+			    BLANK()
+			)
+		displayFolder: red\escomeses
+		lineageTag: af66d60f-eec9-4d6f-b2e8-65e1f19d8bee
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_l_km_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [l_km_mensual],
+			    "12 meses", [l_km_12m_mitjana],
+			    "Acumulat", [l_km_ytd],
+			    "Diff", [l_km_diff],
+			    BLANK()
+			)
+		displayFolder: red\longitud
+		lineageTag: 64e62b6e-3ca8-4c6c-8601-a9343b7b54c7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_l_km_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [l_km_mensual_smly],
+			    "12 meses", [l_km_12m_mitjana_1m],
+			    "Acumulat", [l_km_global_ytd],
+			    "Diff", [_cero_acumulat],
+			    BLANK()
+			)
+		displayFolder: red\longitud
+		lineageTag: c14f3ed2-ec03-4640-9e8f-fc5cc4ca1278
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
