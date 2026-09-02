@@ -3817,39 +3817,7 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure _cero_acumulat = ```
-			
-			VAR _FechaInicio =
-			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			 
-			VAR _FechaFin =
-			    TODAY ()
-			 
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			 
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			 
-			VAR _ValorActual =
-			    [aigua_consumida_baixa_global_mensual_hm3]
-			 
-			VAR _ValorAA =
-			    CALCULATE (
-			        [aigua_consumida_baixa_global_mensual_hm3],
-			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
-			    )
-			 
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin
-			        || ISBLANK ( _ValorActual )
-			        || ISBLANK ( _ValorAA ),
-			    BLANK (),
-			    0
-			)
-			```
+	measure _cero_acumulat = 0
 		formatString: 0
 		lineageTag: a20bb748-5683-478e-9b71-da0cfe6edc6d
 
@@ -4318,41 +4286,37 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_global_diff = ```
+	measure anr_global_diff =
 			
-			VAR _FechaInicio =
-			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			 
-			VAR _FechaFin =
-			    TODAY ()
-			 
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			 
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			 
-			VAR _ValorActual =
-			    SUM(fact_aigua_consum_historic[anr_mes])
-			 
-			VAR _ValorAA =
-			    CALCULATE (
-			        SUM(fact_aigua_consum_historic[anr_mes])  ,
-			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			VAR UltimoMesConDato =
+			    MAXX(
+			        FILTER(
+			            ALLSELECTED('dim_calendario'[Date]),
+			            NOT ISBLANK(
+			                CALCULATE([anr_global_mensual_hm3])
+			            )
+			            &&
+			            NOT ISBLANK(
+			                CALCULATE([anr_global_mensual_smly_hm3])
+			            )
+			        ),
+			        'dim_calendario'[Date]
 			    )
-			 
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin
-			        || ISBLANK ( _ValorActual )
-			        || ISBLANK ( _ValorAA ),
-			    BLANK (),
-			    _ValorActual - _ValorAA
-			)
-			 
 			
-			```
+			VAR Actual =
+			    CALCULATE(
+			        [anr_global_mensual_hm3],
+			        'dim_calendario'[Date] = UltimoMesConDato
+			    )
+			
+			VAR Anterior =
+			    CALCULATE(
+			        [anr_global_mensual_smly_hm3],
+			        'dim_calendario'[Date] = UltimoMesConDato
+			    )
+			
+			RETURN
+			    Actual - Anterior
 		displayFolder: anr_global\anr\diff
 		lineageTag: 08483142-b82d-49af-8ca0-09c833703bfe
 
