@@ -14,7 +14,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "fc98937019c6a5ce8d00",
+        "name": "9c91c6672b742268d29c",
         "ordinal": 0,
         "field": {
           "Column": {
@@ -23,29 +23,60 @@
                 "Entity": "dim_calendario"
               }
             },
-            "Property": "anio_mes"
+            "Property": "flag_anio_actual_anterior"
           }
         },
         "type": "Categorical",
-        "howCreated": "User",
-        "objects": {
-          "general": [
+        "filter": {
+          "Version": 2,
+          "From": [
             {
-              "properties": {
-                "isInvertedSelectionMode": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "true"
+              "Name": "d",
+              "Entity": "dim_calendario",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "flag_anio_actual_anterior"
+                      }
                     }
-                  }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'ACTUAL'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'ANTERIOR'"
+                        }
+                      }
+                    ]
+                  ]
                 }
               }
             }
           ]
-        }
+        },
+        "howCreated": "User"
       },
       {
-        "name": "58774e6a0a8508eb91a0",
+        "name": "1c034efce5a2aa3062be",
         "ordinal": 1,
         "field": {
           "Column": {
@@ -58,69 +89,6 @@
           }
         },
         "type": "Categorical",
-        "howCreated": "User"
-      },
-      {
-        "name": "d93dda1ba71c902049e8",
-        "ordinal": 2,
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
-        },
-        "type": "Categorical",
-        "howCreated": "User",
-        "objects": {
-          "general": [
-            {
-              "properties": {
-                "isInvertedSelectionMode": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "true"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "name": "a22414ce230e998b90ae",
-        "ordinal": 3,
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_arteria"
-              }
-            },
-            "Property": "gerencia"
-          }
-        },
-        "type": "Categorical",
-        "howCreated": "User"
-      },
-      {
-        "name": "16399afc8b40789ec2a0",
-        "ordinal": 4,
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "Date"
-          }
-        },
-        "type": "Categorical",
         "filter": {
           "Version": 2,
           "From": [
@@ -133,103 +101,28 @@
           "Where": [
             {
               "Condition": {
-                "Not": {
-                  "Expression": {
-                    "In": {
-                      "Expressions": [
-                        {
-                          "Column": {
-                            "Expression": {
-                              "SourceRef": {
-                                "Source": "d"
-                              }
-                            },
-                            "Property": "Date"
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
                           }
+                        },
+                        "Property": "status_date"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'REAL'"
                         }
-                      ],
-                      "Values": [
-                        [
-                          {
-                            "Literal": {
-                              "Value": "null"
-                            }
-                          }
-                        ]
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        },
-        "howCreated": "User"
-      },
-      {
-        "name": "45399e69dec4ad63647e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "Date"
-          }
-        },
-        "type": "RelativeDate",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "d",
-              "Entity": "dim_calendario",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Between": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Source": "d"
-                        }
-                      },
-                      "Property": "Date"
-                    }
-                  },
-                  "LowerBound": {
-                    "DateSpan": {
-                      "Expression": {
-                        "DateAdd": {
-                          "Expression": {
-                            "DateAdd": {
-                              "Expression": {
-                                "Now": {}
-                              },
-                              "Amount": 1,
-                              "TimeUnit": 0
-                            }
-                          },
-                          "Amount": -18,
-                          "TimeUnit": 2
-                        }
-                      },
-                      "TimeUnit": 0
-                    }
-                  },
-                  "UpperBound": {
-                    "DateSpan": {
-                      "Expression": {
-                        "Now": {}
-                      },
-                      "TimeUnit": 0
-                    }
-                  }
+                      }
+                    ]
+                  ]
                 }
               }
             }
@@ -260,7 +153,7 @@
           "expanded": {
             "expr": {
               "Literal": {
-                "Value": "false"
+                "Value": "true"
               }
             }
           }
@@ -336,11 +229,6 @@
         {
           "name": "ChatGPT_Image_15_jul_2026,_09_2911138051827945.png",
           "path": "ChatGPT_Image_15_jul_2026,_09_2911138051827945.png",
-          "type": "Image"
-        },
-        {
-          "name": "ChatGPT_Image_26_ago_2026,_10_02464169462771637.png",
-          "path": "ChatGPT_Image_26_ago_2026,_10_02464169462771637.png",
           "type": "Image"
         },
         {

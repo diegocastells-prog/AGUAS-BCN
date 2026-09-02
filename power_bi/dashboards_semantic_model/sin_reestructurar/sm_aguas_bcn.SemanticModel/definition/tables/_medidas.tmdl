@@ -128,41 +128,24 @@ table _medidas
 		displayFolder: anr_global\rth\mensual
 		lineageTag: 34283a5c-9a4a-44b1-9f15-bd8e048e4de3
 
-	measure anr_global_mensual_smly_hm3 = ```
-			
-			    CALCULATE(
-			        [anr_global_mensual_hm3],
-			        DATEADD( dim_calendario[Date], -12, MONTH )
-			)
-			
-			```
+	measure anr_global_mensual_hm3 = SUM(fact_aigua_consum_historic[anr_mes])/1000000
 		formatString: #,0.00
 		displayFolder: anr_global\anr\mensual
-		lineageTag: 008b8502-9603-4472-b60f-a04215d278d1
+		lineageTag: 0654636b-f135-436f-9748-efb105d9d565
 
-	measure volum_consumit_global_acum_12m_hm3 = ```
+	measure volum_consumit_global_acum_12m = ```
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        SUM(fact_aigua_consum_historic[aigua_consumida_total]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
-			    )
+			VAR FechaMax = MAX(dim_calendario[Date])
 			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
+			CALCULATE(
+			    SUM(fact_aigua_consum_historic[aigua_consumida_total]),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
+			)/1000000
 			 
 			```
 		formatString: #,0.00
@@ -171,28 +154,18 @@ table _medidas
 
 	measure volum_lliurat_global_acum_12m_hm3 = ```
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        SUM(fact_aigua_consum_historic[aigua_lliurada_total]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
-			    )
+			VAR FechaMax = MAX(dim_calendario[Date])
 			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
-			 
+			CALCULATE(
+			    SUM(fact_aigua_consum_historic[aigua_lliurada_total]),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
+			)/1000000
+			
 			```
 		formatString: #,0.00
 		displayFolder: anr_global\volum\lliurat\acum_12m
@@ -225,57 +198,37 @@ table _medidas
 		displayFolder: anr_transporte\anr\mensual
 		lineageTag: 86a01aa5-ac54-48f3-a890-d503e630c5f2
 
-	measure anr_transport_m3_acum_12m = ```
+	measure anr_transport_m3_acum_12m =
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        SUM(fact_rend_anr_arterias[entrat_m3]) - SUM(fact_rend_anr_arterias[sortit_m3]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
+			CALCULATE(
+			    SUM(fact_rend_anr_arterias[entrat_m3]) - SUM(fact_rend_anr_arterias[sortit_m3]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
 			    )
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
-			 
-			```
+			)
 		formatString: #,0
 		displayFolder: anr_transporte\anr\acum_12
 		lineageTag: 2f2f14b0-c873-412b-8357-3a216a37df41
 
 	measure rendiment_transport_acum_12m = ```
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        DIVIDE( SUM(fact_rend_anr_arterias[sortit_m3]), SUM(fact_rend_anr_arterias[entrat_m3])    ) * 100,
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
-			    )
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)   
+			
+						VAR FechaMax = MAX(dim_calendario[Date])
+						RETURN
+						CALCULATE(
+						    DIVIDE(
+						        SUM(fact_rend_anr_arterias[sortit_m3]),
+						        SUM(fact_rend_anr_arterias[entrat_m3])
+						    ) * 100,
+						    DATESINPERIOD(
+						        dim_calendario[Date],
+						        FechaMax,
+						        -12,
+						        MONTH
+						    )
+						)
 			```
 		formatString: #,0.00
 		displayFolder: anr_transporte\rendiment\acum_12
@@ -611,27 +564,15 @@ table _medidas
 
 	measure volum_consumit_distribucion_12m = ```
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        SUM(fact_volum_cons_lliur[volum_consumit]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
+			CALCULATE(
+			    SUM(fact_volum_cons_lliur[volum_consumit]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
 			    )
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
+			)
 			 
 			```
 		formatString: #,0
@@ -735,28 +676,16 @@ table _medidas
 
 	measure volum_lliurat_distribucion_12m = ```
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        SUM(fact_volum_cons_lliur[volum_lliurat]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
+			CALCULATE(
+			    SUM(fact_volum_cons_lliur[volum_lliurat]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
 			    )
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
-			 
+			)
+			  
 			```
 		formatString: #,0.00
 		displayFolder: anr_distribucion\volumns\lliurat
@@ -1016,59 +945,32 @@ table _medidas
 		displayFolder: anr_transporte\volumens\consumit\mensual
 		lineageTag: 6b5f077d-fffc-431b-997a-ca2b11be4d19
 
-	measure volum_lliurat_transport_12m = ```
+	measure volum_lliurat_transport_12m =
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        SUM(fact_rend_anr_arterias[entrat_m3]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
+			CALCULATE(
+			    SUM(fact_rend_anr_arterias[entrat_m3]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
 			    )
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
-			 
-			```
+			)
 		formatString: #,0
 		displayFolder: anr_transporte\volumens\lliurat\acum_12
 		lineageTag: 3a893691-7d55-4519-a880-dabd895705bd
 
-	measure volum_consumit_transport_12m = ```
+	measure volum_consumit_transport_12m =
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        SUM(fact_rend_anr_arterias[sortit_m3]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
+			CALCULATE(
+			    SUM(fact_rend_anr_arterias[sortit_m3]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
 			    )
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)   
-			```
+			)
 		formatString: #,0
 		displayFolder: anr_transporte\volumens\consumit\acum_12
 		lineageTag: affa081f-3d6c-421b-a19c-bc2aaf0f784a
@@ -1118,8 +1020,8 @@ table _medidas
 	measure anr_dia_m3_acum_12m_1m = ```
 			
 			CALCULATE(
-			    [anr_dia_m3_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    DIVIDE(    [anr_acum_12m],    365,    0) * 1000000,
+			    PREVIOUSMONTH(dim_calendario[Date])
 			)
 			
 			```
@@ -1217,45 +1119,47 @@ table _medidas
 		lineageTag: 3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f
 
 	measure anr_l_esc_dia_acum_12m_1m = ```
-			
 			CALCULATE(
-			    [anr_l_esc_dia_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
-			)
-			
+			    [anr_acum_12m] /[escomeses_12m_mitjana]/365*1000,
+			    PREVIOUSMONTH(dim_calendario[Date])
+			) 
 			```
 		formatString: #,0.00
 		displayFolder: anr\acum_12m
 		lineageTag: 2b2c2d2e-2f2a-2b2c-2d2e-2f2a2b2c2d2e
 
-	measure anr_m3_km_dia_mitjana_12m_1m = ```
-			
+	measure anr_m3_km_dia_mitjana_12m_1m =
 			CALCULATE(
-			    [anr_m3_km_dia_mitjana_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    [anr_acum_12m] /[l_km_12m_mitjana]/365,
+			    PREVIOUSMONTH(dim_calendario[Date])
 			)
-			
-			```
 		formatString: #,0.00
 		displayFolder: anr\acum_12m
 		lineageTag: 3c3d3e3f-3a3b-3c3d-3e3f-3a3b3c3d3e3f
 
 	measure anr_l_subm_dia_mitjana_12m_1m =
-			
 			CALCULATE(
-			    [anr_l_subm_dia_mitjana_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    [anr_acum_12m] /[subministraments_12m_mitjana]/365*1000,
+			    PREVIOUSMONTH(dim_calendario[Date])
 			)
 		formatString: #,0.00
 		displayFolder: anr\acum_12m
 		lineageTag: 4d4e4f4a-4b4c-4d4e-4f4a-4b4c4d4e4f4a
 
-	measure delta_anr_acum_12m_1m =
+	measure delta_anr_acum_12m_1m = ```
 			
-			CALCULATE(
-			    [delta_anr_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			VAR MesActualAnterior = CALCULATE(
+			    SUM(fact_anr_global_mensual[anr_global_hm3]),
+			    PREVIOUSMONTH(dim_calendario[Date])
 			)
+			VAR MesDosAnterior = 
+			    CALCULATE(
+			        SUM(fact_anr_global_mensual[anr_global_hm3]),
+			        DATEADD(dim_calendario[Date], -2, MONTH)
+			    )
+			RETURN 
+			    DIVIDE(MesActualAnterior - MesDosAnterior, MesDosAnterior, 0)
+			```
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: anr\acum_12m
 		lineageTag: 1a1b1c1d-1e1f-2a2b-2c2d-2e2f3a3b3c3d
@@ -1299,7 +1203,7 @@ table _medidas
 	measure volum_consumit_global_acum_12m_1m_hm3 =
 			
 			CALCULATE(
-			    [volum_consumit_global_acum_12m_hm3],
+			    [volum_consumit_global_acum_12m],
 			    DATEADD(dim_calendario[Date], -1, MONTH)
 			)
 		formatString: #,0.00
@@ -1355,23 +1259,38 @@ table _medidas
 		displayFolder: anr_transporte\anr\mensual
 		lineageTag: 8b9c0d1e-2f3a-4b5c-6d7e-8f9a0b1c2d3e
 
-	measure anr_transport_m3_acum_12m_1m = ```
+	measure anr_transport_m3_acum_12m_1m =
 			
 			CALCULATE(
-			    [anr_transport_m3_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
-			) 
-			```
+			    SUM(fact_rend_anr_arterias[entrat_m3]) - SUM(fact_rend_anr_arterias[sortit_m3]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
+			)
 		formatString: #,0
 		displayFolder: anr_transporte\anr\acum_12
 		lineageTag: 9c9d9e9f-9a9b-9c9d-9e9f-9a9b9c9d9e9f
 
-	measure rendiment_transport_acum_12m_1m =
+	measure rendiment_transport_acum_12m_1m = ```
 			
-			CALCULATE(
-			    [rendiment_transport_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
-			)
+						VAR FechaMax = EOMONTH(MAX(dim_calendario[Date]), -1)
+						RETURN
+						CALCULATE(
+						    DIVIDE(
+						        SUM(fact_rend_anr_arterias[sortit_m3]),
+						        SUM(fact_rend_anr_arterias[entrat_m3])
+						    ) * 100,
+						    DATESINPERIOD(
+						        dim_calendario[Date],
+						        FechaMax,
+						        -12,
+						        MONTH
+						    )
+						)
+			```
 		formatString: #,0.00
 		displayFolder: anr_transporte\rendiment\acum_12
 		lineageTag: 0a0b0c0d-0e0f-0a0b-0c0d-0e0f0a0b0c0d
@@ -1392,8 +1311,14 @@ table _medidas
 	measure volum_consumit_estrategics_12m_1m = ```
 			
 			CALCULATE(
-			    [volum_consumit_estrategics_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    SUM(fact_dades_consum[CONSUM_MENSUAL_REAL]),
+			    fact_Perimetre_comptadors[IND_COMPT_ESTRATEGIC] = "S",
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
 			)
 			
 			```
@@ -1415,15 +1340,19 @@ table _medidas
 	measure volum_mesurat_12m_1m = ```
 			
 			CALCULATE(
-			    [volum_mesurat_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    SUM(fact_dades_consum[CONSUM_MENSUAL_REAL]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
 			)
 			
 			```
+		formatString: #,0
 		displayFolder: compatodrs\volum\mensurat\acum_12
 		lineageTag: 2c2d2e2f-2a2b-2c2d-2e2f-2a2b2c2d2e2f
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure q_min_mensual_1m =
 			CALCULATE(
@@ -1469,8 +1398,13 @@ table _medidas
 	measure volum_consumit_distribucion_12m_1m =
 			
 			CALCULATE(
-			    [volum_consumit_distribucion_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    SUM(fact_volum_cons_lliur[volum_consumit]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
 			)
 		formatString: #,0
 		displayFolder: anr_distribucion\volumns\consumit
@@ -1495,8 +1429,13 @@ table _medidas
 	measure anr_dist_acum_12m_1m =
 			
 			CALCULATE(
-			    [anr_dist_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    SUM(fact_volum_cons_lliur[volum_lliurat]) - SUM(fact_volum_cons_lliur[volum_consumit])  ,
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        EOMONTH(MAX(dim_calendario[Date]), -1),
+			        -12,
+			        MONTH
+			    )
 			)
 		formatString: #,0
 		displayFolder: anr\acum_12m
@@ -1505,8 +1444,13 @@ table _medidas
 	measure volum_lliurat_distribucion_12m_1m =
 			
 			CALCULATE(
-			    [volum_lliurat_distribucion_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    SUM(fact_volum_cons_lliur[volum_lliurat]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
 			)
 		formatString: #,0
 		displayFolder: anr_distribucion\volumns\lliurat
@@ -1541,9 +1485,17 @@ table _medidas
 
 	measure anr_acum_12m_1m = ```
 			
+			VAR FechaMax =
+			    EOMONTH(MAX ( dim_calendario[Date] ), -1)
+			RETURN
 			CALCULATE(
-			    [anr_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    SUM( fact_aigua_no_registrada[anr] ),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
 			)
 			
 			```
@@ -1585,8 +1537,13 @@ table _medidas
 	measure volum_lliurat_transport_12m_1m =
 			
 			CALCULATE(
-			    [volum_lliurat_transport_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    SUM(fact_rend_anr_arterias[entrat_m3]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
 			)
 		formatString: #,0
 		displayFolder: anr_transporte\volumens\lliurat\acum_12
@@ -1595,8 +1552,13 @@ table _medidas
 	measure volum_consumit_transport_12m_1m =
 			
 			CALCULATE(
-			    [volum_consumit_transport_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    SUM(fact_rend_anr_arterias[sortit_m3]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
 			)
 		formatString: #,0
 		displayFolder: anr_transporte\volumens\consumit\acum_12
@@ -1709,8 +1671,13 @@ table _medidas
 	measure fraus_detectats_12m_1m =
 			
 			CALCULATE(
-			    [fraus_detectats_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    [fraus_detectats],
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        EDATE(MAX(dim_calendario[Date]), -1),
+			        -12,
+			        MONTH
+			    )
 			)
 		formatString: #,0
 		displayFolder: fraudes\fraus_detectats\acum_12
@@ -1735,10 +1702,17 @@ table _medidas
 		displayFolder: compatodrs\subministraments
 		lineageTag: 98f9391b-d675-4925-b187-c4f3de1f0f69
 
-	measure anr_global_mensual_hm3 = SUM(fact_aigua_consum_historic[anr_mes])/1000000
+	measure anr_global_mensual_smly_hm3 = ```
+			
+			    CALCULATE(
+			        [anr_global_mensual_hm3],
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			
+			```
 		formatString: #,0.00
 		displayFolder: anr_global\anr\mensual
-		lineageTag: 0654636b-f135-436f-9748-efb105d9d565
+		lineageTag: 008b8502-9603-4472-b60f-a04215d278d1
 
 	measure aigua_consumida_acf_global_mensual_hm3 = ```
 			SUM(fact_aigua_consum_historic[aigua_consumida_acf])   
@@ -1759,30 +1733,19 @@ table _medidas
 		displayFolder: aigua_consumida\acf\mensual
 		lineageTag: 713f0649-3646-4c92-ac46-343f209dc528
 
-	measure aigua_consumida_acf_global_acum_12m_hm3 = ```
+	measure aigua_consumida_acf_global_acum_12m_hm3 =
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        SUM(fact_aigua_consum_historic[aigua_consumida_acf]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
-			    )
+			VAR FechaMax = MAX(dim_calendario[Date])
 			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
-			```
+			CALCULATE(
+			    SUM(fact_aigua_consum_historic[aigua_consumida_acf]),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
+			)
 		formatString: #,0.00
 		displayFolder: aigua_consumida\acf\acum_12
 		lineageTag: 55da804c-66da-4610-af54-76e0e519ad00
@@ -1811,27 +1774,18 @@ table _medidas
 
 	measure aigua_consumida_alta_global_acum_12m_hm3 = ```
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        SUM(fact_aigua_consum_historic[aigua_consumida_alta]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
-			    )
+			VAR FechaMax = MAX(dim_calendario[Date])
 			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
+			CALCULATE(
+			    SUM(fact_aigua_consum_historic[aigua_consumida_alta]),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
+			)
+			
 			```
 		formatString: #,0.00
 		displayFolder: aigua_consumida\alta\acum_12
@@ -1856,31 +1810,19 @@ table _medidas
 		displayFolder: aigua_consumida\alta\mensual
 		lineageTag: 51d06aac-8585-4bbf-8ce4-022e0658af84
 
-	measure aigua_consumida_baixa_global_acum_12m_hm3 = ```
+	measure aigua_consumida_baixa_global_acum_12m_hm3 =
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        SUM(fact_aigua_consum_historic[aigua_consumida_baixa]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
-			    )
+			VAR FechaMax = MAX(dim_calendario[Date])
 			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
-			 
-			```
+			CALCULATE(
+			    SUM(fact_aigua_consum_historic[aigua_consumida_baixa]),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
+			)
 		formatString: #,0.00
 		displayFolder: aigua_consumida\baixa\acum_12
 		lineageTag: 1f79e41e-b940-4e1e-991d-82b06ccf1610
@@ -1915,30 +1857,19 @@ table _medidas
 		displayFolder: aigua_consumida\baixa\mensual
 		lineageTag: f2a8cf4c-6dae-46fa-afb3-e6dfdd65bf4a
 
-	measure aigua_consumida_autoconsum_global_acum_12m_hm3 = ```
+	measure aigua_consumida_autoconsum_global_acum_12m_hm3 =
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        SUM(fact_aigua_consum_historic[aigua_consumida_autoconsum]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
-			    )
+			VAR FechaMax = MAX(dim_calendario[Date])
 			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)   
-			```
+			CALCULATE(
+			    SUM(fact_aigua_consum_historic[aigua_consumida_autoconsum]),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
+			)
 		formatString: #,0
 		displayFolder: aigua_consumida\autoconsum\acum_12
 		lineageTag: d47fad54-f0ba-416e-95ca-2e3ffece51ab
@@ -1976,27 +1907,18 @@ table _medidas
 
 	measure aigua_consumida_peatges_global_acum_12m_hm3 = ```
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        SUM(fact_aigua_consum_historic[aigua_consumida_peatges]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
-			    )
+			VAR FechaMax = MAX(dim_calendario[Date])
 			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)   
+			CALCULATE(
+			    SUM(fact_aigua_consum_historic[aigua_consumida_peatges]),
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        FechaMax,
+			        -12,
+			        MONTH
+			    )
+			)  
+			
 			```
 		formatString: #,0.00
 		displayFolder: aigua_consumida\peatges\acum_12
@@ -2053,6 +1975,232 @@ table _medidas
 		displayFolder: anr_global\xarxa
 		lineageTag: 25c7fcd8-ff6a-48cd-b4a9-f70531b5bc75
 
+	measure cabal_recuperat_mensual = SUM(fact_actuacions_zones[cabal_recuperat])
+		formatString: #,0.00
+		displayFolder: actuacions\cabals\cabal_recuperat\mensual
+		lineageTag: d3033c0d-99fe-41c0-9f37-302948bd94a1
+
+	measure cabal_recuperat_acum_12m = ```
+			
+			CALCULATE(
+			    SUM(fact_actuacions_zones[cabal_recuperat]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		formatString: #,0.00
+		displayFolder: actuacions\cabals\cabal_recuperat\acum_12
+		lineageTag: a972fe07-d70b-4ce2-b848-59c26a8b97b1
+
+	measure cabal_recuperat_mensual_smly =
+			CALCULATE(
+			    SUM(fact_actuacions_zones[cabal_recuperat]),
+			     DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+		formatString: #,0.00
+		displayFolder: actuacions\cabals\cabal_recuperat\mensual
+		lineageTag: 7b95f94a-d33c-4132-a3c3-81c2314f1e5c
+
+	measure cabal_recuperat_acum_12m_1m = ```
+			
+			CALCULATE(
+			    SUM(fact_actuacions_zones[cabal_recuperat]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			         EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		formatString: #,0.00
+		displayFolder: actuacions\cabals\cabal_recuperat\acum_12
+		lineageTag: 26de2f33-f46f-41de-9d70-b3d9584ec11d
+
+	measure km_inspeccionats_acustic_mensual = SUM(fact_actuacions_zones[km_inspeccionats_acustic])
+		formatString: #,0
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic\mensual
+		lineageTag: 091deadf-c5fa-456d-8f16-682f331e80b7
+
+	measure km_inspeccionats_acustic_mensual_smly =
+			CALCULATE(
+			    SUM(fact_actuacions_zones[km_inspeccionats_acustic]),
+			     DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+		formatString: #,0.00
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic\mensual
+		lineageTag: f3355d72-d453-41c0-8974-cf7d138f7c77
+
+	measure km_inspeccionats_acustic_acum_12m = ```
+			
+			CALCULATE(
+			    SUM(fact_actuacions_zones[km_inspeccionats_acustic]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		formatString: #,0.00
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic\acum_12
+		lineageTag: e8b3d9b3-5540-4307-a87b-8304a9392dd8
+
+	measure km_inspeccionats_acustic_acum_12m_1m = ```
+			
+			CALCULATE(
+			    SUM(fact_actuacions_zones[km_inspeccionats_acustic]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			         EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		formatString: #,0.00
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic\acum_12
+		lineageTag: d84966eb-ee53-4846-bc36-2c514de515fd
+
+	measure avaries_mensual = ```
+			
+			sum('fact_actuacions_zones'[fuites_reparades_acustic])+
+			sum('fact_actuacions_zones'[fuites_reparades_altres])+
+			sum('fact_actuacions_zones'[fuites_reparades_heli]) 
+			
+			
+			```
+		formatString: #,0.00
+		displayFolder: actuacions\avaries\mensual
+		lineageTag: e9f4d086-86db-493f-871d-cf88ae923db4
+
+	measure avaries_acum_12m = ```
+			
+			CALCULATE(
+			    [avaries_mensual],
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		formatString: #,0.00
+		displayFolder: actuacions\avaries\acum_12
+		lineageTag: 137454b1-2da4-4c00-b41a-5622caae9ab5
+
+	measure avaries_mensual_smly = ```
+			CALCULATE(
+			    [avaries_mensual],
+			     DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			
+			```
+		formatString: #,0.00
+		displayFolder: actuacions\avaries\mensual
+		lineageTag: d121f391-2044-49fd-a0e4-348d8e81592a
+
+	measure avaries_acum_12m_1m = ```
+			
+			CALCULATE(
+			    [avaries_mensual],
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			         EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		formatString: #,0.00
+		displayFolder: actuacions\avaries\acum_12
+		lineageTag: 58388925-869a-43ed-a1ce-49915ab10c83
+
+	measure km_inspeccionats_heli_mensual = SUM(fact_actuacions_zones[km_inspeccionats_heli])
+		formatString: #,0.00
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli\mensual
+		lineageTag: 82686bab-c953-4dd9-b62e-ab8e47387143
+
+	measure km_inspeccionats_heli_acum_12m = ```
+			
+			CALCULATE(
+			    SUM(fact_actuacions_zones[km_inspeccionats_heli]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		formatString: #,0.00
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli\acum_12
+		lineageTag: cefb5b37-271a-406b-8e51-eeee923fd7e3
+
+	measure km_inspeccionats_heli_mensual_smly =
+			CALCULATE(
+			    SUM(fact_actuacions_zones[km_inspeccionats_heli]),
+			     DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+		formatString: #,0.00
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli\mensual
+		lineageTag: 19ffcd14-1d32-4679-acbc-5e7d4c2d8adc
+
+	measure km_inspeccionats_heli_acum_12m_1m = ```
+			
+			CALCULATE(
+			    SUM(fact_actuacions_zones[km_inspeccionats_heli]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			         EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
+			)
+			
+			```
+		formatString: #,0.00
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli\acum_12
+		lineageTag: ffb8e570-1b8c-4cd0-a9c8-3d409f0a482b
+
+	measure total_grups_amb_bomba_dia =
+			
+			CALCULATE(
+			    COUNTROWS('dim_gerencia_pressio'),
+			    'dim_gerencia_pressio'[te_dia] = "SI"
+			)
+		formatString: 0
+		displayFolder: pressio
+		lineageTag: 4835bf3a-b5c1-4b2e-95f9-f80175ac554f
+
+	measure total_grups_amb_bomba_nit =
+			
+			CALCULATE(
+			    COUNTROWS('dim_gerencia_pressio'),
+			    'dim_gerencia_pressio'[te_nit] = "SI"
+			)
+		formatString: 0
+		displayFolder: pressio
+		lineageTag: 9f15b926-c1c9-49a9-8a74-46f4e765041c
+
+	measure tinst_dies_mensual = AVERAGE('fact_tfuita_tinst'[durada_dies])
+		formatString: #,0.00
+		displayFolder: tinst_dies\mensual
+		lineageTag: 5db4599a-0a74-4c16-b164-3b5ee0b74885
+
 	measure Tfuita_%_reparacio_15_dies_mensual =
 			
 			VAR TotalAvisos =
@@ -2083,312 +2231,34 @@ table _medidas
 		displayFolder: tfuita\tfuita_%_reparacio_10_dies\mensual
 		lineageTag: b3c3d074-7b1b-4cf1-a9fd-dc2c4cd22d70
 
-	measure cabal_recuperat_mensual = SUM(fact_actuacions_zones[cabal_recuperat])
-		formatString: #,0.00
-		displayFolder: actuacions\cabals\cabal_recuperat\mensual
-		lineageTag: d3033c0d-99fe-41c0-9f37-302948bd94a1
-
-	measure cabal_recuperat_acum_12m = ```
+	measure us_aigua_acum_12m =
 			
-			VAR _FechaFin =
-			    TODAY ()
-			 
-			VAR _FechaInicio =
-			    EDATE ( _FechaFin, -12 )
-			 
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			 
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			 
-			VAR _Valor =
-			    CALCULATE ( 
-			        SUM(fact_actuacions_zones[cabal_recuperat]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
+			CALCULATE(
+			    COUNT(fact_perimetre_comptadors[us_aigua_gest]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
 			    )
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
-			
-			```
-		formatString: #,0.00
-		displayFolder: actuacions\cabals\cabal_recuperat\acum_12
-		lineageTag: a972fe07-d70b-4ce2-b848-59c26a8b97b1
-
-	measure cabal_recuperat_mensual_smly =
-			CALCULATE(
-			    SUM(fact_actuacions_zones[cabal_recuperat]),
-			     DATEADD( dim_calendario[Date], -12, MONTH )
 			)
-		formatString: #,0.00
-		displayFolder: actuacions\cabals\cabal_recuperat\mensual
-		lineageTag: 7b95f94a-d33c-4132-a3c3-81c2314f1e5c
-
-	measure cabal_recuperat_acum_12m_1m =
-			
-			CALCULATE(
-			    [cabal_recuperat_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
-			)
-		formatString: #,0.00
-		displayFolder: actuacions\cabals\cabal_recuperat\acum_12
-		lineageTag: 26de2f33-f46f-41de-9d70-b3d9584ec11d
-
-	measure km_inspeccionats_acustic_mensual = SUM(fact_actuacions_zones[km_inspeccionats_acustic])
-		formatString: #,0
-		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic\mensual
-		lineageTag: 091deadf-c5fa-456d-8f16-682f331e80b7
-
-	measure km_inspeccionats_acustic_mensual_smly =
-			CALCULATE(
-			    SUM(fact_actuacions_zones[km_inspeccionats_acustic]),
-			     DATEADD( dim_calendario[Date], -12, MONTH )
-			)
-		formatString: #,0.00
-		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic\mensual
-		lineageTag: f3355d72-d453-41c0-8974-cf7d138f7c77
-
-	measure km_inspeccionats_acustic_acum_12m = ```
-			
-			VAR _FechaFin =
-			    TODAY ()
-			 
-			VAR _FechaInicio =
-			    EDATE ( _FechaFin, -12 )
-			 
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			 
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			 
-			VAR _Valor =
-			    CALCULATE (
-			        SUM(fact_actuacions_zones[km_inspeccionats_acustic]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
-			    )
-			 
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
-			```
-		formatString: #,0.00
-		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic\acum_12
-		lineageTag: e8b3d9b3-5540-4307-a87b-8304a9392dd8
-
-	measure km_inspeccionats_acustic_acum_12m_1m = ```
-			
-			CALCULATE(
-			    [km_inspeccionats_acustic_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
-			)
-			
-			```
-		formatString: #,0.00
-		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic\acum_12
-		lineageTag: d84966eb-ee53-4846-bc36-2c514de515fd
-
-	measure avaries_mensual = ```
-			
-			sum('fact_actuacions_zones'[fuites_reparades_acustic])+
-			sum('fact_actuacions_zones'[fuites_reparades_altres])+
-			sum('fact_actuacions_zones'[fuites_reparades_heli]) 
-			
-			
-			```
-		formatString: #,0.00
-		displayFolder: actuacions\avaries\mensual
-		lineageTag: e9f4d086-86db-493f-871d-cf88ae923db4
-
-	measure avaries_acum_12m = ```
-			
-			VAR _FechaFin =
-			    TODAY ()
-			 
-			VAR _FechaInicio =
-			    EDATE ( _FechaFin, -12 )
-			 
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			 
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			 
-			VAR _Valor =
-			    CALCULATE ( 
-			        sum('fact_actuacions_zones'[fuites_reparades_acustic])+sum('fact_actuacions_zones'[fuites_reparades_altres])+sum('fact_actuacions_zones'[fuites_reparades_heli]) ,
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
-			    )
-			 
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			) 
-			
-			```
-		formatString: #,0.00
-		displayFolder: actuacions\avaries\acum_12
-		lineageTag: 137454b1-2da4-4c00-b41a-5622caae9ab5
-
-	measure avaries_mensual_smly = ```
-			CALCULATE(
-			    [avaries_mensual],
-			     DATEADD( dim_calendario[Date], -12, MONTH )
-			)
-			
-			```
-		formatString: #,0.00
-		displayFolder: actuacions\avaries\mensual
-		lineageTag: d121f391-2044-49fd-a0e4-348d8e81592a
-
-	measure avaries_acum_12m_1m = ```
-			
-			CALCULATE(
-			    [avaries_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
-			)
-			
-			```
-		formatString: #,0.00
-		displayFolder: actuacions\avaries\acum_12
-		lineageTag: 58388925-869a-43ed-a1ce-49915ab10c83
-
-	measure km_inspeccionats_heli_mensual = SUM(fact_actuacions_zones[km_inspeccionats_heli])
-		formatString: #,0.00
-		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli\mensual
-		lineageTag: 82686bab-c953-4dd9-b62e-ab8e47387143
-
-	measure km_inspeccionats_heli_acum_12m = ```
-			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			 
-			VAR _Valor =
-			    CALCULATE (
-			        SUM(fact_actuacions_zones[km_inspeccionats_heli]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
-			    )
-			 
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
-			```
-		formatString: #,0.00
-		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli\acum_12
-		lineageTag: cefb5b37-271a-406b-8e51-eeee923fd7e3
-
-	measure km_inspeccionats_heli_mensual_smly =
-			CALCULATE(
-			    SUM(fact_actuacions_zones[km_inspeccionats_heli]),
-			     DATEADD( dim_calendario[Date], -12, MONTH )
-			)
-		formatString: #,0.00
-		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli\mensual
-		lineageTag: 19ffcd14-1d32-4679-acbc-5e7d4c2d8adc
-
-	measure km_inspeccionats_heli_acum_12m_1m =
-			
-			CALCULATE(
-			    [km_inspeccionats_heli_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
-			)
-		formatString: #,0.00
-		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli\acum_12
-		lineageTag: ffb8e570-1b8c-4cd0-a9c8-3d409f0a482b
-
-	measure total_grups_amb_bomba_dia =
-			
-			CALCULATE(
-			    COUNTROWS('dim_gerencia_pressio'),
-			    'dim_gerencia_pressio'[te_dia] = "SI"
-			)
-		formatString: 0
-		displayFolder: pressio
-		lineageTag: 4835bf3a-b5c1-4b2e-95f9-f80175ac554f
-
-	measure total_grups_amb_bomba_nit =
-			
-			CALCULATE(
-			    COUNTROWS('dim_gerencia_pressio'),
-			    'dim_gerencia_pressio'[te_nit] = "SI"
-			)
-		formatString: 0
-		displayFolder: pressio
-		lineageTag: 9f15b926-c1c9-49a9-8a74-46f4e765041c
-
-	measure us_aigua_acum_12m = ```
-			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        COUNT(fact_perimetre_comptadors[us_aigua_gest]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
-			    )
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
-			 
-			```
 		formatString: #,0
 		displayFolder: us_aigua\acum_12
 		lineageTag: fb8fe624-b992-4ac0-92ed-45fe77b6ccfd
 
-	measure us_aigua_acum_12m_1m =
+	measure us_aigua_acum_12m_1m = ```
 			
 			CALCULATE(
-			    [us_aigua_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    COUNT(fact_perimetre_comptadors[us_aigua_gest]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			         EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
 			)
+			
+			```
 		formatString: #,0
 		displayFolder: us_aigua\acum_12
 		lineageTag: 2f9133b8-6579-46e1-90f3-d62ee40382c1
@@ -2407,31 +2277,17 @@ table _medidas
 		displayFolder: fuites\acustic\mensual
 		lineageTag: 8ca67c05-0872-437e-b0b7-037d216c76aa
 
-	measure fuites_reparades_acustic_acum_12m = ```
+	measure fuites_reparades_acustic_acum_12m =
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        SUM('fact_actuacions_zones'[fuites_reparades_acustic]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
+			CALCULATE(
+			    SUM('fact_actuacions_zones'[fuites_reparades_acustic]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
 			    )
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
-			 
-			```
+			)
 		formatString: #,0.00
 		displayFolder: fuites\acustic\acum_12
 		lineageTag: 9b97bdb6-893f-409a-b739-2c524c9b6350
@@ -2439,13 +2295,17 @@ table _medidas
 	measure fuites_reparades_acustic_acum_12m_1m =
 			
 			CALCULATE(
-			    [fuites_reparades_acustic_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    SUM('fact_actuacions_zones'[fuites_reparades_acustic]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
 			)
+		formatString: #,0.00
 		displayFolder: fuites\acustic\acum_12
 		lineageTag: 4b8d73f7-1b44-4fa0-aaa3-7b354435fb40
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure fuites_reparades_acustic_mensual_smly =
 			CALCULATE(
@@ -2461,31 +2321,17 @@ table _medidas
 		displayFolder: fuites\altres\mensual
 		lineageTag: a3117f49-43fc-4160-aa32-e78460bed65b
 
-	measure fuites_reparades_altres_acum_12m = ```
+	measure fuites_reparades_altres_acum_12m =
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        SUM('fact_actuacions_zones'[fuites_reparades_altres]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
+			CALCULATE(
+			    SUM('fact_actuacions_zones'[fuites_reparades_altres]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
 			    )
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
-			  
-			```
+			)
 		formatString: #,0.00
 		displayFolder: fuites\altres\acum_12
 		lineageTag: 703a663c-bd13-4cd4-8433-376237feb321
@@ -2493,8 +2339,13 @@ table _medidas
 	measure fuites_reparades_altres_acum_12m_1m =
 			
 			CALCULATE(
-			    [fuites_reparades_altres_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    SUM('fact_actuacions_zones'[fuites_reparades_altres]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
 			)
 		formatString: #,0.00
 		displayFolder: fuites\altres\acum_12
@@ -2514,30 +2365,17 @@ table _medidas
 		displayFolder: fuites\heli\mensual
 		lineageTag: d05c49cc-0c0b-4547-b0d2-21786a9c2ed5
 
-	measure fuites_reparades_heli_acum_12m = ```
+	measure fuites_reparades_heli_acum_12m =
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        SUM('fact_actuacions_zones'[fuites_reparades_heli]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
+			CALCULATE(
+			    SUM('fact_actuacions_zones'[fuites_reparades_heli]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
 			    )
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)   
-			```
+			)
 		formatString: #,0.00
 		displayFolder: fuites\heli\acum_12
 		lineageTag: 003f0282-57fa-4649-80ac-16304bfe85d3
@@ -2545,8 +2383,13 @@ table _medidas
 	measure fuites_reparades_heli_acum_12m_1m =
 			
 			CALCULATE(
-			    [fuites_reparades_heli_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    SUM('fact_actuacions_zones'[fuites_reparades_heli]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
 			)
 		formatString: #,0.00
 		displayFolder: fuites\heli\acum_12
@@ -2560,11 +2403,6 @@ table _medidas
 		formatString: #,0.00
 		displayFolder: fuites\heli\mensual
 		lineageTag: f2ccbf5f-3ab5-4f51-99f1-79b22fbc2738
-
-	measure tinst_dies_mensual = AVERAGE('fact_tfuita_tinst'[durada_dies])
-		formatString: #,0.00
-		displayFolder: tinst_dies\mensual
-		lineageTag: 5db4599a-0a74-4c16-b164-3b5ee0b74885
 
 	measure tinst_dies_mensual_smly = ```
 			CALCULATE(
@@ -2581,39 +2419,30 @@ table _medidas
 	measure tinst_dies_acum_12m_1m =
 			
 			CALCULATE(
-			    [tinst_dies_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
+			    AVERAGE('fact_tfuita_tinst'[durada_dies]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
 			)
 		displayFolder: tinst_dies\acum_12
 		lineageTag: f09e73cc-4906-4a8e-8356-0a251c8422a1
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure tinst_dies_acum_12m = ```
+	measure tinst_dies_acum_12m =
 			
-			VAR _FechaFin =    TODAY ()
-			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        AVERAGE('fact_tfuita_tinst'[durada_dies]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
+			CALCULATE(
+			    AVERAGE('fact_tfuita_tinst'[durada_dies]),
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        MAX('dim_calendario'[Date]),
+			        -12,
+			        MONTH
 			    )
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)  
-			 
-			```
+			)
 		displayFolder: tinst_dies\acum_12
 		lineageTag: 4294af21-a9b6-430e-892b-d136009a28ec
 
@@ -2629,12 +2458,29 @@ table _medidas
 		displayFolder: tfuita\tfuita_%_reparacio_10_dies\mensual
 		lineageTag: 0e7d8a91-91c2-4b38-a580-ecd5b1b937dc
 
-	measure Tfuita_%_reparacio_10_dies_acum_12m_1m =
+	measure Tfuita_%_reparacio_10_dies_acum_12m_1m = ```
 			
-			CALCULATE(
-			    [Tfuita_%_reparacio_10_dies_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
-			)
+			VAR VentanaTiempo = 
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
+			VAR TotalAvisos12M1M =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        VentanaTiempo
+			    )
+			VAR Avisos10Dies12M1M =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        'fact_tfuita_tinst'[durada_dies] < 10,
+			        VentanaTiempo
+			    )
+			RETURN
+			    DIVIDE(Avisos10Dies12M1M, TotalAvisos12M1M, 0)
+			```
 		displayFolder: tfuita\tfuita_%_reparacio_10_dies\acum_12
 		lineageTag: ae79c010-09ee-4774-b9bc-b5b30fddc5b1
 
@@ -2696,12 +2542,29 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure Tfuita_%_reparacio_15_dies_acum_12m_1m =
+	measure Tfuita_%_reparacio_15_dies_acum_12m_1m = ```
 			
-			CALCULATE(
-			    [Tfuita_%_reparacio_15_dies_acum_12m],
-			    DATEADD(dim_calendario[Date], -1, MONTH)
-			)
+			VAR VentanaTiempo = 
+			    DATESINPERIOD(
+			        'dim_calendario'[Date],
+			        EOMONTH(MAX('dim_calendario'[Date]), -1),
+			        -12,
+			        MONTH
+			    )
+			VAR TotalAvisos12M1M =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        VentanaTiempo
+			    )
+			VAR Avisos15Dies12M1M =
+			    CALCULATE(
+			        COUNTROWS('fact_tfuita_tinst'),
+			        'fact_tfuita_tinst'[durada_dies] <= 15,
+			        VentanaTiempo
+			    )
+			RETURN
+			    DIVIDE(Avisos15Dies12M1M, TotalAvisos12M1M, 0)
+			```
 		displayFolder: tfuita\tfuita_%_reparacio_15_dies\acum_12
 		lineageTag: 43ea1fa7-0239-40c8-a551-8e083ecd70fb
 
@@ -3430,6 +3293,118 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure subministraments_12m_mitjana = ```
+			
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaInicio =
+			    EDATE ( _FechaFin, -12 )
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        AVERAGE( 'fact_inventari_xarxa_distribucion'[subministraments] ),
+			        DATESINPERIOD (
+			            'dim_calendario'[Date],
+			            _FechaMaxContexto,
+			            -12,
+			            MONTH
+			        )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
+			)
+			```
+		displayFolder: red\subm\acum_12
+		lineageTag: cab12659-0007-4466-bc57-1a4becc6d53a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure subministraments_mensual = ```
+			SUM(fact_inventari_xarxa_distribucion[subministraments])  
+			
+			```
+		displayFolder: red\subm\mensual
+		lineageTag: 226d8b9b-7fff-4884-bc3c-2aaec60afccf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure subministraments_mensual_smly = ```
+			
+			    CALCULATE(
+			        SUM(fact_inventari_xarxa_distribucion[subministraments]),  
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			```
+		displayFolder: red\subm\mensual
+		lineageTag: 62e1f1cc-2eb1-4188-818c-b52a8811a268
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure subministraments_12m_mitjana_1m = ```
+			
+			CALCULATE(
+			    AVERAGE( 'fact_inventari_xarxa_distribucion'[subministraments] ),
+			    DATEADD(dim_calendario[Date], -1, MONTH)
+			) 
+			
+			```
+		displayFolder: red\subm\acum_12
+		lineageTag: f2fba21c-5c0e-4731-aaa3-8a445e14298f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure subministraments_diff = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual =
+			    SUM(fact_inventari_xarxa_distribucion[subministraments])
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			        SUM(fact_inventari_xarxa_distribucion[subministraments]) ,
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			 
+			
+			```
+		displayFolder: red\subm\diff
+		lineageTag: aa26c3c5-c722-4204-a670-5c5483a12f0c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	measure diff_aigua_consumida_global_acf = ```
 			
 			VAR _FechaInicio =
@@ -4069,7 +4044,16 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure subministraments_12m_mitjana = ```
+	measure escomeses_mensual = ```
+			SUM(fact_inventari_xarxa_distribucion[escomeses]) 
+			
+			```
+		displayFolder: red\escomeses\mensual
+		lineageTag: 42333873-7464-4cbb-a175-96c232591efc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure escomeses_12m_mitjana = ```
 			
 			VAR _FechaFin =
 			    TODAY ()
@@ -4085,7 +4069,7 @@ table _medidas
 			 
 			VAR _Valor =
 			    CALCULATE (
-			        AVERAGE( 'fact_inventari_xarxa_distribucion'[subministraments] ),
+			        AVERAGE( 'fact_inventari_xarxa_distribucion'[escomeses] ),
 			        DATESINPERIOD (
 			            'dim_calendario'[Date],
 			            _FechaMaxContexto,
@@ -4102,84 +4086,38 @@ table _medidas
 			    DIVIDE ( _Valor, 1000000 )
 			)
 			```
-		displayFolder: red\subm\acum_12
-		lineageTag: cab12659-0007-4466-bc57-1a4becc6d53a
+		displayFolder: red\escomeses\acum_12
+		lineageTag: 3e5694ec-4087-44a6-a248-c3829d5cef0a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure subministraments_mensual = ```
-			SUM(fact_inventari_xarxa_distribucion[subministraments])  
-			
-			```
-		displayFolder: red\subm\mensual
-		lineageTag: 226d8b9b-7fff-4884-bc3c-2aaec60afccf
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure subministraments_mensual_smly = ```
-			
-			    CALCULATE(
-			        SUM(fact_inventari_xarxa_distribucion[subministraments]),  
-			        DATEADD( dim_calendario[Date], -12, MONTH )
-			)
-			```
-		displayFolder: red\subm\mensual
-		lineageTag: 62e1f1cc-2eb1-4188-818c-b52a8811a268
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure subministraments_12m_mitjana_1m = ```
+	measure escomeses_12m_mitjana_1m = ```
 			
 			CALCULATE(
-			    [subministraments_12m_mitjana],
+			    AVERAGE( 'fact_inventari_xarxa_distribucion'[escomeses]),
 			    DATEADD(dim_calendario[Date], -1, MONTH)
-			)
+			) 
 			
 			```
-		displayFolder: red\subm\acum_12
-		lineageTag: f2fba21c-5c0e-4731-aaa3-8a445e14298f
+		displayFolder: red\escomeses\acum_12
+		lineageTag: b99d989a-f54c-42e7-9783-6349191c95e7
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure subministraments_ytd = ```
+	measure escomeses_mensual_smly = ```
 			
-			VAR _FechaInicio =
-			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			 
-			VAR _FechaFin =
-			    TODAY ()
-			 
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			 
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			 
-			VAR _Valor =
-			    CALCULATE (
-			        SUM(fact_inventari_xarxa_distribucion[subministraments]),  
-			        DATESBETWEEN (
-			            'dim_calendario'[Date],
-			            _FechaInicio,
-			            _FechaMaxContexto
-			        )
-			    )
-			 
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			    CALCULATE(
+			        SUM(fact_inventari_xarxa_distribucion[escomeses]),   
+			        DATEADD( dim_calendario[Date], -12, MONTH )
 			)
 			
 			```
-		displayFolder: red\subm\ytd
-		lineageTag: 69141be4-29e4-4af0-b298-31fe4507cca2
+		displayFolder: red\escomeses\mensual
+		lineageTag: 50560c3c-ad05-4e52-8e55-f8fbb5c87254
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure distribucion_diff = ```
+	measure escomeses_diff = ```
 			
 			VAR _FechaInicio =
 			    DATE ( YEAR ( TODAY () ), 1, 1 )
@@ -4194,11 +4132,11 @@ table _medidas
 			    MAX ( 'dim_calendario'[Date] )
 			 
 			VAR _ValorActual =
-			    SUM(fact_inventari_xarxa_distribucion[subministraments])
+			    SUM(fact_inventari_xarxa_distribucion[escomeses]) 
 			 
 			VAR _ValorAA =
 			    CALCULATE (
-			        SUM(fact_inventari_xarxa_distribucion[subministraments]) ,
+			        SUM(fact_inventari_xarxa_distribucion[escomeses])  ,
 			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
 			    )
 			 
@@ -4214,14 +4152,563 @@ table _medidas
 			 
 			
 			```
-		displayFolder: red\subm\diff
-		lineageTag: aa26c3c5-c722-4204-a670-5c5483a12f0c
+		displayFolder: red\escomeses\diff
+		lineageTag: 8a7015d2-c02b-4922-aa85-eb1e2d1d5f0a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure count_fact_cabals_mínims = COUNTROWS('fact_volum_cons_lliur')
-		formatString: 0
-		lineageTag: 3f70f4f2-5bf1-4090-abdf-21e0f209314b
+	measure l_km_mensual =
+			
+			VAR L = SUM(fact_inventari_xarxa_distribucion[xarxa])
+			RETURN
+			    DIVIDE(L, 1000)
+		displayFolder: red\longitud\mensual
+		lineageTag: 9ac0b385-e8bc-40f7-9bbe-77005439c4c2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure l_km_12m_mitjana = ```
+			
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaInicio =
+			    EDATE ( _FechaFin, -12 )
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        AVERAGE(fact_inventari_xarxa_distribucion[xarxa]),
+			        DATESINPERIOD (
+			            'dim_calendario'[Date],
+			            _FechaMaxContexto,
+			            -12,
+			            MONTH
+			        )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
+			)
+			```
+		displayFolder: red\longitud\acum_12
+		lineageTag: ea72ced7-49b5-4576-bf6a-722dade6303a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure l_km_mensual_smly = ```
+			
+			    CALCULATE(
+			        [l_km_mensual],  
+			        DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			
+			```
+		displayFolder: red\longitud\mensual
+		lineageTag: d401454f-7c9c-421e-9205-09504e712822
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure l_km_12m_mitjana_1m = ```
+			
+			CALCULATE(
+			    AVERAGE(fact_inventari_xarxa_distribucion[xarxa]),
+			    DATEADD(dim_calendario[Date], -1, MONTH)
+			) 
+			
+			```
+		displayFolder: red\longitud\acum_12
+		lineageTag: c964db54-42be-4a63-9007-e1684bb19b36
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure l_km_diff =
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			
+			VAR _FechaFin =
+			    TODAY ()
+			
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _ValorActual =
+			    DIVIDE(
+			        SUM(fact_inventari_xarxa_distribucion[xarxa]),
+			        1000
+			    )
+			
+			VAR _ValorAA =
+			    CALCULATE(
+			        DIVIDE(
+			            SUM(fact_inventari_xarxa_distribucion[xarxa]),
+			            1000
+			        ),
+			        DATEADD(
+			            'dim_calendario'[Date],
+			            -1,
+			            YEAR
+			        )
+			    )
+			
+			RETURN
+			IF(
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK(_ValorActual)
+			        || ISBLANK(_ValorAA),
+			    BLANK(),
+			    _ValorActual - _ValorAA
+			)
+		displayFolder: red\longitud\diff
+		lineageTag: eebc359d-5f5a-4c52-bfaa-0ea967cd8dd9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure rendiment_global_diff = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual =
+			    SUM(fact_aigua_consum_historic[rendiment_mes]) 
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			       SUM(fact_aigua_consum_historic[rendiment_mes])   ,
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			 
+			
+			```
+		displayFolder: anr_global\rth\diff
+		lineageTag: 74a9f0e5-e475-4eef-a78e-62ddef7e8cc2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_global_diff = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual =
+			    SUM(fact_aigua_consum_historic[anr_mes])
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			        SUM(fact_aigua_consum_historic[anr_mes])  ,
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			 
+			
+			```
+		displayFolder: anr_global\anr\diff
+		lineageTag: 08483142-b82d-49af-8ca0-09c833703bfe
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_consumit_global_diff = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual =
+			     SUM(fact_aigua_consum_historic[aigua_consumida_total])/1000000 
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			        SUM(fact_aigua_consum_historic[aigua_consumida_total])/1000000,
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			 
+			```
+		displayFolder: anr_global\volum\consumit\diff
+		lineageTag: 2ad745ab-b740-4c7e-b2a7-418d14efa637
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_lliurat_global_diff = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual =
+			    SUM(fact_aigua_consum_historic[aigua_lliurada_total])/1000000
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			        SUM(fact_aigua_consum_historic[aigua_lliurada_total])/1000000,
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			 
+			
+			
+			```
+		displayFolder: anr_global\volum\lliurat\diff
+		lineageTag: cdc03a89-9a9b-4b77-80ab-8b9b661071d0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_global_lytd = ```
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _FechaInicioLY =
+			    DATE (
+			        YEAR ( _FechaMaxContexto ) - 1,
+			        1,
+			        1
+			    )
+			
+			VAR _FechaFinLY =
+			    EDATE (
+			        _FechaMaxContexto,
+			        -12
+			    )
+			
+			VAR _Valor =
+			    CALCULATE (
+			         SUM(fact_aigua_consum_historic[anr_mes]),
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaFinLY
+			        )
+			    )
+			
+			RETURN
+			    DIVIDE ( _Valor, 1000000 )
+			
+			
+			
+			
+			```
+		displayFolder: anr_global\anr\ytd
+		lineageTag: 9918753f-c3a4-44fb-a5a9-8fab597532be
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure rendiment_global_lytd = ```
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _FechaInicioLY =
+			    DATE (
+			        YEAR ( _FechaMaxContexto ) - 1,
+			        1,
+			        1
+			    )
+			
+			VAR _FechaFinLY =
+			    EDATE (
+			        _FechaMaxContexto,
+			        -12
+			    )
+			
+			VAR _Valor =
+			    CALCULATE (
+			        SUM(fact_aigua_consum_historic[rendiment_mes]),
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaFinLY
+			        )
+			    )
+			
+			RETURN
+			    DIVIDE ( _Valor, 1000000 )
+			
+			
+			
+			
+			
+			```
+		displayFolder: anr_global\rth\ytd
+		lineageTag: b177872d-5025-4a7b-bf0e-ee53eb75ca5f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_consumit_global_lytd = ```
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _FechaInicioLY =
+			    DATE (
+			        YEAR ( _FechaMaxContexto ) - 1,
+			        1,
+			        1
+			    )
+			
+			VAR _FechaFinLY =
+			    EDATE (
+			        _FechaMaxContexto,
+			        -12
+			    )
+			
+			VAR _Valor =
+			    CALCULATE (
+			        SUM(fact_aigua_consum_historic[aigua_consumida_total]),
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaFinLY
+			        )
+			    )
+			
+			RETURN
+			    DIVIDE ( _Valor, 1000000 )
+			
+			
+			
+			
+			
+			
+			
+			```
+		displayFolder: anr_global\volum\consumit\ytd
+		lineageTag: 300d9831-07a1-4be8-af44-936a41f863aa
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_lliurat_global_lytd = ```
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _FechaInicioLY =
+			    DATE (
+			        YEAR ( _FechaMaxContexto ) - 1,
+			        1,
+			        1
+			    )
+			
+			VAR _FechaFinLY =
+			    EDATE (
+			        _FechaMaxContexto,
+			        -12
+			    )
+			
+			VAR _Valor =
+			    CALCULATE (
+			        SUM(fact_aigua_consum_historic[aigua_lliurada_total]),
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaFinLY
+			        )
+			    )
+			
+			RETURN
+			    DIVIDE ( _Valor, 1000000 )
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			```
+		displayFolder: anr_global\volum\lliurat\ytd
+		lineageTag: a0d7dddf-249a-47ee-bedd-65239b1f6bce
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure l_km_global_lytd =
+			
+			VAR _FechaMaxContexto =
+			    MAX('dim_calendario'[Date])
+			
+			VAR _FechaFinLY =
+			    EDATE(
+			        _FechaMaxContexto,
+			        -12
+			    )
+			
+			VAR _FechaInicioLY =
+			    DATE(
+			        YEAR(_FechaFinLY),
+			        1,
+			        1
+			    )
+			
+			VAR _UltimaFechaConDato =
+			    MAXX(
+			        FILTER(
+			            ALL('dim_calendario'[Date]),
+			            'dim_calendario'[Date] >= _FechaInicioLY
+			                && 'dim_calendario'[Date] <= _FechaFinLY
+			                && NOT ISBLANK(
+			                    CALCULATE(
+			                        SUM(fact_inventari_xarxa_distribucion[xarxa])
+			                    )
+			                )
+			        ),
+			        'dim_calendario'[Date]
+			    )
+			
+			VAR _Valor =
+			    CALCULATE(
+			        SUM(fact_inventari_xarxa_distribucion[xarxa]),
+			        'dim_calendario'[Date] = _UltimaFechaConDato
+			    )
+			
+			RETURN
+			    DIVIDE(
+			        _Valor,
+			        1000
+			    )
+		displayFolder: anr_global\l_km
+		lineageTag: e53bc39f-27a5-4421-88ad-d6e75778c145
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure l_km_global_ytd =
+			
+			VAR FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR AnioActual =
+			    YEAR ( FechaMaxContexto )
+			
+			VAR UltimaFechaConDato =
+			    MAXX (
+			        FILTER (
+			            ALL ( 'dim_calendario'[Date] ),
+			            YEAR ( 'dim_calendario'[Date] ) = AnioActual
+			                && 'dim_calendario'[Date] <= FechaMaxContexto
+			                && NOT ISBLANK (
+			                    CALCULATE ( [l_km_mensual] )
+			                )
+			        ),
+			        'dim_calendario'[Date]
+			    )
+			
+			RETURN
+			    CALCULATE (
+			        [l_km_mensual],
+			        'dim_calendario'[Date] = UltimaFechaConDato
+			    )
+		displayFolder: anr_global\l_km
+		lineageTag: 744a1c2b-a9d0-43d1-989a-d32db470698b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure l_km_ultimo_dato =
+			
+			VAR UltimaFechaConDato =
+			    MAXX(
+			        FILTER(
+			            ALLSELECTED('dim_calendario'[Date]),
+			            NOT ISBLANK(
+			                CALCULATE([l_km_mensual])
+			            )
+			        ),
+			        'dim_calendario'[Date]
+			    )
+			
+			RETURN
+			    CALCULATE(
+			        [l_km_mensual],
+			        'dim_calendario'[Date] = UltimaFechaConDato
+			    )
+		displayFolder: anr_global\l_km
+		lineageTag: 3939971f-50a9-4d70-adbf-b9dbe9e3f1e3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Column
 		isHidden

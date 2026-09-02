@@ -4,7 +4,7 @@
   "position": {
     "x": 405.2261306532663,
     "y": 94.338358458961466,
-    "z": 12001,
+    "z": 8000,
     "height": 566.03015075376879,
     "width": 849.04522613065319,
     "tabOrder": 27033
@@ -23,11 +23,26 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "anio"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
+              "queryRef": "dim_calendario.anio",
+              "nativeQueryRef": "Suma de anio",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "mes_corto"
+                }
+              },
+              "queryRef": "dim_calendario.mes_corto",
+              "nativeQueryRef": "mes_corto",
               "active": true
             }
           ]
@@ -68,23 +83,6 @@
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dim_calendario"
-                  }
-                },
-                "Property": "anio_mes"
-              }
-            },
-            "direction": "Ascending"
-          }
-        ]
       }
     },
     "objects": {
@@ -170,6 +168,19 @@
               }
             },
             "secShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
               "expr": {
                 "Literal": {
                   "Value": "false"
@@ -428,5 +439,52 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "e62930ef3eb744f83775",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_lliurat_global_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "0d5c886829373c7a175b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_consumita_global_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ddf6f0a942a61d89325d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio"
+          }
+        },
+        "type": "Advanced",
+        "isHiddenInViewMode": true
+      }
+    ]
   }
 }
