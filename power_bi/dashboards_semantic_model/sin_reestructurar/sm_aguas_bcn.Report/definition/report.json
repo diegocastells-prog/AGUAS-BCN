@@ -23,31 +23,8 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "902353abe3d77e1e0e81",
+        "name": "8f304d7a1a5fb8539b81",
         "ordinal": 0,
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_gerencia"
-              }
-            },
-            "Property": "gerencia"
-          }
-        },
-        "type": "Categorical",
-        "howCreated": "User",
-        "objects": {
-          "general": [
-            {
-              "properties": {}
-            }
-          ]
-        }
-      },
-      {
-        "name": "8c389a9d12388d838a6b",
-        "ordinal": 1,
         "field": {
           "Column": {
             "Expression": {
@@ -55,7 +32,7 @@
                 "Entity": "dim_calendario"
               }
             },
-            "Property": "flag_anio_actual_anterior"
+            "Property": "flag_anio"
           }
         },
         "type": "Categorical",
@@ -80,7 +57,7 @@
                             "Source": "d"
                           }
                         },
-                        "Property": "flag_anio_actual_anterior"
+                        "Property": "flag_anio"
                       }
                     }
                   ],
@@ -98,13 +75,6 @@
                           "Value": "'ANTERIOR'"
                         }
                       }
-                    ],
-                    [
-                      {
-                        "Literal": {
-                          "Value": "null"
-                        }
-                      }
                     ]
                   ]
                 }
@@ -113,6 +83,115 @@
           ]
         },
         "howCreated": "User"
+      },
+      {
+        "name": "e0499396eeafc40636f9",
+        "ordinal": 1,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_calendario",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "anio_mes"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2026-mar'"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2026-abr'"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2026-may'"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2026-jun'"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2026-jul'"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2026-ago'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
       }
     ],
     "filterSortOrder": "Custom"
@@ -332,6 +411,11 @@
         {
           "name": "sectors11980072000445896.geojson",
           "path": "sectors11980072000445896.geojson",
+          "type": "ShapeMap"
+        },
+        {
+          "name": "sectors7422972746459994.geojson",
+          "path": "sectors7422972746459994.geojson",
           "type": "ShapeMap"
         }
       ]

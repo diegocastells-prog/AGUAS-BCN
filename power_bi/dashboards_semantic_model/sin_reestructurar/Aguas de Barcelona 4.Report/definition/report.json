@@ -27,6 +27,22 @@
           }
         },
         "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "69c11630acbf9619e78c",
+        "ordinal": 1,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "flag_anio"
+          }
+        },
+        "type": "Categorical",
         "filter": {
           "Version": 2,
           "From": [
@@ -48,7 +64,7 @@
                             "Source": "d"
                           }
                         },
-                        "Property": "flag_anio_actual_anterior"
+                        "Property": "flag_anio"
                       }
                     }
                   ],
@@ -77,7 +93,7 @@
       },
       {
         "name": "1c034efce5a2aa3062be",
-        "ordinal": 1,
+        "ordinal": 2,
         "field": {
           "Column": {
             "Expression": {
@@ -93,7 +109,7 @@
       },
       {
         "name": "0ee50a4682115eef1472",
-        "ordinal": 2,
+        "ordinal": 3,
         "field": {
           "Column": {
             "Expression": {
@@ -105,6 +121,63 @@
           }
         },
         "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_calendario",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "anio_mes"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2026-jul'"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2026-ago'"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2026-jun'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
         "howCreated": "User",
         "objects": {
           "general": [
@@ -314,8 +387,8 @@
           "type": "Image"
         },
         {
-          "name": "sectors11980072000445896.geojson",
-          "path": "sectors11980072000445896.geojson",
+          "name": "sectors7422972746459994.geojson",
+          "path": "sectors7422972746459994.geojson",
           "type": "ShapeMap"
         }
       ]

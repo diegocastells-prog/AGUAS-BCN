@@ -42,7 +42,6 @@ table _switchs
 			)
 			
 			```
-		formatString: #,0.00
 		displayFolder: anr_distribucion\volum\lliurat
 		lineageTag: 38d067e3-fceb-484e-adf7-3660a9ab62b3
 
@@ -247,12 +246,11 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_consumit_distribucion_mensual_smly],
 			    "12 meses", [volum_consumit_distribucion_12m],
-			    "Acumulat",[volum_consumit_distribucion_ytd],
+			    "Acumulat",[volum_consumit_distribucion_lytd],
 			    BLANK()
 			)
 			
 			```
-		formatString: #,0.00
 		displayFolder: anr_distribucion\volum\consumit
 		lineageTag: b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e
 
@@ -260,14 +258,13 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [volum_lliurat_distribucion_mensual_1m],
+			    "Mensual", [volum_lliurat_distribucion_mensual_smly],
 			    "12 meses", [volum_lliurat_distribucion_12m],
-			    "Acumulat",[volum_lliurat_distribucion_ytd],
+			    "Acumulat",[volum_lliurat_distribucion_lytd],
 			    BLANK()
 			)
 			
 			```
-		formatString: #,0.00
 		displayFolder: anr_distribucion\volum\lliurat
 		lineageTag: c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f
 
@@ -318,9 +315,9 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [rth_distribucion_mensual_1m],
+			    "Mensual", [rth_distribucion_mensual_smly],
 			    "12 meses", [rth_distribucion_12m],
-			    "Acumulat",[rth_distribucion_ytd],
+			    "Acumulat",[rth_distribucion_lytd],
 			    BLANK()
 			)
 			
@@ -333,7 +330,7 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [q_min_mensual_1m],
+			    "Mensual", [q_min_mensual_smly],
 			    "12 meses", [q_min_12_mesos_mitjana_1m],
 			    BLANK()
 			)
@@ -391,7 +388,7 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [volum_consumit_transport_mensual_1m],
+			    "Mensual", [volum_consumit_transport_mensual_smly],
 			    "12 meses", [volum_consumit_transport_12m],
 			    "Acumulat",[volum_consumit_transport_ytd],
 			    BLANK()
@@ -404,7 +401,7 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [volum_lliurat_transport_mensual_1m],
+			    "Mensual", [volum_lliurat_transport_mensual_smly],
 			    "12 meses", [volum_lliurat_transport_12m],
 			    "Acumulat",[volum_lliurat_transport_ytd],
 			    BLANK()
@@ -429,7 +426,7 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [volum_consumit_estrategics_mensual_1m],
+			    "Mensual", [volum_consumit_estrategics_mensual_smly],
 			    "12 meses", [volum_consumit_estrategics_12m],
 			    BLANK()
 			)
@@ -441,9 +438,9 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_dist_mensual]/1000000,
-			    "12 meses", [anr_dist_acum_12m]/1000000,
-			    "Acumulat",[anr_distribucion_ytd]/1000000,
+			    "Mensual", [anr_dist_mensual],
+			    "12 meses", [anr_dist_acum_12m],
+			    "Acumulat",[anr_distribucion_ytd],
 			    BLANK()
 			)
 		formatString: #,0.00
@@ -456,7 +453,8 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [anr_dist_mensual_smly],
 			    "12 meses", [anr_dist_acum_12m_1m],
-			    "Acumulat",[anr_distribucion_ytd],
+			    "Acumulat",[anr_distribucion_lytd],
+			    "Diff",0,
 			    BLANK()
 			)
 		displayFolder: anr_distribucion\anr
@@ -510,23 +508,68 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure switch_KPI_activo_mapa =
-			
-			SELECTEDVALUE(Slicer_KPI[Metrica], "Rendimiento (%)")
+	measure kpi_selected_map = SELECTEDVALUE(Slicer_KPI[Metrica], "Rendimiento (%)")
 		lineageTag: f1331140-57ce-4cef-8a54-8278137f3b0a
 
-	measure Indicador_Contexto_Mapa =
+	measure Metrica_Color_Mapa =
 			
-			VAR MetricaElegida = SELECTEDVALUE(Slicer_KPI[Metrica], "Rendimiento (%)")
+			VAR MetricaElegida = SELECTEDVALUE( Slicer_KPI[Metrica], "Rendimiento (%)" )
+			
+			VAR Valor = [Metrica_Mapa_Seleccionada]
+			
 			RETURN
 			    SWITCH(
-			        MetricaElegida,
-			        "Rendimiento (%)", [vategoria_fuita],
-			        "ANR (m³)", [vategoria_fuita],
-			        "Caudal Mínimo Nocturno", [vategoria_fuita],
-			        "Fraudes Detectados", FORMAT([fraus_recupera_euros], "#,##0 €"),
-			        "Volumen Fraude (m³)", FORMAT([fraus_recupera_euros], "#,##0 €"),
-			        [vategoria_fuita]
+			        TRUE(),
+			
+			        // =========================
+			        // RENDIMIENTO
+			        // =========================
+			        MetricaElegida = "Rendimiento (%)",
+			            SWITCH(
+			                TRUE(),
+			                Valor < 0.70, "#D7191C",
+			                Valor < 0.85, "#F46D43",
+			                Valor < 0.95, "#FEE08B",
+			                "#1A9641"
+			            ),
+			
+			        // =========================
+			        // ANR
+			        // =========================
+			        MetricaElegida = "ANR (m³)",
+			            SWITCH(
+			                TRUE(),
+			                Valor >= 100000, "#D7191C",
+			                Valor >= 50000, "#F46D43",
+			                Valor >= 25000, "#FEE08B",
+			                "#1A9641"
+			            ),
+			
+			        // =========================
+			        // CAUDAL MÍNIMO NOCTURNO
+			        // =========================
+			        MetricaElegida = "Caudal Mínimo Nocturno",
+			            SWITCH(
+			                TRUE(),
+			                Valor >= 100, "#D7191C",
+			                Valor >= 70, "#F46D43",
+			                Valor >= 40, "#FEE08B",
+			                "#1A9641"
+			            ),
+			
+			        // =========================
+			        // FRAUDES
+			        // =========================
+			        MetricaElegida = "Fraudes Detectados",
+			            SWITCH(
+			                TRUE(),
+			                Valor >= 100, "#D7191C",
+			                Valor >= 50, "#F46D43",
+			                Valor >= 20, "#FEE08B",
+			                "#1A9641"
+			            ),
+			
+			        BLANK()
 			    )
 		lineageTag: e0c9011f-577e-497e-8f60-dfe5265779dc
 
