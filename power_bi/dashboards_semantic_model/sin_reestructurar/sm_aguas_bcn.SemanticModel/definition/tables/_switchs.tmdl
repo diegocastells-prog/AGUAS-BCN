@@ -277,32 +277,13 @@ table _switchs
 			SWITCH(
 			    _Periodo,
 			
-			    "Mensual",
-			        [rendiment_global_mensual],
+			    "Mensual",        [rendiment_global_mensual],
 			
-			    "12 meses",
-			        [rendiment_global_acum_12m],
+			    "12 meses",        [rendiment_global_acum_12m],
 			
-			    "Acumulat",
-			        [rendiment_global_ytd],
+			    "Acumulat",        [rendiment_global_ytd],
 			
-			    "Diff",
-			        VAR _UltimaFechaConDato =
-			            MAXX(
-			                FILTER(
-			                    ALLSELECTED('dim_calendario'[Date]),
-			                    NOT ISBLANK(
-			                        CALCULATE([rendiment_global_diff])
-			                    )
-			                ),
-			                'dim_calendario'[Date]
-			            )
-			        RETURN
-			            CALCULATE(
-			                [rendiment_global_diff],
-			                REMOVEFILTERS('dim_calendario'[Date]),
-			                'dim_calendario'[Date] = _UltimaFechaConDato
-			            ),
+			    "Diff",   [rendiment_global_diff],
 			
 			    BLANK()
 			)
@@ -968,6 +949,60 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure kpi_lliurat_global_switch =
+			
+			VAR _Periodo =
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
+			
+			VAR _EsContextoMes =
+			    ISINSCOPE('dim_calendario'[mes_corto])
+			
+			RETURN
+			SWITCH(
+			    _Periodo,
+			
+			    "Mensual",
+			        [volum_lliurat_global_mensual_hm3],
+			
+			    "12 meses",
+			        [volum_lliurat_global_acum_12m_hm3],
+			
+			    "Acumulat",
+			        [volum_lliurat_global_ytd],
+			
+			    "Diff",
+			        IF(
+			            _EsContextoMes,
+			
+			            -- En el gráfico: diferencia mes a mes
+			            [volum_lliurat_global_diff],
+			
+			            -- En la tarjeta KPI: último Diff disponible
+			            VAR _UltimaFechaConDato =
+			                MAXX(
+			                    FILTER(
+			                        ALLSELECTED('dim_calendario'[Date]),
+			                        NOT ISBLANK(
+			                            CALCULATE([volum_lliurat_global_diff])
+			                        )
+			                    ),
+			                    'dim_calendario'[Date]
+			                )
+			            RETURN
+			                CALCULATE(
+			                    [volum_lliurat_global_diff],
+			                    REMOVEFILTERS('dim_calendario'[Date]),
+			                    'dim_calendario'[Date] = _UltimaFechaConDato
+			                )
+			        ),
+			
+			    BLANK()
+			)
+		displayFolder: anr_global\volumns
+		lineageTag: 856d13f3-d5e8-4103-af54-acbb2ee49c63
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	measure kpi_lliurat_global_switch_1m =
 			
 			VAR _Periodo =
@@ -1537,60 +1572,6 @@ table _switchs
 			)
 		displayFolder: red\longitud
 		lineageTag: c14f3ed2-ec03-4640-9e8f-fc5cc4ca1278
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure kpi_lliurat_global_switch =
-			
-			VAR _Periodo =
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
-			
-			VAR _EsContextoMes =
-			    ISINSCOPE('dim_calendario'[mes_corto])
-			
-			RETURN
-			SWITCH(
-			    _Periodo,
-			
-			    "Mensual",
-			        [volum_lliurat_global_mensual_hm3],
-			
-			    "12 meses",
-			        [volum_lliurat_global_acum_12m_hm3],
-			
-			    "Acumulat",
-			        [volum_lliurat_global_ytd],
-			
-			    "Diff",
-			        IF(
-			            _EsContextoMes,
-			
-			            -- En el gráfico: diferencia mes a mes
-			            [volum_lliurat_global_diff],
-			
-			            -- En la tarjeta KPI: último Diff disponible
-			            VAR _UltimaFechaConDato =
-			                MAXX(
-			                    FILTER(
-			                        ALLSELECTED('dim_calendario'[Date]),
-			                        NOT ISBLANK(
-			                            CALCULATE([volum_lliurat_global_diff])
-			                        )
-			                    ),
-			                    'dim_calendario'[Date]
-			                )
-			            RETURN
-			                CALCULATE(
-			                    [volum_lliurat_global_diff],
-			                    REMOVEFILTERS('dim_calendario'[Date]),
-			                    'dim_calendario'[Date] = _UltimaFechaConDato
-			                )
-			        ),
-			
-			    BLANK()
-			)
-		displayFolder: anr_global\volumns
-		lineageTag: 856d13f3-d5e8-4103-af54-acbb2ee49c63
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

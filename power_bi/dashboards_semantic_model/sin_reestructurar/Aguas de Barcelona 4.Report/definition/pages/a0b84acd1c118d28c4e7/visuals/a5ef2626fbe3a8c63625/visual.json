@@ -23,11 +23,11 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio2_mes"
+                  "Property": "anio_mes"
                 }
               },
-              "queryRef": "dim_calendario.anio2_mes",
-              "nativeQueryRef": "anio2_mes",
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes",
               "active": true
             }
           ]
@@ -70,23 +70,6 @@
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dim_calendario"
-                  }
-                },
-                "Property": "anio2_mes"
-              }
-            },
-            "direction": "Ascending"
-          }
-        ]
       }
     },
     "objects": {
@@ -418,5 +401,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "35f175d04663949bf72c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_rth_distribucion_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "73b8427d2bda3c82766c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_aigua_consumida_acf_global_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9154bd0560b9b78a8eb3",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

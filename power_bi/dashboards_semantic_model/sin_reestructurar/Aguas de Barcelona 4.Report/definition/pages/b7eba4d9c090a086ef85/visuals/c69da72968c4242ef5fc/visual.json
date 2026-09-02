@@ -23,11 +23,11 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio2_mes"
+                  "Property": "anio_mes"
                 }
               },
-              "queryRef": "dim_calendario.anio2_mes",
-              "nativeQueryRef": "anio2_mes",
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes",
               "active": true
             }
           ]
@@ -70,23 +70,6 @@
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dim_calendario"
-                  }
-                },
-                "Property": "anio2_mes"
-              }
-            },
-            "direction": "Ascending"
-          }
-        ]
       }
     },
     "objects": {
@@ -397,5 +380,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "a272cd1a516d792b52f2",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_anr_distribucion_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5ddd0a187ef1ef9a8b5c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_rth_distribucion_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6ebcac6106c143dabc88",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }
