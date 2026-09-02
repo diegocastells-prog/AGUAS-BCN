@@ -23,11 +23,26 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "anio"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
+              "queryRef": "dim_calendario.anio",
+              "nativeQueryRef": "anio",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "mes_corto"
+                }
+              },
+              "queryRef": "dim_calendario.mes_corto",
+              "nativeQueryRef": "mes_corto",
               "active": true
             }
           ]
@@ -45,31 +60,29 @@
                   "Property": "kpi_lliurat_global_switch"
                 }
               },
-              "queryRef": "_switchs.kpi_lliurat_global_switch",
+              "queryRef": "_switchs.kpi_lliurat_global_switch_grafico",
               "nativeQueryRef": "kpi_lliurat_global_switch"
             }
           ]
         },
         "Y2": {
-          "projections": []
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_consumita_global_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_consumita_global_switch",
+              "nativeQueryRef": "kpi_consumita_global_switch"
+            }
+          ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dim_calendario"
-                  }
-                },
-                "Property": "anio_mes"
-              }
-            },
-            "direction": "Ascending"
-          }
-        ]
       }
     },
     "objects": {
@@ -441,8 +454,7 @@
             "Property": "anio"
           }
         },
-        "type": "Advanced",
-        "howCreated": "User",
+        "type": "Categorical",
         "isHiddenInViewMode": true,
         "objects": {
           "general": [
@@ -461,7 +473,35 @@
         }
       },
       {
-        "name": "a47a35269ba767cb3756",
+        "name": "5818b11579e0f1fce4c3",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "mes_corto"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "f594348213832b57f173",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_consumita_global_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9391c12e62c91dbb3fd5",
         "field": {
           "Measure": {
             "Expression": {
@@ -473,20 +513,6 @@
           }
         },
         "type": "Advanced"
-      },
-      {
-        "name": "73ef95aa134ed47d7c3a",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
-        },
-        "type": "Categorical"
       }
     ]
   }

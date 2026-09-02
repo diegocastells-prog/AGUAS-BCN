@@ -44,7 +44,7 @@
                   "Property": "kpi_lliurat_global_switch"
                 }
               },
-              "queryRef": "_switchs.kpi_lliurat_global_switch",
+              "queryRef": "_switchs.kpi_lliurat_global_switch_grafico",
               "nativeQueryRef": "kpi_lliurat_global_switch"
             }
           ]
@@ -255,55 +255,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "6aab27518298e4a35707",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "kpi_lliurat_global_switch"
-          }
-        },
-        "type": "Advanced",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "_",
-              "Entity": "_switchs",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Comparison": {
-                  "ComparisonKind": 1,
-                  "Left": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Source": "_"
-                        }
-                      },
-                      "Property": "kpi_lliurat_global_switch"
-                    }
-                  },
-                  "Right": {
-                    "Literal": {
-                      "Value": "0L"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "name": "a0e15ea70888c64a5ca5",
+        "name": "d5b135429625beffb59c",
         "field": {
           "Measure": {
             "Expression": {
@@ -314,34 +266,79 @@
             "Property": "kpi_lliurat_global_switch_1m"
           }
         },
-        "type": "Advanced",
+        "type": "Advanced"
+      },
+      {
+        "name": "34a2a8b158a2042e0cb0",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical",
         "filter": {
           "Version": 2,
           "From": [
             {
-              "Name": "_",
-              "Entity": "_switchs",
+              "Name": "d",
+              "Entity": "dim_calendario",
               "Type": 0
             }
           ],
           "Where": [
             {
               "Condition": {
-                "Comparison": {
-                  "ComparisonKind": 1,
-                  "Left": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Source": "_"
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "anio_mes"
+                          }
                         }
-                      },
-                      "Property": "kpi_lliurat_global_switch_1m"
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2026-ago'"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2026-jul'"
+                            }
+                          }
+                        ]
+                      ]
                     }
-                  },
-                  "Right": {
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
                     "Literal": {
-                      "Value": "0L"
+                      "Value": "true"
                     }
                   }
                 }
@@ -349,6 +346,20 @@
             }
           ]
         }
+      },
+      {
+        "name": "6c2a78ac20ad3c9340dd",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_lliurat_global_switch"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

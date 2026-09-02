@@ -4292,7 +4292,8 @@ table _medidas
 
 	measure l_km_mensual =
 			
-			VAR L = SUM(fact_inventari_xarxa_distribucion[xarxa])
+			VAR L =
+			    SUM(fact_inventari_xarxa_distribucion[xarxa])
 			RETURN
 			    DIVIDE(L, 1000)
 		displayFolder: red\longitud\mensual
@@ -4330,7 +4331,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			    DIVIDE ( _Valor, 1000 )
 			)
 			```
 		displayFolder: red\longitud\acum_12
@@ -4796,12 +4797,13 @@ table _medidas
 			VAR UltimaFechaConDato =
 			    MAXX (
 			        FILTER (
-			            ALL ( 'dim_calendario'[Date] ),
+			            ALL ( 'dim_calendario' ),
 			            YEAR ( 'dim_calendario'[Date] ) = AnioActual
 			                && 'dim_calendario'[Date] <= FechaMaxContexto
 			                && NOT ISBLANK (
 			                    CALCULATE ( [l_km_mensual] )
 			                )
+			                && CALCULATE ( [l_km_mensual] ) <> 0
 			        ),
 			        'dim_calendario'[Date]
 			    )
@@ -4809,6 +4811,7 @@ table _medidas
 			RETURN
 			    CALCULATE (
 			        [l_km_mensual],
+			        REMOVEFILTERS ( 'dim_calendario' ),
 			        'dim_calendario'[Date] = UltimaFechaConDato
 			    )
 		displayFolder: anr_global\l_km
@@ -4836,6 +4839,14 @@ table _medidas
 			    )
 		displayFolder: anr_global\l_km
 		lineageTag: 3939971f-50a9-4d70-adbf-b9dbe9e3f1e3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure l_km_prueba =
+			
+			SUM(fact_inventari_xarxa_distribucion[xarxa])
+		displayFolder: red\longitud\mensual
+		lineageTag: 64ed4e62-fe14-4195-9d1f-7e5606a8f1a1
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
