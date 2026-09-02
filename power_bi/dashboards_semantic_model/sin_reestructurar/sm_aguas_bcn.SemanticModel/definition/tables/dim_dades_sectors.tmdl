@@ -131,6 +131,14 @@ table dim_dades_sectors
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	column gerencia
+		dataType: string
+		lineageTag: ef9d1ddb-c48c-409a-b552-2f18c200dcde
+		summarizeBy: none
+		sourceColumn: gerencia
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_dades_sectors = m
 		mode: import
 		queryGroup: Dimensiones
@@ -155,8 +163,7 @@ table dim_dades_sectors
 				    ),
 				    #"Consultas combinadas" = Table.NestedJoin(#"Filas vacías quitadas", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
 				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
-				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
-				    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(#"Columnas quitadas",{{"sector", Text.Proper, type text}}),
+				    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(#"Se expandió dim_gerencia",{{"sector", Text.Proper, type text}}),
 				    #"Texto limpio" = Table.TransformColumns(#"Poner En Mayúsculas Cada Palabra",{{"sector", Text.Clean, type text}}),
 				    #"Texto recortado" = Table.TransformColumns(#"Texto limpio",{{"sector", Text.Trim, type text}}),
 				    #"Consultas combinadas1" = Table.NestedJoin(#"Texto recortado", {"sector_id"}, aux_dim_sector, {"sector_id"}, "aux_dim_sector", JoinKind.LeftOuter),

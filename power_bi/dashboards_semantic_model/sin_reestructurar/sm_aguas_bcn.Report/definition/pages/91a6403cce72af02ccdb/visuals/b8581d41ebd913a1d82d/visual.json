@@ -7,7 +7,7 @@
     "z": 1000,
     "height": 49.230769230769226,
     "width": 375.09157509157507,
-    "tabOrder": 20
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "advancedSlicerVisual",
@@ -89,7 +89,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'Mensual'"
+                                "Value": "'12 meses'"
                               }
                             }
                           ]
@@ -539,5 +539,69 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "e80ca02677f676c46bd0"
+  "parentGroupName": "e80ca02677f676c46bd0",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "2868916e5fa0c9e03fde",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dummy_slicer_periodo"
+              }
+            },
+            "Property": "Periodo"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dummy_slicer_periodo",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Periodo"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Mensual'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'12 meses'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
 }

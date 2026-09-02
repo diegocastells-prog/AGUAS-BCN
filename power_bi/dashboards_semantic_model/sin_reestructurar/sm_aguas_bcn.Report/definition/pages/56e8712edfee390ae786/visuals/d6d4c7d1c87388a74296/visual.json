@@ -7,7 +7,7 @@
     "z": 1000,
     "height": 49.230769230769226,
     "width": 375.09157509157507,
-    "tabOrder": 18
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "advancedSlicerVisual",
@@ -89,7 +89,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'Acumulat'"
+                                "Value": "'12 meses'"
                               }
                             }
                           ]
@@ -543,7 +543,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "380431228b4cfd633f6c",
+        "name": "2868916e5fa0c9e03fde",
         "field": {
           "Column": {
             "Expression": {
@@ -554,7 +554,53 @@
             "Property": "Periodo"
           }
         },
-        "type": "Categorical"
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dummy_slicer_periodo",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Periodo"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Mensual'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'12 meses'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
       }
     ]
   }

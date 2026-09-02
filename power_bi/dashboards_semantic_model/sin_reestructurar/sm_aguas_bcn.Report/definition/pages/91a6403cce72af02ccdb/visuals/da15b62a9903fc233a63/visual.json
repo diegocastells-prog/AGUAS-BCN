@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "da15b62a9903fc233a63",
   "position": {
-    "x": 538.84498480243167,
-    "y": 71.00303951367782,
-    "z": 6,
-    "height": 61.818181818181813,
-    "width": 216.36363636363635,
-    "tabOrder": 24
+    "x": 558.29787234042556,
+    "y": 71.975683890577514,
+    "z": 6000,
+    "height": 79.756838905775084,
+    "width": 215.92705167173253,
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "slicer",
@@ -100,6 +100,13 @@
                   "Value": "true"
                 }
               }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
           }
         }
@@ -139,5 +146,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "efc92310992fca75f2f6",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "sector"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

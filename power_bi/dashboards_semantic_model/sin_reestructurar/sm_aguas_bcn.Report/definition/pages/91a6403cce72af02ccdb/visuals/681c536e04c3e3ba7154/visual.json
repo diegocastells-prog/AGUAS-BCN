@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "681c536e04c3e3ba7154",
   "position": {
-    "x": 752.82674772036478,
-    "y": 71.975683890577514,
-    "z": 5,
-    "height": 61.818181818181813,
-    "width": 229.09090909090907,
-    "tabOrder": 22
+    "x": 786.86930091185411,
+    "y": 71.00303951367782,
+    "z": 5000,
+    "height": 79.756838905775084,
+    "width": 229.54407294832828,
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "slicer",
@@ -43,7 +43,7 @@
               },
               "queryRef": "dim_calendario.mes",
               "nativeQueryRef": "mes",
-              "active": false
+              "active": true
             }
           ]
         }
@@ -82,7 +82,20 @@
             "isPinned": true
           }
         ],
-        "root": {}
+        "root": {
+          "children": [
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "2026L"
+                  }
+                }
+              ],
+              "isToggled": true
+            }
+          ]
+        }
       }
     ],
     "objects": {
@@ -225,5 +238,37 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "8ae2b978489131f82e3b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c527716077042bf81588",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "mes"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

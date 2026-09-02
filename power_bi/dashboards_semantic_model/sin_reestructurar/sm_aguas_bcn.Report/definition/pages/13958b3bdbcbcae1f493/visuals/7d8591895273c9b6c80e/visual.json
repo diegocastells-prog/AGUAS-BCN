@@ -89,7 +89,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'Acumulat'"
+                                "Value": "'12 meses'"
                               }
                             }
                           ]
@@ -539,5 +539,69 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "2974a1a51e26828e64db"
+  "parentGroupName": "2974a1a51e26828e64db",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "2868916e5fa0c9e03fde",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dummy_slicer_periodo"
+              }
+            },
+            "Property": "Periodo"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dummy_slicer_periodo",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Periodo"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Mensual'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'12 meses'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
 }
