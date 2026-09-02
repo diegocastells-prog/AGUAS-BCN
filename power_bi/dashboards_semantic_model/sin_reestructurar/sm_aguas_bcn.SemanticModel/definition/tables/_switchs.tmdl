@@ -132,30 +132,85 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure kpi_anr_global_switch = ```
+	measure kpi_anr_global_switch =
 			
+			VAR _Periodo =
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
+			
+			RETURN
 			SWITCH(
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_global_mensual_hm3],
-			    "12 meses", [anr_global_acum_12m_hm3],
-			    "Acumulat", [anr_global_ytd],
-			    "Diff", [anr_global_diff],
+			    _Periodo,
+			
+			    "Mensual",
+			        [anr_global_mensual_hm3],
+			
+			    "12 meses",
+			        [anr_global_acum_12m_hm3],
+			
+			    "Acumulat",
+			        [anr_global_ytd],
+			
+			    "Diff",
+			        VAR _UltimaFechaConDato =
+			            MAXX(
+			                FILTER(
+			                    ALLSELECTED('dim_calendario'[Date]),
+			                    NOT ISBLANK(
+			                        CALCULATE([anr_global_diff])
+			                    )
+			                ),
+			                'dim_calendario'[Date]
+			            )
+			        RETURN
+			            CALCULATE(
+			                [anr_global_diff],
+			                REMOVEFILTERS('dim_calendario'[Date]),
+			                'dim_calendario'[Date] = _UltimaFechaConDato
+			            ),
 			
 			    BLANK()
-			)            
-			```
-		formatString: #,0.000000
+			)
 		displayFolder: anr_global\anr
 		lineageTag: 11320d97-e99e-402d-9a99-c731e8870e8a
 
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	measure kpi_rth_global_switch =
 			
+			VAR _Periodo =
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
+			
+			RETURN
 			SWITCH(
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual",[rendiment_global_mensual],
-			    "12 meses",[rendiment_global_acum_12m],
-			    "Acumulat", [rendiment_global_ytd],
-			    "Diff", [rendiment_global_diff],
+			    _Periodo,
+			
+			    "Mensual",
+			        [rendiment_global_mensual],
+			
+			    "12 meses",
+			        [rendiment_global_acum_12m],
+			
+			    "Acumulat",
+			        [rendiment_global_ytd],
+			
+			    "Diff",
+			        VAR _UltimaFechaConDato =
+			            MAXX(
+			                FILTER(
+			                    ALLSELECTED('dim_calendario'[Date]),
+			                    NOT ISBLANK(
+			                        CALCULATE([rendiment_global_diff])
+			                    )
+			                ),
+			                'dim_calendario'[Date]
+			            )
+			        RETURN
+			            CALCULATE(
+			                [rendiment_global_diff],
+			                REMOVEFILTERS('dim_calendario'[Date]),
+			                'dim_calendario'[Date] = _UltimaFechaConDato
+			            ),
+			
 			    BLANK()
 			)
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
@@ -573,19 +628,29 @@ table _switchs
 			    )
 		lineageTag: e0c9011f-577e-497e-8f60-dfe5265779dc
 
-	measure kpi_anr_global_switch_1m = ```
+	measure kpi_anr_global_switch_1m =
 			
+			VAR _Periodo =
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
+			
+			RETURN
 			SWITCH(
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_global_mensual_smly_hm3],
-			    "12 meses", [anr_global_acum_12m_1m_hm3],
-			    "Acumulat", [anr_global_lytd],
-			    "Diff", [_cero_acumulat],
+			    _Periodo,
+			
+			    "Mensual",
+			        [anr_global_mensual_smly_hm3],
+			
+			    "12 meses",
+			        [anr_global_acum_12m_1m_hm3],
+			
+			    "Acumulat",
+			        [anr_global_lytd],
+			
+			    "Diff",
+			        [_cero_acumulat],
+			
 			    BLANK()
 			)
-			 
-			 
-			```
 		formatString: #,0.000000
 		displayFolder: anr_global\anr
 		lineageTag: b73ca3f3-62f3-4dac-a730-77c07f2d0d69
@@ -654,35 +719,76 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure kpi_lliurat_global_switch = ```
+	measure kpi_lliurat_global_switch =
 			
+			VAR _Periodo =
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
+			
+			RETURN
 			SWITCH(
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [volum_lliurat_global_mensual_hm3],
-			    "12 meses", [volum_lliurat_global_acum_12m_hm3],
-			    "Acumulat", [volum_lliurat_global_ytd],
-			    "Diff", [volum_lliurat_global_diff],
+			    _Periodo,
+			
+			    "Mensual",
+			        [volum_lliurat_global_mensual_hm3],
+			
+			    "12 meses",
+			        [volum_lliurat_global_acum_12m_1m_hm3],
+			
+			    "Acumulat",
+			        [volum_lliurat_global_ytd],
+			
+			    "Diff",
+			        VAR _UltimaFechaConDato =
+			            MAXX(
+			                FILTER(
+			                    ALLSELECTED('dim_calendario'[Date]),
+			                    NOT ISBLANK(
+			                        CALCULATE([volum_lliurat_global_diff])
+			                    )
+			                ),
+			                'dim_calendario'[Date]
+			            )
+			        RETURN
+			            CALCULATE(
+			                [volum_lliurat_global_diff],
+			                REMOVEFILTERS('dim_calendario'[Date]),
+			                'dim_calendario'[Date] = _UltimaFechaConDato
+			            ),
+			
 			    BLANK()
-			) 
-			```
-		formatString: #,0.000
+			)
 		displayFolder: anr_global\volumns
 		lineageTag: 5f689cec-0b1d-468a-b8ec-678148381402
 
-	measure kpi_lliurat_global_switch_1m = ```
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_lliurat_global_switch_1m =
 			
+			VAR _Periodo =
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
+			
+			RETURN
 			SWITCH(
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual",[volum_lliurat_global_mensual_smly_hm3],
-			    "12 meses", [volum_lliurat_global_acum_12m_1m_hm3],
-			    "Acumulat", [volum_lliurat_global_lytd],
-			    "Diff", [_cero_acumulat],
+			    _Periodo,
+			
+			    "Mensual",
+			        [volum_lliurat_global_mensual_smly_hm3],
+			
+			    "12 meses",
+			        [volum_lliurat_global_acum_12m_1m_hm3],
+			
+			    "Acumulat",
+			        [volum_lliurat_global_lytd],
+			
+			    "Diff",
+			        [_cero_acumulat],
+			
 			    BLANK()
 			)
-			  
-			```
 		displayFolder: anr_global\volumns
 		lineageTag: 3c3bb92e-f5f8-49a4-8623-55e8a2a13b58
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_aigua_consumida_acf_global_switch_1m = ```
 			
