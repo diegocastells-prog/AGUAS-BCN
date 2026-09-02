@@ -161,14 +161,6 @@ table dim_calendario
 
 		annotation SummarizationSetBy = Automatic
 
-	column flag_anio
-		lineageTag: 4dc5c9ca-cff4-4d83-9f04-661bf2545343
-		summarizeBy: none
-		isNameInferred
-		sourceColumn: [flag_anio]
-
-		annotation SummarizationSetBy = Automatic
-
 	column anio_mes
 		lineageTag: 7f2ff2d6-7c83-47e8-b182-31110f306b20
 		summarizeBy: none
@@ -189,7 +181,6 @@ table dim_calendario
 		mode: import
 		source = ```
 				
-				
 				 
 				ADDCOLUMNS(
 				
@@ -200,7 +191,6 @@ table dim_calendario
 				        EOMONTH(TODAY(), -1)
 				
 				    ),
-				
 				 
 				    "anio", YEAR([Date]),
 				
@@ -235,13 +225,15 @@ table dim_calendario
 				    "dia_semana", FORMAT([Date], "dddd"),
 				
 				    "fin_de_semana", IF(WEEKDAY([Date], 2) >= 6, "si", "no"),
-				
+				 
 				    "status_date",
 				
 				        VAR FechaHoy = TODAY()
 				
 				        VAR MesActual = EOMONTH(FechaHoy, 0)
+				
 				        VAR MesCerradoReal = EOMONTH(FechaHoy, -3)
+				
 				        RETURN
 				
 				            SWITCH(
@@ -270,13 +262,6 @@ table dim_calendario
 				
 				        )
 				
-				    "flag_anio",
-				        SWITCH(
-				            TRUE(),
-				            YEAR([Date]) = YEAR(TODAY()), "ACTUAL",
-				            YEAR([Date]) = YEAR(TODAY()) - 1, "ANTERIOR",
-				            "OTRO"
-				        )
 				)
 				 
 				```
