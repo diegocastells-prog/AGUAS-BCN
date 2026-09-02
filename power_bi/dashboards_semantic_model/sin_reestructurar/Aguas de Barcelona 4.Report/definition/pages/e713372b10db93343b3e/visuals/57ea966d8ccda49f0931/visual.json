@@ -23,13 +23,12 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "mes_corto"
+                  "Property": "anio2_mes"
                 }
               },
-              "queryRef": "dim_calendario.mes_corto",
-              "nativeQueryRef": "Mes",
-              "active": true,
-              "displayName": "Mes"
+              "queryRef": "dim_calendario.anio2_mes",
+              "nativeQueryRef": "anio2_mes",
+              "active": true
             }
           ]
         },
@@ -67,6 +66,24 @@
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_medidas"
+                  }
+                },
+                "Property": "fraus_detectats"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
       }
     },
     "objects": {
@@ -425,5 +442,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "ad051097ac8046ac7c79",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "fraus_detectats"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7f522e4b07cba008ca86",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "fraus_recuperat"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3d9c694b44ec1272899e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio2_mes"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }
