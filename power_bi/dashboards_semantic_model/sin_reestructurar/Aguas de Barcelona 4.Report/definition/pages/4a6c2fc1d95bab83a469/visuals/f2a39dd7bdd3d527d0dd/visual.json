@@ -266,7 +266,41 @@
             "Property": "kpi_rth_global_switch"
           }
         },
-        "type": "Advanced"
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_switchs",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 1,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "kpi_rth_global_switch"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "0L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
       },
       {
         "name": "1797f825e6365db10612",
@@ -280,29 +314,34 @@
             "Property": "kpi_rth_global_switch_1m"
           }
         },
-        "type": "Advanced"
-      },
-      {
-        "name": "c6752dfc853dc11839f4",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
-        },
-        "type": "Categorical",
-        "objects": {
-          "general": [
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
             {
-              "properties": {
-                "isInvertedSelectionMode": {
-                  "expr": {
+              "Name": "_",
+              "Entity": "_switchs",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 1,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "kpi_rth_global_switch_1m"
+                    }
+                  },
+                  "Right": {
                     "Literal": {
-                      "Value": "true"
+                      "Value": "0L"
                     }
                   }
                 }
