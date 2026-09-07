@@ -248,7 +248,7 @@ table _medidas
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
 			VAR _Valor =
 			    CALCULATE (
-			        SUM(fact_aigua_consum_historic[anr_12_umc]),
+			        [volum_lliurat_global_mensual_hm3] -[volum_consumit_global_mensual_hm3] ,
 			        DATESINPERIOD (
 			            'dim_calendario'[Date],
 			            _FechaMaxContexto,
@@ -261,7 +261,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			    _Valor
 			)   
 			```
 		displayFolder: anr_global\anr\acum_12m
@@ -589,7 +589,7 @@ table _medidas
 			RETURN
 			SWITCH(
 			    TRUE(),
-			    RTH < 0.85 && Ratio > 0.8, "Subcomptatge",
+			    RTH < 0.85 && Ratio > 0.2, "Subcomptatge",
 			    "Sense Subcomptatge"
 			)
 			
@@ -1832,7 +1832,7 @@ table _medidas
 		displayFolder: compatodrs\subministraments
 		lineageTag: 98f9391b-d675-4925-b187-c4f3de1f0f69
 
-	measure anr_global_mensual_hm3 = SUM(fact_aigua_consum_historic[anr_mes])/1000000
+	measure anr_global_mensual_hm3 = [volum_lliurat_global_mensual_hm3]- [volum_consumit_global_mensual_hm3]
 		formatString: #,0.00
 		displayFolder: anr_global\anr\mensual
 		lineageTag: 0654636b-f135-436f-9748-efb105d9d565
