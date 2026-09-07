@@ -330,7 +330,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			    _Valor
 			)   
 			```
 		formatString: #,0.00
@@ -1725,7 +1725,7 @@ table _medidas
 		lineageTag: 7fd2fd53-f5f6-4294-a26c-94aca746aa4d
 
 	measure anr_distribucion_mensual = ```
-			[volum_consumit_distribucion_mensual] - [volum_lliurat_distribucion_mensual]
+			[volum_lliurat_distribucion_mensual] - [volum_consumit_distribucion_mensual] 
 			
 			```
 		formatString: #,0
@@ -3021,10 +3021,8 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    _Valor
+			    DIVIDE(_Valor,1000000)
 			)
-			
-			
 			```
 		displayFolder: anr_distribucion\anr\ytd
 		lineageTag: e930ea4c-e992-4f56-83a4-5808c08130d9
@@ -3454,7 +3452,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			    _Valor
 			)
 			
 			
@@ -4963,7 +4961,7 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure anr_distribucion_lytd = ```
+	measure anr_distribucion_lytd =
 			
 			VAR _FechaMaxContexto =
 			    MAX ( 'dim_calendario'[Date] )
@@ -4991,8 +4989,7 @@ table _medidas
 			        )
 			    )
 			
-			RETURN  _Valor 
-			```
+			RETURN  DIVIDE(_Valor ,1000000)
 		displayFolder: anr_distribucion\anr\ytd
 		lineageTag: 35ed6600-8da2-4936-9d2a-998861272063
 
@@ -5588,6 +5585,263 @@ table _medidas
 		formatString: 0.000\ %;-0.000\ %;0.000\ %
 		displayFolder: compatodrs\categoritzacio
 		lineageTag: efde3a24-4820-41d0-a247-036c437b3d94
+
+	measure diff_rth_distribucion = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual =
+			    [rth_distribucion_mensual]
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			        [rth_distribucion_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			```
+		displayFolder: anr_distribucion\rth
+		lineageTag: 3a9e8cf2-fc33-476d-89ec-80f70a25d8f0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_anr_distribucion = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual = [anr_distribucion_mensual]
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			        [anr_distribucion_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			```
+		displayFolder: anr_distribucion\anr
+		lineageTag: f3b7b12d-f733-4bc7-ad0f-18ef08b7fbce
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_volum_consumit_distribucion = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual = [volum_consumit_distribucion_mensual]
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			        [volum_consumit_distribucion_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			```
+		displayFolder: anr_distribucion\volumns\consumit
+		lineageTag: 5c28c5a6-1a74-486a-a4cb-53cf987b04fb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_lliurat_transport_lytd = ```
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _FechaInicioLY =
+			    DATE (
+			        YEAR ( _FechaMaxContexto ) - 1,
+			        1,
+			        1
+			    )
+			
+			VAR _FechaFinLY =
+			    EDATE (
+			        _FechaMaxContexto,
+			        -12
+			    )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        [volum_lliurat_distribucion_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaMaxContexto
+			        )
+			    )
+			
+			RETURN
+			    DIVIDE ( _Valor, 1000000 )
+			
+			
+			```
+		displayFolder: anr_transporte\volumens\lliurat
+		lineageTag: bcc6ad28-5b0b-4022-8b0c-8f025155cdf4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_consumit_transport_lytd = ```
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _FechaInicioLY =
+			    DATE (
+			        YEAR ( _FechaMaxContexto ) - 1,
+			        1,
+			        1
+			    )
+			
+			VAR _FechaFinLY =
+			    EDATE (
+			        _FechaMaxContexto,
+			        -12
+			    )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        [volum_consumit_transport_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaMaxContexto
+			        )
+			    )
+			
+			RETURN
+			    DIVIDE ( _Valor, 1000000 )
+			
+			
+			```
+		formatString: 0
+		displayFolder: anr_transporte\volumens\consumit
+		lineageTag: 8161d9db-8f7e-4608-ab04-5480c4259ef8
+
+	measure rendiment_transport_lytd = ```
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _FechaInicioLY =
+			    DATE (
+			        YEAR ( _FechaMaxContexto ) - 1,
+			        1,
+			        1
+			    )
+			
+			VAR _FechaFinLY =
+			    EDATE (
+			        _FechaMaxContexto,
+			        -12
+			    )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        [rendiment_transport_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaMaxContexto
+			        )
+			    )
+			
+			RETURN _Valor
+			```
+		displayFolder: anr_transporte\rendiment
+		lineageTag: cf22e795-a1cf-49bf-b1b4-67103326663a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_transporte_lytd = ```
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _FechaInicioLY =
+			    DATE (
+			        YEAR ( _FechaMaxContexto ) - 1,
+			        1,
+			        1
+			    )
+			
+			VAR _FechaFinLY =
+			    EDATE (
+			        _FechaMaxContexto,
+			        -12
+			    )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        [anr_transport_m3_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaMaxContexto
+			        )
+			    )
+			
+			RETURN
+			    DIVIDE ( _Valor, 1000000 )
+			```
+		formatString: 0
+		displayFolder: anr_transporte\anr\ytd
+		lineageTag: c70bc04f-d294-45b2-8dde-c3ff20c736ea
 
 	column Column
 		isHidden
