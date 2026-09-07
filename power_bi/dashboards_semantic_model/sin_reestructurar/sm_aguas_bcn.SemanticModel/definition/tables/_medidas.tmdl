@@ -519,23 +519,21 @@ table _medidas
 		displayFolder: us_aigua\mensual
 		lineageTag: 03a95399-c62a-4e9b-9d1e-50545ea39119
 
-	measure vategoria_fuita = ```
+	measure categoria_fuites = ```
 			
-			//VAR RTH = AVERAGE(fact_dades_consum[RTH])
-			VAR RTH = AVERAGE(fact_anr_global_mensual[rth_global])
-			VAR DeltaQmin = SUM(fact_dades_consum[QMIN_HORA]) - SUM(fact_dades_consum[CONSUM_MENSUAL_REAL])
-			VAR ZeroSensors = SUM(fact_dades_consum[DIES_AMB_CONSUM_0])
+			VAR RTH = [rth_distribucion_mensual]
+			VAR DeltaQminVsVolum = [delta_qmin_mensual] - [delta_volum_consumit_distribucion_mensual]
+			VAR ZeroSensorsFuitesOrtomat = SUM(dim_dades_sectors[num_points]) = 0
 			RETURN
 			SWITCH(
 			    TRUE(),
-			    RTH < 0.9 && DeltaQmin > 0.02, "Fuita Probable",
-			    ZeroSensors > 0, "Possible Fuita",
-			    "Sense Fuita"
+			    RTH < 0.85 && ( DeltaQminVsVolum > 0.02 || ZeroSensorsFuitesOrtomat ), "Fuites", 
+			    "Sense Fuites"
 			)
 			
 			```
 		formatString: 0
-		displayFolder: compatodrs
+		displayFolder: compatodrs\categoritzacio
 		lineageTag: 283ca3e6-b074-407f-8c67-137ee83bb95f
 
 	measure pct_lectures_visuals_vs_totals =
@@ -562,14 +560,10 @@ table _medidas
 
 	measure categoria_fraus = ```
 			
-			VAR RTH =
-			    CALCULATE(
-			        AVERAGE(fact_anr_global_mensual[rth_global])
-			    )
+			VAR RTH = [rth_distribucion_mensual]
 			
 			VAR EsFuita =
-			    [vategoria_fuita] = "Fuita Probable"
-			        || [vategoria_fuita] = "Possible Fuita"
+			    [categoria_fuites] = "Fuites"
 			
 			VAR EsSubcomptatge =
 			    [categoria_subcomptatge] = "Subcomptatge"
@@ -577,19 +571,30 @@ table _medidas
 			RETURN
 			SWITCH(
 			    TRUE(),
-			    RTH < 0.9 && NOT EsFuita && NOT EsSubcomptatge, "Fraus",
+			    RTH < 0.85 && NOT EsFuita && NOT EsSubcomptatge, "Fraus",
 			    "Sense Fraus"
 			) 
 			```
-		formatString: 0
-		displayFolder: compatodrs\no_column
+		displayFolder: compatodrs\categoritzacio
 		lineageTag: 05ea26b3-cfae-4913-a4b2-9d1307816a96
 
 	measure categoria_subcomptatge = ```
-			DIVIDE(COUNTROWS('fact_bossa') , COUNTROWS('fact_dades_consum'))
+			
+			VAR RTH = [rth_distribucion_mensual]
+			
+			VAR Num = [compt_per_sobre_q4] + [compt_per_sobre_q1] + [comptadors_correctiu] + [comptadors_consum_zero] + [subms_mas_3_peri­odes_estimats]
+			
+			VAR Ratio = DIVIDE(Num, [comptadors])
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    RTH < 0.85 && Ratio > 0.8, "Subcomptatge",
+			    "Sense Subcomptatge"
+			)
 			
 			```
-		displayFolder: compatodrs\no_column
+		displayFolder: compatodrs\categoritzacio
 		lineageTag: ce986990-2984-4ac0-a0a4-9ed8615ef2f8
 
 	measure sensors_permanents_distribucio = ```
@@ -610,7 +615,7 @@ table _medidas
 		displayFolder: compatodrs\no_column
 		lineageTag: 5b7e4d33-f361-4a67-b4b4-b5f3ca388666
 
-	measure categoria_sensors_permanents = ```
+	measure categoria_sensors_permanents =
 			
 			VAR Ratio =
 			    [sensors_permanents_distribucio]
@@ -621,8 +626,6 @@ table _medidas
 			    Ratio > 0.4, "Cobertura Mitjana",
 			    "Cobertura Baixa"
 			)
-			 
-			```
 		displayFolder: compatodrs\no_column
 		lineageTag: bb02ab51-1bce-4d5a-838d-4ee549631b4e
 
@@ -683,7 +686,7 @@ table _medidas
 		displayFolder: compatodrs\canvis
 		lineageTag: fcd9cc07-1026-41c2-8b30-d90bcf9bd4e9
 
-	measure volum_consumit_distribucion_mensual = SUM(fact_volum_cons_lliur[volum_consumit])/1000000
+	measure volum_consumit_distribucion_mensual = SUM(fact_volum_cons_lliur[volum_consumit])   // /1000000
 		formatString: #,0
 		displayFolder: anr_distribucion\volumns\consumit
 		lineageTag: 434c4f79-b648-44c1-8033-3d8c0ffff3f2
@@ -854,7 +857,7 @@ table _medidas
 		displayFolder: anr_distribucion\volumns\lliurat
 		lineageTag: 4da0b64d-3d7e-4180-a632-0583630e559b
 
-	measure volum_lliurat_distribucion_mensual = SUM(fact_volum_cons_lliur[volum_lliurat]) /1000000
+	measure volum_lliurat_distribucion_mensual = SUM(fact_volum_cons_lliur[volum_lliurat]) //        /1000000
 		formatString: #,0
 		displayFolder: anr_distribucion\volumns\lliurat
 		lineageTag: 24d97ac5-af0d-4d7c-b586-003659382b05
@@ -1810,7 +1813,7 @@ table _medidas
 		displayFolder: fraudes\fraus_detectats\acum_12
 		lineageTag: d8616d45-c737-493f-a527-b2332e588238
 
-	measure subministraments_mas3_perÃ­odes_estimats =
+	measure subms_mas_3_peri­odes_estimats =
 			
 			CALCULATE(
 			    DISTINCTCOUNT(fact_bossa[polissa_subm]),
@@ -5517,6 +5520,66 @@ table _medidas
 		lineageTag: ae47ee7f-a0d5-4485-895c-9d49f2b24d1e
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure categoria_anr = ```
+			
+			VAR RTH = [rth_distribucion_mensual]
+			
+			VAR Categoria =
+			    SWITCH(
+			        TRUE(),
+			        [categoria_fuites] = "Fuites", "Fugas",
+			        [categoria_subcomptatge] = "Subcomptatge", "Subcontaje",
+			        [categoria_fraus] = "Fraus", "Fraude",
+			        BLANK()
+			    )
+			
+			RETURN
+			    IF( RTH < 0.85, Categoria, BLANK() )
+			
+			```
+		displayFolder: compatodrs\categoritzacio
+		lineageTag: 2b4c6d8e-0a1f-4b3c-9d5e-6f7a8b9c0d1e
+
+	measure comptadors_consum_zero = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT(fact_dades_consum[polissa_subm]),
+			    fact_dades_consum[dies_amb_consum_0] > 0
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: compatodrs\categoritzacio
+		lineageTag: 9a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d
+
+	measure delta_qmin_mensual =
+			
+			VAR MesActual = [q_min_mensual]
+			VAR MesAnterior =
+			    CALCULATE(
+			        [q_min_mensual],
+			        PREVIOUSMONTH(dim_calendario[Date])
+			    )
+			RETURN
+			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: actuacions\cabals\q_min\mensual
+		lineageTag: 8f2a6b1e-3c4d-4e5f-9a6b-7c8d9e0f1a2b
+
+	measure delta_volum_consumit_distribucion_mensual =
+			
+			VAR MesActual = [volum_consumit_distribucion_mensual]
+			VAR MesAnterior =
+			    CALCULATE(
+			        [volum_consumit_distribucion_mensual],
+			        PREVIOUSMONTH(dim_calendario[Date])
+			    )
+			RETURN
+			    DIVIDE(MesActual - MesAnterior, MesAnterior, 0)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: anr_distribucion\volumns\consumit
+		lineageTag: 1d2e3f4a-5b6c-4d7e-8f9a-0b1c2d3e4f5a
 
 	column Column
 		isHidden

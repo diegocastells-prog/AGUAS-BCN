@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "16cd3fd93d8c9107668f",
   "position": {
-    "x": 477.5316169450075,
-    "y": 198.97150706041978,
+    "x": 168.87523927722503,
+    "y": 282.60754328025411,
     "z": 10000,
-    "height": 466.55387862443257,
-    "width": 776.674986180673,
+    "height": 382.55411346473426,
+    "width": 1085.6265382107324,
     "tabOrder": 7000
   },
   "visual": {
@@ -47,6 +47,43 @@
               },
               "queryRef": "_switchs.Metrica_Mapa_Seleccionada",
               "nativeQueryRef": "Metrica_Mapa_Seleccionada"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "categoria_anr"
+                }
+              },
+              "queryRef": "_medidas.categoria_anr",
+              "nativeQueryRef": "categoria_anr"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "sector"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(dim_dades_sectors.sector)",
+              "nativeQueryRef": "Primera fecha: sector"
             }
           ]
         }
@@ -140,49 +177,13 @@
               "solid": {
                 "color": {
                   "expr": {
-                    "FillRule": {
-                      "Input": {
-                        "Measure": {
-                          "Expression": {
-                            "SourceRef": {
-                              "Entity": "_switchs"
-                            }
-                          },
-                          "Property": "Metrica_Mapa_Seleccionada"
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
                         }
                       },
-                      "FillRule": {
-                        "linearGradient3": {
-                          "min": {
-                            "color": {
-                              "Literal": {
-                                "Value": "'#B9314F'"
-                              }
-                            }
-                          },
-                          "mid": {
-                            "color": {
-                              "Literal": {
-                                "Value": "'#faf98d'"
-                              }
-                            }
-                          },
-                          "max": {
-                            "color": {
-                              "Literal": {
-                                "Value": "'#92d59d'"
-                              }
-                            }
-                          },
-                          "nullColoringStrategy": {
-                            "strategy": {
-                              "Literal": {
-                                "Value": "'asZero'"
-                              }
-                            }
-                          }
-                        }
-                      }
+                      "Property": "Metrica_Color_Mapa"
                     }
                   }
                 }
@@ -296,21 +297,28 @@
             "zoom": {
               "expr": {
                 "Literal": {
-                  "Value": "9.68D"
+                  "Value": "9.44D"
                 }
               }
             },
             "centerLatitude": {
               "expr": {
                 "Literal": {
-                  "Value": "41.386076066007575D"
+                  "Value": "41.38196631375533D"
                 }
               }
             },
             "centerLongitude": {
               "expr": {
                 "Literal": {
-                  "Value": "2.092615599999931D"
+                  "Value": "2.0907205500000146D"
+                }
+              }
+            },
+            "heading": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
                 }
               }
             }
@@ -393,5 +401,70 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "2c7a29c2f0f2b2d486d3",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "sector_id"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "8e5e60befc5fbf6ddf93",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "Metrica_Mapa_Seleccionada"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9b9a784a9157c7829792",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "categoria_anr"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "203ea07997a5c2bb19f8",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_dades_sectors"
+                  }
+                },
+                "Property": "sector"
+              }
+            },
+            "Function": 3
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

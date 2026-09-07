@@ -659,21 +659,16 @@ table _switchs
 
 	measure Metrica_Mapa_Seleccionada = ```
 			
-			VAR MetricaElegida = SELECTEDVALUE(Slicer_KPI[Metrica], "Rendimiento (%)")
-			VAR Periodoelegido = SELECTEDVALUE(dummy_slicer_periodo[Periodo], "Mensual")
+			VAR MetricaElegida = SELECTEDVALUE( Slicer_KPI[Metrica], "RENDIMENT" ) 
 			RETURN
 			    SWITCH(
 			        MetricaElegida,
-			        "ANR (m³)",
-			            IF(Periodoelegido = "12 meses", [anr_acum_12m], [anr_mensual]),
-			        "Rendimiento (%)",
-			            IF(Periodoelegido = "12 meses", [rth_distribucion_12m], [rth_distribucion_mensual]),
-			        "Caudal Mínimo Nocturno",
-			            IF(Periodoelegido = "12 meses", [q_min_12_mesos_mitjana], [q_min_mensual]),
-			        "Fraudes Detectados", 
-			            [fraus_detectats],
-			        [rth_distribucion_mensual] // Valor por defecto, aqui solo se pueden meter valores numericos
+			        "ANR", [anr_mensual],
+			        "RENDIMENT", [rth_distribucion_mensual],
+			        "CATEGORIZACIO ANR", IF( [rth_distribucion_mensual] < 0.85, [rth_distribucion_mensual], BLANK() ),
+			        [rth_distribucion_mensual]
 			    )
+			 
 			```
 		lineageTag: 13cddcb7-0eef-4f96-93e4-a3a594f46a48
 
@@ -682,7 +677,7 @@ table _switchs
 	measure kpi_selected_map = SELECTEDVALUE(Slicer_KPI[Metrica], "Rendimiento (%)")
 		lineageTag: f1331140-57ce-4cef-8a54-8278137f3b0a
 
-	measure Metrica_Color_Mapa =
+	measure Metrica_Color_Mapa = ```
 			
 			VAR MetricaElegida = SELECTEDVALUE( Slicer_KPI[Metrica], "Rendimiento (%)" )
 			
@@ -695,7 +690,7 @@ table _switchs
 			        // =========================
 			        // RENDIMIENTO
 			        // =========================
-			        MetricaElegida = "Rendimiento (%)",
+			        MetricaElegida = "RENDIMENT",
 			            SWITCH(
 			                TRUE(),
 			                Valor < 0.70, "#D7191C",
@@ -707,69 +702,31 @@ table _switchs
 			        // =========================
 			        // ANR
 			        // =========================
-			        MetricaElegida = "ANR (m³)",
+			        MetricaElegida = "ANR",
 			            SWITCH(
 			                TRUE(),
 			                Valor >= 100000, "#D7191C",
 			                Valor >= 50000, "#F46D43",
 			                Valor >= 25000, "#FEE08B",
 			                "#1A9641"
-			            ),
+			            ), 
 			
 			        // =========================
-			        // CAUDAL MÍNIMO NOCTURNO
+			        // CATEGORIZACIÓN ANR (solo RTH < 85%)
 			        // =========================
-			        MetricaElegida = "Caudal Mínimo Nocturno",
+			        MetricaElegida = "CATEGORIZACIO ANR",
 			            SWITCH(
 			                TRUE(),
-			                Valor >= 100, "#D7191C",
-			                Valor >= 70, "#F46D43",
-			                Valor >= 40, "#FEE08B",
-			                "#1A9641"
-			            ),
-			
-			        // =========================
-			        // FRAUDES
-			        // =========================
-			        MetricaElegida = "Fraudes Detectados",
-			            SWITCH(
-			                TRUE(),
-			                Valor >= 100, "#D7191C",
-			                Valor >= 50, "#F46D43",
-			                Valor >= 20, "#FEE08B",
-			                "#1A9641"
+			                [categoria_anr] = "Fugas", "#1F77B4",       // Azul
+			                [categoria_anr] = "Fraude", "#D62728",      // Rojo
+			                [categoria_anr] = "Subcontaje", "#F2C300",  // Amarillo
+			                BLANK()
 			            ),
 			
 			        BLANK()
 			    )
+			```
 		lineageTag: e0c9011f-577e-497e-8f60-dfe5265779dc
-
-	measure kpi_anr_global_switch_1m =
-			
-			VAR _Periodo =
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
-			
-			RETURN
-			SWITCH(
-			    _Periodo,
-			
-			    "Mensual",
-			        [anr_global_mensual_smly_hm3],
-			
-			    "12 meses",
-			        [anr_global_acum_12m_1m_hm3],
-			
-			    "Acumulat",
-			        [anr_global_lytd],
-			
-			    "Diff",
-			        [_cero_acumulat],
-			
-			    BLANK()
-			)
-		formatString: #,0.000000
-		displayFolder: anr_global\anr
-		lineageTag: b73ca3f3-62f3-4dac-a730-77c07f2d0d69
 
 	measure kpi_consumita_global_switch =
 			
@@ -1574,6 +1531,33 @@ table _switchs
 		lineageTag: c14f3ed2-ec03-4640-9e8f-fc5cc4ca1278
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_anr_global_switch_1m =
+			
+			VAR _Periodo =
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
+			
+			RETURN
+			SWITCH(
+			    _Periodo,
+			
+			    "Mensual",
+			        [anr_global_mensual_smly_hm3],
+			
+			    "12 meses",
+			        [anr_global_acum_12m_1m_hm3],
+			
+			    "Acumulat",
+			        [anr_global_lytd],
+			
+			    "Diff",
+			        [_cero_acumulat],
+			
+			    BLANK()
+			)
+		formatString: #,0.000000
+		displayFolder: anr_global\anr
+		lineageTag: b73ca3f3-62f3-4dac-a730-77c07f2d0d69
 
 	column Column
 		isHidden

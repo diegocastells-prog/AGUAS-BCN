@@ -94,7 +94,7 @@ table dim_dades_sectors
 		annotation SummarizationSetBy = Automatic
 
 	column gerencia_id
-		dataType: int64
+		dataType: double
 		lineageTag: b85ac79d-0599-4e72-8e15-615de54eb56f
 		summarizeBy: none
 		sourceColumn: gerencia_id
@@ -112,30 +112,35 @@ table dim_dades_sectors
 		annotation SummarizationSetBy = Automatic
 
 	column latitud
-		dataType: double
+		dataType: string
 		lineageTag: e7e6061b-cf89-4d33-8f27-41de3dad2bcd
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: latitud
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column longitud
-		dataType: double
+		dataType: string
 		lineageTag: fd8f2174-a0c6-4332-a756-e85cb1ccd1c6
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: longitud
 
 		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column gerencia
 		dataType: string
 		lineageTag: ef9d1ddb-c48c-409a-b552-2f18c200dcde
 		summarizeBy: none
 		sourceColumn: gerencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column num_points
+		dataType: int64
+		formatString: 0
+		lineageTag: c3c3eae8-9421-4fe4-a3f3-9f6d36f5397e
+		summarizeBy: sum
+		sourceColumn: num_points
 
 		annotation SummarizationSetBy = Automatic
 
@@ -177,9 +182,11 @@ table dim_dades_sectors
 				    ),
 				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Filas filtradas",{{"sector_id", Int64.Type}, {"long_xarxa", Int64.Type}, {"ramals_controlats", Int64.Type}, {"subministraments_controlats", Int64.Type}, {"pressio_mitjana", type number}, {"lambert", type number}, {"afor_l_s", type number}, {"referencia", type number}, {"sector_activo", type text}}),
 				    #"Columnas quitadas2" = Table.RemoveColumns(#"Tipo cambiado1",{"_1", "_2"}),
-				    #"Tipo cambiado2" = Table.TransformColumnTypes(#"Columnas quitadas2",{{"gerencia_id", Int64.Type}, {"latitud", type number}, {"longitud", type number}})
+				    #"Consultas combinadas2" = Table.NestedJoin(#"Columnas quitadas2", {"sector_id"}, aux_dim_ortomat_sectores, {"sector_id"}, "aux_dim_ortomat_sectores", JoinKind.LeftOuter),
+				    #"Se expandió aux_dim_ortomat_sectores" = Table.ExpandTableColumn(#"Consultas combinadas2", "aux_dim_ortomat_sectores", {"num_points"}, {"aux_dim_ortomat_sectores.num_points"}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Se expandió aux_dim_ortomat_sectores",{{"aux_dim_ortomat_sectores.num_points", "num_points"}})
 				in
-				    #"Tipo cambiado2"
+				    #"Columnas con nombre cambiado"
 
 	annotation PBI_NavigationStepName = Navegación
 

@@ -1,0 +1,16 @@
+Metrica_Mapa_Seleccionada = 
+VAR MetricaElegida = SELECTEDVALUE(Slicer_KPI[Metrica], "Rendimiento (%)")
+VAR Periodoelegido = SELECTEDVALUE(dummy_slicer_periodo[Periodo], "Mensual")
+RETURN
+    SWITCH(
+        MetricaElegida,
+        "ANR (m³)",
+            IF(Periodoelegido = "12 meses", [anr_acum_12m], [anr_mensual]),
+        "Rendimiento (%)",
+            IF(Periodoelegido = "12 meses", [rth_distribucion_12m], [rth_distribucion_mensual]),
+        "Caudal Mínimo Nocturno",
+            IF(Periodoelegido = "12 meses", [q_min_12_mesos_mitjana], [q_min_mensual]),
+        "Fraudes Detectados", 
+            [fraus_detectats],
+        [rth_distribucion_mensual] // Valor por defecto, aqui solo se pueden meter valores numericos
+    )

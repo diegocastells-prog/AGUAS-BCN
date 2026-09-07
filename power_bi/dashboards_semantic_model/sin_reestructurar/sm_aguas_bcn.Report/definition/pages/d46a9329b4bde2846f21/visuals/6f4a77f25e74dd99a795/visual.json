@@ -139,6 +139,16 @@
                               },
                               "Property": "anio"
                             }
+                          },
+                          {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Source": "d"
+                                }
+                              },
+                              "Property": "mes"
+                            }
                           }
                         ],
                         "Values": [
@@ -147,12 +157,10 @@
                               "Literal": {
                                 "Value": "2026L"
                               }
-                            }
-                          ],
-                          [
+                            },
                             {
                               "Literal": {
-                                "Value": "2025L"
+                                "Value": "'febrero'"
                               }
                             }
                           ]
@@ -171,6 +179,16 @@
                               },
                               "Property": "anio"
                             }
+                          },
+                          {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Entity": "dim_calendario"
+                                }
+                              },
+                              "Property": "mes"
+                            }
                           }
                         ],
                         "decomposedIdentities": {
@@ -184,14 +202,12 @@
                                     }
                                   }
                                 ]
-                              }
-                            ],
-                            [
+                              },
                               {
-                                "0": [
+                                "1": [
                                   {
                                     "Literal": {
-                                      "Value": "2025L"
+                                      "Value": "'febrero'"
                                     }
                                   }
                                 ]
@@ -210,15 +226,25 @@
                                   "Property": "anio"
                                 }
                               }
+                            },
+                            {
+                              "value": {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "dim_calendario"
+                                    }
+                                  },
+                                  "Property": "mes"
+                                }
+                              }
                             }
                           ]
                         },
                         "valueMap": [
                           {
-                            "0": "2026"
-                          },
-                          {
-                            "0": "2025"
+                            "0": "2026",
+                            "1": "febrero"
                           }
                         ]
                       }
@@ -259,5 +285,37 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "6a077dbb472dc9166cf6",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "70f8ab2e04c0779492e8",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "mes"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }
