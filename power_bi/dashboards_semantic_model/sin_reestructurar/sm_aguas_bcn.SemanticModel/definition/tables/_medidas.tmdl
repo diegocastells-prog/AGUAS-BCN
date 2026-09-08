@@ -5078,45 +5078,6 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure volum_lliurat_distribucion_ytd = ```
-			
-			VAR _FechaInicio =
-			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			 
-			VAR _FechaFin =
-			    TODAY ()
-			 
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			 
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			 
-			VAR _Valor =
-			    CALCULATE (
-			          SUM(fact_volum_cons_lliur[volum_lliurat]),
-			        DATESBETWEEN (
-			            'dim_calendario'[Date],
-			            _FechaInicio,
-			            _FechaMaxContexto
-			        )
-			    )
-			 
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)
-			
-			
-			
-			```
-		formatString: 0
-		displayFolder: anr_distribucion\volumns\lliurat
-		lineageTag: 3a34bf69-1bde-4f8d-b254-1767910eeea9
-
 	measure l_km_prueba =
 			
 			SUM(fact_inventari_xarxa_distribucion[xarxa])
