@@ -78,11 +78,11 @@ table _switchs
 			    "Mensual", [volum_consumit_distribucion_mensual],
 			    "12 meses", [volum_consumit_distribucion_12m],
 			    "Acumulat",[volum_consumit_distribucion_ytd],
+			    "Diff",[diff_volum_consumit_distribucion],
 			    BLANK()
 			)
 			
 			```
-		formatString: #,0.00
 		displayFolder: anr_distribucion\volum\consumit
 		lineageTag: 8ee3746b-d263-4907-a46c-c3fe130e5c49
 
@@ -93,6 +93,7 @@ table _switchs
 			    "Mensual", [volum_lliurat_distribucion_mensual],
 			    "12 meses", [volum_lliurat_distribucion_12m],
 			    "Acumulat",[volum_lliurat_distribucion_ytd],
+			    "Diff",[diff_volum_lliurat_distribucion],
 			    BLANK()
 			)
 			
@@ -187,11 +188,11 @@ table _switchs
 			    "Mensual", [rth_distribucion_mensual],
 			    "12 meses", [rth_distribucion_12m],
 			    "Acumulat",[rth_distribucion_ytd],
+			    "Diff",[diff_rth_distribucion],
 			    BLANK()
 			)
 			
 			```
-		formatString: 0.0\ %;-0.0\ %;0.0\ %
 		displayFolder: anr_distribucion\rth
 		lineageTag: 9d3e0964-f7dc-4d68-910d-51909eb86273
 
@@ -389,12 +390,15 @@ table _switchs
 			    "Mensual", [volum_consumit_distribucion_mensual_smly],
 			    "12 meses", [volum_consumit_distribucion_12m],
 			    "Acumulat",[volum_consumit_distribucion_lytd],
+			    "Diff",[_cero_acumulat],
 			    BLANK()
 			)
 			
 			```
 		displayFolder: anr_distribucion\volum\consumit
 		lineageTag: b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_volum_lliurat_distribucion_switch_1m = ```
 			
@@ -403,12 +407,15 @@ table _switchs
 			    "Mensual", [volum_lliurat_distribucion_mensual_smly],
 			    "12 meses", [volum_lliurat_distribucion_12m],
 			    "Acumulat",[volum_lliurat_distribucion_lytd],
+			    "Diff",[_cero_acumulat],
 			    BLANK()
 			)
 			
 			```
 		displayFolder: anr_distribucion\volum\lliurat
 		lineageTag: c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_anr_m3_km_dia_switch_1m =
 			
@@ -489,6 +496,7 @@ table _switchs
 			    "Mensual", [rth_distribucion_mensual_smly],
 			    "12 meses", [rth_distribucion_12m],
 			    "Acumulat",[rth_distribucion_lytd],
+			    "Diff",[_cero_acumulat],
 			    BLANK()
 			)
 			
@@ -517,8 +525,8 @@ table _switchs
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [rendiment_transport_mensual_smly],
-			    "12 meses", [rendiment_transport_acum_12m],
-			    "Acumulat",[rendiment_transport_ytd],
+			    "12 meses", [rendiment_transport_acum_12m_1m],
+			    "Acumulat",[rendiment_transport_lytd],
 			    BLANK()
 			)
 			
@@ -548,7 +556,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [anr_transport_m3_mensual_smly],
 			    "12 meses", [anr_transport_m3_acum_12m_1m],
-			    "Acumulat",[anr_transporte_ytd],
+			    "Acumulat",[anr_transporte_lytd],
 			    BLANK()
 			)
 		formatString: #,0
@@ -560,8 +568,8 @@ table _switchs
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_consumit_transport_mensual_smly],
-			    "12 meses", [volum_consumit_transport_12m],
-			    "Acumulat",[volum_consumit_transport_ytd],
+			    "12 meses", [volum_consumit_transport_12m_1m],
+			    "Acumulat",[volum_consumit_transport_lytd],
 			    BLANK()
 			)
 		formatString: #,0
@@ -573,13 +581,14 @@ table _switchs
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_lliurat_transport_mensual_smly],
-			    "12 meses", [volum_lliurat_transport_12m],
-			    "Acumulat",[volum_lliurat_transport_ytd],
+			    "12 meses", [volum_lliurat_transport_12m_1m],
+			    "Acumulat",[volum_lliurat_transport_lytd],
 			    BLANK()
 			)
-		formatString: #,0
 		displayFolder: anr_transporte\volumns
 		lineageTag: b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_volum_consumit_mig_switch_1m =
 			
@@ -612,9 +621,9 @@ table _switchs
 			    "Mensual", [anr_dist_mensual],
 			    "12 meses", [anr_dist_acum_12m],
 			    "Acumulat",[anr_distribucion_ytd],
+			    "Diff",[diff_anr_distribucion],
 			    BLANK()
 			)
-		formatString: #,0.00
 		displayFolder: anr_distribucion\anr
 		lineageTag: af164dee-c6e7-47c4-bae5-3b4916ef0a91
 
@@ -625,7 +634,7 @@ table _switchs
 			    "Mensual", [anr_dist_mensual_smly],
 			    "12 meses", [anr_dist_acum_12m_1m],
 			    "Acumulat",[anr_distribucion_lytd],
-			    "Diff",0,
+			    "Diff",[_cero_acumulat],
 			    BLANK()
 			)
 		displayFolder: anr_distribucion\anr
@@ -1556,6 +1565,43 @@ table _switchs
 			)
 		displayFolder: anr_global\volumns
 		lineageTag: 856d13f3-d5e8-4103-af54-acbb2ee49c63
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_volum_lliurat_distribucion = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual = [volum_lliurat_distribucion_mensual]
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			        [volum_lliurat_distribucion_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			```
+		displayFolder: anr_distribucion\volum\lliurat
+		lineageTag: ff093090-7130-411d-9b6a-8d6aab5cd520
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
