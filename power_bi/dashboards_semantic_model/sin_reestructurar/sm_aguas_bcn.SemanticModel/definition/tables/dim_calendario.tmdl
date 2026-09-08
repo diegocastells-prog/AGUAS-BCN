@@ -178,6 +178,24 @@ table dim_calendario
 
 		annotation SummarizationSetBy = Automatic
 
+	column mestexto_año
+		lineageTag: b8cd3082-0177-4ccc-bf01-b9bc92216025
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [mestexto_año]
+		sortByColumn: aniomes
+
+		annotation SummarizationSetBy = Automatic
+
+	column mestexto_añocorto
+		lineageTag: 8fe46a35-1988-41ad-b25a-60b2293c2c26
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [mestexto_añocorto]
+		sortByColumn: aniomes
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_calendario = calculated
 		mode: import
 		source = ```
@@ -192,6 +210,8 @@ table dim_calendario
 				    "mes_num", MONTH([Date]),
 				    "mes", FORMAT([Date], "MMMM"),
 				    "mes_corto", FORMAT([Date], "MMM"),
+				    "mestexto_año", format([Date], "MMM YYYY"),
+				    "mestexto_añocorto", format([Date], "MMM YY"),
 				    "aniomes", FORMAT([Date], "YYYYMM"),
 				    "aniomes_corto", FORMAT([Date], "MM YY"), 
 				    "aniomes_corto_con_guion", FORMAT([Date], "MM-YY"), 
