@@ -45,12 +45,14 @@ table fact_consum_limitadores
 		annotation SummarizationSetBy = Automatic
 
 	column 'Cabal contractat (m3/h)'
-		dataType: string
+		dataType: double
 		lineageTag: 97b46701-e856-406a-9039-b294766f1223
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Cabal contractat (m3/h)
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column 'Mitjana cabal màxim pre (m³/h)'
 		dataType: string
@@ -61,12 +63,14 @@ table fact_consum_limitadores
 		annotation SummarizationSetBy = Automatic
 
 	column 'Mitjana cabal màxim post (m³/h)'
-		dataType: string
+		dataType: double
 		lineageTag: ae067a62-8a1f-4382-8dbd-435384614c5c
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Mitjana cabal màxim post (m³/h)
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column 'Consum mig diari(m3/d) '
 		dataType: string
@@ -77,52 +81,24 @@ table fact_consum_limitadores
 		annotation SummarizationSetBy = Automatic
 
 	column 'Mitja consum diari post (m3/d) '
-		dataType: string
+		dataType: double
 		lineageTag: 5f322cac-b9c3-473c-ae57-6054f4aaeb54
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: "Mitja consum diari post (m3/d) "
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Dif (m3/d)'
-		dataType: string
-		lineageTag: b9a0a05a-e591-4242-bd7f-c8703ca835b6
-		summarizeBy: none
-		sourceColumn: Dif (m3/d)
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Dif (m3/any)'
-		dataType: string
-		lineageTag: 45cc3f90-94fe-4243-a897-09e773ddefb1
-		summarizeBy: none
-		sourceColumn: Dif (m3/any)
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Dif (€/any)'
-		dataType: string
-		lineageTag: 877e6773-b0d2-4aa1-9955-bda9704ba74a
-		summarizeBy: none
-		sourceColumn: Dif (€/any)
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Dif (%/any)'
-		dataType: string
-		lineageTag: 84b4b32b-2638-47d6-b28a-9280e4c64a22
-		summarizeBy: none
-		sourceColumn: Dif (%/any)
-
-		annotation SummarizationSetBy = Automatic
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column 'Cabal limitació'
-		dataType: string
+		dataType: double
 		lineageTag: 308764b7-77ff-4ac5-98c3-65e8227a4e2f
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Cabal limitació
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column 'Nº puntas Antes'
 		dataType: string
@@ -190,9 +166,16 @@ table fact_consum_limitadores
 				    #"Tipo cambiado" = Table.TransformColumnTypes(Rellenado,{{"Column4", type text}}),
 				    #"Filas filtradas1" = Table.SelectRows(#"Tipo cambiado", each ([Column3] <> "????")),
 				    Encabezados = Table.PromoteHeaders(#"Filas filtradas1", [PromoteAllScalars = true]),
-				    #"Tipo cambiado1" = Table.TransformColumnTypes(Encabezados,{{"Data instal·lació", type date}})
+				    #"Tipo cambiado2" = Table.TransformColumnTypes(Encabezados,{{"Data instal·lació", type date}, {"Pol. ramal", type text}, {"Cabal contractat (m3/h)", type number}}),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Tipo cambiado2",{{"Data instal·lació", type date}}),
+				    #"Errores reemplazados" = Table.ReplaceErrorValues(#"Tipo cambiado1", {{"Cabal limitació", ""}}),
+				    #"Tipo cambiado3" = Table.TransformColumnTypes(#"Errores reemplazados",{{"Mitjana cabal màxim post (m³/h)", type number}}),
+				    #"Errores reemplazados1" = Table.ReplaceErrorValues(#"Tipo cambiado3", {{"Mitjana cabal màxim post (m³/h)", ""}}),
+				    #"Errores reemplazados2" = Table.ReplaceErrorValues(#"Errores reemplazados1", {{"Mitja consum diari post (m3/d) ", ""}}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Errores reemplazados2",{"Dif (m3/d)", "Dif (m3/any)", "Dif (€/any)", "Dif (%/any)"}),
+				    #"Tipo cambiado4" = Table.TransformColumnTypes(#"Columnas quitadas",{{"Mitja consum diari post (m3/d) ", type number}, {"Cabal limitació", type number}, {"Titular subministrament", type text}, {"DOP", type text}})
 				in
-				    #"Tipo cambiado1"
+				    #"Tipo cambiado4"
 				```
 
 	annotation PBI_NavigationStepName = Navegación
