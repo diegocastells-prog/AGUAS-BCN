@@ -1,168 +1,86 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
-  "name": "a5ef2626fbe3a8c63625",
+  "name": "95b7f2d64876e44d333a",
   "position": {
-    "x": 152.22222222222223,
-    "y": 204.44444444444443,
-    "z": 8000,
-    "height": 171.11111111111111,
-    "width": 1103.3333333333333,
-    "tabOrder": 8000
+    "x": 33.9360159677632,
+    "y": 84.840039919407985,
+    "z": 4000,
+    "height": 62,
+    "width": 169,
+    "tabOrder": 6
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "slicer",
     "query": {
       "queryState": {
-        "Category": {
+        "Values": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_calendario"
+                      "Entity": "dim_municipio"
                     }
                   },
-                  "Property": "anio2_mes"
+                  "Property": "municipio"
                 }
               },
-              "queryRef": "dim_calendario.anio2_mes",
-              "nativeQueryRef": "anio2_mes",
+              "queryRef": "dim_municipio.municipio",
+              "nativeQueryRef": "municipio",
               "active": true
             }
           ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_switchs"
-                    }
-                  },
-                  "Property": "kpi_rth_distribucion_switch"
-                }
-              },
-              "queryRef": "_switchs.kpi_rth_distribucion_switch",
-              "nativeQueryRef": "RTH Distribucion",
-              "displayName": "RTH Distribució"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_switchs"
-                    }
-                  },
-                  "Property": "kpi_aigua_consumida_acf_global_switch"
-                }
-              },
-              "queryRef": "_switchs.kpi_aigua_consumida_acf_global_switch",
-              "nativeQueryRef": "Aigua consumida ACF ",
-              "displayName": "Aigua consumida ACF "
-            }
-          ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dim_calendario"
-                  }
-                },
-                "Property": "anio2_mes"
-              }
-            },
-            "direction": "Ascending"
-          }
-        ]
       }
     },
     "objects": {
-      "labels": [
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "selfFilterEnabled": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "header": [
         {
           "properties": {
             "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "labelPrecision": {
-              "expr": {
-                "Literal": {
-                  "Value": "1L"
-                }
-              }
-            },
-            "labelDisplayUnits": {
-              "expr": {
-                "Literal": {
-                  "Value": "1000000D"
-                }
-              }
-            },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 0,
-                      "Percent": -0.6
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "lineStyles": [
-        {
-          "properties": {
-            "showMarker": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "markerSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "4D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "categoryAxis": [
-        {
-          "properties": {
-            "showAxisTitle": {
               "expr": {
                 "Literal": {
                   "Value": "false"
                 }
               }
-            },
-            "show": {
+            }
+          }
+        }
+      ],
+      "items": [
+        {
+          "properties": {
+            "textSize": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "10D"
                 }
               }
             }
@@ -174,13 +92,6 @@
       "title": [
         {
           "properties": {
-            "text": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Evolució A.C.F (hm³)'"
-                }
-              }
-            },
             "show": {
               "expr": {
                 "Literal": {
@@ -220,14 +131,14 @@
             "alignment": {
               "expr": {
                 "Literal": {
-                  "Value": "'center'"
+                  "Value": "'left'"
                 }
               }
             },
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "10D"
                 }
               }
             },
@@ -235,6 +146,13 @@
               "expr": {
                 "Literal": {
                   "Value": "'Segoe UI Semibold'"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sector'"
                 }
               }
             }
@@ -422,46 +340,18 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "ab3a793be48ebae57700",
+        "name": "bc6835c9105b10b66431",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "dim_calendario"
+                "Entity": "dim_municipio"
               }
             },
-            "Property": "anio2_mes"
+            "Property": "municipio"
           }
         },
         "type": "Categorical"
-      },
-      {
-        "name": "8219e3dd2c562a526537",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "kpi_rth_distribucion_switch"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "780cdaeb54770079957b",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "kpi_aigua_consumida_acf_global_switch"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }
