@@ -18,15 +18,12 @@ table fact_consum_limitadores
 		annotation SummarizationSetBy = Automatic
 
 	column 'Data instal·lació'
-		dataType: dateTime
-		formatString: Long Date
+		dataType: string
 		lineageTag: bd1883ad-ead1-4ab1-bdaf-797480d2dfaf
 		summarizeBy: none
 		sourceColumn: Data instal·lació
 
 		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
 
 	column 'Pol.subm'
 		dataType: string
@@ -63,14 +60,12 @@ table fact_consum_limitadores
 		annotation SummarizationSetBy = Automatic
 
 	column 'Mitjana cabal màxim post (m³/h)'
-		dataType: double
+		dataType: string
 		lineageTag: ae067a62-8a1f-4382-8dbd-435384614c5c
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Mitjana cabal màxim post (m³/h)
 
 		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column 'Consum mig diari(m3/d) '
 		dataType: string
@@ -166,16 +161,19 @@ table fact_consum_limitadores
 				    #"Tipo cambiado" = Table.TransformColumnTypes(Rellenado,{{"Column4", type text}}),
 				    #"Filas filtradas1" = Table.SelectRows(#"Tipo cambiado", each ([Column3] <> "????")),
 				    Encabezados = Table.PromoteHeaders(#"Filas filtradas1", [PromoteAllScalars = true]),
-				    #"Tipo cambiado2" = Table.TransformColumnTypes(Encabezados,{{"Data instal·lació", type date}, {"Pol. ramal", type text}, {"Cabal contractat (m3/h)", type number}}),
-				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Tipo cambiado2",{{"Data instal·lació", type date}}),
-				    #"Errores reemplazados" = Table.ReplaceErrorValues(#"Tipo cambiado1", {{"Cabal limitació", ""}}),
-				    #"Tipo cambiado3" = Table.TransformColumnTypes(#"Errores reemplazados",{{"Mitjana cabal màxim post (m³/h)", type number}}),
-				    #"Errores reemplazados1" = Table.ReplaceErrorValues(#"Tipo cambiado3", {{"Mitjana cabal màxim post (m³/h)", ""}}),
+				    #"Errores reemplazados" = Table.ReplaceErrorValues(Encabezados, {{"Cabal limitació", ""}}),
+				    #"Errores reemplazados1" = Table.ReplaceErrorValues(#"Errores reemplazados", {{"Mitjana cabal màxim post (m³/h)", ""}}),
 				    #"Errores reemplazados2" = Table.ReplaceErrorValues(#"Errores reemplazados1", {{"Mitja consum diari post (m3/d) ", ""}}),
 				    #"Columnas quitadas" = Table.RemoveColumns(#"Errores reemplazados2",{"Dif (m3/d)", "Dif (m3/any)", "Dif (€/any)", "Dif (%/any)"}),
-				    #"Tipo cambiado4" = Table.TransformColumnTypes(#"Columnas quitadas",{{"Mitja consum diari post (m3/d) ", type number}, {"Cabal limitació", type number}, {"Titular subministrament", type text}, {"DOP", type text}})
+				    #"Valor reemplazado4" = Table.ReplaceValue(#"Columnas quitadas","-","",Replacer.ReplaceValue,{"Mitja consum diari post (m3/d) "}),
+				    #"Tipo cambiado4" = Table.TransformColumnTypes(#"Valor reemplazado4",{{"Mitja consum diari post (m3/d) ", type number}, {"Cabal limitació", type number}, {"Titular subministrament", type text}, {"DOP", type text}}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Tipo cambiado4","10/16","",Replacer.ReplaceValue,{"Cabal contractat (m3/h)"}),
+				    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado","10 (16 LIMITADOR)","",Replacer.ReplaceValue,{"Cabal contractat (m3/h)"}),
+				    #"Valor reemplazado2" = Table.ReplaceValue(#"Valor reemplazado1","16/25","",Replacer.ReplaceValue,{"Cabal contractat (m3/h)"}),
+				    #"Valor reemplazado3" = Table.ReplaceValue(#"Valor reemplazado2","6,3/10","",Replacer.ReplaceValue,{"Cabal contractat (m3/h)"}),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Valor reemplazado3",{{"Cabal contractat (m3/h)", type number}})
 				in
-				    #"Tipo cambiado4"
+				    #"Tipo cambiado1"
 				```
 
 	annotation PBI_NavigationStepName = Navegación

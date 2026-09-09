@@ -2280,21 +2280,6 @@ expression dim_ortomat =
 
 	annotation PBI_ResultType = Table
 
-/// URL AL SPREEDSHET "Informe Aigua Consumida 2026" QUE CONTIENE EL AIGUA LLIURADA
-expression 'Informe Aigua Consumida 2026' = "https://docs.google.com/spreadsheets/d/1GcZpQqbGihEftG7cP56wk9-AIIv07FLtQQT95_s6ZJw/edit?gid=763204073#gid=763204073" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: f9661877-db08-4896-abf1-5be8a090f507
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
-expression 'Indicadors ANR 2026' = "https://docs.google.com/spreadsheets/d/1LK5D7QclVwCBGy5-hONVLgP1GgW35okgrxNLr1kJCoE" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: e64e325d-25f0-488d-9232-c93a1fa3c3df
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
 expression fact_actuacions_zones_2026 = ```
 		let
 		    Origen = GoogleSheets.Contents(ActuacionsZones2026_D),
@@ -2724,7 +2709,7 @@ expression 'LLOB G Pressio' = "https://docs.google.com/spreadsheets/d/1JJVUoHtJZ
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Text
+	annotation PBI_ResultType = Exception
 
 expression ActuacionsZones2026_D = "https://docs.google.com/spreadsheets/d/10RJ9dh0FLUPfG_zGxGNgFNosF-NQ9ztOAY61R5YPB-E/edit?gid=1813366036#gid=1813366036" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: af42b690-e68b-4da3-868c-a92082a18b7a
@@ -2752,38 +2737,17 @@ expression VolumsMensualsSectors_D = "https://docs.google.com/spreadsheets/d/1QA
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Text
+	annotation PBI_ResultType = Exception
 
 expression 'BES G Pressio' = "https://docs.google.com/spreadsheets/d/1NWEo4SaqS5977DA2jWtzZh8UJ1LXOYtpMUvwB_HxOkg" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 9a94c68f-e83d-42f3-84eb-d610888c05e2
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Text
+	annotation PBI_ResultType = Exception
 
 expression 'BCN G Pressio' = "https://docs.google.com/spreadsheets/d/1NknnQkvQTlpWVaHLJML1QFtsnHEDRmkFK71aCEnrR5Q/edit?gid=1464564071#gid=1464564071" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 496dabf9-9532-4f5e-b419-1bbc4acb1896
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
-expression '12_S7 desembre 2025_Tfuita_Tinst' = "https://docs.google.com/spreadsheets/d/1Smti6f94yTpfa8VeXeL6tPG_Lb0xh0niMhO6Q2k4wx4" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: a029ec7f-a104-4bb2-b5bf-afa65c91cc07
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
-expression '12_S7 desembre 2026_Tfuita_Tinst' = "https://docs.google.com/spreadsheets/d/1yyUqAFjidXbfL9QseJXva_0GL_PevZuk_EV7WaEhvhA" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: a7230f4f-14af-41d0-8e49-f7d6fa54da1a
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
-expression Estimació_Volums_Lliurats_i_Dotacions_Municipis_AB = "https://docs.google.com/spreadsheets/d/1PBcQDIOXuGzSvnWbbKL8akVRAcNYzv6ubxLW1zldlPU" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: 6f62bf0e-5506-4b15-966e-a77c6fdf0abd
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3083,6 +3047,42 @@ expression dim_art_llob_g_pressio_Palleja = ```
 
 	annotation PBI_ResultType = Table
 
+/// URL AL SPREEDSHET "Informe Aigua Consumida 2026" QUE CONTIENE EL AIGUA LLIURADA
+expression 'Informe Aigua Consumida 2026' = "https://docs.google.com/spreadsheets/d/1GcZpQqbGihEftG7cP56wk9-AIIv07FLtQQT95_s6ZJw/edit?gid=763204073#gid=763204073" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: f9661877-db08-4896-abf1-5be8a090f507
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression 'Indicadors ANR 2026' = "https://docs.google.com/spreadsheets/d/1LK5D7QclVwCBGy5-hONVLgP1GgW35okgrxNLr1kJCoE" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: e64e325d-25f0-488d-9232-c93a1fa3c3df
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression '12_S7 desembre 2025_Tfuita_Tinst' = "https://docs.google.com/spreadsheets/d/1Smti6f94yTpfa8VeXeL6tPG_Lb0xh0niMhO6Q2k4wx4" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: a029ec7f-a104-4bb2-b5bf-afa65c91cc07
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Exception
+
+expression '12_S7 desembre 2026_Tfuita_Tinst' = "https://docs.google.com/spreadsheets/d/1yyUqAFjidXbfL9QseJXva_0GL_PevZuk_EV7WaEhvhA" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: a7230f4f-14af-41d0-8e49-f7d6fa54da1a
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Exception
+
+expression Estimació_Volums_Lliurats_i_Dotacions_Municipis_AB = "https://docs.google.com/spreadsheets/d/1PBcQDIOXuGzSvnWbbKL8akVRAcNYzv6ubxLW1zldlPU" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 6f62bf0e-5506-4b15-966e-a77c6fdf0abd
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Exception
+
 expression Pozos = "https://docs.google.com/spreadsheets/d/1GlxHJlCAWZHbz33ytmi4gH8yGDvnKzX13LSovr73m34/edit?gid=1777683441#gid=1777683441" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 66dd68a2-d56b-4aab-ba1c-b356ffb4988b
 
@@ -3110,4 +3110,27 @@ expression Consum_limitadores = "https://docs.google.com/spreadsheets/d/1mOdphRl
 	annotation PBI_NavigationStepName = Navegación
 
 	annotation PBI_ResultType = Text
+
+expression 'Errores en fact_consum_limitadores' =
+		let
+		Origen = fact_consum_limitadores,
+		  #"Errores de coincidencia detectados" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Origen, Table.ColumnsOfType(Origen, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "El tipo del valor no coincide con el tipo de la columna.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Origen, pairs),
+		  #"Índice agregado" = Table.AddIndexColumn(#"Errores de coincidencia detectados", "Número de fila" ,1),
+		  #"Conservar errores" = Table.SelectRowsWithErrors(#"Índice agregado", {"Titular subministrament", "DOP", "Data instal·lació", "Pol.subm", "Pol. ramal", "Cabal contractat (m3/h)", "Mitjana cabal màxim pre (m³/h)", "Mitjana cabal màxim post (m³/h)", "Consum mig diari(m3/d) ", "Mitja consum diari post (m3/d) ", "Cabal limitació", "Nº puntas Antes", "Nº puntas Despues limitacion", "Observacions", "Resultat canvi de contracte (€/any)", "COMENTARIS", "1,8"}),
+		  #"Columnas reordenadas" = Table.ReorderColumns(#"Conservar errores", {"Número de fila", "Titular subministrament", "DOP", "Data instal·lació", "Pol.subm", "Pol. ramal", "Cabal contractat (m3/h)", "Mitjana cabal màxim pre (m³/h)", "Mitjana cabal màxim post (m³/h)", "Consum mig diari(m3/d) ", "Mitja consum diari post (m3/d) ", "Cabal limitació", "Nº puntas Antes", "Nº puntas Despues limitacion", "Observacions", "Resultat canvi de contracte (€/any)", "COMENTARIS", "1,8"})
+		in
+		  #"Columnas reordenadas"
+	lineageTag: 858492d0-b9e1-4ad0-a056-805aa11bbb63
+	queryGroup: 'Errores en las consultas: 08/09/2026 13:34:03'
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
 
