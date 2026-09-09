@@ -217,8 +217,10 @@ table _switchs
 			    "Mensual", [rendiment_transport_mensual],
 			    "12 meses", [rendiment_transport_acum_12m],
 			    "Acumulat",[rendiment_transport_ytd],
+			    "Diff",[diff_rth_transport],
 			    BLANK()
 			)
+			
 			
 			```
 		displayFolder: anr_transporte\rth
@@ -296,14 +298,16 @@ table _switchs
 			
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [anr_transport_m3_mensual]/1000000,
-			    "12 meses", [anr_transport_m3_acum_12m]/1000000,
-			    "Acumulat",[anr_transporte_ytd]/1000000,
+			    "Mensual", [anr_transport_m3_mensual],
+			    "12 meses", [anr_transport_m3_acum_12m],
+			    "Acumulat",[anr_transporte_ytd],
+			    "Diff",[diff_anr_transport],
 			    BLANK()
 			)
-		formatString: #,0.00
 		displayFolder: anr_transporte\anr
 		lineageTag: 67a9aaaf-d963-440b-b3dc-ebedbb624786
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_volum_consumit_transporte_switch =
 			
@@ -325,6 +329,7 @@ table _switchs
 			    "Mensual", [volum_lliurat_transport_mensual],
 			    "12 meses", [volum_lliurat_transport_12m],
 			    "Acumulat",[volum_lliurat_transport_ytd],
+			    "Diff", [diff_volum_lliurat_transport],
 			    BLANK()
 			)
 		formatString: #,0
@@ -527,6 +532,7 @@ table _switchs
 			    "Mensual", [rendiment_transport_mensual_smly],
 			    "12 meses", [rendiment_transport_acum_12m_1m],
 			    "Acumulat",[rendiment_transport_lytd],
+			    "Diff",[_cero_acumulat],
 			    BLANK()
 			)
 			
@@ -557,11 +563,13 @@ table _switchs
 			    "Mensual", [anr_transport_m3_mensual_smly],
 			    "12 meses", [anr_transport_m3_acum_12m_1m],
 			    "Acumulat",[anr_transporte_lytd],
+			    "Diff",[_cero_acumulat],
 			    BLANK()
 			)
-		formatString: #,0
 		displayFolder: anr_transporte\anr
 		lineageTag: f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_volum_consumit_transporte_switch_1m =
 			
@@ -583,6 +591,7 @@ table _switchs
 			    "Mensual", [volum_lliurat_transport_mensual_smly],
 			    "12 meses", [volum_lliurat_transport_12m_1m],
 			    "Acumulat",[volum_lliurat_transport_lytd],
+			    "Diff", [_cero_acumulat],
 			    BLANK()
 			)
 		displayFolder: anr_transporte\volumns
@@ -736,6 +745,33 @@ table _switchs
 			    )
 			```
 		lineageTag: e0c9011f-577e-497e-8f60-dfe5265779dc
+
+	measure kpi_anr_global_switch_1m =
+			
+			VAR _Periodo =
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
+			
+			RETURN
+			SWITCH(
+			    _Periodo,
+			
+			    "Mensual",
+			        [anr_global_mensual_smly_hm3],
+			
+			    "12 meses",
+			        [anr_global_acum_12m_1m_hm3],
+			
+			    "Acumulat",
+			        [anr_global_lytd],
+			
+			    "Diff",
+			        [_cero_acumulat],
+			
+			    BLANK()
+			)
+		formatString: #,0.000000
+		displayFolder: anr_global\anr
+		lineageTag: b73ca3f3-62f3-4dac-a730-77c07f2d0d69
 
 	measure kpi_consumita_global_switch =
 			
@@ -912,60 +948,6 @@ table _switchs
 			)
 		displayFolder: anr_global\l
 		lineageTag: 37752526-b543-4e78-a58b-a36f930a46e3
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure kpi_lliurat_global_switch =
-			
-			VAR _Periodo =
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
-			
-			VAR _EsContextoMes =
-			    ISINSCOPE('dim_calendario'[mes_corto])
-			
-			RETURN
-			SWITCH(
-			    _Periodo,
-			
-			    "Mensual",
-			        [volum_lliurat_global_mensual_hm3],
-			
-			    "12 meses",
-			        [volum_lliurat_global_acum_12m_hm3],
-			
-			    "Acumulat",
-			        [volum_lliurat_global_ytd],
-			
-			    "Diff",
-			        IF(
-			            _EsContextoMes,
-			
-			            -- En el gráfico: diferencia mes a mes
-			            [volum_lliurat_global_diff],
-			
-			            -- En la tarjeta KPI: último Diff disponible
-			            VAR _UltimaFechaConDato =
-			                MAXX(
-			                    FILTER(
-			                        ALLSELECTED('dim_calendario'[Date]),
-			                        NOT ISBLANK(
-			                            CALCULATE([volum_lliurat_global_diff])
-			                        )
-			                    ),
-			                    'dim_calendario'[Date]
-			                )
-			            RETURN
-			                CALCULATE(
-			                    [volum_lliurat_global_diff],
-			                    REMOVEFILTERS('dim_calendario'[Date]),
-			                    'dim_calendario'[Date] = _UltimaFechaConDato
-			                )
-			        ),
-			
-			    BLANK()
-			)
-		displayFolder: anr_global\volumns
-		lineageTag: 856d13f3-d5e8-4103-af54-acbb2ee49c63
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -1541,67 +1523,57 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure kpi_anr_global_switch_1m =
+	measure kpi_lliurat_global_switch =
 			
 			VAR _Periodo =
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
+			
+			VAR _EsContextoMes =
+			    ISINSCOPE('dim_calendario'[mes_corto])
 			
 			RETURN
 			SWITCH(
 			    _Periodo,
 			
 			    "Mensual",
-			        [anr_global_mensual_smly_hm3],
+			        [volum_lliurat_global_mensual_hm3],
 			
 			    "12 meses",
-			        [anr_global_acum_12m_1m_hm3],
+			        [volum_lliurat_global_acum_12m_hm3],
 			
 			    "Acumulat",
-			        [anr_global_lytd],
+			        [volum_lliurat_global_ytd],
 			
 			    "Diff",
-			        [_cero_acumulat],
+			        IF(
+			            _EsContextoMes,
+			
+			            -- En el gráfico: diferencia mes a mes
+			            [volum_lliurat_global_diff],
+			
+			            -- En la tarjeta KPI: último Diff disponible
+			            VAR _UltimaFechaConDato =
+			                MAXX(
+			                    FILTER(
+			                        ALLSELECTED('dim_calendario'[Date]),
+			                        NOT ISBLANK(
+			                            CALCULATE([volum_lliurat_global_diff])
+			                        )
+			                    ),
+			                    'dim_calendario'[Date]
+			                )
+			            RETURN
+			                CALCULATE(
+			                    [volum_lliurat_global_diff],
+			                    REMOVEFILTERS('dim_calendario'[Date]),
+			                    'dim_calendario'[Date] = _UltimaFechaConDato
+			                )
+			        ),
 			
 			    BLANK()
 			)
-		formatString: #,0.000000
-		displayFolder: anr_global\anr
-		lineageTag: b73ca3f3-62f3-4dac-a730-77c07f2d0d69
-
-	measure diff_volum_lliurat_distribucion = ```
-			
-			VAR _FechaInicio =
-			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			 
-			VAR _FechaFin =
-			    TODAY ()
-			 
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			 
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			 
-			VAR _ValorActual = [volum_lliurat_distribucion_mensual]
-			 
-			VAR _ValorAA =
-			    CALCULATE (
-			        [volum_lliurat_distribucion_mensual],
-			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
-			    )
-			 
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin
-			        || ISBLANK ( _ValorActual )
-			        || ISBLANK ( _ValorAA ),
-			    BLANK (),
-			    _ValorActual - _ValorAA
-			)
-			```
-		displayFolder: anr_distribucion\volum\lliurat
-		lineageTag: ff093090-7130-411d-9b6a-8d6aab5cd520
+		displayFolder: anr_global\volumns
+		lineageTag: 856d13f3-d5e8-4103-af54-acbb2ee49c63
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
