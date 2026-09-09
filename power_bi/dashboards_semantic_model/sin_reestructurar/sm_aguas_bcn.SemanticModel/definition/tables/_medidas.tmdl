@@ -264,10 +264,15 @@ table _medidas
 
 	measure rendiment_transport_mensual =
 			
-			DIVIDE( SUM(fact_rend_anr_arterias[sortit_m3]), SUM(fact_rend_anr_arterias[entrat_m3]) ) * 100
-		formatString: #,0.00
+			DIVIDE(
+			    [volum_consumit_transport_mensual],
+			    [volum_lliurat_transport_mensual],
+			    BLANK()
+			     )*100
 		displayFolder: anr_transporte\rendiment\mensual
 		lineageTag: 75b88512-c6e4-4daa-989d-4d62f410fed0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure anr_transport_m3_mensual = [volum_lliurat_transport_mensual]-[volum_consumit_transport_mensual]
 		formatString: #,0
@@ -6030,6 +6035,118 @@ table _medidas
 			```
 		displayFolder: anr_transporte\volumens\lliurat
 		lineageTag: 9b8a45df-82b9-484a-8db2-d7fd4f37c478
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_q_min = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual =
+			    [q_min_mensual]
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			        [q_min_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			```
+		displayFolder: actuacions\cabals\q_min
+		lineageTag: a7beec33-c4c2-40bc-acdc-9d1ce0ba7298
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure q_min_ytd = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        [q_min_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
+			)
+			```
+		displayFolder: actuacions\cabals\q_min\ytd
+		lineageTag: 99e85228-0600-480a-ab81-f1026f0ad22c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure q_min_lytd = ```
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _FechaInicioLY =
+			    DATE (
+			        YEAR ( _FechaMaxContexto ) - 1,
+			        1,
+			        1
+			    )
+			
+			VAR _FechaFinLY =
+			    EDATE (
+			        _FechaMaxContexto,
+			        -12
+			    )
+			
+			VAR _Valor =
+			    CALCULATE (
+			        [q_min_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaMaxContexto
+			        )
+			    )
+			
+			RETURN
+			    DIVIDE ( _Valor, 1000000 )
+			
+			```
+		displayFolder: actuacions\cabals\q_min\ytd
+		lineageTag: 1aa21e64-4b9d-482b-81e3-a79a8b2ac28e
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
