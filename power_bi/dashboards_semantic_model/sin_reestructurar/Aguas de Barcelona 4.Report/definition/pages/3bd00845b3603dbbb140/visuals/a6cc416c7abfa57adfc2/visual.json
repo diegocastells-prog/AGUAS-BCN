@@ -1,9 +1,9 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "a6cc416c7abfa57adfc2",
   "position": {
     "x": 441,
-    "y": 56,
+    "y": 0,
     "z": 5000,
     "height": 62,
     "width": 179,
@@ -11,6 +11,29 @@
   },
   "visual": {
     "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_dades_sectors"
+                    }
+                  },
+                  "Property": "sector"
+                }
+              },
+              "queryRef": "dim_dades_sectors.sector",
+              "nativeQueryRef": "sector",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
     "objects": {
       "data": [
         {
@@ -129,7 +152,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Pressió'"
+                  "Value": "'Sector'"
                 }
               }
             }
@@ -314,5 +337,5 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "e246e25a829a5738ec5f"
+  "parentGroupName": "f8f45ed2d5c0a6c581cd"
 }

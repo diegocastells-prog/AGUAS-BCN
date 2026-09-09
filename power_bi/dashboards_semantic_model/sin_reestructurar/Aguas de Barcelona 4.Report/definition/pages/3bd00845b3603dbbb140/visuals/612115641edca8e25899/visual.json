@@ -1,9 +1,9 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "612115641edca8e25899",
   "position": {
     "x": 221,
-    "y": 56,
+    "y": 0,
     "z": 4000,
     "height": 62,
     "width": 169,
@@ -11,6 +11,29 @@
   },
   "visual": {
     "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_gerencia"
+                    }
+                  },
+                  "Property": "gerencia"
+                }
+              },
+              "queryRef": "dim_gerencia.gerencia",
+              "nativeQueryRef": "gerencia",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
     "objects": {
       "data": [
         {
@@ -129,7 +152,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Sector'"
+                  "Value": "'Gerencia'"
                 }
               }
             }
@@ -314,5 +337,5 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "e246e25a829a5738ec5f"
+  "parentGroupName": "f8f45ed2d5c0a6c581cd"
 }
