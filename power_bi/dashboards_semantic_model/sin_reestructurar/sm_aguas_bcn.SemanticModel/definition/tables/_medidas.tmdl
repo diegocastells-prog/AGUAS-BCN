@@ -1992,10 +1992,7 @@ table _medidas
 		displayFolder: aigua_consumida\alta\acum_12
 		lineageTag: 48f2a3da-c6fe-4264-9f02-2adc65efd8e1
 
-	measure aigua_consumida_alta_global_mensual_hm3 = ```
-			SUM(fact_aigua_consum_historic[aigua_consumida_alta])   
-			
-			```
+	measure aigua_consumida_alta_global_mensual_hm3 = SUM(fact_aigua_consum_historic[aigua_consumida_alta])/1000000
 		formatString: #,0.00
 		displayFolder: aigua_consumida\alta\mensual
 		lineageTag: d77ee6d6-da97-466d-b4bd-cb3e79ee2a36
@@ -2050,10 +2047,7 @@ table _medidas
 		displayFolder: aigua_consumida\baixa\acum_12
 		lineageTag: dbe9d079-0c27-4c59-9743-aff55cc61709
 
-	measure aigua_consumida_baixa_global_mensual_hm3 = ```
-			SUM(fact_aigua_consum_historic[aigua_consumida_baixa])  
-			
-			```
+	measure aigua_consumida_baixa_global_mensual_hm3 = SUM(fact_aigua_consum_historic[aigua_consumida_baixa])/1000000
 		formatString: #,0.00
 		displayFolder: aigua_consumida\baixa\mensual
 		lineageTag: 34153362-36a5-44ea-9cff-1bffab05545d
@@ -2109,10 +2103,7 @@ table _medidas
 		displayFolder: aigua_consumida\autoconsum\acum_12
 		lineageTag: 5c68e6d6-4a16-4fa8-a203-59d6f0abfe86
 
-	measure aigua_consumida_autoconsum_global_mensual_hm3 = ```
-			SUM(fact_aigua_consum_historic[aigua_consumida_autoconsum])
-			
-			```
+	measure aigua_consumida_autoconsum_global_mensual_hm3 = SUM(fact_aigua_consum_historic[aigua_consumida_autoconsum])/1000000
 		formatString: #,0
 		displayFolder: aigua_consumida\autoconsum\mensual
 		lineageTag: 5b7e04bd-bc08-4bb8-9879-7a0e5bdd23b8
@@ -2169,7 +2160,7 @@ table _medidas
 		lineageTag: f238730d-bb97-4955-9681-960978ad9619
 
 	measure aigua_consumida_peatges_global_mensual_hm3 = ```
-			SUM(fact_aigua_consum_historic[aigua_consumida_peatges])   
+			SUM(fact_aigua_consum_historic[aigua_consumida_peatges])/1000000
 			
 			```
 		formatString: #,0.00
@@ -6096,6 +6087,253 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure dotacio_mensual = 1000*SUM(fact_estim_volum_munic_pob[volum_estimado])/SUM(fact_estim_volum_munic_pob[poblacion])/[count_dias_mes]
+		displayFolder: dotacio
+		lineageTag: 4c05d459-2d2c-459b-8ec2-8a595a52b728
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure dotacio_acum_12m = ```
+			
+			VAR _FechaFin =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _FechaInicio =
+			    EDATE ( _FechaFin, -12 )
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _Tabla12M =
+			    DATESINPERIOD (
+			        'dim_calendario'[Date],
+			        _FechaFin,
+			        -12,
+			        MONTH
+			    )
+			VAR _Valor12M =
+			    SUMX (
+			        _Tabla12M,
+			        [dotacio_mensual]
+			    )
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    _Valor12M
+			)
+			
+			```
+		displayFolder: dotacio
+		lineageTag: 53835a6e-796e-4945-945a-9a40dbe20152
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure dotacio_lytd = ```
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _FechaInicioLY =
+			    DATE ( YEAR ( _FechaMaxContexto ) - 1, 1, 1 )
+			
+			VAR _FechaFinLY =
+			    EDATE ( _FechaMaxContexto, -12 )
+			
+			VAR _TablaLYTD =
+			    DATESBETWEEN (
+			        'dim_calendario'[Date],
+			        _FechaInicioLY,
+			        _FechaFinLY
+			    )
+			
+			VAR _ValorLYTD =
+			    SUMX (
+			        _TablaLYTD,
+			        [dotacio_mensual]
+			    )
+			
+			RETURN
+			     _ValorLYTD
+			
+			```
+		displayFolder: dotacio
+		lineageTag: 3b745193-71f2-4ab0-98f5-2c672373e877
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure dotacio_ytd = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			VAR _FechaFin =
+			    TODAY ()
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _TablaYTD =
+			    DATESBETWEEN (
+			        'dim_calendario'[Date],
+			        _FechaInicio,
+			        _FechaMaxContexto
+			    )
+			VAR _ValorYTD =
+			    SUMX (
+			        _TablaYTD,
+			        [dotacio_mensual]
+			    )
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    _ValorYTD
+			)
+			
+			```
+		displayFolder: dotacio
+		lineageTag: 9f9ce576-a435-40c6-be72-dde3a4f8850a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure dotacio_acum_12m_1m = ```
+			
+			CALCULATE(
+			    [dotacio_acum_12m],
+			    DATEADD(dim_calendario[Date], -1, MONTH)
+			) 
+			```
+		displayFolder: dotacio
+		lineageTag: 186bfa9e-5f57-4708-b142-a910fecace5c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure dotacio_mensual_smly = ```
+			
+			CALCULATE(
+			    [dotacio_mensual],
+			     DATEADD( dim_calendario[Date], -12, MONTH )
+			)
+			
+			```
+		displayFolder: dotacio
+		lineageTag: fdbec551-74b3-475a-a63e-4fdebc0b0655
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_q_min = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual =
+			    [q_min_mensual]
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			        [q_min_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			```
+		displayFolder: actuacions\cabals\q_min
+		lineageTag: a7beec33-c4c2-40bc-acdc-9d1ce0ba7298
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure q_min_ytd = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        [q_min_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
+			)
+			```
+		displayFolder: actuacions\cabals\q_min\ytd
+		lineageTag: 99e85228-0600-480a-ab81-f1026f0ad22c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure q_min_lytd = ```
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _FechaInicioLY =
+			    DATE (
+			        YEAR ( _FechaMaxContexto ) - 1,
+			        1,
+			        1
+			    )
+			
+			VAR _FechaFinLY =
+			    EDATE (
+			        _FechaMaxContexto,
+			        -12
+			    )
+			
+			VAR _Valor =
+			    CALCULATE (
+			        [q_min_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaMaxContexto
+			        )
+			    )
+			
+			RETURN
+			    DIVIDE ( _Valor, 1000000 )
+			
+			```
+		displayFolder: actuacions\cabals\q_min\ytd
+		lineageTag: 1aa21e64-4b9d-482b-81e3-a79a8b2ac28e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0
@@ -6111,4 +6349,3 @@ table _medidas
 		source = Row("Column", BLANK())
 
 	annotation PBI_Id = a1da0bba84a94800be6f0611eb8cf21a
-

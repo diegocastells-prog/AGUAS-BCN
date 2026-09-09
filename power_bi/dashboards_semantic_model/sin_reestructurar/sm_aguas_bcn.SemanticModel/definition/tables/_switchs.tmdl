@@ -202,6 +202,8 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [q_min_mensual],
 			    "12 meses", [q_min_12_mesos_mitjana],
+			    "Acumulat",[q_min_ytd],
+			    "Diff", [diff_q_min],
 			    BLANK()
 			)
 			
@@ -316,6 +318,7 @@ table _switchs
 			    "Mensual", [volum_consumit_transport_mensual],
 			    "12 meses", [volum_consumit_transport_12m],
 			    "Acumulat",[volum_consumit_transport_ytd],
+			    "Diff",[diff_volum_consumit_transport],
 			    BLANK()
 			)
 		formatString: #,0
@@ -516,6 +519,8 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [q_min_mensual_smly],
 			    "12 meses", [q_min_12_mesos_mitjana_1m],
+			    "Acumulat",[q_min_lytd],
+			    "Diff", [_cero_acumulat],
 			    BLANK()
 			)
 			
@@ -578,6 +583,8 @@ table _switchs
 			    "Mensual", [volum_consumit_transport_mensual_smly],
 			    "12 meses", [volum_consumit_transport_12m_1m],
 			    "Acumulat",[volum_consumit_transport_lytd],
+			    "Diff",[_cero_acumulat],
+			
 			    BLANK()
 			)
 		formatString: #,0
@@ -1576,6 +1583,39 @@ table _switchs
 		formatString: #,0.000000
 		displayFolder: anr_global\anr
 		lineageTag: b73ca3f3-62f3-4dac-a730-77c07f2d0d69
+<<<<<<< HEAD
+=======
+
+	measure kpi_dotacio_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [dotacio_mensual],
+			    "12 meses", [dotacio_acum_12m],
+			    "Acumulat",[dotacio_ytd],
+			    "Diff",[_cero_acumulat],
+			    BLANK()
+			)
+		displayFolder: dotacio
+		lineageTag: a3b5349c-012a-4d23-b89f-be8afde1088f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_dotacio_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [dotacio_mensual_smly],
+			    "12 meses", [dotacio_acum_12m_1m],
+			    "Acumulat",[dotacio_lytd],
+			    "Diff",[_cero_acumulat],
+			    BLANK()
+			)
+		displayFolder: dotacio
+		lineageTag: b588507b-9309-46c5-bc1d-c773d0d6ba9c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+>>>>>>> cbb0908d109f582bb1acbb1e043487e472f79a41
 
 	column Column
 		isHidden

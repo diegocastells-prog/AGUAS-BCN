@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "4f982f21bae5b181acea",
   "position": {
     "x": 405.2261306532663,
@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_calendario.anio",
-              "nativeQueryRef": "Suma de anio",
-              "active": true
+              "nativeQueryRef": " ",
+              "active": true,
+              "displayName": " "
             },
             {
               "field": {
@@ -42,8 +43,43 @@
                 }
               },
               "queryRef": "dim_calendario.mes_corto",
-              "nativeQueryRef": "mes_corto",
-              "active": true
+              "nativeQueryRef": "Data",
+              "active": true,
+              "displayName": "Data"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_anr_global_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_anr_global_switch",
+              "nativeQueryRef": "ANR",
+              "displayName": "ANR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_rth_global_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_rth_global_switch",
+              "nativeQueryRef": "RTH",
+              "displayName": "RTH"
             }
           ]
         },
@@ -61,8 +97,13 @@
                 }
               },
               "queryRef": "_switchs.kpi_lliurat_global_switch",
+<<<<<<< HEAD
               "nativeQueryRef": "Lliurat global",
               "displayName": "Lliurat global"
+=======
+              "nativeQueryRef": "Aigua Lliurat",
+              "displayName": "Aigua Lliurat"
+>>>>>>> cbb0908d109f582bb1acbb1e043487e472f79a41
             }
           ]
         },
@@ -80,8 +121,13 @@
                 }
               },
               "queryRef": "_switchs.kpi_consumita_global_switch",
+<<<<<<< HEAD
               "nativeQueryRef": "Consumita global",
               "displayName": "Consumita global"
+=======
+              "nativeQueryRef": "Aigua Consumita",
+              "displayName": "Aigua Consumita"
+>>>>>>> cbb0908d109f582bb1acbb1e043487e472f79a41
             }
           ]
         }
@@ -213,7 +259,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Consumita'"
+                  "Value": "'Balanç global d’aigua (hm³)'"
                 }
               }
             },

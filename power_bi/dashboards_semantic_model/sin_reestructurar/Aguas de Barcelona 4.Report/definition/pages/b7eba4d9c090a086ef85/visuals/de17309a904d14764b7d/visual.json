@@ -131,7 +131,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Volum Lliurat Distr'"
+                  "Value": "'Volum Lliurat'"
                 }
               }
             },
@@ -258,5 +258,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "ec445163a6c5005db0a2",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_volum_lliurat_distribucion_switch_1m"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2ac1359ddbbea5c0d607",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_volum_lliurat_distribucion_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "69793ec003360a53c2b2",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }
