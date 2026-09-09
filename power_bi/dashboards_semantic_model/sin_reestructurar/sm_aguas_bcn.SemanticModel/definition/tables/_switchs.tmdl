@@ -329,6 +329,7 @@ table _switchs
 			    "Mensual", [volum_lliurat_transport_mensual],
 			    "12 meses", [volum_lliurat_transport_12m],
 			    "Acumulat",[volum_lliurat_transport_ytd],
+			    "Diff", [diff_volum_lliurat_transport],
 			    BLANK()
 			)
 		formatString: #,0
@@ -590,6 +591,7 @@ table _switchs
 			    "Mensual", [volum_lliurat_transport_mensual_smly],
 			    "12 meses", [volum_lliurat_transport_12m_1m],
 			    "Acumulat",[volum_lliurat_transport_lytd],
+			    "Diff", [_cero_acumulat],
 			    BLANK()
 			)
 		displayFolder: anr_transporte\volumns
@@ -1572,43 +1574,6 @@ table _switchs
 			)
 		displayFolder: anr_global\volumns
 		lineageTag: 856d13f3-d5e8-4103-af54-acbb2ee49c63
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure diff_volum_lliurat_distribucion = ```
-			
-			VAR _FechaInicio =
-			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			 
-			VAR _FechaFin =
-			    TODAY ()
-			 
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			 
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			 
-			VAR _ValorActual = [volum_lliurat_distribucion_mensual]
-			 
-			VAR _ValorAA =
-			    CALCULATE (
-			        [volum_lliurat_distribucion_mensual],
-			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
-			    )
-			 
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin
-			        || ISBLANK ( _ValorActual )
-			        || ISBLANK ( _ValorAA ),
-			    BLANK (),
-			    _ValorActual - _ValorAA
-			)
-			```
-		displayFolder: anr_distribucion\volum\lliurat
-		lineageTag: ff093090-7130-411d-9b6a-8d6aab5cd520
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

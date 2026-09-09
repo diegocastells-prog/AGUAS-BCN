@@ -5730,7 +5730,7 @@ table _medidas
 			
 			
 			```
-		displayFolder: anr_transporte\volumens\lliurat
+		displayFolder: anr_transporte\volumens\lliurat\ytd
 		lineageTag: bcc6ad28-5b0b-4022-8b0c-8f025155cdf4
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -5769,7 +5769,7 @@ table _medidas
 			
 			```
 		formatString: 0
-		displayFolder: anr_transporte\volumens\consumit
+		displayFolder: anr_transporte\volumens\consumit\ytd
 		lineageTag: 8161d9db-8f7e-4608-ab04-5480c4259ef8
 
 	measure rendiment_transport_lytd = ```
@@ -5917,6 +5917,119 @@ table _medidas
 			```
 		displayFolder: anr_transporte\anr
 		lineageTag: 738e9dee-b052-47c4-814f-004c03b0b391
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_volum_consumit_transport = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual =
+			    [volum_consumit_transport_mensual]
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			        [volum_consumit_transport_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			```
+		displayFolder: anr_transporte\volumens\consumit
+		lineageTag: 13421f1d-e398-4eea-bb42-d697ba0ad0cc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_volum_lliurat_distribucion = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual = [volum_lliurat_distribucion_mensual]
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			        [volum_lliurat_distribucion_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			```
+		displayFolder: anr_distribucion\volumns\lliurat
+		lineageTag: ff093090-7130-411d-9b6a-8d6aab5cd520
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_volum_lliurat_transport = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual =
+			    [volum_lliurat_transport_mensual]
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			        [volum_lliurat_transport_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			```
+		displayFolder: anr_transporte\volumens\lliurat
+		lineageTag: 9b8a45df-82b9-484a-8db2-d7fd4f37c478
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
