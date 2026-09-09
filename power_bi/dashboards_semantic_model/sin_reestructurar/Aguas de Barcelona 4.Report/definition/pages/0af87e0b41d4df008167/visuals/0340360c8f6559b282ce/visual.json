@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
-              "active": true
+              "nativeQueryRef": "Fecha",
+              "active": true,
+              "displayName": "Fecha"
             }
           ]
         },
@@ -46,8 +47,9 @@
                 }
               },
               "queryRef": "dim_gerencia.gerencia",
-              "nativeQueryRef": "gerencia1",
-              "active": true
+              "nativeQueryRef": "Gerencia",
+              "active": true,
+              "displayName": "Gerencia"
             },
             {
               "field": {
@@ -61,8 +63,9 @@
                 }
               },
               "queryRef": "dim_dades_sectors.sector",
-              "nativeQueryRef": "sector",
-              "active": false
+              "nativeQueryRef": "Sector",
+              "active": false,
+              "displayName": "Sector"
             }
           ]
         },
@@ -76,12 +79,12 @@
                       "Entity": "_switchs"
                     }
                   },
-                  "Property": "kpi_km_inspeccionats_acustic_switch"
+                  "Property": "kpi_km_inspeccionats_heli_switch"
                 }
               },
-              "queryRef": "_switchs.kpi_km_inspeccionats_acustic_switch",
-              "nativeQueryRef": "Km Inspeccionats Acustic ",
-              "displayName": "Km Inspeccionats Acustic "
+              "queryRef": "_switchs.kpi_km_inspeccionats_heli_switch",
+              "nativeQueryRef": "Km Inspeccionats Heli ",
+              "displayName": "Km Inspeccionats Heli "
             }
           ],
           "fieldParameters": [
@@ -103,6 +106,42 @@
         }
       }
     },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "dim_gerencia.gerencia"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_gerencia"
+                    }
+                  },
+                  "Property": "gerencia"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "dim_dades_sectors.sector"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          }
+        ],
+        "root": {}
+      }
+    ],
     "visualContainerObjects": {
       "title": [
         {
@@ -110,7 +149,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Qualitat de lectura (línia o columnes agrupades)'"
+                  "Value": "'Detall d''Inspeccions, Avaries i Cabal Recuperat'"
                 }
               }
             },
@@ -355,14 +394,14 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'% lectures visuals vs totals i % lectures estimades vs totals'"
+                  "Value": "''"
                 }
               }
             }
@@ -371,5 +410,65 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "c33ab0901c4bc2a2957c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "92da5ee10d00e4587c5a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_gerencia"
+              }
+            },
+            "Property": "gerencia"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "65ad13173071da245aae",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "sector"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "894f08f6e420302565c0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_km_inspeccionats_heli_switch"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

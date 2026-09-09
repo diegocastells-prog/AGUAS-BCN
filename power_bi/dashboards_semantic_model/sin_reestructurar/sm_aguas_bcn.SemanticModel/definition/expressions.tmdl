@@ -3110,27 +3110,3 @@ expression Consum_limitadores = "https://docs.google.com/spreadsheets/d/1mOdphRl
 	annotation PBI_NavigationStepName = Navegación
 
 	annotation PBI_ResultType = Text
-
-expression 'Errores en fact_consum_limitadores' =
-		let
-		Origen = fact_consum_limitadores,
-		  #"Errores de coincidencia detectados" = let
-		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Origen, Table.ColumnsOfType(Origen, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
-		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
-		    fieldNames = Record.FieldNames(recordTypeFields),
-		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
-		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "El tipo del valor no coincide con el tipo de la columna.", Detail = v], fieldTypes{i}})
-		in
-		    Table.TransformColumns(Origen, pairs),
-		  #"Índice agregado" = Table.AddIndexColumn(#"Errores de coincidencia detectados", "Número de fila" ,1),
-		  #"Conservar errores" = Table.SelectRowsWithErrors(#"Índice agregado", {"Titular subministrament", "DOP", "Data instal·lació", "Pol.subm", "Pol. ramal", "Cabal contractat (m3/h)", "Mitjana cabal màxim pre (m³/h)", "Mitjana cabal màxim post (m³/h)", "Consum mig diari(m3/d) ", "Mitja consum diari post (m3/d) ", "Cabal limitació", "Nº puntas Antes", "Nº puntas Despues limitacion", "Observacions", "Resultat canvi de contracte (€/any)", "COMENTARIS", "1,8"}),
-		  #"Columnas reordenadas" = Table.ReorderColumns(#"Conservar errores", {"Número de fila", "Titular subministrament", "DOP", "Data instal·lació", "Pol.subm", "Pol. ramal", "Cabal contractat (m3/h)", "Mitjana cabal màxim pre (m³/h)", "Mitjana cabal màxim post (m³/h)", "Consum mig diari(m3/d) ", "Mitja consum diari post (m3/d) ", "Cabal limitació", "Nº puntas Antes", "Nº puntas Despues limitacion", "Observacions", "Resultat canvi de contracte (€/any)", "COMENTARIS", "1,8"})
-		in
-		  #"Columnas reordenadas"
-	lineageTag: 858492d0-b9e1-4ad0-a056-805aa11bbb63
-	queryGroup: 'Errores en las consultas: 08/09/2026 13:34:03'
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Table
-

@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
-              "active": true
+              "nativeQueryRef": "Fecha",
+              "active": true,
+              "displayName": "Fecha"
             }
           ]
         },
@@ -46,7 +47,8 @@
                 }
               },
               "queryRef": "_switchs.kpi_fuites_reparades_acustic_switch",
-              "nativeQueryRef": "kpi_fuites_reparades_acustic_switch"
+              "nativeQueryRef": "Acustic",
+              "displayName": "Acustic"
             },
             {
               "field": {
@@ -60,7 +62,8 @@
                 }
               },
               "queryRef": "_switchs.kpi_fuites_reparades_altres_switch",
-              "nativeQueryRef": "kpi_fuites_reparades_altres_switch"
+              "nativeQueryRef": "Altres",
+              "displayName": "Altres"
             },
             {
               "field": {
@@ -74,11 +77,74 @@
                 }
               },
               "queryRef": "_switchs.kpi_fuites_reparades_heli_switch",
-              "nativeQueryRef": "kpi_fuites_reparades_heli_switch"
+              "nativeQueryRef": "Heli",
+              "displayName": "Heli"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "valueAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "showGradientLegend": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'TopCenter'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [
@@ -87,7 +153,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Gràfic de barres Acústic, Altres i Heli'"
+                  "Value": "'Km Fuites Reparat per Mètode'"
                 }
               }
             },
@@ -332,7 +398,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
@@ -340,6 +406,13 @@
               "expr": {
                 "Literal": {
                   "Value": "'Preventiu, correctiu'"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'left'"
                 }
               }
             }
