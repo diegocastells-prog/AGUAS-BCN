@@ -46,6 +46,10 @@ relationship AutoDetected_8cc92c02-d408-465e-b1a4-2148e20d310e
 	fromColumn: fact_z_sector.sector_id
 	toColumn: fact_volumns_sector.sector_id
 
+relationship AutoDetected_bf589676-bfd9-4235-b31d-03d515ae2e91
+	fromColumn: fact_tfuita_tinst.Gerencia
+	toColumn: dim_gerencia.gerencia
+
 relationship c17fccfe-b9ec-f0e0-9955-c5eb785bd431
 	fromColumn: dim_dades_sectors.gerencia_id
 	toColumn: dim_gerencia.gerencia_id
@@ -62,14 +66,6 @@ relationship beccf909-bd77-3fbe-2b9d-7ab84f40e840
 	fromColumn: fact_vol_fraud.'Polissa Subm'
 	toColumn: dim_less_polissa_fraude.polissa_su
 
-relationship AutoDetected_908a0836-297c-4d36-b467-d8641fa92bf3
-	fromColumn: Tfuita_Tinst_2026.aviso
-	toColumn: fact_tfuita_tinst.aviso
-
-relationship AutoDetected_bf589676-bfd9-4235-b31d-03d515ae2e91
-	fromColumn: fact_tfuita_tinst.Gerencia
-	toColumn: dim_gerencia.gerencia
-
 relationship cb678c9c-e5b4-4987-bbd9-0552fbdb11b4
 	fromColumn: aux_fact_poblacion_munic.municipio
 	toColumn: dim_municipio.municipio
@@ -84,6 +80,10 @@ relationship a1c8bca7-7f40-0223-e352-98ac2881f063
 relationship 4509abf2-cc1c-7590-979d-ac75c75243a2
 	fromColumn: fact_perimetre_comptadors.sector_id
 	toColumn: dim_dades_sectors.sector_id
+
+relationship AutoDetected_908a0836-297c-4d36-b467-d8641fa92bf3
+	fromColumn: Tfuita_Tinst_2026.aviso
+	toColumn: fact_tfuita_tinst.aviso
 
 relationship db1942ac-3c9f-751d-0de6-1fd5a1882d75
 	crossFilteringBehavior: bothDirections
@@ -146,5 +146,13 @@ relationship bc67c907-f155-61a4-df8b-db4acb247d27
 
 relationship a98bf179-c173-70bb-0bfd-92ad367372dd
 	fromColumn: fact_dades_consum.fecha
+	toColumn: dim_calendario.Date
+
+relationship 1cf24e28-ab33-29ff-3bc8-f597aba875ad
+	fromColumn: fact_estim_volum_munic_pob.id_mun
+	toColumn: dim_municipio.id_mun
+
+relationship bc847146-a89f-11e8-7107-7405357e7c15
+	fromColumn: fact_estim_volum_munic_pob.fecha
 	toColumn: dim_calendario.Date
 
