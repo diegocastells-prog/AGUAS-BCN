@@ -7247,6 +7247,36 @@ cultureInfo es-ES
 			            "State": "Generated",
 			            "Weight": 0.99
 			          }
+			        },
+			        {
+			          "RTH Transport": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "RTH": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "RTH Transporte": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -7316,6 +7346,26 @@ cultureInfo es-ES
 			            "State": "Generated",
 			            "Weight": 0.99
 			          }
+			        },
+			        {
+			          "ANR": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "ANR Transport": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -7339,6 +7389,16 @@ cultureInfo es-ES
 			            "State": "Generated",
 			            "Weight": 0.99
 			          }
+			        },
+			        {
+			          "Volum Consumit Transporte": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -7361,6 +7421,16 @@ cultureInfo es-ES
 			            "Type": "Noun",
 			            "State": "Generated",
 			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "Volum Lliurat Transporte": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
 			          }
 			        }
 			      ]
@@ -19999,16 +20069,6 @@ cultureInfo es-ES
 			          "municipio": {
 			            "State": "Generated"
 			          }
-			        },
-			        {
-			          "municipis": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
 			        }
 			      ]
 			    },
@@ -23863,6 +23923,959 @@ cultureInfo es-ES
 			    }
 			  },
 			  "Relationships": {
+			    "tfuita_tinst_2026_has_fact_tfuita_tinst": {
+			      "Binding": {
+			        "ConceptualEntity": "Tfuita_Tinst_2026"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tfuita_tinst_2026": {
+			          "Target": {
+			            "Entity": "tfuita_tinst_2026"
+			          }
+			        },
+			        "fact_tfuita_tinst": {
+			          "Target": {
+			            "Entity": "fact_tfuita_tinst"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tfuita_tinst_2026"
+			            },
+			            "Object": {
+			              "Role": "fact_tfuita_tinst"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tfuita_tinst_2026_have_fact_tfuita_tinsts"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_tfuita_tinst"
+			            },
+			            "Object": {
+			              "Role": "tfuita_tinst_2026"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_tfuita_tinsts_have_tfuita_tinst_2026"
+			        }
+			      ]
+			    },
+			    "fact_actuacions_zone_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_actuacions_zones"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_actuacions_zone": {
+			          "Target": {
+			            "Entity": "fact_actuacions_zone"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_actuacions_zone"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_actuacions_zones_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_actuacions_zone"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_actuacions_zones"
+			        }
+			      ]
+			    },
+			    "fact_actuacions_zone_has_dim_dades_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_actuacions_zones"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_actuacions_zone": {
+			          "Target": {
+			            "Entity": "fact_actuacions_zone"
+			          }
+			        },
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_actuacions_zone"
+			            },
+			            "Object": {
+			              "Role": "dim_dades_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_actuacions_zones_have_dim_dades_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "fact_actuacions_zone"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_fact_actuacions_zones"
+			        }
+			      ]
+			    },
+			    "fact_inventari_xarxa_transporte_total_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_inventari_xarxa_transporte_total"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_inventari_xarxa_transporte_total": {
+			          "Target": {
+			            "Entity": "fact_inventari_xarxa_transporte_total"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_inventari_xarxa_transporte_total"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_inventari_xarxa_transporte_totals_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_inventari_xarxa_transporte_total"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_inventari_xarxa_transporte_totals"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_dim_calendarios"
+			        }
+			      ]
+			    },
+			    "fact_volum_cons_lliur_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_volum_cons_lliur"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_volum_cons_lliurs"
+			        }
+			      ]
+			    },
+			    "fact_volum_cons_lliur_has_dim_dades_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "dim_dades_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_dim_dades_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "fact_volum_cons_lliur"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_fact_volum_cons_lliurs"
+			        }
+			      ]
+			    },
+			    "fact_dades_consum_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_dades_consum"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_dades_consum": {
+			          "Target": {
+			            "Entity": "fact_dades_consum"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_dades_consum"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_dades_consums_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_dades_consum"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_dades_consums"
+			        }
+			      ]
+			    },
+			    "fact_dades_consum_has_fact_perimetre_comptador": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_dades_consum"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_dades_consum": {
+			          "Target": {
+			            "Entity": "fact_dades_consum"
+			          }
+			        },
+			        "fact_perimetre_comptador": {
+			          "Target": {
+			            "Entity": "fact_perimetre_comptador"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_dades_consum"
+			            },
+			            "Object": {
+			              "Role": "fact_perimetre_comptador"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_dades_consums_have_fact_perimetre_comptadors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_perimetre_comptador"
+			            },
+			            "Object": {
+			              "Role": "fact_dades_consum"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_perimetre_comptadors_have_fact_dades_consums"
+			        }
+			      ]
+			    },
+			    "dim_dades_sector_has_dim_gerencia": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_dades_sectors"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          }
+			        },
+			        "dim_gerencia": {
+			          "Target": {
+			            "Entity": "dim_gerencia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "dim_gerencia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_dim_gerencias"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_gerencia"
+			            },
+			            "Object": {
+			              "Role": "dim_dades_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_gerencias_have_dim_dades_sectors"
+			        }
+			      ]
+			    },
+			    "fact_vol_fraud_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_vol_fraud"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_vol_fraud": {
+			          "Target": {
+			            "Entity": "fact_vol_fraud"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_vol_fraud"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_vol_frauds_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_vol_fraud"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_vol_frauds"
+			        }
+			      ]
+			    },
+			    "fact_vol_fraud_has_dim_less_polissa_fraude": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_vol_fraud"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_vol_fraud": {
+			          "Target": {
+			            "Entity": "fact_vol_fraud"
+			          }
+			        },
+			        "dim_less_polissa_fraude": {
+			          "Target": {
+			            "Entity": "dim_less_polissa_fraude"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_vol_fraud"
+			            },
+			            "Object": {
+			              "Role": "dim_less_polissa_fraude"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_vol_frauds_have_dim_less_polissa_fraude"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_less_polissa_fraude"
+			            },
+			            "Object": {
+			              "Role": "fact_vol_fraud"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_less_polissa_fraude_have_fact_vol_frauds"
+			        }
+			      ]
+			    },
+			    "fact_z_sector_has_fact_volumns_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_z_sector"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_z_sector": {
+			          "Target": {
+			            "Entity": "fact_z_sector"
+			          }
+			        },
+			        "fact_volumns_sector": {
+			          "Target": {
+			            "Entity": "fact_volumns_sector"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_z_sector"
+			            },
+			            "Object": {
+			              "Role": "fact_volumns_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_z_sectors_have_fact_volumns_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volumns_sector"
+			            },
+			            "Object": {
+			              "Role": "fact_z_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volumns_sectors_have_fact_z_sectors"
+			        }
+			      ]
+			    },
+			    "fact_bossa_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_bossa"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_bossa": {
+			          "Target": {
+			            "Entity": "fact_bossa"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_bossa"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_bossas_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_bossa"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_bossas"
+			        }
+			      ]
+			    },
+			    "fact_bossa_has_dim_dades_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_bossa"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_bossa": {
+			          "Target": {
+			            "Entity": "fact_bossa"
+			          }
+			        },
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_bossa"
+			            },
+			            "Object": {
+			              "Role": "dim_dades_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_bossas_have_dim_dades_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "fact_bossa"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_fact_bossas"
+			        }
+			      ]
+			    },
+			    "fact_cabals_mínim_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_cabals_mínims"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_cabals_mínim": {
+			          "Target": {
+			            "Entity": "fact_cabals_mínim"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_cabals_mínim"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_cabals_mínims_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_cabals_mínim"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_cabals_mínims"
+			        }
+			      ]
+			    },
+			    "fact_cabals_mínim_has_dim_dades_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_cabals_mínims"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_cabals_mínim": {
+			          "Target": {
+			            "Entity": "fact_cabals_mínim"
+			          }
+			        },
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_cabals_mínim"
+			            },
+			            "Object": {
+			              "Role": "dim_dades_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_cabals_mínims_have_dim_dades_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "fact_cabals_mínim"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_fact_cabals_mínims"
+			        }
+			      ]
+			    },
+			    "fact_perimetre_comptador_has_dim_dades_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_perimetre_comptadors"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_perimetre_comptador": {
+			          "Target": {
+			            "Entity": "fact_perimetre_comptador"
+			          }
+			        },
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_perimetre_comptador"
+			            },
+			            "Object": {
+			              "Role": "dim_dades_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_perimetre_comptadors_have_dim_dades_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "fact_perimetre_comptador"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_fact_perimetre_comptadors"
+			        }
+			      ]
+			    },
+			    "fact_perimetre_comptador_has_dim_comptador": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_perimetre_comptadors"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_perimetre_comptador": {
+			          "Target": {
+			            "Entity": "fact_perimetre_comptador"
+			          }
+			        },
+			        "dim_comptador": {
+			          "Target": {
+			            "Entity": "dim_comptador"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_perimetre_comptador"
+			            },
+			            "Object": {
+			              "Role": "dim_comptador"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_perimetre_comptadors_have_dim_comptadors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_comptador"
+			            },
+			            "Object": {
+			              "Role": "fact_perimetre_comptador"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_comptadors_have_fact_perimetre_comptadors"
+			        }
+			      ]
+			    },
+			    "fact_fraude_all_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_fraudes_all"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_fraude_all": {
+			          "Target": {
+			            "Entity": "fact_fraude_all"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_fraude_all"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_fraude_all_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_fraude_all"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_fraude_all"
+			        }
+			      ]
+			    },
+			    "fact_fraude_all_has_dim_less_polissa_fraude": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_fraudes_all"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_fraude_all": {
+			          "Target": {
+			            "Entity": "fact_fraude_all"
+			          }
+			        },
+			        "dim_less_polissa_fraude": {
+			          "Target": {
+			            "Entity": "dim_less_polissa_fraude"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_fraude_all"
+			            },
+			            "Object": {
+			              "Role": "dim_less_polissa_fraude"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_fraude_all_have_dim_less_polissa_fraude"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_less_polissa_fraude"
+			            },
+			            "Object": {
+			              "Role": "fact_fraude_all"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_less_polissa_fraude_have_fact_fraude_all"
+			        }
+			      ]
+			    },
 			    "dim_less_polissa_fraude_has_fact_volumns_sector": {
 			      "Binding": {
 			        "ConceptualEntity": "dim_less_polissa_fraude"
@@ -66276,959 +67289,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "dim_calendarios_have_dates"
-			        }
-			      ]
-			    },
-			    "fact_fraude_all_has_dim_less_polissa_fraude": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_fraudes_all"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_fraude_all": {
-			          "Target": {
-			            "Entity": "fact_fraude_all"
-			          }
-			        },
-			        "dim_less_polissa_fraude": {
-			          "Target": {
-			            "Entity": "dim_less_polissa_fraude"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_fraude_all"
-			            },
-			            "Object": {
-			              "Role": "dim_less_polissa_fraude"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_fraude_all_have_dim_less_polissa_fraude"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_less_polissa_fraude"
-			            },
-			            "Object": {
-			              "Role": "fact_fraude_all"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_less_polissa_fraude_have_fact_fraude_all"
-			        }
-			      ]
-			    },
-			    "fact_fraude_all_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_fraudes_all"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_fraude_all": {
-			          "Target": {
-			            "Entity": "fact_fraude_all"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_fraude_all"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_fraude_all_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_fraude_all"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_fraude_all"
-			        }
-			      ]
-			    },
-			    "fact_perimetre_comptador_has_dim_comptador": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_perimetre_comptadors"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_perimetre_comptador": {
-			          "Target": {
-			            "Entity": "fact_perimetre_comptador"
-			          }
-			        },
-			        "dim_comptador": {
-			          "Target": {
-			            "Entity": "dim_comptador"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_perimetre_comptador"
-			            },
-			            "Object": {
-			              "Role": "dim_comptador"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_perimetre_comptadors_have_dim_comptadors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_comptador"
-			            },
-			            "Object": {
-			              "Role": "fact_perimetre_comptador"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_comptadors_have_fact_perimetre_comptadors"
-			        }
-			      ]
-			    },
-			    "fact_perimetre_comptador_has_dim_dades_sector": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_perimetre_comptadors"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_perimetre_comptador": {
-			          "Target": {
-			            "Entity": "fact_perimetre_comptador"
-			          }
-			        },
-			        "dim_dades_sector": {
-			          "Target": {
-			            "Entity": "dim_dades_sector"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_perimetre_comptador"
-			            },
-			            "Object": {
-			              "Role": "dim_dades_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_perimetre_comptadors_have_dim_dades_sectors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_dades_sector"
-			            },
-			            "Object": {
-			              "Role": "fact_perimetre_comptador"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_dades_sectors_have_fact_perimetre_comptadors"
-			        }
-			      ]
-			    },
-			    "fact_cabals_mínim_has_dim_dades_sector": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_cabals_mínims"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_cabals_mínim": {
-			          "Target": {
-			            "Entity": "fact_cabals_mínim"
-			          }
-			        },
-			        "dim_dades_sector": {
-			          "Target": {
-			            "Entity": "dim_dades_sector"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_cabals_mínim"
-			            },
-			            "Object": {
-			              "Role": "dim_dades_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_cabals_mínims_have_dim_dades_sectors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_dades_sector"
-			            },
-			            "Object": {
-			              "Role": "fact_cabals_mínim"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_dades_sectors_have_fact_cabals_mínims"
-			        }
-			      ]
-			    },
-			    "fact_cabals_mínim_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_cabals_mínims"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_cabals_mínim": {
-			          "Target": {
-			            "Entity": "fact_cabals_mínim"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_cabals_mínim"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_cabals_mínims_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_cabals_mínim"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_cabals_mínims"
-			        }
-			      ]
-			    },
-			    "fact_bossa_has_dim_dades_sector": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_bossa"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_bossa": {
-			          "Target": {
-			            "Entity": "fact_bossa"
-			          }
-			        },
-			        "dim_dades_sector": {
-			          "Target": {
-			            "Entity": "dim_dades_sector"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_bossa"
-			            },
-			            "Object": {
-			              "Role": "dim_dades_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_bossas_have_dim_dades_sectors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_dades_sector"
-			            },
-			            "Object": {
-			              "Role": "fact_bossa"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_dades_sectors_have_fact_bossas"
-			        }
-			      ]
-			    },
-			    "fact_bossa_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_bossa"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_bossa": {
-			          "Target": {
-			            "Entity": "fact_bossa"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_bossa"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_bossas_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_bossa"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_bossas"
-			        }
-			      ]
-			    },
-			    "fact_z_sector_has_fact_volumns_sector": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_z_sector"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_z_sector": {
-			          "Target": {
-			            "Entity": "fact_z_sector"
-			          }
-			        },
-			        "fact_volumns_sector": {
-			          "Target": {
-			            "Entity": "fact_volumns_sector"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_z_sector"
-			            },
-			            "Object": {
-			              "Role": "fact_volumns_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_z_sectors_have_fact_volumns_sectors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_volumns_sector"
-			            },
-			            "Object": {
-			              "Role": "fact_z_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_volumns_sectors_have_fact_z_sectors"
-			        }
-			      ]
-			    },
-			    "fact_vol_fraud_has_dim_less_polissa_fraude": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_vol_fraud"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_vol_fraud": {
-			          "Target": {
-			            "Entity": "fact_vol_fraud"
-			          }
-			        },
-			        "dim_less_polissa_fraude": {
-			          "Target": {
-			            "Entity": "dim_less_polissa_fraude"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_vol_fraud"
-			            },
-			            "Object": {
-			              "Role": "dim_less_polissa_fraude"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_vol_frauds_have_dim_less_polissa_fraude"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_less_polissa_fraude"
-			            },
-			            "Object": {
-			              "Role": "fact_vol_fraud"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_less_polissa_fraude_have_fact_vol_frauds"
-			        }
-			      ]
-			    },
-			    "fact_vol_fraud_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_vol_fraud"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_vol_fraud": {
-			          "Target": {
-			            "Entity": "fact_vol_fraud"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_vol_fraud"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_vol_frauds_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_vol_fraud"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_vol_frauds"
-			        }
-			      ]
-			    },
-			    "dim_dades_sector_has_dim_gerencia": {
-			      "Binding": {
-			        "ConceptualEntity": "dim_dades_sectors"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "dim_dades_sector": {
-			          "Target": {
-			            "Entity": "dim_dades_sector"
-			          }
-			        },
-			        "dim_gerencia": {
-			          "Target": {
-			            "Entity": "dim_gerencia"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_dades_sector"
-			            },
-			            "Object": {
-			              "Role": "dim_gerencia"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_dades_sectors_have_dim_gerencias"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_gerencia"
-			            },
-			            "Object": {
-			              "Role": "dim_dades_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_gerencias_have_dim_dades_sectors"
-			        }
-			      ]
-			    },
-			    "fact_dades_consum_has_fact_perimetre_comptador": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_dades_consum"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_dades_consum": {
-			          "Target": {
-			            "Entity": "fact_dades_consum"
-			          }
-			        },
-			        "fact_perimetre_comptador": {
-			          "Target": {
-			            "Entity": "fact_perimetre_comptador"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_dades_consum"
-			            },
-			            "Object": {
-			              "Role": "fact_perimetre_comptador"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_dades_consums_have_fact_perimetre_comptadors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_perimetre_comptador"
-			            },
-			            "Object": {
-			              "Role": "fact_dades_consum"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_perimetre_comptadors_have_fact_dades_consums"
-			        }
-			      ]
-			    },
-			    "fact_dades_consum_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_dades_consum"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_dades_consum": {
-			          "Target": {
-			            "Entity": "fact_dades_consum"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_dades_consum"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_dades_consums_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_dades_consum"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_dades_consums"
-			        }
-			      ]
-			    },
-			    "fact_volum_cons_lliur_has_dim_dades_sector": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_volum_cons_lliur"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_volum_cons_lliur": {
-			          "Target": {
-			            "Entity": "fact_volum_cons_lliur"
-			          }
-			        },
-			        "dim_dades_sector": {
-			          "Target": {
-			            "Entity": "dim_dades_sector"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_volum_cons_lliur"
-			            },
-			            "Object": {
-			              "Role": "dim_dades_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_volum_cons_lliurs_have_dim_dades_sectors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_dades_sector"
-			            },
-			            "Object": {
-			              "Role": "fact_volum_cons_lliur"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_dades_sectors_have_fact_volum_cons_lliurs"
-			        }
-			      ]
-			    },
-			    "fact_volum_cons_lliur_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_volum_cons_lliur"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_volum_cons_lliur": {
-			          "Target": {
-			            "Entity": "fact_volum_cons_lliur"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_volum_cons_lliur"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_volum_cons_lliurs_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_volum_cons_lliur"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_volum_cons_lliurs"
-			        }
-			      ]
-			    },
-			    "fact_aigua_consum_historic_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_consum_historic"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_consum_historic": {
-			          "Target": {
-			            "Entity": "fact_aigua_consum_historic"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_consum_historic"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_consum_historic_have_dim_calendarios"
-			        }
-			      ]
-			    },
-			    "fact_inventari_xarxa_transporte_total_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_inventari_xarxa_transporte_total"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_inventari_xarxa_transporte_total": {
-			          "Target": {
-			            "Entity": "fact_inventari_xarxa_transporte_total"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_inventari_xarxa_transporte_total"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_inventari_xarxa_transporte_totals_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_inventari_xarxa_transporte_total"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_inventari_xarxa_transporte_totals"
-			        }
-			      ]
-			    },
-			    "fact_actuacions_zone_has_dim_dades_sector": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_actuacions_zones"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_actuacions_zone": {
-			          "Target": {
-			            "Entity": "fact_actuacions_zone"
-			          }
-			        },
-			        "dim_dades_sector": {
-			          "Target": {
-			            "Entity": "dim_dades_sector"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_actuacions_zone"
-			            },
-			            "Object": {
-			              "Role": "dim_dades_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_actuacions_zones_have_dim_dades_sectors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_dades_sector"
-			            },
-			            "Object": {
-			              "Role": "fact_actuacions_zone"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_dades_sectors_have_fact_actuacions_zones"
-			        }
-			      ]
-			    },
-			    "fact_actuacions_zone_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_actuacions_zones"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_actuacions_zone": {
-			          "Target": {
-			            "Entity": "fact_actuacions_zone"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_actuacions_zone"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_actuacions_zones_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_actuacions_zone"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_actuacions_zones"
-			        }
-			      ]
-			    },
-			    "tfuita_tinst_2026_has_fact_tfuita_tinst": {
-			      "Binding": {
-			        "ConceptualEntity": "Tfuita_Tinst_2026"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "tfuita_tinst_2026": {
-			          "Target": {
-			            "Entity": "tfuita_tinst_2026"
-			          }
-			        },
-			        "fact_tfuita_tinst": {
-			          "Target": {
-			            "Entity": "fact_tfuita_tinst"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "tfuita_tinst_2026"
-			            },
-			            "Object": {
-			              "Role": "fact_tfuita_tinst"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "tfuita_tinst_2026_have_fact_tfuita_tinsts"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_tfuita_tinst"
-			            },
-			            "Object": {
-			              "Role": "tfuita_tinst_2026"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_tfuita_tinsts_have_tfuita_tinst_2026"
 			        }
 			      ]
 			    },
