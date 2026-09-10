@@ -1,16 +1,16 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "9aa793c4266e927b0d91",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "81296e8ba006805b5370",
   "position": {
-    "x": 165.09212730318256,
-    "y": 201.54103852596313,
-    "z": 9,
-    "height": 199.3969849246231,
-    "width": 1102.0435510887771,
-    "tabOrder": 31
+    "x": 157.80498835826396,
+    "y": 262.09350240372538,
+    "z": 7000,
+    "height": 326.58771503710284,
+    "width": 395.19857954069585,
+    "tabOrder": 7000
   },
   "visual": {
-    "visualType": "lineClusteredColumnComboChart",
+    "visualType": "pieChart",
     "query": {
       "queryState": {
         "Category": {
@@ -20,15 +20,16 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_calendario"
+                      "Entity": "dim_municipio"
                     }
                   },
-                  "Property": "anio2_mes"
+                  "Property": "municipio"
                 }
               },
-              "queryRef": "dim_calendario.anio2_mes",
-              "nativeQueryRef": "anio2_mes",
-              "active": true
+              "queryRef": "dim_municipio.municipio",
+              "nativeQueryRef": "municipis",
+              "active": true,
+              "displayName": "municipis"
             }
           ]
         },
@@ -42,29 +43,11 @@
                       "Entity": "_switchs"
                     }
                   },
-                  "Property": "Etiqueta filtros aplicados"
+                  "Property": "kpi_dotacio_switch"
                 }
               },
-              "queryRef": "_medidas.Dummy etiqueta filtros aplicados",
-              "nativeQueryRef": "Etiqueta filtros aplicados"
-            }
-          ]
-        },
-        "Y2": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_switchs"
-                    }
-                  },
-                  "Property": "kpi_anr_m3_km_dia_switch"
-                }
-              },
-              "queryRef": "_switchs.kpi_anr_m3_km_dia_switch",
-              "nativeQueryRef": "kpi_anr_m3_km_dia_switch"
+              "queryRef": "_switchs.kpi_dotacio_switch",
+              "nativeQueryRef": "kpi_dotacio_switch"
             }
           ]
         }
@@ -73,79 +56,20 @@
         "sort": [
           {
             "field": {
-              "Column": {
+              "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "dim_calendario"
+                    "Entity": "_switchs"
                   }
                 },
-                "Property": "anio2_mes"
+                "Property": "kpi_dotacio_switch"
               }
             },
-            "direction": "Ascending"
+            "direction": "Descending"
           }
-        ]
+        ],
+        "isDefaultSort": true
       }
-    },
-    "objects": {
-      "categoryAxis": [
-        {
-          "properties": {
-            "showAxisTitle": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "labels": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 0,
-                      "Percent": -0.6
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "lineStyles": [
-        {
-          "properties": {
-            "showMarker": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "markerSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "3D"
-                }
-              }
-            }
-          }
-        }
-      ]
     },
     "visualContainerObjects": {
       "title": [
@@ -154,7 +78,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Evolució d'indicadors ANR'"
+                  "Value": "'Top 10 Dotacions'"
                 }
               }
             },
@@ -392,6 +316,26 @@
             }
           }
         }
+      ],
+      "visualTooltip": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "section": {
+              "expr": {
+                "Literal": {
+                  "Value": "'7afe84c1b00cb0aa6dec'"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
@@ -400,7 +344,7 @@
     "filters": [
       {
         "name": "482756040eaede541767",
-        "ordinal": 3,
+        "ordinal": 0,
         "field": {
           "Measure": {
             "Expression": {
@@ -413,6 +357,176 @@
         },
         "type": "Advanced",
         "howCreated": "User"
+      },
+      {
+        "name": "408b8b822bb0d749d056",
+        "ordinal": 4,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "flag_anio"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_calendario",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "flag_anio"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'ACTUAL'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "c7cfc61a3019bdca8e68",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_municipio"
+              }
+            },
+            "Property": "municipio"
+          }
+        },
+        "type": "TopN",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "subquery",
+              "Expression": {
+                "Subquery": {
+                  "Query": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d1",
+                        "Entity": "dim_municipio",
+                        "Type": 0
+                      },
+                      {
+                        "Name": "_",
+                        "Entity": "_switchs",
+                        "Type": 0
+                      }
+                    ],
+                    "Select": [
+                      {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Source": "d1"
+                            }
+                          },
+                          "Property": "municipio"
+                        },
+                        "Name": "field"
+                      }
+                    ],
+                    "OrderBy": [
+                      {
+                        "Direction": 2,
+                        "Expression": {
+                          "Measure": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "_"
+                              }
+                            },
+                            "Property": "kpi_dotacio_switch"
+                          }
+                        }
+                      }
+                    ],
+                    "Top": 10
+                  }
+                }
+              },
+              "Type": 2
+            },
+            {
+              "Name": "d1",
+              "Entity": "dim_municipio",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d1"
+                          }
+                        },
+                        "Property": "municipio"
+                      }
+                    }
+                  ],
+                  "Table": {
+                    "SourceRef": {
+                      "Source": "subquery"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "228775762c900bb6e380",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_dotacio_switch"
+          }
+        },
+        "type": "Advanced"
       }
     ],
     "filterSortOrder": "Custom"
