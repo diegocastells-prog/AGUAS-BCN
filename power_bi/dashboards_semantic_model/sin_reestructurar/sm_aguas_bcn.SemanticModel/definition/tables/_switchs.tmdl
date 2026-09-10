@@ -1584,6 +1584,94 @@ table _switchs
 		displayFolder: anr_global\anr
 		lineageTag: b73ca3f3-62f3-4dac-a730-77c07f2d0d69
 
+	measure kpi_dotacio_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [dotacio_mensual],
+			    "12 meses", [dotacio_acum_12m],
+			    "Acumulat",[dotacio_ytd],
+			    "Diff",[_cero_acumulat],
+			    BLANK()
+			)
+		displayFolder: dotacio
+		lineageTag: ddf21dd2-cf7c-4b84-a786-1839c9633f9e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_dotacio_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [dotacio_mensual_smly],
+			    "12 meses", [dotacio_acum_12m_1m],
+			    "Acumulat",[dotacio_lytd],
+			    "Diff",[_cero_acumulat],
+			    BLANK()
+			)
+		displayFolder: dotacio
+		lineageTag: 7b425869-1393-46a0-976e-122c8eed0449
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_dotacio_color = ```
+			
+			VAR _Actual = [kpi_dotacio_switch]
+			VAR _Prev = [kpi_dotacio_switch_1m]
+			RETURN
+			IF(_Actual > _Prev, 1, 0)
+			
+			```
+		formatString: 0
+		displayFolder: dotacio
+		lineageTag: 28072bd1-0d65-4cf4-b7f5-818353971f93
+
+	measure kpi_dotacio_switch_ultimo_mes_dinamico = ```
+			
+			VAR _Periodo = SELECTEDVALUE(dummy_slicer_periodo[Periodo])
+			VAR _UltimaFecha =
+			    CALCULATE(
+			        MAX(dim_calendario[Date]),
+			        fact_estim_volum_munic_pob
+			    )
+			RETURN
+			SWITCH(
+			    _Periodo,
+			
+			    // Mensual
+			    "Mensual",
+			        CALCULATE(
+			            [dotacio_mensual],
+			            dim_calendario[Date] = _UltimaFecha
+			        ),
+			
+			    // 12 meses
+			    "12 meses",
+			        CALCULATE(
+			            [dotacio_acum_12m],
+			            dim_calendario[Date] = _UltimaFecha
+			        ),
+			
+			    // Acumulat (YTD)
+			    "Acumulat",
+			        CALCULATE(
+			            [dotacio_ytd],
+			            dim_calendario[Date] = _UltimaFecha
+			        ),
+			
+			    // Diff
+			    "Diff",
+			        [_cero_acumulat],
+			
+			    BLANK()
+			)
+			
+			```
+		displayFolder: dotacio
+		lineageTag: dc46a7c3-5206-454e-9847-87d0706024bb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0
@@ -1601,5 +1689,4 @@ table _switchs
 	annotation PBI_Id = 18caeabbaae8498b9613202f6abf8193
 
 	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
-
 
