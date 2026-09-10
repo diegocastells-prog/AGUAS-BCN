@@ -958,60 +958,6 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure kpi_lliurat_global_switch =
-			
-			VAR _Periodo =
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
-			
-			VAR _EsContextoMes =
-			    ISINSCOPE('dim_calendario'[mes_corto])
-			
-			RETURN
-			SWITCH(
-			    _Periodo,
-			
-			    "Mensual",
-			        [volum_lliurat_global_mensual_hm3],
-			
-			    "12 meses",
-			        [volum_lliurat_global_acum_12m_hm3],
-			
-			    "Acumulat",
-			        [volum_lliurat_global_ytd],
-			
-			    "Diff",
-			        IF(
-			            _EsContextoMes,
-			
-			            -- En el grÃ¡fico: diferencia mes a mes
-			            [volum_lliurat_global_diff],
-			
-			            -- En la tarjeta KPI: Ãºltimo Diff disponible
-			            VAR _UltimaFechaConDato =
-			                MAXX(
-			                    FILTER(
-			                        ALLSELECTED('dim_calendario'[Date]),
-			                        NOT ISBLANK(
-			                            CALCULATE([volum_lliurat_global_diff])
-			                        )
-			                    ),
-			                    'dim_calendario'[Date]
-			                )
-			            RETURN
-			                CALCULATE(
-			                    [volum_lliurat_global_diff],
-			                    REMOVEFILTERS('dim_calendario'[Date]),
-			                    'dim_calendario'[Date] = _UltimaFechaConDato
-			                )
-			        ),
-			
-			    BLANK()
-			)
-		displayFolder: anr_global\volumns
-		lineageTag: 856d13f3-d5e8-4103-af54-acbb2ee49c63
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	measure kpi_lliurat_global_switch_1m =
 			
 			VAR _Periodo =
@@ -1610,13 +1556,37 @@ table _switchs
 			        [volum_lliurat_global_ytd],
 			
 			    "Diff",
-			        [_cero_acumulat],
+			        IF(
+			            _EsContextoMes,
+			
+			            -- En el grÃ¡fico: diferencia mes a mes
+			            [volum_lliurat_global_diff],
+			
+			            -- En la tarjeta KPI: Ãºltimo Diff disponible
+			            VAR _UltimaFechaConDato =
+			                MAXX(
+			                    FILTER(
+			                        ALLSELECTED('dim_calendario'[Date]),
+			                        NOT ISBLANK(
+			                            CALCULATE([volum_lliurat_global_diff])
+			                        )
+			                    ),
+			                    'dim_calendario'[Date]
+			                )
+			            RETURN
+			                CALCULATE(
+			                    [volum_lliurat_global_diff],
+			                    REMOVEFILTERS('dim_calendario'[Date]),
+			                    'dim_calendario'[Date] = _UltimaFechaConDato
+			                )
+			        ),
 			
 			    BLANK()
 			)
-		formatString: #,0.000000
-		displayFolder: anr_global\anr
-		lineageTag: b73ca3f3-62f3-4dac-a730-77c07f2d0d69
+		displayFolder: anr_global\volumns
+		lineageTag: 856d13f3-d5e8-4103-af54-acbb2ee49c63
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Column
 		isHidden
@@ -1635,5 +1605,4 @@ table _switchs
 	annotation PBI_Id = 18caeabbaae8498b9613202f6abf8193
 
 	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
-
 
