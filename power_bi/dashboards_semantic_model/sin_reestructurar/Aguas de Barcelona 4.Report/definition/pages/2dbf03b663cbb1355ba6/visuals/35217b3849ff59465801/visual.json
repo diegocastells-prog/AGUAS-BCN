@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "35217b3849ff59465801",
   "position": {
-    "x": 156.14059269469331,
-    "y": 151.72984148862855,
+    "x": 155.99407574582128,
+    "y": 151.660906975104,
     "z": 8000,
-    "height": 524.87939352170918,
-    "width": 658.08407994486561,
+    "height": 524.31342125678816,
+    "width": 589.310952817547,
     "tabOrder": 8000
   },
   "visual": {
@@ -42,7 +42,8 @@
                 }
               },
               "queryRef": "dim_gerencia.gerencia",
-              "nativeQueryRef": "gerencia1"
+              "nativeQueryRef": "Gerencia",
+              "displayName": "Gerencia"
             },
             {
               "field": {
@@ -56,7 +57,8 @@
                 }
               },
               "queryRef": "dim_dades_sectors.sector",
-              "nativeQueryRef": "sector1"
+              "nativeQueryRef": "Sector",
+              "displayName": "Sector"
             },
             {
               "field": {
@@ -125,16 +127,16 @@
         "sort": [
           {
             "field": {
-              "Column": {
+              "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "dim_calendario"
+                    "Entity": "_medidas"
                   }
                 },
-                "Property": "anio_mes"
+                "Property": "volum_consumit_distribucion_mensual"
               }
             },
-            "direction": "Ascending"
+            "direction": "Descending"
           }
         ]
       }
@@ -146,7 +148,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "84.71716279452214D"
+                  "Value": "47.93691694619748D"
                 }
               }
             }
@@ -174,7 +176,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "90.86614173228347D"
+                  "Value": "75.15867640464687D"
                 }
               }
             }
@@ -188,7 +190,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "124.74576137256658D"
+                  "Value": "124.70335873661789D"
                 }
               }
             }
@@ -202,7 +204,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "88.98425196850394D"
+                  "Value": "60.405259803585444D"
                 }
               }
             }
@@ -275,10 +277,87 @@
                   }
                 }
               }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Right'"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
             }
           },
           "selector": {
             "metadata": "_medidas.volum_consumit_distribucion_mensual"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Right'"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.volum_lliurat_distribucion_mensual"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Right'"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.anr_distribucion_mensual"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Right'"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.rth_distribucion_mensual"
           }
         }
       ]
@@ -330,7 +409,14 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Distribució - lliur / consum'"
+                  "Value": "'Detall Distribució Volume Aigua LLiurat i Consumit'"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
                 }
               }
             }
@@ -339,5 +425,83 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "e7be3e1095d3a2085c00",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_gerencia"
+              }
+            },
+            "Property": "gerencia"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_gerencia",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "gerencia"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true,
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
   }
 }
