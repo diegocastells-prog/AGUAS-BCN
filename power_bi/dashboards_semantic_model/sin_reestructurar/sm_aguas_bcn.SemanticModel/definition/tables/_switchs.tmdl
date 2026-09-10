@@ -737,7 +737,7 @@ table _switchs
 			            ), 
 			
 			        // =========================
-			        // CATEGORIZACIÓN ANR (solo RTH < 85%)
+			        // CATEGORIZACIÃ“N ANR (solo RTH < 85%)
 			        // =========================
 			        MetricaElegida = "CATEGORIZACIO ANR",
 			            SWITCH(
@@ -778,10 +778,10 @@ table _switchs
 			        IF(
 			            _EsContextoMes,
 			
-			            -- Gráfico: diferencia mes a mes
+			            -- GrÃ¡fico: diferencia mes a mes
 			            [volum_consumit_global_diff],
 			
-			            -- KPI: último Diff disponible
+			            -- KPI: Ãºltimo Diff disponible
 			            VAR _UltimaFechaConDato =
 			                MAXX(
 			                    FILTER(
@@ -956,10 +956,10 @@ table _switchs
 			        IF(
 			            _EsContextoMes,
 			
-			            -- En el gráfico: diferencia mes a mes
+			            -- En el grÃ¡fico: diferencia mes a mes
 			            [volum_lliurat_global_diff],
 			
-			            -- En la tarjeta KPI: último Diff disponible
+			            -- En la tarjeta KPI: Ãºltimo Diff disponible
 			            VAR _UltimaFechaConDato =
 			                MAXX(
 			                    FILTER(
@@ -1584,36 +1584,6 @@ table _switchs
 		displayFolder: anr_global\anr
 		lineageTag: b73ca3f3-62f3-4dac-a730-77c07f2d0d69
 
-	measure kpi_dotacio_switch =
-			
-			SWITCH(
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [dotacio_mensual],
-			    "12 meses", [dotacio_acum_12m],
-			    "Acumulat",[dotacio_ytd],
-			    "Diff",[_cero_acumulat],
-			    BLANK()
-			)
-		displayFolder: dotacio
-		lineageTag: a3b5349c-012a-4d23-b89f-be8afde1088f
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure kpi_dotacio_switch_1m =
-			
-			SWITCH(
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			    "Mensual", [dotacio_mensual_smly],
-			    "12 meses", [dotacio_acum_12m_1m],
-			    "Acumulat",[dotacio_lytd],
-			    "Diff",[_cero_acumulat],
-			    BLANK()
-			)
-		displayFolder: dotacio
-		lineageTag: b588507b-9309-46c5-bc1d-c773d0d6ba9c
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column Column
 		isHidden
 		formatString: 0
@@ -1631,4 +1601,5 @@ table _switchs
 	annotation PBI_Id = 18caeabbaae8498b9613202f6abf8193
 
 	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+
 

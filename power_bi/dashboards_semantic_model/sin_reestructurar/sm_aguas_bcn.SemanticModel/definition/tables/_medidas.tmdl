@@ -403,7 +403,70 @@ table _medidas
 		displayFolder: Etiquetas
 		lineageTag: e67a84dd-6a18-49c2-b7f1-4e469ce60dc6
 
-	measure 'Dummy etiqueta filtros aplicados' = "Sin filtros aplicados" -- Medida para hacer el mockup
+	measure 'Etiqueta filtros aplicados' =
+			
+			VAR _NumFechas =
+			    COUNTROWS ( VALUES ( 'dim_calendario'[mestexto_año] ) )
+			
+			VAR _FiltroFecha =
+			    IF (
+			        ISFILTERED ( 'dim_calendario'[mestexto_año] ),
+			        IF ( _NumFechas = 1, "Fecha: ", "Fechas: " )
+			            & CONCATENATEX (
+			                VALUES ( 'dim_calendario'[mestexto_año] ),
+			                'dim_calendario'[mestexto_año],
+			                ", "
+			            )
+			    )
+			
+			VAR _NumGerencias =
+			    COUNTROWS ( VALUES ( dim_dades_sectors[gerencia] ) )
+			
+			VAR _FiltroGerencia =
+			    IF (
+			        ISFILTERED ( dim_dades_sectors[gerencia] ),
+			        IF ( _NumGerencias = 1, "Gerencia: ", "Gerencias: " )
+			            & CONCATENATEX (
+			                VALUES ( dim_dades_sectors[gerencia] ),
+			                dim_dades_sectors[gerencia],
+			                ", "
+			            )
+			    )
+			
+			VAR _NumSectores =
+			    COUNTROWS ( VALUES ( dim_dades_sectors[sector] ) )
+			
+			VAR _FiltroSector =
+			    IF (
+			        ISFILTERED ( dim_dades_sectors[sector] ),
+			        IF ( _NumSectores = 1, "Sector: ", "Sectores: " )
+			            & CONCATENATEX (
+			                VALUES ( dim_dades_sectors[sector] ),
+			                dim_dades_sectors[sector],
+			                ", "
+			            )
+			    )
+			
+			VAR _TextoFiltros =
+			    CONCATENATEX (
+			        FILTER (
+			            {
+			                _FiltroFecha,
+			                _FiltroGerencia,
+			                _FiltroSector
+			            },
+			            NOT ISBLANK ( [Value] )
+			        ),
+			        [Value],
+			        " | "
+			    )
+			
+			RETURN
+			IF (
+			    ISBLANK ( _TextoFiltros ),
+			    "Sin filtros aplicados",
+			    _TextoFiltros
+			)
 		displayFolder: Etiquetas
 		lineageTag: 8d110b84-f5cb-4baa-8bb0-fc6234e69f23
 
