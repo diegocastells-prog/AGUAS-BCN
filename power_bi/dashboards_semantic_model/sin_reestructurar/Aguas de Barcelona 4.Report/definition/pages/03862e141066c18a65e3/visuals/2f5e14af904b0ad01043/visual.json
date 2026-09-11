@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "2f5e14af904b0ad01043",
   "position": {
     "x": 396.59842519685037,
     "y": 67.5275590551181,
     "z": 7000,
     "height": 62.488188976377955,
-    "width": 172.34645669291339,
+    "width": 172.3464566929134,
     "tabOrder": 7000
   },
   "visual": {
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_gerencia"
+                      "Entity": "dim_dades_sectors"
                     }
                   },
                   "Property": "gerencia"
                 }
               },
-              "queryRef": "dim_gerencia.gerencia",
-              "nativeQueryRef": "gerencia1",
+              "queryRef": "dim_dades_sectors.gerencia",
+              "nativeQueryRef": "gerencia",
               "active": true
             }
           ]
@@ -152,7 +152,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Gerència'"
+                  "Value": "'DOP'"
                 }
               }
             }
@@ -341,5 +341,81 @@
       "filterChanges": true
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "dd52e5b1455e7b208210",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "gerencia"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_dades_sectors",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "gerencia"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
   }
 }
