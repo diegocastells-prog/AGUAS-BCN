@@ -6147,118 +6147,6 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure diff_q_min = ```
-			
-			VAR _FechaInicio =
-			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			 
-			VAR _FechaFin =
-			    TODAY ()
-			 
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			 
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			 
-			VAR _ValorActual =
-			    [q_min_mensual]
-			 
-			VAR _ValorAA =
-			    CALCULATE (
-			        [q_min_mensual],
-			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
-			    )
-			 
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin
-			        || ISBLANK ( _ValorActual )
-			        || ISBLANK ( _ValorAA ),
-			    BLANK (),
-			    _ValorActual - _ValorAA
-			)
-			```
-		displayFolder: actuacions\cabals\q_min
-		lineageTag: a7beec33-c4c2-40bc-acdc-9d1ce0ba7298
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure q_min_ytd = ```
-			
-			VAR _FechaInicio =
-			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			 
-			VAR _FechaFin =
-			    TODAY ()
-			 
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			 
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			 
-			VAR _Valor =
-			    CALCULATE (
-			        [q_min_mensual],
-			        DATESBETWEEN (
-			            'dim_calendario'[Date],
-			            _FechaInicio,
-			            _FechaMaxContexto
-			        )
-			    )
-			 
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)
-			```
-		displayFolder: actuacions\cabals\q_min\ytd
-		lineageTag: 99e85228-0600-480a-ab81-f1026f0ad22c
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure q_min_lytd = ```
-			
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			
-			VAR _FechaInicioLY =
-			    DATE (
-			        YEAR ( _FechaMaxContexto ) - 1,
-			        1,
-			        1
-			    )
-			
-			VAR _FechaFinLY =
-			    EDATE (
-			        _FechaMaxContexto,
-			        -12
-			    )
-			
-			VAR _Valor =
-			    CALCULATE (
-			        [q_min_mensual],
-			        DATESBETWEEN (
-			            'dim_calendario'[Date],
-			            _FechaInicioLY,
-			            _FechaMaxContexto
-			        )
-			    )
-			
-			RETURN
-			    DIVIDE ( _Valor, 1000000 )
-			
-			```
-		displayFolder: actuacions\cabals\q_min\ytd
-		lineageTag: 1aa21e64-4b9d-482b-81e3-a79a8b2ac28e
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	measure dotacio_mensual = 1000*SUM(fact_estim_volum_munic_pob[volum_estimado])/SUM(fact_estim_volum_munic_pob[poblacion])/[count_dias_mes]
 		displayFolder: dotacio
 		lineageTag: 4c05d459-2d2c-459b-8ec2-8a595a52b728
@@ -6394,6 +6282,155 @@ table _medidas
 			```
 		displayFolder: dotacio
 		lineageTag: fdbec551-74b3-475a-a63e-4fdebc0b0655
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_q_min = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _ValorActual =
+			    [q_min_mensual]
+			 
+			VAR _ValorAA =
+			    CALCULATE (
+			        [q_min_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			```
+		displayFolder: actuacions\cabals\q_min
+		lineageTag: a7beec33-c4c2-40bc-acdc-9d1ce0ba7298
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure q_min_ytd = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			 
+			VAR _FechaFin =
+			    TODAY ()
+			 
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			 
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			 
+			VAR _Valor =
+			    CALCULATE (
+			        [q_min_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
+			    )
+			 
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    DIVIDE ( _Valor, 1000000 )
+			)
+			```
+		displayFolder: actuacions\cabals\q_min\ytd
+		lineageTag: 99e85228-0600-480a-ab81-f1026f0ad22c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure q_min_lytd = ```
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _FechaInicioLY =
+			    DATE (
+			        YEAR ( _FechaMaxContexto ) - 1,
+			        1,
+			        1
+			    )
+			
+			VAR _FechaFinLY =
+			    EDATE (
+			        _FechaMaxContexto,
+			        -12
+			    )
+			
+			VAR _Valor =
+			    CALCULATE (
+			        [q_min_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaMaxContexto
+			        )
+			    )
+			
+			RETURN
+			    DIVIDE ( _Valor, 1000000 )
+			
+			```
+		displayFolder: actuacions\cabals\q_min\ytd
+		lineageTag: 1aa21e64-4b9d-482b-81e3-a79a8b2ac28e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure num_comptadors_subcomptatge = ```
+			CALCULATE(
+			    COUNTROWS('fact_perimetre_comptadors')
+			)
+			 
+			```
+		formatString: 0
+		displayFolder: categorizacio
+		lineageTag: ebd41f82-bc6d-4e2f-bfa2-9c6b9461a76c
+
+	measure compatadors_with_problems = ```
+			
+			CALCULATE(
+			    COUNT('fact_bossa'[necessitat]),
+			    FILTER(
+			        'fact_bossa',
+			        'fact_bossa'[necessitat] <> "Canvi fet (averia gran)"
+			    )
+			)
+			
+			```
+		formatString: 0
+		displayFolder: categorizacio
+		lineageTag: 62e29e08-6e2f-4668-99da-14a56bac3669
+
+	measure volum_consumit_distribucion_mapa = SUM(fact_volum_cons_lliur[volum_consumit])
+		displayFolder: mapa
+		lineageTag: 04e9e5f9-2910-42a4-a1e0-d1a06c4ba16b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_lliurat_distribucion_mapa = SUM(fact_volum_cons_lliur[volum_lliurat])
+		displayFolder: mapa
+		lineageTag: e7a73df4-d712-489e-9890-800212bfdb72
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -7026,43 +7063,6 @@ table _medidas
 			)
 		displayFolder: fuites
 		lineageTag: 673da99f-b4c2-48e1-bb18-ce62f021530a
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure num_comptadors_subcomptatge = ```
-			CALCULATE(
-			    COUNTROWS('fact_perimetre_comptadors')
-			)
-			 
-			```
-		formatString: 0
-		displayFolder: categorizacio
-		lineageTag: ebd41f82-bc6d-4e2f-bfa2-9c6b9461a76c
-
-	measure compatadors_with_problems = ```
-			
-			CALCULATE(
-			    COUNT('fact_bossa'[necessitat]),
-			    FILTER(
-			        'fact_bossa',
-			        'fact_bossa'[necessitat] <> "Canvi fet (averia gran)"
-			    )
-			)
-			
-			```
-		formatString: 0
-		displayFolder: categorizacio
-		lineageTag: 62e29e08-6e2f-4668-99da-14a56bac3669
-
-	measure volum_consumit_distribucion_mapa = SUM(fact_volum_cons_lliur[volum_consumit])
-		displayFolder: mapa
-		lineageTag: 04e9e5f9-2910-42a4-a1e0-d1a06c4ba16b
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure volum_lliurat_distribucion_mapa = SUM(fact_volum_cons_lliur[volum_lliurat])
-		displayFolder: mapa
-		lineageTag: e7a73df4-d712-489e-9890-800212bfdb72
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

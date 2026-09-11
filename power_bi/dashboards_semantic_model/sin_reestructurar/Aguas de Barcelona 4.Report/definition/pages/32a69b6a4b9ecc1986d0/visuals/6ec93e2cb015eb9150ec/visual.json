@@ -3,7 +3,7 @@
   "name": "6ec93e2cb015eb9150ec",
   "position": {
     "x": 165.09212730318256,
-    "y": 432.0268006700167,
+    "y": 432.02680067001671,
     "z": 8000,
     "height": 199.3969849246231,
     "width": 1102.0435510887771,
@@ -47,8 +47,27 @@
                 }
               },
               "queryRef": "_switchs.kpi_q_min_switch",
-              "nativeQueryRef": "Q min",
-              "displayName": "Q min"
+              "nativeQueryRef": "Qmin",
+              "displayName": "Qmin"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_q_min_switch_1m"
+                }
+              },
+              "queryRef": "_switchs.kpi_q_min_switch_1m",
+              "nativeQueryRef": "Qmin-1 ",
+              "displayName": "Qmin-1 "
             }
           ]
         }
@@ -410,6 +429,48 @@
         },
         "type": "Advanced",
         "howCreated": "User"
+      },
+      {
+        "name": "3a962a2a306352693c40",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "mestexto_año"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "1687f1bd958d03232b2e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_q_min_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "b6dd76a0ee8cdaeb81d1",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_q_min_switch_1m"
+          }
+        },
+        "type": "Advanced"
       }
     ],
     "filterSortOrder": "Custom"
