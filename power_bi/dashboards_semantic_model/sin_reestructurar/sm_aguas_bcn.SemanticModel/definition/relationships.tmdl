@@ -99,10 +99,6 @@ relationship 70df98a5-d27d-92ab-f90e-152ce7d20191
 	fromColumn: fact_cabals_mínims.fecha
 	toColumn: dim_calendario.Date
 
-relationship a12e6aac-5cfa-3fb3-9012-07a86c379643
-	fromColumn: fact_bossa.data_instalacion
-	toColumn: dim_calendario.Date
-
 relationship c4350338-ac8f-7bcd-39dc-14af6de27b72
 	fromColumn: fact_fraudes_all.data_creacio_original
 	toColumn: dim_calendario.Date
@@ -155,4 +151,10 @@ relationship 1cf24e28-ab33-29ff-3bc8-f597aba875ad
 relationship bc847146-a89f-11e8-7107-7405357e7c15
 	fromColumn: fact_estim_volum_munic_pob.fecha
 	toColumn: dim_calendario.Date
+
+relationship 68082355-1388-f876-ff0d-f99a626472c0
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: fact_perimetre_comptadors.polissa_subm
+	toColumn: fact_bossa.polissa_subm
 

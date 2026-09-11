@@ -1,7 +1,7 @@
 table _medidas
 	lineageTag: 1cfb93bc-b117-4679-93ca-631a08faced9
 
-	measure anr_dia_m3_mensual = DIVIDE(    [anr_mensual] *1000000 ,    [count_dias_mes],    0)
+	measure anr_dia_m3_mensual = DIVIDE(    [anr_mensual] *1 ,    [count_dias_mes],    0)
 		formatString: #,0.00
 		displayFolder: anr\dia_m3\mensual
 		lineageTag: adaf3334-5699-4baf-b2c6-dfcffbf821a2
@@ -154,7 +154,11 @@ table _medidas
 
 	measure volum_consumit_global_acum_12m = ```
 			
-			VAR _FechaFin =    TODAY ()
+			VAR _FechaFin =
+			    CALCULATE(
+			        MAX('fact_aigua_consum_historic'[fecha]),
+			        ALL('fact_aigua_consum_historic')
+			    )
 			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
@@ -183,7 +187,11 @@ table _medidas
 
 	measure volum_lliurat_global_acum_12m_hm3 = ```
 			
-			VAR _FechaFin =    TODAY ()
+			VAR _FechaFin =
+			    CALCULATE(
+			        MAX('fact_aigua_consum_historic'[fecha]),
+			        ALL('fact_aigua_consum_historic')
+			    )
 			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
@@ -212,7 +220,11 @@ table _medidas
 
 	measure rendiment_global_acum_12m = ```
 			
-			VAR _FechaFin =    TODAY ()
+			VAR _FechaFin =
+			    CALCULATE(
+			        MAX('fact_aigua_consum_historic'[fecha]),
+			        ALL('fact_aigua_consum_historic')
+			    )
 			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
@@ -283,7 +295,11 @@ table _medidas
 
 	measure anr_transport_m3_acum_12m = ```
 			
-			VAR _FechaFin =    TODAY ()
+			VAR _FechaFin =
+			    CALCULATE(
+			        MAX('fact_rend_anr_arterias'[fecha]),
+			        ALL('fact_rend_anr_arterias')
+			    )
 			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
@@ -311,7 +327,11 @@ table _medidas
 
 	measure rendiment_transport_acum_12m = ```
 			
-			VAR _FechaFin =    TODAY ()
+			VAR _FechaFin =
+			    CALCULATE(
+			        MAX('fact_rend_anr_arterias'[fecha]),
+			        ALL('fact_rend_anr_arterias')
+			    )
 			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
@@ -582,7 +602,7 @@ table _medidas
 		displayFolder: us_aigua\mensual
 		lineageTag: 03a95399-c62a-4e9b-9d1e-50545ea39119
 
-	measure categoria_fuites = ```
+	measure categorizacio_fuites = ```
 			
 			VAR RTH = [rth_distribucion_mensual]
 			VAR DeltaQminVsVolum = [delta_qmin_mensual] - [delta_volum_consumit_distribucion_mensual]
@@ -590,12 +610,15 @@ table _medidas
 			RETURN
 			SWITCH(
 			    TRUE(),
-			    RTH < 0.85 && ( DeltaQminVsVolum > 0.02 || ZeroSensorsFuitesOrtomat ), "Fuites", 
+			    RTH < 0.85 && ( DeltaQminVsVolum > 0.02 && ZeroSensorsFuitesOrtomat ), "Fuites", 
 			    "Sense Fuites"
 			)
 			
+			// menos de 85 y 
+			//      variacion >2% y no hay sensores
+			//esto es fuga
+			
 			```
-		formatString: 0
 		displayFolder: compatodrs\categoritzacio
 		lineageTag: 283ca3e6-b074-407f-8c67-137ee83bb95f
 
@@ -621,15 +644,15 @@ table _medidas
 		displayFolder: compatodrs\pct_lectures
 		lineageTag: ea81a32a-6f82-45cc-8ff2-b9f1ff5b7d09
 
-	measure categoria_fraus = ```
+	measure categorizacio_fraus = ```
 			
 			VAR RTH = [rth_distribucion_mensual]
 			
 			VAR EsFuita =
-			    [categoria_fuites] = "Fuites"
+			    [categorizacio_fuites] = "Fuites"
 			
 			VAR EsSubcomptatge =
-			    [categoria_subcomptatge] = "Subcomptatge"
+			    [categorizacio_subcomptatge] = "Subcomptatge"
 			
 			RETURN
 			SWITCH(
@@ -641,18 +664,16 @@ table _medidas
 		displayFolder: compatodrs\categoritzacio
 		lineageTag: 05ea26b3-cfae-4913-a4b2-9d1307816a96
 
-	measure categoria_subcomptatge = ```
+	measure categorizacio_subcomptatge = ```
 			
 			VAR RTH = [rth_distribucion_mensual]
-			
-			VAR Num = [compt_per_sobre_q4] + [compt_per_sobre_q1] + [comptadors_correctiu] + [comptadors_consum_zero] + [subms_mas_3_peri­odes_estimats]
-			
-			VAR Ratio = DIVIDE(Num, [comptadors])
+			 
+			VAR Ratio = DIVIDE([compatadors_with_problems],[compatadors_with_problems] )
 			
 			RETURN
 			SWITCH(
 			    TRUE(),
-			    RTH < 0.85 && Ratio > 0.2, "Subcomptatge",
+			    RTH < 0.85 && Ratio > 0.03, "Subcomptatge",
 			    "Sense Subcomptatge"
 			)
 			
@@ -943,7 +964,11 @@ table _medidas
 
 	measure anr_acum_12m = ```
 			
-			VAR _FechaFin = TODAY ()
+			VAR _FechaFin =
+			    CALCULATE(
+			        MAX('fact_aigua_no_registrada'[fecha]),
+			        ALL('fact_aigua_no_registrada')
+			    )
 			VAR _FechaInicio = EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto = MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto = MAX ( 'dim_calendario'[Date] )
@@ -1914,7 +1939,11 @@ table _medidas
 
 	measure aigua_consumida_acf_global_acum_12m_hm3 = ```
 			
-			VAR _FechaFin =    TODAY ()
+			VAR _FechaFin =
+			    CALCULATE(
+			        MAX('fact_aigua_consum_historic'[fecha]),
+			        ALL('fact_aigua_consum_historic')
+			    )
 			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
@@ -1965,7 +1994,11 @@ table _medidas
 
 	measure aigua_consumida_alta_global_acum_12m_hm3 = ```
 			
-			VAR _FechaFin =    TODAY ()
+			VAR _FechaFin =
+			    CALCULATE(
+			        MAX('fact_aigua_consum_historic'[fecha]),
+			        ALL('fact_aigua_consum_historic')
+			    )
 			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
@@ -2010,7 +2043,11 @@ table _medidas
 
 	measure aigua_consumida_baixa_global_acum_12m_hm3 = ```
 			
-			VAR _FechaFin =    TODAY ()
+			VAR _FechaFin =
+			    CALCULATE(
+			        MAX('fact_aigua_consum_historic'[fecha]),
+			        ALL('fact_aigua_consum_historic')
+			    )
 			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
@@ -2065,7 +2102,11 @@ table _medidas
 
 	measure aigua_consumida_autoconsum_global_acum_12m_hm3 = ```
 			
-			VAR _FechaFin =    TODAY ()
+			VAR _FechaFin =
+			    CALCULATE(
+			        MAX('fact_aigua_consum_historic'[fecha]),
+			        ALL('fact_aigua_consum_historic')
+			    )
 			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
@@ -2122,7 +2163,11 @@ table _medidas
 
 	measure aigua_consumida_peatges_global_acum_12m_hm3 = ```
 			
-			VAR _FechaFin =    TODAY ()
+			VAR _FechaFin =
+			    CALCULATE(
+			        MAX('fact_aigua_consum_historic'[fecha]),
+			        ALL('fact_aigua_consum_historic')
+			    )
 			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
@@ -2236,7 +2281,11 @@ table _medidas
 
 	measure cabal_recuperat_acum_12m = ```
 			
-			VAR _FechaFin =    TODAY ()
+			VAR _FechaFin =
+			    CALCULATE(
+			        MAX('fact_actuacions_zones'[data_inici]),
+			        ALL('fact_actuacions_zones')
+			    )
 			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
@@ -2300,7 +2349,11 @@ table _medidas
 
 	measure km_inspeccionats_acustic_acum_12m = ```
 			
-			VAR _FechaFin =    TODAY ()
+			VAR _FechaFin =
+			    CALCULATE(
+			        MAX('fact_actuacions_zones'[data_inici]),
+			        ALL('fact_actuacions_zones')
+			    )
 			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
@@ -2353,7 +2406,11 @@ table _medidas
 
 	measure avaries_acum_12m = ```
 			
-			VAR _FechaFin =    TODAY ()
+			VAR _FechaFin =
+			    CALCULATE(
+			        MAX('fact_actuacions_zones'[data_inici]),
+			        ALL('fact_actuacions_zones')
+			    )
 			VAR _FechaInicio =    EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
@@ -2411,7 +2468,11 @@ table _medidas
 
 	measure km_inspeccionats_heli_acum_12m = ```
 			
-			VAR _FechaFin = TODAY ()
+			VAR _FechaFin =
+			    CALCULATE(
+			        MAX('fact_actuacions_zones'[data_inici]),
+			        ALL('fact_actuacions_zones')
+			    )
 			VAR _FechaInicio = EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto = MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto = MAX ( 'dim_calendario'[Date] )
@@ -5578,9 +5639,9 @@ table _medidas
 			VAR Categoria =
 			    SWITCH(
 			        TRUE(),
-			        [categoria_fuites] = "Fuites", "Fugas",
-			        [categoria_subcomptatge] = "Subcomptatge", "Subcontaje",
-			        [categoria_fraus] = "Fraus", "Fraude",
+			        [categorizacio_fuites] = "Fuites", "Fugas",
+			        [categorizacio_subcomptatge] = "Subcomptatge", "Subcontaje",
+			        [categorizacio_fraus] = "Fraus", "Fraude",
 			        BLANK()
 			    )
 			
@@ -5631,7 +5692,7 @@ table _medidas
 		displayFolder: anr_distribucion\volumns\consumit
 		lineageTag: 1d2e3f4a-5b6c-4d7e-8f9a-0b1c2d3e4f5a
 
-	measure delta_test = ```
+	measure delta_qmin_volum_consumit = ```
 			[delta_qmin_mensual] - [delta_volum_consumit_distribucion_mensual]
 			
 			```
@@ -6096,7 +6157,10 @@ table _medidas
 	measure dotacio_acum_12m = ```
 			
 			VAR _FechaFin =
-			    MAX ( 'dim_calendario'[Date] )
+			    CALCULATE(
+			        MAX('fact_estim_volum_munic_pob'[fecha]),
+			        ALL('fact_estim_volum_munic_pob')
+			    )
 			VAR _FechaInicio =
 			    EDATE ( _FechaFin, -12 )
 			VAR _FechaMinContexto =
@@ -6331,6 +6395,43 @@ table _medidas
 			```
 		displayFolder: actuacions\cabals\q_min\ytd
 		lineageTag: 1aa21e64-4b9d-482b-81e3-a79a8b2ac28e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure num_comptadors_subcomptatge = ```
+			CALCULATE(
+			    COUNTROWS('fact_perimetre_comptadors')
+			)
+			 
+			```
+		formatString: 0
+		displayFolder: categorizacio
+		lineageTag: ebd41f82-bc6d-4e2f-bfa2-9c6b9461a76c
+
+	measure compatadors_with_problems = ```
+			
+			CALCULATE(
+			    COUNT('fact_bossa'[necessitat]),
+			    FILTER(
+			        'fact_bossa',
+			        'fact_bossa'[necessitat] <> "Canvi fet (averia gran)"
+			    )
+			)
+			
+			```
+		formatString: 0
+		displayFolder: categorizacio
+		lineageTag: 62e29e08-6e2f-4668-99da-14a56bac3669
+
+	measure volum_consumit_distribucion_mapa = SUM(fact_volum_cons_lliur[volum_consumit])
+		displayFolder: mapa
+		lineageTag: 04e9e5f9-2910-42a4-a1e0-d1a06c4ba16b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_lliurat_distribucion_mapa = SUM(fact_volum_cons_lliur[volum_lliurat])
+		displayFolder: mapa
+		lineageTag: e7a73df4-d712-489e-9890-800212bfdb72
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

@@ -10,7 +10,7 @@
     "tabOrder": 11000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "clusteredColumnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -33,42 +33,8 @@
             }
           ]
         },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_switchs"
-                    }
-                  },
-                  "Property": "kpi_rth_transporte_switch"
-                }
-              },
-              "queryRef": "_switchs.kpi_rth_transporte_switch",
-              "nativeQueryRef": "RTH Transporte",
-              "displayName": "RTH Transport"
-            }
-          ]
-        },
         "Y": {
           "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_switchs"
-                    }
-                  },
-                  "Property": "kpi_volum_consumit_distribucion_switch"
-                }
-              },
-              "queryRef": "_switchs.kpi_volum_consumit_distribucion_switch",
-              "nativeQueryRef": "Consumit",
-              "displayName": "Consumit"
-            },
             {
               "field": {
                 "Measure": {
@@ -83,6 +49,21 @@
               "queryRef": "_switchs.kpi_volum_lliurat_distribucion_switch",
               "nativeQueryRef": "Lliurat",
               "displayName": "Lliurat"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_volum_consumit_distribucion_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_volum_consumit_distribucion_switch",
+              "nativeQueryRef": "Consumit",
+              "displayName": "Consumit"
             }
           ]
         }
@@ -144,26 +125,6 @@
           }
         }
       ],
-      "lineStyles": [
-        {
-          "properties": {
-            "showMarker": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "markerSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "3D"
-                }
-              }
-            }
-          }
-        }
-      ],
       "legend": [
         {
           "properties": {
@@ -198,7 +159,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Evolució Volum'"
+                  "Value": "'Evolució Volum(hm3)'"
                 }
               }
             },

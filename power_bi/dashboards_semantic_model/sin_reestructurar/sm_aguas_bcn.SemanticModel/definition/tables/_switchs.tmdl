@@ -1672,6 +1672,23 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure Metrica_Color_Mapa_Gerencia = ```
+			
+			VAR MetricaElegida = SELECTEDVALUE( Slicer_KPI[Metrica], "RENDIMENT" ) 
+			RETURN
+			    SWITCH(
+			        MetricaElegida,
+			        "ANR", -1*[anr_mensual],
+			        "RENDIMENT", [rth_distribucion_mensual], 
+			        [rth_distribucion_mensual]
+			    )
+			 
+			
+			```
+		lineageTag: 9c184386-9f3c-47cc-8a6b-85abcbac0942
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0

@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "0202f1d90bef09f0532e",
   "position": {
-    "x": 168.75,
-    "y": 157.5,
-    "z": 12002,
+    "x": 168.57142857142858,
+    "y": 157.14285714285714,
+    "z": 13000,
     "height": 136.13412145817119,
     "width": 1111.4747891205116,
-    "tabOrder": 9000
+    "tabOrder": 11000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -15,21 +15,6 @@
       "queryState": {
         "Rows": {
           "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_dades_sectors"
-                    }
-                  },
-                  "Property": "gerencia"
-                }
-              },
-              "queryRef": "dim_dades_sectors.gerencia",
-              "nativeQueryRef": "gerencia",
-              "active": true
-            },
             {
               "field": {
                 "Column": {
@@ -57,12 +42,12 @@
                       "Entity": "_medidas"
                     }
                   },
-                  "Property": "volum_lliurat_distribucion_mensual"
+                  "Property": "volum_lliurat_distribucion_mapa"
                 }
               },
-              "queryRef": "_medidas.volum_lliurat_distribucion_mensual",
-              "nativeQueryRef": "vol_lliurat_dist",
-              "displayName": "vol_lliurat_dist"
+              "queryRef": "_medidas.volum_lliurat_distribucion_mapa",
+              "nativeQueryRef": "Vllliurat",
+              "displayName": "Vllliurat"
             },
             {
               "field": {
@@ -72,12 +57,12 @@
                       "Entity": "_medidas"
                     }
                   },
-                  "Property": "volum_consumit_distribucion_mensual"
+                  "Property": "volum_consumit_distribucion_mapa"
                 }
               },
-              "queryRef": "_medidas.volum_consumit_distribucion_mensual",
-              "nativeQueryRef": "vol_consumit_dist",
-              "displayName": "vol_consumit_dist"
+              "queryRef": "_medidas.volum_consumit_distribucion_mapa",
+              "nativeQueryRef": "Vconsumit",
+              "displayName": "Vconsumit"
             },
             {
               "field": {
@@ -91,8 +76,8 @@
                 }
               },
               "queryRef": "_medidas.rth_distribucion_mensual",
-              "nativeQueryRef": "rth",
-              "displayName": "rth"
+              "nativeQueryRef": "RTH",
+              "displayName": "RTH"
             },
             {
               "field": {
@@ -111,8 +96,8 @@
                 }
               },
               "queryRef": "Sum(dim_dades_sectors.num_points)",
-              "nativeQueryRef": "points",
-              "displayName": "points"
+              "nativeQueryRef": "Points",
+              "displayName": "Points"
             },
             {
               "field": {
@@ -141,8 +126,8 @@
                 }
               },
               "queryRef": "_medidas.categoria_anr",
-              "nativeQueryRef": "categoria",
-              "displayName": "categoria"
+              "nativeQueryRef": "Categoria",
+              "displayName": "Categoria"
             },
             {
               "field": {
@@ -156,8 +141,8 @@
                 }
               },
               "queryRef": "_medidas.q_min_mensual",
-              "nativeQueryRef": "q_min",
-              "displayName": "q_min"
+              "nativeQueryRef": "Qmin",
+              "displayName": "Qmin"
             },
             {
               "field": {
@@ -171,8 +156,8 @@
                 }
               },
               "queryRef": "_medidas.delta_volum_consumit_distribucion_mensual",
-              "nativeQueryRef": "Δvol_consumit_dist",
-              "displayName": "Δvol_consumit_dist"
+              "nativeQueryRef": "ΔVconsumit",
+              "displayName": "ΔVconsumit"
             },
             {
               "field": {
@@ -186,8 +171,8 @@
                 }
               },
               "queryRef": "_medidas.delta_qmin_mensual",
-              "nativeQueryRef": "Δq_min",
-              "displayName": "Δq_min"
+              "nativeQueryRef": "ΔQmin",
+              "displayName": "ΔQmin"
             },
             {
               "field": {
@@ -197,11 +182,40 @@
                       "Entity": "_medidas"
                     }
                   },
-                  "Property": "delta_test"
+                  "Property": "delta_qmin_volum_consumit"
                 }
               },
               "queryRef": "_medidas.delta_test",
-              "nativeQueryRef": "delta_test"
+              "nativeQueryRef": "ΔQmin-ΔVconsumit",
+              "displayName": "ΔQmin-ΔVconsumit"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "compatadors_with_problems"
+                }
+              },
+              "queryRef": "_medidas.compatadors_with_problems",
+              "nativeQueryRef": "compatadors_with_problems"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "num_comptadors_subcomptatge"
+                }
+              },
+              "queryRef": "_medidas.num_comptadors_subcomptatge",
+              "nativeQueryRef": "num_comptadors_subcomptatge"
             }
           ]
         }
@@ -210,21 +224,16 @@
         "sort": [
           {
             "field": {
-              "Aggregation": {
+              "Measure": {
                 "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "dim_dades_sectors"
-                      }
-                    },
-                    "Property": "num_points"
+                  "SourceRef": {
+                    "Entity": "_switchs"
                   }
                 },
-                "Function": 0
+                "Property": "Metrica_Mapa_Seleccionada"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
           }
         ]
       },
@@ -238,25 +247,6 @@
           "Rows"
         ],
         "levels": [
-          {
-            "queryRefs": [
-              "dim_dades_sectors.gerencia"
-            ],
-            "isCollapsed": true,
-            "identityKeys": [
-              {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_dades_sectors"
-                    }
-                  },
-                  "Property": "gerencia"
-                }
-              }
-            ],
-            "isPinned": true
-          },
           {
             "queryRefs": [
               "dim_dades_sectors.sector"
@@ -277,30 +267,7 @@
             "isPinned": true
           }
         ],
-        "root": {
-          "children": [
-            {
-              "identityValues": [
-                {
-                  "Literal": {
-                    "Value": "'Besòs'"
-                  }
-                }
-              ],
-              "isToggled": true
-            },
-            {
-              "identityValues": [
-                {
-                  "Literal": {
-                    "Value": "'Barcelona Nord'"
-                  }
-                }
-              ],
-              "isToggled": true
-            }
-          ]
-        }
+        "root": {}
       }
     ],
     "objects": {
@@ -319,7 +286,7 @@
                               "Entity": "_switchs"
                             }
                           },
-                          "Property": "Metrica_Mapa_Seleccionada"
+                          "Property": "Metrica_Color_Mapa_Gerencia"
                         }
                       },
                       "FillRule": {
@@ -365,22 +332,6 @@
           }
         }
       ],
-      "columnWidth": [
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "126.97369696952767D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "dim_dades_sectors.gerencia"
-          }
-        }
-      ],
       "columnHeaders": [
         {
           "properties": {}
@@ -423,5 +374,168 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "536d6b7981d590d41530",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "sector"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "d25a3599e5d97326a100",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "rth_distribucion_mensual"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9c2f790130e89501932d",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_dades_sectors"
+                  }
+                },
+                "Property": "num_points"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6946ea13849dd8e040e7",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "Metrica_Mapa_Seleccionada"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4eb6922c00a441e0a720",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "categoria_anr"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e7cd008b82c21a894761",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "q_min_mensual"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f5ec962337930c3a47a9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "delta_volum_consumit_distribucion_mensual"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "407a7949adaeb69562aa",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "delta_qmin_mensual"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2b5be890bd401ce4606a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "delta_qmin_volum_consumit"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5eeb094611be07c843b9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "compatadors_with_problems"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "32ffc90cec8545774b50",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "num_comptadors_subcomptatge"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

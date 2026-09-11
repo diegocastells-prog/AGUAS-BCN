@@ -6,7 +6,7 @@
     "y": 0,
     "z": 0,
     "height": 81,
-    "width": 286,
+    "width": 399,
     "tabOrder": 0
   },
   "visual": {
@@ -58,9 +58,45 @@
               "queryRef": "_switchs.kpi_dotacio_switch",
               "nativeQueryRef": "Value Current",
               "displayName": "Value Current"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_estim_volum_munic_pob"
+                    }
+                  },
+                  "Property": "poblacion"
+                }
+              },
+              "queryRef": "Sum(fact_estim_volum_munic_pob.poblacion)",
+              "nativeQueryRef": "poblacion"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "fact_estim_volum_munic_pob"
+                      }
+                    },
+                    "Property": "poblacion"
+                  }
+                },
+                "Function": 0
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
       }
     },
     "objects": {
