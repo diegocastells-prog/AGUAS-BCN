@@ -6944,12 +6944,11 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure fuite_por_km =
+	measure fuite_por_km = ```
 			
-			DIVIDE(
-			    [cabal_recuperat_mensual],
-			    [avaries_mensual]
-			)
+			 DIVIDE([avaries_mensual], 
+			SUM(fact_actuacions_zones[km_inspeccionats_acustic]) + SUM(fact_actuacions_zones[km_inspeccionats_heli]))
+			```
 		displayFolder: fuites
 		lineageTag: 0e23b574-3486-4c30-a809-2f762562053d
 
@@ -6958,11 +6957,13 @@ table _medidas
 	measure 'litros por fuga' =
 			
 			DIVIDE(
-			    [litros],
-			    [avaries]
+			    [cabal_recuperat_mensual],
+			    [avaries_mensual]
 			)
 		displayFolder: fuites
 		lineageTag: 673da99f-b4c2-48e1-bb18-ce62f021530a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Column
 		isHidden
