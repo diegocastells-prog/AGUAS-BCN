@@ -2225,7 +2225,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			    _Valor
 			)  
 			 
 			```
@@ -2289,7 +2289,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			    _Valor
 			)  
 			 
 			```
@@ -2342,8 +2342,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)   
+			_Valor)
 			```
 		displayFolder: actuacions\avaries\acum_12
 		lineageTag: 137454b1-2da4-4c00-b41a-5622caae9ab5
@@ -2401,7 +2400,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			 _Valor
 			)  
 			```
 		formatString: #,0.00
@@ -2569,7 +2568,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			    _Valor
 			)   
 			```
 		displayFolder: fuites\acustic\acum_12
@@ -2622,7 +2621,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			 _Valor
 			)   
 			```
 		formatString: #,0.00
@@ -2676,7 +2675,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			     _Valor
 			)   
 			```
 		formatString: #,0.00
@@ -3956,7 +3955,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			_Valor
 			)
 			```
 		displayFolder: actuacions\avaries\ytd
@@ -4177,12 +4176,12 @@ table _medidas
 			        DATESBETWEEN (
 			            'dim_calendario'[Date],
 			            _FechaInicioLY,
-			            _FechaMaxContexto
+			            _FechaFinLY
 			        )
 			    )
 			
 			RETURN
-			    DIVIDE ( _Valor, 1000000 )
+			 _Valor
 			
 			```
 		displayFolder: actuacions\avaries\ytd
@@ -4214,12 +4213,12 @@ table _medidas
 			        DATESBETWEEN (
 			            'dim_calendario'[Date],
 			            _FechaInicioLY,
-			            _FechaMaxContexto
+			            _FechaFinLY
 			        )
 			    )
 			
 			RETURN
-			    DIVIDE ( _Valor, 1000000 )
+			 _Valor
 			
 			```
 		displayFolder: actuacions\cabals\cabal_recuperat\ytd
@@ -4260,7 +4259,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			 _Valor
 			)
 			```
 		displayFolder: actuacions\cabals\cabal_recuperat\ytd
@@ -6502,6 +6501,448 @@ table _medidas
 		formatString: 0
 		displayFolder: pressio
 		lineageTag: 29895b44-d681-4498-988c-02dc95d38db6
+
+	measure km_inspeccionats_acustic_ytd = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			VAR _FechaFin =
+			    TODAY ()
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _Valor =
+			    CALCULATE (
+			        [km_inspeccionats_acustic_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
+			    )
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    _Valor
+			)
+			
+			
+			```
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic
+		lineageTag: 301277e4-b694-42bb-b9f5-fadb0d919352
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure km_inspeccionats_acustic_lytd = ```
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _FechaInicioLY =
+			    DATE ( YEAR ( _FechaMaxContexto ) - 1, 1, 1 )
+			VAR _FechaFinLY =
+			    EDATE ( _FechaMaxContexto, -12 )
+			VAR _Valor =
+			    CALCULATE (
+			        [km_inspeccionats_acustic_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaFinLY
+			        )
+			    )
+			RETURN
+			    _Valor
+			
+			```
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic
+		lineageTag: 9944c30b-5720-4462-a7a8-db32f35ff60e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_km_inspeccionats_acustic =
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			VAR _FechaFin =
+			    TODAY ()
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _ValorActual =
+			    [km_inspeccionats_acustic_mensual]
+			VAR _ValorAA =
+			    CALCULATE (
+			        [km_inspeccionats_acustic_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic
+		lineageTag: a6c2a1de-b33f-4055-a5c6-d8484c613aa7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure km_inspeccionats_heli_ytd = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			VAR _FechaFin =
+			    TODAY ()
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _Valor =
+			    CALCULATE (
+			        [km_inspeccionats_heli_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
+			    )
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    _Valor
+			)
+			
+			```
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli
+		lineageTag: c3f6bc48-d444-4e97-8232-079b5c5a1d27
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure km_inspeccionats_heli_lytd = ```
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _FechaInicioLY =
+			    DATE ( YEAR ( _FechaMaxContexto ) - 1, 1, 1 )
+			VAR _FechaFinLY =
+			    EDATE ( _FechaMaxContexto, -12 )
+			VAR _Valor =
+			    CALCULATE (
+			        [km_inspeccionats_heli_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaFinLY
+			        )
+			    )
+			RETURN
+			    _Valor
+			
+			
+			```
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli
+		lineageTag: db1ed5fc-7bd3-4b1b-8575-a6a3253647bb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_km_inspeccionats_heli = ```
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			VAR _FechaFin =
+			    TODAY ()
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _ValorActual =
+			    [km_inspeccionats_heli_mensual]
+			VAR _ValorAA =
+			    CALCULATE (
+			        [km_inspeccionats_heli_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+			
+			```
+		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli
+		lineageTag: ad751b10-4601-46c2-ae2b-2ae15619444c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure fuites_reparades_acustic_ytd =
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			VAR _FechaFin =
+			    TODAY ()
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _Valor =
+			    CALCULATE (
+			        [fuites_reparades_acustic_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
+			    )
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    _Valor
+			)
+		displayFolder: fuites\acustic
+		lineageTag: 4c8819b9-b727-4d71-aa53-4b4c3464d9c7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure fuites_reparades_acustic_lytd =
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _FechaInicioLY =
+			    DATE ( YEAR ( _FechaMaxContexto ) - 1, 1, 1 )
+			VAR _FechaFinLY =
+			    EDATE ( _FechaMaxContexto, -12 )
+			VAR _Valor =
+			    CALCULATE (
+			        [fuites_reparades_acustic_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaFinLY
+			        )
+			    )
+			RETURN
+			    _Valor
+		displayFolder: fuites\acustic
+		lineageTag: 34e0b8d6-7b92-4e21-90a4-605c1b31c0e1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_fuites_reparades_acustic =
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			VAR _FechaFin =
+			    TODAY ()
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _ValorActual =
+			    [fuites_reparades_acustic_mensual]
+			VAR _ValorAA =
+			    CALCULATE (
+			        [fuites_reparades_acustic_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+		displayFolder: fuites\acustic\acum_12
+		lineageTag: e8ee695c-6540-4f39-8548-f3abdc6b2420
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure fuites_reparades_altres_ytd =
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			VAR _FechaFin =
+			    TODAY ()
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _Valor =
+			    CALCULATE (
+			        [fuites_reparades_altres_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
+			    )
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    _Valor
+			)
+		displayFolder: fuites\altres
+		lineageTag: 7ca211d3-67b5-460e-bf1e-bcef5c7af45a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure fuites_reparades_altres_lytd =
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _FechaInicioLY =
+			    DATE ( YEAR ( _FechaMaxContexto ) - 1, 1, 1 )
+			VAR _FechaFinLY =
+			    EDATE ( _FechaMaxContexto, -12 )
+			VAR _Valor =
+			    CALCULATE (
+			        [fuites_reparades_altres_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaFinLY
+			        )
+			    )
+			RETURN
+			    _Valor
+		displayFolder: fuites\altres
+		lineageTag: 9b736e5c-70ad-4f4e-a035-09ae8030200c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_fuites_reparades_altres =
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			VAR _FechaFin =
+			    TODAY ()
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _ValorActual =
+			    [fuites_reparades_altres_mensual]
+			VAR _ValorAA =
+			    CALCULATE (
+			        [fuites_reparades_altres_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+		displayFolder: fuites\altres
+		lineageTag: cbf2c87c-e501-4c31-81bb-e0215fa039b8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure fuites_reparades_heli_ytd =
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			VAR _FechaFin =
+			    TODAY ()
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _Valor =
+			    CALCULATE (
+			        [fuites_reparades_heli_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicio,
+			            _FechaMaxContexto
+			        )
+			    )
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    _Valor
+			)
+		displayFolder: fuites\heli
+		lineageTag: fd432138-e465-49e4-aaec-963092b2d747
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure fuites_reparades_heli_lytd =
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _FechaInicioLY =
+			    DATE ( YEAR ( _FechaMaxContexto ) - 1, 1, 1 )
+			VAR _FechaFinLY =
+			    EDATE ( _FechaMaxContexto, -12 )
+			VAR _Valor =
+			    CALCULATE (
+			        [fuites_reparades_heli_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaFinLY
+			        )
+			    )
+			RETURN
+			    _Valor
+		displayFolder: fuites\heli
+		lineageTag: e89febfd-3cc5-45fe-aa52-858ba7f90363
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_fuites_reparades_heli =
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			VAR _FechaFin =
+			    TODAY ()
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _ValorActual =
+			    [fuites_reparades_heli_mensual]
+			VAR _ValorAA =
+			    CALCULATE (
+			        [fuites_reparades_heli_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin
+			        || ISBLANK ( _ValorActual )
+			        || ISBLANK ( _ValorAA ),
+			    BLANK (),
+			    _ValorActual - _ValorAA
+			)
+		displayFolder: fuites\heli
+		lineageTag: ce7e6adf-9c76-4ab0-80b8-ad2626fdb11f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Column
 		isHidden
