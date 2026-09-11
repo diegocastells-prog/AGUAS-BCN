@@ -20,16 +20,15 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Slicer_KPI"
+                      "Entity": "dim_dades_sectors"
                     }
                   },
-                  "Property": "Metrica"
+                  "Property": "pressio"
                 }
               },
-              "queryRef": "Slicer_KPI.Metrica",
-              "nativeQueryRef": "kpi",
-              "active": true,
-              "displayName": "kpi"
+              "queryRef": "dim_dades_sectors.pressio",
+              "nativeQueryRef": "pressio",
+              "active": true
             }
           ]
         }
@@ -78,49 +77,7 @@
       ],
       "general": [
         {
-          "properties": {
-            "filter": {
-              "filter": {
-                "Version": 2,
-                "From": [
-                  {
-                    "Name": "s",
-                    "Entity": "Slicer_KPI",
-                    "Type": 0
-                  }
-                ],
-                "Where": [
-                  {
-                    "Condition": {
-                      "In": {
-                        "Expressions": [
-                          {
-                            "Column": {
-                              "Expression": {
-                                "SourceRef": {
-                                  "Source": "s"
-                                }
-                              },
-                              "Property": "Metrica"
-                            }
-                          }
-                        ],
-                        "Values": [
-                          [
-                            {
-                              "Literal": {
-                                "Value": "'CATEGORIZACIO ANR'"
-                              }
-                            }
-                          ]
-                        ]
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          }
+          "properties": {}
         }
       ]
     },
@@ -185,6 +142,11 @@
           }
         }
       ]
+    },
+    "syncGroup": {
+      "groupName": "Metrica",
+      "fieldChanges": true,
+      "filterChanges": true
     },
     "drillFilterOtherVisuals": true
   },
