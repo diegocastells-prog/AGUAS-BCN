@@ -51,15 +51,6 @@ table dim_calendario
 
 		annotation SummarizationSetBy = Automatic
 
-	column aniomes
-		isHidden
-		lineageTag: e921d61e-7746-4ab3-a23b-6345d9a65666
-		summarizeBy: none
-		isNameInferred
-		sourceColumn: [aniomes]
-
-		annotation SummarizationSetBy = Automatic
-
 	column anio_mes
 		lineageTag: 7f2ff2d6-7c83-47e8-b182-31110f306b20
 		summarizeBy: none
@@ -178,21 +169,11 @@ table dim_calendario
 
 		annotation SummarizationSetBy = Automatic
 
-	column mestexto_año
-		lineageTag: b8cd3082-0177-4ccc-bf01-b9bc92216025
-		summarizeBy: none
-		isNameInferred
-		sourceColumn: [mestexto_año]
-		sortByColumn: aniomes
-
-		annotation SummarizationSetBy = Automatic
-
 	column mestexto_añocorto
 		lineageTag: 8fe46a35-1988-41ad-b25a-60b2293c2c26
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [mestexto_añocorto]
-		sortByColumn: aniomes
 
 		annotation SummarizationSetBy = Automatic
 
@@ -205,19 +186,16 @@ table dim_calendario
 				        DATE(2020,1,1),
 				        EOMONTH(TODAY(), -1)
 				    ),
-				 
 				    "anio", YEAR([Date]),
 				    "mes_num", MONTH([Date]),
 				    "mes", SWITCH(MONTH([Date]), 1, "gener", 2, "febrer", 3, "març", 4, "abril", 5, "maig", 6, "juny", 7, "juliol", 8, "agost", 9, "setembre", 10, "octubre", 11, "novembre", 12, "desembre"),
-				    "mes_corto", SWITCH(MONTH([Date]), 1, "gen.", 2, "febr.", 3, "març", 4, "abr.", 5, "maig", 6, "juny", 7, "jul.", 8, "ag.", 9, "set.", 10, "oct.", 11, "nov.", 12, "des."),
-				    "mestexto_año", SWITCH(MONTH([Date]), 1, "gen.", 2, "febr.", 3, "març", 4, "abr.", 5, "maig", 6, "juny", 7, "jul.", 8, "ag.", 9, "set.", 10, "oct.", 11, "nov.", 12, "des.") & " " & FORMAT([Date], "YYYY"),
-				    "mestexto_añocorto", SWITCH(MONTH([Date]), 1, "gen.", 2, "febr.", 3, "març", 4, "abr.", 5, "maig", 6, "juny", 7, "jul.", 8, "ag.", 9, "set.", 10, "oct.", 11, "nov.", 12, "des.") & " " & FORMAT([Date], "YY"),
-				    "aniomes", FORMAT([Date], "YYYYMM"),
+				    "mes_corto", SWITCH(MONTH([Date]), 1, "gen", 2, "febr", 3, "març", 4, "abr", 5, "maig", 6, "juny", 7, "jul", 8, "ag", 9, "set", 10, "oct", 11, "nov", 12, "des"),
+				    "anio_mes", SWITCH(MONTH([Date]), 1, "gen.", 2, "febr.", 3, "març", 4, "abr", 5, "maig", 6, "juny", 7, "jul", 8, "ag", 9, "set", 10, "oct", 11, "nov", 12, "des") & "." & FORMAT([Date], "YYYY"),
+				    "mestexto_añocorto", SWITCH(MONTH([Date]), 1, "gen", 2, "febr", 3, "març", 4, "abr", 5, "maig", 6, "juny", 7, "jul", 8, "ag", 9, "set", 10, "oct", 11, "nov", 12, "des") & " " & FORMAT([Date], "YY"),
 				    "aniomes_corto", FORMAT([Date], "MM YY"), 
 				    "aniomes_corto_con_guion", FORMAT([Date], "MM-YY"), 
 				    "aniomes_num_corto", FORMAT([Date], "MM") & "/" & FORMAT([Date],"YY"),
-				    "anio2_mes", FORMAT([Date], "YY-MM"),
-				    "anio_mes", FORMAT([Date], "YYYY-MMM"),
+				    "anio2_mes", FORMAT([Date], "YY-MM"), 
 				    "trimestre", "T" & FORMAT([Date], "Q"),
 				    "anio_trimestre", YEAR([Date]) & "-T" & FORMAT([Date], "Q"),
 				    "semana_anio", WEEKNUM([Date], 2),

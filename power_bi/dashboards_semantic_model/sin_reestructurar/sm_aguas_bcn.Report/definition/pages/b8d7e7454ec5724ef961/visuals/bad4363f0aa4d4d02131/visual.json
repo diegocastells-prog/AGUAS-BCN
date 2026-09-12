@@ -4,10 +4,10 @@
   "position": {
     "x": 179.02847571189278,
     "y": 402.01005025125625,
-    "z": 9,
+    "z": 9000,
     "height": 211.18927973199328,
     "width": 1063.4505862646565,
-    "tabOrder": 35
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "lineClusteredColumnComboChart",
@@ -23,13 +23,12 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "mestexto_año"
+                  "Property": "anio_mes"
                 }
               },
-              "queryRef": "dim_calendario.mestexto_año",
-              "nativeQueryRef": "mestexto_año",
-              "active": true,
-              "displayName": "mestexto_año"
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes",
+              "active": true
             }
           ]
         },
@@ -71,23 +70,6 @@
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dim_calendario"
-                  }
-                },
-                "Property": "anio2_mes"
-              }
-            },
-            "direction": "Ascending"
-          }
-        ]
       }
     },
     "objects": {
@@ -424,5 +406,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "3c62521f9b7eb86785c2",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_anr_transporte_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "70cdff4d7b498d784090",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_rth_transporte_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "63de9150914d271ab9ba",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

@@ -23,29 +23,12 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio"
+                  "Property": "anio_mes"
                 }
               },
-              "queryRef": "dim_calendario.anio",
-              "nativeQueryRef": " ",
-              "active": true,
-              "displayName": " "
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_calendario"
-                    }
-                  },
-                  "Property": "mes_corto"
-                }
-              },
-              "queryRef": "dim_calendario.mes_corto",
-              "nativeQueryRef": "Data",
-              "active": true,
-              "displayName": "Data"
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes",
+              "active": true
             }
           ]
         },
@@ -184,19 +167,6 @@
           }
         }
       ],
-      "categoryAxis": [
-        {
-          "properties": {
-            "showAxisTitle": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
       "legend": [
         {
           "properties": {
@@ -204,6 +174,54 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "preferredCategoryWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "concatenateLabels": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "maxMarginFactor": {
+              "expr": {
+                "Literal": {
+                  "Value": "21L"
                 }
               }
             }
@@ -459,65 +477,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "4217862a028961a83910",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "a94e4b70187e71be272d",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "mes_corto"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "72e5aacaec08d8291612",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "kpi_lliurat_global_switch"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "efc6a72c8e3170c07286",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "kpi_consumita_global_switch"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

@@ -4,10 +4,10 @@
   "position": {
     "x": 179.02847571189278,
     "y": 176.88442211055275,
-    "z": 8,
+    "z": 8000,
     "height": 211.18927973199328,
     "width": 1063.4505862646565,
-    "tabOrder": 39
+    "tabOrder": 9000
   },
   "visual": {
     "visualType": "lineChart",
@@ -23,11 +23,11 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "mestexto_año"
+                  "Property": "anio_mes"
                 }
               },
-              "queryRef": "dim_calendario.mestexto_año",
-              "nativeQueryRef": "mestexto_año",
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes",
               "active": true
             }
           ]
@@ -445,5 +445,65 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "e96065b346e03c5ac1c9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_rth_transporte_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "b6b271fe6987ea144d14",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_volum_consumit_transporte_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "091183ea4b32ae1edd56",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_volum_lliurat_transporte_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "16a061f101e79c0586cc",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

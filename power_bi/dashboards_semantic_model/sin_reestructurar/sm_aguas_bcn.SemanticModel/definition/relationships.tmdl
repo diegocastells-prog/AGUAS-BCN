@@ -66,12 +66,6 @@ relationship beccf909-bd77-3fbe-2b9d-7ab84f40e840
 	fromColumn: fact_vol_fraud.'Polissa Subm'
 	toColumn: dim_less_polissa_fraude.polissa_su
 
-relationship cb678c9c-e5b4-4987-bbd9-0552fbdb11b4
-	fromColumn: aux_fact_poblacion_munic.municipio
-	toColumn: dim_municipio.municipio
-
-	annotation PBI_IsFromSource = FS
-
 relationship a1c8bca7-7f40-0223-e352-98ac2881f063
 	crossFilteringBehavior: bothDirections
 	fromColumn: fact_dades_consum.polissa_subm
@@ -81,9 +75,21 @@ relationship 4509abf2-cc1c-7590-979d-ac75c75243a2
 	fromColumn: fact_perimetre_comptadors.sector_id
 	toColumn: dim_dades_sectors.sector_id
 
-relationship AutoDetected_908a0836-297c-4d36-b467-d8641fa92bf3
-	fromColumn: Tfuita_Tinst_2026.aviso
-	toColumn: fact_tfuita_tinst.aviso
+relationship 1cf24e28-ab33-29ff-3bc8-f597aba875ad
+	fromColumn: fact_estim_volum_munic_pob.id_mun
+	toColumn: dim_municipio.id_mun
+
+relationship 68082355-1388-f876-ff0d-f99a626472c0
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: fact_perimetre_comptadors.polissa_subm
+	toColumn: fact_bossa.polissa_subm
+
+relationship bdb38c77-1fe2-932a-f5b2-2ede2cb4da67
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: dim_dades_sectors.gerencia_id
+	toColumn: dim_arteria.gerencia_id
 
 relationship db1942ac-3c9f-751d-0de6-1fd5a1882d75
 	crossFilteringBehavior: bothDirections
@@ -144,17 +150,7 @@ relationship a98bf179-c173-70bb-0bfd-92ad367372dd
 	fromColumn: fact_dades_consum.fecha
 	toColumn: dim_calendario.Date
 
-relationship 1cf24e28-ab33-29ff-3bc8-f597aba875ad
-	fromColumn: fact_estim_volum_munic_pob.id_mun
-	toColumn: dim_municipio.id_mun
-
 relationship bc847146-a89f-11e8-7107-7405357e7c15
 	fromColumn: fact_estim_volum_munic_pob.fecha
 	toColumn: dim_calendario.Date
-
-relationship 68082355-1388-f876-ff0d-f99a626472c0
-	crossFilteringBehavior: bothDirections
-	toCardinality: many
-	fromColumn: fact_perimetre_comptadors.polissa_subm
-	toColumn: fact_bossa.polissa_subm
 
