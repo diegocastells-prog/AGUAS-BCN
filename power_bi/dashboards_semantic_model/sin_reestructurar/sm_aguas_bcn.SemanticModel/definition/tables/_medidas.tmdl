@@ -6587,6 +6587,43 @@ table _medidas
 		displayFolder: pressio
 		lineageTag: 29895b44-d681-4498-988c-02dc95d38db6
 
+	measure num_comptadors_subcomptatge = ```
+			CALCULATE(
+			    COUNTROWS('fact_perimetre_comptadors')
+			)
+			 
+			```
+		formatString: 0
+		displayFolder: categorizacio
+		lineageTag: ebd41f82-bc6d-4e2f-bfa2-9c6b9461a76c
+
+	measure compatadors_with_problems = ```
+			
+			CALCULATE(
+			    COUNT('fact_bossa'[necessitat]),
+			    FILTER(
+			        'fact_bossa',
+			        'fact_bossa'[necessitat] <> "Canvi fet (averia gran)"
+			    )
+			)
+			
+			```
+		formatString: 0
+		displayFolder: categorizacio
+		lineageTag: 62e29e08-6e2f-4668-99da-14a56bac3669
+
+	measure volum_consumit_distribucion_mapa = SUM(fact_volum_cons_lliur[volum_consumit])
+		displayFolder: mapa
+		lineageTag: 04e9e5f9-2910-42a4-a1e0-d1a06c4ba16b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure volum_lliurat_distribucion_mapa = SUM(fact_volum_cons_lliur[volum_lliurat])
+		displayFolder: mapa
+		lineageTag: e7a73df4-d712-489e-9890-800212bfdb72
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	measure km_inspeccionats_acustic_ytd = ```
 			
 			VAR _FechaInicio =
@@ -7047,43 +7084,6 @@ table _medidas
 			)
 		displayFolder: fuites\litros_por_fugas\mensual
 		lineageTag: 673da99f-b4c2-48e1-bb18-ce62f021530a
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure num_comptadors_subcomptatge = ```
-			CALCULATE(
-			    COUNTROWS('fact_perimetre_comptadors')
-			)
-			 
-			```
-		formatString: 0
-		displayFolder: categorizacio
-		lineageTag: ebd41f82-bc6d-4e2f-bfa2-9c6b9461a76c
-
-	measure compatadors_with_problems = ```
-			
-			CALCULATE(
-			    COUNT('fact_bossa'[necessitat]),
-			    FILTER(
-			        'fact_bossa',
-			        'fact_bossa'[necessitat] <> "Canvi fet (averia gran)"
-			    )
-			)
-			
-			```
-		formatString: 0
-		displayFolder: categorizacio
-		lineageTag: 62e29e08-6e2f-4668-99da-14a56bac3669
-
-	measure volum_consumit_distribucion_mapa = SUM(fact_volum_cons_lliur[volum_consumit])
-		displayFolder: mapa
-		lineageTag: 04e9e5f9-2910-42a4-a1e0-d1a06c4ba16b
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure volum_lliurat_distribucion_mapa = SUM(fact_volum_cons_lliur[volum_lliurat])
-		displayFolder: mapa
-		lineageTag: e7a73df4-d712-489e-9890-800212bfdb72
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
