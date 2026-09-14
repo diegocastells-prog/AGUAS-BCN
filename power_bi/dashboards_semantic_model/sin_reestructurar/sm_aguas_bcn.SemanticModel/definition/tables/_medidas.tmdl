@@ -7039,13 +7039,13 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure litros_por_fuga_mensual =
+	measure 'litros por fuga' =
 			
 			DIVIDE(
 			    [cabal_recuperat_mensual],
 			    [avaries_mensual]
 			)
-		displayFolder: fuites\litros_por_fugas
+		displayFolder: fuites
 		lineageTag: 673da99f-b4c2-48e1-bb18-ce62f021530a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -7086,6 +7086,31 @@ table _medidas
 		lineageTag: e7a73df4-d712-489e-9890-800212bfdb72
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure filtro_transport = COUNTROWS(fact_rend_anr_arterias)
+		formatString: 0
+		displayFolder: Filtros
+		lineageTag: 63bde9ed-1df1-4a88-a158-024d90bcb95c
+
+	measure filtro_distribucion = COUNTROWS(fact_volum_cons_lliur)
+		formatString: 0
+		displayFolder: Filtros
+		lineageTag: 01d79f55-04f8-4cd5-9a5d-2b2e0e5e2ae4
+
+	measure filtro_dotacio = COUNTROWS(fact_estim_volum_munic_pob)
+		formatString: 0
+		displayFolder: Filtros
+		lineageTag: 64e5e7c4-38e5-42f9-8c75-5bf6f8bc7208
+
+	measure filtro_aigua_consum = COUNTROWS(fact_aigua_consum_historic)
+		formatString: 0
+		displayFolder: Filtros
+		lineageTag: 9013d952-db2b-478f-8757-718d34add032
+
+	measure filtro_avarias_fuitas = COUNTROWS(fact_actuacions_zones)
+		formatString: 0
+		displayFolder: Filtros
+		lineageTag: d9e0444d-754c-4957-80ab-08f074cbaba9
 
 	column Column
 		isHidden
