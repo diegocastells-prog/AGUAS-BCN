@@ -1,4 +1,4 @@
-table 'resumen limitaciones'
+table fact_consum_limitadores
 	lineageTag: ecfe764e-2b00-42f0-a431-66ec9329fd22
 
 	column titular_subministro
@@ -6,14 +6,6 @@ table 'resumen limitaciones'
 		lineageTag: 3c765081-e7d0-4c68-8d2c-3a9df7f0dae3
 		summarizeBy: none
 		sourceColumn: titular_subministro
-
-		annotation SummarizationSetBy = Automatic
-
-	column gerencia
-		dataType: string
-		lineageTag: ad42ed95-134f-4a90-9fe6-f2225a62a820
-		summarizeBy: none
-		sourceColumn: gerencia
 
 		annotation SummarizationSetBy = Automatic
 
@@ -56,43 +48,39 @@ table 'resumen limitaciones'
 
 	column mitjana_cabal_maxi_pre_(m³/h)
 		dataType: double
+		formatString: 0.000000
 		lineageTag: 81e8cbae-ff7c-42c9-8b94-07fa5a4795d5
 		summarizeBy: sum
 		sourceColumn: mitjana_cabal_maxi_pre_(m³/h)
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column mitjana_cabal_maxi_post_(m³/h)
 		dataType: double
+		formatString: 0.000000
 		lineageTag: 79ab9e51-8dfb-4de9-badd-b3b7f2f8d785
 		summarizeBy: sum
 		sourceColumn: mitjana_cabal_maxi_post_(m³/h)
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column consum_mig_diari(m3/d)
 		dataType: double
+		formatString: 0.000000
 		lineageTag: 74784595-3acb-483b-b89c-252e8dbf4316
 		summarizeBy: sum
 		sourceColumn: consum_mig_diari(m3/d)
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column mitja_consum_diari_post_(m3/d)
 		dataType: double
+		formatString: 0.000000
 		lineageTag: 95cfb612-c659-495c-9b47-c68cb08decb4
 		summarizeBy: sum
 		sourceColumn: mitja_consum_diari_post_(m3/d)
 
 		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column coeficiente_euro
 		dataType: double
@@ -104,7 +92,32 @@ table 'resumen limitaciones'
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	partition 'resumen limitaciones' = m
+	column gerencia_id
+		dataType: int64
+		formatString: 0
+		lineageTag: bd059e1a-9b0e-4c3a-90fd-14b81151e355
+		summarizeBy: none
+		sourceColumn: gerencia_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dif (m3/d)'
+		dataType: string
+		lineageTag: 46aba1b3-0aae-468e-8c32-a00ba23ab519
+		summarizeBy: none
+		sourceColumn: Dif (m3/d)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dif (m3/any)'
+		dataType: string
+		lineageTag: 58ea784f-df27-48e7-b82a-f4594c2fe37c
+		summarizeBy: none
+		sourceColumn: Dif (m3/any)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_consum_limitadores = m
 		mode: import
 		source =
 				let
@@ -132,9 +145,15 @@ table 'resumen limitaciones'
 				    ValorReemplazado1 = Table.ReplaceValue(ValorReemplazado2, "", "No Disponible", Replacer.ReplaceValue, {"polissa_ramal"}),
 				    ValorReemplazado3 = Table.ReplaceValue(ValorReemplazado1, null, 0, Replacer.ReplaceValue, {"mitjana_cabal_maxi_post_(m³/h)"}),
 				    TipoCambiado = Table.TransformColumnTypes(ValorReemplazado3, {{"mitja_consum_diari_post_(m3/d)", type number}}),
-				    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(TipoCambiado,{{"titular_subministro", Text.Proper, type text}})
+				    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(TipoCambiado,{{"titular_subministro", Text.Proper, type text}}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Poner En Mayúsculas Cada Palabra", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
+				    #"Columnas reordenadas" = Table.ReorderColumns(#"Columnas quitadas",{"gerencia_id", "titular_subministro", "data_instal", "polissa_subm", "polissa_ramal", "cabal_contract_m3/h", "mitjana_cabal_maxi_pre_(m³/h)", "mitjana_cabal_maxi_post_(m³/h)", "consum_mig_diari(m3/d)", "mitja_consum_diari_post_(m3/d)", "coeficiente_euro"}),
+				    #"Personalizada agregada" = Table.AddColumn(#"Columnas reordenadas", "Dif (m3/d)", each [#"mitja_consum_diari_post_(m3/d)"]-[#"consum_mig_diari(m3/d)"]),
+				    #"Personalizada agregada1" = Table.AddColumn(#"Personalizada agregada", "Dif (m3/any)", each [#"Dif (m3/d)"] * Date.DayOfYear(#date(Date.Year([data_instal]), 12, 31)))
 				in
-				    #"Poner En Mayúsculas Cada Palabra"
+				    #"Personalizada agregada1"
 
 	annotation PBI_NavigationStepName = Navegación
 
