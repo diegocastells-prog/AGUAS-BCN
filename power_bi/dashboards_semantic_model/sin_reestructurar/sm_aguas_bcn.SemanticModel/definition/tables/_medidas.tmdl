@@ -4312,10 +4312,6 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure Medida
-		displayFolder: actuacions\cabals\cabal_recuperat\acum_12
-		lineageTag: 5c7e54ec-af8f-45f9-86e6-7363e0555ace
-
 	measure cabal_recuperat_ytd = ```
 			
 			VAR _FechaInicio =
@@ -7305,6 +7301,15 @@ table _medidas
 		lineageTag: 99770e33-20fb-4663-be35-90cc3060f5cd
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Fraus_per_tipus =
+			
+			CALCULATE(
+			    DISTINCTCOUNT('fact_fraudes_all'[tipus_ope])
+			)
+		formatString: 0
+		displayFolder: fraudes
+		lineageTag: 279933ee-dd59-407a-80de-71126ac4c833
 
 	column Column
 		isHidden
