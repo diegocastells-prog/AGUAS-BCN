@@ -11084,16 +11084,6 @@ cultureInfo es-ES
 			          }
 			        },
 			        {
-			          "Avaries": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
 			          "Fuites": {
 			            "State": "Suggested",
 			            "Source": {
@@ -11147,16 +11137,6 @@ cultureInfo es-ES
 			            "Type": "Noun",
 			            "State": "Generated",
 			            "Weight": 0.99
-			          }
-			        },
-			        {
-			          "Km Inspeccionats Acustic": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
 			          }
 			        }
 			      ]
@@ -11226,16 +11206,6 @@ cultureInfo es-ES
 			            "Type": "Noun",
 			            "State": "Generated",
 			            "Weight": 0.99
-			          }
-			        },
-			        {
-			          "Km Inspeccionats Heli": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
 			          }
 			        }
 			      ]
@@ -18841,88 +18811,30 @@ cultureInfo es-ES
 			          }
 			        }
 			      ]
+			    },
+			    "dim_calendario.mestexto_año": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_calendario",
+			          "ConceptualProperty": "mestexto_año"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "mestexto_año": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
 			    }
 			  },
 			  "Relationships": {
-			    "fact_inventari_xarxa_transporte_total_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_inventari_xarxa_transporte_total"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_inventari_xarxa_transporte_total": {
-			          "Target": {
-			            "Entity": "fact_inventari_xarxa_transporte_total"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_inventari_xarxa_transporte_total"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_inventari_xarxa_transporte_totals_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_inventari_xarxa_transporte_total"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_inventari_xarxa_transporte_totals"
-			        }
-			      ]
-			    },
-			    "fact_aigua_consum_historic_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_consum_historic"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_consum_historic": {
-			          "Target": {
-			            "Entity": "fact_aigua_consum_historic"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_consum_historic"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_consum_historic_have_dim_calendarios"
-			        }
-			      ]
-			    },
 			    "fact_volum_cons_lliur_has_dim_calendario": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_volum_cons_lliur"
@@ -19104,6 +19016,39 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_perimetre_comptadors_have_fact_dades_consums"
+			        }
+			      ]
+			    },
+			    "dim_dades_sector_has_dim_arteria": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_dades_sectors"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          }
+			        },
+			        "dim_arteria": {
+			          "Target": {
+			            "Entity": "dim_arteria"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "dim_arteria"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_dim_arterias"
 			        }
 			      ]
 			    },
@@ -19597,52 +19542,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "dim_dades_sectors_have_dim_less_polissa_fraude"
-			        }
-			      ]
-			    },
-			    "dim_arteria_has_dim_gerencia": {
-			      "Binding": {
-			        "ConceptualEntity": "dim_arteria"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "dim_arteria": {
-			          "Target": {
-			            "Entity": "dim_arteria"
-			          }
-			        },
-			        "dim_gerencia": {
-			          "Target": {
-			            "Entity": "dim_gerencia"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_arteria"
-			            },
-			            "Object": {
-			              "Role": "dim_gerencia"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_arterias_have_dim_gerencias"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_gerencia"
-			            },
-			            "Object": {
-			              "Role": "dim_arteria"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_gerencias_have_dim_arterias"
 			        }
 			      ]
 			    },
@@ -22387,39 +22286,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "dim_calendarios_have_diff_volum_lliurat_transport"
-			        }
-			      ]
-			    },
-			    "dim_calendario_has_mestexto_año": {
-			      "Binding": {
-			        "ConceptualEntity": "dim_calendario"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        },
-			        "dim_calendario.mestexto_año": {
-			          "Target": {
-			            "Entity": "dim_calendario.mestexto_año"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario.mestexto_año"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_mestexto_años"
 			        }
 			      ]
 			    },
@@ -54826,6 +54692,85 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "dim_calendarios_have_dates"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_dim_calendarios"
+			        }
+			      ]
+			    },
+			    "fact_inventari_xarxa_transporte_total_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_inventari_xarxa_transporte_total"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_inventari_xarxa_transporte_total": {
+			          "Target": {
+			            "Entity": "fact_inventari_xarxa_transporte_total"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_inventari_xarxa_transporte_total"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_inventari_xarxa_transporte_totals_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_inventari_xarxa_transporte_total"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_inventari_xarxa_transporte_totals"
 			        }
 			      ]
 			    },

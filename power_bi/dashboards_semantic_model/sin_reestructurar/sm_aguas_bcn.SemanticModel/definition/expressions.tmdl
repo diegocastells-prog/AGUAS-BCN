@@ -2280,21 +2280,6 @@ expression dim_ortomat =
 
 	annotation PBI_ResultType = Table
 
-/// URL AL SPREEDSHET "Informe Aigua Consumida 2026" QUE CONTIENE EL AIGUA LLIURADA
-expression 'Informe Aigua Consumida 2026' = "https://docs.google.com/spreadsheets/d/1GcZpQqbGihEftG7cP56wk9-AIIv07FLtQQT95_s6ZJw/edit?gid=763204073#gid=763204073" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: f9661877-db08-4896-abf1-5be8a090f507
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
-expression 'Indicadors ANR 2026' = "https://docs.google.com/spreadsheets/d/1LK5D7QclVwCBGy5-hONVLgP1GgW35okgrxNLr1kJCoE" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: e64e325d-25f0-488d-9232-c93a1fa3c3df
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
 expression fact_actuacions_zones_2026 = ```
 		let
 		    Origen = GoogleSheets.Contents(ActuacionsZones2026_D),
@@ -2768,27 +2753,6 @@ expression 'BCN G Pressio' = "https://docs.google.com/spreadsheets/d/1NknnQkvQTl
 
 	annotation PBI_ResultType = Text
 
-expression '12_S7 desembre 2025_Tfuita_Tinst' = "https://docs.google.com/spreadsheets/d/1Smti6f94yTpfa8VeXeL6tPG_Lb0xh0niMhO6Q2k4wx4" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: a029ec7f-a104-4bb2-b5bf-afa65c91cc07
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
-expression '12_S7 desembre 2026_Tfuita_Tinst' = "https://docs.google.com/spreadsheets/d/1yyUqAFjidXbfL9QseJXva_0GL_PevZuk_EV7WaEhvhA" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: a7230f4f-14af-41d0-8e49-f7d6fa54da1a
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
-expression Estimació_Volums_Lliurats_i_Dotacions_Municipis_AB = "https://docs.google.com/spreadsheets/d/1PBcQDIOXuGzSvnWbbKL8akVRAcNYzv6ubxLW1zldlPU" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: 6f62bf0e-5506-4b15-966e-a77c6fdf0abd
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
 expression dim_art_llob_g_pressio_100ESF_CDE = ```
 		let
 		    Origen = GoogleSheets.Contents(#"LLOB G Pressio"),
@@ -3082,6 +3046,42 @@ expression dim_art_llob_g_pressio_Palleja = ```
 	annotation PBI_NavigationStepName = Navegación
 
 	annotation PBI_ResultType = Table
+
+/// URL AL SPREEDSHET "Informe Aigua Consumida 2026" QUE CONTIENE EL AIGUA LLIURADA
+expression 'Informe Aigua Consumida 2026' = "https://docs.google.com/spreadsheets/d/1GcZpQqbGihEftG7cP56wk9-AIIv07FLtQQT95_s6ZJw/edit?gid=763204073#gid=763204073" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: f9661877-db08-4896-abf1-5be8a090f507
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression 'Indicadors ANR 2026' = "https://docs.google.com/spreadsheets/d/1LK5D7QclVwCBGy5-hONVLgP1GgW35okgrxNLr1kJCoE" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: e64e325d-25f0-488d-9232-c93a1fa3c3df
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression '12_S7 desembre 2025_Tfuita_Tinst' = "https://docs.google.com/spreadsheets/d/1Smti6f94yTpfa8VeXeL6tPG_Lb0xh0niMhO6Q2k4wx4" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: a029ec7f-a104-4bb2-b5bf-afa65c91cc07
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression '12_S7 desembre 2026_Tfuita_Tinst' = "https://docs.google.com/spreadsheets/d/1yyUqAFjidXbfL9QseJXva_0GL_PevZuk_EV7WaEhvhA" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: a7230f4f-14af-41d0-8e49-f7d6fa54da1a
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression Estimació_Volums_Lliurats_i_Dotacions_Municipis_AB = "https://docs.google.com/spreadsheets/d/1PBcQDIOXuGzSvnWbbKL8akVRAcNYzv6ubxLW1zldlPU" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 6f62bf0e-5506-4b15-966e-a77c6fdf0abd
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
 
 expression Pozos = "https://docs.google.com/spreadsheets/d/1GlxHJlCAWZHbz33ytmi4gH8yGDvnKzX13LSovr73m34/edit?gid=1777683441#gid=1777683441" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 66dd68a2-d56b-4aab-ba1c-b356ffb4988b
