@@ -2,10 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "3045d52f00c328ee7810",
   "position": {
-    "x": 353.54352109570436,
-    "y": 62.818231413934569,
+    "x": 353.06990881458967,
+    "y": 63.221884498480243,
     "z": 7000,
-    "height": 62.249240121580549,
+    "height": 95.319148936170222,
     "width": 184.80243161094225,
     "tabOrder": 3000
   },
@@ -77,7 +77,49 @@
       ],
       "general": [
         {
-          "properties": {}
+          "properties": {
+            "filter": {
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "d",
+                    "Entity": "dim_dades_sectors",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "In": {
+                        "Expressions": [
+                          {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Source": "d"
+                                }
+                              },
+                              "Property": "gerencia"
+                            }
+                          }
+                        ],
+                        "Values": [
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'Barcelona Nord'"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
         }
       ]
     },
@@ -226,6 +268,20 @@
             }
           ]
         }
+      },
+      {
+        "name": "5f6ce22700478712a944",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "gerencia"
+          }
+        },
+        "type": "Categorical"
       }
     ]
   }

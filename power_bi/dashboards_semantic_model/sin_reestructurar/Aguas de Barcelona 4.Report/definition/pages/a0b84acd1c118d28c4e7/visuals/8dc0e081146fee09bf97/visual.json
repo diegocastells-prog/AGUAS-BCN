@@ -215,7 +215,103 @@
   "filterConfig": {
     "filters": [
       {
+        "name": "8d93e8c08b0c527230c5",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "c28f03d10e6064eb6bb6",
+        "ordinal": 1,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "filtro_avarias_fuitas"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 1,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "filtro_avarias_fuitas"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "0L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "2f39a72a45c8b765c5b9",
+        "ordinal": 2,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_aigua_consumida_peatges_global_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "1ac187b0cebc59002b8c",
+        "ordinal": 3,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_aigua_consumida_peatges_global_switch_1m"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
         "name": "790656c8e6bc2b142ae4",
+        "ordinal": 4,
         "field": {
           "Measure": {
             "Expression": {
@@ -231,6 +327,7 @@
       },
       {
         "name": "1797f825e6365db10612",
+        "ordinal": 5,
         "field": {
           "Measure": {
             "Expression": {
@@ -244,6 +341,7 @@
         "type": "Advanced",
         "howCreated": "User"
       }
-    ]
+    ],
+    "filterSortOrder": "Custom"
   }
 }

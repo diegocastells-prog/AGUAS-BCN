@@ -242,7 +242,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "790656c8e6bc2b142ae4",
+        "name": "39aadd816bb8c099a2db",
         "field": {
           "Measure": {
             "Expression": {
@@ -250,14 +250,13 @@
                 "Entity": "_switchs"
               }
             },
-            "Property": "kpi_rth_global_switch"
+            "Property": "kpi_aigua_consumida_acf_global_switch_1m"
           }
         },
-        "type": "Advanced",
-        "howCreated": "User"
+        "type": "Advanced"
       },
       {
-        "name": "1797f825e6365db10612",
+        "name": "f6f0f43cd3915285c0dc",
         "field": {
           "Measure": {
             "Expression": {
@@ -265,10 +264,72 @@
                 "Entity": "_switchs"
               }
             },
-            "Property": "kpi_rth_global_switch_1m"
+            "Property": "kpi_aigua_consumida_acf_global_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "a867fced590d5709d944",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "032700483d20d2aa270b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "filtro_avarias_fuitas"
           }
         },
         "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 1,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "filtro_avarias_fuitas"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "0L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
         "howCreated": "User"
       }
     ]

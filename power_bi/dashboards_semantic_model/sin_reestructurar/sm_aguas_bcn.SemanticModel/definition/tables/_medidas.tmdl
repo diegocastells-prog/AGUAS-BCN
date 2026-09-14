@@ -120,10 +120,7 @@ table _medidas
 		displayFolder: fraudes
 		lineageTag: 4b6451a9-c850-4328-8f9c-0873326fd7b2
 
-	measure volum_lliurat_global_mensual_hm3 = ```
-			SUM(fact_aigua_consum_historic[aigua_lliurada_total])/1000000
-			
-			```
+	measure volum_lliurat_global_mensual_hm3 = SUM(fact_aigua_consum_historic[aigua_lliurada_total])/1000000
 		formatString: #,0.00
 		displayFolder: anr_global\volum\lliurat\mensual
 		lineageTag: 6c32f9d3-73d4-4cee-8719-3c99bc6c0211
@@ -1858,7 +1855,7 @@ table _medidas
 		displayFolder: anr\mensual
 		lineageTag: ceb001ce-ddcd-420f-b8cb-e4c85d2bee08
 
-	measure filtro_anr_gobal_mensual = COUNTROWS(fact_anr_global_mensual)
+	measure filtro_balanç_global = COUNTROWS(fact_aigua_consum_historic)
 		formatString: 0
 		displayFolder: Filtros
 		lineageTag: 90649190-abd7-41c2-8900-593fa6fe0756
@@ -7042,7 +7039,7 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure litros_por_fuga_mensual =
+	measure 'litros por fuga' =
 			
 			DIVIDE(
 			    [cabal_recuperat_mensual],
