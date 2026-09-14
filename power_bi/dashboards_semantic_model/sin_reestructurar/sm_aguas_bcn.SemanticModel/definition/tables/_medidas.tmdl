@@ -120,10 +120,7 @@ table _medidas
 		displayFolder: fraudes
 		lineageTag: 4b6451a9-c850-4328-8f9c-0873326fd7b2
 
-	measure volum_lliurat_global_mensual_hm3 = ```
-			SUM(fact_aigua_consum_historic[aigua_lliurada_total])/1000000
-			
-			```
+	measure volum_lliurat_global_mensual_hm3 = SUM(fact_aigua_consum_historic[aigua_lliurada_total])/1000000
 		formatString: #,0.00
 		displayFolder: anr_global\volum\lliurat\mensual
 		lineageTag: 6c32f9d3-73d4-4cee-8719-3c99bc6c0211
@@ -1865,7 +1862,7 @@ table _medidas
 		displayFolder: anr\mensual
 		lineageTag: ceb001ce-ddcd-420f-b8cb-e4c85d2bee08
 
-	measure filtro_anr_gobal_mensual = COUNTROWS(fact_anr_global_mensual)
+	measure filtro_balanç_global = COUNTROWS(fact_aigua_consum_historic)
 		formatString: 0
 		displayFolder: Filtros
 		lineageTag: 90649190-abd7-41c2-8900-593fa6fe0756
@@ -7089,6 +7086,31 @@ table _medidas
 		lineageTag: 673da99f-b4c2-48e1-bb18-ce62f021530a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure filtro_transport = COUNTROWS(fact_rend_anr_arterias)
+		formatString: 0
+		displayFolder: Filtros
+		lineageTag: 63bde9ed-1df1-4a88-a158-024d90bcb95c
+
+	measure filtro_distribucion = COUNTROWS(fact_volum_cons_lliur)
+		formatString: 0
+		displayFolder: Filtros
+		lineageTag: 01d79f55-04f8-4cd5-9a5d-2b2e0e5e2ae4
+
+	measure filtro_dotacio = COUNTROWS(fact_estim_volum_munic_pob)
+		formatString: 0
+		displayFolder: Filtros
+		lineageTag: 64e5e7c4-38e5-42f9-8c75-5bf6f8bc7208
+
+	measure filtro_aigua_consum = COUNTROWS(fact_aigua_consum_historic)
+		formatString: 0
+		displayFolder: Filtros
+		lineageTag: 9013d952-db2b-478f-8757-718d34add032
+
+	measure filtro_avarias_fuitas = COUNTROWS(fact_actuacions_zones)
+		formatString: 0
+		displayFolder: Filtros
+		lineageTag: d9e0444d-754c-4957-80ab-08f074cbaba9
 
 	column Column
 		isHidden

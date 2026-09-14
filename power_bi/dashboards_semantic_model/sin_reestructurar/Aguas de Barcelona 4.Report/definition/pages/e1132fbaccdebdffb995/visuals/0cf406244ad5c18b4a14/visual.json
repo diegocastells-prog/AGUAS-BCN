@@ -10,7 +10,7 @@
     "tabOrder": 13000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "clusteredColumnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -32,44 +32,8 @@
             }
           ]
         },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_switchs"
-                    }
-                  },
-                  "Property": "kpi_rth_transporte_switch"
-                }
-              },
-              "queryRef": "_switchs.kpi_rth_transporte_switch",
-              "nativeQueryRef": "RTH Transporte",
-              "displayName": "RTH Transport",
-              "format": "0.00 %;-0.00 %;0.00 %"
-            }
-          ]
-        },
         "Y": {
           "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_switchs"
-                    }
-                  },
-                  "Property": "kpi_volum_consumit_transporte_switch"
-                }
-              },
-              "queryRef": "_switchs.kpi_volum_consumit_transporte_switch",
-              "nativeQueryRef": "Consumit",
-              "displayName": "Consumit",
-              "format": "0.00"
-            },
             {
               "field": {
                 "Measure": {
@@ -85,26 +49,25 @@
               "nativeQueryRef": "Lliurat",
               "displayName": "Lliurat",
               "format": "0.00"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_volum_consumit_transporte_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_volum_consumit_transporte_switch",
+              "nativeQueryRef": "Consumit",
+              "displayName": "Consumit",
+              "format": "0.00"
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dim_calendario"
-                  }
-                },
-                "Property": "anio2_mes"
-              }
-            },
-            "direction": "Ascending"
-          }
-        ]
       }
     },
     "objects": {
@@ -147,33 +110,6 @@
                       "Percent": -0.6
                     }
                   }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "lineStyles": [
-        {
-          "properties": {
-            "showMarker": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "markerSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "3D"
-                }
-              }
-            },
-            "areaShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
                 }
               }
             }
@@ -228,19 +164,6 @@
         }
       ],
       "zoom": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "seriesLabels": [
         {
           "properties": {
             "show": {
