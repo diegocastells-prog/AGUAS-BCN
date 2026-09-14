@@ -752,6 +752,33 @@ table _switchs
 			```
 		lineageTag: e0c9011f-577e-497e-8f60-dfe5265779dc
 
+	measure kpi_anr_global_switch_1m =
+			
+			VAR _Periodo =
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
+			
+			RETURN
+			SWITCH(
+			    _Periodo,
+			
+			    "Mensual",
+			        [anr_global_mensual_smly_hm3],
+			
+			    "12 meses",
+			        [anr_global_acum_12m_1m_hm3],
+			
+			    "Acumulat",
+			        [anr_global_lytd],
+			
+			    "Diff",
+			        [_cero_acumulat],
+			
+			    BLANK()
+			)
+		formatString: #,0.000000
+		displayFolder: anr_global\anr
+		lineageTag: b73ca3f3-62f3-4dac-a730-77c07f2d0d69
+
 	measure kpi_consumita_global_switch =
 			
 			VAR _Periodo =
@@ -927,60 +954,6 @@ table _switchs
 			)
 		displayFolder: anr_global\l
 		lineageTag: 37752526-b543-4e78-a58b-a36f930a46e3
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure kpi_lliurat_global_switch =
-			
-			VAR _Periodo =
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
-			
-			VAR _EsContextoMes =
-			    ISINSCOPE('dim_calendario'[mes_corto])
-			
-			RETURN
-			SWITCH(
-			    _Periodo,
-			
-			    "Mensual",
-			        [volum_lliurat_global_mensual_hm3],
-			
-			    "12 meses",
-			        [volum_lliurat_global_acum_12m_hm3],
-			
-			    "Acumulat",
-			        [volum_lliurat_global_ytd],
-			
-			    "Diff",
-			        IF(
-			            _EsContextoMes,
-			
-			            -- En el grÃ¡fico: diferencia mes a mes
-			            [volum_lliurat_global_diff],
-			
-			            -- En la tarjeta KPI: Ãºltimo Diff disponible
-			            VAR _UltimaFechaConDato =
-			                MAXX(
-			                    FILTER(
-			                        ALLSELECTED('dim_calendario'[Date]),
-			                        NOT ISBLANK(
-			                            CALCULATE([volum_lliurat_global_diff])
-			                        )
-			                    ),
-			                    'dim_calendario'[Date]
-			                )
-			            RETURN
-			                CALCULATE(
-			                    [volum_lliurat_global_diff],
-			                    REMOVEFILTERS('dim_calendario'[Date]),
-			                    'dim_calendario'[Date] = _UltimaFechaConDato
-			                )
-			        ),
-			
-			    BLANK()
-			)
-		displayFolder: anr_global\volumns
-		lineageTag: 856d13f3-d5e8-4103-af54-acbb2ee49c63
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -1580,32 +1553,59 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure kpi_anr_global_switch_1m =
+	measure kpi_lliurat_global_switch =
 			
 			VAR _Periodo =
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
+			
+			VAR _EsContextoMes =
+			    ISINSCOPE('dim_calendario'[mes_corto])
 			
 			RETURN
 			SWITCH(
 			    _Periodo,
 			
 			    "Mensual",
-			        [anr_global_mensual_smly_hm3],
+			        [volum_lliurat_global_mensual_hm3],
 			
 			    "12 meses",
-			        [anr_global_acum_12m_1m_hm3],
+			        [volum_lliurat_global_acum_12m_hm3],
 			
 			    "Acumulat",
-			        [anr_global_lytd],
+			        [volum_lliurat_global_ytd],
 			
 			    "Diff",
-			        [_cero_acumulat],
+			        IF(
+			            _EsContextoMes,
+			
+			            -- En el grÃ¡fico: diferencia mes a mes
+			            [volum_lliurat_global_diff],
+			
+			            -- En la tarjeta KPI: Ãºltimo Diff disponible
+			            VAR _UltimaFechaConDato =
+			                MAXX(
+			                    FILTER(
+			                        ALLSELECTED('dim_calendario'[Date]),
+			                        NOT ISBLANK(
+			                            CALCULATE([volum_lliurat_global_diff])
+			                        )
+			                    ),
+			                    'dim_calendario'[Date]
+			                )
+			            RETURN
+			                CALCULATE(
+			                    [volum_lliurat_global_diff],
+			                    REMOVEFILTERS('dim_calendario'[Date]),
+			                    'dim_calendario'[Date] = _UltimaFechaConDato
+			                )
+			        ),
 			
 			    BLANK()
 			)
-		formatString: #,0.000000
-		displayFolder: anr_global\anr
-		lineageTag: b73ca3f3-62f3-4dac-a730-77c07f2d0d69
+		displayFolder: anr_global\volumns
+		lineageTag: 856d13f3-d5e8-4103-af54-acbb2ee49c63
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_dotacio_switch =
 			
