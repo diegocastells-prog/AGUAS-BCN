@@ -7032,12 +7032,12 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure fuite_por_km = ```
+	measure fuite_por_km_mensual = ```
 			
 			 DIVIDE([avaries_mensual], 
 			SUM(fact_actuacions_zones[km_inspeccionats_acustic]) + SUM(fact_actuacions_zones[km_inspeccionats_heli]))
 			```
-		displayFolder: fuites
+		displayFolder: fuites\fuites_por_km\mensual
 		lineageTag: 0e23b574-3486-4c30-a809-2f762562053d
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -7048,7 +7048,7 @@ table _medidas
 			    [cabal_recuperat_mensual],
 			    [avaries_mensual]
 			)
-		displayFolder: fuites\litros_por_fugas
+		displayFolder: fuites\litros_por_fugas\mensual
 		lineageTag: 673da99f-b4c2-48e1-bb18-ce62f021530a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -7087,6 +7087,225 @@ table _medidas
 	measure volum_lliurat_distribucion_mapa = SUM(fact_volum_cons_lliur[volum_lliurat])
 		displayFolder: mapa
 		lineageTag: e7a73df4-d712-489e-9890-800212bfdb72
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure litros_por_fuga_ytd =
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			
+			VAR _FechaFin =
+			    TODAY ()
+			
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _Periodo =
+			    DATESBETWEEN (
+			        'dim_calendario'[Date],
+			        _FechaInicio,
+			        _FechaMaxContexto
+			    )
+			
+			VAR _Valor =
+			    DIVIDE (
+			        CALCULATE ( [cabal_recuperat_mensual], _Periodo ),
+			        CALCULATE ( [avaries_mensual], _Periodo )
+			    )
+			
+			RETURN
+			    IF (
+			        _FechaMaxContexto < _FechaInicio
+			            || _FechaMinContexto > _FechaFin,
+			        BLANK (),
+			        _Valor
+			    )
+		displayFolder: fuites\litros_por_fugas\ytd
+		lineageTag: db26aaa4-e43e-4c0a-810a-9a86b7aade76
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_litros_por_fuga =
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			
+			VAR _FechaFin =
+			    TODAY ()
+			
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _ValorActual =
+			    [litros_por_fuga_mensual]
+			
+			VAR _ValorAA =
+			    CALCULATE (
+			        [litros_por_fuga_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			
+			RETURN
+			    IF (
+			        _FechaMaxContexto < _FechaInicio
+			            || _FechaMinContexto > _FechaFin
+			            || ISBLANK ( _ValorActual )
+			            || ISBLANK ( _ValorAA ),
+			        BLANK (),
+			        _ValorActual - _ValorAA
+			    )
+		displayFolder: fuites\litros_por_fugas\diff
+		lineageTag: bc355999-331a-4961-a680-05b39ed8fc91
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure litros_por_fuga_lytd =
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _FechaInicioLY =
+			    DATE (
+			        YEAR ( _FechaMaxContexto ) - 1,
+			        1,
+			        1
+			    )
+			
+			VAR _FechaFinLY =
+			    EDATE ( _FechaMaxContexto, -12 )
+			
+			VAR _PeriodoLY =
+			    DATESBETWEEN (
+			        'dim_calendario'[Date],
+			        _FechaInicioLY,
+			        _FechaFinLY
+			    )
+			
+			VAR _Valor =
+			    DIVIDE (
+			        CALCULATE ( [cabal_recuperat_mensual], _PeriodoLY ),
+			        CALCULATE ( [avaries_mensual], _PeriodoLY )
+			    )
+			
+			RETURN
+			    _Valor
+		displayFolder: fuites\litros_por_fugas\ytd
+		lineageTag: baf07f93-72e0-4cdc-a6a4-02caf384fc6a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure litros_por_fuga_mensual_smly =
+			
+			CALCULATE (
+			    [litros_por_fuga_mensual],
+			    DATEADD ( 'dim_calendario'[Date], -12, MONTH )
+			)
+		displayFolder: fuites\litros_por_fugas\mensual
+		lineageTag: 378b18db-e41f-47d8-ba3e-dfb1774c0aed
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure fuite_por_km_ytd =
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			VAR _FechaFin =
+			    TODAY ()
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _Periodo =
+			    DATESBETWEEN (
+			        'dim_calendario'[Date],
+			        _FechaInicio,
+			        _FechaMaxContexto
+			    )
+			VAR _Valor =
+			    CALCULATE (
+			        [fuite_por_km_mensual],
+			        _Periodo
+			    )
+			RETURN
+			    IF (
+			        _FechaMaxContexto < _FechaInicio
+			            || _FechaMinContexto > _FechaFin,
+			        BLANK (),
+			        _Valor
+			    )
+		displayFolder: fuites\fuites_por_km\ytd
+		lineageTag: 98fd6879-bfeb-4fe9-8033-9b004a0a4a33
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_fuite_por_km =
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( TODAY () ), 1, 1 )
+			VAR _FechaFin =
+			    TODAY ()
+			VAR _FechaMinContexto =
+			    MIN ( 'dim_calendario'[Date] )
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _ValorActual =
+			    [fuite_por_km_mensual]
+			VAR _ValorAA =
+			    CALCULATE (
+			        [fuite_por_km_mensual],
+			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
+			    )
+			RETURN
+			    IF (
+			        _FechaMaxContexto < _FechaInicio
+			            || _FechaMinContexto > _FechaFin
+			            || ISBLANK ( _ValorActual )
+			            || ISBLANK ( _ValorAA ),
+			        BLANK (),
+			        _ValorActual - _ValorAA
+			    )
+		displayFolder: fuites\fuites_por_km\diff
+		lineageTag: 37dfd0d2-eca3-4bd3-93e3-62e4e5ccc455
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure fuite_por_km_lytd =
+			
+			VAR _FechaMaxContexto =
+			    MAX ( 'dim_calendario'[Date] )
+			VAR _FechaInicioLY =
+			    DATE ( YEAR ( _FechaMaxContexto ) - 1, 1, 1 )
+			VAR _FechaFinLY =
+			    EDATE ( _FechaMaxContexto, -12 )
+			RETURN
+			    CALCULATE (
+			        [fuite_por_km_mensual],
+			        DATESBETWEEN (
+			            'dim_calendario'[Date],
+			            _FechaInicioLY,
+			            _FechaFinLY
+			        )
+			    )
+		displayFolder: fuites\fuites_por_km\ytd
+		lineageTag: 586b5079-4bee-4cf8-a689-315566bd86ac
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure fuite_por_km_mensual_smly =
+			
+			CALCULATE (
+			    [fuite_por_km_mensual],
+			    DATEADD ( 'dim_calendario'[Date], -12, MONTH )
+			)
+		displayFolder: fuites\fuites_por_km\mensual
+		lineageTag: 99770e33-20fb-4663-be35-90cc3060f5cd
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

@@ -1712,6 +1712,62 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure kpi_litros_por_fuga_switch =
+			
+			SWITCH (
+			    SELECTEDVALUE ( dummy_slicer_periodo[Periodo] ),
+			    "Mensual", [litros_por_fuga_mensual],
+			    "Acumulat", [litros_por_fuga_ytd],
+			    "Diff", [diff_litros_por_fuga],
+			    BLANK ()
+			)
+		displayFolder: fuites\litros_por_fuga
+		lineageTag: f829a05c-42f9-490b-9fdc-7734ad9cdd17
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_litros_por_fuga_switch_1m =
+			
+			SWITCH (
+			    SELECTEDVALUE ( dummy_slicer_periodo[Periodo] ),
+			    "Mensual", [litros_por_fuga_mensual_smly],
+			    "Acumulat", [litros_por_fuga_lytd],
+			    "Diff", [_cero_acumulat],
+			    BLANK ()
+			)
+		displayFolder: fuites\litros_por_fuga
+		lineageTag: 3ce1ed14-424a-4309-a542-975c2c11287b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_fuite_por_km_switch =
+			
+			SWITCH (
+			    SELECTEDVALUE ( dummy_slicer_periodo[Periodo] ),
+			    "Mensual", [fuite_por_km_mensual],
+			    "Acumulat", [fuite_por_km_ytd],
+			    "Diff", [diff_fuite_por_km],
+			    BLANK ()
+			)
+		displayFolder: fuites\fuite_por_km
+		lineageTag: da9affad-e2d4-4ba9-9fa6-8eaea4286ec0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_fuite_por_km_switch_1m =
+			
+			SWITCH (
+			    SELECTEDVALUE ( dummy_slicer_periodo[Periodo] ),
+			    "Mensual", [fuite_por_km_mensual_smly],
+			    "Acumulat", [fuite_por_km_lytd],
+			    "Diff", [_cero_acumulat],
+			    BLANK ()
+			)
+		displayFolder: fuites\fuite_por_km
+		lineageTag: 8c7f341b-617d-4664-ad47-78e476d0a07b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0
