@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "ea58f1f400982c89035a",
   "position": {
-    "x": 152.11267605633805,
-    "y": 396.90121604305489,
-    "z": 15001,
+    "x": 145.20296065446047,
+    "y": 396,
+    "z": 16000,
     "height": 235,
     "width": 260,
-    "tabOrder": 13002
+    "tabOrder": 14000
   },
   "visual": {
-    "visualType": "pieChart",
+    "visualType": "donutChart",
     "query": {
       "queryState": {
         "Category": {
@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "fact_perimetre_comptadors.us_aigua_gest",
-              "nativeQueryRef": "us_aigua_gest",
-              "active": true
+              "nativeQueryRef": "Tpo d' Consum",
+              "active": true,
+              "displayName": "Tpo d' Consum"
             }
           ]
         },
@@ -46,7 +47,9 @@
                 }
               },
               "queryRef": "_switchs.kpi_us_aigua_switch",
-              "nativeQueryRef": "kpi_us_aigua_switch"
+              "nativeQueryRef": "Us d' aigua",
+              "displayName": "Us d' aigua",
+              "format": "#,0"
             }
           ]
         }
@@ -70,6 +73,66 @@
         "isDefaultSort": true
       }
     },
+    "objects": {
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "labelStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Percent of total'"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
     "visualContainerObjects": {
       "title": [
         {
@@ -77,7 +140,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Us d'' aigua Telelectura'"
+                  "Value": "'Tipo d'' consum'"
                 }
               }
             },

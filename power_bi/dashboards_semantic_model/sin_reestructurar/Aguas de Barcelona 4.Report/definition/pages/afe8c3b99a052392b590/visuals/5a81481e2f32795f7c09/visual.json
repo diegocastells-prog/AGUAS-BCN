@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
-              "active": true
+              "nativeQueryRef": "Data",
+              "active": true,
+              "displayName": "Data"
             }
           ]
         },
@@ -75,6 +76,13 @@
         {
           "properties": {
             "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
               "expr": {
                 "Literal": {
                   "Value": "false"
@@ -128,6 +136,26 @@
             }
           }
         }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -137,7 +165,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Evolució Longitud'"
+                  "Value": "'Evolució Longitud (Km)'"
                 }
               }
             },
@@ -378,5 +406,37 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "9a5b23bb3eb46ac88230",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "d5ba1afe34db169b5904",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_l_km_switch"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

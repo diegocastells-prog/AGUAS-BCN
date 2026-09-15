@@ -10,7 +10,7 @@
     "tabOrder": 10000
   },
   "visual": {
-    "visualType": "pieChart",
+    "visualType": "donutChart",
     "query": {
       "queryState": {
         "Category": {
@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_comptadors.Marca_Comp",
-              "nativeQueryRef": "Marca_Comp",
-              "active": true
+              "nativeQueryRef": " 1",
+              "active": true,
+              "displayName": " "
             },
             {
               "field": {
@@ -42,8 +43,9 @@
                 }
               },
               "queryRef": "dim_comptadors.Nom_Model",
-              "nativeQueryRef": "Nom_Model",
-              "active": false
+              "nativeQueryRef": " ",
+              "active": false,
+              "displayName": " "
             },
             {
               "field": {
@@ -57,8 +59,9 @@
                 }
               },
               "queryRef": "dim_comptadors.Tipus_Comptador",
-              "nativeQueryRef": "Tipus_Comptador",
-              "active": false
+              "nativeQueryRef": " 2",
+              "active": false,
+              "displayName": " "
             }
           ]
         },
@@ -76,7 +79,9 @@
                 }
               },
               "queryRef": "_switchs.kpi_us_aigua_switch",
-              "nativeQueryRef": "kpi_us_aigua_switch"
+              "nativeQueryRef": "Us d' aigua",
+              "displayName": "Us d' aigua",
+              "format": "#,0"
             }
           ]
         }
@@ -94,11 +99,39 @@
                 "Property": "kpi_us_aigua_switch"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
           }
-        ],
-        "isDefaultSort": true
+        ]
       }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'inside'"
+                }
+              }
+            },
+            "overflow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [
@@ -107,7 +140,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Us d'' Aigua per marca comptador'"
+                  "Value": "'Per Marca, Model & Tipo'"
                 }
               }
             },
@@ -123,5 +156,82 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4722d920a8b3e5eb3e78",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_comptadors"
+              }
+            },
+            "Property": "Marca_Comp"
+          }
+        },
+        "type": "TopN",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_comptadors",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "Marca_Comp"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "isLockedInViewMode": true,
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
   }
 }

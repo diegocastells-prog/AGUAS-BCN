@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "fa55bc3a799e8d5c5e60",
   "position": {
-    "x": 1,
+    "x": 0,
     "y": 0,
     "z": 0,
-    "height": 81,
-    "width": 399,
+    "height": 100,
+    "width": 394,
     "tabOrder": 0
   },
   "visual": {
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes"
+              "nativeQueryRef": "Data",
+              "displayName": "Data"
             },
             {
               "field": {
@@ -71,7 +72,8 @@
                 }
               },
               "queryRef": "Sum(fact_estim_volum_munic_pob.poblacion)",
-              "nativeQueryRef": "poblacion"
+              "nativeQueryRef": "Poblaciòn",
+              "displayName": "Poblaciòn"
             }
           ]
         }
@@ -80,21 +82,16 @@
         "sort": [
           {
             "field": {
-              "Aggregation": {
+              "Column": {
                 "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "fact_estim_volum_munic_pob"
-                      }
-                    },
-                    "Property": "poblacion"
+                  "SourceRef": {
+                    "Entity": "fact_estim_volum_munic_pob"
                   }
                 },
-                "Function": 0
+                "Property": "poblacion"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
           }
         ]
       }
@@ -110,6 +107,64 @@
                 }
               }
             }
+          }
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "dim_calendario.anio_mes"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_switchs.kpi_dotacio_switch_1m"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_switchs.kpi_dotacio_switch"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(fact_estim_volum_munic_pob.poblacion)"
           }
         }
       ]
@@ -354,6 +409,19 @@
                       "Value": "'#2A737A'"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'None'"
                 }
               }
             }

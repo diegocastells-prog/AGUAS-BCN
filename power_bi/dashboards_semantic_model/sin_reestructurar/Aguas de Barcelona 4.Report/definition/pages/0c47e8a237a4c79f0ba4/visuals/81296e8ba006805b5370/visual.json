@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "81296e8ba006805b5370",
   "position": {
-    "x": 151.16321982654611,
-    "y": 261.62864969979131,
+    "x": 169.53976544791564,
+    "y": 280.54794520547944,
     "z": 6000,
-    "height": 341.86143560772734,
-    "width": 395.34995954635133,
-    "tabOrder": 6000
+    "height": 322.93288656745835,
+    "width": 341.09786143687791,
+    "tabOrder": 7000
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
         "Category": {
@@ -27,9 +27,9 @@
                 }
               },
               "queryRef": "dim_municipio.municipio",
-              "nativeQueryRef": "municipis",
+              "nativeQueryRef": "Municipi",
               "active": true,
-              "displayName": "municipis"
+              "displayName": "Municipi"
             }
           ]
         },
@@ -47,7 +47,8 @@
                 }
               },
               "queryRef": "_switchs.kpi_dotacio_switch",
-              "nativeQueryRef": "kpi_dotacio_switch"
+              "nativeQueryRef": "Dotaciò",
+              "displayName": "Dotaciò"
             }
           ]
         }
@@ -78,11 +79,227 @@
             "show": {
               "expr": {
                 "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
                   "Value": "true"
                 }
               }
             },
             "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "roundRange": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Conditional": {
+                      "Cases": [
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 2,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "_switchs"
+                                    }
+                                  },
+                                  "Property": "kpi_dotacio_switch"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "95D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#002D62'"
+                            }
+                          }
+                        },
+                        {
+                          "Condition": {
+                            "And": {
+                              "Left": {
+                                "Comparison": {
+                                  "ComparisonKind": 2,
+                                  "Left": {
+                                    "Measure": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Entity": "_switchs"
+                                        }
+                                      },
+                                      "Property": "kpi_dotacio_switch"
+                                    }
+                                  },
+                                  "Right": {
+                                    "Literal": {
+                                      "Value": "81D"
+                                    }
+                                  }
+                                }
+                              },
+                              "Right": {
+                                "Comparison": {
+                                  "ComparisonKind": 4,
+                                  "Left": {
+                                    "Measure": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Entity": "_switchs"
+                                        }
+                                      },
+                                      "Property": "kpi_dotacio_switch"
+                                    }
+                                  },
+                                  "Right": {
+                                    "Literal": {
+                                      "Value": "94D"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#0072CE'"
+                            }
+                          }
+                        },
+                        {
+                          "Condition": {
+                            "And": {
+                              "Left": {
+                                "Comparison": {
+                                  "ComparisonKind": 2,
+                                  "Left": {
+                                    "Measure": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Entity": "_switchs"
+                                        }
+                                      },
+                                      "Property": "kpi_dotacio_switch"
+                                    }
+                                  },
+                                  "Right": {
+                                    "Literal": {
+                                      "Value": "0D"
+                                    }
+                                  }
+                                }
+                              },
+                              "Right": {
+                                "Comparison": {
+                                  "ComparisonKind": 3,
+                                  "Left": {
+                                    "Measure": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Entity": "_switchs"
+                                        }
+                                      },
+                                      "Property": "kpi_dotacio_switch"
+                                    }
+                                  },
+                                  "Right": {
+                                    "Literal": {
+                                      "Value": "80D"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#E6F1F9'"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "showGradientLegend": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
               "expr": {
                 "Literal": {
                   "Value": "false"
@@ -345,14 +562,35 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             },
             "section": {
               "expr": {
                 "Literal": {
-                  "Value": "'7afe84c1b00cb0aa6dec'"
+                  "Value": "'___AUTO___'"
+                }
+              }
+            },
+            "showChartSpecificTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showActionsInTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showSentenceFormat": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
@@ -534,7 +772,10 @@
               }
             }
           ]
-        }
+        },
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
       }
     ],
     "filterSortOrder": "Custom"

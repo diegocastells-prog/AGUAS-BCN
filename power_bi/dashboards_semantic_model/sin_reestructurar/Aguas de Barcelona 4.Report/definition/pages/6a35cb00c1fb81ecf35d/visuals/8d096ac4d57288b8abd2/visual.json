@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
-              "active": true
+              "nativeQueryRef": "Data",
+              "active": true,
+              "displayName": "Data"
             }
           ]
         },
@@ -46,7 +47,9 @@
                 }
               },
               "queryRef": "_switchs.kpi_pct_telelectures_switch",
-              "nativeQueryRef": "kpi_pct_telelectures_switch"
+              "nativeQueryRef": "Telelectura Actual",
+              "displayName": "Telelectura Actual",
+              "format": "0.00"
             },
             {
               "field": {
@@ -60,11 +63,74 @@
                 }
               },
               "queryRef": "_switchs.kpi_pct_telelectures_switch_1m",
-              "nativeQueryRef": "kpi_pct_telelectures_switch_1m"
+              "nativeQueryRef": "Teleletura Anterior",
+              "displayName": "Teleletura Anterior"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'TopCenter'"
+                }
+              }
+            },
+            "showTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [
@@ -73,7 +139,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Qualitat de lectura (línia o columnes agrupades)'"
+                  "Value": "'Qualitat de lectura'"
                 }
               }
             },
@@ -318,7 +384,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },

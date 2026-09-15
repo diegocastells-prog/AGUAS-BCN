@@ -10,7 +10,7 @@
     "tabOrder": 8000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "clusteredColumnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
-              "active": true
+              "nativeQueryRef": "Data",
+              "active": true,
+              "displayName": "Data"
             }
           ]
         },
@@ -46,7 +47,8 @@
                 }
               },
               "queryRef": "_medidas.compt_per_sobre_q1",
-              "nativeQueryRef": "compt_per_sobre_q1"
+              "nativeQueryRef": "Per sobre Q1",
+              "displayName": "Per sobre Q1"
             },
             {
               "field": {
@@ -60,11 +62,81 @@
                 }
               },
               "queryRef": "_medidas.compt_per_sobre_q4",
-              "nativeQueryRef": "compt_per_sobre_q4"
+              "nativeQueryRef": "Per sobre Q4",
+              "displayName": "Per sobre Q4"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'TopCenter'"
+                }
+              }
+            },
+            "showTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [
@@ -73,7 +145,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Parc i anomalies'"
+                  "Value": "'Parc i Anomalies'"
                 }
               }
             },
@@ -318,7 +390,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },

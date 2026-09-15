@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "0d2d0eeed894432e771a",
   "position": {
-    "x": 563.28358208955217,
-    "y": 167.46268656716418,
+    "x": 547.30346708219713,
+    "y": 79.781846513439817,
     "z": 5000,
-    "height": 436.1194029850746,
-    "width": 677.01492537313436,
+    "height": 542.51655629139077,
+    "width": 722.82352941176475,
     "tabOrder": 3000
   },
   "visual": {
@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
-              "active": true
+              "nativeQueryRef": "Data",
+              "active": true,
+              "displayName": "Data"
             }
           ]
         },
@@ -70,6 +71,23 @@
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_municipio"
+                  }
+                },
+                "Property": "municipio"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
       }
     },
     "objects": {
@@ -131,6 +149,19 @@
               }
             ],
             "metadata": "_switchs.kpi_dotacio_switch"
+          }
+        }
+      ],
+      "subTotals": [
+        {
+          "properties": {
+            "columnSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
           }
         }
       ]
