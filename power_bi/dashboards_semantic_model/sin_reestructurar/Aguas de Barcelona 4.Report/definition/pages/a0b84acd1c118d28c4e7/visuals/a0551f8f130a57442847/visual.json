@@ -1,0 +1,185 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "a0551f8f130a57442847",
+  "position": {
+    "x": 157.37704918032787,
+    "y": 388.19672131147541,
+    "z": 13000,
+    "height": 234.75409836065575,
+    "width": 317.3770491803279,
+    "tabOrder": 10000
+  },
+  "visual": {
+    "visualType": "pieChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_comptadors"
+                    }
+                  },
+                  "Property": "Marca_Comp"
+                }
+              },
+              "queryRef": "dim_comptadors.Marca_Comp",
+              "nativeQueryRef": "Marca_Comp",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_comptadors"
+                    }
+                  },
+                  "Property": "Nom_Model"
+                }
+              },
+              "queryRef": "dim_comptadors.Nom_Model",
+              "nativeQueryRef": "Nom_Model",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_comptadors"
+                    }
+                  },
+                  "Property": "Tipus_Comptador"
+                }
+              },
+              "queryRef": "dim_comptadors.Tipus_Comptador",
+              "nativeQueryRef": "Tipus_Comptador",
+              "active": false
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_us_aigua_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_us_aigua_switch",
+              "nativeQueryRef": "kpi_us_aigua_switch"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_switchs"
+                  }
+                },
+                "Property": "kpi_us_aigua_switch"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Us d'' Aigua per marca comptador'"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "c63af6d6a3d704a03a2b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_comptadors"
+              }
+            },
+            "Property": "Marca_Comp"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_comptadors",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Marca_Comp"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'ZAR'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "Drill"
+      }
+    ]
+  }
+}

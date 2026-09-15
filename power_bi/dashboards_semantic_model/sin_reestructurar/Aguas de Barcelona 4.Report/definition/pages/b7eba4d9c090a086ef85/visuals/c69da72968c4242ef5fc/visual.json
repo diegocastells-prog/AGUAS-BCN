@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
-              "active": true
+              "nativeQueryRef": "Data",
+              "active": true,
+              "displayName": "Data"
             }
           ]
         },
@@ -99,6 +100,13 @@
                   "Value": "false"
                 }
               }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
           }
         }
@@ -159,6 +167,33 @@
               }
             },
             "showTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'TopCenter'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showAxisTitle": {
               "expr": {
                 "Literal": {
                   "Value": "false"
@@ -421,20 +456,6 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "c54ba526103c349d00e4",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
         "name": "5a3cad73dd07bb2aa6d7",
         "field": {
           "Measure": {
@@ -481,20 +502,6 @@
             }
           ]
         }
-      },
-      {
-        "name": "88e535be8ab365c828ee",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "kpi_rth_distribucion_switch"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

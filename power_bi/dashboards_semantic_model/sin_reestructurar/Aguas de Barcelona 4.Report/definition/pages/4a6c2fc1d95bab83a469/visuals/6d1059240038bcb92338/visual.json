@@ -4,13 +4,35 @@
   "position": {
     "x": 1056.6145112903516,
     "y": 83.881653403273035,
-    "z": 9000,
+    "z": 5000,
     "height": 91.239693175489975,
     "width": 197.1954658954138,
-    "tabOrder": 10000
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "kpi",
+    "query": {
+      "queryState": {
+        "TrendLine": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dummy_slicer_periodo"
+                    }
+                  },
+                  "Property": "Periodo"
+                }
+              },
+              "queryRef": "dummy_slicer_periodo.Periodo",
+              "nativeQueryRef": "Periodo"
+            }
+          ]
+        }
+      }
+    },
     "objects": {
       "indicator": [
         {
@@ -73,7 +95,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'L (km) Global'"
+                  "Value": "'kpi Global'"
                 }
               }
             },
@@ -192,6 +214,46 @@
               "expr": {
                 "Literal": {
                   "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Agregar KPI '"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
                 }
               }
             }

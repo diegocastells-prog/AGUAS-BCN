@@ -1,0 +1,97 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "05b07990ace9b4741a0a",
+  "position": {
+    "x": 544.26229508196718,
+    "y": 388.19672131147541,
+    "z": 14000,
+    "height": 234.75409836065575,
+    "width": 317.3770491803279,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "pieChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_perimetre_comptadors"
+                    }
+                  },
+                  "Property": "ind_fact_bdts"
+                }
+              },
+              "queryRef": "fact_perimetre_comptadors.ind_fact_bdts",
+              "nativeQueryRef": "ind_fact_bdts",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_us_aigua_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_us_aigua_switch",
+              "nativeQueryRef": "kpi_us_aigua_switch"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_switchs"
+                  }
+                },
+                "Property": "kpi_us_aigua_switch"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Us d'' aigua Telelectura'"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

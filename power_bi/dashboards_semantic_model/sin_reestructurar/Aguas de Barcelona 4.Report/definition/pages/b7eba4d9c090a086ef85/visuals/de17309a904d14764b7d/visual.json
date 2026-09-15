@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "de17309a904d14764b7d",
   "position": {
-    "x": 760.78168620882184,
-    "y": 77.1859296482412,
+    "x": 760.77549463489072,
+    "y": 71.2871287128713,
     "z": 7000,
     "height": 86.666666666666671,
     "width": 191.11111111111111,
@@ -262,20 +262,6 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "d9c8fe8eed0e70d0aa10",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "kpi_volum_lliurat_distribucion_switch_1m"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
         "name": "5b2dad3cc7cd6532ec3a",
         "field": {
           "Measure": {
@@ -324,20 +310,6 @@
         }
       },
       {
-        "name": "5ed0176c42098a45dc81",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
         "name": "370f6285eca030ad40b1",
         "field": {
           "Measure": {
@@ -351,6 +323,57 @@
         },
         "type": "Advanced",
         "howCreated": "User"
+      },
+      {
+        "name": "ae6e1a78317e8291d863",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "filtro_distribucion"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 1,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "filtro_distribucion"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "0L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
       }
     ]
   }

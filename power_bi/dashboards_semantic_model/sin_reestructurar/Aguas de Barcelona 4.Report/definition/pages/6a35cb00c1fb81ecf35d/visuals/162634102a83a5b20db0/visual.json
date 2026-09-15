@@ -27,28 +27,14 @@
                 }
               },
               "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
-              "active": true
+              "nativeQueryRef": "Data",
+              "active": true,
+              "displayName": "Data"
             }
           ]
         },
         "Y": {
           "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_medidas"
-                    }
-                  },
-                  "Property": "comptadors"
-                }
-              },
-              "queryRef": "_medidas.comptadors",
-              "nativeQueryRef": "comptadors",
-              "displayName": "comptadors"
-            },
             {
               "field": {
                 "Measure": {
@@ -78,6 +64,21 @@
               "queryRef": "_medidas.comptadors_correctiu",
               "nativeQueryRef": "comptadors_correctiu",
               "displayName": "comptadors_correctiu"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "comptadors_preventiu"
+                }
+              },
+              "queryRef": "_medidas.comptadors_preventiu",
+              "nativeQueryRef": "comptadors_preventiu",
+              "displayName": "comptadors_preventiu"
             }
           ],
           "fieldParameters": [
@@ -113,7 +114,7 @@
             "showAxisTitle": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             }
@@ -129,6 +130,20 @@
                   "Value": "true"
                 }
               }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'TopCenter'"
+                }
+              }
+            },
+            "showTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
           }
         }
@@ -139,7 +154,14 @@
             "showAxisTitle": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -399,7 +421,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },

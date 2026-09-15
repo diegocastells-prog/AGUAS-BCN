@@ -52,42 +52,39 @@
                 "Where": [
                   {
                     "Condition": {
-                      "In": {
-                        "Expressions": [
-                          {
-                            "Column": {
-                              "Expression": {
-                                "SourceRef": {
-                                  "Source": "_"
+                      "Not": {
+                        "Expression": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "_"
+                                    }
+                                  },
+                                  "Property": "_parameter_comptadors Campos"
                                 }
-                              },
-                              "Property": "_parameter_comptadors Campos"
-                            }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'''_medidas''[comptadors_correctiu_estrategic]'"
+                                  }
+                                }
+                              ],
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'''_medidas''[comptadors_preventiu_estrategic]'"
+                                  }
+                                }
+                              ]
+                            ]
                           }
-                        ],
-                        "Values": [
-                          [
-                            {
-                              "Literal": {
-                                "Value": "'''_medidas''[comptadors]'"
-                              }
-                            }
-                          ],
-                          [
-                            {
-                              "Literal": {
-                                "Value": "'''_medidas''[comptadors_estrategic]'"
-                              }
-                            }
-                          ],
-                          [
-                            {
-                              "Literal": {
-                                "Value": "'''_medidas''[comptadors_correctiu]'"
-                              }
-                            }
-                          ]
-                        ]
+                        }
                       }
                     },
                     "Annotations": {
@@ -111,7 +108,7 @@
                                 "0": [
                                   {
                                     "Literal": {
-                                      "Value": "'''_medidas''[comptadors]'"
+                                      "Value": "'''_medidas''[comptadors_correctiu_estrategic]'"
                                     }
                                   }
                                 ]
@@ -122,18 +119,7 @@
                                 "0": [
                                   {
                                     "Literal": {
-                                      "Value": "'''_medidas''[comptadors_estrategic]'"
-                                    }
-                                  }
-                                ]
-                              }
-                            ],
-                            [
-                              {
-                                "0": [
-                                  {
-                                    "Literal": {
-                                      "Value": "'''_medidas''[comptadors_correctiu]'"
+                                      "Value": "'''_medidas''[comptadors_preventiu_estrategic]'"
                                     }
                                   }
                                 ]
@@ -157,13 +143,10 @@
                         },
                         "valueMap": [
                           {
-                            "0": "comptadors"
+                            "0": "comptadors_correctiu_estrategic"
                           },
                           {
-                            "0": "comptadors_estrategic"
-                          },
-                          {
-                            "0": "comptadors_correctiu"
+                            "0": "comptadors_preventiu_estrategic"
                           }
                         ]
                       }
@@ -182,6 +165,13 @@
               "expr": {
                 "Literal": {
                   "Value": "'Dropdown'"
+                }
+              }
+            },
+            "isInvertedSelectionMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }

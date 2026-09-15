@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "9e47d2c00a6a4c4813b7",
   "position": {
-    "x": 179.02847571189278,
-    "y": 77.1859296482412,
+    "x": 179.00990099009903,
+    "y": 71.2871287128713,
     "z": 6000,
     "height": 86.666666666666671,
     "width": 191.11111111111111,
@@ -280,20 +280,6 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "6ec671fa7606a2a6d004",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "kpi_rth_distribucion_switch_1m"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
         "name": "b5dcbf92b0ba0b3575c3",
         "field": {
           "Measure": {
@@ -342,18 +328,55 @@
         }
       },
       {
-        "name": "641cec36930ac773a338",
+        "name": "b389303cdc40770d6eb1",
         "field": {
-          "Column": {
+          "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "dim_calendario"
+                "Entity": "_medidas"
               }
             },
-            "Property": "anio_mes"
+            "Property": "filtro_transport"
           }
         },
-        "type": "Categorical"
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 1,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "filtro_transport"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "0L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
       }
     ]
   }

@@ -13,25 +13,6 @@
     "visualType": "lineChart",
     "query": {
       "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_calendario"
-                    }
-                  },
-                  "Property": "mestexto_año"
-                }
-              },
-              "queryRef": "dim_calendario.mestexto_año",
-              "nativeQueryRef": "mestexto_año",
-              "active": true
-            }
-          ]
-        },
         "Y": {
           "projections": [
             {
@@ -78,6 +59,24 @@
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_switchs"
+                  }
+                },
+                "Property": "kpi_aigua_consumida_alta_global_switch"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
       }
     },
     "visualContainerObjects": {
