@@ -752,33 +752,6 @@ table _switchs
 			```
 		lineageTag: e0c9011f-577e-497e-8f60-dfe5265779dc
 
-	measure kpi_anr_global_switch_1m =
-			
-			VAR _Periodo =
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
-			
-			RETURN
-			SWITCH(
-			    _Periodo,
-			
-			    "Mensual",
-			        [anr_global_mensual_smly_hm3],
-			
-			    "12 meses",
-			        [anr_global_acum_12m_1m_hm3],
-			
-			    "Acumulat",
-			        [anr_global_lytd],
-			
-			    "Diff",
-			        [_cero_acumulat],
-			
-			    BLANK()
-			)
-		formatString: #,0.000000
-		displayFolder: anr_global\anr
-		lineageTag: b73ca3f3-62f3-4dac-a730-77c07f2d0d69
-
 	measure kpi_consumita_global_switch =
 			
 			VAR _Periodo =
@@ -954,6 +927,60 @@ table _switchs
 			)
 		displayFolder: anr_global\l
 		lineageTag: 37752526-b543-4e78-a58b-a36f930a46e3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_lliurat_global_switch =
+			
+			VAR _Periodo =
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
+			
+			VAR _EsContextoMes =
+			    ISINSCOPE('dim_calendario'[mes_corto])
+			
+			RETURN
+			SWITCH(
+			    _Periodo,
+			
+			    "Mensual",
+			        [volum_lliurat_global_mensual_hm3],
+			
+			    "12 meses",
+			        [volum_lliurat_global_acum_12m_hm3],
+			
+			    "Acumulat",
+			        [volum_lliurat_global_ytd],
+			
+			    "Diff",
+			        IF(
+			            _EsContextoMes,
+			
+			            -- En el grÃ¡fico: diferencia mes a mes
+			            [volum_lliurat_global_diff],
+			
+			            -- En la tarjeta KPI: Ãºltimo Diff disponible
+			            VAR _UltimaFechaConDato =
+			                MAXX(
+			                    FILTER(
+			                        ALLSELECTED('dim_calendario'[Date]),
+			                        NOT ISBLANK(
+			                            CALCULATE([volum_lliurat_global_diff])
+			                        )
+			                    ),
+			                    'dim_calendario'[Date]
+			                )
+			            RETURN
+			                CALCULATE(
+			                    [volum_lliurat_global_diff],
+			                    REMOVEFILTERS('dim_calendario'[Date]),
+			                    'dim_calendario'[Date] = _UltimaFechaConDato
+			                )
+			        ),
+			
+			    BLANK()
+			)
+		displayFolder: anr_global\volumns
+		lineageTag: 856d13f3-d5e8-4103-af54-acbb2ee49c63
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -1553,59 +1580,32 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure kpi_lliurat_global_switch =
+	measure kpi_anr_global_switch_1m =
 			
 			VAR _Periodo =
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
-			
-			VAR _EsContextoMes =
-			    ISINSCOPE('dim_calendario'[mes_corto])
 			
 			RETURN
 			SWITCH(
 			    _Periodo,
 			
 			    "Mensual",
-			        [volum_lliurat_global_mensual_hm3],
+			        [anr_global_mensual_smly_hm3],
 			
 			    "12 meses",
-			        [volum_lliurat_global_acum_12m_hm3],
+			        [anr_global_acum_12m_1m_hm3],
 			
 			    "Acumulat",
-			        [volum_lliurat_global_ytd],
+			        [anr_global_lytd],
 			
 			    "Diff",
-			        IF(
-			            _EsContextoMes,
-			
-			            -- En el grÃ¡fico: diferencia mes a mes
-			            [volum_lliurat_global_diff],
-			
-			            -- En la tarjeta KPI: Ãºltimo Diff disponible
-			            VAR _UltimaFechaConDato =
-			                MAXX(
-			                    FILTER(
-			                        ALLSELECTED('dim_calendario'[Date]),
-			                        NOT ISBLANK(
-			                            CALCULATE([volum_lliurat_global_diff])
-			                        )
-			                    ),
-			                    'dim_calendario'[Date]
-			                )
-			            RETURN
-			                CALCULATE(
-			                    [volum_lliurat_global_diff],
-			                    REMOVEFILTERS('dim_calendario'[Date]),
-			                    'dim_calendario'[Date] = _UltimaFechaConDato
-			                )
-			        ),
+			        [_cero_acumulat],
 			
 			    BLANK()
 			)
-		displayFolder: anr_global\volumns
-		lineageTag: 856d13f3-d5e8-4103-af54-acbb2ee49c63
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		formatString: #,0.000000
+		displayFolder: anr_global\anr
+		lineageTag: b73ca3f3-62f3-4dac-a730-77c07f2d0d69
 
 	measure kpi_dotacio_switch =
 			
@@ -1712,6 +1712,40 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure switch_kpi_consum = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(_tables_kpi[Kpi]),
+			    "Peatges", [kpi_aigua_consumida_peatges_global_switch],
+			    "Alta", [kpi_aigua_consumida_alta_global_switch],
+			    "Baixa",[kpi_aigua_consumida_baixa_global_switch],
+			    "Autoconsum",[kpi_aigua_consumida_autoconsum_global_switch],
+			    "ACF",[kpi_aigua_consumida_acf_global_switch],
+			    BLANK()
+			)
+			 
+			```
+		displayFolder: aigua_consumida
+		lineageTag: 604183ee-8d98-4274-8b77-0647ca73af94
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure switch_kpi_consum_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(_tables_kpi[Kpi]),
+			    "Peatges", [kpi_aigua_consumida_peatges_global_switch_1m],
+			    "Alta", [kpi_aigua_consumida_alta_global_switch_1m],
+			    "Baixa",[kpi_aigua_consumida_baixa_global_switch_1m],
+			    "Autoconsum",[kpi_aigua_consumida_autoconsum_global_switch_1m],
+			    "ACF",[kpi_aigua_consumida_acf_global_switch_1m],
+			    BLANK()
+			)
+		displayFolder: aigua_consumida
+		lineageTag: 30bae8af-b6cf-4607-b26e-cd5dc8dbe25a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	measure kpi_litros_por_fuga_switch =
 			
 			SWITCH (
@@ -1765,40 +1799,6 @@ table _switchs
 			)
 		displayFolder: fuites\fuite_por_km
 		lineageTag: 8c7f341b-617d-4664-ad47-78e476d0a07b
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure switch_kpi_consum = ```
-			
-			SWITCH(
-			    SELECTEDVALUE(_tables_kpi[Kpi]),
-			    "Peatges", [kpi_aigua_consumida_peatges_global_switch],
-			    "Alta", [kpi_aigua_consumida_alta_global_switch],
-			    "Baixa",[kpi_aigua_consumida_baixa_global_switch],
-			    "Autoconsum",[kpi_aigua_consumida_autoconsum_global_switch],
-			    "ACF",[kpi_aigua_consumida_acf_global_switch],
-			    BLANK()
-			)
-			 
-			```
-		displayFolder: aigua_consumida
-		lineageTag: 604183ee-8d98-4274-8b77-0647ca73af94
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure switch_kpi_consum_1m =
-			
-			SWITCH(
-			    SELECTEDVALUE(_tables_kpi[Kpi]),
-			    "Peatges", [kpi_aigua_consumida_peatges_global_switch_1m],
-			    "Alta", [kpi_aigua_consumida_alta_global_switch_1m],
-			    "Baixa",[kpi_aigua_consumida_baixa_global_switch_1m],
-			    "Autoconsum",[kpi_aigua_consumida_autoconsum_global_switch_1m],
-			    "ACF",[kpi_aigua_consumida_acf_global_switch_1m],
-			    BLANK()
-			)
-		displayFolder: aigua_consumida
-		lineageTag: 30bae8af-b6cf-4607-b26e-cd5dc8dbe25a
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

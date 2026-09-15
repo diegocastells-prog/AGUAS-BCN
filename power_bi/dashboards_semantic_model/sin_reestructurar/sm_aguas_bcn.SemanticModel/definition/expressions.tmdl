@@ -2280,123 +2280,22 @@ expression dim_ortomat =
 
 	annotation PBI_ResultType = Table
 
-expression fact_actuacions_zones_2026 = ```
-		let
-		    Origen = GoogleSheets.Contents(ActuacionsZones2026_D),
-		    #"RESUM ACTUACIONS_Table" = Origen{[name="RESUM ACTUACIONS",ItemKind="Table"]}[Data],
-		    
-		    // 1. Preparación inicial
-		    #"Filas superiores quitadas" = Table.Skip(#"RESUM ACTUACIONS_Table", 3),
-		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
-		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
-		    
-		    // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
-		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
-		        let
-		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
-		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
-		            reemplazos = {
-		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
-		                {"à","a"}, {"è","e"}, {"ò","o"}, 
-		                {"ï","i"}, {"ü","u"}
-		            },
-		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
-		        in
-		            textoLimpio
-		    ),
-		
-		    // NUEVO PASO: Filtrar solo los sectores que empiezan por "S"
-		    #"Sectores filtrados" = Table.SelectRows(EncabezadosLimpios, each Text.StartsWith([sector], "S")),
-		    
-		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
-		    SectorTransformado = Table.TransformColumns(#"Sectores filtrados", {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
-		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
-		
-		    // 5. Un solo paso unificado para cambiar los tipos de datos
-		    TiposCambiados = Table.TransformColumnTypes(SectorRenombrado,{
-		        {"zona", type text}, 
-		        {"sector_id", Int64.Type}, 
-		        {"tipus_actuacio", type text}, 
-		        {"data_inici", type date}, 
-		        {"data_fi", type date}, 
-		        {"km_inspeccionats_heli", type number}, 
-		        {"km_inspeccionats_acustic", type number}, 
-		        {"fuites_reparades_heli", type number}, 
-		        {"fuites_reparades_acustic", type number}, 
-		        {"fuites_reparades_altres", type number}, 
-		        {"maniobres_realitzades", type number}
-		    }),
-		    
-		
-		    #"Valor reemplazado" = Table.ReplaceValue(TiposCambiados,null,#date(2100, 1, 1),Replacer.ReplaceValue,{"data_fi"})
-		 
-		in
-		    #"Valor reemplazado"
-		```
-	lineageTag: 72727c2f-98d0-4e16-998d-89d235f5a1e9
-	queryGroup: Auxiliares\fact_actuacions_zones
+/// URL AL SPREEDSHET "Informe Aigua Consumida 2026" QUE CONTIENE EL AIGUA LLIURADA
+expression 'Informe Aigua Consumida 2026' = "https://docs.google.com/spreadsheets/d/1GcZpQqbGihEftG7cP56wk9-AIIv07FLtQQT95_s6ZJw/edit?gid=763204073#gid=763204073" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: f9661877-db08-4896-abf1-5be8a090f507
+	queryGroup: 'Parametre '
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Text
 
-expression fact_actuacions_zones_2025 = ```
-		let
-		    Origen = GoogleSheets.Contents(ActuacionsZones2025_D),
-		    #"RESUM ACTUACIONS_Table" = Origen{[name="RESUM ACTUACIONS",ItemKind="Table"]}[Data],
-		    
-		    // 1. Preparación inicial
-		    #"Filas superiores quitadas" = Table.Skip(#"RESUM ACTUACIONS_Table", 3),
-		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
-		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
-		    #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([ZONA] = "Barcelona Nord" or [ZONA] = "Barcelona Sud" or [ZONA] = "Besòs" or [ZONA] = "Llobregat Nord" or [ZONA] = "Llobregat Sud")),
-		    
-		    // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
-		    EncabezadosLimpios = Table.TransformColumnNames(#"Filas filtradas", each 
-		        let
-		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
-		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
-		            reemplazos = {
-		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
-		                {"à","a"}, {"è","e"}, {"ò","o"}, 
-		                {"ï","i"}, {"ü","u"}
-		            },
-		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
-		        in
-		            textoLimpio
-		    ),
-		    
-		    // NUEVO PASO: Filtrar solo los sectores que empiezan por "S"
-		    #"Sectores filtrados" = Table.SelectRows(EncabezadosLimpios, each Text.StartsWith([sector], "S")),
-		    
-		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
-		    SectorTransformado = Table.TransformColumns(#"Sectores filtrados", {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
-		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
-		
-		    
-		    // 5. Un solo paso unificado para cambiar los tipos de datos
-		    TiposCambiados = Table.TransformColumnTypes(SectorRenombrado,{
-		        {"zona", type text}, 
-		        {"sector_id", Int64.Type}, 
-		        {"tipus_actuacio", type text}, 
-		        {"data_inici", type date}, 
-		        {"data_fi", type date}, 
-		        {"km_inspeccionats_heli", type number}, 
-		        {"km_inspeccionats_acustic", type number}, 
-		        {"fuites_reparades_heli", type number}, 
-		        {"fuites_reparades_acustic", type number}, 
-		        {"fuites_reparades_altres", type number}, 
-		        {"maniobres_realitzades", type number}
-		    })
-		in
-		    TiposCambiados
-		```
-	lineageTag: 882e00e2-dfa1-4460-bbbb-6825f2395c9d
-	queryGroup: Auxiliares\fact_actuacions_zones
+expression 'Indicadors ANR 2026' = "https://docs.google.com/spreadsheets/d/1LK5D7QclVwCBGy5-hONVLgP1GgW35okgrxNLr1kJCoE" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: e64e325d-25f0-488d-9232-c93a1fa3c3df
+	queryGroup: 'Parametre '
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Text
 
 expression fact_actuacions_zones_2024 = ```
 		let
@@ -2451,166 +2350,6 @@ expression fact_actuacions_zones_2024 = ```
 		    #"Filas filtradas"
 		```
 	lineageTag: 64242837-c95c-4b18-8af7-69b052bad739
-	queryGroup: Auxiliares\fact_actuacions_zones
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Table
-
-expression fact_reparacions_zones_2026 = ```
-		let
-		    Origen = GoogleSheets.Contents(ActuacionsZones2026_D),
-		    #"RESUM ACTUACIONS_Table" = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
-		    
-		    // 1. Preparación inicial
-		    #"Filas superiores quitadas" = Table.Skip(#"RESUM ACTUACIONS_Table", 3),
-		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
-		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
-		    
-		    // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
-		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
-		        let
-		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
-		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
-		            reemplazos = {
-		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
-		                {"à","a"}, {"è","e"}, {"ò","o"}, 
-		                {"ï","i"}, {"ü","u"}
-		            }
-		        in
-		            List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
-		    ),
-		    
-		    // 3. Ajuste de estructura Rango, eliminar vacías y renombrar
-		    #"Datos Base" = Table.RenameColumns(
-		        Table.RemoveColumns(Table.Range(EncabezadosLimpios, 0, 339), {""}), 
-		        {{"sector", "sector_id"}}
-		    ),
-		    
-		    // 4. AGRUPACIÓN 1: Transformaciones de Texto en un solo recorrido de tabla
-		    #"Transformaciones de Texto" = Table.TransformColumns(#"Datos Base", {
-		        {"sector_id", each Text.Select(Text.From(_), {"0".."9"}), type text},
-		        {"ordre", each Text.Trim(Text.Clean(Text.From(_))), type text},
-		        {"descripcio", Text.Proper, type text},
-		        {"ubicacio_fuita", Text.Proper, type text}
-		    }),
-		    
-		    // 5. AGRUPACIÓN 2: Todos los reemplazos previos a la conversión de tipo anidados
-		    #"Reemplazos Varios" = Table.ReplaceValue(
-		        Table.ReplaceValue(
-		            Table.ReplaceValue(
-		                #"Transformaciones de Texto",
-		                ",", null, Replacer.ReplaceValue, {"ordre"}
-		            ),
-		            "--", null, Replacer.ReplaceValue, {"cabal_recuperat"}
-		        ),
-		        "--", "No Disponible", Replacer.ReplaceText, {"tipus_actuacio"}
-		    ),
-		    
-		    // 6. Un único paso para definir todos los tipos de datos a la vez
-		    #"Tipo Cambiado" = Table.TransformColumnTypes(#"Reemplazos Varios", {
-		        {"zona", type text}, {"sector_id", Int64.Type}, {"tipus_actuacio", type text}, 
-		        {"descripcio", type text}, {"cabal_recuperat", type number}, {"data_fi", type date}, 
-		        {"cerca_activa", type text}, {"tipus_recerca", type text}, {"ubicacio_fuita", type text}, 
-		        {"ordre", type number}
-		    }),
-		    
-		    // 7. AGRUPACIÓN 3: Rellenar nulos por ceros en ambas columnas numéricas al mismo tiempo
-		    #"Reemplazar Nulos por Cero" = Table.ReplaceValue(#"Tipo Cambiado", null, 0, Replacer.ReplaceValue, {"ordre", "cabal_recuperat"}),
-		    #"Columna duplicada" = Table.AddColumn(#"Reemplazar Nulos por Cero", "data_inici", each [data_fi], type date)
-		
-		in
-		    #"Columna duplicada"
-		```
-	lineageTag: ea29d66e-7050-4d8c-ba55-43f0f751fa89
-	queryGroup: Auxiliares\fact_actuacions_zones
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Table
-
-expression fact_reparacions_zones_2025 = ```
-		let
-		        Origen = GoogleSheets.Contents(ActuacionsZones2025_D),
-		        #"RESUM ACTUACIONS_Table" = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
-		        #"Rango de filas conservado" = Table.Range(#"RESUM ACTUACIONS_Table",3,997),
-		        
-		        #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Rango de filas conservado", {"Column1"}, MissingField.Ignore),
-		        #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
-		        
-		        // 1. Limpieza de nombres de columna (sin 'let' anidado, lista definida en el bloque principal)
-		        ReemplazosAcentos = {{"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, {"à","a"}, {"è","e"}, {"ò","o"}, {"ï","i"}, {"ü","u"}},
-		        EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each List.Accumulate(ReemplazosAcentos, Text.Replace(Text.Lower(Text.Trim(Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "))), " ", "_"), (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))),
-		        
-		        // 2. Transformar sector, filtrar, renombrar y quitar vacías
-		        SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(Text.From(_), {"0".."9"}), type text}}),
-		        #"Filas filtradas" = Table.SelectRows(SectorTransformado, each ([sector] <> "8001" and [sector] <> "8003")),
-		        SectorRenombrado = Table.RenameColumns(#"Filas filtradas", {{"sector", "sector_id"}}),
-		        #"Valor reemplazado Sector" = Table.ReplaceValue(SectorRenombrado,"335722","3357",Replacer.ReplaceText,{"sector_id"}),
-		        #"Columnas quitadas" = Table.RemoveColumns(#"Valor reemplazado Sector",{""}),
-		        
-		        // 3. Eliminar filas en blanco de forma dinámica (comprimido en una sola expresión)
-		        #"Filas en blanco eliminadas" = Table.SelectRows(#"Columnas quitadas", each not List.IsEmpty(List.RemoveMatchingItems(List.Transform(Record.FieldValues(_), (x) => try Text.Trim(Text.From(x)) otherwise x), {"", null}))),
-		
-		        // 4. Formatos de Texto y Primeros Reemplazos "--"
-		        #"Mayúsculas Aplicadas" = Table.TransformColumns(#"Filas en blanco eliminadas", {
-		            {"ubicacio_fuita", Text.Proper, type text}, 
-		            {"descripcio", Text.Proper, type text}
-		        }),
-		        #"Reemplazar Guiones Previos" = Table.ReplaceValue(
-		            Table.ReplaceValue(
-		                #"Mayúsculas Aplicadas",
-		                "--", "No Disponible", Replacer.ReplaceText, {"tipus_actuacio"}
-		            ),
-		            "--", null, Replacer.ReplaceValue, {"cabal_recuperat"}
-		        ),
-		
-		        // 5. Corrección de filas desplazadas (expresión if...then...else directa)
-		        #"Desplazar filas movidas" = Table.FromRecords(
-		            Table.TransformRows(
-		                #"Reemplazar Guiones Previos",
-		                each 
-		                    if [cabal_recuperat] <> null and (try Number.From([cabal_recuperat]) otherwise null) = null then 
-		                        Record.Combine({_, [descripcio = Text.Trim(Text.From([descripcio]) & " " & Text.From([cabal_recuperat])), cabal_recuperat = [data_fi], data_fi = [cerca_activa], cerca_activa = [tipus_recerca], tipus_recerca = [ubicacio_fuita], ubicacio_fuita = [ordre], ordre = null]}) 
-		                    else 
-		                        _
-		            )
-		        ),
-		
-		        // 6. Reemplazos Finales (Nulos por 0 y guiones en descripción)
-		        #"Reemplazos Finales" = Table.ReplaceValue(
-		            Table.ReplaceValue(
-		                #"Desplazar filas movidas",
-		                "--", "No Disponible", Replacer.ReplaceText, {"descripcio"}
-		            ),
-		            null, 0, Replacer.ReplaceValue, {"cabal_recuperat"}
-		        ),
-		
-		        // 7. Corrección de la columna 'ordre'
-		        #"Ordre Corregido" = Table.TransformColumns(#"Reemplazos Finales", {
-		            {"ordre", each try Number.FromText(Text.From(_)) otherwise 0, type number}
-		        }),
-		
-		        // 8. Único paso centralizado para aplicar todos los tipos de datos
-		        #"Tipo Cambiado Final" = Table.TransformColumnTypes(#"Ordre Corregido", {
-		            {"zona", type text}, 
-		            {"sector_id", Int64.Type}, 
-		            {"tipus_actuacio", type text}, 
-		            {"descripcio", type text}, 
-		            {"cabal_recuperat", type number},
-		            {"data_fi", type date}, 
-		            {"cerca_activa", type text}, 
-		            {"tipus_recerca", type text}, 
-		            {"ubicacio_fuita", type text}
-		        }),
-		    #"Valor reemplazado" = Table.ReplaceValue(#"Tipo Cambiado Final",null,0,Replacer.ReplaceValue,{"ordre", "cabal_recuperat"}),
-		    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado","--","No Disponible",Replacer.ReplaceText,{"ubicacio_fuita"}),
-		    #"Filas filtradas1" = Table.SelectRows(#"Valor reemplazado1", each ([data_fi] = #date(2025, 1, 2) or [data_fi] = #date(2025, 1, 3) or [data_fi] = #date(2025, 1, 7) or [data_fi] = #date(2025, 1, 8) or [data_fi] = #date(2025, 1, 9) or [data_fi] = #date(2025, 1, 10) or [data_fi] = #date(2025, 1, 11) or [data_fi] = #date(2025, 1, 12) or [data_fi] = #date(2025, 1, 13) or [data_fi] = #date(2025, 1, 14) or [data_fi] = #date(2025, 1, 15) or [data_fi] = #date(2025, 1, 16) or [data_fi] = #date(2025, 1, 17) or [data_fi] = #date(2025, 1, 19) or [data_fi] = #date(2025, 1, 20) or [data_fi] = #date(2025, 1, 21) or [data_fi] = #date(2025, 1, 22) or [data_fi] = #date(2025, 1, 23) or [data_fi] = #date(2025, 1, 24) or [data_fi] = #date(2025, 1, 25) or [data_fi] = #date(2025, 1, 26) or [data_fi] = #date(2025, 1, 27) or [data_fi] = #date(2025, 1, 28) or [data_fi] = #date(2025, 1, 29) or [data_fi] = #date(2025, 1, 30) or [data_fi] = #date(2025, 1, 31))),
-		    #"Columna duplicada" = Table.AddColumn(#"Filas filtradas1", "data_inici", each [data_fi], type date)
-		in
-		    #"Columna duplicada"
-		```
-	lineageTag: f5d104a8-0336-4699-bd72-bcf9781d336d
 	queryGroup: Auxiliares\fact_actuacions_zones
 
 	annotation PBI_NavigationStepName = Navegación
@@ -2759,6 +2498,30 @@ expression 'BCN G Pressio' = "https://docs.google.com/spreadsheets/d/1NknnQkvQTl
 	annotation PBI_NavigationStepName = Navegación
 
 	annotation PBI_ResultType = Exception
+
+expression '12_S7 desembre 2025_Tfuita_Tinst' = "https://docs.google.com/spreadsheets/d/1Smti6f94yTpfa8VeXeL6tPG_Lb0xh0niMhO6Q2k4wx4" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: a029ec7f-a104-4bb2-b5bf-afa65c91cc07
+	queryGroup: 'Parametre '
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression '12_S7 desembre 2026_Tfuita_Tinst' = "https://docs.google.com/spreadsheets/d/1yyUqAFjidXbfL9QseJXva_0GL_PevZuk_EV7WaEhvhA" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: a7230f4f-14af-41d0-8e49-f7d6fa54da1a
+	queryGroup: 'Parametre '
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression Estimació_Volums_Lliurats_i_Dotacions_Municipis_AB = "https://docs.google.com/spreadsheets/d/1PBcQDIOXuGzSvnWbbKL8akVRAcNYzv6ubxLW1zldlPU" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 6f62bf0e-5506-4b15-966e-a77c6fdf0abd
+	queryGroup: 'Parametre '
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
 
 expression dim_art_llob_g_pressio_100ESF_CDE = ```
 		let
@@ -3053,47 +2816,6 @@ expression dim_art_llob_g_pressio_Palleja = ```
 	annotation PBI_NavigationStepName = Navegación
 
 	annotation PBI_ResultType = Table
-
-/// URL AL SPREEDSHET "Informe Aigua Consumida 2026" QUE CONTIENE EL AIGUA LLIURADA
-expression 'Informe Aigua Consumida 2026' = "https://docs.google.com/spreadsheets/d/1GcZpQqbGihEftG7cP56wk9-AIIv07FLtQQT95_s6ZJw/edit?gid=763204073#gid=763204073" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: f9661877-db08-4896-abf1-5be8a090f507
-	queryGroup: 'Parametre '
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
-expression 'Indicadors ANR 2026' = "https://docs.google.com/spreadsheets/d/1LK5D7QclVwCBGy5-hONVLgP1GgW35okgrxNLr1kJCoE" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: e64e325d-25f0-488d-9232-c93a1fa3c3df
-	queryGroup: 'Parametre '
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
-expression '12_S7 desembre 2025_Tfuita_Tinst' = "https://docs.google.com/spreadsheets/d/1Smti6f94yTpfa8VeXeL6tPG_Lb0xh0niMhO6Q2k4wx4" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: a029ec7f-a104-4bb2-b5bf-afa65c91cc07
-	queryGroup: 'Parametre '
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
-expression '12_S7 desembre 2026_Tfuita_Tinst' = "https://docs.google.com/spreadsheets/d/1yyUqAFjidXbfL9QseJXva_0GL_PevZuk_EV7WaEhvhA" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: a7230f4f-14af-41d0-8e49-f7d6fa54da1a
-	queryGroup: 'Parametre '
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
-
-expression Estimació_Volums_Lliurats_i_Dotacions_Municipis_AB = "https://docs.google.com/spreadsheets/d/1PBcQDIOXuGzSvnWbbKL8akVRAcNYzv6ubxLW1zldlPU" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
-	lineageTag: 6f62bf0e-5506-4b15-966e-a77c6fdf0abd
-	queryGroup: 'Parametre '
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Text
 
 expression Pozos = "https://docs.google.com/spreadsheets/d/1GlxHJlCAWZHbz33ytmi4gH8yGDvnKzX13LSovr73m34/edit?gid=1777683441#gid=1777683441" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 66dd68a2-d56b-4aab-ba1c-b356ffb4988b
@@ -3840,6 +3562,284 @@ expression dim_art_bcn_g_pressio_176BAR = ```
 	annotation PBI_NavigationStepName = Navegación
 
 	annotation PBI_ResultType = Exception
+
+expression fact_actuacions_zones_2026 = ```
+		let
+		    Origen = GoogleSheets.Contents(ActuacionsZones2026_D),
+		    #"RESUM ACTUACIONS_Table" = Origen{[name="RESUM ACTUACIONS",ItemKind="Table"]}[Data],
+		    
+		    // 1. Preparación inicial
+		    #"Filas superiores quitadas" = Table.Skip(#"RESUM ACTUACIONS_Table", 3),
+		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
+		    
+		    // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		
+		    // NUEVO PASO: Filtrar solo los sectores que empiezan por "S"
+		    #"Sectores filtrados" = Table.SelectRows(EncabezadosLimpios, each Text.StartsWith([sector], "S")),
+		    
+		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
+		    SectorTransformado = Table.TransformColumns(#"Sectores filtrados", {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
+		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
+		
+		    // 5. Un solo paso unificado para cambiar los tipos de datos
+		    TiposCambiados = Table.TransformColumnTypes(SectorRenombrado,{
+		        {"zona", type text}, 
+		        {"sector_id", Int64.Type}, 
+		        {"tipus_actuacio", type text}, 
+		        {"data_inici", type date}, 
+		        {"data_fi", type date}, 
+		        {"km_inspeccionats_heli", type number}, 
+		        {"km_inspeccionats_acustic", type number}, 
+		        {"fuites_reparades_heli", type number}, 
+		        {"fuites_reparades_acustic", type number}, 
+		        {"fuites_reparades_altres", type number}, 
+		        {"maniobres_realitzades", type number}
+		    }),
+		    
+		
+		    #"Valor reemplazado" = Table.ReplaceValue(TiposCambiados,null,#date(2100, 1, 1),Replacer.ReplaceValue,{"data_fi"})
+		 
+		in
+		    #"Valor reemplazado"
+		```
+	lineageTag: 72727c2f-98d0-4e16-998d-89d235f5a1e9
+	queryGroup: Auxiliares\fact_actuacions_zones
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression fact_actuacions_zones_2025 = ```
+		let
+		    Origen = GoogleSheets.Contents(ActuacionsZones2025_D),
+		    #"RESUM ACTUACIONS_Table" = Origen{[name="RESUM ACTUACIONS",ItemKind="Table"]}[Data],
+		    
+		    // 1. Preparación inicial
+		    #"Filas superiores quitadas" = Table.Skip(#"RESUM ACTUACIONS_Table", 3),
+		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
+		    #"Filas filtradas" = Table.SelectRows(#"Encabezados promovidos", each ([ZONA] = "Barcelona Nord" or [ZONA] = "Barcelona Sud" or [ZONA] = "Besòs" or [ZONA] = "Llobregat Nord" or [ZONA] = "Llobregat Sud")),
+		    
+		    // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Filas filtradas", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            },
+		            textoLimpio = List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		        in
+		            textoLimpio
+		    ),
+		    
+		    // NUEVO PASO: Filtrar solo los sectores que empiezan por "S"
+		    #"Sectores filtrados" = Table.SelectRows(EncabezadosLimpios, each Text.StartsWith([sector], "S")),
+		    
+		    // 3. Transformar "sector" extrayendo los números directamente (sin crear columna extra) y renombrar
+		    SectorTransformado = Table.TransformColumns(#"Sectores filtrados", {{"sector", each Text.Select(_, {"0".."9"}), type text}}),
+		    SectorRenombrado = Table.RenameColumns(SectorTransformado, {{"sector", "sector_id"}}),
+		
+		    
+		    // 5. Un solo paso unificado para cambiar los tipos de datos
+		    TiposCambiados = Table.TransformColumnTypes(SectorRenombrado,{
+		        {"zona", type text}, 
+		        {"sector_id", Int64.Type}, 
+		        {"tipus_actuacio", type text}, 
+		        {"data_inici", type date}, 
+		        {"data_fi", type date}, 
+		        {"km_inspeccionats_heli", type number}, 
+		        {"km_inspeccionats_acustic", type number}, 
+		        {"fuites_reparades_heli", type number}, 
+		        {"fuites_reparades_acustic", type number}, 
+		        {"fuites_reparades_altres", type number}, 
+		        {"maniobres_realitzades", type number}
+		    })
+		in
+		    TiposCambiados
+		```
+	lineageTag: 882e00e2-dfa1-4460-bbbb-6825f2395c9d
+	queryGroup: Auxiliares\fact_actuacions_zones
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression fact_reparacions_zones_2026 = ```
+		let
+		    Origen = GoogleSheets.Contents(ActuacionsZones2026_D),
+		    #"RESUM ACTUACIONS_Table" = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
+		    
+		    // 1. Preparación inicial
+		    #"Filas superiores quitadas" = Table.Skip(#"RESUM ACTUACIONS_Table", 3),
+		    #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Filas superiores quitadas", {"Column1"}, MissingField.Ignore),
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
+		    
+		    // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
+		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
+		        let
+		            sinSaltos = Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "),
+		            textoBase = Text.Replace(Text.Lower(Text.Trim(sinSaltos)), " ", "_"),
+		            reemplazos = {
+		                {"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, 
+		                {"à","a"}, {"è","e"}, {"ò","o"}, 
+		                {"ï","i"}, {"ü","u"}
+		            }
+		        in
+		            List.Accumulate(reemplazos, textoBase, (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))
+		    ),
+		    
+		    // 3. Ajuste de estructura Rango, eliminar vacías y renombrar
+		    #"Datos Base" = Table.RenameColumns(
+		        Table.RemoveColumns(Table.Range(EncabezadosLimpios, 0, 339), {""}), 
+		        {{"sector", "sector_id"}}
+		    ),
+		    
+		    // 4. AGRUPACIÓN 1: Transformaciones de Texto en un solo recorrido de tabla
+		    #"Transformaciones de Texto" = Table.TransformColumns(#"Datos Base", {
+		        {"sector_id", each Text.Select(Text.From(_), {"0".."9"}), type text},
+		        {"ordre", each Text.Trim(Text.Clean(Text.From(_))), type text},
+		        {"descripcio", Text.Proper, type text},
+		        {"ubicacio_fuita", Text.Proper, type text}
+		    }),
+		    
+		    // 5. AGRUPACIÓN 2: Todos los reemplazos previos a la conversión de tipo anidados
+		    #"Reemplazos Varios" = Table.ReplaceValue(
+		        Table.ReplaceValue(
+		            Table.ReplaceValue(
+		                #"Transformaciones de Texto",
+		                ",", null, Replacer.ReplaceValue, {"ordre"}
+		            ),
+		            "--", null, Replacer.ReplaceValue, {"cabal_recuperat"}
+		        ),
+		        "--", "No Disponible", Replacer.ReplaceText, {"tipus_actuacio"}
+		    ),
+		    
+		    // 6. Un único paso para definir todos los tipos de datos a la vez
+		    #"Tipo Cambiado" = Table.TransformColumnTypes(#"Reemplazos Varios", {
+		        {"zona", type text}, {"sector_id", Int64.Type}, {"tipus_actuacio", type text}, 
+		        {"descripcio", type text}, {"cabal_recuperat", type number}, {"data_fi", type date}, 
+		        {"cerca_activa", type text}, {"tipus_recerca", type text}, {"ubicacio_fuita", type text}, 
+		        {"ordre", type number}
+		    }),
+		    
+		    // 7. AGRUPACIÓN 3: Rellenar nulos por ceros en ambas columnas numéricas al mismo tiempo
+		    #"Reemplazar Nulos por Cero" = Table.ReplaceValue(#"Tipo Cambiado", null, 0, Replacer.ReplaceValue, {"ordre", "cabal_recuperat"}),
+		    #"Columna duplicada" = Table.AddColumn(#"Reemplazar Nulos por Cero", "data_inici", each [data_fi], type date)
+		
+		in
+		    #"Columna duplicada"
+		```
+	lineageTag: ea29d66e-7050-4d8c-ba55-43f0f751fa89
+	queryGroup: Auxiliares\fact_actuacions_zones
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression fact_reparacions_zones_2025 = ```
+		let
+		        Origen = GoogleSheets.Contents(ActuacionsZones2025_D),
+		        #"RESUM ACTUACIONS_Table" = Origen{[name="REPARACIONS",ItemKind="Table"]}[Data],
+		        #"Rango de filas conservado" = Table.Range(#"RESUM ACTUACIONS_Table",3,997),
+		        
+		        #"Columnas quitadas preliminar" = Table.RemoveColumns(#"Rango de filas conservado", {"Column1"}, MissingField.Ignore),
+		        #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas preliminar", [PromoteAllScalars=true]),
+		        
+		        // 1. Limpieza de nombres de columna (sin 'let' anidado, lista definida en el bloque principal)
+		        ReemplazosAcentos = {{"á","a"}, {"é","e"}, {"í","i"}, {"ó","o"}, {"ú","u"}, {"à","a"}, {"è","e"}, {"ò","o"}, {"ï","i"}, {"ü","u"}},
+		        EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each List.Accumulate(ReemplazosAcentos, Text.Replace(Text.Lower(Text.Trim(Text.Replace(Text.Replace(_, "#(lf)", " "), "#(cr)", " "))), " ", "_"), (estado, actual) => Text.Replace(estado, actual{0}, actual{1}))),
+		        
+		        // 2. Transformar sector, filtrar, renombrar y quitar vacías
+		        SectorTransformado = Table.TransformColumns(EncabezadosLimpios, {{"sector", each Text.Select(Text.From(_), {"0".."9"}), type text}}),
+		        #"Filas filtradas" = Table.SelectRows(SectorTransformado, each ([sector] <> "8001" and [sector] <> "8003")),
+		        SectorRenombrado = Table.RenameColumns(#"Filas filtradas", {{"sector", "sector_id"}}),
+		        #"Valor reemplazado Sector" = Table.ReplaceValue(SectorRenombrado,"335722","3357",Replacer.ReplaceText,{"sector_id"}),
+		        #"Columnas quitadas" = Table.RemoveColumns(#"Valor reemplazado Sector",{""}),
+		        
+		        // 3. Eliminar filas en blanco de forma dinámica (comprimido en una sola expresión)
+		        #"Filas en blanco eliminadas" = Table.SelectRows(#"Columnas quitadas", each not List.IsEmpty(List.RemoveMatchingItems(List.Transform(Record.FieldValues(_), (x) => try Text.Trim(Text.From(x)) otherwise x), {"", null}))),
+		
+		        // 4. Formatos de Texto y Primeros Reemplazos "--"
+		        #"Mayúsculas Aplicadas" = Table.TransformColumns(#"Filas en blanco eliminadas", {
+		            {"ubicacio_fuita", Text.Proper, type text}, 
+		            {"descripcio", Text.Proper, type text}
+		        }),
+		        #"Reemplazar Guiones Previos" = Table.ReplaceValue(
+		            Table.ReplaceValue(
+		                #"Mayúsculas Aplicadas",
+		                "--", "No Disponible", Replacer.ReplaceText, {"tipus_actuacio"}
+		            ),
+		            "--", null, Replacer.ReplaceValue, {"cabal_recuperat"}
+		        ),
+		
+		        // 5. Corrección de filas desplazadas (expresión if...then...else directa)
+		        #"Desplazar filas movidas" = Table.FromRecords(
+		            Table.TransformRows(
+		                #"Reemplazar Guiones Previos",
+		                each 
+		                    if [cabal_recuperat] <> null and (try Number.From([cabal_recuperat]) otherwise null) = null then 
+		                        Record.Combine({_, [descripcio = Text.Trim(Text.From([descripcio]) & " " & Text.From([cabal_recuperat])), cabal_recuperat = [data_fi], data_fi = [cerca_activa], cerca_activa = [tipus_recerca], tipus_recerca = [ubicacio_fuita], ubicacio_fuita = [ordre], ordre = null]}) 
+		                    else 
+		                        _
+		            )
+		        ),
+		
+		        // 6. Reemplazos Finales (Nulos por 0 y guiones en descripción)
+		        #"Reemplazos Finales" = Table.ReplaceValue(
+		            Table.ReplaceValue(
+		                #"Desplazar filas movidas",
+		                "--", "No Disponible", Replacer.ReplaceText, {"descripcio"}
+		            ),
+		            null, 0, Replacer.ReplaceValue, {"cabal_recuperat"}
+		        ),
+		
+		        // 7. Corrección de la columna 'ordre'
+		        #"Ordre Corregido" = Table.TransformColumns(#"Reemplazos Finales", {
+		            {"ordre", each try Number.FromText(Text.From(_)) otherwise 0, type number}
+		        }),
+		
+		        // 8. Único paso centralizado para aplicar todos los tipos de datos
+		        #"Tipo Cambiado Final" = Table.TransformColumnTypes(#"Ordre Corregido", {
+		            {"zona", type text}, 
+		            {"sector_id", Int64.Type}, 
+		            {"tipus_actuacio", type text}, 
+		            {"descripcio", type text}, 
+		            {"cabal_recuperat", type number},
+		            {"data_fi", type date}, 
+		            {"cerca_activa", type text}, 
+		            {"tipus_recerca", type text}, 
+		            {"ubicacio_fuita", type text}
+		        }),
+		    #"Valor reemplazado" = Table.ReplaceValue(#"Tipo Cambiado Final",null,0,Replacer.ReplaceValue,{"ordre", "cabal_recuperat"}),
+		    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado","--","No Disponible",Replacer.ReplaceText,{"ubicacio_fuita"}),
+		    #"Filas filtradas1" = Table.SelectRows(#"Valor reemplazado1", each ([data_fi] = #date(2025, 1, 2) or [data_fi] = #date(2025, 1, 3) or [data_fi] = #date(2025, 1, 7) or [data_fi] = #date(2025, 1, 8) or [data_fi] = #date(2025, 1, 9) or [data_fi] = #date(2025, 1, 10) or [data_fi] = #date(2025, 1, 11) or [data_fi] = #date(2025, 1, 12) or [data_fi] = #date(2025, 1, 13) or [data_fi] = #date(2025, 1, 14) or [data_fi] = #date(2025, 1, 15) or [data_fi] = #date(2025, 1, 16) or [data_fi] = #date(2025, 1, 17) or [data_fi] = #date(2025, 1, 19) or [data_fi] = #date(2025, 1, 20) or [data_fi] = #date(2025, 1, 21) or [data_fi] = #date(2025, 1, 22) or [data_fi] = #date(2025, 1, 23) or [data_fi] = #date(2025, 1, 24) or [data_fi] = #date(2025, 1, 25) or [data_fi] = #date(2025, 1, 26) or [data_fi] = #date(2025, 1, 27) or [data_fi] = #date(2025, 1, 28) or [data_fi] = #date(2025, 1, 29) or [data_fi] = #date(2025, 1, 30) or [data_fi] = #date(2025, 1, 31))),
+		    #"Columna duplicada" = Table.AddColumn(#"Filas filtradas1", "data_inici", each [data_fi], type date)
+		in
+		    #"Columna duplicada"
+		```
+	lineageTag: f5d104a8-0336-4699-bd72-bcf9781d336d
+	queryGroup: Auxiliares\fact_actuacions_zones
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
 
 expression operacions_sist_fraus = "https://docs.google.com/spreadsheets/d/1lEC1eiGGcb4R555blsjDRBkUPB6PXbl7hSnuXhThLUQ/edit?gid=267232325#gid=267232325" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 51278c8d-03f2-4db3-9919-7adb5c1d3bce
