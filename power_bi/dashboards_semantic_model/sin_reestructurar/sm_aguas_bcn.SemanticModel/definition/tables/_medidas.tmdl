@@ -7750,16 +7750,18 @@ table _medidas
 			RETURN
 			    SWITCH(
 			        PeriodoSeleccionado,
-			        "Peatges", "Evo",
-			        "12 meses", "MA",
-			        "Acumulat", "MMA",
-			        "Diff", "MMA",
-			        BLANK()  // PeriodoSeleccionado
+			        "Peatges", "Evolucio d'Peatges", 
+			        "Evolucio d'" & PeriodoSeleccionado & "(hm³)"  
 			    )
 			 
 			```
 		displayFolder: Etiquetas
 		lineageTag: abda9de2-cda7-4a72-a799-0058c8034d96
+
+	measure 'Label titulo' = 1
+		formatString: 0
+		displayFolder: Etiquetas
+		lineageTag: ac717cd3-44bf-44ae-a635-667d28da365d
 
 	column Column
 		isHidden
