@@ -1,0 +1,29 @@
+table _tables_kpi
+	lineageTag: 955a3419-19f7-415c-b6ea-b8641dbf31a0
+
+	column Pestaña
+		dataType: string
+		lineageTag: a3158c21-a08a-4103-963e-43f4667d83f0
+		summarizeBy: none
+		sourceColumn: Pestaña
+
+		annotation SummarizationSetBy = Automatic
+
+	column Kpi
+		dataType: string
+		lineageTag: 02129eb4-00dd-42ea-a36c-e734ee9d573e
+		summarizeBy: none
+		sourceColumn: Kpi
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _tables_kpi = m
+		mode: import
+		source =
+				let
+				    Origen = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45Wcs7PKy7NVdJRCkhNLElPLVaK1UESdMwpSUQVcUrMrEATciwtyU+GcFDFnd2UYmMB", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Pestaña = _t, Kpi = _t])
+				in
+				    Origen
+
+	annotation PBI_ResultType = Table
+

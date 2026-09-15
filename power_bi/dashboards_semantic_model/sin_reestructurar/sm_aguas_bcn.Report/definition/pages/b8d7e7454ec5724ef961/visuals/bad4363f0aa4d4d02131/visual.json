@@ -410,46 +410,53 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "3c62521f9b7eb86785c2",
+        "name": "cdd96e52ecad5792c0da",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "_switchs"
+                "Entity": "_medidas"
               }
             },
-            "Property": "kpi_anr_transporte_switch"
+            "Property": "filtro_transport"
           }
         },
-        "type": "Advanced"
-      },
-      {
-        "name": "70cdff4d7b498d784090",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "filtro_transport"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
               }
-            },
-            "Property": "kpi_rth_transporte_switch"
-          }
+            }
+          ]
         },
-        "type": "Advanced"
-      },
-      {
-        "name": "63de9150914d271ab9ba",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
-        },
-        "type": "Categorical"
+        "howCreated": "User"
       }
     ]
   }

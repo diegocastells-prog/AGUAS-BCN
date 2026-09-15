@@ -1,0 +1,166 @@
+table fact_consum_limitadores
+	lineageTag: 7e1819c1-096d-4597-a698-bcf0a1745d9a
+
+	column gerencia_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e358b7d8-707d-40a6-b768-a54f0fec7663
+		summarizeBy: none
+		sourceColumn: gerencia_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column titular_subministro
+		dataType: string
+		lineageTag: 4847393f-5e2d-4daf-9a7f-ff54967dba46
+		summarizeBy: none
+		sourceColumn: titular_subministro
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_instal
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 0f11700c-4936-4da3-94c2-a84cf3a2fdb2
+		summarizeBy: none
+		sourceColumn: data_instal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column polissa_subm
+		dataType: string
+		lineageTag: bddd4e1e-9b57-436c-866d-5219672d5a09
+		summarizeBy: none
+		sourceColumn: polissa_subm
+
+		annotation SummarizationSetBy = Automatic
+
+	column polissa_ramal
+		dataType: string
+		lineageTag: b9dcb61e-5a94-4460-97ae-689d776894d1
+		summarizeBy: none
+		sourceColumn: polissa_ramal
+
+		annotation SummarizationSetBy = Automatic
+
+	column cabal_contract_m3/h
+		dataType: double
+		lineageTag: eee208ef-d62d-4384-9fa7-7e05736fc4b4
+		summarizeBy: sum
+		sourceColumn: cabal_contract_m3/h
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column mitjana_cabal_maxi_pre_(m³/h)
+		dataType: double
+		lineageTag: 0f0f7c2c-8d2e-466b-a8c8-67da761eeb1e
+		summarizeBy: sum
+		sourceColumn: mitjana_cabal_maxi_pre_(m³/h)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column mitjana_cabal_maxi_post_(m³/h)
+		dataType: double
+		lineageTag: e2ee89b1-af04-44da-9762-09d0756eb6c3
+		summarizeBy: sum
+		sourceColumn: mitjana_cabal_maxi_post_(m³/h)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column consum_mig_diari(m3/d)
+		dataType: double
+		lineageTag: 45a88001-4d3b-4520-84d3-c65b02abe4a8
+		summarizeBy: sum
+		sourceColumn: consum_mig_diari(m3/d)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column mitja_consum_diari_post_(m3/d)
+		dataType: double
+		lineageTag: d04d304d-289b-43fe-9067-9177ebe3a6db
+		summarizeBy: sum
+		sourceColumn: mitja_consum_diari_post_(m3/d)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column coeficiente_euro
+		dataType: double
+		lineageTag: aed13fdc-7612-4800-9487-8f244a5e0a57
+		summarizeBy: sum
+		sourceColumn: coeficiente_euro
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Dif (m3/d)'
+		dataType: string
+		lineageTag: 11e578bf-9e17-4f8f-970a-4777b0aba567
+		summarizeBy: none
+		sourceColumn: Dif (m3/d)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dif (m3/any)'
+		dataType: string
+		lineageTag: 1f4c67f9-21c9-4f34-b975-beef2e05b3ad
+		summarizeBy: none
+		sourceColumn: Dif (m3/any)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_consum_limitadores = m
+		mode: import
+		queryGroup: Hechos
+		source =
+				let
+				    Origen = GoogleSheets.Contents(Consum_limitadores),
+				    TablaOrigen = Origen{[name="resumen limitaciones",ItemKind="Table"]}[Data],
+				    ErroresComoNull = Table.ReplaceErrorValues(TablaOrigen, List.Transform(Table.ColumnNames(TablaOrigen), each {_, null})),
+				    TipoInicial = Table.TransformColumnTypes(ErroresComoNull, {{"Column21", type number}}),
+				    Rellenado = Table.FillDown(TipoInicial, {"Column21"}),
+				    Encabezados = Table.PromoteHeaders(Rellenado, [PromoteAllScalars = true]),
+				    SinFilasVacias = Table.SelectRows(Encabezados, each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null}))),
+				    FiltrarDOP = Table.SelectRows(SinFilasVacias, each ([DOP] <> "")),
+				    LimitarFilas = Table.Range(FiltrarDOP, 0, 156),
+				    QuitarColumnas = Table.RemoveColumns(LimitarFilas, {"COMENTARIS", "Observacions", "Nº puntas Despues limitacion", "Nº puntas Antes", "Dif (m3/d)", "Dif (m3/any)", "Dif (€/any)", "Dif (%/any)", "Cabal limitació", "Resultat canvi de contracte (€/any)"}),
+				    RenombrarColumnas = Table.RenameColumns(QuitarColumnas, {{"1,8", "coeficiente_euro"}, {"DOP", "gerencia"}, {"Data instal·lació", "data_instal"}, {"Pol.subm", "polissa_subm"}, {"Pol. ramal", "polissa_ramal"}, {"Cabal contractat (m3/h)", "cabal_contract_m3/h"}, {"Mitjana cabal màxim pre (m³/h)", "mitjana_cabal_maxi_pre_(m³/h)"}, {"Mitjana cabal màxim post (m³/h)", "mitjana_cabal_maxi_post_(m³/h)"}, {"Consum mig diari(m3/d) ", "consum_mig_diari(m3/d)"}, {"Mitja consum diari post (m3/d) ", "mitja_consum_diari_post_(m3/d)"}, {"Titular subministrament", "titular_subministro"}}),
+				    ReemplazarGerencia = Table.ReplaceValue(RenombrarColumnas, each [gerencia], each if [gerencia] = "BCN N" then "Barcelona Nord" else if [gerencia] = "BCN S" or [gerencia] = "BCNS" then "Barcelona Sud" else if [gerencia] = "LLOB N" then "Llobregat Nord" else if [gerencia] = "LLOB S" then "Llobregat Sud" else if [gerencia] = "BES" then "Besòs" else [gerencia], Replacer.ReplaceValue, {"gerencia"}),
+				    CorregirFechas = Table.ReplaceValue(ReemplazarGerencia, "????", #date(2100, 1, 1), Replacer.ReplaceValue, {"data_instal"}),
+				    LimpiarPre = Table.TransformColumns(CorregirFechas, {{"mitjana_cabal_maxi_pre_(m³/h)", each try if _ = "-" or _ = "" or _ = null then 0 else _ otherwise 0, type number}}),
+				    LimpiarPost = Table.TransformColumns(LimpiarPre, {{"mitjana_cabal_maxi_post_(m³/h)", each try if _ = "-" or _ = "" or _ = null then 0 else _ otherwise 0, type number}}),
+				    LimpiarConsumPost = Table.TransformColumns(LimpiarPost, {{"mitja_consum_diari_post_(m3/d)", each try if _ = "-" or _ = "" or _ = null then 0 else _ otherwise 0, type number}}),
+				    LimpiarConsumMig = Table.TransformColumns(LimpiarConsumPost, {{"consum_mig_diari(m3/d)", each try if _ = "-" or _ = "" or _ = null then 0 else _ otherwise 0, type number}}),
+				    FilasFiltradas = Table.SelectRows(LimpiarConsumMig, each ([#"cabal_contract_m3/h"] <> "10 (16 LIMITADOR)" and [#"cabal_contract_m3/h"] <> "10/16" and [#"cabal_contract_m3/h"] <> "16/25" and [#"cabal_contract_m3/h"] <> "6,3/10")),
+				    TiposFinales = Table.TransformColumnTypes(FilasFiltradas, {{"polissa_subm", type text}, {"polissa_ramal", type text}, {"data_instal", type date}, {"mitjana_cabal_maxi_pre_(m³/h)", type number}, {"mitjana_cabal_maxi_post_(m³/h)", type number}, {"consum_mig_diari(m3/d)", type number}, {"mitja_consum_diari_post_(m3/d)", type number}, {"titular_subministro", type text}, {"gerencia", type text}, {"cabal_contract_m3/h", type number}}),
+				    ValorReemplazado = Table.ReplaceValue(TiposFinales, "-", "No Disponible", Replacer.ReplaceText, {"polissa_ramal"}),
+				    ValorReemplazado2 = Table.ReplaceValue(ValorReemplazado, null, 0, Replacer.ReplaceValue, {"cabal_contract_m3/h"}),
+				    ValorReemplazado1 = Table.ReplaceValue(ValorReemplazado2, "", "No Disponible", Replacer.ReplaceValue, {"polissa_ramal"}),
+				    ValorReemplazado3 = Table.ReplaceValue(ValorReemplazado1, null, 0, Replacer.ReplaceValue, {"mitjana_cabal_maxi_post_(m³/h)"}),
+				    TipoCambiado = Table.TransformColumnTypes(ValorReemplazado3, {{"mitja_consum_diari_post_(m3/d)", type number}}),
+				    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(TipoCambiado,{{"titular_subministro", Text.Proper, type text}}),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Poner En Mayúsculas Cada Palabra", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
+				    #"Columnas reordenadas" = Table.ReorderColumns(#"Columnas quitadas",{"gerencia_id", "titular_subministro", "data_instal", "polissa_subm", "polissa_ramal", "cabal_contract_m3/h", "mitjana_cabal_maxi_pre_(m³/h)", "mitjana_cabal_maxi_post_(m³/h)", "consum_mig_diari(m3/d)", "mitja_consum_diari_post_(m3/d)", "coeficiente_euro"}),
+				    #"Personalizada agregada" = Table.AddColumn(#"Columnas reordenadas", "Dif (m3/d)", each [#"mitja_consum_diari_post_(m3/d)"]-[#"consum_mig_diari(m3/d)"]),
+				    #"Personalizada agregada1" = Table.AddColumn(#"Personalizada agregada", "Dif (m3/any)", each [#"Dif (m3/d)"] * Date.DayOfYear(#date(Date.Year([data_instal]), 12, 31)))
+				in
+				    #"Personalizada agregada1"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

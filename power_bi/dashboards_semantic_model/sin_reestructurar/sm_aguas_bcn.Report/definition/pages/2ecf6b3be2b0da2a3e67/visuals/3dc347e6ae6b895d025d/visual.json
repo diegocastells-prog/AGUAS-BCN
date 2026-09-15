@@ -4,10 +4,10 @@
   "position": {
     "x": 152.22222222222223,
     "y": 204.44444444444443,
-    "z": 8000,
+    "z": 6000,
     "height": 171.11111111111111,
     "width": 1103.3333333333333,
-    "tabOrder": 8000
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "lineChart",
@@ -23,31 +23,12 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "mestexto_año"
+                  "Property": "anio_mes"
                 }
               },
-              "queryRef": "dim_calendario.mestexto_año",
-              "nativeQueryRef": "mestexto_año",
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes",
               "active": true
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_switchs"
-                    }
-                  },
-                  "Property": "kpi_rth_distribucion_switch"
-                }
-              },
-              "queryRef": "_switchs.kpi_rth_distribucion_switch",
-              "nativeQueryRef": "RTH Distribucion",
-              "displayName": "RTH Distribució"
             }
           ]
         },
@@ -61,12 +42,25 @@
                       "Entity": "_switchs"
                     }
                   },
-                  "Property": "kpi_aigua_consumida_acf_global_switch"
+                  "Property": "switch_kpi_consum"
                 }
               },
-              "queryRef": "_switchs.kpi_aigua_consumida_acf_global_switch",
-              "nativeQueryRef": "Aigua consumida ACF ",
-              "displayName": "Aigua consumida ACF "
+              "queryRef": "_switchs.switch_kpi_consum",
+              "nativeQueryRef": "switch_kpi_consum"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "switch_kpi_consum_1m"
+                }
+              },
+              "queryRef": "_switchs.switch_kpi_consum_1m",
+              "nativeQueryRef": "switch_kpi_consum_1m"
             }
           ]
         }
@@ -103,14 +97,14 @@
             "labelPrecision": {
               "expr": {
                 "Literal": {
-                  "Value": "1L"
+                  "Value": "2L"
                 }
               }
             },
             "labelDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "1000000D"
+                  "Value": "0D"
                 }
               }
             },
@@ -418,37 +412,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "b396acffbcc7d20da7db",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "kpi_rth_distribucion_switch"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "aa7297e27e6354024cd8",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "kpi_aigua_consumida_acf_global_switch"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

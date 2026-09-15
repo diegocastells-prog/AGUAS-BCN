@@ -1768,6 +1768,98 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure switch_kpi_consum = ```
+			
+			SWITCH(
+			    SELECTEDVALUE(_tables_kpi[Kpi]),
+			    "Peatges", [kpi_aigua_consumida_peatges_global_switch],
+			    "Alta", [kpi_aigua_consumida_alta_global_switch],
+			    "Baixa",[kpi_aigua_consumida_baixa_global_switch],
+			    "Autoconsum",[kpi_aigua_consumida_autoconsum_global_switch],
+			    "ACF",[kpi_aigua_consumida_acf_global_switch],
+			    BLANK()
+			)
+			 
+			```
+		displayFolder: aigua_consumida
+		lineageTag: 604183ee-8d98-4274-8b77-0647ca73af94
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure switch_kpi_consum_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(_tables_kpi[Kpi]),
+			    "Peatges", [kpi_aigua_consumida_peatges_global_switch_1m],
+			    "Alta", [kpi_aigua_consumida_alta_global_switch_1m],
+			    "Baixa",[kpi_aigua_consumida_baixa_global_switch_1m],
+			    "Autoconsum",[kpi_aigua_consumida_autoconsum_global_switch_1m],
+			    "ACF",[kpi_aigua_consumida_acf_global_switch_1m],
+			    BLANK()
+			)
+		displayFolder: aigua_consumida
+		lineageTag: 30bae8af-b6cf-4607-b26e-cd5dc8dbe25a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_comptadors_switch =
+			
+			SWITCH (
+			    SELECTEDVALUE ( dummy_slicer_periodo[Periodo] ),
+			    "Mensual", [comptadors_mensual],
+			    "12 meses", [comptadors_acum_12m],
+			    "Acumulat", [comptadors_ytd],
+			    "Diff", [diff_comptadors],
+			    BLANK ()
+			)
+		formatString: 0
+		displayFolder: comptadors
+		lineageTag: 0b3a052e-bac6-4166-b84f-3c58ef788ca4
+
+	measure kpi_comptadors_switch_1m =
+			
+			SWITCH (
+			    SELECTEDVALUE ( dummy_slicer_periodo[Periodo] ),
+			    "Mensual", [comptadors_mensual_smly],
+			    "12 meses", [comptadors_acum_12m_1m],
+			    "Acumulat", [comptadors_lytd],
+			    "Diff", [_cero_acumulat],
+			    BLANK ()
+			)
+		formatString: 0
+		displayFolder: comptadors
+		lineageTag: ec371a20-ff38-484d-9543-962e7a3fb9f6
+
+	measure kpi_pct_telelectures_switch =
+			
+			SWITCH (
+			    SELECTEDVALUE ( dummy_slicer_periodo[Periodo] ),
+			    "Mensual", [pct_telelectures_mensual],
+			    "12 meses", [pct_telelectures_acum_12m],
+			    "Acumulat", [pct_telelectures_ytd],
+			    "Diff", [diff_pct_telelectures],
+			    BLANK ()
+			)
+		displayFolder: comptadors
+		lineageTag: bf56d944-106a-42d0-a326-34ee665d9f29
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_pct_telelectures_switch_1m =
+			
+			SWITCH (
+			    SELECTEDVALUE ( dummy_slicer_periodo[Periodo] ),
+			    "Mensual", [pct_telelectures_mensual_smly],
+			    "12 meses", [pct_telelectures_acum_12m_1m],
+			    "Acumulat", [pct_telelectures_lytd],
+			    "Diff", [_cero_acumulat],
+			    BLANK ()
+			)
+		displayFolder: comptadors
+		lineageTag: 453b581c-33fd-408b-b8be-132de6e3274b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0

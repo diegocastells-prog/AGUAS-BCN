@@ -4,10 +4,10 @@
   "position": {
     "x": 179.02847571189278,
     "y": 402.01005025125625,
-    "z": 9000,
+    "z": 5000,
     "height": 211.18927973199328,
     "width": 1063.4505862646565,
-    "tabOrder": 7000
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "lineClusteredColumnComboChart",
@@ -421,46 +421,53 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "53bda5c206e4d093e8c7",
+        "name": "6173680c020b4b1ab8dc",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "_switchs"
+                "Entity": "_medidas"
               }
             },
-            "Property": "kpi_anr_distribucion_switch"
+            "Property": "filtro_distribucion"
           }
         },
-        "type": "Advanced"
-      },
-      {
-        "name": "4e9ce7adc0e0c61b6099",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "filtro_distribucion"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
               }
-            },
-            "Property": "kpi_rth_distribucion_switch"
-          }
+            }
+          ]
         },
-        "type": "Advanced"
-      },
-      {
-        "name": "b9fcc35635c8d103d59d",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
-        },
-        "type": "Categorical"
+        "howCreated": "User"
       }
     ]
   }

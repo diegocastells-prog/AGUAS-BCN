@@ -10,7 +10,7 @@
     "tabOrder": 9000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "clusteredColumnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -85,23 +85,6 @@
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dim_calendario"
-                  }
-                },
-                "Property": "anio2_mes"
-              }
-            },
-            "direction": "Ascending"
-          }
-        ]
       }
     },
     "objects": {
@@ -137,26 +120,6 @@
                       "Percent": -0.6
                     }
                   }
-                }
-              }
-            }
-          }
-        }
-      ],
-      "lineStyles": [
-        {
-          "properties": {
-            "showMarker": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "markerSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "3D"
                 }
               }
             }
@@ -449,60 +412,53 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "e96065b346e03c5ac1c9",
+        "name": "585a91dcca8abd7a1ed8",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "_switchs"
+                "Entity": "_medidas"
               }
             },
-            "Property": "kpi_rth_transporte_switch"
+            "Property": "filtro_transport"
           }
         },
-        "type": "Advanced"
-      },
-      {
-        "name": "b6b271fe6987ea144d14",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "filtro_transport"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
               }
-            },
-            "Property": "kpi_volum_consumit_transporte_switch"
-          }
+            }
+          ]
         },
-        "type": "Advanced"
-      },
-      {
-        "name": "091183ea4b32ae1edd56",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "kpi_volum_lliurat_transporte_switch"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "16a061f101e79c0586cc",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
-        },
-        "type": "Categorical"
+        "howCreated": "User"
       }
     ]
   }
