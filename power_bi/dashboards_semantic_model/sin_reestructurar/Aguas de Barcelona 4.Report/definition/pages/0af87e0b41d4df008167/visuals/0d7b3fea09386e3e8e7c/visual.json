@@ -3,7 +3,7 @@
   "name": "0d7b3fea09386e3e8e7c",
   "position": {
     "x": 335.03142392666996,
-    "y": 24.667987199808593,
+    "y": 24.667987199808579,
     "z": 1000,
     "height": 38.56770927329309,
     "width": 180.80860474087615,
@@ -20,16 +20,15 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_parameter_comptadors"
+                      "Entity": "_parameter_fuitas"
                     }
                   },
-                  "Property": "_parameter_comptadors"
+                  "Property": "_parameter_fuitas"
                 }
               },
-              "queryRef": "_parameter_comptadors._parameter_comptadors",
-              "nativeQueryRef": " ",
-              "active": true,
-              "displayName": " "
+              "queryRef": "_parameter_fuitas._parameter_fuitas",
+              "nativeQueryRef": "_parameter_fuitas",
+              "active": true
             }
           ]
         }
@@ -38,7 +37,124 @@
     "objects": {
       "general": [
         {
-          "properties": {}
+          "properties": {
+            "filter": {
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "_",
+                    "Entity": "_parameter_fuitas",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "Not": {
+                        "Expression": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "_"
+                                    }
+                                  },
+                                  "Property": "_parameter_fuitas Campos"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'''_switchs''[kpi_fuites_reparades_acustic_switch]'"
+                                  }
+                                }
+                              ],
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'''_switchs''[kpi_fuites_reparades_heli_switch]'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "Annotations": {
+                      "filterExpressionMetadata": {
+                        "expressions": [
+                          {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Entity": "_parameter_fuitas"
+                                }
+                              },
+                              "Property": "_parameter_fuitas"
+                            }
+                          }
+                        ],
+                        "decomposedIdentities": {
+                          "values": [
+                            [
+                              {
+                                "0": [
+                                  {
+                                    "Literal": {
+                                      "Value": "'''_switchs''[kpi_fuites_reparades_acustic_switch]'"
+                                    }
+                                  }
+                                ]
+                              }
+                            ],
+                            [
+                              {
+                                "0": [
+                                  {
+                                    "Literal": {
+                                      "Value": "'''_switchs''[kpi_fuites_reparades_heli_switch]'"
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          ],
+                          "columns": [
+                            {
+                              "value": {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "_parameter_fuitas"
+                                    }
+                                  },
+                                  "Property": "_parameter_fuitas Campos"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "valueMap": [
+                          {
+                            "0": "Insp. Acustic"
+                          },
+                          {
+                            "0": "Insp. Heli"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
         }
       ],
       "data": [

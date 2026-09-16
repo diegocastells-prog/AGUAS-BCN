@@ -46,8 +46,8 @@
                 }
               },
               "queryRef": "_switchs.kpi_avaries_switch",
-              "nativeQueryRef": "Avaries",
-              "displayName": "Avaries"
+              "nativeQueryRef": "kpi_avaries_switch",
+              "displayName": "avaries"
             },
             {
               "field": {
@@ -61,38 +61,24 @@
                 }
               },
               "queryRef": "_switchs.kpi_cabal_recuperat_switch",
-              "nativeQueryRef": "Cabal Recuperat",
+              "nativeQueryRef": "kpi_cabal_recuperat_switch",
               "displayName": "Cabal Recuperat"
-            },
+            }
+          ],
+          "fieldParameters": [
             {
-              "field": {
-                "Measure": {
+              "parameterExpr": {
+                "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_switchs"
+                      "Entity": "_parameter_fuitas"
                     }
                   },
-                  "Property": "kpi_km_inspeccionats_acustic_switch"
+                  "Property": "_parameter_fuitas"
                 }
               },
-              "queryRef": "_switchs.kpi_km_inspeccionats_acustic_switch",
-              "nativeQueryRef": "Insp. Acustic",
-              "displayName": "Insp. Acustic"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_switchs"
-                    }
-                  },
-                  "Property": "kpi_km_inspeccionats_heli_switch"
-                }
-              },
-              "queryRef": "_switchs.kpi_km_inspeccionats_heli_switch",
-              "nativeQueryRef": "Insp. Heli",
-              "displayName": "Insp. Heli"
+              "index": 0,
+              "length": 2
             }
           ]
         }
@@ -143,13 +129,6 @@
                 }
               }
             },
-            "legendMarkerRendering": {
-              "expr": {
-                "Literal": {
-                  "Value": "'markerCircleDefault'"
-                }
-              }
-            },
             "fontSize": {
               "expr": {
                 "Literal": {
@@ -180,36 +159,7 @@
           }
         }
       ],
-      "lineStyles": [
-        {
-          "properties": {
-            "lineStyle": {
-              "expr": {
-                "Literal": {
-                  "Value": "'solid'"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "_switchs.kpi_cabal_recuperat_switch"
-          }
-        }
-      ],
       "labels": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "seriesLabels": [
         {
           "properties": {
             "show": {
@@ -592,6 +542,20 @@
         "howCreated": "User",
         "isHiddenInViewMode": true,
         "isLockedInViewMode": true
+      },
+      {
+        "name": "d0a4a6d14dd54ac9b8c0",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
       }
     ]
   }
