@@ -2,9 +2,9 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "de17309a904d14764b7d",
   "position": {
-    "x": 760.77549463489072,
-    "y": 71.2871287128713,
-    "z": 7000,
+    "x": 761.21633281089589,
+    "y": 84.999931341168192,
+    "z": 6000,
     "height": 86.666666666666671,
     "width": 191.11111111111111,
     "tabOrder": 6000
@@ -83,7 +83,7 @@
             "goalText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Obj'"
+                  "Value": "'VS'"
                 }
               }
             }
@@ -262,21 +262,75 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "5b2dad3cc7cd6532ec3a",
+        "name": "c8242939e3344d4a20a8",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "13c27310d1466e645597",
+        "ordinal": 1,
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "_switchs"
+                "Entity": "_medidas"
               }
             },
-            "Property": "kpi_volum_lliurat_distribucion_switch"
+            "Property": "filtro_distribucion"
           }
         },
-        "type": "Advanced"
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "filtro_distribucion"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
       },
       {
         "name": "370f6285eca030ad40b1",
+        "ordinal": 2,
         "field": {
           "Measure": {
             "Expression": {
@@ -292,6 +346,7 @@
       },
       {
         "name": "ae6e1a78317e8291d863",
+        "ordinal": 3,
         "field": {
           "Measure": {
             "Expression": {
@@ -308,7 +363,23 @@
         "isLockedInViewMode": true
       },
       {
+        "name": "5b2dad3cc7cd6532ec3a",
+        "ordinal": 4,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_volum_lliurat_distribucion_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
         "name": "69ee6730299e00cca20a",
+        "ordinal": 5,
         "field": {
           "Measure": {
             "Expression": {
@@ -320,21 +391,8 @@
           }
         },
         "type": "Advanced"
-      },
-      {
-        "name": "c8242939e3344d4a20a8",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
-        },
-        "type": "Categorical"
       }
-    ]
+    ],
+    "filterSortOrder": "Custom"
   }
 }
