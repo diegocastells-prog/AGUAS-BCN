@@ -620,7 +620,7 @@
       },
       {
         "name": "408b8b822bb0d749d056",
-        "ordinal": 4,
+        "ordinal": 1,
         "field": {
           "Column": {
             "Expression": {
@@ -675,6 +675,7 @@
       },
       {
         "name": "c7cfc61a3019bdca8e68",
+        "ordinal": 2,
         "field": {
           "Column": {
             "Expression": {
@@ -766,6 +767,88 @@
                   "Table": {
                     "SourceRef": {
                       "Source": "subquery"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
+      },
+      {
+        "name": "77a4e96513d21168196a",
+        "ordinal": 3,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_municipio"
+              }
+            },
+            "Property": "municipio"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "9478ac20c0ab21a76025",
+        "ordinal": 4,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_dotacio_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "0585cfb8a35e890aae8e",
+        "ordinal": 5,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "filtro_dotacio"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "filtro_dotacio"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
                     }
                   }
                 }
