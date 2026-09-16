@@ -3829,8 +3829,7 @@ expression fact_reparacions_zones_2025 = ```
 		        }),
 		    #"Valor reemplazado" = Table.ReplaceValue(#"Tipo Cambiado Final",null,0,Replacer.ReplaceValue,{"ordre", "cabal_recuperat"}),
 		    #"Valor reemplazado1" = Table.ReplaceValue(#"Valor reemplazado","--","No Disponible",Replacer.ReplaceText,{"ubicacio_fuita"}),
-		    #"Filas filtradas1" = Table.SelectRows(#"Valor reemplazado1", each ([data_fi] = #date(2025, 1, 2) or [data_fi] = #date(2025, 1, 3) or [data_fi] = #date(2025, 1, 7) or [data_fi] = #date(2025, 1, 8) or [data_fi] = #date(2025, 1, 9) or [data_fi] = #date(2025, 1, 10) or [data_fi] = #date(2025, 1, 11) or [data_fi] = #date(2025, 1, 12) or [data_fi] = #date(2025, 1, 13) or [data_fi] = #date(2025, 1, 14) or [data_fi] = #date(2025, 1, 15) or [data_fi] = #date(2025, 1, 16) or [data_fi] = #date(2025, 1, 17) or [data_fi] = #date(2025, 1, 19) or [data_fi] = #date(2025, 1, 20) or [data_fi] = #date(2025, 1, 21) or [data_fi] = #date(2025, 1, 22) or [data_fi] = #date(2025, 1, 23) or [data_fi] = #date(2025, 1, 24) or [data_fi] = #date(2025, 1, 25) or [data_fi] = #date(2025, 1, 26) or [data_fi] = #date(2025, 1, 27) or [data_fi] = #date(2025, 1, 28) or [data_fi] = #date(2025, 1, 29) or [data_fi] = #date(2025, 1, 30) or [data_fi] = #date(2025, 1, 31))),
-		    #"Columna duplicada" = Table.AddColumn(#"Filas filtradas1", "data_inici", each [data_fi], type date)
+		    #"Columna duplicada" = Table.AddColumn(#"Valor reemplazado1", "data_inici", each [data_fi], type date)
 		in
 		    #"Columna duplicada"
 		```

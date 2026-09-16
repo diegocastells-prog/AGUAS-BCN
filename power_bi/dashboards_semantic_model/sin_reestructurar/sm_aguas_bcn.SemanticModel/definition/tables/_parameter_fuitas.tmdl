@@ -1,0 +1,50 @@
+table _parameter_fuitas
+	lineageTag: 5247406a-4c99-4b68-a902-d12228dc91e0
+
+	column _parameter_fuitas
+		lineageTag: 39bf0c85-5c7b-4189-8182-b90e6309339d
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: '_parameter_fuitas Orden'
+
+		relatedColumnDetails
+			groupByColumn: '_parameter_fuitas Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_parameter_fuitas Campos'
+		isHidden
+		lineageTag: 0e51044b-bf6e-4c0e-9ba7-18f9444b24b0
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: '_parameter_fuitas Orden'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column '_parameter_fuitas Orden'
+		isHidden
+		formatString: 0
+		lineageTag: 71a9b899-b697-4aba-917a-c278614f3825
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _parameter_fuitas = calculated
+		mode: import
+		source =
+				{
+				    ("avaries", NAMEOF('_switchs'[kpi_avaries_switch]), 0),
+				    ("Cabal Recuperat", NAMEOF('_switchs'[kpi_cabal_recuperat_switch]), 1),
+				    ("Insp. Acustic", NAMEOF('_switchs'[kpi_fuites_reparades_acustic_switch]), 2),
+				    ("Insp. Heli", NAMEOF('_switchs'[kpi_fuites_reparades_heli_switch]), 3)
+				}
+
+	annotation PBI_Id = 385c9ec0d8f84731949d91d5cd64d471
+
