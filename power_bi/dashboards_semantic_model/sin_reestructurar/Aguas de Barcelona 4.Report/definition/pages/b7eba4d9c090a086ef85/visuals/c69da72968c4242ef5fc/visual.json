@@ -48,7 +48,8 @@
               },
               "queryRef": "_switchs.kpi_anr_distribucion_switch",
               "nativeQueryRef": "ANR1",
-              "displayName": "ANR"
+              "displayName": "ANR",
+              "format": "0.00"
             }
           ]
         },
@@ -67,7 +68,8 @@
               },
               "queryRef": "_switchs.kpi_rth_distribucion_switch",
               "nativeQueryRef": "RTH1",
-              "displayName": "RTH"
+              "displayName": "RTH",
+              "format": "0.00 %;-0.00 %;0.00 %"
             }
           ]
         }
@@ -104,7 +106,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             }
@@ -197,6 +199,27 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
+            },
+            "secShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "secLabelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
                 }
               }
             }
@@ -505,6 +528,48 @@
         "howCreated": "User",
         "isHiddenInViewMode": true,
         "isLockedInViewMode": true
+      },
+      {
+        "name": "b15451204315e61b2916",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "f9e9d5044ac55d131de0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_anr_distribucion_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f1d35918b20a7701b905",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_rth_distribucion_switch"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

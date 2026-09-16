@@ -101,7 +101,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             }
@@ -114,7 +114,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             }
@@ -145,5 +145,37 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "0dee8b93bdab420bd66b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_perimetre_comptadors"
+              }
+            },
+            "Property": "tip_subm_serv"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "09692271790bd2060c8d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_us_aigua_switch"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

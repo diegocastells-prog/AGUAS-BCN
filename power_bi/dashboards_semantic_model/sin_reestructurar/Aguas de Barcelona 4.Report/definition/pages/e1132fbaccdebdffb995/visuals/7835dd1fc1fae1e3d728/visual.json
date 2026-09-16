@@ -48,7 +48,8 @@
               },
               "queryRef": "_switchs.kpi_anr_transporte_switch",
               "nativeQueryRef": "ANR",
-              "displayName": "ANR"
+              "displayName": "ANR",
+              "format": "0.00"
             }
           ]
         },
@@ -67,7 +68,8 @@
               },
               "queryRef": "_switchs.kpi_rth_transporte_switch",
               "nativeQueryRef": "RTH",
-              "displayName": "RTH"
+              "displayName": "RTH",
+              "format": "0.00"
             }
           ]
         }
@@ -104,7 +106,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             }
@@ -505,6 +507,48 @@
         "howCreated": "User",
         "isHiddenInViewMode": true,
         "isLockedInViewMode": true
+      },
+      {
+        "name": "fd02a7e06dcb985241d1",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "ec3ec4d4400789dbc1b9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_anr_transporte_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d88c7ca710a0779ac090",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_rth_transporte_switch"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

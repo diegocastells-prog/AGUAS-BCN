@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "0b571ceaad35eb18968d",
   "position": {
-    "x": 752.32771562457981,
-    "y": 63.790875790834264,
+    "x": 752.35555555555561,
+    "y": 61.155555555555559,
     "z": 8000,
-    "height": 61.818181818181813,
-    "width": 229.09090909090907,
+    "height": 64,
+    "width": 228.97777777777779,
     "tabOrder": 8000
   },
   "visual": {
@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_calendario.anio",
-              "nativeQueryRef": "anio",
-              "active": true
+              "nativeQueryRef": " 1",
+              "active": true,
+              "displayName": " "
             },
             {
               "field": {
@@ -42,8 +43,9 @@
                 }
               },
               "queryRef": "dim_calendario.mes",
-              "nativeQueryRef": "mes",
-              "active": true
+              "nativeQueryRef": " ",
+              "active": true,
+              "displayName": " "
             }
           ]
         }
@@ -99,19 +101,6 @@
       }
     ],
     "objects": {
-      "data": [
-        {
-          "properties": {
-            "mode": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Dropdown'"
-                }
-              }
-            }
-          }
-        }
-      ],
       "general": [
         {
           "properties": {
@@ -160,7 +149,7 @@
                             },
                             {
                               "Literal": {
-                                "Value": "'marzo'"
+                                "Value": "'març'"
                               }
                             }
                           ]
@@ -207,7 +196,7 @@
                                 "1": [
                                   {
                                     "Literal": {
-                                      "Value": "'marzo'"
+                                      "Value": "'març'"
                                     }
                                   }
                                 ]
@@ -244,7 +233,7 @@
                         "valueMap": [
                           {
                             "0": "2026",
-                            "1": "marzo"
+                            "1": "març"
                           }
                         ]
                       }
@@ -256,24 +245,43 @@
           }
         }
       ],
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ],
       "selection": [
         {
           "properties": {
-            "selectAllCheckboxEnabled": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
             "singleSelect": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
             "strictSingleSelect": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "header": [
+        {
+          "properties": {
+            "show": {
               "expr": {
                 "Literal": {
                   "Value": "false"
@@ -284,6 +292,67 @@
         }
       ]
     },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Data'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "623312fd7c64d6831aa7",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3cebbeacc4388020d149",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "mes"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

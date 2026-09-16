@@ -64,7 +64,8 @@
               },
               "queryRef": "_switchs.kpi_pct_telelectures_switch_1m",
               "nativeQueryRef": "Teleletura Anterior",
-              "displayName": "Teleletura Anterior"
+              "displayName": "Teleletura Anterior",
+              "format": "0.00"
             }
           ]
         }
@@ -84,7 +85,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             }
@@ -400,5 +401,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "9c573ad21cd4bcde85d3",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "603965d9740709691201",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_pct_telelectures_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2177e062a1460deea44e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_pct_telelectures_switch_1m"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

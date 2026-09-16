@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "_switchs.kpi_volum_lliurat_distribucion_switch_1m",
-              "nativeQueryRef": "kpi_volum_lliurat_distribucion_switch_1m"
+              "nativeQueryRef": "kpi_volum_lliurat_distribucion_switch_1m",
+              "format": "0.00"
             }
           ]
         },
@@ -324,6 +325,40 @@
           }
         },
         "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "filtro_distribucion"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
         "howCreated": "User",
         "isHiddenInViewMode": true,
         "isLockedInViewMode": true
