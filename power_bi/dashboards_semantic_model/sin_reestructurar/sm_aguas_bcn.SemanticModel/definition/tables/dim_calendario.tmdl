@@ -51,15 +51,6 @@ table dim_calendario
 
 		annotation SummarizationSetBy = Automatic
 
-	column anio_mes
-		lineageTag: 7f2ff2d6-7c83-47e8-b182-31110f306b20
-		summarizeBy: none
-		isNameInferred
-		sourceColumn: [anio_mes]
-		sortByColumn: anio2_mes
-
-		annotation SummarizationSetBy = Automatic
-
 	column trimestre
 		lineageTag: f7e71b1b-b786-478a-881c-e224082a3b7e
 		summarizeBy: none
@@ -161,6 +152,15 @@ table dim_calendario
 
 		annotation SummarizationSetBy = Automatic
 
+	column anio_mes
+		lineageTag: 7f2ff2d6-7c83-47e8-b182-31110f306b20
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [anio_mes]
+		sortByColumn: anio2_mes
+
+		annotation SummarizationSetBy = Automatic
+
 	column flag_anio
 		lineageTag: 602e42d2-7160-446d-a0a5-b72e3b481b43
 		summarizeBy: none
@@ -169,11 +169,36 @@ table dim_calendario
 
 		annotation SummarizationSetBy = Automatic
 
-	column mestexto_añocorto
-		lineageTag: 8fe46a35-1988-41ad-b25a-60b2293c2c26
+	column mmaa
+		lineageTag: 978260f2-95f5-41cd-92fe-8e41ccbca89a
 		summarizeBy: none
 		isNameInferred
-		sourceColumn: [mestexto_añocorto]
+		sourceColumn: [mmaa]
+
+		annotation SummarizationSetBy = Automatic
+
+	column ma
+		lineageTag: d9025bd3-54da-40d4-9e10-bd7ec915c513
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [ma]
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrdenAnioMes
+		formatString: 0
+		lineageTag: 76ad9ed0-bbaa-4837-8b40-04e8265310cc
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [OrdenAnioMes]
+
+		annotation SummarizationSetBy = Automatic
+
+	column anio_mes_1
+		lineageTag: c5eb6460-7729-4518-b116-e21527b5b12d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [anio_mes_1]
 
 		annotation SummarizationSetBy = Automatic
 
@@ -181,28 +206,96 @@ table dim_calendario
 		mode: import
 		source = ```
 				
+				 
 				ADDCOLUMNS(
+				 
 				    CALENDAR(
 				        DATE(2020,1,1),
 				        EOMONTH(TODAY(), -1)
 				    ),
+				 
 				    "anio", YEAR([Date]),
+				 
 				    "mes_num", MONTH([Date]),
-				    "mes", SWITCH(MONTH([Date]), 1, "gener", 2, "febrer", 3, "març", 4, "abril", 5, "maig", 6, "juny", 7, "juliol", 8, "agost", 9, "setembre", 10, "octubre", 11, "novembre", 12, "desembre"),
-				    "mes_corto", SWITCH(MONTH([Date]), 1, "gen", 2, "febr", 3, "març", 4, "abr", 5, "maig", 6, "juny", 7, "jul", 8, "ag", 9, "set", 10, "oct", 11, "nov", 12, "des"),
-				    "anio_mes", SWITCH(MONTH([Date]), 1, "gen.", 2, "febr.", 3, "març", 4, "abr", 5, "maig", 6, "juny", 7, "jul", 8, "ag", 9, "set", 10, "oct", 11, "nov", 12, "des") & "." & FORMAT([Date], "YYYY"),
-				    "mestexto_añocorto", SWITCH(MONTH([Date]), 1, "gen", 2, "febr", 3, "març", 4, "abr", 5, "maig", 6, "juny", 7, "jul", 8, "ag", 9, "set", 10, "oct", 11, "nov", 12, "des") & " " & FORMAT([Date], "YY"),
-				    "aniomes_corto", FORMAT([Date], "MM YY"), 
-				    "aniomes_corto_con_guion", FORMAT([Date], "MM-YY"), 
-				    "aniomes_num_corto", FORMAT([Date], "MM") & "/" & FORMAT([Date],"YY"),
-				    "anio2_mes", FORMAT([Date], "YY-MM"), 
+				 
+				    "mes", SWITCH(MONTH([Date]), 1, "Gener", 2, "Febrer", 3, "Març", 4, "Abril", 5, "Maig", 6, "Juny", 7, "Juliol", 8, "Agost", 9, "Setembre", 10, "Octubre", 11, "Novembre", 12, "Desembre"),
+				
+				    "mes_corto", SWITCH(MONTH([Date]), 1, "Gen", 2, "Febr", 3, "Març", 4, "Abr", 5, "Maig", 6, "Juny", 7, "Jul", 8, "Ag", 9, "Set", 10, "Oct", 11, "Nov", 12, "Des"),
+				    
+				    "anio_mes_1", SWITCH(MONTH([Date]), 1, "Gen.", 2, "Febr.", 3, "Març.", 4, "Abr.", 5, "Maig.", 6, "Juny.", 7, "Jul.", 8, "Ag.", 9, "Set.", 10, "Oct.", 11, "Nov.", 12, "Des.") & " " & FORMAT([Date], "YYYY"),
+				    
+				    "anio_mes", SWITCH(MONTH([Date]), 1, "Gen", 2, "Febr", 3, "Març", 4, "Abr", 5, "Maig", 6, "Juny", 7, "Jul", 8, "Ag", 9, "Set", 10, "Oct", 11, "Nov", 12, "Des") & " " & FORMAT([Date], "YY"),
+				 
+				    "OrdenAnioMes", YEAR([Date]) * 100 + MONTH([Date]),
+				    
+				    "mmaa",
+				        SWITCH(
+				            MONTH([Date]),
+				            1, "gen.",
+				            2, "febr.",
+				            3, "març",
+				            4, "abr",
+				            5, "maig",
+				            6, "juny",
+				            7, "jul",
+				            8, "ag",
+				            9, "set",
+				            10, "oct",
+				            11, "nov",
+				            12, "des"
+				        )
+				& "." 
+				& FORMAT(EDATE([Date], -12), "YYYY"),
+				 
+				    "ma",
+				        SWITCH(
+				            MONTH(EDATE([Date], -1)),
+				            1, "gen.",
+				            2, "febr.",
+				            3, "març",
+				            4, "abr",
+				            5, "maig",
+				            6, "juny",
+				            7, "jul",
+				            8, "ag",
+				            9, "set",
+				            10, "oct",
+				            11, "nov",
+				            12, "des"
+				        )
+				& "."
+				& FORMAT(EDATE([Date], -1), "YYYY"),
+				 
+				 
+				    "aniomes_corto", FORMAT([Date], "MM YY"),
+				 
+				    "aniomes_corto_con_guion", FORMAT([Date], "MM-YY"),
+				 
+				    "aniomes_num_corto", 
+				        FORMAT([Date], "MM") & "/" & FORMAT([Date],"YY"),
+				 
+				    "anio2_mes", FORMAT([Date], "YY-MM"),
+				 
 				    "trimestre", "T" & FORMAT([Date], "Q"),
-				    "anio_trimestre", YEAR([Date]) & "-T" & FORMAT([Date], "Q"),
+				 
+				    "anio_trimestre", 
+				        YEAR([Date]) & "-T" & FORMAT([Date], "Q"),
+				 
 				    "semana_anio", WEEKNUM([Date], 2),
+				 
 				    "dia", DAY([Date]),
+				 
 				    "dia_semana_num", WEEKDAY([Date], 2),
+				 
 				    "dia_semana", FORMAT([Date], "dddd"),
-				    "fin_de_semana", IF(WEEKDAY([Date], 2) >= 6, "si", "no"),
+				 
+				    "fin_de_semana", 
+				        IF(
+				            WEEKDAY([Date], 2) >= 6,
+				            "si",
+				            "no"
+				        ),
+				 
 				    "status_date",
 				        VAR FechaHoy = TODAY()
 				        VAR MesActual = EOMONTH(FechaHoy, 0)
@@ -214,6 +307,7 @@ table dim_calendario
 				                [Date] <= MesActual, "ESTIMADO",
 				                "FUTURO"
 				            ),
+				 
 				    "flag_anio",
 				        SWITCH(
 				            TRUE(),
@@ -222,7 +316,6 @@ table dim_calendario
 				            "OTRO"
 				        )
 				)
-				 
 				```
 
 	annotation PBI_Id = 06946a9e57dd4dfe845e9b08d6bd99d1

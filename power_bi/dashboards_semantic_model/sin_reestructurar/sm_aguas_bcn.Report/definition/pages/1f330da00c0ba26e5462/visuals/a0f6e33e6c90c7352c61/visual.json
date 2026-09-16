@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "a0f6e33e6c90c7352c61",
   "position": {
-    "x": 847.84565916398708,
-    "y": 194.46945337620579,
+    "x": 847.96223446105432,
+    "y": 194.36664044059796,
     "z": 10000,
-    "height": 386.88102893890675,
-    "width": 400.25723472668807,
+    "height": 386.71911880409129,
+    "width": 410.889063729347,
     "tabOrder": 7000
   },
   "visual": {
@@ -48,19 +48,93 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_gerencia_pressio"
+                      "Entity": "dim_dades_sectors"
                     }
                   },
-                  "Property": "zona_2"
+                  "Property": "gerencia"
                 }
               },
-              "queryRef": "dim_gerencia_pressio.zona_2",
-              "nativeQueryRef": "zona_2"
+              "queryRef": "dim_dades_sectors.gerencia",
+              "nativeQueryRef": "gerencia"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_dades_sectors"
+                    }
+                  },
+                  "Property": "pressio"
+                }
+              },
+              "queryRef": "dim_dades_sectors.pressio",
+              "nativeQueryRef": "pressio"
             }
           ]
         }
       }
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "da5f41d0221a007b0b71",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "sector"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "59dc52a0ed0400770791",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "sector_id"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "856782ee4de007dc78ba",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "gerencia"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "b30a9b5993d3bdaa29d7",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "pressio"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }
