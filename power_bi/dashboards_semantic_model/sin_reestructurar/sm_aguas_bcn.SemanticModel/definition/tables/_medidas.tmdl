@@ -279,62 +279,37 @@ table _medidas
 
 	measure rendiment_transport_mensual = ```
 			
-			DIVIDE( SUM(fact_rend_anr_arterias[sortit_m3]), SUM(fact_rend_anr_arterias[entrat_m3]) )  
+			DIVIDE( 
+			    ( [volum_consumit_global_mensual_hm3] - [volum_consumit_distribucion_mensual] ) 
+			    ,
+			    ( [volum_lliurat_global_mensual_hm3] - [volum_lliurat_distribucion_mensual] )
+			     
+			)  
 			```
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: anr_transporte\rendiment\mensual
 		lineageTag: 75b88512-c6e4-4daa-989d-4d62f410fed0
 
-	measure anr_transport_m3_mensual = [volum_lliurat_transport_mensual]-[volum_consumit_transport_mensual]
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure anr_transport_m3_mensual = ```
+			
+			    ( [volum_lliurat_global_mensual_hm3] - [volum_lliurat_distribucion_mensual] )
+			    -
+			    ( [volum_consumit_global_mensual_hm3] - [volum_consumit_distribucion_mensual] )
+			```
 		formatString: #,0
 		displayFolder: anr_transporte\anr\mensual
 		lineageTag: 86a01aa5-ac54-48f3-a890-d503e630c5f2
 
 	measure anr_transport_m3_acum_12m = ```
 			
-			VAR _FechaFin =
-			    CALCULATE(
-			        MAX('fact_rend_anr_arterias'[fecha]),
-			        ALL('fact_rend_anr_arterias')
-			    )
+			VAR _FechaFin =    TODAY ()
 			VAR _FechaInicio =    EDATE ( _FechaFin, -11 )
 			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
 			VAR _Valor =
 			    CALCULATE (
-			        SUM(fact_rend_anr_arterias[entrat_m3]) - SUM(fact_rend_anr_arterias[sortit_m3]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
-			        )
-			    )
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
-			)   
-			```
-		formatString: #,0
-		displayFolder: anr_transporte\anr\acum_12
-		lineageTag: 2f2f14b0-c873-412b-8357-3a216a37df41
-
-	measure rendiment_transport_acum_12m = ```
-			
-			VAR _FechaFin =
-			    CALCULATE(
-			        MAX('fact_rend_anr_arterias'[fecha]),
-			        ALL('fact_rend_anr_arterias')
-			    )
-			VAR _FechaInicio =    EDATE ( _FechaFin, -11 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
-			VAR _Valor =
-			    CALCULATE (
-			        DIVIDE( SUM(fact_rend_anr_arterias[sortit_m3]), SUM(fact_rend_anr_arterias[entrat_m3]) ) ,
+			        [anr_transport_m3_mensual],
 			        DATESINPERIOD (
 			            'dim_calendario'[Date],
 			            _FechaMaxContexto,
@@ -349,6 +324,37 @@ table _medidas
 			    BLANK (),
 			    _Valor
 			)   
+			
+			 
+			```
+		formatString: #,0
+		displayFolder: anr_transporte\anr\acum_12
+		lineageTag: 2f2f14b0-c873-412b-8357-3a216a37df41
+
+	measure rendiment_transport_acum_12m = ```
+			
+			VAR _FechaFin =    TODAY ()
+			VAR _FechaInicio =    EDATE ( _FechaFin, -11 )
+			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
+			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
+			VAR _Valor =
+			    CALCULATE (
+			        [rendiment_transport_mensual],
+			        DATESINPERIOD (
+			            'dim_calendario'[Date],
+			            _FechaMaxContexto,
+			            -12,
+			            MONTH
+			        )
+			    )
+			RETURN
+			IF (
+			    _FechaMaxContexto < _FechaInicio
+			        || _FechaMinContexto > _FechaFin,
+			    BLANK (),
+			    _Valor
+			)   
+			 
 			```
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: anr_transporte\rendiment\acum_12
@@ -1199,7 +1205,7 @@ table _medidas
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
 			VAR _Valor =
 			    CALCULATE (
-			        SUM(fact_rend_anr_arterias[entrat_m3]),
+			        [volum_lliurat_transport_mensual],
 			        DATESINPERIOD (
 			            'dim_calendario'[Date],
 			            _FechaMaxContexto,
@@ -1212,7 +1218,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			    _Valor
 			)   
 			```
 		formatString: #,0
@@ -1227,7 +1233,7 @@ table _medidas
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
 			VAR _Valor =
 			    CALCULATE (
-			        SUM(fact_rend_anr_arterias[sortit_m3]),
+			        [volum_consumit_transport_mensual],
 			        DATESINPERIOD (
 			            'dim_calendario'[Date],
 			            _FechaMaxContexto,
@@ -1240,7 +1246,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			    _Valor
 			)  
 			 
 			```
