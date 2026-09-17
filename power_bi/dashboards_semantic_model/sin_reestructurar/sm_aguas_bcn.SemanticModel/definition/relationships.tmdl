@@ -46,6 +46,10 @@ relationship AutoDetected_8cc92c02-d408-465e-b1a4-2148e20d310e
 	fromColumn: fact_z_sector.sector_id
 	toColumn: fact_volumns_sector.sector_id
 
+relationship AutoDetected_bf589676-bfd9-4235-b31d-03d515ae2e91
+	fromColumn: fact_tfuita_tinst.Gerencia
+	toColumn: dim_gerencia.gerencia
+
 relationship c17fccfe-b9ec-f0e0-9955-c5eb785bd431
 	fromColumn: dim_dades_sectors.gerencia_id
 	toColumn: dim_gerencia.gerencia_id
@@ -61,10 +65,6 @@ relationship caf1f8eb-e1a1-65e7-5397-a66bd05b1cfe
 relationship beccf909-bd77-3fbe-2b9d-7ab84f40e840
 	fromColumn: fact_vol_fraud.'Polissa Subm'
 	toColumn: dim_less_polissa_fraude.polissa_su
-
-relationship AutoDetected_bf589676-bfd9-4235-b31d-03d515ae2e91
-	fromColumn: fact_tfuita_tinst.Gerencia
-	toColumn: dim_gerencia.gerencia
 
 relationship a1c8bca7-7f40-0223-e352-98ac2881f063
 	crossFilteringBehavior: bothDirections
@@ -90,14 +90,6 @@ relationship bdb38c77-1fe2-932a-f5b2-2ede2cb4da67
 	toCardinality: many
 	fromColumn: dim_dades_sectors.gerencia_id
 	toColumn: dim_arteria.gerencia_id
-
-relationship AutoDetected_7a74e59b-2518-43f4-b1ef-33b3ad7e56d8
-	fromColumn: fact_fraudes_all.tipus_ope
-	toColumn: dim_tipus_operac_fraus.tipus_ope
-
-relationship AutoDetected_b518595f-e33a-4721-808f-be1f17f5977b
-	fromColumn: fact_consum_limitadores.gerencia_id
-	toColumn: dim_gerencia.gerencia_id
 
 relationship db1942ac-3c9f-751d-0de6-1fd5a1882d75
 	crossFilteringBehavior: bothDirections
@@ -162,4 +154,12 @@ relationship a98bf179-c173-70bb-0bfd-92ad367372dd
 relationship bc847146-a89f-11e8-7107-7405357e7c15
 	fromColumn: fact_estim_volum_munic_pob.fecha
 	toColumn: dim_calendario.Date
+
+relationship AutoDetected_7a74e59b-2518-43f4-b1ef-33b3ad7e56d8
+	fromColumn: fact_fraudes_all.tipus_ope
+	toColumn: dim_tipus_operac_fraus.tipus_ope
+
+relationship AutoDetected_b518595f-e33a-4721-808f-be1f17f5977b
+	fromColumn: fact_consum_limitadores.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
 
