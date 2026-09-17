@@ -121,10 +121,26 @@ table fact_consum_limitadores
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Dif (€/any)'
+		dataType: string
+		lineageTag: baeab27b-bae9-447e-9697-d5226032457d
+		summarizeBy: none
+		sourceColumn: Dif (€/any)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dif (%/any)'
+		dataType: string
+		lineageTag: 11f20c0d-5b2c-4ff8-afa0-0320501233cc
+		summarizeBy: none
+		sourceColumn: Dif (%/any)
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_consum_limitadores = m
 		mode: import
 		queryGroup: Hechos
-		source =
+		source = ```
 				let
 				    Origen = GoogleSheets.Contents(Consum_limitadores),
 				    TablaOrigen = Origen{[name="resumen limitaciones",ItemKind="Table"]}[Data],
@@ -156,9 +172,17 @@ table fact_consum_limitadores
 				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
 				    #"Columnas reordenadas" = Table.ReorderColumns(#"Columnas quitadas",{"gerencia_id", "titular_subministro", "data_instal", "polissa_subm", "polissa_ramal", "cabal_contract_m3/h", "mitjana_cabal_maxi_pre_(m³/h)", "mitjana_cabal_maxi_post_(m³/h)", "consum_mig_diari(m3/d)", "mitja_consum_diari_post_(m3/d)", "coeficiente_euro"}),
 				    #"Personalizada agregada" = Table.AddColumn(#"Columnas reordenadas", "Dif (m3/d)", each [#"mitja_consum_diari_post_(m3/d)"]-[#"consum_mig_diari(m3/d)"]),
-				    #"Personalizada agregada1" = Table.AddColumn(#"Personalizada agregada", "Dif (m3/any)", each [#"Dif (m3/d)"] * Date.DayOfYear(#date(Date.Year([data_instal]), 12, 31)))
+				
+				    //utiliza 360 por necesidad del negocio, aunque sea bisiesto o 365 Uriol o Albert 
+				    #"Personalizada agregada1" = Table.AddColumn(#"Personalizada agregada", "Dif (m3/any)", each [#"Dif (m3/d)"] * 360),
+				    #"Personalizada agregada2" = Table.AddColumn(#"Personalizada agregada1", "Dif (€/any)", each [#"Dif (m3/any)"]*[coeficiente_euro]),
+				    #"Personalizada agregada3" = Table.AddColumn(#"Personalizada agregada2", "Dif (%/any)", each try 
+				        ([#"mitja_consum_diari_post_(m3/d)"] - [#"consum_mig_diari(m3/d)"]) / [#"consum_mig_diari(m3/d)"] 
+				        otherwise 
+				        null)
 				in
-				    #"Personalizada agregada1"
+				    #"Personalizada agregada3"
+				```
 
 	annotation PBI_NavigationStepName = Navegación
 

@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "a0f6e33e6c90c7352c61",
   "position": {
-    "x": 848.145896656535,
-    "y": 194.52887537993922,
+    "x": 827.71362586605073,
+    "y": 152.7328714395689,
     "z": 10000,
-    "height": 386.13981762917933,
-    "width": 410.45592705167172,
+    "height": 459.18398768283294,
+    "width": 452.28637413394915,
     "tabOrder": 7000
   },
   "visual": {
@@ -55,11 +55,95 @@
                 }
               },
               "queryRef": "_medidas.pressio_grups_nit",
-              "nativeQueryRef": "pressio_grups_nit"
+              "nativeQueryRef": "G.nit",
+              "displayName": "G.nit"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "pressio_grups_dia"
+                }
+              },
+              "queryRef": "_medidas.pressio_grups_dia",
+              "nativeQueryRef": "G.dia",
+              "displayName": "G.dia"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_dades_sectors"
+                  }
+                },
+                "Property": "gerencia"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
       }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "112.62894534257121D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "dim_dades_sectors.sector"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "64.11052379862191D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.pressio_grups_nit"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "71.93952901500072D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.pressio_grups_dia"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   }

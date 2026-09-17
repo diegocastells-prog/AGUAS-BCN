@@ -6510,8 +6510,12 @@ table _medidas
 
 	measure pressio_grups_dia =
 			
-			DISTINCTCOUNTNOBLANK (
-			    dim_gerencia_pressio[grup_pressio_dia]
+			COALESCE (
+			    CALCULATE (
+			        COUNTROWS ( dim_gerencia_pressio ),
+			        dim_gerencia_pressio[te_dia] = "SI"
+			    ),
+			    0
 			)
 		formatString: 0
 		displayFolder: pressio
@@ -8502,6 +8506,24 @@ table _medidas
 		formatString: 0
 		displayFolder: Filtros
 		lineageTag: eae46efb-4bfb-4f0e-9794-9795d9983128
+
+	measure cabalimetre = ```
+			
+			AVERAGEX(
+			    'dim_cabalimetros',
+			    YEAR(TODAY()) - YEAR('dim_cabalimetros'[data_instal])
+			)
+			 
+			```
+		displayFolder: actuacions\cabals
+		lineageTag: 50a75e5f-e768-4b8d-9434-a45dbc48cbb0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure num_pous = COUNT('dim_pozos'[afor_polis])
+		formatString: 0
+		displayFolder: pozos
+		lineageTag: ccf73561-b739-42e6-992a-96f3a8d0ea16
 
 	column Column
 		isHidden

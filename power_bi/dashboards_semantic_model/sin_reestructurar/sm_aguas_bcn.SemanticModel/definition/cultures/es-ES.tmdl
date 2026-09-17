@@ -11953,6 +11953,9 @@ cultureInfo es-ES
 			        }
 			      },
 			      "State": "Generated",
+			      "Visibility": {
+			        "Value": "Hidden"
+			      },
 			      "Terms": [
 			        {
 			          "zona 2": {
@@ -18252,6 +18255,16 @@ cultureInfo es-ES
 			            "State": "Generated",
 			            "Weight": 0.99
 			          }
+			        },
+			        {
+			          "G.dia": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -18274,6 +18287,16 @@ cultureInfo es-ES
 			            "Type": "Noun",
 			            "State": "Generated",
 			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "G.nit": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
 			          }
 			        }
 			      ]
@@ -21507,6 +21530,52 @@ cultureInfo es-ES
 			    }
 			  },
 			  "Relationships": {
+			    "fact_volum_cons_lliur_has_dim_dades_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "dim_dades_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_dim_dades_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "fact_volum_cons_lliur"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_fact_volum_cons_lliurs"
+			        }
+			      ]
+			    },
 			    "fact_dades_consum_has_dim_calendario": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_dades_consum"
@@ -21941,52 +22010,6 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_fraude_all_has_dim_tipus_operac_Frau": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_fraudes_all"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_fraude_all": {
-			          "Target": {
-			            "Entity": "fact_fraude_all"
-			          }
-			        },
-			        "dim_tipus_operac_Frau": {
-			          "Target": {
-			            "Entity": "dim_tipus_operac_Frau"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_fraude_all"
-			            },
-			            "Object": {
-			              "Role": "dim_tipus_operac_Frau"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_fraude_all_have_dim_tipus_operac_frauen"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_tipus_operac_Frau"
-			            },
-			            "Object": {
-			              "Role": "fact_fraude_all"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_tipus_operac_frauen_have_fact_fraude_all"
-			        }
-			      ]
-			    },
 			    "fact_fraude_all_has_dim_calendario": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_fraudes_all"
@@ -22030,6 +22053,52 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "dim_calendarios_have_fact_fraude_all"
+			        }
+			      ]
+			    },
+			    "fact_fraude_all_has_dim_tipus_operac_Frau": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_fraudes_all"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_fraude_all": {
+			          "Target": {
+			            "Entity": "fact_fraude_all"
+			          }
+			        },
+			        "dim_tipus_operac_Frau": {
+			          "Target": {
+			            "Entity": "dim_tipus_operac_Frau"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_fraude_all"
+			            },
+			            "Object": {
+			              "Role": "dim_tipus_operac_Frau"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_fraude_all_have_dim_tipus_operac_frauen"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_tipus_operac_Frau"
+			            },
+			            "Object": {
+			              "Role": "fact_fraude_all"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_tipus_operac_frauen_have_fact_fraude_all"
 			        }
 			      ]
 			    },
@@ -22572,6 +22641,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_rth_rend_arterias_switch_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__switch.kpi_rth_rend_arterias_switch_1m": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_rth_rend_arterias_switch_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_rth_rend_arterias_switch_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_kpi_rth_rend_arterias_switch_1m"
+			        }
+			      ]
+			    },
 			    "fact_rend_anr_arterias_has_entity__switch_kpi_rth_rend_arterias_switch_1m": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_rend_anr_arterias"
@@ -22602,6 +22704,39 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_rend_anr_arterias_have_kpi_rth_rend_arterias_switch_1m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_rth_rend_arterias_switch_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__switch.kpi_rth_rend_arterias_switch_1m": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_rth_rend_arterias_switch_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_rth_rend_arterias_switch_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_kpi_rth_rend_arterias_switch_1m"
 			        }
 			      ]
 			    },
@@ -22671,6 +22806,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_rth_rend_arterias_switch": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__switch.kpi_rth_rend_arterias_switch": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_rth_rend_arterias_switch"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_rth_rend_arterias_switch"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_kpi_rth_rend_arterias_switch"
+			        }
+			      ]
+			    },
 			    "fact_rend_anr_arterias_has_entity__switch_kpi_rth_rend_arterias_switch": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_rend_anr_arterias"
@@ -22701,6 +22869,39 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_rend_anr_arterias_have_kpi_rth_rend_arterias_switch"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_rth_rend_arterias_switch": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__switch.kpi_rth_rend_arterias_switch": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_rth_rend_arterias_switch"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_rth_rend_arterias_switch"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_kpi_rth_rend_arterias_switch"
 			        }
 			      ]
 			    },
@@ -22770,6 +22971,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_volum_lliurat_rend_arterias_switch": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__switch.kpi_volum_lliurat_rend_arterias_switch": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_volum_lliurat_rend_arterias_switch"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_volum_lliurat_rend_arterias_switch"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_kpi_volum_lliurat_rend_arterias_switch"
+			        }
+			      ]
+			    },
 			    "fact_rend_anr_arterias_has_entity__switch_kpi_volum_lliurat_rend_arterias_switch": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_rend_anr_arterias"
@@ -22800,6 +23034,39 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_rend_anr_arterias_have_kpi_volum_lliurat_rend_arterias_switch"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_volum_lliurat_rend_arterias_switch": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__switch.kpi_volum_lliurat_rend_arterias_switch": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_volum_lliurat_rend_arterias_switch"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_volum_lliurat_rend_arterias_switch"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_kpi_volum_lliurat_rend_arterias_switch"
 			        }
 			      ]
 			    },
@@ -22902,15 +23169,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__switch_kpi_volum_lliurat_rend_arterias_switch_1m": {
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_volum_lliurat_rend_arterias_switch_1m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_aigua_consum_historic"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_aigua_consum_historic": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_aigua_consum_historic"
 			          }
 			        },
 			        "entity__switch.kpi_volum_lliurat_rend_arterias_switch_1m": {
@@ -22923,7 +23190,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_aigua_consum_historic"
 			            },
 			            "Object": {
 			              "Role": "entity__switch.kpi_volum_lliurat_rend_arterias_switch_1m"
@@ -22931,7 +23198,7 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_kpi_volum_lliurat_rend_arterias_switch_1m"
+			          "ID": "fact_aigua_consum_historic_have_kpi_volum_lliurat_rend_arterias_switch_1m"
 			        }
 			      ]
 			    },
@@ -23001,6 +23268,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_volum_consumit_rend_arterias_switch_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__switch.kpi_volum_consumit_rend_arterias_switch_1m": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_volum_consumit_rend_arterias_switch_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_volum_consumit_rend_arterias_switch_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_kpi_volum_consumit_rend_arterias_switch_1m"
+			        }
+			      ]
+			    },
 			    "fact_rend_anr_arterias_has_entity__switch_kpi_volum_consumit_rend_arterias_switch_1m": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_rend_anr_arterias"
@@ -23031,6 +23331,39 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_rend_anr_arterias_have_kpi_volum_consumit_rend_arterias_switch_1m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_volum_consumit_rend_arterias_switch_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__switch.kpi_volum_consumit_rend_arterias_switch_1m": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_volum_consumit_rend_arterias_switch_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_volum_consumit_rend_arterias_switch_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_kpi_volum_consumit_rend_arterias_switch_1m"
 			        }
 			      ]
 			    },
@@ -23100,6 +23433,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_volum_consumit_rend_arterias_switch": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__switch.kpi_volum_consumit_rend_arterias_switch": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_volum_consumit_rend_arterias_switch"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_volum_consumit_rend_arterias_switch"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_kpi_volum_consumit_rend_arterias_switch"
+			        }
+			      ]
+			    },
 			    "fact_rend_anr_arterias_has_entity__switch_kpi_volum_consumit_rend_arterias_switch": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_rend_anr_arterias"
@@ -23130,6 +23496,39 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_rend_anr_arterias_have_kpi_volum_consumit_rend_arterias_switch"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_volum_consumit_rend_arterias_switch": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__switch.kpi_volum_consumit_rend_arterias_switch": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_volum_consumit_rend_arterias_switch"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_volum_consumit_rend_arterias_switch"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_kpi_volum_consumit_rend_arterias_switch"
 			        }
 			      ]
 			    },
@@ -23199,6 +23598,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_anr_rend_arterias_switch_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__switch.kpi_anr_rend_arterias_switch_1m": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_anr_rend_arterias_switch_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_anr_rend_arterias_switch_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_kpi_anr_rend_arterias_switch_1m"
+			        }
+			      ]
+			    },
 			    "fact_rend_anr_arterias_has_entity__switch_kpi_anr_rend_arterias_switch_1m": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_rend_anr_arterias"
@@ -23229,6 +23661,39 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_rend_anr_arterias_have_kpi_anr_rend_arterias_switch_1m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_anr_rend_arterias_switch_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__switch.kpi_anr_rend_arterias_switch_1m": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_anr_rend_arterias_switch_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_anr_rend_arterias_switch_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_kpi_anr_rend_arterias_switch_1m"
 			        }
 			      ]
 			    },
@@ -23298,6 +23763,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_anr_rend_arterias_switch": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__switch.kpi_anr_rend_arterias_switch": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_anr_rend_arterias_switch"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_anr_rend_arterias_switch"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_kpi_anr_rend_arterias_switch"
+			        }
+			      ]
+			    },
 			    "fact_rend_anr_arterias_has_entity__switch_kpi_anr_rend_arterias_switch": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_rend_anr_arterias"
@@ -23328,6 +23826,39 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_rend_anr_arterias_have_kpi_anr_rend_arterias_switch"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_anr_rend_arterias_switch": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__switch.kpi_anr_rend_arterias_switch": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_anr_rend_arterias_switch"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_anr_rend_arterias_switch"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_kpi_anr_rend_arterias_switch"
 			        }
 			      ]
 			    },
@@ -23628,15 +24159,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_diff_volum_lliurat_rend_arterias": {
+			    "fact_volum_cons_lliur_has_entity__medida_diff_volum_lliurat_rend_arterias": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.diff_volum_lliurat_rend_arterias": {
@@ -23649,7 +24180,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.diff_volum_lliurat_rend_arterias"
@@ -23657,7 +24188,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_diff_volum_lliurat_rend_arterias"
+			          "ID": "fact_volum_cons_lliurs_have_diff_volum_lliurat_rend_arterias"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_diff_volum_lliurat_rend_arterias": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.diff_volum_lliurat_rend_arterias": {
+			          "Target": {
+			            "Entity": "entity__medida.diff_volum_lliurat_rend_arterias"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.diff_volum_lliurat_rend_arterias"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_diff_volum_lliurat_rend_arterias"
 			        }
 			      ]
 			    },
@@ -23694,15 +24258,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_diff_volum_consumit_rend_arterias": {
+			    "fact_volum_cons_lliur_has_entity__medida_diff_volum_consumit_rend_arterias": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.diff_volum_consumit_rend_arterias": {
@@ -23715,7 +24279,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.diff_volum_consumit_rend_arterias"
@@ -23723,7 +24287,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_diff_volum_consumit_rend_arterias"
+			          "ID": "fact_volum_cons_lliurs_have_diff_volum_consumit_rend_arterias"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_diff_volum_consumit_rend_arterias": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.diff_volum_consumit_rend_arterias": {
+			          "Target": {
+			            "Entity": "entity__medida.diff_volum_consumit_rend_arterias"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.diff_volum_consumit_rend_arterias"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_diff_volum_consumit_rend_arterias"
 			        }
 			      ]
 			    },
@@ -23760,15 +24357,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_diff_anr_rend_arterias": {
+			    "fact_volum_cons_lliur_has_entity__medida_diff_anr_rend_arterias": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.diff_anr_rend_arterias": {
@@ -23781,7 +24378,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.diff_anr_rend_arterias"
@@ -23789,7 +24386,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_diff_anr_rend_arterias"
+			          "ID": "fact_volum_cons_lliurs_have_diff_anr_rend_arterias"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_diff_anr_rend_arterias": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.diff_anr_rend_arterias": {
+			          "Target": {
+			            "Entity": "entity__medida.diff_anr_rend_arterias"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.diff_anr_rend_arterias"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_diff_anr_rend_arterias"
 			        }
 			      ]
 			    },
@@ -23826,15 +24456,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_diff_rth_rend_arterias": {
+			    "fact_volum_cons_lliur_has_entity__medida_diff_rth_rend_arterias": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.diff_rth_rend_arterias": {
@@ -23847,7 +24477,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.diff_rth_rend_arterias"
@@ -23855,7 +24485,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_diff_rth_rend_arterias"
+			          "ID": "fact_volum_cons_lliurs_have_diff_rth_rend_arterias"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_diff_rth_rend_arterias": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.diff_rth_rend_arterias": {
+			          "Target": {
+			            "Entity": "entity__medida.diff_rth_rend_arterias"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.diff_rth_rend_arterias"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_diff_rth_rend_arterias"
 			        }
 			      ]
 			    },
@@ -23892,15 +24555,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_rendiment_rend_arterias_lytd": {
+			    "fact_volum_cons_lliur_has_entity__medida_rendiment_rend_arterias_lytd": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.rendiment_rend_arterias_lytd": {
@@ -23913,7 +24576,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.rendiment_rend_arterias_lytd"
@@ -23921,7 +24584,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_rendiment_rend_arterias_lytd"
+			          "ID": "fact_volum_cons_lliurs_have_rendiment_rend_arterias_lytd"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_rendiment_rend_arterias_lytd": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.rendiment_rend_arterias_lytd": {
+			          "Target": {
+			            "Entity": "entity__medida.rendiment_rend_arterias_lytd"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.rendiment_rend_arterias_lytd"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_rendiment_rend_arterias_lytd"
 			        }
 			      ]
 			    },
@@ -24123,15 +24819,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_rendiment_rend_arterias_ytd": {
+			    "fact_volum_cons_lliur_has_entity__medida_rendiment_rend_arterias_ytd": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.rendiment_rend_arterias_ytd": {
@@ -24144,7 +24840,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.rendiment_rend_arterias_ytd"
@@ -24152,7 +24848,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_rendiment_rend_arterias_ytd"
+			          "ID": "fact_volum_cons_lliurs_have_rendiment_rend_arterias_ytd"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_rendiment_rend_arterias_ytd": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.rendiment_rend_arterias_ytd": {
+			          "Target": {
+			            "Entity": "entity__medida.rendiment_rend_arterias_ytd"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.rendiment_rend_arterias_ytd"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_rendiment_rend_arterias_ytd"
 			        }
 			      ]
 			    },
@@ -24189,15 +24918,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_volum_consumit_rend_arterias_1_2m_1m": {
+			    "fact_volum_cons_lliur_has_entity__medida_volum_consumit_rend_arterias_1_2m_1m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.volum_consumit_rend_arterias_1_2m_1m": {
@@ -24210,7 +24939,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.volum_consumit_rend_arterias_1_2m_1m"
@@ -24218,7 +24947,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_volum_consumit_rend_arterias_1_2m_1m"
+			          "ID": "fact_volum_cons_lliurs_have_volum_consumit_rend_arterias_1_2m_1m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_volum_consumit_rend_arterias_1_2m_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.volum_consumit_rend_arterias_1_2m_1m": {
+			          "Target": {
+			            "Entity": "entity__medida.volum_consumit_rend_arterias_1_2m_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.volum_consumit_rend_arterias_1_2m_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_volum_consumit_rend_arterias_1_2m_1m"
 			        }
 			      ]
 			    },
@@ -24255,15 +25017,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_volum_lliurat_rend_arterias_1_2m_1m": {
+			    "fact_volum_cons_lliur_has_entity__medida_volum_lliurat_rend_arterias_1_2m_1m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.volum_lliurat_rend_arterias_1_2m_1m": {
@@ -24276,7 +25038,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.volum_lliurat_rend_arterias_1_2m_1m"
@@ -24284,7 +25046,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_volum_lliurat_rend_arterias_1_2m_1m"
+			          "ID": "fact_volum_cons_lliurs_have_volum_lliurat_rend_arterias_1_2m_1m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_volum_lliurat_rend_arterias_1_2m_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.volum_lliurat_rend_arterias_1_2m_1m": {
+			          "Target": {
+			            "Entity": "entity__medida.volum_lliurat_rend_arterias_1_2m_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.volum_lliurat_rend_arterias_1_2m_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_volum_lliurat_rend_arterias_1_2m_1m"
 			        }
 			      ]
 			    },
@@ -24321,15 +25116,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_volum_consumit_rend_arterias_mensual_smly": {
+			    "fact_volum_cons_lliur_has_entity__medida_volum_consumit_rend_arterias_mensual_smly": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.volum_consumit_rend_arterias_mensual_smly": {
@@ -24342,7 +25137,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.volum_consumit_rend_arterias_mensual_smly"
@@ -24350,19 +25145,52 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_volum_consumit_rend_arterias_mensual_smly"
+			          "ID": "fact_volum_cons_lliurs_have_volum_consumit_rend_arterias_mensual_smly"
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_volum_lliurat_rend_arterias_mensual_smly": {
+			    "fact_aigua_consum_historic_has_entity__medida_volum_consumit_rend_arterias_mensual_smly": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_aigua_consum_historic"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_aigua_consum_historic": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.volum_consumit_rend_arterias_mensual_smly": {
+			          "Target": {
+			            "Entity": "entity__medida.volum_consumit_rend_arterias_mensual_smly"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.volum_consumit_rend_arterias_mensual_smly"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_volum_consumit_rend_arterias_mensual_smly"
+			        }
+			      ]
+			    },
+			    "fact_volum_cons_lliur_has_entity__medida_volum_lliurat_rend_arterias_mensual_smly": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.volum_lliurat_rend_arterias_mensual_smly": {
@@ -24375,7 +25203,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.volum_lliurat_rend_arterias_mensual_smly"
@@ -24383,19 +25211,52 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_volum_lliurat_rend_arterias_mensual_smly"
+			          "ID": "fact_volum_cons_lliurs_have_volum_lliurat_rend_arterias_mensual_smly"
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_rendiment_rend_arterias_acum_1_2m_1m": {
+			    "fact_aigua_consum_historic_has_entity__medida_volum_lliurat_rend_arterias_mensual_smly": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_aigua_consum_historic"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_aigua_consum_historic": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.volum_lliurat_rend_arterias_mensual_smly": {
+			          "Target": {
+			            "Entity": "entity__medida.volum_lliurat_rend_arterias_mensual_smly"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.volum_lliurat_rend_arterias_mensual_smly"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_volum_lliurat_rend_arterias_mensual_smly"
+			        }
+			      ]
+			    },
+			    "fact_volum_cons_lliur_has_entity__medida_rendiment_rend_arterias_acum_1_2m_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.rendiment_rend_arterias_acum_1_2m_1m": {
@@ -24408,7 +25269,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.rendiment_rend_arterias_acum_1_2m_1m"
@@ -24416,7 +25277,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_rendiment_rend_arterias_acum_1_2m_1m"
+			          "ID": "fact_volum_cons_lliurs_have_rendiment_rend_arterias_acum_1_2m_1m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_rendiment_rend_arterias_acum_1_2m_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.rendiment_rend_arterias_acum_1_2m_1m": {
+			          "Target": {
+			            "Entity": "entity__medida.rendiment_rend_arterias_acum_1_2m_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.rendiment_rend_arterias_acum_1_2m_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_rendiment_rend_arterias_acum_1_2m_1m"
 			        }
 			      ]
 			    },
@@ -24453,15 +25347,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_anr_rend_arterias_m_3_acum_1_2m_1m": {
+			    "fact_volum_cons_lliur_has_entity__medida_anr_rend_arterias_m_3_acum_1_2m_1m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_rend_arterias_m_3_acum_1_2m_1m": {
@@ -24474,7 +25368,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_rend_arterias_m_3_acum_1_2m_1m"
@@ -24482,7 +25376,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_anr_rend_arterias_m_3_acum_1_2m_1m"
+			          "ID": "fact_volum_cons_lliurs_have_anr_rend_arterias_m_3_acum_1_2m_1m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_anr_rend_arterias_m_3_acum_1_2m_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.anr_rend_arterias_m_3_acum_1_2m_1m": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_rend_arterias_m_3_acum_1_2m_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_rend_arterias_m_3_acum_1_2m_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_anr_rend_arterias_m_3_acum_1_2m_1m"
 			        }
 			      ]
 			    },
@@ -24915,15 +25842,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_anr_rend_arterias_m_3_mensual": {
+			    "fact_volum_cons_lliur_has_entity__medida_anr_rend_arterias_m_3_mensual": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_rend_arterias_m_3_mensual": {
@@ -24936,7 +25863,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_rend_arterias_m_3_mensual"
@@ -24944,7 +25871,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_anr_rend_arterias_m_3_mensual"
+			          "ID": "fact_volum_cons_lliurs_have_anr_rend_arterias_m_3_mensual"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_anr_rend_arterias_m_3_mensual": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.anr_rend_arterias_m_3_mensual": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_rend_arterias_m_3_mensual"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_rend_arterias_m_3_mensual"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_anr_rend_arterias_m_3_mensual"
 			        }
 			      ]
 			    },
@@ -30538,15 +31498,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_diff_rth_transport": {
+			    "fact_volum_cons_lliur_has_entity__medida_diff_rth_transport": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.diff_rth_transport": {
@@ -30559,7 +31519,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.diff_rth_transport"
@@ -30567,7 +31527,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_diff_rth_transport"
+			          "ID": "fact_volum_cons_lliurs_have_diff_rth_transport"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_diff_rth_transport": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.diff_rth_transport": {
+			          "Target": {
+			            "Entity": "entity__medida.diff_rth_transport"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.diff_rth_transport"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_diff_rth_transport"
 			        }
 			      ]
 			    },
@@ -30604,15 +31597,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_diff_anr_transport": {
+			    "fact_volum_cons_lliur_has_entity__medida_diff_anr_transport": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.diff_anr_transport": {
@@ -30625,7 +31618,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.diff_anr_transport"
@@ -30633,7 +31626,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_diff_anr_transport"
+			          "ID": "fact_volum_cons_lliurs_have_diff_anr_transport"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_diff_anr_transport": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.diff_anr_transport": {
+			          "Target": {
+			            "Entity": "entity__medida.diff_anr_transport"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.diff_anr_transport"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_diff_anr_transport"
 			        }
 			      ]
 			    },
@@ -30670,15 +31696,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_diff_volum_consumit_transport": {
+			    "fact_volum_cons_lliur_has_entity__medida_diff_volum_consumit_transport": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.diff_volum_consumit_transport": {
@@ -30691,7 +31717,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.diff_volum_consumit_transport"
@@ -30699,7 +31725,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_diff_volum_consumit_transport"
+			          "ID": "fact_volum_cons_lliurs_have_diff_volum_consumit_transport"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_diff_volum_consumit_transport": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.diff_volum_consumit_transport": {
+			          "Target": {
+			            "Entity": "entity__medida.diff_volum_consumit_transport"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.diff_volum_consumit_transport"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_diff_volum_consumit_transport"
 			        }
 			      ]
 			    },
@@ -30736,15 +31795,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_diff_volum_lliurat_transport": {
+			    "fact_volum_cons_lliur_has_entity__medida_diff_volum_lliurat_transport": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.diff_volum_lliurat_transport": {
@@ -30757,7 +31816,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.diff_volum_lliurat_transport"
@@ -30765,7 +31824,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_diff_volum_lliurat_transport"
+			          "ID": "fact_volum_cons_lliurs_have_diff_volum_lliurat_transport"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_diff_volum_lliurat_transport": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.diff_volum_lliurat_transport": {
+			          "Target": {
+			            "Entity": "entity__medida.diff_volum_lliurat_transport"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.diff_volum_lliurat_transport"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_diff_volum_lliurat_transport"
 			        }
 			      ]
 			    },
@@ -30868,15 +31960,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_rendiment_transport_lytd": {
+			    "fact_volum_cons_lliur_has_entity__medida_rendiment_transport_lytd": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.rendiment_transport_lytd": {
@@ -30889,7 +31981,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.rendiment_transport_lytd"
@@ -30897,19 +31989,52 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_rendiment_transport_lytd"
+			          "ID": "fact_volum_cons_lliurs_have_rendiment_transport_lytd"
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_anr_transporte_lytd": {
+			    "fact_aigua_consum_historic_has_entity__medida_rendiment_transport_lytd": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_aigua_consum_historic"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_aigua_consum_historic": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.rendiment_transport_lytd": {
+			          "Target": {
+			            "Entity": "entity__medida.rendiment_transport_lytd"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.rendiment_transport_lytd"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_rendiment_transport_lytd"
+			        }
+			      ]
+			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_transporte_lytd": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_transporte_lytd": {
@@ -30922,7 +32047,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_transporte_lytd"
@@ -30930,7 +32055,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_anr_transporte_lytd"
+			          "ID": "fact_volum_cons_lliurs_have_anr_transporte_lytd"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_anr_transporte_lytd": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.anr_transporte_lytd": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_transporte_lytd"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_transporte_lytd"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_anr_transporte_lytd"
 			        }
 			      ]
 			    },
@@ -36181,15 +37339,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_rendiment_transport_ytd": {
+			    "fact_volum_cons_lliur_has_entity__medida_rendiment_transport_ytd": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.rendiment_transport_ytd": {
@@ -36202,7 +37360,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.rendiment_transport_ytd"
@@ -36210,7 +37368,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_rendiment_transport_ytd"
+			          "ID": "fact_volum_cons_lliurs_have_rendiment_transport_ytd"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_rendiment_transport_ytd": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.rendiment_transport_ytd": {
+			          "Target": {
+			            "Entity": "entity__medida.rendiment_transport_ytd"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.rendiment_transport_ytd"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_rendiment_transport_ytd"
 			        }
 			      ]
 			    },
@@ -36247,15 +37438,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_anr_transporte_ytd": {
+			    "fact_volum_cons_lliur_has_entity__medida_anr_transporte_ytd": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_transporte_ytd": {
@@ -36268,7 +37459,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_transporte_ytd"
@@ -36276,7 +37467,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_anr_transporte_ytd"
+			          "ID": "fact_volum_cons_lliurs_have_anr_transporte_ytd"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_anr_transporte_ytd": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.anr_transporte_ytd": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_transporte_ytd"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_transporte_ytd"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_anr_transporte_ytd"
 			        }
 			      ]
 			    },
@@ -41748,39 +42972,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "dim_gerencia_pressios_have_nombres"
-			        }
-			      ]
-			    },
-			    "dim_gerencia_pressio_has_zona_2": {
-			      "Binding": {
-			        "ConceptualEntity": "dim_gerencia_pressio"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "dim_gerencia_pressio": {
-			          "Target": {
-			            "Entity": "dim_gerencia_pressio"
-			          }
-			        },
-			        "dim_gerencia_pressio.zona_2": {
-			          "Target": {
-			            "Entity": "dim_gerencia_pressio.zona_2"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_gerencia_pressio"
-			            },
-			            "Object": {
-			              "Role": "dim_gerencia_pressio.zona_2"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_gerencia_pressios_have_zona_2"
 			        }
 			      ]
 			    },
@@ -50556,15 +51747,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__switch_kpi_volum_lliurat_transporte_switch_1m": {
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_volum_lliurat_transporte_switch_1m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_aigua_consum_historic"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_aigua_consum_historic": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_aigua_consum_historic"
 			          }
 			        },
 			        "entity__switch.kpi_volum_lliurat_transporte_switch_1m": {
@@ -50577,7 +51768,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_aigua_consum_historic"
 			            },
 			            "Object": {
 			              "Role": "entity__switch.kpi_volum_lliurat_transporte_switch_1m"
@@ -50585,7 +51776,7 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_kpi_volum_lliurat_transporte_switch_1m"
+			          "ID": "fact_aigua_consum_historic_have_kpi_volum_lliurat_transporte_switch_1m"
 			        }
 			      ]
 			    },
@@ -50655,6 +51846,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_volum_consumit_transporte_switch_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__switch.kpi_volum_consumit_transporte_switch_1m": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_volum_consumit_transporte_switch_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_volum_consumit_transporte_switch_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_kpi_volum_consumit_transporte_switch_1m"
+			        }
+			      ]
+			    },
 			    "fact_rend_anr_arterias_has_entity__switch_kpi_volum_consumit_transporte_switch_1m": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_rend_anr_arterias"
@@ -50685,6 +51909,39 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_rend_anr_arterias_have_kpi_volum_consumit_transporte_switch_1m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_volum_consumit_transporte_switch_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__switch.kpi_volum_consumit_transporte_switch_1m": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_volum_consumit_transporte_switch_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_volum_consumit_transporte_switch_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_kpi_volum_consumit_transporte_switch_1m"
 			        }
 			      ]
 			    },
@@ -50754,6 +52011,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_anr_transporte_switch_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__switch.kpi_anr_transporte_switch_1m": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_anr_transporte_switch_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_anr_transporte_switch_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_kpi_anr_transporte_switch_1m"
+			        }
+			      ]
+			    },
 			    "fact_rend_anr_arterias_has_entity__switch_kpi_anr_transporte_switch_1m": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_rend_anr_arterias"
@@ -50784,6 +52074,39 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_rend_anr_arterias_have_kpi_anr_transporte_switch_1m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_anr_transporte_switch_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__switch.kpi_anr_transporte_switch_1m": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_anr_transporte_switch_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_anr_transporte_switch_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_kpi_anr_transporte_switch_1m"
 			        }
 			      ]
 			    },
@@ -50952,6 +52275,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_rth_transporte_switch_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__switch.kpi_rth_transporte_switch_1m": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_rth_transporte_switch_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_rth_transporte_switch_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_kpi_rth_transporte_switch_1m"
+			        }
+			      ]
+			    },
 			    "fact_rend_anr_arterias_has_entity__switch_kpi_rth_transporte_switch_1m": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_rend_anr_arterias"
@@ -50982,6 +52338,39 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_rend_anr_arterias_have_kpi_rth_transporte_switch_1m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_rth_transporte_switch_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__switch.kpi_rth_transporte_switch_1m": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_rth_transporte_switch_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_rth_transporte_switch_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_kpi_rth_transporte_switch_1m"
 			        }
 			      ]
 			    },
@@ -51711,6 +53100,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_volum_lliurat_transporte_switch": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__switch.kpi_volum_lliurat_transporte_switch": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_volum_lliurat_transporte_switch"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_volum_lliurat_transporte_switch"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_kpi_volum_lliurat_transporte_switch"
+			        }
+			      ]
+			    },
 			    "fact_rend_anr_arterias_has_entity__switch_kpi_volum_lliurat_transporte_switch": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_rend_anr_arterias"
@@ -51741,6 +53163,39 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_rend_anr_arterias_have_kpi_volum_lliurat_transporte_switch"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_volum_lliurat_transporte_switch": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__switch.kpi_volum_lliurat_transporte_switch": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_volum_lliurat_transporte_switch"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_volum_lliurat_transporte_switch"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_kpi_volum_lliurat_transporte_switch"
 			        }
 			      ]
 			    },
@@ -51810,6 +53265,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_volum_consumit_transporte_switch": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__switch.kpi_volum_consumit_transporte_switch": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_volum_consumit_transporte_switch"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_volum_consumit_transporte_switch"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_kpi_volum_consumit_transporte_switch"
+			        }
+			      ]
+			    },
 			    "fact_rend_anr_arterias_has_entity__switch_kpi_volum_consumit_transporte_switch": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_rend_anr_arterias"
@@ -51840,6 +53328,39 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_rend_anr_arterias_have_kpi_volum_consumit_transporte_switch"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_volum_consumit_transporte_switch": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__switch.kpi_volum_consumit_transporte_switch": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_volum_consumit_transporte_switch"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_volum_consumit_transporte_switch"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_kpi_volum_consumit_transporte_switch"
 			        }
 			      ]
 			    },
@@ -51909,15 +53430,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__switch_kpi_anr_transporte_switch": {
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_anr_transporte_switch": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__switch.kpi_anr_transporte_switch": {
@@ -51930,7 +53451,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__switch.kpi_anr_transporte_switch"
@@ -51938,7 +53459,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_kpi_anr_transporte_switch"
+			          "ID": "fact_volum_cons_lliurs_have_kpi_anr_transporte_switch"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_anr_transporte_switch": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__switch.kpi_anr_transporte_switch": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_anr_transporte_switch"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_anr_transporte_switch"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_kpi_anr_transporte_switch"
 			        }
 			      ]
 			    },
@@ -52206,15 +53760,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__switch_kpi_rth_transporte_switch": {
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_rth_transporte_switch": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__switch.kpi_rth_transporte_switch": {
@@ -52227,7 +53781,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__switch.kpi_rth_transporte_switch"
@@ -52235,7 +53789,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_kpi_rth_transporte_switch"
+			          "ID": "fact_volum_cons_lliurs_have_kpi_rth_transporte_switch"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__switch_kpi_rth_transporte_switch": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__switch.kpi_rth_transporte_switch": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_rth_transporte_switch"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_rth_transporte_switch"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_kpi_rth_transporte_switch"
 			        }
 			      ]
 			    },
@@ -52338,15 +53925,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_volum_consumit_transport_1_2m_1m": {
+			    "fact_volum_cons_lliur_has_entity__medida_volum_consumit_transport_1_2m_1m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.volum_consumit_transport_1_2m_1m": {
@@ -52359,7 +53946,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.volum_consumit_transport_1_2m_1m"
@@ -52367,7 +53954,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_volum_consumit_transport_1_2m_1m"
+			          "ID": "fact_volum_cons_lliurs_have_volum_consumit_transport_1_2m_1m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_volum_consumit_transport_1_2m_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.volum_consumit_transport_1_2m_1m": {
+			          "Target": {
+			            "Entity": "entity__medida.volum_consumit_transport_1_2m_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.volum_consumit_transport_1_2m_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_volum_consumit_transport_1_2m_1m"
 			        }
 			      ]
 			    },
@@ -52404,15 +54024,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_volum_lliurat_transport_1_2m_1m": {
+			    "fact_volum_cons_lliur_has_entity__medida_volum_lliurat_transport_1_2m_1m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.volum_lliurat_transport_1_2m_1m": {
@@ -52425,7 +54045,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.volum_lliurat_transport_1_2m_1m"
@@ -52433,7 +54053,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_volum_lliurat_transport_1_2m_1m"
+			          "ID": "fact_volum_cons_lliurs_have_volum_lliurat_transport_1_2m_1m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_volum_lliurat_transport_1_2m_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.volum_lliurat_transport_1_2m_1m": {
+			          "Target": {
+			            "Entity": "entity__medida.volum_lliurat_transport_1_2m_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.volum_lliurat_transport_1_2m_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_volum_lliurat_transport_1_2m_1m"
 			        }
 			      ]
 			    },
@@ -52470,15 +54123,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_volum_consumit_transport_mensual_smly": {
+			    "fact_volum_cons_lliur_has_entity__medida_volum_consumit_transport_mensual_smly": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.volum_consumit_transport_mensual_smly": {
@@ -52491,7 +54144,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.volum_consumit_transport_mensual_smly"
@@ -52499,19 +54152,52 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_volum_consumit_transport_mensual_smly"
+			          "ID": "fact_volum_cons_lliurs_have_volum_consumit_transport_mensual_smly"
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_volum_lliurat_transport_mensual_smly": {
+			    "fact_aigua_consum_historic_has_entity__medida_volum_consumit_transport_mensual_smly": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_aigua_consum_historic"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_aigua_consum_historic": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.volum_consumit_transport_mensual_smly": {
+			          "Target": {
+			            "Entity": "entity__medida.volum_consumit_transport_mensual_smly"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.volum_consumit_transport_mensual_smly"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_volum_consumit_transport_mensual_smly"
+			        }
+			      ]
+			    },
+			    "fact_volum_cons_lliur_has_entity__medida_volum_lliurat_transport_mensual_smly": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.volum_lliurat_transport_mensual_smly": {
@@ -52524,7 +54210,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.volum_lliurat_transport_mensual_smly"
@@ -52532,7 +54218,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_volum_lliurat_transport_mensual_smly"
+			          "ID": "fact_volum_cons_lliurs_have_volum_lliurat_transport_mensual_smly"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_volum_lliurat_transport_mensual_smly": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.volum_lliurat_transport_mensual_smly": {
+			          "Target": {
+			            "Entity": "entity__medida.volum_lliurat_transport_mensual_smly"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.volum_lliurat_transport_mensual_smly"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_volum_lliurat_transport_mensual_smly"
 			        }
 			      ]
 			    },
@@ -53328,15 +55047,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_rendiment_transport_acum_1_2m_1m": {
+			    "fact_volum_cons_lliur_has_entity__medida_rendiment_transport_acum_1_2m_1m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.rendiment_transport_acum_1_2m_1m": {
@@ -53349,7 +55068,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.rendiment_transport_acum_1_2m_1m"
@@ -53357,7 +55076,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_rendiment_transport_acum_1_2m_1m"
+			          "ID": "fact_volum_cons_lliurs_have_rendiment_transport_acum_1_2m_1m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_rendiment_transport_acum_1_2m_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.rendiment_transport_acum_1_2m_1m": {
+			          "Target": {
+			            "Entity": "entity__medida.rendiment_transport_acum_1_2m_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.rendiment_transport_acum_1_2m_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_rendiment_transport_acum_1_2m_1m"
 			        }
 			      ]
 			    },
@@ -53394,15 +55146,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_anr_transport_m_3_acum_1_2m_1m": {
+			    "fact_volum_cons_lliur_has_entity__medida_anr_transport_m_3_acum_1_2m_1m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_transport_m_3_acum_1_2m_1m": {
@@ -53415,7 +55167,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_transport_m_3_acum_1_2m_1m"
@@ -53423,7 +55175,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_anr_transport_m_3_acum_1_2m_1m"
+			          "ID": "fact_volum_cons_lliurs_have_anr_transport_m_3_acum_1_2m_1m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_anr_transport_m_3_acum_1_2m_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.anr_transport_m_3_acum_1_2m_1m": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_transport_m_3_acum_1_2m_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_transport_m_3_acum_1_2m_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_anr_transport_m_3_acum_1_2m_1m"
 			        }
 			      ]
 			    },
@@ -54648,15 +56433,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_volum_consumit_transport_1_2m": {
+			    "fact_volum_cons_lliur_has_entity__medida_volum_consumit_transport_1_2m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.volum_consumit_transport_1_2m": {
@@ -54669,7 +56454,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.volum_consumit_transport_1_2m"
@@ -54677,7 +56462,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_volum_consumit_transport_1_2m"
+			          "ID": "fact_volum_cons_lliurs_have_volum_consumit_transport_1_2m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_volum_consumit_transport_1_2m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.volum_consumit_transport_1_2m": {
+			          "Target": {
+			            "Entity": "entity__medida.volum_consumit_transport_1_2m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.volum_consumit_transport_1_2m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_volum_consumit_transport_1_2m"
 			        }
 			      ]
 			    },
@@ -54714,15 +56532,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_volum_lliurat_transport_1_2m": {
+			    "fact_volum_cons_lliur_has_entity__medida_volum_lliurat_transport_1_2m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.volum_lliurat_transport_1_2m": {
@@ -54735,7 +56553,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.volum_lliurat_transport_1_2m"
@@ -54743,7 +56561,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_volum_lliurat_transport_1_2m"
+			          "ID": "fact_volum_cons_lliurs_have_volum_lliurat_transport_1_2m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_volum_lliurat_transport_1_2m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.volum_lliurat_transport_1_2m": {
+			          "Target": {
+			            "Entity": "entity__medida.volum_lliurat_transport_1_2m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.volum_lliurat_transport_1_2m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_volum_lliurat_transport_1_2m"
 			        }
 			      ]
 			    },
@@ -54780,15 +56631,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_volum_consumit_transport_mensual": {
+			    "fact_volum_cons_lliur_has_entity__medida_volum_consumit_transport_mensual": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.volum_consumit_transport_mensual": {
@@ -54801,7 +56652,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.volum_consumit_transport_mensual"
@@ -54809,19 +56660,52 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_volum_consumit_transport_mensual"
+			          "ID": "fact_volum_cons_lliurs_have_volum_consumit_transport_mensual"
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_volum_lliurat_transport_mensual": {
+			    "fact_aigua_consum_historic_has_entity__medida_volum_consumit_transport_mensual": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_aigua_consum_historic"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_aigua_consum_historic": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.volum_consumit_transport_mensual": {
+			          "Target": {
+			            "Entity": "entity__medida.volum_consumit_transport_mensual"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.volum_consumit_transport_mensual"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_volum_consumit_transport_mensual"
+			        }
+			      ]
+			    },
+			    "fact_volum_cons_lliur_has_entity__medida_volum_lliurat_transport_mensual": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.volum_lliurat_transport_mensual": {
@@ -54834,7 +56718,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.volum_lliurat_transport_mensual"
@@ -54842,7 +56726,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_volum_lliurat_transport_mensual"
+			          "ID": "fact_volum_cons_lliurs_have_volum_lliurat_transport_mensual"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_volum_lliurat_transport_mensual": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.volum_lliurat_transport_mensual": {
+			          "Target": {
+			            "Entity": "entity__medida.volum_lliurat_transport_mensual"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.volum_lliurat_transport_mensual"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_volum_lliurat_transport_mensual"
 			        }
 			      ]
 			    },
@@ -60073,15 +61990,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_rendiment_transport_mensual": {
+			    "fact_volum_cons_lliur_has_entity__medida_rendiment_transport_mensual": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.rendiment_transport_mensual": {
@@ -60094,7 +62011,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.rendiment_transport_mensual"
@@ -60102,19 +62019,52 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_rendiment_transport_mensual"
+			          "ID": "fact_volum_cons_lliurs_have_rendiment_transport_mensual"
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_anr_transport_m_3_mensual": {
+			    "fact_aigua_consum_historic_has_entity__medida_rendiment_transport_mensual": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_aigua_consum_historic"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_aigua_consum_historic": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.rendiment_transport_mensual": {
+			          "Target": {
+			            "Entity": "entity__medida.rendiment_transport_mensual"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.rendiment_transport_mensual"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_rendiment_transport_mensual"
+			        }
+			      ]
+			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_transport_m_3_mensual": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_transport_m_3_mensual": {
@@ -60127,7 +62077,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_transport_m_3_mensual"
@@ -60135,7 +62085,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_anr_transport_m_3_mensual"
+			          "ID": "fact_volum_cons_lliurs_have_anr_transport_m_3_mensual"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_anr_transport_m_3_mensual": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.anr_transport_m_3_mensual": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_transport_m_3_mensual"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_transport_m_3_mensual"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_anr_transport_m_3_mensual"
 			        }
 			      ]
 			    },
@@ -60172,15 +62155,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_anr_transport_m_3_acum_1_2m": {
+			    "fact_volum_cons_lliur_has_entity__medida_anr_transport_m_3_acum_1_2m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_transport_m_3_acum_1_2m": {
@@ -60193,7 +62176,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_transport_m_3_acum_1_2m"
@@ -60201,7 +62184,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_anr_transport_m_3_acum_1_2m"
+			          "ID": "fact_volum_cons_lliurs_have_anr_transport_m_3_acum_1_2m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_anr_transport_m_3_acum_1_2m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.anr_transport_m_3_acum_1_2m": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_transport_m_3_acum_1_2m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_transport_m_3_acum_1_2m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_anr_transport_m_3_acum_1_2m"
 			        }
 			      ]
 			    },
@@ -60238,15 +62254,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_rend_anr_arterias_has_entity__medida_rendiment_transport_acum_1_2m": {
+			    "fact_volum_cons_lliur_has_entity__medida_rendiment_transport_acum_1_2m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_rend_anr_arterias": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.rendiment_transport_acum_1_2m": {
@@ -60259,7 +62275,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.rendiment_transport_acum_1_2m"
@@ -60267,7 +62283,40 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_rendiment_transport_acum_1_2m"
+			          "ID": "fact_volum_cons_lliurs_have_rendiment_transport_acum_1_2m"
+			        }
+			      ]
+			    },
+			    "fact_aigua_consum_historic_has_entity__medida_rendiment_transport_acum_1_2m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_consum_historic"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_consum_historic": {
+			          "Target": {
+			            "Entity": "fact_aigua_consum_historic"
+			          }
+			        },
+			        "entity__medida.rendiment_transport_acum_1_2m": {
+			          "Target": {
+			            "Entity": "entity__medida.rendiment_transport_acum_1_2m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_consum_historic"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.rendiment_transport_acum_1_2m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_consum_historic_have_rendiment_transport_acum_1_2m"
 			        }
 			      ]
 			    },
@@ -63010,52 +65059,6 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_volum_cons_lliur_has_dim_dades_sector": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_volum_cons_lliur"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_volum_cons_lliur": {
-			          "Target": {
-			            "Entity": "fact_volum_cons_lliur"
-			          }
-			        },
-			        "dim_dades_sector": {
-			          "Target": {
-			            "Entity": "dim_dades_sector"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_volum_cons_lliur"
-			            },
-			            "Object": {
-			              "Role": "dim_dades_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_volum_cons_lliurs_have_dim_dades_sectors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_dades_sector"
-			            },
-			            "Object": {
-			              "Role": "fact_volum_cons_lliur"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_dades_sectors_have_fact_volum_cons_lliurs"
-			        }
-			      ]
-			    },
 			    "fact_volum_cons_lliur_has_dim_calendario": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_volum_cons_lliur"
@@ -63237,6 +65240,59 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "dim_calendarios_have_fact_actuacions_zones"
+			        }
+			      ]
+			    },
+			    "dim_gerencia_pressio_has_dim_dades_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_gerencia_pressio"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_gerencia_pressio": {
+			          "Target": {
+			            "Entity": "dim_gerencia_pressio"
+			          }
+			        },
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          },
+			          "Nouns": [
+			            {
+			              "zona 2": {
+			                "State": "Generated"
+			              }
+			            }
+			          ]
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_gerencia_pressio"
+			            },
+			            "Object": {
+			              "Role": "dim_dades_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_gerencia_pressios_have_dim_dades_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "dim_gerencia_pressio"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_dim_gerencia_pressios"
 			        }
 			      ]
 			    },
