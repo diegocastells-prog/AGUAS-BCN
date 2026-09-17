@@ -42,11 +42,12 @@
                       "Entity": "dim_dades_sectors"
                     }
                   },
-                  "Property": "pressio"
+                  "Property": "sector"
                 }
               },
-              "queryRef": "dim_dades_sectors.pressio",
-              "nativeQueryRef": "pressio"
+              "queryRef": "dim_dades_sectors.sector",
+              "nativeQueryRef": "sector",
+              "displayName": "sector"
             }
           ]
         },
@@ -54,23 +55,17 @@
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_dades_sectors"
-                        }
-                      },
-                      "Property": "sector"
+                    "SourceRef": {
+                      "Entity": "_medidas"
                     }
                   },
-                  "Function": 3
+                  "Property": "pressio_grups_nit"
                 }
               },
-              "queryRef": "Min(dim_dades_sectors.sector)",
-              "nativeQueryRef": "sector",
-              "displayName": "sector"
+              "queryRef": "_medidas.pressio_grups_nit",
+              "nativeQueryRef": "pressio_grups_nit"
             }
           ]
         }
@@ -284,22 +279,21 @@
             "zoom": {
               "expr": {
                 "Literal": {
-                  "Value": "9.6D"
-                  "Value": "10.49D"
+                  "Value": "10.29D"
                 }
               }
             },
             "centerLatitude": {
               "expr": {
                 "Literal": {
-                  "Value": "41.44866905979637D"
+                  "Value": "41.39519947641753D"
                 }
               }
             },
             "centerLongitude": {
               "expr": {
                 "Literal": {
-                  "Value": "2.1716089526618134D"
+                  "Value": "2.1495577936178734D"
                 }
               }
             },
@@ -389,56 +383,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "c54aae252b61babd3958",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_dades_sectors"
-              }
-            },
-            "Property": "sector_id"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "5da903303b0a0e74d18b",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dim_dades_sectors"
-                  }
-                },
-                "Property": "sector"
-              }
-            },
-            "Function": 3
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "012dd638a0ad4d44b389",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_dades_sectors"
-              }
-            },
-            "Property": "pressio"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }
