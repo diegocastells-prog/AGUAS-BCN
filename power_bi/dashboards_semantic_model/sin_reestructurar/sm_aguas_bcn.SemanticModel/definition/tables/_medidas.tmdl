@@ -7311,6 +7311,16 @@ table _medidas
 		displayFolder: fraudes
 		lineageTag: 279933ee-dd59-407a-80de-71126ac4c833
 
+	measure edat_mitjana_cabal =
+			
+			AVERAGEX(
+			    'dim_cabalimetros',
+			    YEAR(TODAY()) - YEAR('dim_cabalimetros'[data_instal])
+			)
+		lineageTag: e09ce41a-3551-4a92-95a5-8b5fec34c1fd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0

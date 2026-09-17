@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "e14c5a069db159010a1d",
   "position": {
-    "x": 157.2133718530747,
-    "y": 453.044985555097,
+    "x": 157,
+    "y": 453.84548535673935,
     "z": 13000,
-    "height": 214.6892282294676,
-    "width": 1108.9459347915806,
-    "tabOrder": 31044
+    "height": 219,
+    "width": 531,
+    "tabOrder": 13000
   },
   "visual": {
     "visualType": "lineChart",
@@ -27,8 +27,51 @@
                 }
               },
               "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
-              "active": true
+              "nativeQueryRef": "Data",
+              "active": true,
+              "displayName": "Data"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_consum_limitadores"
+                        }
+                      },
+                      "Property": "Dif (%/any)"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(fact_consum_limitadores.Dif (%/any))",
+              "nativeQueryRef": "Primera fecha: Dif (%/any)"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_consum_limitadores"
+                        }
+                      },
+                      "Property": "Dif (€/any)"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(fact_consum_limitadores.Dif (€/any))",
+              "nativeQueryRef": "Primera fecha: Dif (€/any)"
             }
           ]
         },
@@ -48,6 +91,30 @@
               "queryRef": "_medidas.num_limitadors_installats",
               "nativeQueryRef": "Limitadores",
               "displayName": "Limitadores"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_consum_limitadores"
+                        }
+                      },
+                      "Property": "Dif (m3/any)"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "CountNonNull(fact_consum_limitadores.Dif (m3/any))",
+              "nativeQueryRef": "Dif (m3/any)",
+              "displayName": "Dif (m3/any)"
             }
           ]
         }
@@ -108,6 +175,26 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "showTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'TopCenter'"
                 }
               }
             }
@@ -387,7 +474,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "6d08eaff6825a94be36c",
+        "name": "37c01fea062d4a000e81",
         "field": {
           "Column": {
             "Expression": {
@@ -401,7 +488,7 @@
         "type": "Categorical"
       },
       {
-        "name": "d4b0f6803c158608b97b",
+        "name": "7313efd768b21ad582ee",
         "field": {
           "Measure": {
             "Expression": {
@@ -410,6 +497,63 @@
               }
             },
             "Property": "num_limitadors_installats"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9280bb03b7cbeb407756",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_consum_limitadores"
+                  }
+                },
+                "Property": "Dif (m3/any)"
+              }
+            },
+            "Function": 5
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "24f6e300a2cc6d3559d0",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_consum_limitadores"
+                  }
+                },
+                "Property": "Dif (%/any)"
+              }
+            },
+            "Function": 3
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "488b6c2cc3e62e4917dd",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_consum_limitadores"
+                  }
+                },
+                "Property": "Dif (€/any)"
+              }
+            },
+            "Function": 3
           }
         },
         "type": "Advanced"
