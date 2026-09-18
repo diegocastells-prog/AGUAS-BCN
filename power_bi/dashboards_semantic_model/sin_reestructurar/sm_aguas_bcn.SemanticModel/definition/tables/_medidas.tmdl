@@ -8561,6 +8561,27 @@ table _medidas
 		displayFolder: pozos
 		lineageTag: ccf73561-b739-42e6-992a-96f3a8d0ea16
 
+	measure afor_countrows =
+			
+			CALCULATE (
+			    COUNTROWS ( dim_pozos ),
+			    NOT ISBLANK ( dim_pozos[afor_polis] )
+			)
+		formatString: 0
+		displayFolder: pozos\afor
+		lineageTag: ddb1f120-931f-42bf-8e9f-f184b69a64ae
+
+	measure afor_activo =
+			
+			IF (
+			    [afor_countrows] > 0,
+			    1,
+			    BLANK ()
+			)
+		formatString: 0
+		displayFolder: pozos\afor
+		lineageTag: 9711c36f-d405-4e7d-8a1b-56b81c4f5ec5
+
 	measure consum_no_control_mensual = ```
 			
 			SUM ( fact_consum_no_control[consumo] )

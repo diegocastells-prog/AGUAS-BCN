@@ -1,0 +1,89 @@
+MEDIDAS Y RECURSOS NUEVOS - AFOROS (dim_pozos) EN EL MAPA "Xarxa - Control"
+=============================================================================
+Fecha: 2026-09-18
+
+--------------------------------------------------------
+1) MEDIDAS NUEVAS (definition\tables\_medidas.tmdl)
+--------------------------------------------------------
+displayFolder: pozos\afor
+
+- afor_countrows
+  DAX:
+  CALCULATE (
+      COUNTROWS ( dim_pozos ),
+      NOT ISBLANK ( dim_pozos[afor_polis] )
+  )
+  lineageTag: ddb1f120-931f-42bf-8e9f-f184b69a64ae
+  Descripción: Cuenta las filas de dim_pozos que SÍ tienen aforo (afor_polis no en blanco).
+  Se usa "afor_polis" como columna de referencia porque es la que identifica que ese pozo
+  tiene una póliza/aforo asociado (mismo criterio que ya usa la medida existente "num_pous").
+
+- afor_activo
+  DAX:
+  IF ( [afor_countrows] > 0, 1, BLANK() )
+  lineageTag: 9711c36f-d405-4e7d-8a1b-56b81c4f5ec5
+  Descripción: Medida "gate" para filtrar el visual de mapa y pintar SOLO los pozos donde
+  existen aforos, siguiendo el mismo patrón que "grup_pressio_nit_activo" usado para
+  dim_gerencia_pressio.
+
+--------------------------------------------------------
+2) RECURSO GEOJSON REGISTRADO EN EL INFORME
+--------------------------------------------------------
+Se copió Aforos\Aforos.geojson dentro de:
+  sm_aguas_bcn.Report\StaticResources\RegisteredResources\Aforos7642085036297320.geojson
+
+Y se registró en sm_aguas_bcn.Report\definition\report.json -> resourcePackages ->
+RegisteredResources -> items, como type "ShapeMap", igual que sectors.geojson y
+gerencies.geojson:
+
+{
+  "name": "Aforos7642085036297320.geojson",
+  "path": "Aforos7642085036297320.geojson",
+  "type": "ShapeMap"
+}
+
+NOTA IMPORTANTE sobre la geometría:
+El geojson de Aforos contiene geometría tipo "MultiLineString" (tramos de tubería),
+no "Point". Por tanto en Azure Maps se debe añadir como "Reference Layer" (capa de
+referencia tipo shape/polygon-line), igual que se hizo con sectors.geojson, y NO como
+"Bubble Layer" (que requiere latitud/longitud de un punto). El campo por el que Azure
+Maps hace el join espacial normalmente es OBJECTID (o el campo equivalente que se use
+como "Location key"); en dim_pozos ese campo es "Object_id".
+
+--------------------------------------------------------
+3) NUEVO VISUAL CREADO (esta vez sí, editado directamente en el .json)
+--------------------------------------------------------
+Se creó un visual Azure Maps NUEVO (no se tocó el mapa de pressio existente) en:
+
+  sm_aguas_bcn.Report\definition\pages\0f04ed9005586143d990\visuals\1ed62c0888564a989d81\visual.json
+
+Página: " Xarxa - Control" (0f04ed9005586143d990)
+Título del visual: "Mapa afors"
+
+Configuración cableada directamente en el JSON:
+  - Category / Location: dim_pozos[Object_id]
+  - Tooltips: _medidas[afor_countrows]
+  - Reference Layer -> additionalDatasource.geoJson:
+      type "packaged", name "Aforos.geojson",
+      content -> ResourcePackageItem "Aforos7642085036297320.geojson"
+      (el mismo recurso que ya se había registrado en report.json)
+  - Filtro de nivel de visual (filterConfig), oculto y bloqueado en modo vista:
+      _medidas[afor_activo] "no está en blanco" -> solo se pintan los pozos que
+      SÍ tienen aforo (afor_countrows > 0)
+  - Estilo de capa: polygonStrokeColor / lineStrokeColor con ThemeDataColor distinto
+    al usado en el mapa de pressio, para diferenciarlo visualmente.
+  - mapControls: mismo estilo "night", autoZoom true, mismo centro (Barcelona).
+
+El mapa de pressio original (visual 0dbde49fd6d45406b665) NO fue modificado: sigue
+pintando dim_dades_sectors / sectors.geojson / Metrica_Color_Mapa exactamente igual
+que antes. Ambos mapas conviven como visuales independientes en la misma pestaña.
+
+--------------------------------------------------------
+RESUMEN DE NOMENCLATURA (todo con *afor*)
+--------------------------------------------------------
+- afor_countrows      -> medida COUNTROWS de dim_pozos filtrado a pozos con aforo
+- afor_activo         -> medida gate (1 / BLANK) usada como filtro de nivel de visual
+- Aforos.geojson      -> recurso registrado como ShapeMap en el informe
+- visual "Mapa afors" -> nuevo visual Azure Maps (id 1ed62c0888564a989d81) en
+                         " Xarxa - Control", cableado a dim_pozos[Object_id] +
+                         Aforos.geojson + filtro afor_activo
