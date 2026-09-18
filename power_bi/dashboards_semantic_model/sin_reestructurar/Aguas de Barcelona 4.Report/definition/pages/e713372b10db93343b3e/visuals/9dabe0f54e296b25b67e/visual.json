@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "9dabe0f54e296b25b67e",
   "position": {
-    "x": 728.69291338582673,
-    "y": 207.62204724409449,
+    "x": 716.09550789154184,
+    "y": 437.61392148927558,
     "z": 7000,
     "height": 218.70866141732284,
     "width": 538.20472440944877,
@@ -405,5 +405,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "881e3ee2055e00de24e4",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "1a3e90b3680b4935c9b7",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "fraus_recupera_euros"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "a929b4ad2868cbe9084d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "volum_agua_rec_fraud"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

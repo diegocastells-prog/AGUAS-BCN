@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "57ea966d8ccda49f0931",
   "position": {
-    "x": 151.36666593343745,
-    "y": 200.02023712632806,
+    "x": 165.76284904896804,
+    "y": 435.9562929987859,
     "z": 6000,
     "height": 219.84206242713532,
     "width": 533.38729900354144,
@@ -432,5 +432,51 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "2287b4c4d525630aded0",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "eac107608b1c67520944",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "fraus_detectats"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "47d6da7d23094de94387",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "fraus_recuperat"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }
