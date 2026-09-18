@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "a485adb0a40d0e5e02c6",
+  "position": {
+    "x": 602.23266958305351,
+    "y": 566.54480768183544,
+    "z": 18,
+    "height": 150.18641883429234,
+    "width": 376.20954420867292,
+    "tabOrder": 58
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_consum_no_control"
+                    }
+                  },
+                  "Property": "gerencia_id"
+                }
+              },
+              "queryRef": "Sum(fact_consum_no_control.gerencia_id)",
+              "nativeQueryRef": "gerencia_id"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_gerencia"
+                    }
+                  },
+                  "Property": "gerencia_id"
+                }
+              },
+              "queryRef": "dim_gerencia.gerencia_id",
+              "nativeQueryRef": "gerencia_id1"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

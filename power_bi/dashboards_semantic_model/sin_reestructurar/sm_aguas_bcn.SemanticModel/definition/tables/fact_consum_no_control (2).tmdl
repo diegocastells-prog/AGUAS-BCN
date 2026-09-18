@@ -1,0 +1,575 @@
+table 'fact_consum_no_control (2)'
+	lineageTag: 593a3dfa-e0cf-4ca4-9222-e4e8ae5a9e95
+
+	column gerencia_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 6c9ff6ee-01a9-4ef8-8776-da9648342873
+		summarizeBy: none
+		sourceColumn: gerencia_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column _gerencia
+		dataType: string
+		lineageTag: c3d43d6d-22d7-4aa2-a12c-65ffd4a40c42
+		summarizeBy: none
+		sourceColumn: _gerencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fecha
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d9dc9c69-8d83-49eb-9ca1-63d0635f6b67
+		summarizeBy: none
+		sourceColumn: Fecha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column categoria
+		dataType: string
+		lineageTag: dfcf1d16-62d3-4b52-9add-48eefaba7bd8
+		summarizeBy: none
+		sourceColumn: categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_consum
+		dataType: string
+		lineageTag: 43f1ac5b-db9f-42c9-b5bb-f7b3b3402640
+		summarizeBy: none
+		sourceColumn: tipo_consum
+
+		annotation SummarizationSetBy = Automatic
+
+	column consumo
+		dataType: int64
+		formatString: 0
+		lineageTag: 74d0b251-187f-485f-bea8-4c1a44e4fcac
+		summarizeBy: sum
+		sourceColumn: consumo
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'fact_consum_no_control (2)' = m
+		mode: import
+		queryGroup: Hechos
+		source =
+				let
+				    // ============================================================
+				    // 1. ORIGEN
+				    // ============================================================
+				
+				    Origen =
+				        GoogleSheets.Contents(
+				            "https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=372424086#gid=372424086"
+				        ),
+				
+				    Tabla =
+				        Origen{
+				            [name = "Consums No Controlats", ItemKind = "Table"]
+				        }[Data],
+				
+				    // Quitamos columnas auxiliares
+				    Limpia =
+				        Table.RemoveColumns(
+				            Tabla,
+				            {"Column1", "Column76"},
+				            MissingField.Ignore
+				        ),
+				
+				    // Eliminamos filas completamente vacías
+				    SinVacias =
+				        Table.SelectRows(
+				            Limpia,
+				            each
+				                not List.IsEmpty(
+				                    List.RemoveMatchingItems(
+				                        Record.FieldValues(_),
+				                        {"", null}
+				                    )
+				                )
+				        ),
+				
+				
+				    // ============================================================
+				    // 2. FUNCIÓN PARA DETECTAR YYYYMM
+				    // ============================================================
+				
+				    EsMes =
+				        (valor as any) as logical =>
+				            let
+				                Texto =
+				                    if valor = null
+				                    then ""
+				                    else Text.Trim(Text.From(valor)),
+				
+				                Numero =
+				                    try Number.FromText(Texto)
+				                    otherwise null,
+				
+				                Anyo =
+				                    if Numero = null
+				                    then null
+				                    else Number.IntegerDivide(
+				                        Number.RoundDown(Numero),
+				                        100
+				                    ),
+				
+				                Mes =
+				                    if Numero = null
+				                    then null
+				                    else Number.Mod(
+				                        Number.RoundDown(Numero),
+				                        100
+				                    )
+				            in
+				                Text.Length(Texto) = 6
+				                and Numero <> null
+				                and Anyo >= 2000
+				                and Anyo <= 2100
+				                and Mes >= 1
+				                and Mes <= 12,
+				
+				
+				    // ============================================================
+				    // 3. DETECTAMOS LAS COLUMNAS DE MESES
+				    // ============================================================
+				
+				    Columnas =
+				        Table.ColumnNames(SinVacias),
+				
+				    ColumnasDatos =
+				        List.Select(
+				            Columnas,
+				            each
+				                _ <> "Column2"
+				                and _ <> "Column3"
+				        ),
+				
+				    ConIndice =
+				        Table.AddIndexColumn(
+				            SinVacias,
+				            "_indice",
+				            0,
+				            1,
+				            Int64.Type
+				        ),
+				
+				    ConConteoMeses =
+				        Table.AddColumn(
+				            ConIndice,
+				            "_num_meses",
+				            each
+				                List.Count(
+				                    List.Select(
+				                        List.Transform(
+				                            ColumnasDatos,
+				                            (c) => Record.Field(_, c)
+				                        ),
+				                        EsMes
+				                    )
+				                ),
+				            Int64.Type
+				        ),
+				
+				    FilasCabeceraMes =
+				        Table.SelectRows(
+				            ConConteoMeses,
+				            each [_num_meses] >= 2
+				        ),
+				
+				    IndiceCabecera =
+				        if Table.RowCount(FilasCabeceraMes) > 0
+				        then
+				            FilasCabeceraMes{0}[_indice]
+				        else
+				            error
+				                "No se ha encontrado ninguna fila con encabezados YYYYMM.",
+				
+				    FilaCabecera =
+				        FilasCabeceraMes{0},
+				
+				    ColumnasMes =
+				        List.Select(
+				            ColumnasDatos,
+				            each
+				                EsMes(
+				                    Record.Field(
+				                        FilaCabecera,
+				                        _
+				                    )
+				                )
+				        ),
+				
+				    NombresMes =
+				        List.Transform(
+				            ColumnasMes,
+				            each
+				                Text.From(
+				                    Record.Field(
+				                        FilaCabecera,
+				                        _
+				                    )
+				                )
+				        ),
+				
+				    // Column4 -> 202101
+				    // Column5 -> 202102
+				    // Column6 -> 202103
+				    // ...
+				
+				    RenombresMes =
+				        List.Zip(
+				            {
+				                ColumnasMes,
+				                NombresMes
+				            }
+				        ),
+				
+				    TablaConMeses =
+				        Table.RenameColumns(
+				            ConConteoMeses,
+				            RenombresMes,
+				            MissingField.Ignore
+				        ),
+				
+				
+				    // ============================================================
+				    // 4. DETECTAMOS LAS CATEGORÍAS
+				    // ============================================================
+				
+				    CategoriaMarcada =
+				        Table.AddColumn(
+				            TablaConMeses,
+				            "_categoria",
+				            each
+				                let
+				                    C2 =
+				                        if [Column2] = null
+				                        then ""
+				                        else Text.Trim(
+				                            Text.From([Column2])
+				                        ),
+				
+				                    C3 =
+				                        if [Column3] = null
+				                        then ""
+				                        else Text.Trim(
+				                            Text.From([Column3])
+				                        ),
+				
+				                    EsCategoria =
+				                        C2 <> ""
+				                        and C3 = ""
+				                        and [_num_meses] = 0
+				                in
+				                    if EsCategoria
+				                    then C2
+				                    else null,
+				            type text
+				        ),
+				
+				    // Propagamos la categoría hacia abajo
+				    CategoriaRellenada =
+				        Table.FillDown(
+				            CategoriaMarcada,
+				            {"_categoria"}
+				        ),
+				
+				
+				    // ============================================================
+				    // 5. DETECTAMOS GERENCIA
+				    // ============================================================
+				
+				    ConGerencia =
+				        Table.AddColumn(
+				            CategoriaRellenada,
+				            "_gerencia",
+				            each
+				                let
+				                    C2 =
+				                        if [Column2] = null
+				                        then ""
+				                        else Text.Trim(
+				                            Text.From([Column2])
+				                        ),
+				
+				                    C3 =
+				                        if [Column3] = null
+				                        then ""
+				                        else Text.Trim(
+				                            Text.From([Column3])
+				                        )
+				                in
+				                    if C2 <> "" and C3 <> ""
+				                    then C2
+				
+				                    else if C2 = "" and C3 <> ""
+				                    then C3
+				
+				                    else null,
+				            type text
+				        ),
+				
+				
+				    // ============================================================
+				    // 6. DETECTAMOS SUBCATEGORÍA
+				    // ============================================================
+				
+				    ConSubcategoria =
+				        Table.AddColumn(
+				            ConGerencia,
+				            "_subcategoria",
+				            each
+				                let
+				                    C2 =
+				                        if [Column2] = null
+				                        then ""
+				                        else Text.Trim(
+				                            Text.From([Column2])
+				                        ),
+				
+				                    C3 =
+				                        if [Column3] = null
+				                        then ""
+				                        else Text.Trim(
+				                            Text.From([Column3])
+				                        )
+				                in
+				                    // Ejemplo:
+				                    // BARCELONA SUD | Venda en alta
+				                    if C2 <> "" and C3 <> ""
+				                    then C3
+				
+				                    // Ejemplo:
+				                    // vacío | BARCELONA NORD
+				                    else if C2 = "" and C3 <> ""
+				                    then "Baixa"
+				
+				                    else null,
+				            type text
+				        ),
+				
+				
+				    // ============================================================
+				    // 7. SOLO FILAS DE DATOS
+				    // ============================================================
+				
+				    SoloDatos =
+				        Table.SelectRows(
+				            ConSubcategoria,
+				            each
+				                [_categoria] <> null
+				                and [_gerencia] <> null
+				        ),
+				
+				
+				    // ============================================================
+				    // 8. SELECCIONAMOS COLUMNAS
+				    // ============================================================
+				
+				    Preparada =
+				        Table.SelectColumns(
+				            SoloDatos,
+				            List.Combine(
+				                {
+				                    {
+				                        "_categoria",
+				                        "_gerencia",
+				                        "_subcategoria"
+				                    },
+				                    NombresMes
+				                }
+				            ),
+				            MissingField.Ignore
+				        ),
+				
+				
+				    // ============================================================
+				    // 9. UNPIVOT
+				    // ============================================================
+				
+				    Unpivot =
+				        Table.Unpivot(
+				            Preparada,
+				            NombresMes,
+				            "Atributo",
+				            "Valor"
+				        ),
+				
+				
+				    // ============================================================
+				    // 10. CONVERTIMOS VALOR A NÚMERO
+				    // ============================================================
+				
+				    ValorLimpio =
+				        Table.TransformColumns(
+				            Unpivot,
+				            {
+				                {
+				                    "Valor",
+				                    each
+				                        if _ = null
+				                            or Text.Trim(
+				                                Text.From(_)
+				                            ) = ""
+				                        then 0
+				                        else
+				                            try Number.From(_)
+				                            otherwise 0,
+				                    Int64.Type
+				                }
+				            }
+				        ),
+				
+				
+				    // ============================================================
+				    // 11. CREAMOS FECHA
+				    // ============================================================
+				
+				    Fecha =
+				        Table.AddColumn(
+				            ValorLimpio,
+				            "Fecha",
+				            each
+				                #date(
+				                    Number.From(
+				                        Text.Start(
+				                            Text.From([Atributo]),
+				                            4
+				                        )
+				                    ),
+				                    Number.From(
+				                        Text.End(
+				                            Text.From([Atributo]),
+				                            2
+				                        )
+				                    ),
+				                    1
+				                ),
+				            type date
+				        ),
+				
+				
+				    // ============================================================
+				    // 12. LIMPIAMOS TEXTO
+				    // ============================================================
+				
+				    TextoLimpio =
+				        Table.TransformColumns(
+				            Table.RemoveColumns(
+				                Fecha,
+				                {"Atributo"}
+				            ),
+				            {
+				                {
+				                    "_gerencia",
+				                    each
+				                        Text.Proper(
+				                            Text.Trim(
+				                                Text.Clean(
+				                                    Text.From(_)
+				                                )
+				                            )
+				                        ),
+				                    type text
+				                },
+				                {
+				                    "_subcategoria",
+				                    each
+				                        if _ = null
+				                            or Text.Trim(
+				                                Text.From(_)
+				                            ) = ""
+				                        then "Baixa"
+				                        else
+				                            Text.Trim(
+				                                Text.From(_)
+				                            ),
+				                    type text
+				                },
+				                {
+				                    "_categoria",
+				                    each
+				                        Text.Trim(
+				                            Text.Clean(
+				                                Text.From(_)
+				                            )
+				                        ),
+				                    type text
+				                }
+				            }
+				        ),
+				
+				
+				    // ============================================================
+				    // 13. JOIN CON DIM_GERENCIA
+				    // ============================================================
+				
+				    JoinGerencia =
+				        Table.ExpandTableColumn(
+				            Table.NestedJoin(
+				                TextoLimpio,
+				                {"_gerencia"},
+				                dim_gerencia,
+				                {"gerencia"},
+				                "dim_gerencia",
+				                JoinKind.LeftOuter
+				            ),
+				            "dim_gerencia",
+				            {"gerencia_id"},
+				            {"gerencia_id"}
+				        ),
+				
+				
+				    // ============================================================
+				    // 14. RENOMBRAMOS
+				    // ============================================================
+				
+				    Renombradas =
+				        Table.RenameColumns(
+				            JoinGerencia,
+				            {
+				                {
+				                    "_categoria",
+				                    "categoria"
+				                },
+				                {
+				                    "_subcategoria",
+				                    "tipo_consum"
+				                },
+				                {
+				                    "Valor",
+				                    "consumo"
+				                }
+				            }
+				        ),
+				
+				
+				    // ============================================================
+				    // 15. RESULTADO FINAL
+				    // ============================================================
+				
+				    Resultado =
+				        Table.ReorderColumns(
+				            Renombradas,
+				            {
+				                "gerencia_id",
+				                "Fecha",
+				                "categoria",
+				                "tipo_consum",
+				                "consumo"
+				            }
+				        )
+				
+				in
+				    Resultado
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,94 @@
+MEDIDAS Y SWITCHS NUEVOS - TABLA fact_consum_no_control
+=========================================================
+Fecha: 2026-09-17
+Archivos modificados:
+  - definition\tables\_medidas.tmdl  (medidas base, junto a las de "avaries")
+  - definition\tables\_switchs.tmdl  (switchs, junto a los de "kpi_avaries_switch")
+
+Campo origen: fact_consum_no_control[consumo]
+Relación de fechas: fact_consum_no_control[Fecha] -> dim_calendario[Date]
+Patrón replicado: el mismo usado para "avaries" (fact_actuacions_zones).
+
+---------------------------------------------------------
+MEDIDAS BASE (_medidas.tmdl) - displayFolder: consum_no_control
+---------------------------------------------------------
+
+1) consum_no_control_mensual
+DAX: SUM ( fact_consum_no_control[consumo] )
+lineageTag: 1f667ade-6ede-489e-98dc-41a6685fe25a
+Descripción: Consumo del mes en el contexto de filtro actual.
+
+2) consum_no_control_mensual_smly
+DAX: CALCULATE( [consum_no_control_mensual], DATEADD(dim_calendario[Date], -12, MONTH) )
+lineageTag: 9bce3f40-72f5-4491-8d64-ec4cbfc601a1
+Descripción: Mismo mes del año anterior (Same Month Last Year).
+
+3) consum_no_control_acum_12m
+DAX: Acumulado de los últimos 12 meses respecto a la última fecha con dato de
+fact_consum_no_control, usando DATESINPERIOD sobre dim_calendario[Date] (-12 meses).
+Devuelve BLANK() si el contexto de fechas está fuera del rango de 12 meses.
+lineageTag: d51daa75-2d45-4e43-917e-b4efc11d8667
+
+4) consum_no_control_acum_12m_1m
+DAX: CALCULATE( [consum_no_control_acum_12m], DATEADD(dim_calendario[Date], -1, MONTH) )
+lineageTag: e317bd90-b609-4f77-bac0-0a2eb525bd87
+Descripción: Acumulado 12 meses desplazado 1 mes atrás (para comparativas smly del acumulado).
+
+5) consum_no_control_ytd
+DAX: Suma acumulada desde 1-enero del año actual hasta la fecha máxima del contexto
+(DATESBETWEEN), devolviendo BLANK() si el contexto está fuera de rango.
+lineageTag: eb645116-39d8-41eb-8ba0-689258346f96
+
+6) consum_no_control_lytd
+DAX: Igual que el ytd pero para el mismo periodo del año anterior (1-enero año anterior
+hasta EDATE(-12) de la fecha máxima de contexto). Sin condición de BLANK() (igual que avaries_lytd).
+lineageTag: 48a394ac-2620-4a7a-9025-3968d1ba7932
+
+7) diff_consum_no_control
+DAX: Diferencia entre el valor mensual actual y el mismo mes del año anterior
+(DATEADD -1 YEAR), sólo calculado si el contexto de fecha está dentro del año en curso
+(1-enero -> hoy). Devuelve BLANK() en caso contrario o si algún valor es BLANK().
+lineageTag: 54657532-a4a5-4fb8-8de6-5910e56582af
+
+---------------------------------------------------------
+SWITCHS (_switchs.tmdl) - displayFolder: consum_no_control
+---------------------------------------------------------
+
+8) kpi_consum_no_control_switch
+DAX:
+SWITCH(
+    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+    "Mensual", [consum_no_control_mensual],
+    "12 meses", [consum_no_control_acum_12m],
+    "Acumulat", [consum_no_control_ytd],
+    "Diff", [diff_consum_no_control],
+    BLANK()
+)
+lineageTag: a154ba90-2543-4f6f-a971-8f545c0e253a
+
+9) kpi_consum_no_control_switch_1m
+DAX:
+SWITCH(
+    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+    "Mensual", [consum_no_control_mensual_smly],
+    "12 meses", [consum_no_control_acum_12m_1m],
+    "Acumulat", [consum_no_control_lytd],
+    "Diff", [_cero_acumulat],
+    BLANK()
+)
+lineageTag: 22d33323-2bb8-4a82-8c69-d314b9fba1bc
+Descripción: Versión "desplazada" del switch principal, usada normalmente para pintar el
+periodo de comparación (año anterior / mes anterior) igual que kpi_avaries_switch_1m.
+Reutiliza la medida existente [_cero_acumulat] para el caso "Diff" (mismo patrón que el resto
+de KPIs del modelo).
+
+---------------------------------------------------------
+NOTAS
+---------------------------------------------------------
+- Se ha seguido exactamente el mismo patrón DAX que las medidas "avaries_*" /
+  "kpi_avaries_switch*" ya existentes en el modelo, sustituyendo la tabla
+  fact_actuacions_zones por fact_consum_no_control y la columna de suma por [consumo].
+- Los switches dependen de la tabla "dummy_slicer_periodo[Periodo]" con los valores
+  "Mensual", "12 meses", "Acumulat", "Diff", igual que el resto de KPIs del modelo.
+- Todas las medidas se han colocado bajo el displayFolder "consum_no_control" para que
+  aparezcan agrupadas en el panel de campos.

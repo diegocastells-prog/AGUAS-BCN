@@ -1,0 +1,66 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "2fd7e9f498e491beb7e2",
+  "position": {
+    "x": 178.4393095060899,
+    "y": 562.08382494418322,
+    "z": 16,
+    "height": 150.18641883429234,
+    "width": 376.20954420867292,
+    "tabOrder": 56
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_gerencia"
+                    }
+                  },
+                  "Property": "gerencia"
+                }
+              },
+              "queryRef": "dim_gerencia.gerencia",
+              "nativeQueryRef": "gerencia"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_gerencia"
+                    }
+                  },
+                  "Property": "gerencia_id"
+                }
+              },
+              "queryRef": "dim_gerencia.gerencia_id",
+              "nativeQueryRef": "gerencia_id"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_consum_no_control"
+                    }
+                  },
+                  "Property": "gerencia_id"
+                }
+              },
+              "queryRef": "fact_consum_no_control.gerencia_id",
+              "nativeQueryRef": "gerencia_id1"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
