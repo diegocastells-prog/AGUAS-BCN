@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "a0f6e33e6c90c7352c61",
   "position": {
-    "x": 827.29064039408865,
-    "y": 152.51231527093597,
+    "x": 804,
+    "y": 88,
     "z": 10000,
-    "height": 459.31034482758622,
-    "width": 315.66502463054189,
+    "height": 517,
+    "width": 457,
     "tabOrder": 7000
   },
   "visual": {
@@ -55,8 +55,53 @@
                 }
               },
               "queryRef": "_medidas.pressio_grups_nit",
-              "nativeQueryRef": "G.nit",
-              "displayName": "G.nit"
+              "nativeQueryRef": "Gₙᵢₜ",
+              "displayName": "Gₙᵢₜ"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "preal_max"
+                }
+              },
+              "queryRef": "_medidas.preal_max",
+              "nativeQueryRef": "Pₘₐₓ",
+              "displayName": "Pₘₐₓ"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "preal_min"
+                }
+              },
+              "queryRef": "_medidas.preal_min",
+              "nativeQueryRef": "Pₘᵢₙ",
+              "displayName": "Pₘᵢₙ"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "diff_preal"
+                }
+              },
+              "queryRef": "_medidas.diff_preal",
+              "nativeQueryRef": "ΔP ",
+              "displayName": "ΔP "
             }
           ]
         }
@@ -71,10 +116,10 @@
                     "Entity": "dim_dades_sectors"
                   }
                 },
-                "Property": "gerencia"
+                "Property": "sector"
               }
             },
-            "direction": "Ascending"
+            "direction": "Descending"
           }
         ]
       }
@@ -100,13 +145,55 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "64.11052379862191D"
+                  "Value": "42.210559576277404D"
                 }
               }
             }
           },
           "selector": {
             "metadata": "_medidas.pressio_grups_nit"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "46.24736696566747D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.preal_max"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "44.24739195230998D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.preal_min"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "55.600587632996486D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.diff_preal"
           }
         }
       ],
@@ -117,5 +204,127 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "6a041f00539d5272e551",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "pressio_grups_nit"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 1,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "pressio_grups_nit"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "0L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "5715850e7cb9c20688b1",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "gerencia"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "48998ff6ac0a8a45287e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "sector"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "26114a76781b2c0230b2",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "preal_max"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "68313862870aad477873",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "preal_min"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "addc33cc9d4aa904832b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "diff_preal"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "7f3529af26877dc86a71",
   "position": {
-    "x": 168.74598070739549,
-    "y": 152.2829581993569,
+    "x": 169,
+    "y": 86,
     "z": 5000,
-    "height": 458.90675241157555,
-    "width": 659.54983922829581,
+    "height": 526,
+    "width": 635,
     "tabOrder": 1000
   },
   "visual": {
@@ -66,6 +66,48 @@
               },
               "queryRef": "_medidas.pressio_grups_nit",
               "nativeQueryRef": "pressio_grups_nit"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "preal_max"
+                }
+              },
+              "queryRef": "_medidas.preal_max",
+              "nativeQueryRef": "preal_max"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "preal_min"
+                }
+              },
+              "queryRef": "_medidas.preal_min",
+              "nativeQueryRef": "preal_min"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "diff_preal"
+                }
+              },
+              "queryRef": "_medidas.diff_preal",
+              "nativeQueryRef": "diff_preal"
             }
           ]
         }
@@ -279,21 +321,21 @@
             "zoom": {
               "expr": {
                 "Literal": {
-                  "Value": "9.53D"
+                  "Value": "9.86D"
                 }
               }
             },
             "centerLatitude": {
               "expr": {
                 "Literal": {
-                  "Value": "41.386076066007575D"
+                  "Value": "41.38319832831775D"
                 }
               }
             },
             "centerLongitude": {
               "expr": {
                 "Literal": {
-                  "Value": "2.0927005500000178D"
+                  "Value": "2.097388799999976D"
                 }
               }
             },
@@ -383,5 +425,127 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "b901a8ea3266d0d73cd0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "pressio_grups_nit"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 1,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "pressio_grups_nit"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "0L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "b32a3a5e5570db22e249",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "sector_id"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ae13b462c0a94859bb90",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "sector"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "46fd99128d0d05850db7",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "preal_max"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "cb2c575dea28e4b806b3",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "preal_min"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "db1c29830d2e0b624ded",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "diff_preal"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

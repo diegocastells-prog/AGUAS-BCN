@@ -88,7 +88,7 @@ table dim_pozos
 		dataType: int64
 		formatString: 0
 		lineageTag: ac47ea88-e12e-40d3-b587-efda890075fe
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: sector_id
 
 		annotation SummarizationSetBy = Automatic
@@ -191,6 +191,14 @@ table dim_pozos
 		lineageTag: f1865336-3946-47bd-b71e-89bc16c5265b
 		summarizeBy: none
 		sourceColumn: afor_nom_m
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nombre_sector =
+			
+			RELATED ( dim_dades_sectors[sector] )
+		lineageTag: 89a4985f-e2c6-400d-bf1a-a9854e7e95c8
+		summarizeBy: none
 
 		annotation SummarizationSetBy = Automatic
 
