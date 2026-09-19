@@ -1,0 +1,202 @@
+expression sectores_sembrados_ortomat = "https://docs.google.com/spreadsheets/d/1dca9OE3HQzH16kwQty0mn2sH6krPn0RFOmR9uFBWXJI/edit?gid=709331709#gid=709331709" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: b876b571-63b2-4c6b-8be0-1db6c091cbd6
+	queryGroup: _Archivos
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression indicadors_sectoritzacio_2026 = "https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 8a808b99-44c5-4aeb-9d52-b659750fc0a0
+	queryGroup: _Archivos
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression anr_ia = "https://docs.google.com/spreadsheets/d/1D-LVBGFiIn846qmGmBbrlncG-YH9a5l5M1_Lq_t4-_Q" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: c39df37a-c5ac-4df9-a0e0-3aa9d8705ab0
+	queryGroup: _Archivos
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression anr_categorizacio_ia = "https://docs.google.com/spreadsheets/d/14TTkhCCFJYAM8WwOm2rWxJByeSPVxzoU_exq5g0LICQ" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: ad1f9cb1-64d7-413f-bd3b-c8913a4e27a5
+	queryGroup: _Archivos
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression dim_sector_null =
+		let
+		    Origen =
+		        #table(
+		            type table [
+		                sector_id = Int64.Type,
+		                sector = text,
+		                gerencia = text
+		            ],
+		            {
+		                {-1, "No Disponible", "No Disponible"}
+		            }
+		        )
+		in
+		    Origen
+	lineageTag: 55a066bd-a39e-4ae9-8723-aa26fe5fb9a5
+	queryGroup: _Tablas\_Dims\dim_sector
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dim_sector_sembrado_ortomat =
+		let
+		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1dca9OE3HQzH16kwQty0mn2sH6krPn0RFOmR9uFBWXJI/edit?gid=709331709#gid=709331709"),
+		    data = Origen{[name = "Sectores_sembrados_numero", ItemKind = "Table"]}[Data],
+		    #"Otras columnas quitadas" = Table.SelectColumns(data, {"Column2", "Column6"}),
+		    #"Filas filtradas" = Table.SelectRows(#"Otras columnas quitadas", each ([Column2] <> "")),
+		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas filtradas", [PromoteAllScalars = true]),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(
+		        #"Encabezados promovidos",
+		        {{"SAP_ID_2", "sector_id"}, {"NUMPOINTS", "num_points"}}
+		    ),
+		    #"Duplicados eliminados" = Table.Distinct(
+		        #"Columnas con nombre cambiado",
+		        {"sector_id"}
+		    ),
+		    #"Tipo cambiado" = Table.TransformColumnTypes(
+		        #"Duplicados eliminados",
+		        {{"sector_id", Int64.Type}, {"num_points", Int64.Type}}
+		    )
+		in
+		    #"Tipo cambiado"
+	lineageTag: 782ba5ed-8e87-4bb2-82e1-70d4026dc1ba
+	queryGroup: _Tablas\_Dims\dim_sector
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression dim_sector_aux = ```
+		// TABLA 1 -Coordenadas
+		
+		let 
+		    Origen1 = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1l9btpQJf9bOrnwWyDpkAZpQXill8mdHHxKlHcdf_DVQ/edit?gid=1726033904#gid=1726033904"), 
+		    Nav1 = Origen1{[name = "coordenadas por sector bcn.csv", 
+		    ItemKind = "Table"]}[Data], 
+		    Quitadas = Table.RemoveColumns(Nav1,{"Column1", "Column2", "Column3"}), 
+		    Headers1 = Table.PromoteHeaders(Quitadas, [PromoteAllScalars=true]),
+		    Tipos1 = Table.TransformColumnTypes(Headers1,{{"sector_id", Int64.Type}, {"latitud", type number}, {"longitud", type number}}), 
+		    SinDuplicados = Table.Distinct(Tipos1), 
+		    Coordenadas = Table.SelectRows(SinDuplicados, each List.NonNullCount(Record.FieldValues(_)) > 0),
+		// TABLA 2 - Sectores 
+		    Origen2 = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRH4WiST8QUNFuYRZ1ilIw7p1mfJMiAz5bImbBz2ffnYgrxn2MyRB5O192pgqrP_SyFQdf6CJroUA9G/pub?gid=0&single=true&output=csv"), [Delimiter = ",", Columns = 3, Encoding = 65001, QuoteStyle = QuoteStyle.None]), 
+		    Headers2 = Table.PromoteHeaders(Origen2, [PromoteAllScalars = true]),
+		    Tipos2 = Table.TransformColumnTypes(Headers2, {{"sector_id", Int64.Type}, {"denomin", type text}, {"gerencia", type text}}, "es"), 
+		    Renombrada = Table.RenameColumns(Tipos2,{{"denomin", "sector"}}), 
+		    Sectores = Table.TransformColumns(Renombrada, {{"sector", Text.Proper, type text}}),
+		    // UNION
+		    Join = Table.NestedJoin( Coordenadas, {"sector_id"},Sectores, {"sector_id"},"Sectores", JoinKind.LeftOuter ),
+		    Resultado = Table.ExpandTableColumn( Join, "Sectores", {"sector", "gerencia"}, {"sector", "gerencia"} ),
+		    #"Valor reemplazado" = Table.ReplaceValue(Resultado,null,"No Disponible",Replacer.ReplaceValue,{"gerencia"}),
+		    auxiliar =
+		    Table.Combine({
+		        #"Valor reemplazado",
+		        dim_sector_null
+		    }),
+		    #"Columnas quitadas" = Table.RemoveColumns(auxiliar,{"gerencia"})
+		in
+		    #"Columnas quitadas"
+		```
+	lineageTag: 1c2cd7bd-f580-440d-9dea-0ed9a1db6db0
+	queryGroup: _Tablas\_Dims\dim_sector
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression aux_sector_no_disp = ```
+		let
+		    Origen = Table.FromRows(
+		        Json.Document(
+		            Binary.Decompress(
+		                Binary.FromText("i45W0jVU0lHyy1dwySwuyM/LTMpJBfIJIrAuEIqNBQA=", BinaryEncoding.Base64),
+		                Compression.Deflate
+		            )
+		        ),
+		        let _t = ((type nullable text) meta [Serialized.Text = true])
+		        in type table [
+		            sector_id = _t,
+		            sector = _t,
+		            pressio = _t,
+		            long_xarxa = _t,
+		            ramals_controlats = _t,
+		            subministraments_controlats = _t,
+		            pressio_mitjana = _t,
+		            lambert = _t,
+		            afor_l_s = _t,
+		            referencia = _t,
+		            sector_activo = _t,
+		            _1 = _t,
+		            _2 = _t,
+		            gerencia_id =_t,
+		            latitud = _t,
+		            longitud = _t
+		        ]
+		    ),
+		    Agregados =
+		    Table.InsertRows(
+		        Origen,
+		        Table.RowCount(Origen),
+		        {
+		            [sector_id="3073", sector="Canyelles", pressio=null, long_xarxa=null, ramals_controlats=null, subministraments_controlats=null, pressio_mitjana=null, lambert=null, afor_l_s=null, referencia=null, sector_activo=null, _1=null, _2=null, gerencia_id=8, latitud=null, longitud=null],
+		            [sector_id="3290", sector="Depuradora", pressio=null, long_xarxa=null, ramals_controlats=null, subministraments_controlats=null, pressio_mitjana=null, lambert=null, afor_l_s=null, referencia=null, sector_activo=null, _1=null, _2=null, gerencia_id=8, latitud=null, longitud=null],
+		            [sector_id="3166", sector="Ferran Junoy", pressio=null, long_xarxa=null, ramals_controlats=null, subministraments_controlats=null, pressio_mitjana=null, lambert=null, afor_l_s=null, referencia=null, sector_activo=null, _1=null, _2=null, gerencia_id=1, latitud=null, longitud=null],
+		            [sector_id="3400", sector="Gornal", pressio=null, long_xarxa=null, ramals_controlats=null, subministraments_controlats=null, pressio_mitjana=null, lambert=null, afor_l_s=null, referencia=null, sector_activo=null, _1=null, _2=null, gerencia_id=5, latitud=null, longitud=null],
+		            [sector_id="3221", sector="Indústria", pressio=null, long_xarxa=null, ramals_controlats=null, subministraments_controlats=null, pressio_mitjana=null, lambert=null, afor_l_s=null, referencia=null, sector_activo=null, _1=null, _2=null, gerencia_id=2, latitud=null, longitud=null],
+		            [sector_id="3241", sector="La Vallensana", pressio=null, long_xarxa=null, ramals_controlats=null, subministraments_controlats=null, pressio_mitjana=null, lambert=null, afor_l_s=null, referencia=null, sector_activo=null, _1=null, _2=null, gerencia_id=3, latitud=null, longitud=null],
+		            [sector_id="3444", sector="Passeig De Sant Gervasi", pressio=null, long_xarxa=null, ramals_controlats=null, subministraments_controlats=null, pressio_mitjana=null, lambert=null, afor_l_s=null, referencia=null, sector_activo=null, _1=null, _2=null, gerencia_id=2, latitud=null, longitud=null],
+		            [sector_id="3308", sector="Plaça Barraquer", pressio=null, long_xarxa=null, ramals_controlats=null, subministraments_controlats=null, pressio_mitjana=null, lambert=null, afor_l_s=null, referencia=null, sector_activo=null, _1=null, _2=null, gerencia_id=2, latitud=null, longitud=null],
+		            [sector_id="3319", sector="Santa Rosa", pressio=null, long_xarxa=null, ramals_controlats=null, subministraments_controlats=null, pressio_mitjana=null, lambert=null, afor_l_s=null, referencia=null, sector_activo=null, _1=null, _2=null, gerencia_id=3, latitud=null, longitud=null],
+		            [sector_id="3354", sector="Santelvira", pressio=null, long_xarxa=null, ramals_controlats=null, subministraments_controlats=null, pressio_mitjana=null, lambert=null, afor_l_s=null, referencia=null, sector_activo=null, _1=null, _2=null, gerencia_id=3, latitud=null, longitud=null],
+		            [sector_id="3004", sector="Tibidabo Torreó", pressio=null, long_xarxa=null, ramals_controlats=null, subministraments_controlats=null, pressio_mitjana=null, lambert=null, afor_l_s=null, referencia=null, sector_activo=null, _1=null, _2=null, gerencia_id=2, latitud=null, longitud=null],
+		            [sector_id="3313", sector="Sant Just Centre", pressio=null, long_xarxa=null, ramals_controlats=null, subministraments_controlats=null, pressio_mitjana=null, lambert=null, afor_l_s=null, referencia=null, sector_activo=null, _1=null, _2=null, gerencia_id=5, latitud=null, longitud=null]
+		        }
+		        ),
+		   
+		   #"Tipo cambiado" =
+		    Table.TransformColumnTypes(
+		        Agregados,
+		        {{"gerencia_id", Int64.Type}}
+		    ),
+		
+		    #"Reemplazar" =
+		        Table.ReplaceValue(
+		            #"Tipo cambiado",
+		            -1,
+		            8,
+		            Replacer.ReplaceValue,
+		            {"gerencia_id"}
+		        ),
+		    #"Valor reemplazado" =
+		    Table.ReplaceValue(
+		        Reemplazar,
+		        "",
+		        null,
+		        Replacer.ReplaceValue,
+		        Table.ColumnNames(Reemplazar)
+		    )
+		    
+		    in
+		        #"Valor reemplazado"
+		```
+	lineageTag: 9237b20f-7cb9-45f4-83ef-e3f1911c9b4d
+	queryGroup: _Tablas\_Dims\dim_sector
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

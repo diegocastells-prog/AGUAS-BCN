@@ -1,0 +1,208 @@
+table fact_anr_categorizacio_ia
+	lineageTag: 9f8409f2-a000-4b0a-b50c-b60c59fe9261
+
+	measure color_fondo_categorizacio =
+			
+			SWITCH (
+			    SELECTEDVALUE ( fact_anr_categorizacio_ia[tipo_retroalimentacion] ),
+			    "Prioridad critica", "#C00000",
+			    "Prioridad alta", "#FF0000",
+			    "Revisión de contadores", "#F4B183",
+			    "Revisión preventiva", "#FFD966",
+			    "Seguimiento operativo", "#FFF2CC",
+			    BLANK ()
+			)
+		lineageTag: 790d67fb-8922-49d1-b868-0a9b46bfe585
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sector_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d10dde63-8d54-4e1c-8f7b-e94a36d88daa
+		summarizeBy: none
+		sourceColumn: sector_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column sector
+		dataType: string
+		isHidden
+		lineageTag: 5dc9ab28-af05-49d1-aa47-33269f06093b
+		summarizeBy: none
+		sourceColumn: sector
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column gerencia
+		dataType: string
+		isHidden
+		lineageTag: 4b4bdfb1-020a-4632-b6fa-35133fecc3c1
+		summarizeBy: none
+		sourceColumn: gerencia
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column año
+		dataType: int64
+		formatString: 0
+		lineageTag: 71e8d034-affc-45bd-8ec5-11038cb3add8
+		summarizeBy: none
+		sourceColumn: año
+
+		annotation SummarizationSetBy = User
+
+	column mes
+		dataType: string
+		lineageTag: 7c7e6bc4-d340-4956-a0d4-ed694f21d81f
+		summarizeBy: none
+		sourceColumn: mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column agua_lliurada_hm3
+		dataType: double
+		lineageTag: 1f6e6c6e-b3f2-4d4b-846d-590a730ea586
+		summarizeBy: sum
+		sourceColumn: agua_lliurada_hm3
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column agua_consumida_hm3
+		dataType: double
+		lineageTag: 1ca1c2ba-bb09-4c03-b87a-814c28e9c76b
+		summarizeBy: sum
+		sourceColumn: agua_consumida_hm3
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Qmin
+		dataType: double
+		lineageTag: 9fb0ee5a-08f9-4cd6-aabf-f8e7dd34b061
+		summarizeBy: sum
+		sourceColumn: Qmin
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column contadores_con_problemas
+		dataType: int64
+		formatString: 0
+		lineageTag: be7018c4-8afa-4d28-a212-4ae13d986c43
+		summarizeBy: sum
+		sourceColumn: contadores_con_problemas
+
+		annotation SummarizationSetBy = Automatic
+
+	column contadores_subcontaje
+		dataType: int64
+		formatString: 0
+		lineageTag: 71c264ab-ea03-4142-b188-478d1c60edac
+		summarizeBy: sum
+		sourceColumn: contadores_subcontaje
+
+		annotation SummarizationSetBy = Automatic
+
+	column num_points
+		dataType: int64
+		formatString: 0
+		lineageTag: 72580d56-fc37-4df6-b960-259ab2c46d0d
+		summarizeBy: sum
+		sourceColumn: num_points
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_retroalimentacion
+		dataType: string
+		isHidden
+		lineageTag: 5f955ca3-f326-42c1-839e-7b247341a835
+		summarizeBy: none
+		sourceColumn: tipo_retroalimentacion
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column recomendacion
+		dataType: string
+		lineageTag: 1a6a3bc7-e5e3-4178-bd47-e39af23bdb6e
+		summarizeBy: none
+		sourceColumn: recomendacion
+		sortByColumn: prioridad_numero
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column data
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy
+		lineageTag: e6eaf7f3-648a-43fe-a83b-7b66793d1d0b
+		summarizeBy: none
+		sourceColumn: data
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column ANR_hm3
+		dataType: double
+		lineageTag: 2010928b-698b-4bd1-bb8c-a2a89320a9f5
+		summarizeBy: sum
+		sourceColumn: ANR_hm3
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RTH
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 50199c9c-f7e7-4b72-aad9-e11922ed23c8
+		summarizeBy: sum
+		sourceColumn: RTH
+
+		annotation SummarizationSetBy = Automatic
+
+	column prioridad_numero
+		dataType: int64
+		formatString: 0
+		lineageTag: 202bcee4-14e0-4380-8420-68cd79b1faf6
+		summarizeBy: sum
+		sourceColumn: prioridad_numero
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_anr_categorizacio_ia = m
+		mode: import
+		queryGroup: _Tablas\_Facts
+		source =
+				let
+				  Origen = GoogleSheets.Contents(anr_categorizacio_ia),
+				  TablaOrigen = Origen{[name = "Hoja1", ItemKind = "Table"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(TablaOrigen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"sector_id", Int64.Type}, {"sector", type text}, {"gerencia", type text}, {"año", Int64.Type}, {"mes", type text}, {"data", type date}, {"agua_lliurada_hm3", type number}, {"agua_consumida_hm3", type number}, {"ANR_hm3", type number}, {"RTH", type number}, {"Qmin", type number}, {"contadores_con_problemas", Int64.Type}, {"contadores_subcontaje", Int64.Type}, {"num_points", Int64.Type}, {"prioridad_numero", Int64.Type}, {"tipo_retroalimentacion", type text}, {"recomendacion", type text}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

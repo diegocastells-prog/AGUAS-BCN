@@ -1,0 +1,47 @@
+model Model
+	culture: es-ES
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-ES
+	valueFilterBehavior: independent
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup _Archivos
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup _Tablas
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup _Tablas\_Dims
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup _Tablas\_Dims\dim_sector
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup _Tablas\_Facts
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["dim_sector_sembrado_ortomat","sectores_sembrados_ortomat","dim_sector","indicadors_sectoritzacio_2026","dim_gerencia","dim_sector_aux","aux_sector_no_disp","anr_ia","anr_categorizacio_ia","fact_anr_categorizacio_ia","fact_anr_ia","dim_sector_null","dim_prioridad"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table dim_sector
+ref table dim_gerencia
+ref table fact_anr_categorizacio_ia
+ref table fact_anr_ia
+ref table dim_calendario
+ref table DateTableTemplate_69cc755d-863c-45eb-af7b-7e7995bf9a03
+ref table LocalDateTable_52412d74-bbb1-4cb5-9684-955f0883aaac
+ref table dim_prioridad
+
+ref cultureInfo es-ES
+

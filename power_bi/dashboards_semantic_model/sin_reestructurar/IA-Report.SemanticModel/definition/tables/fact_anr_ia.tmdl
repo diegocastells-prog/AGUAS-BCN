@@ -1,0 +1,207 @@
+table fact_anr_ia
+	lineageTag: 4d8b8478-3bd7-4ac3-8b18-654194073d67
+
+	measure color_fondo_anr =
+			
+			SWITCH (
+			    SELECTEDVALUE ( fact_anr_ia[tipo_retroalimentacion] ),
+			    "Prioridad crítica", "#C00000",
+			    "Prioridad alta", "#FF0000",
+			    "Revisión de contadores", "#F4B183",
+			    "Revisión preventiva", "#FFD966",
+			    "Seguimiento operativo", "#FFF2CC",
+			    BLANK ()
+			)
+		lineageTag: 4eb45a2f-26ca-4ba1-aef4-e9fc207f018a
+
+	column sector_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 077c4739-7081-447a-a3a2-54bde6bf03f5
+		summarizeBy: none
+		sourceColumn: sector_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column sector
+		dataType: string
+		isHidden
+		lineageTag: 78f9c861-4d74-4fcf-bb98-a340a00c21be
+		summarizeBy: none
+		sourceColumn: sector
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column gerencia
+		dataType: string
+		isHidden
+		lineageTag: 6da689e9-6a8e-4dbc-afd0-6984f5e2a156
+		summarizeBy: none
+		sourceColumn: gerencia
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column anyo
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: af47b13e-9353-426a-b4eb-8d5bf00806e0
+		summarizeBy: sum
+		sourceColumn: anyo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column mes
+		dataType: string
+		lineageTag: 1dde5e46-e511-48de-8305-9789cf85d64c
+		summarizeBy: none
+		sourceColumn: mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column aigua_lliurada_m3
+		dataType: int64
+		formatString: 0
+		lineageTag: 5a00cfe1-a39f-4b67-be04-337e49c1c217
+		summarizeBy: sum
+		sourceColumn: aigua_lliurada_m3
+
+		annotation SummarizationSetBy = Automatic
+
+	column aigua_consumida_m3
+		dataType: int64
+		formatString: 0
+		lineageTag: befdf051-3f47-46b8-86bd-1eb0c369dfa9
+		summarizeBy: sum
+		sourceColumn: aigua_consumida_m3
+
+		annotation SummarizationSetBy = Automatic
+
+	column contadores_con_poblemas
+		dataType: int64
+		formatString: 0
+		lineageTag: e473f578-04f9-4f3a-829d-6642bdfd7c75
+		summarizeBy: sum
+		sourceColumn: contadores_con_poblemas
+
+		annotation SummarizationSetBy = Automatic
+
+	column num_points
+		dataType: int64
+		formatString: 0
+		lineageTag: b939871f-e821-4950-ba47-12e7c562bc90
+		summarizeBy: sum
+		sourceColumn: num_points
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_retroalimentacion
+		dataType: string
+		isHidden
+		lineageTag: 914c7d14-e250-4949-8bb9-e49b7e02d54c
+		summarizeBy: none
+		sourceColumn: tipo_retroalimentacion
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column recomendacion
+		dataType: string
+		lineageTag: e921e1e8-d0d9-472a-940b-b67173622bc0
+		summarizeBy: none
+		sourceColumn: recomendacion
+		sortByColumn: prioridad_numero
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column data
+		dataType: dateTime
+		isHidden
+		formatString: dd/mm/yyyy
+		lineageTag: 75c326f7-4378-4b59-9779-274f80ee6062
+		summarizeBy: none
+		sourceColumn: data
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column ANR_porcentaje
+		dataType: double
+		lineageTag: 34fa1960-6185-4393-bbbe-b99c1f95dcf2
+		summarizeBy: sum
+		sourceColumn: ANR_porcentaje
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ANR_m3
+		dataType: int64
+		formatString: 0
+		lineageTag: e00ad99d-2ed5-4170-9c0b-1d84bf13e8fc
+		summarizeBy: sum
+		sourceColumn: ANR_m3
+
+		annotation SummarizationSetBy = Automatic
+
+	column peso_ANR_total_porcentaje
+		dataType: double
+		lineageTag: bee19902-f529-483a-ab53-10cd79b596a9
+		summarizeBy: sum
+		sourceColumn: peso_ANR_total_porcentaje
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ranking_peso_ANR
+		dataType: int64
+		formatString: 0
+		lineageTag: ba1b9468-9a8e-483b-87af-db8ed6189277
+		summarizeBy: sum
+		sourceColumn: ranking_peso_ANR
+
+		annotation SummarizationSetBy = Automatic
+
+	column prioridad_numero
+		dataType: int64
+		formatString: 0
+		lineageTag: 8832c54a-0211-4388-87a2-84005da437ed
+		summarizeBy: sum
+		sourceColumn: prioridad_numero
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_anr_ia = m
+		mode: import
+		queryGroup: _Tablas\_Facts
+		source =
+				let
+				  Origen = GoogleSheets.Contents(anr_ia),
+				  TablaOrigen = Origen{[name = "Hoja1", ItemKind = "Table"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(TablaOrigen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"sector_id", Int64.Type}, {"sector", type text}, {"gerencia", type text}, {"anyo", Int64.Type}, {"mes", type text}, {"data", type date}, {"aigua_lliurada_m3", Int64.Type}, {"aigua_consumida_m3", Int64.Type}, {"ANR_porcentaje", type number}, {"ANR_m3", Int64.Type}, {"peso_ANR_total_porcentaje", type number}, {"ranking_peso_ANR", Int64.Type}, {"contadores_con_poblemas", Int64.Type}, {"num_points", Int64.Type}, {"prioridad_numero", Int64.Type}, {"tipo_retroalimentacion", type text}, {"recomendacion", type text}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

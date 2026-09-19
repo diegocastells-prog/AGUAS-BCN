@@ -1,0 +1,116 @@
+table dim_gerencia
+	lineageTag: 0693eaf1-0bb2-4d24-8363-2727ac12ce09
+
+	column gerencia
+		dataType: string
+		lineageTag: e26a954d-2adc-445c-8ea7-6f27283772e9
+		summarizeBy: none
+		sourceColumn: gerencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column gerencia_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 69619e0e-a799-4868-84de-21cb649d3243
+		summarizeBy: none
+		sourceColumn: gerencia_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_gerencia = m
+		mode: import
+		queryGroup: _Tablas\_Dims
+		source =
+				let
+				  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=512415232#gid=512415232"),
+				  TablaOrigen = Origen{[name = "Volums Consumits", ItemKind = "Table"]}[Data],
+				
+				    // Preparación de datos
+				    SaltarFilas = Table.Skip(TablaOrigen, 2),
+				    PromoverEncabezados = Table.PromoteHeaders(SaltarFilas, [PromoteAllScalars = true]),
+				    #"Filas filtradas" = Table.SelectRows(PromoverEncabezados, each ([Gerència] <> "Total") and ([Pis Pressió] <> "Aigua Consumida Total" and [Pis Pressió] <> "Aigua Consumida Íntegre")),
+				
+				    // Eliminar columnas innecesarias
+				    EliminarColumnas = Table.RemoveColumns(
+				        #"Filas filtradas",
+				        {
+				            "_1", "", "01/06/2026", "01/07/2026", "01/08/2026",
+				            "01/09/2026", "01/10/2026", "01/11/2026", "01/12/2026"
+				        }
+				    ),
+				
+				    // Pasar las fechas a filas
+				    DespivotarFechas = Table.UnpivotOtherColumns(
+				        EliminarColumnas,
+				        {"Nº", "Gerència", "Pis Pressió", "Sectors"},
+				        "fecha",
+				        "volum_consumit"
+				    ),
+				
+				    // Renombrar columnas
+				    RenombrarColumnas = Table.RenameColumns(
+				        DespivotarFechas,
+				        {
+				            {"Nº", "sector_id"},
+				            {"Gerència", "gerencia"},
+				            {"Pis Pressió", "pis_pressio"}
+				        }
+				    ),
+				
+				    // Eliminar columnas no necesarias
+				    EliminarSectors = Table.RemoveColumns(RenombrarColumnas, {"Sectors"}),
+				
+				    // Asignar tipos de datos
+				    CambiarTipos = Table.TransformColumnTypes(
+				        EliminarSectors,
+				        {
+				            {"sector_id", Int64.Type},
+				            {"gerencia", type text},
+				            {"pis_pressio", type text},
+				            {"fecha", type date},
+				            {"volum_consumit", Int64.Type}
+				        }
+				    ),
+				
+				    // Limpiar datos
+				    SinDuplicados = Table.Distinct(CambiarTipos),
+				    SinFilasVacias = Table.SelectRows(
+				        SinDuplicados,
+				        each List.NonNullCount(Record.FieldValues(_)) > 0
+				    ),
+				    #"Valor reemplazado" = Table.ReplaceValue(SinFilasVacias,"","No Disponible",Replacer.ReplaceValue,{"gerencia"}),
+				    #"Filas filtradas1" = Table.SelectRows(#"Valor reemplazado", each true),
+				    #"Otras columnas quitadas" = Table.SelectColumns(#"Filas filtradas1",{"gerencia"}),
+				    // Tabla manual con la gerencia que falta
+				    GerenciaExtra =
+				        #table(
+				            type table [gerencia = text],
+				            {
+				                {"Multi DZ"}
+				            }
+				        ),
+				
+				    // UNION
+				    #"Duplicados quitados" =
+				        Table.Distinct(
+				            Table.Combine({
+				                #"Otras columnas quitadas",
+				                GerenciaExtra
+				            })
+				        ),
+				    #"Filas ordenadas" = Table.Sort(#"Duplicados quitados",{{"gerencia", Order.Ascending}}),
+				    #"Índice agregado" = Table.AddIndexColumn(#"Filas ordenadas", "Índice", 1, 1, Int64.Type),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Índice agregado",{{"Índice", "gerencia_id"}}),
+				    #"Texto limpio" = Table.TransformColumns(#"Columnas con nombre cambiado",{{"gerencia", Text.Clean, type text}}),
+				    #"Texto recortado" = Table.TransformColumns(#"Texto limpio",{{"gerencia", Text.Trim, type text}})
+				in
+				    #"Texto recortado"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

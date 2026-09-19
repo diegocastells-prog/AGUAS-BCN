@@ -1,0 +1,66 @@
+table dim_prioridad
+	lineageTag: 38cb06a9-5d1d-4a89-984b-ff3ac52995e8
+
+	measure 'Color fondo prioridad' =
+			
+			VAR TipoRetroalimentacion =
+			    SELECTEDVALUE ( dim_prioridad[tipo_retroalimentacion] )
+			RETURN
+			    SWITCH (
+			        TipoRetroalimentacion,
+			        "Prioridad critica", "#C00000",
+			        "Prioridad alta", "#FF0000",
+			        "Revisión de contadores", "#F4B183",
+			        "Revisión preventiva", "#FFD966",
+			        "Seguimiento operativo", "#FFF2CC",
+			        BLANK ()
+			    )
+		lineageTag: a56f13f2-18a6-4876-b2ec-16115c03a4f1
+
+	column tipo_retroalimentacion
+		dataType: string
+		lineageTag: 355d0a49-6753-427e-97d0-fcdff410d296
+		summarizeBy: none
+		sourceColumn: tipo_retroalimentacion
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_prioridad = m
+		mode: import
+		queryGroup: _Tablas\_Facts
+		source =
+				let
+				    // Seleccionar únicamente tipo_retroalimentacion
+				    Tabla1 = Table.SelectColumns(
+				        fact_anr_ia,
+				        {"tipo_retroalimentacion"}
+				    ),
+				
+				    Tabla2 = Table.SelectColumns(
+				        fact_anr_categorizacio_ia,
+				        {"tipo_retroalimentacion"}
+				    ),
+				
+				    // Combinar ambas tablas
+				    Combinado = Table.Combine({
+				        Tabla1,
+				        Tabla2
+				    }),
+				
+				    // Eliminar nulos y valores vacíos
+				    Filtrado = Table.SelectRows(
+				        Combinado,
+				        each [tipo_retroalimentacion] <> null
+				            and Text.Trim([tipo_retroalimentacion]) <> ""
+				    ),
+				
+				    // Eliminar duplicados
+				    Resultado = Table.Distinct(Filtrado)
+				
+				in
+				    Resultado
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
