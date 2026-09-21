@@ -62,7 +62,7 @@ table fact_aigua_no_registrada
 		queryGroup: Hechos
 		source = ```
 				let
-								    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=2003244827#gid=2003244827"),
+								    Origen = GoogleSheets.Contents(#"Indicadors Sectorització 2026"),
 								    #"Navegación 1" = Origen{[name = "Aigua No Registrada", ItemKind = "Table"]}[Data],
 								    #"Filas superiores quitadas" = Table.Skip(#"Navegación 1",2),
 								    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),

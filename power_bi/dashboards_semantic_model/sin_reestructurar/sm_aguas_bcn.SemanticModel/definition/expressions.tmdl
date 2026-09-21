@@ -2450,7 +2450,7 @@ expression dim_art_llob_g_pressio_Palleja = ```
 	annotation PBI_ResultType = Table
 
 /// URL AL SPREEDSHET "Informe Aigua Consumida 2026" QUE CONTIENE EL AIGUA LLIURADA
-expression 'Informe Aigua Consumida 2026' = "https://docs.google.com/spreadsheets/d/1GcZpQqbGihEftG7cP56wk9-AIIv07FLtQQT95_s6ZJw/edit?gid=763204073#gid=763204073" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression 'Informe Aigua Consumida 2026' = "https://docs.google.com/spreadsheets/d/1U4pUpxWwZEAqBCm4GzXi_ATzNl4aQOkBGe-324NAy-s/edit?gid=1245906246#gid=1245906246" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: f9661877-db08-4896-abf1-5be8a090f507
 	queryGroup: 'Parametre '
 
@@ -3288,11 +3288,38 @@ expression fact_fraus_2026 =
 		  Origen = GoogleSheets.Contents(#"fraus facturats 2026"),
 		  TablaOrigen = Origen{[name = "Hoja1", ItemKind = "Table"]}[Data],
 		    #"Encabezados promovidos" = Table.PromoteHeaders(TablaOrigen, [PromoteAllScalars=true]),
-		    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{"", "_1", "_2", "_3", "_4"})
+		    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{"", "_1", "_2", "_3", "_4"}),
+		    #"Agregar columna personalizada" = Table.AddColumn(#"Columnas quitadas", "Personalizado", each Text.Combine({"2026-", Text.Start([NOM_MES], 3), "01"}), type text),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Agregar columna personalizada",{{"Personalizado", "DATA_CREA_C_FRA"}}),
+		    #"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado",{"_5", "_6"})
 		in
-		#"Columnas quitadas"
+		    #"Columnas quitadas1"
 	lineageTag: 0fdc76b3-35b1-43ce-a025-ef44ea7502ef
 	queryGroup: Auxiliares
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression 'Errores en fact_fraus' =
+		let
+		Origen = fact_fraus,
+		  #"Errores de coincidencia detectados" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Origen, Table.ColumnsOfType(Origen, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "El tipo del valor no coincide con el tipo de la columna.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Origen, pairs),
+		  #"Índice agregado" = Table.AddIndexColumn(#"Errores de coincidencia detectados", "Número de fila" ,1),
+		  #"Conservar errores" = Table.SelectRowsWithErrors(#"Índice agregado", {"polissa_subm", "polissa_ramal", "del_creacio_conv_f", "tip_subm_serv", "ql_gestio_fact", "data_crea_c_fra", "any_factura", "num_factura", "id_empresa", "num_particio", "cod_post_conv_frau", "total_m3", "total_import", "situacio_fact", "any_mes", "nom_mes", "gerencia", "total_polisses", "total_registres", "polissa_subm_2"}),
+		  #"Columnas reordenadas" = Table.ReorderColumns(#"Conservar errores", {"Número de fila", "polissa_subm", "polissa_ramal", "del_creacio_conv_f", "tip_subm_serv", "ql_gestio_fact", "data_crea_c_fra", "any_factura", "num_factura", "id_empresa", "num_particio", "cod_post_conv_frau", "total_m3", "total_import", "situacio_fact", "any_mes", "nom_mes", "gerencia", "total_polisses", "total_registres", "polissa_subm_2"}),
+		    #"Columnas quitadas" = Table.RemoveColumns(#"Columnas reordenadas",{"polissa_subm_2"})
+		in
+		  #"Columnas quitadas"
+	lineageTag: 9eb8c965-3037-4a72-b1fe-d1ae719563da
+	queryGroup: 'Errores en las consultas: 21/09/2026 16:42:47'
 
 	annotation PBI_NavigationStepName = Navegación
 

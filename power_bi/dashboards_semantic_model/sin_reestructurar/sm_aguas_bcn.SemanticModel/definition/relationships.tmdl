@@ -1,7 +1,3 @@
-relationship 818b4164-f6eb-db7a-e1d1-e0b4c4d85b65
-	fromColumn: fact_fraudes_all.polissa_subm
-	toColumn: dim_less_polissa_fraude.polissa_su
-
 relationship AutoDetected_fa068362-ff0a-4555-84b3-340a375e0c1f
 	fromColumn: fact_perimetre_comptadors.id_marca_modelo
 	toColumn: dim_comptadors.Id_marca_modelo
@@ -57,10 +53,6 @@ relationship 3a91c416-5eba-20e6-c3c4-85d7c3bdac49
 relationship caf1f8eb-e1a1-65e7-5397-a66bd05b1cfe
 	fromColumn: fact_volum_cons_lliur.sector_id
 	toColumn: dim_dades_sectors.sector_id
-
-relationship beccf909-bd77-3fbe-2b9d-7ab84f40e840
-	fromColumn: fact_vol_fraud.'Polissa Subm'
-	toColumn: dim_less_polissa_fraude.polissa_su
 
 relationship AutoDetected_bf589676-bfd9-4235-b31d-03d515ae2e91
 	fromColumn: fact_tfuita_tinst.Gerencia
@@ -184,11 +176,12 @@ relationship a8e2b428-85c8-573a-a6ad-3e7b7764fc29
 	fromColumn: dim_pozos.sector_id
 	toColumn: dim_dades_sectors.sector_id
 
-relationship AutoDetected_e3b0cbf5-3d95-497c-8d2b-4e4c9f6b9110
-	fromColumn: fact_fraus.gerencia
-	toColumn: dim_gerencia.gerencia
-
 relationship 470c6aa8-cd73-79fb-1a8b-2720384d21a5
 	fromColumn: fact_fraus.data_crea_c_fra
 	toColumn: dim_calendario.Date
+
+relationship 58e12e58-eddf-0ef1-5fa6-769f3e9ff2fd
+	crossFilteringBehavior: bothDirections
+	fromColumn: fact_fraus.polissa_subm
+	toColumn: dim_less_polissa_fraude.polissa_su
 

@@ -18,9 +18,10 @@ table fact_fraus
 		annotation SummarizationSetBy = Automatic
 
 	column del_creacio_conv_f
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 4d8c19df-fee3-4e77-bdf0-5111afbd2305
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: del_creacio_conv_f
 
 		annotation SummarizationSetBy = Automatic
@@ -42,25 +43,30 @@ table fact_fraus
 		annotation SummarizationSetBy = Automatic
 
 	column data_crea_c_fra
-		dataType: string
+		dataType: dateTime
+		formatString: Long Date
 		lineageTag: 5e7ff3b0-b2e8-4ce1-b602-c7352ee7a8e5
 		summarizeBy: none
 		sourceColumn: data_crea_c_fra
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation UnderlyingDateTimeDataType = Date
+
 	column any_factura
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 207ee9ad-5924-4c88-901a-1364bebb8318
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: any_factura
 
 		annotation SummarizationSetBy = Automatic
 
 	column num_factura
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: a4842ce6-facc-40e7-9784-34bfc89c4225
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: num_factura
 
 		annotation SummarizationSetBy = Automatic
@@ -74,34 +80,20 @@ table fact_fraus
 		annotation SummarizationSetBy = Automatic
 
 	column num_particio
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 1b6b1bee-5839-4570-9d70-a96e141a8eba
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: num_particio
 
 		annotation SummarizationSetBy = Automatic
 
 	column cod_post_conv_frau
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 3f205b92-cffb-45db-9a67-69333356f7cd
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: cod_post_conv_frau
-
-		annotation SummarizationSetBy = Automatic
-
-	column suma_m3_trams
-		dataType: string
-		lineageTag: 716a3f83-281b-459a-a8dd-38f2773ccb96
-		summarizeBy: none
-		sourceColumn: suma_m3_trams
-
-		annotation SummarizationSetBy = Automatic
-
-	column suma_total_fact
-		dataType: string
-		lineageTag: 0f867ce0-f316-48f6-99c0-a153728afc76
-		summarizeBy: none
-		sourceColumn: suma_total_fact
 
 		annotation SummarizationSetBy = Automatic
 
@@ -154,25 +146,29 @@ table fact_fraus
 		annotation SummarizationSetBy = Automatic
 
 	column total_m3
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 0ccc17ef-f555-4714-9ac8-c69b3fa88b8f
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: total_m3
 
 		annotation SummarizationSetBy = Automatic
 
 	column total_import
-		dataType: string
+		dataType: double
 		lineageTag: 42b0ed34-8cbb-48b3-9880-1c1ee58f0b64
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: total_import
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column polissa_subm_2
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 377b793b-c733-42f7-80f8-5b43b2ccb041
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: polissa_subm_2
 
 		annotation SummarizationSetBy = Automatic
@@ -180,24 +176,26 @@ table fact_fraus
 	partition fact_fraus = m
 		mode: import
 		queryGroup: Hechos
-		source =
+		source = ```
 				let
 				    Union = Table.Combine({
 				        fact_fraus_2025,
 				        fact_fraus_2026
 				    }),
-				    #"Columnas quitadas" = Table.RemoveColumns(Union, {"_5", "_6"}),
+				   
 				    #"Nombres en minúsculas" = Table.TransformColumnNames(
-				        #"Columnas quitadas",
+				        Union,
 				        Text.Lower
 				    ),
 				    #"Columna duplicada" = Table.DuplicateColumn(#"Nombres en minúsculas", "polissa_subm", "polissa_subm - Copia"),
 				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columna duplicada",{{"polissa_subm - Copia", "polissa_subm_2"}}),
 				    #"Texto insertado antes del delimitador" = Table.AddColumn(#"Columnas con nombre cambiado", "Texto antes del delimitador", each Text.BeforeDelimiter([polissa_subm_2], "F"), type text),
 				    #"Columnas quitadas1" = Table.RemoveColumns(#"Texto insertado antes del delimitador",{"polissa_subm_2"}),
-				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columnas quitadas1",{{"Texto antes del delimitador", "polissa_subm_2"}})
+				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columnas quitadas1",{{"Texto antes del delimitador", "polissa_subm_2"}}),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas con nombre cambiado1",{{"polissa_subm", type text}, {"polissa_ramal", type any}, {"del_creacio_conv_f", Int64.Type}, {"tip_subm_serv", type text}, {"ql_gestio_fact", type text}, {"data_crea_c_fra", type date}, {"any_factura", Int64.Type}, {"num_factura", Int64.Type}, {"id_empresa", type text}, {"num_particio", Int64.Type}, {"cod_post_conv_frau", Int64.Type}, {"total_m3", Int64.Type}, {"total_import", type number}, {"situacio_fact", type any}, {"any_mes", type any}, {"nom_mes", type any}, {"gerencia", type any}, {"total_polisses", type any}, {"total_registres", type any}, {"polissa_subm_2", Int64.Type}})
 				in
-				    #"Columnas con nombre cambiado1"
+				    #"Tipo cambiado"
+				```
 
 	annotation PBI_NavigationStepName = Navegación
 

@@ -133,7 +133,7 @@ table fact_aigua_consum_historic
 		source =
 				let
 				    // Origen
-				    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1GcZpQqbGihEftG7cP56wk9-AIIv07FLtQQT95_s6ZJw/edit?gid=763204073#gid=763204073"),
+				    Origen = GoogleSheets.Contents(#"Informe Aigua Consumida 2026"),
 				    Tabla = Origen{[name="Històric Mesos", ItemKind="Table"]}[Data],
 				    #"Filas superiores quitadas" = Table.Skip(Tabla,1),
 				    #"Filas filtradas" = Table.SelectRows(#"Filas superiores quitadas", each ([Column4] <> "")),

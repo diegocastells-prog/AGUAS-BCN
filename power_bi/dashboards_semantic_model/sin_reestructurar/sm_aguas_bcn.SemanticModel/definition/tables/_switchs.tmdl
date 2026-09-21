@@ -2028,6 +2028,66 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure kpi_fraus_m3_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [fraus_detectats],
+			    "12 meses", [fraus_detectats_12m],
+			    "Acumlat", [_cero_acumulat],
+			    "Diff",[_cero_acumulat],
+			    BLANK()
+			)
+		displayFolder: fraus
+		lineageTag: e3c79730-7b86-4bb8-ad38-0c3dac916da1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_fraus_m3_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [fraus_detectats],
+			    "12 meses", [fraus_detectats_12m],
+			    "Acumlat", [_cero_acumulat],
+			    "Diff",[_cero_acumulat],
+			    BLANK()
+			)
+		displayFolder: fraus
+		lineageTag: b600e91f-5233-4aa2-818f-9af7b5371249
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_fraus_total_import_switch =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [fraus_detectats],
+			    "12 meses", [fraus_detectats_12m],
+			    "Acumlat", [_cero_acumulat],
+			    "Diff",[_cero_acumulat],
+			    BLANK()
+			)
+		displayFolder: fraus
+		lineageTag: 0f48ee39-abc0-4c65-ab32-8b3bbda91ed0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure kpi_fraus_total_import_switch_1m =
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			    "Mensual", [fraus_detectats],
+			    "12 meses", [fraus_detectats_12m],
+			    "Acumlat", [_cero_acumulat],
+			    "Diff",[_cero_acumulat],
+			    BLANK()
+			)
+		displayFolder: fraus
+		lineageTag: 3e1130e4-f9f0-433f-8b15-4e30f2ee60d1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Column
 		isHidden
 		formatString: 0
