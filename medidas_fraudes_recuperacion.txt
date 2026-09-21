@@ -1,0 +1,521 @@
+// Medidas análogas para fraude y recuperación
+//
+// Referencias solicitadas:
+// - fact_fraudes (no fact_fraudes_all)
+// - fact_vol_fraud
+//
+// Nota:
+// - Las medidas de fact_vol_fraud usan [Data Fi Execucio Final] como fecha.
+// - Se mantienen las referencias proporcionadas a [ind_resultat].
+//   Verificar que esa columna exista en el modelo final de fact_vol_fraud.
+
+// =========================================================
+// Medidas base
+// =========================================================
+
+measure fraus_detectats =
+    CALCULATE(
+        COUNTROWS(fact_fraudes),
+        fact_fraudes[ind_resultat] = "S"
+    )
+
+measure fraus_recuperats =
+    CALCULATE(
+        COUNTROWS(fact_vol_fraud),
+        fact_vol_fraud[ind_resultat] = "S"
+    )
+
+measure volum_agua_rec_fraud =
+    SUM(fact_vol_fraud[Volumen Total])
+
+measure fraus_recupera_euros =
+    CALCULATE(
+        SUM(fact_vol_fraud[Imp Cobrat Frau Total]),
+        fact_vol_fraud[Tipologia] = "Executada",
+        NOT ISBLANK(fact_vol_fraud[Imp Cobrat Frau Total])
+    )
+
+measure pct_fraudes_recupera =
+    DIVIDE(
+        [fraus_recuperats],
+        [fraus_detectats],
+        0
+    )
+
+
+// =========================================================
+// Medidas de soporte para los acumulados y comparativas
+// =========================================================
+
+measure fraus_detectats_12m =
+    VAR _FechaFin =
+        CALCULATE(
+            MAX(fact_fraudes[data_creacio_original]),
+            ALL(fact_fraudes)
+        )
+    VAR _FechaInicio = EDATE(_FechaFin, -11)
+    VAR _FechaMinContexto = MIN(dim_calendario[Date])
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _Valor =
+        CALCULATE(
+            [fraus_detectats],
+            DATESINPERIOD(
+                dim_calendario[Date],
+                _FechaMaxContexto,
+                -12,
+                MONTH
+            )
+        )
+    RETURN
+        IF(
+            _FechaMaxContexto < _FechaInicio
+                || _FechaMinContexto > _FechaFin,
+            BLANK(),
+            _Valor
+        )
+
+measure fraus_recuperats_12m =
+    VAR _FechaFin =
+        CALCULATE(
+            MAX(fact_vol_fraud[Data Fi Execucio Final]),
+            ALL(fact_vol_fraud)
+        )
+    VAR _FechaInicio = EDATE(_FechaFin, -11)
+    VAR _FechaMinContexto = MIN(dim_calendario[Date])
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _Valor =
+        CALCULATE(
+            [fraus_recuperats],
+            DATESINPERIOD(
+                dim_calendario[Date],
+                _FechaMaxContexto,
+                -12,
+                MONTH
+            )
+        )
+    RETURN
+        IF(
+            _FechaMaxContexto < _FechaInicio
+                || _FechaMinContexto > _FechaFin,
+            BLANK(),
+            _Valor
+        )
+
+measure volum_agua_rec_fraud_12m =
+    VAR _FechaFin =
+        CALCULATE(
+            MAX(fact_vol_fraud[Data Fi Execucio Final]),
+            ALL(fact_vol_fraud)
+        )
+    VAR _FechaInicio = EDATE(_FechaFin, -11)
+    VAR _FechaMinContexto = MIN(dim_calendario[Date])
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _Valor =
+        CALCULATE(
+            [volum_agua_rec_fraud],
+            DATESINPERIOD(
+                dim_calendario[Date],
+                _FechaMaxContexto,
+                -12,
+                MONTH
+            )
+        )
+    RETURN
+        IF(
+            _FechaMaxContexto < _FechaInicio
+                || _FechaMinContexto > _FechaFin,
+            BLANK(),
+            _Valor
+        )
+
+measure fraus_recupera_euros_12m =
+    VAR _FechaFin =
+        CALCULATE(
+            MAX(fact_vol_fraud[Data Fi Execucio Final]),
+            ALL(fact_vol_fraud)
+        )
+    VAR _FechaInicio = EDATE(_FechaFin, -11)
+    VAR _FechaMinContexto = MIN(dim_calendario[Date])
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _Valor =
+        CALCULATE(
+            [fraus_recupera_euros],
+            DATESINPERIOD(
+                dim_calendario[Date],
+                _FechaMaxContexto,
+                -12,
+                MONTH
+            )
+        )
+    RETURN
+        IF(
+            _FechaMaxContexto < _FechaInicio
+                || _FechaMinContexto > _FechaFin,
+            BLANK(),
+            _Valor
+        )
+
+measure pct_fraudes_recupera_12m =
+    DIVIDE(
+        [fraus_recuperats_12m],
+        [fraus_detectats_12m],
+        0
+    )
+
+measure fraus_detectats_mensual_smly =
+    CALCULATE(
+        [fraus_detectats],
+        DATEADD(dim_calendario[Date], -12, MONTH)
+    )
+
+measure fraus_recuperats_mensual_smly =
+    CALCULATE(
+        [fraus_recuperats],
+        DATEADD(dim_calendario[Date], -12, MONTH)
+    )
+
+measure volum_agua_rec_fraud_mensual_smly =
+    CALCULATE(
+        [volum_agua_rec_fraud],
+        DATEADD(dim_calendario[Date], -12, MONTH)
+    )
+
+measure fraus_recupera_euros_mensual_smly =
+    CALCULATE(
+        [fraus_recupera_euros],
+        DATEADD(dim_calendario[Date], -12, MONTH)
+    )
+
+measure pct_fraudes_recupera_mensual_smly =
+    CALCULATE(
+        [pct_fraudes_recupera],
+        DATEADD(dim_calendario[Date], -12, MONTH)
+    )
+
+measure fraus_detectats_12m_1m =
+    CALCULATE(
+        [fraus_detectats_12m],
+        DATEADD(dim_calendario[Date], -1, MONTH)
+    )
+
+measure fraus_recuperats_12m_1m =
+    CALCULATE(
+        [fraus_recuperats_12m],
+        DATEADD(dim_calendario[Date], -1, MONTH)
+    )
+
+measure volum_agua_rec_fraud_12m_1m =
+    CALCULATE(
+        [volum_agua_rec_fraud_12m],
+        DATEADD(dim_calendario[Date], -1, MONTH)
+    )
+
+measure fraus_recupera_euros_12m_1m =
+    CALCULATE(
+        [fraus_recupera_euros_12m],
+        DATEADD(dim_calendario[Date], -1, MONTH)
+    )
+
+measure pct_fraudes_recupera_12m_1m =
+    CALCULATE(
+        [pct_fraudes_recupera_12m],
+        DATEADD(dim_calendario[Date], -1, MONTH)
+    )
+
+
+// =========================================================
+// Medidas YTD
+// =========================================================
+
+measure fraus_detectats_ytd =
+    VAR _FechaInicio = DATE(YEAR(TODAY()), 1, 1)
+    VAR _FechaFin = MAX(fact_fraudes[data_creacio_original])
+    VAR _FechaMinContexto = MIN(dim_calendario[Date])
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _Valor =
+        CALCULATE(
+            [fraus_detectats],
+            DATESBETWEEN(
+                dim_calendario[Date],
+                _FechaInicio,
+                _FechaMaxContexto
+            )
+        )
+    RETURN
+        IF(
+            _FechaMaxContexto < _FechaInicio
+                || _FechaMinContexto > _FechaFin,
+            BLANK(),
+            _Valor
+        )
+
+measure fraus_recuperats_ytd =
+    VAR _FechaInicio = DATE(YEAR(TODAY()), 1, 1)
+    VAR _FechaFin = MAX(fact_vol_fraud[Data Fi Execucio Final])
+    VAR _FechaMinContexto = MIN(dim_calendario[Date])
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _Valor =
+        CALCULATE(
+            [fraus_recuperats],
+            DATESBETWEEN(
+                dim_calendario[Date],
+                _FechaInicio,
+                _FechaMaxContexto
+            )
+        )
+    RETURN
+        IF(
+            _FechaMaxContexto < _FechaInicio
+                || _FechaMinContexto > _FechaFin,
+            BLANK(),
+            _Valor
+        )
+
+measure volum_agua_rec_fraud_ytd =
+    VAR _FechaInicio = DATE(YEAR(TODAY()), 1, 1)
+    VAR _FechaFin = MAX(fact_vol_fraud[Data Fi Execucio Final])
+    VAR _FechaMinContexto = MIN(dim_calendario[Date])
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _Valor =
+        CALCULATE(
+            [volum_agua_rec_fraud],
+            DATESBETWEEN(
+                dim_calendario[Date],
+                _FechaInicio,
+                _FechaMaxContexto
+            )
+        )
+    RETURN
+        IF(
+            _FechaMaxContexto < _FechaInicio
+                || _FechaMinContexto > _FechaFin,
+            BLANK(),
+            _Valor
+        )
+
+measure fraus_recupera_euros_ytd =
+    VAR _FechaInicio = DATE(YEAR(TODAY()), 1, 1)
+    VAR _FechaFin = MAX(fact_vol_fraud[Data Fi Execucio Final])
+    VAR _FechaMinContexto = MIN(dim_calendario[Date])
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _Valor =
+        CALCULATE(
+            [fraus_recupera_euros],
+            DATESBETWEEN(
+                dim_calendario[Date],
+                _FechaInicio,
+                _FechaMaxContexto
+            )
+        )
+    RETURN
+        IF(
+            _FechaMaxContexto < _FechaInicio
+                || _FechaMinContexto > _FechaFin,
+            BLANK(),
+            _Valor
+        )
+
+measure pct_fraudes_recupera_ytd =
+    DIVIDE(
+        [fraus_recuperats_ytd],
+        [fraus_detectats_ytd],
+        0
+    )
+
+
+// =========================================================
+// Medidas LYTD
+// =========================================================
+
+measure fraus_detectats_lytd =
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _FechaInicioLY = DATE(YEAR(_FechaMaxContexto) - 1, 1, 1)
+    VAR _FechaFinLY = EDATE(_FechaMaxContexto, -12)
+    RETURN
+        CALCULATE(
+            [fraus_detectats],
+            DATESBETWEEN(
+                dim_calendario[Date],
+                _FechaInicioLY,
+                _FechaFinLY
+            )
+        )
+
+measure fraus_recuperats_lytd =
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _FechaInicioLY = DATE(YEAR(_FechaMaxContexto) - 1, 1, 1)
+    VAR _FechaFinLY = EDATE(_FechaMaxContexto, -12)
+    RETURN
+        CALCULATE(
+            [fraus_recuperats],
+            DATESBETWEEN(
+                dim_calendario[Date],
+                _FechaInicioLY,
+                _FechaFinLY
+            )
+        )
+
+measure volum_agua_rec_fraud_lytd =
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _FechaInicioLY = DATE(YEAR(_FechaMaxContexto) - 1, 1, 1)
+    VAR _FechaFinLY = EDATE(_FechaMaxContexto, -12)
+    RETURN
+        CALCULATE(
+            [volum_agua_rec_fraud],
+            DATESBETWEEN(
+                dim_calendario[Date],
+                _FechaInicioLY,
+                _FechaFinLY
+            )
+        )
+
+measure fraus_recupera_euros_lytd =
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _FechaInicioLY = DATE(YEAR(_FechaMaxContexto) - 1, 1, 1)
+    VAR _FechaFinLY = EDATE(_FechaMaxContexto, -12)
+    RETURN
+        CALCULATE(
+            [fraus_recupera_euros],
+            DATESBETWEEN(
+                dim_calendario[Date],
+                _FechaInicioLY,
+                _FechaFinLY
+            )
+        )
+
+measure pct_fraudes_recupera_lytd =
+    DIVIDE(
+        [fraus_recuperats_lytd],
+        [fraus_detectats_lytd],
+        0
+    )
+
+
+// =========================================================
+// Diferencia interanual
+// =========================================================
+
+measure diff_fraus_detectats =
+    [fraus_detectats] - [fraus_detectats_mensual_smly]
+
+measure diff_fraus_recuperats =
+    [fraus_recuperats] - [fraus_recuperats_mensual_smly]
+
+measure diff_volum_agua_rec_fraud =
+    [volum_agua_rec_fraud] - [volum_agua_rec_fraud_mensual_smly]
+
+measure diff_fraus_recupera_euros =
+    [fraus_recupera_euros] - [fraus_recupera_euros_mensual_smly]
+
+measure diff_pct_fraudes_recupera =
+    [pct_fraudes_recupera] - [pct_fraudes_recupera_mensual_smly]
+
+
+// =========================================================
+// Switches principales
+// =========================================================
+
+measure kpi_fraus_detectats_switch =
+    SWITCH(
+        SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+        "Mensual", [fraus_detectats],
+        "12 meses", [fraus_detectats_12m],
+        "Acumlat", [fraus_detectats_ytd],
+        "Diff", [diff_fraus_detectats],
+        BLANK()
+    )
+
+measure kpi_fraus_recuperats_switch =
+    SWITCH(
+        SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+        "Mensual", [fraus_recuperats],
+        "12 meses", [fraus_recuperats_12m],
+        "Acumlat", [fraus_recuperats_ytd],
+        "Diff", [diff_fraus_recuperats],
+        BLANK()
+    )
+
+measure kpi_volum_agua_rec_fraud_switch =
+    SWITCH(
+        SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+        "Mensual", [volum_agua_rec_fraud],
+        "12 meses", [volum_agua_rec_fraud_12m],
+        "Acumlat", [volum_agua_rec_fraud_ytd],
+        "Diff", [diff_volum_agua_rec_fraud],
+        BLANK()
+    )
+
+measure kpi_fraus_recupera_euros_switch =
+    SWITCH(
+        SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+        "Mensual", [fraus_recupera_euros],
+        "12 meses", [fraus_recupera_euros_12m],
+        "Acumlat", [fraus_recupera_euros_ytd],
+        "Diff", [diff_fraus_recupera_euros],
+        BLANK()
+    )
+
+measure kpi_pct_fraudes_recupera_switch =
+    SWITCH(
+        SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+        "Mensual", [pct_fraudes_recupera],
+        "12 meses", [pct_fraudes_recupera_12m],
+        "Acumlat", [pct_fraudes_recupera_ytd],
+        "Diff", [diff_pct_fraudes_recupera],
+        BLANK()
+    )
+
+
+// =========================================================
+// Switches comparativos 1m
+// =========================================================
+
+measure kpi_fraus_detectats_switch_1m =
+    SWITCH(
+        SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+        "Mensual", [fraus_detectats_mensual_smly],
+        "12 meses", [fraus_detectats_12m_1m],
+        "Acumlat", [fraus_detectats_lytd],
+        "Diff", [_cero_acumulat],
+        BLANK()
+    )
+
+measure kpi_fraus_recuperats_switch_1m =
+    SWITCH(
+        SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+        "Mensual", [fraus_recuperats_mensual_smly],
+        "12 meses", [fraus_recuperats_12m_1m],
+        "Acumlat", [fraus_recuperats_lytd],
+        "Diff", [_cero_acumulat],
+        BLANK()
+    )
+
+measure kpi_volum_agua_rec_fraud_switch_1m =
+    SWITCH(
+        SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+        "Mensual", [volum_agua_rec_fraud_mensual_smly],
+        "12 meses", [volum_agua_rec_fraud_12m_1m],
+        "Acumlat", [volum_agua_rec_fraud_lytd],
+        "Diff", [_cero_acumulat],
+        BLANK()
+    )
+
+measure kpi_fraus_recupera_euros_switch_1m =
+    SWITCH(
+        SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+        "Mensual", [fraus_recupera_euros_mensual_smly],
+        "12 meses", [fraus_recupera_euros_12m_1m],
+        "Acumlat", [fraus_recupera_euros_lytd],
+        "Diff", [_cero_acumulat],
+        BLANK()
+    )
+
+measure kpi_pct_fraudes_recupera_switch_1m =
+    SWITCH(
+        SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+        "Mensual", [pct_fraudes_recupera_mensual_smly],
+        "12 meses", [pct_fraudes_recupera_12m_1m],
+        "Acumlat", [pct_fraudes_recupera_lytd],
+        "Diff", [_cero_acumulat],
+        BLANK()
+    )

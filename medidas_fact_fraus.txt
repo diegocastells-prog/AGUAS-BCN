@@ -1,0 +1,252 @@
+// Medidas para fact_fraus
+// Campos utilizados: total_m3 y total_import
+
+// =========================
+// Medidas total_m3
+// =========================
+
+measure fraus_total_m3_mensual =
+    SUM(fact_fraus[total_m3])
+
+measure fraus_total_m3_acum_12m =
+    VAR _FechaFin =
+        CALCULATE(
+            MAX(fact_fraus[data_crea_c_fra]),
+            ALL(fact_fraus)
+        )
+    VAR _FechaInicio = EDATE(_FechaFin, -11)
+    VAR _FechaMinContexto = MIN(dim_calendario[Date])
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _Valor =
+        CALCULATE(
+            [fraus_total_m3_mensual],
+            DATESINPERIOD(
+                dim_calendario[Date],
+                _FechaMaxContexto,
+                -12,
+                MONTH
+            )
+        )
+    RETURN
+        IF(
+            _FechaMaxContexto < _FechaInicio
+                || _FechaMinContexto > _FechaFin,
+            BLANK(),
+            _Valor
+        )
+
+measure fraus_total_m3_mensual_smly =
+    CALCULATE(
+        [fraus_total_m3_mensual],
+        DATEADD(dim_calendario[Date], -12, MONTH)
+    )
+
+measure fraus_total_m3_acum_12m_1m =
+    CALCULATE(
+        [fraus_total_m3_acum_12m],
+        DATEADD(dim_calendario[Date], -1, MONTH)
+    )
+
+measure fraus_total_m3_ytd =
+    VAR _FechaInicio = DATE(YEAR(TODAY()), 1, 1)
+    VAR _FechaFin = MAX(fact_fraus[data_crea_c_fra])
+    VAR _FechaMinContexto = MIN(dim_calendario[Date])
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _Valor =
+        CALCULATE(
+            [fraus_total_m3_mensual],
+            DATESBETWEEN(
+                dim_calendario[Date],
+                _FechaInicio,
+                _FechaMaxContexto
+            )
+        )
+    RETURN
+        IF(
+            _FechaMaxContexto < _FechaInicio
+                || _FechaMinContexto > _FechaFin,
+            BLANK(),
+            _Valor
+        )
+
+measure fraus_total_m3_lytd =
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _FechaInicioLY = DATE(YEAR(_FechaMaxContexto) - 1, 1, 1)
+    VAR _FechaFinLY = EDATE(_FechaMaxContexto, -12)
+    RETURN
+        CALCULATE(
+            [fraus_total_m3_mensual],
+            DATESBETWEEN(
+                dim_calendario[Date],
+                _FechaInicioLY,
+                _FechaFinLY
+            )
+        )
+
+measure diff_fraus_total_m3 =
+    VAR _FechaInicio = DATE(YEAR(TODAY()), 1, 1)
+    VAR _FechaMinContexto = MIN(dim_calendario[Date])
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _ValorActual = [fraus_total_m3_mensual]
+    VAR _ValorAA =
+        CALCULATE(
+            [fraus_total_m3_mensual],
+            DATEADD(dim_calendario[Date], -1, YEAR)
+        )
+    RETURN
+        IF(
+            _FechaMaxContexto < _FechaInicio
+                || _FechaMinContexto > TODAY()
+                || ISBLANK(_ValorActual)
+                || ISBLANK(_ValorAA),
+            BLANK(),
+            _ValorActual - _ValorAA
+        )
+
+
+// =========================
+// Medidas total_import
+// =========================
+
+measure fraus_total_import_mensual =
+    SUM(fact_fraus[total_import])
+
+measure fraus_total_import_acum_12m =
+    VAR _FechaFin =
+        CALCULATE(
+            MAX(fact_fraus[data_crea_c_fra]),
+            ALL(fact_fraus)
+        )
+    VAR _FechaInicio = EDATE(_FechaFin, -11)
+    VAR _FechaMinContexto = MIN(dim_calendario[Date])
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _Valor =
+        CALCULATE(
+            [fraus_total_import_mensual],
+            DATESINPERIOD(
+                dim_calendario[Date],
+                _FechaMaxContexto,
+                -12,
+                MONTH
+            )
+        )
+    RETURN
+        IF(
+            _FechaMaxContexto < _FechaInicio
+                || _FechaMinContexto > _FechaFin,
+            BLANK(),
+            _Valor
+        )
+
+measure fraus_total_import_mensual_smly =
+    CALCULATE(
+        [fraus_total_import_mensual],
+        DATEADD(dim_calendario[Date], -12, MONTH)
+    )
+
+measure fraus_total_import_acum_12m_1m =
+    CALCULATE(
+        [fraus_total_import_acum_12m],
+        DATEADD(dim_calendario[Date], -1, MONTH)
+    )
+
+measure fraus_total_import_ytd =
+    VAR _FechaInicio = DATE(YEAR(TODAY()), 1, 1)
+    VAR _FechaFin = MAX(fact_fraus[data_crea_c_fra])
+    VAR _FechaMinContexto = MIN(dim_calendario[Date])
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _Valor =
+        CALCULATE(
+            [fraus_total_import_mensual],
+            DATESBETWEEN(
+                dim_calendario[Date],
+                _FechaInicio,
+                _FechaMaxContexto
+            )
+        )
+    RETURN
+        IF(
+            _FechaMaxContexto < _FechaInicio
+                || _FechaMinContexto > _FechaFin,
+            BLANK(),
+            _Valor
+        )
+
+measure fraus_total_import_lytd =
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _FechaInicioLY = DATE(YEAR(_FechaMaxContexto) - 1, 1, 1)
+    VAR _FechaFinLY = EDATE(_FechaMaxContexto, -12)
+    RETURN
+        CALCULATE(
+            [fraus_total_import_mensual],
+            DATESBETWEEN(
+                dim_calendario[Date],
+                _FechaInicioLY,
+                _FechaFinLY
+            )
+        )
+
+measure diff_fraus_total_import =
+    VAR _FechaInicio = DATE(YEAR(TODAY()), 1, 1)
+    VAR _FechaMinContexto = MIN(dim_calendario[Date])
+    VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+    VAR _ValorActual = [fraus_total_import_mensual]
+    VAR _ValorAA =
+        CALCULATE(
+            [fraus_total_import_mensual],
+            DATEADD(dim_calendario[Date], -1, YEAR)
+        )
+    RETURN
+        IF(
+            _FechaMaxContexto < _FechaInicio
+                || _FechaMinContexto > TODAY()
+                || ISBLANK(_ValorActual)
+                || ISBLANK(_ValorAA),
+            BLANK(),
+            _ValorActual - _ValorAA
+        )
+
+
+// =========================
+// Switches
+// =========================
+
+measure kpi_fraus_m3_switch =
+    SWITCH(
+        SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+        "Mensual", [fraus_total_m3_mensual],
+        "12 meses", [fraus_total_m3_acum_12m],
+        "Acumlat", [fraus_total_m3_ytd],
+        "Diff", [diff_fraus_total_m3],
+        BLANK()
+    )
+
+measure kpi_fraus_m3_switch_1m =
+    SWITCH(
+        SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+        "Mensual", [fraus_total_m3_mensual_smly],
+        "12 meses", [fraus_total_m3_acum_12m_1m],
+        "Acumlat", [fraus_total_m3_lytd],
+        "Diff", [_cero_acumulat],
+        BLANK()
+    )
+
+measure kpi_fraus_total_import_switch =
+    SWITCH(
+        SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+        "Mensual", [fraus_total_import_mensual],
+        "12 meses", [fraus_total_import_acum_12m],
+        "Acumlat", [fraus_total_import_ytd],
+        "Diff", [diff_fraus_total_import],
+        BLANK()
+    )
+
+measure kpi_fraus_total_import_switch_1m =
+    SWITCH(
+        SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+        "Mensual", [fraus_total_import_mensual_smly],
+        "12 meses", [fraus_total_import_acum_12m_1m],
+        "Acumlat", [fraus_total_import_lytd],
+        "Diff", [_cero_acumulat],
+        BLANK()
+    )

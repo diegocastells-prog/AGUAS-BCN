@@ -93,8 +93,7 @@ table _medidas
 	measure fraus_detectats =
 			
 			CALCULATE(
-			    COUNTROWS('fact_fraudes_all'),
-			    'fact_fraudes_all'[ind_resultat] = "S"
+			    COUNTROWS('fact_fraus')
 			)
 		formatString: #,0
 		displayFolder: fraudes\fraus_detectats\mensual
@@ -1132,7 +1131,7 @@ table _medidas
 	measure pct_fraudes_recupera =
 			
 			DIVIDE(
-			    [fraus_recuperat],
+			    [fraus_recuperats],
 			    [fraus_detectats],
 			    0
 			)
@@ -1819,9 +1818,8 @@ table _medidas
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
 			VAR _Valor =
 			    CALCULATE (
-			        COUNTROWS('fact_fraudes_all'),
-			        'fact_fraudes_all'[ind_resultat] = "S",
-			        DATESINPERIOD (
+			            COUNTROWS('fact_fraus'),
+			            DATESINPERIOD (
 			            'dim_calendario'[Date],
 			            _FechaMaxContexto,
 			            -12,
@@ -8790,6 +8788,300 @@ table _medidas
 	measure URL_Parametrizada_IA = "https://app.fabric.microsoft.com/groups/me/reports/cc0d9a51-8be9-46d8-9dd6-e1133b68b454/9b3ec6aa19b935e736b1?experience=fabric-developer"
 		displayFolder: url
 		lineageTag: 5fdbb49e-ca79-422e-80a6-2807d722cfa2
+
+	measure fraus_total_m3_mensual = SUM(fact_fraus[total_m3])
+		formatString: #,0
+		displayFolder: fraudes\total_m3\mensual
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28a101
+
+	measure fraus_total_import_mensual = SUM(fact_fraus[total_import])
+		formatString: #,0.00
+		displayFolder: fraudes\total_import\mensual
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28a102
+
+	measure fraus_total_m3_acum_12m =
+			VAR _FechaFin = CALCULATE(MAX(fact_fraus[data_crea_c_fra]), ALL(fact_fraus))
+			VAR _FechaInicio = EDATE(_FechaFin, -11)
+			VAR _FechaMinContexto = MIN(dim_calendario[Date])
+			VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+			VAR _Valor = CALCULATE([fraus_total_m3_mensual], DATESINPERIOD(dim_calendario[Date], _FechaMaxContexto, -12, MONTH))
+			RETURN IF(_FechaMaxContexto < _FechaInicio || _FechaMinContexto > _FechaFin, BLANK(), _Valor)
+		formatString: #,0
+		displayFolder: fraudes\total_m3\acum_12
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28a103
+
+	measure fraus_total_import_acum_12m =
+			VAR _FechaFin = CALCULATE(MAX(fact_fraus[data_crea_c_fra]), ALL(fact_fraus))
+			VAR _FechaInicio = EDATE(_FechaFin, -11)
+			VAR _FechaMinContexto = MIN(dim_calendario[Date])
+			VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+			VAR _Valor = CALCULATE([fraus_total_import_mensual], DATESINPERIOD(dim_calendario[Date], _FechaMaxContexto, -12, MONTH))
+			RETURN IF(_FechaMaxContexto < _FechaInicio || _FechaMinContexto > _FechaFin, BLANK(), _Valor)
+		formatString: #,0.00
+		displayFolder: fraudes\total_import\acum_12
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28a104
+
+	measure fraus_total_m3_mensual_smly = CALCULATE([fraus_total_m3_mensual], DATEADD(dim_calendario[Date], -12, MONTH))
+		formatString: #,0
+		displayFolder: fraudes\total_m3\mensual
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28a105
+
+	measure fraus_total_import_mensual_smly = CALCULATE([fraus_total_import_mensual], DATEADD(dim_calendario[Date], -12, MONTH))
+		formatString: #,0.00
+		displayFolder: fraudes\total_import\mensual
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28a106
+
+	measure fraus_total_m3_acum_12m_1m = CALCULATE([fraus_total_m3_acum_12m], DATEADD(dim_calendario[Date], -1, MONTH))
+		formatString: #,0
+		displayFolder: fraudes\total_m3\acum_12
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28a107
+
+	measure fraus_total_import_acum_12m_1m = CALCULATE([fraus_total_import_acum_12m], DATEADD(dim_calendario[Date], -1, MONTH))
+		formatString: #,0.00
+		displayFolder: fraudes\total_import\acum_12
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28a108
+
+	measure fraus_total_m3_ytd =
+			VAR _FechaInicio = DATE(YEAR(TODAY()), 1, 1)
+			VAR _FechaFin = MAX(fact_fraus[data_crea_c_fra])
+			VAR _FechaMinContexto = MIN(dim_calendario[Date])
+			VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+			VAR _Valor = CALCULATE([fraus_total_m3_mensual], DATESBETWEEN(dim_calendario[Date], _FechaInicio, _FechaMaxContexto))
+			RETURN IF(_FechaMaxContexto < _FechaInicio || _FechaMinContexto > _FechaFin, BLANK(), _Valor)
+		formatString: #,0
+		displayFolder: fraudes\total_m3\ytd
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28a109
+
+	measure fraus_total_import_ytd =
+			VAR _FechaInicio = DATE(YEAR(TODAY()), 1, 1)
+			VAR _FechaFin = MAX(fact_fraus[data_crea_c_fra])
+			VAR _FechaMinContexto = MIN(dim_calendario[Date])
+			VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+			VAR _Valor = CALCULATE([fraus_total_import_mensual], DATESBETWEEN(dim_calendario[Date], _FechaInicio, _FechaMaxContexto))
+			RETURN IF(_FechaMaxContexto < _FechaInicio || _FechaMinContexto > _FechaFin, BLANK(), _Valor)
+		formatString: #,0.00
+		displayFolder: fraudes\total_import\ytd
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28a110
+
+	measure fraus_total_m3_lytd =
+			VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+			VAR _FechaInicioLY = DATE(YEAR(_FechaMaxContexto) - 1, 1, 1)
+			VAR _FechaFinLY = EDATE(_FechaMaxContexto, -12)
+			RETURN CALCULATE([fraus_total_m3_mensual], DATESBETWEEN(dim_calendario[Date], _FechaInicioLY, _FechaFinLY))
+		formatString: #,0
+		displayFolder: fraudes\total_m3\ytd
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28a111
+
+	measure fraus_total_import_lytd =
+			VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+			VAR _FechaInicioLY = DATE(YEAR(_FechaMaxContexto) - 1, 1, 1)
+			VAR _FechaFinLY = EDATE(_FechaMaxContexto, -12)
+			RETURN CALCULATE([fraus_total_import_mensual], DATESBETWEEN(dim_calendario[Date], _FechaInicioLY, _FechaFinLY))
+		formatString: #,0.00
+		displayFolder: fraudes\total_import\ytd
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28a112
+
+	measure diff_fraus_total_m3 =
+			VAR _FechaInicio = DATE(YEAR(TODAY()), 1, 1)
+			VAR _FechaMinContexto = MIN(dim_calendario[Date])
+			VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+			VAR _ValorActual = [fraus_total_m3_mensual]
+			VAR _ValorAA = CALCULATE([fraus_total_m3_mensual], DATEADD(dim_calendario[Date], -1, YEAR))
+			RETURN IF(_FechaMaxContexto < _FechaInicio || _FechaMinContexto > TODAY() || ISBLANK(_ValorActual) || ISBLANK(_ValorAA), BLANK(), _ValorActual - _ValorAA)
+		formatString: #,0
+		displayFolder: fraudes\total_m3\diff
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28a113
+
+	measure diff_fraus_total_import =
+			VAR _FechaInicio = DATE(YEAR(TODAY()), 1, 1)
+			VAR _FechaMinContexto = MIN(dim_calendario[Date])
+			VAR _FechaMaxContexto = MAX(dim_calendario[Date])
+			VAR _ValorActual = [fraus_total_import_mensual]
+			VAR _ValorAA = CALCULATE([fraus_total_import_mensual], DATEADD(dim_calendario[Date], -1, YEAR))
+			RETURN IF(_FechaMaxContexto < _FechaInicio || _FechaMinContexto > TODAY() || ISBLANK(_ValorActual) || ISBLANK(_ValorAA), BLANK(), _ValorActual - _ValorAA)
+		formatString: #,0.00
+		displayFolder: fraudes\total_import\diff
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28a114
+
+	measure fraus_recuperats =
+			CALCULATE(
+			    COUNTROWS(fact_vol_fraud),
+			    fact_vol_fraud[Tipologia] = "Executada"
+			)
+		formatString: #,0
+		displayFolder: fraudes\fraus_recuperats\mensual
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b201
+
+	measure fraus_detectats_mensual_smly = CALCULATE([fraus_detectats], DATEADD(dim_calendario[Date], -12, MONTH))
+		formatString: #,0
+		displayFolder: fraudes\fraus_detectats\mensual
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b229
+
+	measure fraus_recuperats_12m =
+			CALCULATE(
+			    [fraus_recuperats],
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        MAX(dim_calendario[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+		formatString: #,0
+		displayFolder: fraudes\fraus_recuperats\acum_12
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b202
+
+	measure volum_agua_rec_fraud_12m =
+			CALCULATE(
+			    [volum_agua_rec_fraud],
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        MAX(dim_calendario[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: fraudes\volum\acum_12
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b203
+
+	measure fraus_recupera_euros_12m =
+			CALCULATE(
+			    [fraus_recupera_euros],
+			    DATESINPERIOD(
+			        dim_calendario[Date],
+			        MAX(dim_calendario[Date]),
+			        -12,
+			        MONTH
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: fraudes\euros\acum_12
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b204
+
+	measure pct_fraudes_recupera_12m = DIVIDE([fraus_recuperats_12m], [fraus_detectats_12m], 0)
+		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
+		displayFolder: fraudes\pct\acum_12
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b205
+
+	measure fraus_recuperats_mensual_smly = CALCULATE([fraus_recuperats], DATEADD(dim_calendario[Date], -12, MONTH))
+		formatString: #,0
+		displayFolder: fraudes\fraus_recuperats\mensual
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b206
+
+	measure volum_agua_rec_fraud_mensual_smly = CALCULATE([volum_agua_rec_fraud], DATEADD(dim_calendario[Date], -12, MONTH))
+		formatString: #,0.00
+		displayFolder: fraudes\volum\mensual
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b207
+
+	measure fraus_recupera_euros_mensual_smly = CALCULATE([fraus_recupera_euros], DATEADD(dim_calendario[Date], -12, MONTH))
+		formatString: #,0.00
+		displayFolder: fraudes\euros\mensual
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b208
+
+	measure pct_fraudes_recupera_mensual_smly = CALCULATE([pct_fraudes_recupera], DATEADD(dim_calendario[Date], -12, MONTH))
+		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
+		displayFolder: fraudes\pct\mensual
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b209
+
+	measure fraus_recuperats_12m_1m = CALCULATE([fraus_recuperats_12m], DATEADD(dim_calendario[Date], -1, MONTH))
+		formatString: #,0
+		displayFolder: fraudes\fraus_recuperats\acum_12
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b210
+
+	measure volum_agua_rec_fraud_12m_1m = CALCULATE([volum_agua_rec_fraud_12m], DATEADD(dim_calendario[Date], -1, MONTH))
+		formatString: #,0.00
+		displayFolder: fraudes\volum\acum_12
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b211
+
+	measure fraus_recupera_euros_12m_1m = CALCULATE([fraus_recupera_euros_12m], DATEADD(dim_calendario[Date], -1, MONTH))
+		formatString: #,0.00
+		displayFolder: fraudes\euros\acum_12
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b212
+
+	measure pct_fraudes_recupera_12m_1m = CALCULATE([pct_fraudes_recupera_12m], DATEADD(dim_calendario[Date], -1, MONTH))
+		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
+		displayFolder: fraudes\pct\acum_12
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b213
+
+	measure fraus_recuperats_ytd =
+			CALCULATE(
+			    [fraus_recuperats],
+			    DATESYTD(dim_calendario[Date])
+			)
+		formatString: #,0
+		displayFolder: fraudes\fraus_recuperats\ytd
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b214
+
+	measure volum_agua_rec_fraud_ytd = CALCULATE([volum_agua_rec_fraud], DATESYTD(dim_calendario[Date]))
+		formatString: #,0.00
+		displayFolder: fraudes\volum\ytd
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b215
+
+	measure fraus_recupera_euros_ytd = CALCULATE([fraus_recupera_euros], DATESYTD(dim_calendario[Date]))
+		formatString: #,0.00
+		displayFolder: fraudes\euros\ytd
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b216
+
+	measure pct_fraudes_recupera_ytd = DIVIDE([fraus_recuperats_ytd], [fraus_detectats_ytd], 0)
+		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
+		displayFolder: fraudes\pct\ytd
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b217
+
+	measure fraus_detectats_ytd = CALCULATE([fraus_detectats], DATESYTD(dim_calendario[Date]))
+		formatString: #,0
+		displayFolder: fraudes\fraus_detectats\ytd
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b218
+
+	measure fraus_detectats_lytd = CALCULATE([fraus_detectats], DATEADD(DATESYTD(dim_calendario[Date]), -1, YEAR))
+		formatString: #,0
+		displayFolder: fraudes\fraus_detectats\ytd
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b219
+
+	measure fraus_recuperats_lytd = CALCULATE([fraus_recuperats], DATEADD(DATESYTD(dim_calendario[Date]), -1, YEAR))
+		formatString: #,0
+		displayFolder: fraudes\fraus_recuperats\ytd
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b220
+
+	measure volum_agua_rec_fraud_lytd = CALCULATE([volum_agua_rec_fraud], DATEADD(DATESYTD(dim_calendario[Date]), -1, YEAR))
+		formatString: #,0.00
+		displayFolder: fraudes\volum\ytd
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b221
+
+	measure fraus_recupera_euros_lytd = CALCULATE([fraus_recupera_euros], DATEADD(DATESYTD(dim_calendario[Date]), -1, YEAR))
+		formatString: #,0.00
+		displayFolder: fraudes\euros\ytd
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b222
+
+	measure pct_fraudes_recupera_lytd = DIVIDE([fraus_recuperats_lytd], [fraus_detectats_lytd], 0)
+		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
+		displayFolder: fraudes\pct\ytd
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b223
+
+	measure diff_fraus_detectats = [fraus_detectats] - [fraus_detectats_mensual_smly]
+		formatString: #,0
+		displayFolder: fraudes\fraus_detectats\diff
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b224
+
+	measure diff_fraus_recuperats = [fraus_recuperats] - [fraus_recuperats_mensual_smly]
+		formatString: #,0
+		displayFolder: fraudes\fraus_recuperats\diff
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b225
+
+	measure diff_volum_agua_rec_fraud = [volum_agua_rec_fraud] - [volum_agua_rec_fraud_mensual_smly]
+		formatString: #,0.00
+		displayFolder: fraudes\volum\diff
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b226
+
+	measure diff_fraus_recupera_euros = [fraus_recupera_euros] - [fraus_recupera_euros_mensual_smly]
+		formatString: #,0.00
+		displayFolder: fraudes\euros\diff
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b227
+
+	measure diff_pct_fraudes_recupera = [pct_fraudes_recupera] - [pct_fraudes_recupera_mensual_smly]
+		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
+		displayFolder: fraudes\pct\diff
+		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b228
 
 	column Column
 		isHidden
