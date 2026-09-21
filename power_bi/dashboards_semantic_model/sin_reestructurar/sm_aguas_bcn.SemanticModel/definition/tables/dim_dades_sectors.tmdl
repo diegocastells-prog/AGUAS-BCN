@@ -149,7 +149,7 @@ table dim_dades_sectors
 		queryGroup: Dimensiones
 		source =
 				let
-					Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=1520384286#gid=1520384286"),
+					Origen = GoogleSheets.Contents(#"Indicadors Sectorització 2026"),
 				 	#"Navegación 1" = Origen{[name = "Dades Sectors", ItemKind = "Table"]}[Data],
 					#"Encabezados promovidos1" = Table.PromoteHeaders(#"Navegación 1", [PromoteAllScalars=true]),
 					#"Columnas con nombre cambiado2" = Table.RenameColumns(#"Encabezados promovidos1",{{"Sector / Artèria", "sector_id"}, {"Sector", "sector"}, {"Pis de Pressió", "pressio"}, {"Gerència", "gerencia"}, {"Long de xarxa", "long_xarxa"}, {"Ramals Controlats", "ramals_controlats"}, {"Subministraments Controlats", "subministraments_controlats"}, {"Pressió mitjana", "pressio_mitjana"}, {"Lambert", "lambert"}, {"afor (l/s)", "afor_l_s"}, {"Referència", "referencia"}, {"Sector en Servei", "sector_activo"}}),

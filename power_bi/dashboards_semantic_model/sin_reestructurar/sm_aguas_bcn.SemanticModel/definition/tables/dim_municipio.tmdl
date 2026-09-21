@@ -23,7 +23,7 @@ table dim_municipio
 		queryGroup: Dimensiones
 		source =
 				let
-				    Origen = GoogleSheets.Contents(Estimació_Volums_Lliurats_i_Dotacions_Municipis_AB),
+				    Origen = GoogleSheets.Contents(#"Estimació Volums Lliurats i Dotacions Municipis AB"),
 				    #"Població Municipal_Table" = Origen{[name="Població Municipal",ItemKind="Table"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Població Municipal_Table", [PromoteAllScalars=true]),
 				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados promovidos",{{"ESTACIO", "municipio"}}),
@@ -51,5 +51,5 @@ table dim_municipio
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 

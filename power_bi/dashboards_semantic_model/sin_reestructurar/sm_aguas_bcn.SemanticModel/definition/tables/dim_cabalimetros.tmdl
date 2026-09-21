@@ -85,7 +85,7 @@ table dim_cabalimetros
 		queryGroup: Dimensiones
 		source = ```
 				let
-				    Origen = GoogleSheets.Contents(Cabalimetros),
+				    Origen = GoogleSheets.Contents(#"Inventari Punts de Control"),
 				    Datos = Origen{[name = "Cabalímetres", ItemKind = "Table"]}[Data],
 				 
 				    Encabezados = Table.PromoteHeaders(

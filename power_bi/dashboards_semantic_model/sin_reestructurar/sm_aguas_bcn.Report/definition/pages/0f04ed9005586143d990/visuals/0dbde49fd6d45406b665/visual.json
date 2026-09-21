@@ -23,11 +23,11 @@
                       "Entity": "dim_pozos"
                     }
                   },
-                  "Property": "Object_id"
+                  "Property": "sector_id"
                 }
               },
-              "queryRef": "dim_pozos.Object_id",
-              "nativeQueryRef": "Object_id",
+              "queryRef": "dim_pozos.sector_id",
+              "nativeQueryRef": "sector_id",
               "active": true
             }
           ]
@@ -39,32 +39,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_pozos"
+                      "Entity": "dim_dades_sectors"
                     }
                   },
-                  "Property": "Nombre_sector"
+                  "Property": "sector"
                 }
               },
-              "queryRef": "dim_pozos.Nombre_sector",
-              "nativeQueryRef": "Nombre_sector"
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_medidas"
-                    }
-                  },
-                  "Property": "Sector_tooltip"
-                }
-              },
-              "queryRef": "_medidas.Sector_tooltip",
-              "nativeQueryRef": "Sector_tooltip"
+              "queryRef": "dim_dades_sectors.sector",
+              "nativeQueryRef": "sector"
             }
           ]
         }
@@ -102,7 +84,7 @@
                 "name": {
                   "expr": {
                     "Literal": {
-                      "Value": "'Aforos_colores_sector.geojson'"
+                      "Value": "'Sectores_aforos_y_marcadores.geojson'"
                     }
                   }
                 },
@@ -111,7 +93,7 @@
                     "ResourcePackageItem": {
                       "PackageName": "RegisteredResources",
                       "PackageType": 1,
-                      "ItemName": "Aforos_colores_sector5857825111321368.geojson"
+                      "ItemName": "Sectores_aforos_y_marcadores7883342251879794.geojson"
                     }
                   }
                 }
@@ -139,7 +121,7 @@
             "unmappedObjectVisibility": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             },
@@ -161,6 +143,25 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            },
+            "unmappedObjectUseCustomColors": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "unmappedObjectStrokeColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
                 }
               }
             }
@@ -292,21 +293,21 @@
             "zoom": {
               "expr": {
                 "Literal": {
-                  "Value": "9.87D"
+                  "Value": "9.77D"
                 }
               }
             },
             "centerLatitude": {
               "expr": {
                 "Literal": {
-                  "Value": "41.39896867691789D"
+                  "Value": "41.396383395500436D"
                 }
               }
             },
             "centerLongitude": {
               "expr": {
                 "Literal": {
-                  "Value": "2.136450725787199D"
+                  "Value": "2.138946199999964D"
                 }
               }
             },
@@ -402,6 +403,19 @@
             ]
           }
         }
+      ],
+      "tileLayer": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -443,48 +457,6 @@
   },
   "filterConfig": {
     "filters": [
-      {
-        "name": "c8ab83dd9700781b2744",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_pozos"
-              }
-            },
-            "Property": "Object_id"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "64558c4165041d7ca6b4",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "Sector_tooltip"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "5b971d840e9201d38cbb",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_pozos"
-              }
-            },
-            "Property": "Nombre_sector"
-          }
-        },
-        "type": "Categorical"
-      },
       {
         "name": "d289bfc9143b87b5e870",
         "field": {

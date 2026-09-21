@@ -142,7 +142,7 @@ table fact_consum_limitadores
 		queryGroup: Hechos
 		source = ```
 				let
-				    Origen = GoogleSheets.Contents(Consum_limitadores),
+				    Origen = GoogleSheets.Contents(#"consumos limitadores"),
 				    TablaOrigen = Origen{[name="resumen limitaciones",ItemKind="Table"]}[Data],
 				    ErroresComoNull = Table.ReplaceErrorValues(TablaOrigen, List.Transform(Table.ColumnNames(TablaOrigen), each {_, null})),
 				    TipoInicial = Table.TransformColumnTypes(ErroresComoNull, {{"Column21", type number}}),

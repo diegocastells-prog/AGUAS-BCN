@@ -56,7 +56,7 @@ table fact_cabals_mínims
 		queryGroup: Hechos
 		source =
 				let
-				    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=1259268357#gid=1259268357"),
+				    Origen = GoogleSheets.Contents(#"Indicadors Sectorització 2026"),
 				    Datos = Origen{[name="Cabals Mínims", ItemKind="Table"]}[Data],
 				    DatosLimpios = Table.PromoteHeaders(
 				        Table.Skip(Datos, 2),

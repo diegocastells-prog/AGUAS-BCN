@@ -1343,7 +1343,7 @@ expression Bossa_de_Limitadors_BCNS = ```
 
 expression fact_volum_consumit =
 		let
-		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=512415232#gid=512415232"),
+		  Origen = GoogleSheets.Contents(#"Indicadors Sectorització 2026"),
 		  TablaOrigen = Origen{[name = "Volums Consumits", ItemKind = "Table"]}[Data],
 		
 		    // Preparación de datos
@@ -1354,8 +1354,7 @@ expression fact_volum_consumit =
 		    EliminarColumnas = Table.RemoveColumns(
 		        #"Filas filtradas3",
 		        {
-		            "_1", "", "01/06/2026", "01/07/2026", "01/08/2026",
-		            "01/09/2026", "01/10/2026", "01/11/2026", "01/12/2026"
+		            "_1", ""
 		        }
 		    ),
 		
@@ -1391,9 +1390,10 @@ expression fact_volum_consumit =
 		    #"Valor reemplazado2" = Table.ReplaceValue(CambiarTipos,null,-1,Replacer.ReplaceValue,{"sector_id"}),
 		    #"Valor reemplazado" = Table.ReplaceValue(#"Valor reemplazado2","","No Disponible",Replacer.ReplaceValue,{"gerencia"}),
 		    #"Consultas combinadas" = Table.NestedJoin(#"Valor reemplazado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
-		    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"})
+		    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+		    #"Valor reemplazado3" = Table.ReplaceValue(#"Se expandió dim_gerencia",null,0,Replacer.ReplaceValue,{"volum_consumit"})
 		in
-		    #"Se expandió dim_gerencia"
+		    #"Valor reemplazado3"
 	lineageTag: 83aa9477-3963-4c9a-be3b-cff1b9f513af
 	queryGroup: Auxiliares
 
@@ -1403,7 +1403,7 @@ expression fact_volum_consumit =
 
 expression fact_volum_lliurat =
 		let
-		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZffEmnNoWOUZV2BWTDYGZTjcNVbZ07il0J7N43DN_IU/edit?gid=512415232#gid=512415232"),
+		  Origen = GoogleSheets.Contents(#"Indicadors Sectorització 2026"),
 		  TablaOrigen = Origen{[name = "Lliurats Corregits", ItemKind = "Table"]}[Data],
 		
 		    // Preparación de datos
@@ -2137,7 +2137,7 @@ expression VolumsMensualsSectors_D = "https://docs.google.com/spreadsheets/d/1QA
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Text
 
 expression 'BES G Pressio' = "https://docs.google.com/spreadsheets/d/1NWEo4SaqS5977DA2jWtzZh8UJ1LXOYtpMUvwB_HxOkg" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 9a94c68f-e83d-42f3-84eb-d610888c05e2
@@ -2482,7 +2482,7 @@ expression '12_S7 desembre 2026_Tfuita_Tinst' = "https://docs.google.com/spreads
 
 	annotation PBI_ResultType = Text
 
-expression Estimació_Volums_Lliurats_i_Dotacions_Municipis_AB = "https://docs.google.com/spreadsheets/d/1PBcQDIOXuGzSvnWbbKL8akVRAcNYzv6ubxLW1zldlPU" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression 'Estimació Volums Lliurats i Dotacions Municipis AB' = "https://docs.google.com/spreadsheets/d/1PBcQDIOXuGzSvnWbbKL8akVRAcNYzv6ubxLW1zldlPU" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 6f62bf0e-5506-4b15-966e-a77c6fdf0abd
 	queryGroup: 'Parametre '
 
@@ -2490,7 +2490,7 @@ expression Estimació_Volums_Lliurats_i_Dotacions_Municipis_AB = "https://docs.g
 
 	annotation PBI_ResultType = Text
 
-expression Pozos = "https://docs.google.com/spreadsheets/d/1GlxHJlCAWZHbz33ytmi4gH8yGDvnKzX13LSovr73m34/edit?gid=1777683441#gid=1777683441" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression 'Pous declarats a l''ACA' = "https://docs.google.com/spreadsheets/d/1GlxHJlCAWZHbz33ytmi4gH8yGDvnKzX13LSovr73m34/edit?gid=1777683441#gid=1777683441" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 66dd68a2-d56b-4aab-ba1c-b356ffb4988b
 	queryGroup: 'Parametre '
 
@@ -2498,7 +2498,7 @@ expression Pozos = "https://docs.google.com/spreadsheets/d/1GlxHJlCAWZHbz33ytmi4
 
 	annotation PBI_ResultType = Text
 
-expression Cabalimetros = "https://docs.google.com/spreadsheets/d/1VPKzhzNcF8kPi-8vlOJsZWbkFiluKULO6YWGUxN9aVE/edit?gid=1501284738#gid=1501284738" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression 'Inventari Punts de Control' = "https://docs.google.com/spreadsheets/d/1VPKzhzNcF8kPi-8vlOJsZWbkFiluKULO6YWGUxN9aVE/edit?gid=1501284738#gid=1501284738" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: f6ec824b-66fe-46ad-9ce0-17f2df7fac59
 	queryGroup: 'Parametre '
 
@@ -2514,7 +2514,7 @@ expression Tipus_Regul_Cabal = "https://docs.google.com/spreadsheets/d/1VPKzhzNc
 
 	annotation PBI_ResultType = Text
 
-expression Consum_limitadores = "https://docs.google.com/spreadsheets/d/1mOdphRlAZ0E8cZ5H9_GwBFqhrsUVUAJflf9uBJHRt9k/edit?gid=992978076#gid=992978076" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression 'consumos limitadores' = "https://docs.google.com/spreadsheets/d/1mOdphRlAZ0E8cZ5H9_GwBFqhrsUVUAJflf9uBJHRt9k/edit?gid=992978076#gid=992978076" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 10faa92d-7c68-47e0-be0c-4d1506a67f7b
 	queryGroup: 'Parametre '
 
@@ -3236,11 +3236,65 @@ expression dim_art_bcn_g_pressio_176BAR = ```
 
 	annotation PBI_ResultType = Exception
 
-expression operacions_sist_fraus = "https://docs.google.com/spreadsheets/d/1lEC1eiGGcb4R555blsjDRBkUPB6PXbl7hSnuXhThLUQ/edit?gid=267232325#gid=267232325" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression 'TABLA OPERACIONES SISTEMÁTICAS' = "https://docs.google.com/spreadsheets/d/1lEC1eiGGcb4R555blsjDRBkUPB6PXbl7hSnuXhThLUQ/edit?gid=267232325#gid=267232325" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 51278c8d-03f2-4db3-9919-7adb5c1d3bce
 	queryGroup: 'Parametre '
 
 	annotation PBI_NavigationStepName = Navegación
 
 	annotation PBI_ResultType = Text
+
+expression 'Indicadors Sectorització 2026' = "https://docs.google.com/spreadsheets/d/1WCbHlkz_QI0vIbEjdZeDHFV7O4se3URTi4e-Udns9Lw/edit?gid=312425012#gid=312425012" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 02dd41f5-1da3-453d-98a5-3a4433772f76
+	queryGroup: 'Parametre '
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression 'fraus facturats 2025' = "https://docs.google.com/spreadsheets/d/1-4TpybzWEoX6MwSxJxzALVwqoGp56jl2CtAfJWlycnA/edit?gid=1543499837#gid=1543499837" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 2ff2c19f-ca8a-4b4a-a581-b078042e8789
+	queryGroup: 'Parametre '
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression 'fraus facturats 2026' = "https://docs.google.com/spreadsheets/d/1ziKPsyd4s04vu229fxpL4ruJrL1cXxdKicAOyR6j3fo/edit?gid=946478951#gid=946478951" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 9cf33bf2-3f81-48d1-ad41-4c5376d33dde
+	queryGroup: 'Parametre '
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression fact_fraus_2025 =
+		let
+		  Origen = GoogleSheets.Contents(#"fraus facturats 2025"),
+		  TablaOrigen = Origen{[name = "Hoja1", ItemKind = "Table"]}[Data],
+		    #"Encabezados promovidos" = Table.PromoteHeaders(TablaOrigen, [PromoteAllScalars=true]),
+		    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{"", "_1", "_2", "_3", "_4"})
+		in
+		#"Columnas quitadas"
+	lineageTag: 5f3bb4da-6dac-45fb-b7dc-1646b6dcedaf
+	queryGroup: Auxiliares
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression fact_fraus_2026 =
+		let
+		  Origen = GoogleSheets.Contents(#"fraus facturats 2026"),
+		  TablaOrigen = Origen{[name = "Hoja1", ItemKind = "Table"]}[Data],
+		    #"Encabezados promovidos" = Table.PromoteHeaders(TablaOrigen, [PromoteAllScalars=true]),
+		    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{"", "_1", "_2", "_3", "_4"})
+		in
+		#"Columnas quitadas"
+	lineageTag: 0fdc76b3-35b1-43ce-a025-ef44ea7502ef
+	queryGroup: Auxiliares
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
 

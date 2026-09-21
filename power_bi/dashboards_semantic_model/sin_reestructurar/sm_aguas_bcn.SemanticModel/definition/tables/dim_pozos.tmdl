@@ -202,13 +202,21 @@ table dim_pozos
 
 		annotation SummarizationSetBy = Automatic
 
+	column Numero_aforo =
+			
+			SUBSTITUTE(dim_pozos[Object_id], "RM", "")
+		lineageTag: 1b0cb00c-5dfd-4987-b2a7-04769849274d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_pozos = m
 		mode: import
 		queryGroup: Dimensiones
 		source = ```
 				let
 				    // ORIGEN
-				    Origen = GoogleSheets.Contents(Pozos),
+				    Origen = GoogleSheets.Contents(#"Pous declarats a l'ACA"),
 				    Datos = Origen{[name = "Pous declarats a l'ACA", ItemKind = "Table"]}[Data], 
 				    Encabezados = Table.PromoteHeaders(        Datos,        [PromoteAllScalars = true]    ),
 				 

@@ -6226,7 +6226,19 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure dotacio_mensual = 1000*SUM(fact_estim_volum_munic_pob[volum_estimado])/SUM(fact_estim_volum_munic_pob[poblacion])/[count_dias_mes]
+	measure dotacio_mensual =
+			
+			
+			VAR _VolumenTotal = SUM(fact_estim_volum_munic_pob[volum_estimado]) * 1000
+			VAR _PoblacionTotal = SUM(fact_estim_volum_munic_pob[poblacion])
+			VAR _DiasMes = [count_dias_mes]
+			
+			RETURN
+			    DIVIDE(
+			        DIVIDE(_VolumenTotal, _PoblacionTotal, 0),
+			        _DiasMes,
+			        0
+			    )
 		displayFolder: dotacio
 		lineageTag: 4c05d459-2d2c-459b-8ec2-8a595a52b728
 
@@ -8761,6 +8773,15 @@ table _medidas
 		formatString: 0
 		displayFolder: pozos
 		lineageTag: c36ff4af-d3d8-41f4-b518-50cf575e43a9
+
+	measure Aforo_tooltip =
+			
+			SELECTEDVALUE(
+			    dim_pozos[Numero_aforo],
+			    "Varios aforos"
+			)
+		displayFolder: pozos
+		lineageTag: 9b4dd506-07ae-48c1-a808-4be358a1cc1b
 
 	column Column
 		isHidden

@@ -54,7 +54,7 @@ table dim_tipus_operac_fraus
 		queryGroup: Dimensiones
 		source =
 				let
-				  Origen = GoogleSheets.Contents(operacions_sist_fraus),
+				  Origen = GoogleSheets.Contents(#"TABLA OPERACIONES SISTEMÁTICAS"),
 				  #"Navegación 1" = Origen{[name = "Operacions Sistemàtiques", ItemKind = "Table"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Navegación 1", [PromoteAllScalars=true]),
 				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados promovidos",{{"Codi Operació", "tipus_ope"}, {"Nom operació", "descr_ope"}, {"Tipus d'equip sobre el que es fa el treball", "Tipus_equip_a_treball"}, {"Estat operació", "Estat _ope"}, {"Grup d'execució", "grup_execu"}, {"Tipo Parte Resposta", "tipo_parte_reposta"}}),

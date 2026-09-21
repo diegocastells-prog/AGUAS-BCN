@@ -44,7 +44,7 @@ table fact_estim_volum_munic_pob
 		queryGroup: Hechos
 		source =
 				let
-								  Origen = GoogleSheets.Contents(Estimació_Volums_Lliurats_i_Dotacions_Municipis_AB),
+								  Origen = GoogleSheets.Contents(#"Estimació Volums Lliurats i Dotacions Municipis AB"),
 								  #"Navegación 1" = Origen{[name = "Estimació Volums Municipals", ItemKind = "Table"]}[Data],
 								    #"Columnas quitadas" = Table.RemoveColumns(#"Navegación 1",{"Column62"}),
 								    #"Encabezados promovidos" = Table.PromoteHeaders(#"Columnas quitadas", [PromoteAllScalars=true]),

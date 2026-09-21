@@ -1,0 +1,205 @@
+table fact_fraus
+	lineageTag: 1caabd0c-8649-4a2a-b4b6-66576572b9e3
+
+	column polissa_subm
+		dataType: string
+		lineageTag: 4bcde9f5-3932-4b89-b571-4849bf97bb3d
+		summarizeBy: none
+		sourceColumn: polissa_subm
+
+		annotation SummarizationSetBy = Automatic
+
+	column polissa_ramal
+		dataType: string
+		lineageTag: 965d2cd7-67ae-4127-895e-e861bfbf4973
+		summarizeBy: none
+		sourceColumn: polissa_ramal
+
+		annotation SummarizationSetBy = Automatic
+
+	column del_creacio_conv_f
+		dataType: string
+		lineageTag: 4d8c19df-fee3-4e77-bdf0-5111afbd2305
+		summarizeBy: none
+		sourceColumn: del_creacio_conv_f
+
+		annotation SummarizationSetBy = Automatic
+
+	column tip_subm_serv
+		dataType: string
+		lineageTag: 9b95dea9-44e8-495d-8b58-aac85968f7d7
+		summarizeBy: none
+		sourceColumn: tip_subm_serv
+
+		annotation SummarizationSetBy = Automatic
+
+	column ql_gestio_fact
+		dataType: string
+		lineageTag: 212d0465-8afb-4fac-9a6f-fafb3ef1babb
+		summarizeBy: none
+		sourceColumn: ql_gestio_fact
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_crea_c_fra
+		dataType: string
+		lineageTag: 5e7ff3b0-b2e8-4ce1-b602-c7352ee7a8e5
+		summarizeBy: none
+		sourceColumn: data_crea_c_fra
+
+		annotation SummarizationSetBy = Automatic
+
+	column any_factura
+		dataType: string
+		lineageTag: 207ee9ad-5924-4c88-901a-1364bebb8318
+		summarizeBy: none
+		sourceColumn: any_factura
+
+		annotation SummarizationSetBy = Automatic
+
+	column num_factura
+		dataType: string
+		lineageTag: a4842ce6-facc-40e7-9784-34bfc89c4225
+		summarizeBy: none
+		sourceColumn: num_factura
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_empresa
+		dataType: string
+		lineageTag: 838685c1-8371-4f05-8855-04b14efd63e6
+		summarizeBy: none
+		sourceColumn: id_empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column num_particio
+		dataType: string
+		lineageTag: 1b6b1bee-5839-4570-9d70-a96e141a8eba
+		summarizeBy: none
+		sourceColumn: num_particio
+
+		annotation SummarizationSetBy = Automatic
+
+	column cod_post_conv_frau
+		dataType: string
+		lineageTag: 3f205b92-cffb-45db-9a67-69333356f7cd
+		summarizeBy: none
+		sourceColumn: cod_post_conv_frau
+
+		annotation SummarizationSetBy = Automatic
+
+	column suma_m3_trams
+		dataType: string
+		lineageTag: 716a3f83-281b-459a-a8dd-38f2773ccb96
+		summarizeBy: none
+		sourceColumn: suma_m3_trams
+
+		annotation SummarizationSetBy = Automatic
+
+	column suma_total_fact
+		dataType: string
+		lineageTag: 0f867ce0-f316-48f6-99c0-a153728afc76
+		summarizeBy: none
+		sourceColumn: suma_total_fact
+
+		annotation SummarizationSetBy = Automatic
+
+	column situacio_fact
+		dataType: string
+		lineageTag: 8f034bd6-7c58-44df-88d2-6a602b895b8e
+		summarizeBy: none
+		sourceColumn: situacio_fact
+
+		annotation SummarizationSetBy = Automatic
+
+	column any_mes
+		dataType: string
+		lineageTag: 9c56acf9-57fa-4a5b-97df-6e8198576a16
+		summarizeBy: none
+		sourceColumn: any_mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column nom_mes
+		dataType: string
+		lineageTag: 9a305967-ecad-42db-9273-2b6ff5b33df8
+		summarizeBy: none
+		sourceColumn: nom_mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column gerencia
+		dataType: string
+		lineageTag: 9db90ad4-4879-43c6-92b8-fd2833402841
+		summarizeBy: none
+		sourceColumn: gerencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_polisses
+		dataType: string
+		lineageTag: 9b93e2db-bdff-47f8-b92c-8bf818a3edc9
+		summarizeBy: none
+		sourceColumn: total_polisses
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_registres
+		dataType: string
+		lineageTag: 6a9a55cb-f0ce-4c10-9253-e5987a0ed3de
+		summarizeBy: none
+		sourceColumn: total_registres
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_m3
+		dataType: string
+		lineageTag: 0ccc17ef-f555-4714-9ac8-c69b3fa88b8f
+		summarizeBy: none
+		sourceColumn: total_m3
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_import
+		dataType: string
+		lineageTag: 42b0ed34-8cbb-48b3-9880-1c1ee58f0b64
+		summarizeBy: none
+		sourceColumn: total_import
+
+		annotation SummarizationSetBy = Automatic
+
+	column polissa_subm_2
+		dataType: string
+		lineageTag: 377b793b-c733-42f7-80f8-5b43b2ccb041
+		summarizeBy: none
+		sourceColumn: polissa_subm_2
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_fraus = m
+		mode: import
+		queryGroup: Hechos
+		source =
+				let
+				    Union = Table.Combine({
+				        fact_fraus_2025,
+				        fact_fraus_2026
+				    }),
+				    #"Columnas quitadas" = Table.RemoveColumns(Union, {"_5", "_6"}),
+				    #"Nombres en minúsculas" = Table.TransformColumnNames(
+				        #"Columnas quitadas",
+				        Text.Lower
+				    ),
+				    #"Columna duplicada" = Table.DuplicateColumn(#"Nombres en minúsculas", "polissa_subm", "polissa_subm - Copia"),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columna duplicada",{{"polissa_subm - Copia", "polissa_subm_2"}}),
+				    #"Texto insertado antes del delimitador" = Table.AddColumn(#"Columnas con nombre cambiado", "Texto antes del delimitador", each Text.BeforeDelimiter([polissa_subm_2], "F"), type text),
+				    #"Columnas quitadas1" = Table.RemoveColumns(#"Texto insertado antes del delimitador",{"polissa_subm_2"}),
+				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columnas quitadas1",{{"Texto antes del delimitador", "polissa_subm_2"}})
+				in
+				    #"Columnas con nombre cambiado1"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
