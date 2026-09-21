@@ -601,566 +601,6 @@ expression fact_rend_anr_arterias_bcn_nord_mensual =
 
 	annotation PBI_ResultType = Table
 
-expression fact_rend_anr_arterias_bcn_nord_12m = ```
-		let
-		    Source = Csv.Document(
-		        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?gid=504368917&single=true&output=csv"),
-		        [Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]
-		    ),
-		
-		    KeepCols = Table.SelectColumns(Source, 
-		        List.Transform({1..14}, each "Column" & Text.From(_))
-		    ),
-		
-		    ToText = Table.TransformColumnTypes(
-		        KeepCols,
-		        List.Transform(Table.ColumnNames(KeepCols), each {_, type text}),
-		        "es"
-		    ),
-		
-		    FillArteria = Table.FillDown(
-		        Table.ReplaceValue(ToText, "", null, Replacer.ReplaceValue, {"Column1"}),
-		        {"Column1"}
-		    ),
-		
-		    Headers = Table.PromoteHeaders(
-		        Table.Skip(FillArteria, 3),
-		        [PromoteAllScalars=true]
-		    ),
-		
-		    Rename = Table.RenameColumns(Headers, {
-		        {"", "tipo"},
-		        {"Artèria Transport", "arteria"}
-		    }),
-		
-		    // Filtrar Total y rendiment de una vez
-		    Filtered = Table.SelectRows(Rename, 
-		        each [tipo] <> "rendiment (%)" and [arteria] <> "Total"
-		    ),
-		
-		    Unpivoted = Table.UnpivotOtherColumns(
-		        Filtered, {"arteria", "tipo"}, "date", "valor"
-		    ),
-		
-		    NumericValue = Table.TransformColumns(Unpivoted, {{
-		        "valor", 
-		        each try Int64.From(Text.Replace(_, ",", "")) otherwise null, 
-		        Int64.Type
-		    }}),
-		
-		    Pivoted = Table.Pivot(
-		        NumericValue, 
-		        List.Distinct(NumericValue[tipo]), 
-		        "tipo", "valor"
-		    ),
-		
-		    Measures = Table.RenameColumns(Pivoted, {
-		        {"sortit (m3)", "sortit_m3"},
-		        {"entrat (m3)", "entrat_m3"}
-		    }),
-		
-		    AddColumns = Table.AddColumn(
-		        Table.AddColumn(
-		            Table.AddColumn(
-		                Measures,
-		                "gerencia", each "Bcn Nord", type text
-		            ),
-		            "rendiment",
-		            each try [sortit_m3] / [entrat_m3] otherwise null,
-		            type number
-		        ),
-		        "anr_m3",
-		        each [entrat_m3] - [sortit_m3],
-		        Int64.Type
-		    ),
-		
-		    FinalTypes = Table.TransformColumnTypes(AddColumns, {{"date", type date}}),
-		
-		    Result = Table.Sort(
-		        Table.ReorderColumns(FinalTypes, {
-		            "date", "gerencia", "arteria",
-		            "sortit_m3", "entrat_m3",
-		            "rendiment", "anr_m3"
-		        }),
-		        {{"arteria", Order.Ascending}, {"date", Order.Ascending}}
-		    )
-		in
-		    Result
-		```
-	lineageTag: 8131cd67-a4bb-4899-b0bf-f5b53ddd6284
-	queryGroup: Auxiliares
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Table
-
-expression fact_rend_anr_arterias_bcn_sud_12m = ```
-		let
-		    Source = Csv.Document(
-		        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?gid=874952698&single=true&output=csv"),
-		        [Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]
-		    ),
-		
-		    KeepCols = Table.SelectColumns(Source, 
-		        List.Transform({1..14}, each "Column" & Text.From(_))
-		    ),
-		
-		    ToText = Table.TransformColumnTypes(
-		        KeepCols,
-		        List.Transform(Table.ColumnNames(KeepCols), each {_, type text}),
-		        "es"
-		    ),
-		
-		    FillArteria = Table.FillDown(
-		        Table.ReplaceValue(ToText, "", null, Replacer.ReplaceValue, {"Column1"}),
-		        {"Column1"}
-		    ),
-		
-		    Headers = Table.PromoteHeaders(
-		        Table.Skip(FillArteria, 3),
-		        [PromoteAllScalars=true]
-		    ),
-		
-		    Rename = Table.RenameColumns(Headers, {
-		        {"", "tipo"},
-		        {"Artèria Transport", "arteria"}
-		    }),
-		
-		    // Filtrar Total y rendiment de una vez
-		    Filtered = Table.SelectRows(Rename, 
-		        each [tipo] <> "rendiment (%)" and [arteria] <> "Total"
-		    ),
-		
-		    Unpivoted = Table.UnpivotOtherColumns(
-		        Filtered, {"arteria", "tipo"}, "date", "valor"
-		    ),
-		
-		    NumericValue = Table.TransformColumns(Unpivoted, {{
-		        "valor", 
-		        each try Int64.From(Text.Replace(_, ",", "")) otherwise null, 
-		        Int64.Type
-		    }}),
-		
-		    Pivoted = Table.Pivot(
-		        NumericValue, 
-		        List.Distinct(NumericValue[tipo]), 
-		        "tipo", "valor"
-		    ),
-		
-		    Measures = Table.RenameColumns(Pivoted, {
-		        {"sortit (m3)", "sortit_m3"},
-		        {"entrat (m3)", "entrat_m3"}
-		    }),
-		
-		    AddColumns = Table.AddColumn(
-		        Table.AddColumn(
-		            Table.AddColumn(
-		                Measures,
-		                "gerencia", each "Bcn Sud", type text
-		            ),
-		            "rendiment",
-		            each try [sortit_m3] / [entrat_m3] otherwise null,
-		            type number
-		        ),
-		        "anr_m3",
-		        each [entrat_m3] - [sortit_m3],
-		        Int64.Type
-		    ),
-		
-		    FinalTypes = Table.TransformColumnTypes(AddColumns, {{"date", type date}}),
-		
-		    Result = Table.Sort(
-		        Table.ReorderColumns(FinalTypes, {
-		            "date", "gerencia", "arteria",
-		            "sortit_m3", "entrat_m3",
-		            "rendiment", "anr_m3"
-		        }),
-		        {{"arteria", Order.Ascending}, {"date", Order.Ascending}}
-		    )
-		in
-		    Result
-		```
-	lineageTag: dc52f18f-f946-420d-ac95-a1a8f6787b0a
-	queryGroup: Auxiliares
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Table
-
-expression fact_rend_anr_arterias_besos_12m =
-		let
-		    Source = Csv.Document(
-		        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?gid=1750464525&single=true&output=csv"),
-		        [Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]
-		    ),
-		
-		    KeepCols = Table.SelectColumns(Source,
-		        List.Transform({1..14}, each "Column" & Text.From(_))
-		    ),
-		
-		    ToText = Table.TransformColumnTypes(
-		        KeepCols,
-		        List.Transform(Table.ColumnNames(KeepCols), each {_, type text}),
-		        "es"
-		    ),
-		
-		    FillArteria = Table.FillDown(
-		        Table.ReplaceValue(ToText, "", null, Replacer.ReplaceValue, {"Column1"}),
-		        {"Column1"}
-		    ),
-		
-		    Headers = Table.PromoteHeaders(
-		        Table.Skip(FillArteria, 3),
-		        [PromoteAllScalars=true]
-		    ),
-		
-		    Rename = Table.RenameColumns(Headers, {
-		        {"", "tipo"},
-		        {"Artèria Transport", "arteria"}
-		    }),
-		
-		    // Filtrar Total y rendiment en un solo paso
-		    Filtered = Table.SelectRows(Rename,
-		        each [tipo] <> "rendiment (%)" and [arteria] <> "Total"
-		    ),
-		
-		    Unpivoted = Table.UnpivotOtherColumns(
-		        Filtered, {"arteria", "tipo"}, "date", "valor"
-		    ),
-		
-		    NumericValue = Table.TransformColumns(Unpivoted, {{
-		        "valor",
-		        each try Int64.From(Text.Replace(_, ",", "")) otherwise null,
-		        Int64.Type
-		    }}),
-		
-		    Pivoted = Table.Pivot(
-		        NumericValue,
-		        List.Distinct(NumericValue[tipo]),
-		        "tipo", "valor"
-		    ),
-		
-		    Measures = Table.RenameColumns(Pivoted, {
-		        {"sortit (m3)", "sortit_m3"},
-		        {"entrat (m3)", "entrat_m3"}
-		    }),
-		
-		    AddColumns = Table.AddColumn(
-		        Table.AddColumn(
-		            Table.AddColumn(
-		                Measures,
-		                "gerencia", each "Besos", type text
-		            ),
-		            "rendiment",
-		            each try [sortit_m3] / [entrat_m3] otherwise null,
-		            type number
-		        ),
-		        "anr_m3",
-		        each [entrat_m3] - [sortit_m3],
-		        Int64.Type
-		    ),
-		
-		    FinalTypes = Table.TransformColumnTypes(
-		        AddColumns, {{"date", type date}}
-		    ),
-		
-		    Result = Table.Sort(
-		        Table.ReorderColumns(FinalTypes, {
-		            "date", "gerencia", "arteria",
-		            "sortit_m3", "entrat_m3",
-		            "rendiment", "anr_m3"
-		        }),
-		        {{"arteria", Order.Ascending}, {"date", Order.Ascending}}
-		    )
-		in
-		    Result
-	lineageTag: 7260e781-edd5-408f-9b05-2a0b9afbda26
-	queryGroup: Auxiliares
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Table
-
-expression fact_rend_anr_arterias_llobregadnord_12m =
-		let
-		    Source = Csv.Document(
-		        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?gid=1917331369&single=true&output=csv"),
-		        [Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]
-		    ),
-		
-		    KeepCols = Table.SelectColumns(Source,
-		        List.Transform({1..14}, each "Column" & Text.From(_))
-		    ),
-		
-		    ToText = Table.TransformColumnTypes(
-		        KeepCols,
-		        List.Transform(Table.ColumnNames(KeepCols), each {_, type text}),
-		        "es"
-		    ),
-		
-		    FillArteria = Table.FillDown(
-		        Table.ReplaceValue(ToText, "", null, Replacer.ReplaceValue, {"Column1"}),
-		        {"Column1"}
-		    ),
-		
-		    Headers = Table.PromoteHeaders(
-		        Table.Skip(FillArteria, 3),
-		        [PromoteAllScalars=true]
-		    ),
-		
-		    Rename = Table.RenameColumns(Headers, {
-		        {"", "tipo"},
-		        {"Artèria Transport", "arteria"}
-		    }),
-		
-		    Filtered = Table.SelectRows(Rename,
-		        each [tipo] <> "rendiment (%)" and [arteria] <> "Total"
-		    ),
-		
-		    Unpivoted = Table.UnpivotOtherColumns(
-		        Filtered, {"arteria", "tipo"}, "date", "valor"
-		    ),
-		
-		    NumericValue = Table.TransformColumns(Unpivoted, {{
-		        "valor",
-		        each try Int64.From(Text.Replace(_, ",", "")) otherwise null,
-		        Int64.Type
-		    }}),
-		
-		    Pivoted = Table.Pivot(
-		        NumericValue,
-		        List.Distinct(NumericValue[tipo]),
-		        "tipo", "valor"
-		    ),
-		
-		    Measures = Table.RenameColumns(Pivoted, {
-		        {"sortit (m3)", "sortit_m3"},
-		        {"entrat (m3)", "entrat_m3"}
-		    }),
-		
-		    AddColumns = Table.AddColumn(
-		        Table.AddColumn(
-		            Table.AddColumn(
-		                Measures,
-		                "gerencia", each "Llobregat Nord", type text
-		            ),
-		            "rendiment",
-		            each try [sortit_m3] / [entrat_m3] otherwise null,
-		            type number
-		        ),
-		        "anr_m3",
-		        each [entrat_m3] - [sortit_m3],
-		        Int64.Type
-		    ),
-		
-		    FinalTypes = Table.TransformColumnTypes(
-		        AddColumns, {{"date", type date}}
-		    ),
-		
-		    Result = Table.Sort(
-		        Table.ReorderColumns(FinalTypes, {
-		            "date", "gerencia", "arteria",
-		            "sortit_m3", "entrat_m3",
-		            "rendiment", "anr_m3"
-		        }),
-		        {{"arteria", Order.Ascending}, {"date", Order.Ascending}}
-		    )
-		in
-		    Result
-	lineageTag: 41a2d7c5-caee-4e32-90a2-5dbf731de788
-	queryGroup: Auxiliares
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Table
-
-expression fact_rend_anr_arterias_llobregadsub_12m =
-		let
-		    Source = Csv.Document(
-		        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?gid=414089427&single=true&output=csv"),
-		        [Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]
-		    ),
-		
-		    KeepCols = Table.SelectColumns(Source,
-		        List.Transform({1..14}, each "Column" & Text.From(_))
-		    ),
-		
-		    ToText = Table.TransformColumnTypes(
-		        KeepCols,
-		        List.Transform(Table.ColumnNames(KeepCols), each {_, type text}),
-		        "es"
-		    ),
-		
-		    FillArteria = Table.FillDown(
-		        Table.ReplaceValue(ToText, "", null, Replacer.ReplaceValue, {"Column1"}),
-		        {"Column1"}
-		    ),
-		
-		    Headers = Table.PromoteHeaders(
-		        Table.Skip(FillArteria, 3),
-		        [PromoteAllScalars=true]
-		    ),
-		
-		    Rename = Table.RenameColumns(Headers, {
-		        {"", "tipo"},
-		        {"Artèria Transport", "arteria"}
-		    }),
-		
-		    Filtered = Table.SelectRows(Rename,
-		        each [tipo] <> "rendiment (%)" and [arteria] <> "Total"
-		    ),
-		
-		    Unpivoted = Table.UnpivotOtherColumns(
-		        Filtered, {"arteria", "tipo"}, "date", "valor"
-		    ),
-		
-		    NumericValue = Table.TransformColumns(Unpivoted, {{
-		        "valor",
-		        each try Int64.From(Text.Replace(_, ",", "")) otherwise null,
-		        Int64.Type
-		    }}),
-		
-		    Pivoted = Table.Pivot(
-		        NumericValue,
-		        List.Distinct(NumericValue[tipo]),
-		        "tipo", "valor"
-		    ),
-		
-		    Measures = Table.RenameColumns(Pivoted, {
-		        {"sortit (m3)", "sortit_m3"},
-		        {"entrat (m3)", "entrat_m3"}
-		    }),
-		
-		    AddColumns = Table.AddColumn(
-		        Table.AddColumn(
-		            Table.AddColumn(
-		                Measures,
-		                "gerencia", each "Llobregat Sud", type text
-		            ),
-		            "rendiment",
-		            each try [sortit_m3] / [entrat_m3] otherwise null,
-		            type number
-		        ),
-		        "anr_m3",
-		        each [entrat_m3] - [sortit_m3],
-		        Int64.Type
-		    ),
-		
-		    FinalTypes = Table.TransformColumnTypes(
-		        AddColumns, {{"date", type date}}
-		    ),
-		
-		    Result = Table.Sort(
-		        Table.ReorderColumns(FinalTypes, {
-		            "date", "gerencia", "arteria",
-		            "sortit_m3", "entrat_m3",
-		            "rendiment", "anr_m3"
-		        }),
-		        {{"arteria", Order.Ascending}, {"date", Order.Ascending}}
-		    ),
-		    #"Filas filtradas" = Table.SelectRows(Result, each true)
-		in
-		    #"Filas filtradas"
-	lineageTag: 7de5d7e5-4fed-4953-a9d8-2c4472475ccf
-	queryGroup: Auxiliares
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Table
-
-expression fact_rend_anr_arterias_multi_dz_12m = ```
-		let
-		    Source = Csv.Document(
-		        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?gid=1998372912&single=true&output=csv"),
-		        [Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]
-		    ),
-		
-		    KeepCols = Table.SelectColumns(Source, 
-		        List.Transform({1..14}, each "Column" & Text.From(_))
-		    ),
-		
-		    ToText = Table.TransformColumnTypes(
-		        KeepCols,
-		        List.Transform(Table.ColumnNames(KeepCols), each {_, type text}),
-		        "es"
-		    ),
-		
-		    FillArteria = Table.FillDown(
-		        Table.ReplaceValue(ToText, "", null, Replacer.ReplaceValue, {"Column1"}),
-		        {"Column1"}
-		    ),
-		
-		    Headers = Table.PromoteHeaders(
-		        Table.Skip(FillArteria, 3),
-		        [PromoteAllScalars=true]
-		    ),
-		
-		    Rename = Table.RenameColumns(Headers, {
-		        {"", "tipo"},
-		        {"Artèria Transport", "arteria"}
-		    }),
-		
-		    // Filtrar Total y rendiment de una vez
-		    Filtered = Table.SelectRows(Rename, 
-		        each [tipo] <> "rendiment (%)" and [arteria] <> "Total"
-		    ),
-		
-		    Unpivoted = Table.UnpivotOtherColumns(
-		        Filtered, {"arteria", "tipo"}, "date", "valor"
-		    ),
-		
-		    NumericValue = Table.TransformColumns(Unpivoted, {{
-		        "valor", 
-		        each try Int64.From(Text.Replace(_, ",", "")) otherwise null, 
-		        Int64.Type
-		    }}),
-		
-		    Pivoted = Table.Pivot(
-		        NumericValue, 
-		        List.Distinct(NumericValue[tipo]), 
-		        "tipo", "valor"
-		    ),
-		
-		    Measures = Table.RenameColumns(Pivoted, {
-		        {"sortit (m3)", "sortit_m3"},
-		        {"entrat (m3)", "entrat_m3"}
-		    }),
-		
-		    AddColumns = Table.AddColumn(
-		        Table.AddColumn(
-		            Table.AddColumn(
-		                Measures,
-		                "gerencia", each "Multi DZ", type text
-		            ),
-		            "rendiment",
-		            each try [sortit_m3] / [entrat_m3] otherwise null,
-		            type number
-		        ),
-		        "anr_m3",
-		        each [entrat_m3] - [sortit_m3],
-		        Int64.Type
-		    ),
-		
-		    FinalTypes = Table.TransformColumnTypes(AddColumns, {{"date", type date}}),
-		
-		    Result = Table.Sort(
-		        Table.ReorderColumns(FinalTypes, {
-		            "date", "gerencia", "arteria",
-		            "sortit_m3", "entrat_m3",
-		            "rendiment", "anr_m3"
-		        }),
-		        {{"arteria", Order.Ascending}, {"date", Order.Ascending}}
-		    )
-		in
-		    Result
-		```
-	lineageTag: d273f7a9-90f4-4b52-aa7a-6b20f4b0e138
-	queryGroup: Auxiliares
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Table
-
 expression perimetre_comptadors_2024 = ```
 		// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO DE GOOGLE DRIVE 
 		
@@ -1896,50 +1336,6 @@ expression Bossa_de_Limitadors_BCNS = ```
 		```
 	lineageTag: 10e00cc1-e4c4-4532-8c9a-492394f79c96
 	queryGroup: Auxiliares\bossa
-
-	annotation PBI_NavigationStepName = Navegación
-
-	annotation PBI_ResultType = Table
-
-expression fact_rend_anr_arterias_12m =
-		let
-		    Union =
-		        Table.Combine({
-		            fact_rend_anr_arterias_llobregadsub_12m,
-		            fact_rend_anr_arterias_llobregadnord_12m,
-		            fact_rend_anr_arterias_bcn_sud_12m,
-		            fact_rend_anr_arterias_bcn_nord_12m,
-		            fact_rend_anr_arterias_besos_12m,
-		            fact_rend_anr_arterias_multi_dz_12m
-		        }),
-		
-		    Transformado =
-		        Table.RenameColumns(
-		            Table.ReplaceValue(
-		                Table.ReplaceValue(
-		                    Table.Sort(
-		                        Union,
-		                        {
-		                            {"gerencia", Order.Ascending},
-		                            {"arteria", Order.Ascending},
-		                            {"date", Order.Ascending}
-		                        }
-		                    ),
-		                    "Bcn", "Barcelona", Replacer.ReplaceText, {"gerencia"}
-		                ),
-		                "Besos", "Besòs", Replacer.ReplaceText, {"gerencia"}
-		            ),
-		            {{"date", "fecha"}}
-		        ),
-		    sinVacios =
-		        Table.SelectRows(
-		            Transformado,
-		            each [sortit_m3] <> null
-		        )
-		in
-		    sinVacios
-	lineageTag: 10397739-4b1a-46da-86d9-73eb17f0892e
-	queryGroup: Auxiliares
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2757,7 +2153,7 @@ expression 'BCN G Pressio' = "https://docs.google.com/spreadsheets/d/1NknnQkvQTl
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Text
 
 expression dim_art_llob_g_pressio_100ESF_CDE = ```
 		let
@@ -3177,7 +2573,7 @@ expression dim_art_bes_g_pressio_100BES = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: cb4a585f-3ffe-4265-a2b2-834603d27325
-	queryGroup: Dimensiones\dim_art_bes_g_pressio
+	queryGroup: Auxiliares\dim_art_bes_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3214,7 +2610,7 @@ expression dim_art_bes_g_pressio_130SCG = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: d57910ac-2983-40f3-9a32-c953802bf8c0
-	queryGroup: Dimensiones\dim_art_bes_g_pressio
+	queryGroup: Auxiliares\dim_art_bes_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3251,7 +2647,7 @@ expression dim_art_bes_g_pressio_Cerdanyola = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 7eb4b631-d5a3-4bfa-9be9-ecf9ebdd829d
-	queryGroup: Dimensiones\dim_art_bes_g_pressio
+	queryGroup: Auxiliares\dim_art_bes_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3288,7 +2684,7 @@ expression dim_art_bes_g_pressio_Montgat = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 8cb16e14-45e0-498d-bc2b-12dcd6cf04ce
-	queryGroup: Dimensiones\dim_art_bes_g_pressio
+	queryGroup: Auxiliares\dim_art_bes_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3326,7 +2722,7 @@ expression dim_art_bcn_g_pressio_055BAR = ```
 		    #"Tipo cambiado2"
 		```
 	lineageTag: 22d1c671-1223-4e52-b4a0-2065302a673b
-	queryGroup: Dimensiones\dim_art_bes_g_pressio
+	queryGroup: Auxiliares\dim_art_bes_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3363,7 +2759,7 @@ expression dim_art_bcn_g_pressio_070BBE = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 8ef8522b-3573-4c03-885b-7794df680d03
-	queryGroup: Dimensiones\dim_art_bes_g_pressio
+	queryGroup: Auxiliares\dim_art_bes_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3400,7 +2796,7 @@ expression dim_art_bcn_g_pressio_100BLL = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 1bbe4bab-f90e-414e-a55e-083d4355c0c9
-	queryGroup: Dimensiones\dim_art_bcn_g_pressio
+	queryGroup: Auxiliares\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3439,7 +2835,7 @@ expression dim_art_bcn_g_pressio_101MIR = ```
 		    #"Tipo cambiado3"
 		```
 	lineageTag: 0ef028b5-c22c-4faa-9811-92bcc05c8615
-	queryGroup: Dimensiones\dim_art_bcn_g_pressio
+	queryGroup: Auxiliares\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3476,7 +2872,7 @@ expression dim_art_bcn_g_pressio_130BAR = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 41726e37-2ed7-4fde-9dd2-8f2c775bc26b
-	queryGroup: Dimensiones\dim_art_bcn_g_pressio
+	queryGroup: Auxiliares\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3513,7 +2909,7 @@ expression dim_art_bcn_g_pressio_200BAR_BLL = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 424e20f7-8428-40f2-901e-6f6827f0cb1d
-	queryGroup: Dimensiones\dim_art_bcn_g_pressio
+	queryGroup: Auxiliares\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3550,7 +2946,7 @@ expression dim_art_bcn_g_pressio_300BAR = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 606c1d9e-d9c1-4e12-bdcf-876929b7e71d
-	queryGroup: Dimensiones\dim_art_bcn_g_pressio
+	queryGroup: Auxiliares\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3797,7 +3193,7 @@ expression dim_art_bcn_g_pressio_070FLL = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 25b0cc90-fc6c-4b1c-a21a-fc21ed5d8178
-	queryGroup: Dimensiones\dim_art_bcn_g_pressio
+	queryGroup: Auxiliares\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3834,7 +3230,7 @@ expression dim_art_bcn_g_pressio_176BAR = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: c724582b-b0cb-41ab-9aa0-5c9e75cb6d00
-	queryGroup: Dimensiones\dim_art_bcn_g_pressio
+	queryGroup: Auxiliares\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
