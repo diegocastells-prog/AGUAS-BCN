@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "316c48340728ac8328e4",
   "position": {
-    "x": 169,
-    "y": 86,
-    "z": 5,
-    "height": 526,
-    "width": 635,
-    "tabOrder": 34
+    "x": 180.51948051948051,
+    "y": 159.74025974025975,
+    "z": 21000,
+    "height": 455.84415584415581,
+    "width": 693.50649350649348,
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "azureMap",
@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_dades_sectors.sector_id",
-              "nativeQueryRef": "sector_id",
-              "active": true
+              "nativeQueryRef": "Cod. Sector",
+              "active": true,
+              "displayName": "Cod. Sector"
             }
           ]
         },
@@ -46,8 +47,8 @@
                 }
               },
               "queryRef": "dim_dades_sectors.sector",
-              "nativeQueryRef": "sector",
-              "displayName": "sector"
+              "nativeQueryRef": "Sector",
+              "displayName": "Sector"
             }
           ]
         },
@@ -65,7 +66,8 @@
                 }
               },
               "queryRef": "_medidas.pressio_grups_nit",
-              "nativeQueryRef": "pressio_grups_nit"
+              "nativeQueryRef": "Gₙᵢₜ",
+              "displayName": "Gₙᵢₜ"
             },
             {
               "field": {
@@ -79,7 +81,8 @@
                 }
               },
               "queryRef": "_medidas.preal_max",
-              "nativeQueryRef": "preal_max"
+              "nativeQueryRef": "Pₘₐₓ",
+              "displayName": "Pₘₐₓ"
             },
             {
               "field": {
@@ -93,7 +96,8 @@
                 }
               },
               "queryRef": "_medidas.preal_min",
-              "nativeQueryRef": "preal_min"
+              "nativeQueryRef": "Pₘᵢₙ",
+              "displayName": "Pₘᵢₙ"
             },
             {
               "field": {
@@ -107,7 +111,8 @@
                 }
               },
               "queryRef": "_medidas.diff_preal",
-              "nativeQueryRef": "diff_preal"
+              "nativeQueryRef": "ΔP ",
+              "displayName": "ΔP "
             }
           ]
         }
@@ -321,21 +326,21 @@
             "zoom": {
               "expr": {
                 "Literal": {
-                  "Value": "9.89D"
+                  "Value": "9.74D"
                 }
               }
             },
             "centerLatitude": {
               "expr": {
                 "Literal": {
-                  "Value": "41.38319832831775D"
+                  "Value": "41.3831983283178D"
                 }
               }
             },
             "centerLongitude": {
               "expr": {
                 "Literal": {
-                  "Value": "2.097388799999976D"
+                  "Value": "2.0973888000000898D"
                 }
               }
             },
@@ -382,6 +387,19 @@
               "expr": {
                 "Literal": {
                   "Value": "80D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -475,76 +493,6 @@
             }
           ]
         }
-      },
-      {
-        "name": "c50194a075a14ec806a7",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_dades_sectors"
-              }
-            },
-            "Property": "sector_id"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "41c9eb256b0645e6c4b5",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_dades_sectors"
-              }
-            },
-            "Property": "sector"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "54048344dd2e23cceae5",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "preal_max"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "41a2f86908181d182b6d",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "preal_min"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "01af1b1a07ebd1417782",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "diff_preal"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

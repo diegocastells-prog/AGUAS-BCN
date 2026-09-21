@@ -3,10 +3,10 @@
   "name": "1c65a7aa9c1d719c439d",
   "position": {
     "x": 168.6051298065322,
-    "y": 126.74454585456557,
+    "y": 140.25974025974025,
     "z": 12000,
-    "height": 136.13412145817119,
-    "width": 1111.4747891205116,
+    "height": 135.06493506493507,
+    "width": 1050.6493506493507,
     "tabOrder": 12000
   },
   "visual": {
@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_dades_sectors.sector",
-              "nativeQueryRef": "sector",
-              "active": true
+              "nativeQueryRef": "Sector",
+              "active": true,
+              "displayName": "Sector"
             }
           ]
         },
@@ -217,7 +218,8 @@
               },
               "queryRef": "_medidas.num_comptadors_subcomptatge",
               "nativeQueryRef": "Total Compt.",
-              "displayName": "Total Compt."
+              "displayName": "Total Compt.",
+              "format": "#,0"
             }
           ]
         }
@@ -226,16 +228,16 @@
         "sort": [
           {
             "field": {
-              "Column": {
+              "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "dim_dades_sectors"
+                    "Entity": "_medidas"
                   }
                 },
-                "Property": "sector"
+                "Property": "compatadors_with_problems"
               }
             },
-            "direction": "Ascending"
+            "direction": "Descending"
           }
         ]
       },

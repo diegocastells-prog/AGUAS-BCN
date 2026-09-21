@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "3aa30366053007e122ad",
   "position": {
-    "x": 804,
-    "y": 88,
-    "z": 8,
-    "height": 517,
-    "width": 457,
-    "tabOrder": 51
+    "x": 885.71428571428567,
+    "y": 159.74025974025975,
+    "z": 22000,
+    "height": 455.84415584415581,
+    "width": 381.81818181818181,
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "tableEx",
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "dim_dades_sectors.gerencia",
-              "nativeQueryRef": "gerencia"
+              "nativeQueryRef": "DOP",
+              "displayName": "DOP"
             },
             {
               "field": {
@@ -41,7 +42,8 @@
                 }
               },
               "queryRef": "dim_dades_sectors.sector",
-              "nativeQueryRef": "sector"
+              "nativeQueryRef": "Sector",
+              "displayName": "Sector"
             },
             {
               "field": {
@@ -116,10 +118,10 @@
                     "Entity": "dim_dades_sectors"
                   }
                 },
-                "Property": "sector"
+                "Property": "gerencia"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
           }
         ]
       }
@@ -131,7 +133,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "114.77654004698857D"
+                  "Value": "93.64142595965659D"
                 }
               }
             }
@@ -195,11 +197,38 @@
           "selector": {
             "metadata": "_medidas.diff_preal"
           }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "71.5312636740006D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "dim_dades_sectors.gerencia"
+          }
         }
       ],
       "columnHeaders": [
         {
           "properties": {}
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -254,76 +283,6 @@
             }
           ]
         }
-      },
-      {
-        "name": "c830102990e1e9a0080a",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_dades_sectors"
-              }
-            },
-            "Property": "gerencia"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "bb66d74705de42e50c7e",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_dades_sectors"
-              }
-            },
-            "Property": "sector"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "be0bcb7e1555e0110205",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "preal_max"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "0dc14b4f990a3429d3b5",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "preal_min"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "8a1a87239e2004b9626d",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "diff_preal"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }
