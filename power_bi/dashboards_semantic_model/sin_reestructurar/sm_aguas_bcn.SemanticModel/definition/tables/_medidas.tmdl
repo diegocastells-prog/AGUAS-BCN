@@ -93,7 +93,7 @@ table _medidas
 	measure fraus_detectats =
 			
 			CALCULATE(
-			    COUNTROWS('fact_vol_fraud')
+			    COALESCE(COUNTROWS('fact_vol_fraud'),0)
 			)
 		formatString: #,0
 		displayFolder: fraudes\fraus_detectats\mensual
@@ -1787,7 +1787,7 @@ table _medidas
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
 			VAR _Valor =
 			    CALCULATE (
-			            COUNTROWS('fact_fraus'),
+			            COUNTROWS('fact_vol_fraud'),
 			            DATESINPERIOD (
 			            'dim_calendario'[Date],
 			            _FechaMaxContexto,
