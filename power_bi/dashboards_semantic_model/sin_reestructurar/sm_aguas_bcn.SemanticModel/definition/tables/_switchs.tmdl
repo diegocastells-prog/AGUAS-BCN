@@ -666,11 +666,11 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [fraus_detectats],
 			    "12 meses", [fraus_detectats_12m],
-			    "Acumlat", [fraus_detectats_ytd],
+			    "Acumulat", [fraus_detectats_ytd],
 			    "Diff", [diff_fraus_detectats],
 			    BLANK()
 			)
-		formatString: 0
+		formatString: #,0
 		displayFolder: fraus
 		lineageTag: ee9d271c-5602-42ef-9ce6-bb36ac3f42c2
 
@@ -680,11 +680,11 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [fraus_detectats_mensual_smly],
 			    "12 meses", [fraus_detectats_12m_1m],
-			    "Acumlat", [fraus_detectats_lytd],
+			    "Acumulat", [fraus_detectats_lytd],
 			    "Diff", [_cero_acumulat],
 			    BLANK()
 			)
-		formatString: 0
+		formatString: #,0
 		displayFolder: fraus
 		lineageTag: 88962258-e8e1-4fe9-b03f-7e7f20518a1f
 
@@ -2038,14 +2038,13 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [fraus_total_m3_mensual],
 			    "12 meses", [fraus_total_m3_acum_12m],
-			    "Acumlat", [fraus_total_m3_ytd],
+			    "Acumulat", [fraus_total_m3_ytd],
 			    "Diff", [diff_fraus_total_m3],
 			    BLANK()
 			)
+		formatString: #,0
 		displayFolder: fraus
 		lineageTag: e3c79730-7b86-4bb8-ad38-0c3dac916da1
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_fraus_m3_switch_1m =
 			
@@ -2053,14 +2052,13 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [fraus_total_m3_mensual_smly],
 			    "12 meses", [fraus_total_m3_acum_12m_1m],
-			    "Acumlat", [fraus_total_m3_lytd],
+			    "Acumulat", [fraus_total_m3_lytd],
 			    "Diff", [_cero_acumulat],
 			    BLANK()
 			)
+		formatString: #,0
 		displayFolder: fraus
 		lineageTag: b600e91f-5233-4aa2-818f-9af7b5371249
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_fraus_total_import_switch =
 			
@@ -2068,14 +2066,13 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [fraus_total_import_mensual],
 			    "12 meses", [fraus_total_import_acum_12m],
-			    "Acumlat", [fraus_total_import_ytd],
+			    "Acumulat", [fraus_total_import_ytd],
 			    "Diff", [diff_fraus_total_import],
 			    BLANK()
 			)
+		formatString: #,0.00
 		displayFolder: fraus
 		lineageTag: 0f48ee39-abc0-4c65-ab32-8b3bbda91ed0
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_fraus_total_import_switch_1m =
 			
@@ -2083,24 +2080,24 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [fraus_total_import_mensual_smly],
 			    "12 meses", [fraus_total_import_acum_12m_1m],
-			    "Acumlat", [fraus_total_import_lytd],
+			    "Acumulat", [fraus_total_import_lytd],
 			    "Diff", [_cero_acumulat],
 			    BLANK()
 			)
+		formatString: #,0.00
 		displayFolder: fraus
 		lineageTag: 3e1130e4-f9f0-433f-8b15-4e30f2ee60d1
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_fraus_recuperats_switch =
 			SWITCH(
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [fraus_recuperats],
 			    "12 meses", [fraus_recuperats_12m],
-			    "Acumlat", [fraus_recuperats_ytd],
+			    "Acumulat", [fraus_recuperats_ytd],
 			    "Diff", [diff_fraus_recuperats],
 			    BLANK()
 			)
+		formatString: #,0
 		displayFolder: fraudes
 		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b303
 
@@ -2109,10 +2106,11 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [fraus_recuperats_mensual_smly],
 			    "12 meses", [fraus_recuperats_12m_1m],
-			    "Acumlat", [fraus_recuperats_lytd],
+			    "Acumulat", [fraus_recuperats_lytd],
 			    "Diff", [_cero_acumulat],
 			    BLANK()
 			)
+		formatString: #,0
 		displayFolder: fraudes
 		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b304
 
@@ -2121,7 +2119,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_agua_rec_fraud],
 			    "12 meses", [volum_agua_rec_fraud_12m],
-			    "Acumlat", [volum_agua_rec_fraud_ytd],
+			    "Acumulat", [volum_agua_rec_fraud_ytd],
 			    "Diff", [diff_volum_agua_rec_fraud],
 			    BLANK()
 			)
@@ -2133,7 +2131,7 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [volum_agua_rec_fraud_mensual_smly],
 			    "12 meses", [volum_agua_rec_fraud_12m_1m],
-			    "Acumlat", [volum_agua_rec_fraud_lytd],
+			    "Acumulat", [volum_agua_rec_fraud_lytd],
 			    "Diff", [_cero_acumulat],
 			    BLANK()
 			)
@@ -2145,10 +2143,11 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [fraus_recupera_euros],
 			    "12 meses", [fraus_recupera_euros_12m],
-			    "Acumlat", [fraus_recupera_euros_ytd],
+			    "Acumulat", [fraus_recupera_euros_ytd],
 			    "Diff", [diff_fraus_recupera_euros],
 			    BLANK()
 			)
+		formatString: #,0.00
 		displayFolder: fraudes
 		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b307
 
@@ -2157,10 +2156,11 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [fraus_recupera_euros_mensual_smly],
 			    "12 meses", [fraus_recupera_euros_12m_1m],
-			    "Acumlat", [fraus_recupera_euros_lytd],
+			    "Acumulat", [fraus_recupera_euros_lytd],
 			    "Diff", [_cero_acumulat],
 			    BLANK()
 			)
+		formatString: #,0.00
 		displayFolder: fraudes
 		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b308
 
@@ -2169,10 +2169,11 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [pct_fraudes_recupera],
 			    "12 meses", [pct_fraudes_recupera_12m],
-			    "Acumlat", [pct_fraudes_recupera_ytd],
+			    "Acumulat", [pct_fraudes_recupera_ytd],
 			    "Diff", [diff_pct_fraudes_recupera],
 			    BLANK()
 			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: fraudes
 		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b309
 
@@ -2181,10 +2182,11 @@ table _switchs
 			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
 			    "Mensual", [pct_fraudes_recupera_mensual_smly],
 			    "12 meses", [pct_fraudes_recupera_12m_1m],
-			    "Acumlat", [pct_fraudes_recupera_lytd],
+			    "Acumulat", [pct_fraudes_recupera_lytd],
 			    "Diff", [_cero_acumulat],
 			    BLANK()
 			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: fraudes
 		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b310
 
