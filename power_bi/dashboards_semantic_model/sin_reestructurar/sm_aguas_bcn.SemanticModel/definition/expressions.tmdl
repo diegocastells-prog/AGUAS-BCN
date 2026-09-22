@@ -2482,7 +2482,7 @@ expression '12_S7 desembre 2026_Tfuita_Tinst' = "https://docs.google.com/spreads
 
 	annotation PBI_ResultType = Text
 
-expression 'Estimació Volums Lliurats i Dotacions Municipis AB' = "https://docs.google.com/spreadsheets/d/1PBcQDIOXuGzSvnWbbKL8akVRAcNYzv6ubxLW1zldlPU" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression 'Estimació Volums Lliurats i Dotacions Municipis AB' = "https://docs.google.com/spreadsheets/d/1d_a2VHdoljdoFkkUvKYzeGrUxpTkvEXl6nbCiRMox5s/edit?gid=1593205713#gid=1593205713" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 6f62bf0e-5506-4b15-966e-a77c6fdf0abd
 	queryGroup: 'Parametre '
 
@@ -3099,7 +3099,7 @@ expression Tfuita_Tinst_2026 = ```
 expression aux_fact_poblacion_munic =
 		let
 		    Origen = let
-		    Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1PBcQDIOXuGzSvnWbbKL8akVRAcNYzv6ubxLW1zldlPU/edit?gid=1903089532#gid=1903089532"),
+		    Origen = GoogleSheets.Contents(#"Estimació Volums Lliurats i Dotacions Municipis AB"),
 		      #"Població Municipal_Table" = Origen{[name="Població Municipal",ItemKind="Table"]}[Data],
 		      #"Encabezados promovidos" = Table.PromoteHeaders(#"Població Municipal_Table", [PromoteAllScalars=true]),
 		      #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados promovidos",{{"ESTACIO", "municipio"}}),

@@ -93,7 +93,7 @@ table _medidas
 	measure fraus_detectats =
 			
 			CALCULATE(
-			    COUNTROWS('fact_vol_fraud')
+			    COALESCE(COUNTROWS('fact_vol_fraud'),0)
 			)
 		formatString: #,0
 		displayFolder: fraudes\fraus_detectats\mensual
@@ -1781,7 +1781,7 @@ table _medidas
 			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
 			VAR _Valor =
 			    CALCULATE (
-			            COUNTROWS('fact_fraus'),
+			            COUNTROWS('fact_vol_fraud'),
 			            DATESINPERIOD (
 			            'dim_calendario'[Date],
 			            _FechaMaxContexto,
@@ -9069,6 +9069,22 @@ table _medidas
 		formatString: #,0
 		displayFolder: fraus
 		lineageTag: f9d06ce3-8c70-4ffb-a17a-5c38a530d24e
+
+	measure filtro_fraus_rec =
+			
+			VAR _FilasConConsumo =
+			    COUNTROWS(
+			        FILTER(
+			            fact_fraus,
+			            NOT ISBLANK(fact_fraus[data_crea_c_fra])
+			                && fact_fraus[data_crea_c_fra] <> 0
+			        )
+			    )
+			RETURN
+			    IF(_FilasConConsumo > 0, 1, 0)
+		formatString: 0
+		displayFolder: Filtros
+		lineageTag: 0931a1b5-fe4a-406a-8aa5-4b64f7cd4003
 
 	column Column
 		isHidden
