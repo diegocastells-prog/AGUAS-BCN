@@ -1080,6 +1080,12 @@ table _medidas
 		displayFolder: fraudes
 		lineageTag: a9d3768f-df84-493e-a707-5bb937aca567
 
+	measure fraus_recupera_euros = SUM(fact_fraus[total_import])
+		displayFolder: fraudes\euros\mensual
+		lineageTag: 7e3717f9-2df5-4a3c-9e3f-85d910ddafe8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	measure fraus_sin_recupera_euros =
 			
 			CALCULATE(
@@ -9044,12 +9050,6 @@ table _medidas
 		displayFolder: fraudes\pct\diff
 		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b228
 
-	measure fraus_recupera_euros = SUM(fact_fraus[total_import])
-		displayFolder: fraudes\euros\mensual
-		lineageTag: 7e3717f9-2df5-4a3c-9e3f-85d910ddafe8
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	measure escala_color_fraus_m3 = 100000
 		formatString: #,0
 		displayFolder: fraus
@@ -9069,6 +9069,31 @@ table _medidas
 		formatString: #,0
 		displayFolder: fraus
 		lineageTag: f9d06ce3-8c70-4ffb-a17a-5c38a530d24e
+
+	measure kpi_dotacio_top =
+			
+			VAR _FechaMax =
+			    MAX ( dim_calendario[Date] )
+			
+			VAR _InicioMes =
+			    DATE ( YEAR ( _FechaMax ), MONTH ( _FechaMax ), 1 )
+			
+			VAR _FinMes =
+			    EOMONTH ( _FechaMax, 0 )
+			
+			RETURN
+			CALCULATE (
+			    [kpi_dotacio_switch],
+			    DATESBETWEEN (
+			        dim_calendario[Date],
+			        _InicioMes,
+			        _FinMes
+			    )
+			)
+		displayFolder: dotacio
+		lineageTag: 4650413f-d35d-4964-94fc-8a12f2fec0f2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Column
 		isHidden
