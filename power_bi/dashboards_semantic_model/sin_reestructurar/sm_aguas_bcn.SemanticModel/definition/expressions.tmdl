@@ -3251,7 +3251,7 @@ expression 'Indicadors Sectorització 2026' = "https://docs.google.com/spreadshe
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Text
+	annotation PBI_ResultType = Exception
 
 expression 'fraus facturats 2025' = "https://docs.google.com/spreadsheets/d/1-4TpybzWEoX6MwSxJxzALVwqoGp56jl2CtAfJWlycnA/edit?gid=1543499837#gid=1543499837" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 2ff2c19f-ca8a-4b4a-a581-b078042e8789
@@ -3297,6 +3297,69 @@ expression fact_fraus_2026 =
 		    #"Columnas quitadas1"
 	lineageTag: 0fdc76b3-35b1-43ce-a025-ef44ea7502ef
 	queryGroup: Auxiliares
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression fact_fraudes_all =
+		let
+		  Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vTkaRRTpAF3cjORlQlBr64cW8dF1PQno-yNRXYHRo0G_2T6Nx_slDfrZQ6mfLL-uA/pub?gid=273809892&single=true&output=csv"), [Delimiter = ",", Columns = 11, QuoteStyle = QuoteStyle.None]),
+		    #"Encabezados promovidos" = Table.PromoteHeaders(
+		        Origen,
+		        [PromoteAllScalars = true]
+		    ),
+		
+		    #"Tipo cambiado" = Table.TransformColumnTypes(
+		        #"Encabezados promovidos",
+		        {
+		            {"POLISSA_SUBM", type text},
+		            {"CODI_COMANDA", Int64.Type},
+		            {"COMANDA_POSTERIOR", Int64.Type},
+		            {"DATA_CREACIO_ORIGINAL", type datetime},
+		            {"TIPUS_OPE", type text},
+		            {"DATA_CREACIO_FINAL", type datetime},
+		            {"DATA_FI_EXECUCIO_FINAL", type datetime},
+		            {"IND_RESULTAT", type text},
+		            {"CODI_OPE_FI", Int64.Type},
+		            {"TIPUS_OPE_PENDENT", type text},
+		            {"DATA_CREACIO_ACTUAL", type datetime}
+		        }
+		    ),
+		
+		    #"Fechas sin hora" = Table.TransformColumns(
+		        #"Tipo cambiado",
+		        {
+		            {"DATA_CREACIO_ORIGINAL", DateTime.Date, type date},
+		            {"DATA_CREACIO_FINAL", DateTime.Date, type date},
+		            {"DATA_FI_EXECUCIO_FINAL", DateTime.Date, type date},
+		            {"DATA_CREACIO_ACTUAL", DateTime.Date, type date}
+		        }
+		    ),
+		
+		    #"Encabezados Title Case" = Table.TransformColumnNames(
+		        #"Fechas sin hora",
+		        each Text.Proper(Text.Lower(_))
+		    ),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados Title Case",{{"Polissa_Subm", "polissa_subm"}, {"Codi_Comanda", "codi_comanda"}, {"Comanda_Posterior", "comanda_posterior"}, {"Data_Creacio_Original", "data_creacio_original"}, {"Tipus_Ope", "tipus_ope"}, {"Data_Creacio_Final", "data_creacio_final"}, {"Data_Fi_Execucio_Final", "data_fi_execucio_final"}, {"Ind_Resultat", "ind_resultat"}, {"Codi_Ope_Fi", "codi_ope_fi"}, {"Tipus_Ope_Pendent", "tipus_ope_pendent"}, {"Data_Creacio_Actual", "data_creacio_actual"}}),
+		    SinDuplicados =
+		        Table.Distinct( #"Columnas con nombre cambiado"),
+		
+		
+		
+		    SinFilasVacias =
+		        Table.SelectRows(
+		            SinDuplicados,
+		            each List.NonNullCount(Record.FieldValues(_)) > 0
+		        ),
+		    #"Columnas quitadas" = Table.RemoveColumns(SinFilasVacias,{"tipus_ope_pendent", "data_creacio_actual"})
+		
+		
+		
+		in
+		    #"Columnas quitadas"
+	lineageTag: 89a4a37b-e7a6-4f57-ab36-eb5124b85e64
+	queryGroup: Hechos
 
 	annotation PBI_NavigationStepName = Navegación
 

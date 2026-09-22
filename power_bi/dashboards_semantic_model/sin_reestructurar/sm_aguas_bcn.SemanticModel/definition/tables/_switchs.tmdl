@@ -2190,6 +2190,72 @@ table _switchs
 		displayFolder: fraudes
 		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b310
 
+	measure color_kpi_fraus_switch =
+			VAR _Kpi =
+			    SELECTEDVALUE('_parameter_fraus'[Parámetro])
+			VAR _Valor =
+			    SWITCH(
+			        _Kpi,
+			        "Fraus Detectats", [kpi_fraus_detectats_switch],
+			        "Fraus Recuperat (m3)", [kpi_fraus_m3_switch],
+			        "Fraus Total Import", [kpi_fraus_total_import_switch],
+			        "Fraus Recuperats", [kpi_fraus_recuperats_switch],
+			        "% Fraus Recuperacio", [kpi_pct_fraudes_recupera_switch],
+			        BLANK()
+			    )
+			VAR _Escala =
+			    SWITCH(
+			        _Kpi,
+			        "Fraus Detectats", [escala_color_fraus_detectats],
+			        "Fraus Recuperat (m3)", [escala_color_fraus_m3],
+			        "Fraus Total Import", [escala_color_fraus_import],
+			        "Fraus Recuperats", [escala_color_fraus_recuperats],
+			        "% Fraus Recuperacio", 1,
+			        BLANK()
+			    )
+			VAR _Nivel =
+			    MIN(1, MAX(0, DIVIDE(_Valor, _Escala, 0)))
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(_Kpi) || ISBLANK(_Valor), BLANK(),
+			        _Kpi = "Fraus Detectats" && _Nivel = 0, "#FFFFFF",
+			        _Kpi = "Fraus Detectats" && _Nivel <= 0.25, "#E2F0D9",
+			        _Kpi = "Fraus Detectats" && _Nivel <= 0.50, "#A9D18E",
+			        _Kpi = "Fraus Detectats" && _Nivel <= 0.75, "#F4B183",
+			        _Kpi = "Fraus Detectats", "#C00000",
+			        _Kpi IN {"Fraus Recuperat (m3)", "Fraus Total Import"} && _Nivel = 0, "#FFFFFF",
+			        _Kpi IN {"Fraus Recuperat (m3)", "Fraus Total Import"} && _Nivel <= 0.25, "#E2F0D9",
+			        _Kpi IN {"Fraus Recuperat (m3)", "Fraus Total Import"} && _Nivel <= 0.50, "#A9D18E",
+			        _Kpi IN {"Fraus Recuperat (m3)", "Fraus Total Import"} && _Nivel <= 0.75, "#70AD47",
+			        _Kpi IN {"Fraus Recuperat (m3)", "Fraus Total Import"}, "#548235",
+			        _Kpi = "Fraus Recuperats" && _Nivel = 0, "#C00000",
+			        _Kpi = "Fraus Recuperats" && _Nivel <= 0.25, "#F4B183",
+			        _Kpi = "Fraus Recuperats" && _Nivel <= 0.50, "#FFD966",
+			        _Kpi = "Fraus Recuperats" && _Nivel <= 0.75, "#A9D18E",
+			        _Kpi = "Fraus Recuperats", "#548235",
+			        _Kpi = "% Fraus Recuperacio" && _Nivel <= 0.25, "#C00000",
+			        _Kpi = "% Fraus Recuperacio" && _Nivel <= 0.50, "#F4B183",
+			        _Kpi = "% Fraus Recuperacio" && _Nivel <= 0.75, "#A9D18E",
+			        _Kpi = "% Fraus Recuperacio", "#548235",
+			        BLANK()
+			    )
+		displayFolder: fraus
+		lineageTag: 1d84699b-b7f9-47cf-9e8c-a0d78941e3f0
+
+	measure color_fuente_kpi_fraus_switch =
+			VAR _ColorFondo = [color_kpi_fraus_switch]
+			RETURN
+			    SWITCH(
+			        _ColorFondo,
+			        "#548235", "#FFFFFF",
+			        "#70AD47", "#FFFFFF",
+			        "#C00000", "#FFFFFF",
+			        "#000000"
+			    )
+		displayFolder: fraus
+		lineageTag: d9b1daec-c264-4b8a-b363-568196097b5f
+
 	column Column
 		isHidden
 		formatString: 0
