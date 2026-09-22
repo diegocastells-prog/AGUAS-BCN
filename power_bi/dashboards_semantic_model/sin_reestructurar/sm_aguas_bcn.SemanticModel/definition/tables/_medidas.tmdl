@@ -93,7 +93,7 @@ table _medidas
 	measure fraus_detectats =
 			
 			CALCULATE(
-			    COUNTROWS('fact_fraus')
+			    COUNTROWS('fact_vol_fraud')
 			)
 		formatString: #,0
 		displayFolder: fraudes\fraus_detectats\mensual
@@ -113,11 +113,6 @@ table _medidas
 		formatString: #,0
 		displayFolder: fraudes
 		lineageTag: 4c731030-05b5-4e7d-96d2-f8b6bc37c4c0
-
-	measure fraus_operacions_cant = COUNTROWS(fact_fraudes_all)
-		formatString: #,0
-		displayFolder: fraudes
-		lineageTag: 4b6451a9-c850-4328-8f9c-0873326fd7b2
 
 	measure volum_lliurat_global_mensual_hm3 = SUM(fact_aigua_consum_historic[aigua_lliurada_total])/1000000
 		formatString: #,0.00
@@ -1085,38 +1080,6 @@ table _medidas
 		displayFolder: fraudes
 		lineageTag: a9d3768f-df84-493e-a707-5bb937aca567
 
-	measure fraus_recuperat = ```
-			
-			CALCULATE(
-			    COUNTROWS(fact_vol_fraud),
-			    fact_vol_fraud[Tipologia] = "Executada"
-			) 
-			```
-		formatString: #,0
-		displayFolder: fraudes
-		lineageTag: 4df0f416-c06a-4cbb-ae05-2d2c483791cd
-
-	measure fraus_per_recuperar =
-			
-			CALCULATE(
-			    COUNTROWS(fact_vol_fraud),
-			    fact_vol_fraud[Tipologia] = "Pendent"
-			)
-		formatString: #,0
-		displayFolder: fraudes
-		lineageTag: afb4cdea-4dcf-4f35-910a-0fea095a6198
-
-	measure fraus_recupera_euros =
-			
-			CALCULATE(
-			    SUM(fact_vol_fraud[Imp Cobrat Frau Total]),
-			    fact_vol_fraud[Tipologia] = "Executada",
-			    NOT ISBLANK(fact_vol_fraud[Imp Cobrat Frau Total])
-			)
-		formatString: #,0.00
-		displayFolder: fraudes
-		lineageTag: 05804c61-1cd9-4758-afe2-9ecbd395ef64
-
 	measure fraus_sin_recupera_euros =
 			
 			CALCULATE(
@@ -1831,7 +1794,7 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			    _Valor
 			)   
 			```
 		displayFolder: fraudes\fraus_detectats\acum_12
@@ -8903,11 +8866,9 @@ table _medidas
 		displayFolder: fraudes\total_import\diff
 		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28a114
 
-	measure fraus_recuperats =
-			CALCULATE(
-			    COUNTROWS(fact_vol_fraud),
-			    fact_vol_fraud[Tipologia] = "Executada"
-			)
+	measure fraus_recuperats = ```
+			COUNTROWS(fact_fraus) 
+			```
 		formatString: #,0
 		displayFolder: fraudes\fraus_recuperats\mensual
 		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b201
@@ -9082,6 +9043,12 @@ table _medidas
 		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
 		displayFolder: fraudes\pct\diff
 		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b228
+
+	measure fraus_recupera_euros = SUM(fact_fraus[total_import])
+		displayFolder: fraudes\euros\mensual
+		lineageTag: 7e3717f9-2df5-4a3c-9e3f-85d910ddafe8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Column
 		isHidden

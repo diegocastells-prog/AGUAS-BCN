@@ -164,15 +164,6 @@ table fact_fraus
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column polissa_subm_2
-		dataType: int64
-		formatString: 0
-		lineageTag: 377b793b-c733-42f7-80f8-5b43b2ccb041
-		summarizeBy: sum
-		sourceColumn: polissa_subm_2
-
-		annotation SummarizationSetBy = Automatic
-
 	partition fact_fraus = m
 		mode: import
 		queryGroup: Hechos
@@ -187,12 +178,7 @@ table fact_fraus
 				        Union,
 				        Text.Lower
 				    ),
-				    #"Columna duplicada" = Table.DuplicateColumn(#"Nombres en minúsculas", "polissa_subm", "polissa_subm - Copia"),
-				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Columna duplicada",{{"polissa_subm - Copia", "polissa_subm_2"}}),
-				    #"Texto insertado antes del delimitador" = Table.AddColumn(#"Columnas con nombre cambiado", "Texto antes del delimitador", each Text.BeforeDelimiter([polissa_subm_2], "F"), type text),
-				    #"Columnas quitadas1" = Table.RemoveColumns(#"Texto insertado antes del delimitador",{"polissa_subm_2"}),
-				    #"Columnas con nombre cambiado1" = Table.RenameColumns(#"Columnas quitadas1",{{"Texto antes del delimitador", "polissa_subm_2"}}),
-				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas con nombre cambiado1",{{"polissa_subm", type text}, {"polissa_ramal", type any}, {"del_creacio_conv_f", Int64.Type}, {"tip_subm_serv", type text}, {"ql_gestio_fact", type text}, {"data_crea_c_fra", type date}, {"any_factura", Int64.Type}, {"num_factura", Int64.Type}, {"id_empresa", type text}, {"num_particio", Int64.Type}, {"cod_post_conv_frau", Int64.Type}, {"total_m3", Int64.Type}, {"total_import", type number}, {"situacio_fact", type any}, {"any_mes", type any}, {"nom_mes", type any}, {"gerencia", type any}, {"total_polisses", type any}, {"total_registres", type any}, {"polissa_subm_2", Int64.Type}})
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Nombres en minúsculas",{{"polissa_subm", type text}, {"polissa_ramal", type any}, {"del_creacio_conv_f", Int64.Type}, {"tip_subm_serv", type text}, {"ql_gestio_fact", type text}, {"data_crea_c_fra", type date}, {"any_factura", Int64.Type}, {"num_factura", Int64.Type}, {"id_empresa", type text}, {"num_particio", Int64.Type}, {"cod_post_conv_frau", Int64.Type}, {"total_m3", Int64.Type}, {"total_import", type number}, {"situacio_fact", type any}, {"any_mes", type any}, {"nom_mes", type any}, {"gerencia", type any}, {"total_polisses", type any}, {"total_registres", type any}})
 				in
 				    #"Tipo cambiado"
 				```

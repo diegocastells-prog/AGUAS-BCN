@@ -1,0 +1,51 @@
+table _parameter_fraus
+	lineageTag: 269d9f57-0147-489c-8bf0-229532c6a43f
+
+	column Parámetro
+		lineageTag: 0ab4bc0d-4c11-4345-b266-d7136a47912a
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parámetro Orden'
+
+		relatedColumnDetails
+			groupByColumn: 'Parámetro Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parámetro Campos'
+		isHidden
+		lineageTag: e4fb59e5-0b34-45fb-88dc-65296a009184
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parámetro Orden'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parámetro Orden'
+		isHidden
+		formatString: 0
+		lineageTag: d3a1d585-5f09-4fb6-9927-baea9229a02e
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _parameter_fraus = calculated
+		mode: import
+		source =
+				{
+				    ("Fraus Detectats", NAMEOF('_switchs'[kpi_fraus_detectats_switch]), 0),
+				    ("Fraus Recuperat (m3)", NAMEOF('_switchs'[kpi_fraus_m3_switch]), 1),
+				    ("Fraus Total Import", NAMEOF('_switchs'[kpi_fraus_total_import_switch]), 2),
+				    ("Fraus Recuperats", NAMEOF('_switchs'[kpi_fraus_recuperats_switch]), 3),
+				    ("% Fraus Recuperacio", NAMEOF('_switchs'[kpi_pct_fraudes_recupera_switch]), 4)
+				}
+
+	annotation PBI_Id = 151573bac2c744c4acfa43dbfb717230
+
