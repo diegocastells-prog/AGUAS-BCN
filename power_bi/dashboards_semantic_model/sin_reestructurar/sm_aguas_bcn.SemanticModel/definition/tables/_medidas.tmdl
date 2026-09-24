@@ -283,8 +283,7 @@ table _medidas
 		lineageTag: 86a01aa5-ac54-48f3-a890-d503e630c5f2
 
 	measure anr_transport_m3_acum_12m = ```
-			
-			DIVIDE( [rendiment_global_acum_12m] , [rth_distribucion_12m] )  
+			[volum_lliurat_transport_12m] - [volum_consumit_transport_12m] 
 			//VAR _FechaFin =    TODAY ()
 			//VAR _FechaInicio =    EDATE ( _FechaFin, -11 )
 			//VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
@@ -1079,12 +1078,6 @@ table _medidas
 		formatString: #,0.00
 		displayFolder: fraudes
 		lineageTag: a9d3768f-df84-493e-a707-5bb937aca567
-
-	measure fraus_recupera_euros = SUM(fact_fraus[total_import])
-		displayFolder: fraudes\euros\mensual
-		lineageTag: 7e3717f9-2df5-4a3c-9e3f-85d910ddafe8
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure fraus_sin_recupera_euros =
 			
@@ -7686,25 +7679,123 @@ table _medidas
 
 	measure etiquetes_vs_periodo = ```
 			
-			VAR texto_generico_1 = "Has seleccionat analitzar els KPIs en periode "
-			VAR texto_generico_2 = " per tant ara el teu objectiu és el mateix KPI en el període "
-			VAR texto_generico_3 = ""
-			 
-			VAR mes = MAX(dim_calendario[anio_mes])
-			VAR mes_mmaa =  MAX(dim_calendario[mmaa])
-			VAR mes_ma =  MAX(dim_calendario[ma])
-			 
-			RETURN SWITCH(
-			SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			"Mensual",
-			texto_generico_1 & "MENSUAL" & texto_generico_2 & "MMAA : " & mes & " vs "& mes_mmaa & texto_generico_3,
-			"12 meses",
-			texto_generico_1 & "12 MESOS" & texto_generico_2 & "MA : " & mes & " vs "& mes_ma & texto_generico_3,
-			"Acumulat",
-			texto_generico_1 & "ACUMULAT" & texto_generico_2 & "MMAA: " & mes & " vs "& mes_mmaa & texto_generico_3,
-			"Diff",
-			texto_generico_1 & "DIFF" & texto_generico_2 & "MMAA: " & mes & " vs "& mes_mmaa & texto_generico_3,
-			BLANK()
+			
+			VAR texto_generico_1 = 
+			    "Has seleccionat analitzar els KPIs en periode "
+			
+			VAR texto_generico_2 = 
+			    " per tant ara el teu objectiu és el mateix KPI en el període "
+			
+			VAR texto_generico_3 = 
+			    ""
+			
+			// Último mes disponible = mes anterior al actual
+			VAR FechaMesAnterior =
+			    CALCULATE(
+			        MAX(dim_calendario[Date]),
+			        ALL(dim_calendario)
+			    )
+			
+			// Mes de referencia
+			VAR mes =
+			    CALCULATE(
+			        MAX(dim_calendario[anio_mes]),
+			        ALL(dim_calendario),
+			        dim_calendario[Date] = FechaMesAnterior
+			    )
+			
+			// MMAA = mismo mes del año anterior
+			VAR FechaMMAA =
+			    EDATE(FechaMesAnterior, -12)
+			
+			VAR mes_mmaa =
+			    SWITCH(
+			        MONTH(FechaMMAA),
+			        1, "gen.",
+			        2, "febr.",
+			        3, "març",
+			        4, "abr",
+			        5, "maig",
+			        6, "juny",
+			        7, "jul",
+			        8, "ag",
+			        9, "set",
+			        10, "oct",
+			        11, "nov",
+			        12, "des"
+			    )
+			    & " "
+			    & FORMAT(FechaMMAA, "YYYY")
+			
+			// MA = mes anterior al mes de referencia
+			VAR FechaMA =
+			    EDATE(FechaMesAnterior, -1)
+			
+			VAR mes_ma =
+			    SWITCH(
+			        MONTH(FechaMA),
+			        1, "gen.",
+			        2, "febr.",
+			        3, "març",
+			        4, "abr",
+			        5, "maig",
+			        6, "juny",
+			        7, "jul",
+			        8, "ag",
+			        9, "set",
+			        10, "oct",
+			        11, "nov",
+			        12, "des"
+			    )
+			    & " "
+			    & FORMAT(FechaMA, "YYYY")
+			
+			RETURN
+			
+			SWITCH(
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			
+			    "Mensual",
+			        texto_generico_1
+			        & "MENSUAL"
+			        & texto_generico_2
+			        & "MMAA : "
+			        & mes
+			        & " vs "
+			        & mes_mmaa
+			        & texto_generico_3,
+			
+			    "12 meses",
+			        texto_generico_1
+			        & "12 MESOS"
+			        & texto_generico_2
+			        & "MA : "
+			        & mes
+			        & " vs "
+			        & mes_ma
+			        & texto_generico_3,
+			
+			    "Acumulat",
+			        texto_generico_1
+			        & "ACUMULAT"
+			        & texto_generico_2
+			        & "MMAA: "
+			        & mes
+			        & " vs "
+			        & mes_mmaa
+			        & texto_generico_3,
+			
+			    "Diff",
+			        texto_generico_1
+			        & "DIFF"
+			        & texto_generico_2
+			        & "MMAA: "
+			        & mes
+			        & " vs "
+			        & mes_mmaa
+			        & texto_generico_3,
+			
+			    BLANK()
 			)
 			```
 		displayFolder: Etiquetas
@@ -9049,6 +9140,12 @@ table _medidas
 		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
 		displayFolder: fraudes\pct\diff
 		lineageTag: 7a0a3f80-c88a-4b3e-98b6-72dd3f28b228
+
+	measure fraus_recupera_euros = SUM(fact_fraus[total_import])
+		displayFolder: fraudes\euros\mensual
+		lineageTag: 7e3717f9-2df5-4a3c-9e3f-85d910ddafe8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure escala_color_fraus_m3 = 100000
 		formatString: #,0
