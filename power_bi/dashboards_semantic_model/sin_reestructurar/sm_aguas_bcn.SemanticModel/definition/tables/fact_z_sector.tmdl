@@ -53,7 +53,7 @@ table fact_z_sector
 		queryGroup: Hechos
 		source =
 				let
-				  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1ZvYN5_c0AIVTgXhQgC5y3g1QN9i8xr9YGskrJM3w62U/edit?gid=1103572248#gid=1103572248"),
+				  Origen = GoogleSheets.Contents(Z_Sectors_2023_2025),
 				  #"Navegación 1" = Origen{[name = "default_1", ItemKind = "Table"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Navegación 1", [PromoteAllScalars=true]),
 				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Encabezados promovidos",{{"Sum(Sum(Longitud))", "longitud"}, {"Any", "anio"}, {"Count(Orden)", "avaries"}, {"Sector / Artèria", "sector_id"}}),

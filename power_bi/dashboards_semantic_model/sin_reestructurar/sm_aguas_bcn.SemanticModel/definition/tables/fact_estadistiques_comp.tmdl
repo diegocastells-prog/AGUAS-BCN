@@ -126,9 +126,10 @@ table fact_estadistiques_comp
 		mode: import
 		queryGroup: Hechos
 		source = ```
-				let
-				    Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vSBdujYtm-k6b1sHDL1XjoEupA6bWpiO7est-_tshOR30XuF361C6fvUabG2i616w/pub?gid=524487380&single=true&output=csv"),[Delimiter=",", Columns=48, Encoding=65001, QuoteStyle=QuoteStyle.None]),
-				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				let 
+				    Origen = GoogleSheets.Contents(#"04 Seguiment pla Canvis 2026v4+NO ÈXITS+OM"),
+				    Informe_Table = Origen{[name="Estadístiques comp",ItemKind="Table"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Informe_Table, [PromoteAllScalars=true]),
 				    #"Otras columnas quitadas" = Table.SelectColumns(#"Encabezados promovidos",{"Agrupació Canvi", "Agrupació edat", "Tip Submin", "Grup DN", "﻿Total", "DESC_CODI", "Nom executor", "Zona Operacions", "Estratègics", "DIAM_COMP", "QL_COMPT_NOU", "Agrupació edat GA", "Número Mes", "Tipus Executor", "Codi mes"}),
 				    
 				    #"Personalizada agregada" = Table.AddColumn(#"Otras columnas quitadas", "fecha", each 
