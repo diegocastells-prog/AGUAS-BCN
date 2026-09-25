@@ -1761,11 +1761,11 @@ expression dim_sector_aux =
 		in
 		    Origen
 	lineageTag: f24b549f-b8a8-4034-9cf3-cf746d84f092
-	queryGroup: Auxiliares
+	queryGroup: Auxiliares\dims
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 
 expression aux_dim_sector = ```
 		// TABLA 1 -Coordenadas
@@ -1800,7 +1800,7 @@ expression aux_dim_sector = ```
 		    #"Columnas quitadas"
 		```
 	lineageTag: 0ba75a1c-eda2-431e-ae33-5ccddeecbae2
-	queryGroup: Auxiliares
+	queryGroup: Auxiliares\dims
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -1882,15 +1882,15 @@ expression aux_sector_no_disp = ```
 		        #"Valor reemplazado"
 		```
 	lineageTag: cbac59f6-5a89-46bc-a8f3-66d34f006385
-	queryGroup: Auxiliares
+	queryGroup: Auxiliares\dims
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 
 expression dim_ortomat =
 		let
-		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1dca9OE3HQzH16kwQty0mn2sH6krPn0RFOmR9uFBWXJI/edit?gid=709331709#gid=709331709"),
+		  Origen = GoogleSheets.Contents(Ortomat_Sectores_sembrados_numero),
 		  #"Navegación 1" = Origen{[name = "Sectores_sembrados_numero", ItemKind = "Table"]}[Data],
 		
 		    #"Encabezados promovidos" = Table.PromoteHeaders(#"Navegación 1", [PromoteAllScalars=true]),
@@ -1944,7 +1944,7 @@ expression dim_ortomat =
 		in
 		    #"Tipo cambiado"
 	lineageTag: 64dad9b2-ac2a-479e-84fe-d6e39a7c4cbf
-	queryGroup: Auxiliares
+	queryGroup: Auxiliares\dims
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2459,7 +2459,7 @@ expression dim_art_llob_g_pressio_100ESF_CDE = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: d6f5f411-8292-47e7-89de-e3cf8fd56a75
-	queryGroup: Auxiliares\dim_art_llob_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_llob_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2495,7 +2495,7 @@ expression dim_art_llob_g_pressio_100LLO = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 0bfed4e0-70f4-4626-8eea-3810dcdb4480
-	queryGroup: Auxiliares\dim_art_llob_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_llob_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2532,7 +2532,7 @@ expression dim_art_llob_g_pressio_070LLO = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 00c1fb95-0835-46b0-accf-75b43149b796
-	queryGroup: Auxiliares\dim_art_llob_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_llob_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2569,7 +2569,7 @@ expression dim_art_llob_g_pressio_140LLO = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: fff6e7d4-eeb9-48e7-86c7-3cfe2452ce32
-	queryGroup: Auxiliares\dim_art_llob_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_llob_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2606,7 +2606,7 @@ expression dim_art_llob_g_pressio_Begues = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: f07fe234-f462-4776-afd1-b00c75c53c25
-	queryGroup: Auxiliares\dim_art_llob_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_llob_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2643,7 +2643,7 @@ expression dim_art_llob_g_pressio_Cesalpina_Torrelles = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 0f7d1c13-dd67-400e-a0e9-78f588146a37
-	queryGroup: Auxiliares\dim_art_llob_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_llob_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2680,7 +2680,7 @@ expression dim_art_llob_g_pressio_El_Papiol = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 86c71a86-5acc-4d16-9529-555f1b0dafeb
-	queryGroup: Auxiliares\dim_art_llob_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_llob_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2717,7 +2717,7 @@ expression dim_art_llob_g_pressio_Palleja = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: ab5dfc5b-000e-4cec-8350-1eda026b6bd2
-	queryGroup: Auxiliares\dim_art_llob_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_llob_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2762,7 +2762,7 @@ expression 'Estimació Volums Lliurats i Dotacions Municipis AB' = "https://docs
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Text
+	annotation PBI_ResultType = Exception
 
 expression 'Pous declarats a l''ACA' = "https://docs.google.com/spreadsheets/d/1GlxHJlCAWZHbz33ytmi4gH8yGDvnKzX13LSovr73m34/edit?gid=1777683441#gid=1777683441" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 66dd68a2-d56b-4aab-ba1c-b356ffb4988b
@@ -2810,7 +2810,7 @@ expression aux_dim_ortomat_sectores =
 		in
 		    #"Tipo cambiado"
 	lineageTag: e977ded8-75a7-4ef9-81db-f8ed39dc63f1
-	queryGroup: Auxiliares
+	queryGroup: Auxiliares\dims
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2847,7 +2847,7 @@ expression dim_art_bes_g_pressio_100BES = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: cb4a585f-3ffe-4265-a2b2-834603d27325
-	queryGroup: Auxiliares\dim_art_bes_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bes_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2884,7 +2884,7 @@ expression dim_art_bes_g_pressio_130SCG = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: d57910ac-2983-40f3-9a32-c953802bf8c0
-	queryGroup: Auxiliares\dim_art_bes_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bes_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2921,7 +2921,7 @@ expression dim_art_bes_g_pressio_Cerdanyola = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 7eb4b631-d5a3-4bfa-9be9-ecf9ebdd829d
-	queryGroup: Auxiliares\dim_art_bes_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bes_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2958,7 +2958,7 @@ expression dim_art_bes_g_pressio_Montgat = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 8cb16e14-45e0-498d-bc2b-12dcd6cf04ce
-	queryGroup: Auxiliares\dim_art_bes_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bes_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2996,7 +2996,7 @@ expression dim_art_bcn_g_pressio_055BAR = ```
 		    #"Tipo cambiado2"
 		```
 	lineageTag: 22d1c671-1223-4e52-b4a0-2065302a673b
-	queryGroup: Auxiliares\dim_art_bes_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bes_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3033,7 +3033,7 @@ expression dim_art_bcn_g_pressio_070BBE = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 8ef8522b-3573-4c03-885b-7794df680d03
-	queryGroup: Auxiliares\dim_art_bes_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bes_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3070,7 +3070,7 @@ expression dim_art_bcn_g_pressio_100BLL = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 1bbe4bab-f90e-414e-a55e-083d4355c0c9
-	queryGroup: Auxiliares\dim_art_bcn_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3109,7 +3109,7 @@ expression dim_art_bcn_g_pressio_101MIR = ```
 		    #"Tipo cambiado3"
 		```
 	lineageTag: 0ef028b5-c22c-4faa-9811-92bcc05c8615
-	queryGroup: Auxiliares\dim_art_bcn_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3146,7 +3146,7 @@ expression dim_art_bcn_g_pressio_130BAR = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 41726e37-2ed7-4fde-9dd2-8f2c775bc26b
-	queryGroup: Auxiliares\dim_art_bcn_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3183,7 +3183,7 @@ expression dim_art_bcn_g_pressio_200BAR_BLL = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 424e20f7-8428-40f2-901e-6f6827f0cb1d
-	queryGroup: Auxiliares\dim_art_bcn_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3220,7 +3220,7 @@ expression dim_art_bcn_g_pressio_300BAR = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 606c1d9e-d9c1-4e12-bdcf-876929b7e71d
-	queryGroup: Auxiliares\dim_art_bcn_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3398,11 +3398,11 @@ expression aux_fact_poblacion_munic =
 		in
 		    #"Mes insertado"
 	lineageTag: 32e777f1-3209-4aa8-9a5a-7d6529d57a54
-	queryGroup: Auxiliares
+	queryGroup: Auxiliares\dims
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 
 expression dim_aux_tipus_reg_cabali =
 		let
@@ -3468,7 +3468,7 @@ expression dim_art_bcn_g_pressio_070FLL = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 25b0cc90-fc6c-4b1c-a21a-fc21ed5d8178
-	queryGroup: Auxiliares\dim_art_bcn_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3505,7 +3505,7 @@ expression dim_art_bcn_g_pressio_176BAR = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: c724582b-b0cb-41ab-9aa0-5c9e75cb6d00
-	queryGroup: Auxiliares\dim_art_bcn_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3665,6 +3665,14 @@ expression 'coordenadas por sector bcn' = "https://docs.google.com/spreadsheets/
 
 expression dim_sector = "https://docs.google.com/spreadsheets/d/1pYWzB4BZBUnIqSPzeg1ezMwfhR1SevyUKxsCw8IAuKk/edit?gid=1370942235#gid=1370942235" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: c622ce38-4fa0-4b43-9aa3-8282521d0b33
+	queryGroup: 'Parametre '
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression Ortomat_Sectores_sembrados_numero = "https://docs.google.com/spreadsheets/d/1dca9OE3HQzH16kwQty0mn2sH6krPn0RFOmR9uFBWXJI/edit?gid=709331709#gid=709331709" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 27dd2120-cb36-4f2f-94e9-d0ec0267d3d5
 	queryGroup: 'Parametre '
 
 	annotation PBI_NavigationStepName = Navegación
