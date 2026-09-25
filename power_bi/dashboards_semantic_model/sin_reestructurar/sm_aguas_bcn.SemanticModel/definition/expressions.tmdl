@@ -2153,10 +2153,9 @@ expression fact_reparacions_zones_2026 = ```
 		    
 		    // 3. Ajuste de estructura Rango, eliminar vacías y renombrar
 		    #"Datos Base" = Table.RenameColumns(
-		        Table.RemoveColumns(Table.Range(EncabezadosLimpios, 0, 339), {""}), 
+		        Table.RemoveColumns(EncabezadosLimpios, {""}), 
 		        {{"sector", "sector_id"}}
 		    ),
-		    
 		    // 4. AGRUPACIÓN 1: Transformaciones de Texto en un solo recorrido de tabla
 		    #"Transformaciones de Texto" = Table.TransformColumns(#"Datos Base", {
 		        {"sector_id", each Text.Select(Text.From(_), {"0".."9"}), type text},
@@ -2164,12 +2163,13 @@ expression fact_reparacions_zones_2026 = ```
 		        {"descripcio", Text.Proper, type text},
 		        {"ubicacio_fuita", Text.Proper, type text}
 		    }),
+		    #"Filas filtradas" = Table.SelectRows(#"Transformaciones de Texto", each ([data_fi] <> " " and [data_fi] <> "--")),
 		    
 		    // 5. AGRUPACIÓN 2: Todos los reemplazos previos a la conversión de tipo anidados
 		    #"Reemplazos Varios" = Table.ReplaceValue(
 		        Table.ReplaceValue(
 		            Table.ReplaceValue(
-		                #"Transformaciones de Texto",
+		                #"Filas filtradas",
 		                ",", null, Replacer.ReplaceValue, {"ordre"}
 		            ),
 		            "--", null, Replacer.ReplaceValue, {"cabal_recuperat"}
@@ -2381,7 +2381,7 @@ expression 'LLOB G Pressio' = "https://docs.google.com/spreadsheets/d/1JJVUoHtJZ
 
 	annotation PBI_ResultType = Text
 
-expression ActuacionsZones2026_D = "https://docs.google.com/spreadsheets/d/1pRV9UWfLAiLYxFQecahlDYkSlB9YhcclIdsFyd1rEyI/edit?gid=2115327085#gid=2115327085" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression ActuacionsZones2026_D = "https://docs.google.com/spreadsheets/d/1pRV9UWfLAiLYxFQecahlDYkSlB9YhcclIdsFyd1rEyI/edit?gid=1075835455#gid=1075835455" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: af42b690-e68b-4da3-868c-a92082a18b7a
 	queryGroup: 'Parametre '
 
