@@ -1,42 +1,63 @@
 expression fact_rend_anr_arterias_multi_dz_mensual =
 		let
-		    Source = Csv.Document(
-		        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?gid=2053100884&single=true&output=csv"),
-		        [Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]
-		    ),
+		    Origen = GoogleSheets.Contents(#"Indicador Artèries 2026"),
 		
-		        KeepCols = Table.SelectColumns(
+		    Source = Origen{[
+		        name = "Multi DZ mensual",
+		        ItemKind = "Table"
+		    ]}[Data],
+		
+		    // Mantener únicamente las primeras 14 columnas
+		    KeepCols = Table.SelectColumns(
 		        Source,
 		        List.Transform({1..14}, each "Column" & Text.From(_))
 		    ),
 		
+		    // Convertir todo a texto
 		    ToText = Table.TransformColumnTypes(
 		        KeepCols,
-		        List.Transform(Table.ColumnNames(KeepCols), each {_, type text}),
+		        List.Transform(
+		            Table.ColumnNames(KeepCols),
+		            each {_, type text}
+		        ),
 		        "es"
 		    ),
 		
+		    // Rellenar hacia abajo la arteria
 		    FillArteria = Table.FillDown(
-		        Table.ReplaceValue(ToText, "", null, Replacer.ReplaceValue, {"Column1"}),
+		        Table.ReplaceValue(
+		            ToText,
+		            "",
+		            null,
+		            Replacer.ReplaceValue,
+		            {"Column1"}
+		        ),
 		        {"Column1"}
 		    ),
 		
+		    // Quitar las 3 primeras filas y promover encabezados
 		    Headers = Table.PromoteHeaders(
 		        Table.Skip(FillArteria, 3),
 		        [PromoteAllScalars = true]
 		    ),
 		
-		    Rename = Table.RenameColumns(Headers, {
-		        {"", "tipo"},
-		        {"Artèria Transport", "arteria"}
-		    }),
-		
-		    // Filtrar Total y rendiment de una vez
-		    Filtered = Table.SelectRows(
-		        Rename,
-		        each [tipo] <> "rendiment (%)" and [arteria] <> "Total"
+		    // Renombrar columnas
+		    Rename = Table.RenameColumns(
+		        Headers,
+		        {
+		            {"", "tipo"},
+		            {"Artèria Transport", "arteria"}
+		        }
 		    ),
 		
+		    // Filtrar Total y rendimiento
+		    Filtered = Table.SelectRows(
+		        Rename,
+		        each [tipo] <> "rendiment (%)"
+		            and [arteria] <> "Total"
+		    ),
+		
+		    // Pasar las fechas a filas
 		    Unpivoted = Table.UnpivotOtherColumns(
 		        Filtered,
 		        {"arteria", "tipo"},
@@ -44,12 +65,18 @@ expression fact_rend_anr_arterias_multi_dz_mensual =
 		        "valor"
 		    ),
 		
-		    NumericValue = Table.TransformColumns(Unpivoted, {{
-		        "valor",
-		        each try Int64.From(Text.Replace(_, ",", "")) otherwise null,
-		        Int64.Type
-		    }}),
+		    // Convertir valores a número
+		    NumericValue = Table.TransformColumns(
+		        Unpivoted,
+		        {{
+		            "valor",
+		            each try Int64.From(Text.Replace(_, ",", ""))
+		                otherwise null,
+		            Int64.Type
+		        }}
+		    ),
 		
+		    // Convertir tipo en columnas
 		    Pivoted = Table.Pivot(
 		        NumericValue,
 		        List.Distinct(NumericValue[tipo]),
@@ -57,38 +84,58 @@ expression fact_rend_anr_arterias_multi_dz_mensual =
 		        "valor"
 		    ),
 		
-		    Measures = Table.RenameColumns(Pivoted, {
-		        {"sortit (m3)", "sortit_m3"},
-		        {"entrat (m3)", "entrat_m3"}
-		    }),
+		    // Renombrar medidas
+		    Measures = Table.RenameColumns(
+		        Pivoted,
+		        {
+		            {"sortit (m3)", "sortit_m3"},
+		            {"entrat (m3)", "entrat_m3"}
+		        }
+		    ),
 		
-		    AddColumns = Table.AddColumn(
-		        Table.AddColumn(
-		            Table.AddColumn(
-		                Measures,
-		                "gerencia", each "Multi DZ", type text
-		            ),
-		            "rendiment",
-		            each try [sortit_m3] / [entrat_m3] otherwise null,
-		            type number
-		        ),
+		    // Añadir gerencia
+		    AddGerencia = Table.AddColumn(
+		        Measures,
+		        "gerencia",
+		        each "Multi DZ",
+		        type text
+		    ),
+		
+		    // Calcular rendimiento
+		    AddRendiment = Table.AddColumn(
+		        AddGerencia,
+		        "rendiment",
+		        each try [sortit_m3] / [entrat_m3]
+		            otherwise null,
+		        type number
+		    ),
+		
+		    // Calcular ANR
+		    AddANR = Table.AddColumn(
+		        AddRendiment,
 		        "anr_m3",
 		        each [entrat_m3] - [sortit_m3],
 		        Int64.Type
 		    ),
 		
+		    // Tipo fecha
 		    FinalTypes = Table.TransformColumnTypes(
-		        AddColumns,
+		        AddANR,
 		        {{"fecha", type date}}
 		    ),
 		
+		    // Orden y columnas finales
 		    Result = Table.Sort(
 		        Table.ReorderColumns(
 		            FinalTypes,
 		            {
-		                "fecha", "gerencia", "arteria",
-		                "sortit_m3", "entrat_m3",
-		                "rendiment", "anr_m3"
+		                "fecha",
+		                "gerencia",
+		                "arteria",
+		                "sortit_m3",
+		                "entrat_m3",
+		                "rendiment",
+		                "anr_m3"
 		            }
 		        ),
 		        {
@@ -99,7 +146,7 @@ expression fact_rend_anr_arterias_multi_dz_mensual =
 		in
 		    Result
 	lineageTag: 35fc2956-323c-41e8-9a1f-36757ce82f11
-	queryGroup: Auxiliares\rend_arterias
+	queryGroup: Auxiliares\facts\rend_arterias
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -107,93 +154,153 @@ expression fact_rend_anr_arterias_multi_dz_mensual =
 
 expression fact_rend_anr_arterias_llobregadsub_mensual =
 		let
-		    Source = Csv.Document(
-		        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?output=csv"),
-		        [Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]
-		    ),
+		    Origen = GoogleSheets.Contents(#"Indicador Artèries 2026"),
 		
-		    KeepCols = Table.SelectColumns(Source,
+		    Source = Origen{[
+		        name = "Llobregat Sud mensual",
+		        ItemKind = "Table"
+		    ]}[Data],
+		
+		    // Mantener únicamente las primeras 14 columnas
+		    KeepCols = Table.SelectColumns(
+		        Source,
 		        List.Transform({1..14}, each "Column" & Text.From(_))
 		    ),
 		
+		    // Convertir todo a texto
 		    ToText = Table.TransformColumnTypes(
 		        KeepCols,
-		        List.Transform(Table.ColumnNames(KeepCols), each {_, type text}),
+		        List.Transform(
+		            Table.ColumnNames(KeepCols),
+		            each {_, type text}
+		        ),
 		        "es"
 		    ),
 		
+		    // Rellenar hacia abajo la arteria
 		    FillArteria = Table.FillDown(
-		        Table.ReplaceValue(ToText, "", null, Replacer.ReplaceValue, {"Column1"}),
+		        Table.ReplaceValue(
+		            ToText,
+		            "",
+		            null,
+		            Replacer.ReplaceValue,
+		            {"Column1"}
+		        ),
 		        {"Column1"}
 		    ),
 		
+		    // Quitar las 3 primeras filas y promover encabezados
 		    Headers = Table.PromoteHeaders(
 		        Table.Skip(FillArteria, 3),
 		        [PromoteAllScalars = true]
 		    ),
 		
-		    Rename = Table.RenameColumns(Headers, {
-		        {"", "tipo"},
-		        {"Artèria Transport", "arteria"}
-		    }),
+		    // Renombrar columnas
+		    Rename = Table.RenameColumns(
+		        Headers,
+		        {
+		            {"", "tipo"},
+		            {"Artèria Transport", "arteria"}
+		        }
+		    ),
 		
+		    // Eliminar rendimiento y total
 		    Filtered = Table.SelectRows(
 		        Rename,
-		        each [tipo] <> "rendiment (%)" and [arteria] <> "Total"
+		        each [tipo] <> "rendiment (%)"
+		            and [arteria] <> "Total"
 		    ),
 		
+		    // Pasar meses/fechas a filas
 		    Unpivoted = Table.UnpivotOtherColumns(
-		        Filtered, {"arteria", "tipo"}, "fecha", "valor"
+		        Filtered,
+		        {"arteria", "tipo"},
+		        "fecha",
+		        "valor"
 		    ),
 		
-		    NumericValue = Table.TransformColumns(Unpivoted, {{
-		        "valor",
-		        each try Int64.From(Text.Replace(_, ",", "")) otherwise null,
-		        Int64.Type
-		    }}),
+		    // Convertir valores a número
+		    NumericValue = Table.TransformColumns(
+		        Unpivoted,
+		        {{
+		            "valor",
+		            each try Int64.From(Text.Replace(_, ",", ""))
+		                otherwise null,
+		            Int64.Type
+		        }}
+		    ),
 		
+		    // Convertir los tipos en columnas
 		    Pivoted = Table.Pivot(
 		        NumericValue,
 		        List.Distinct(NumericValue[tipo]),
-		        "tipo", "valor"
+		        "tipo",
+		        "valor"
 		    ),
 		
-		    Measures = Table.RenameColumns(Pivoted, {
-		        {"sortit (m3)", "sortit_m3"},
-		        {"entrat (m3)", "entrat_m3"}
-		    }),
+		    // Renombrar medidas
+		    Measures = Table.RenameColumns(
+		        Pivoted,
+		        {
+		            {"sortit (m3)", "sortit_m3"},
+		            {"entrat (m3)", "entrat_m3"}
+		        }
+		    ),
 		
-		    AddColumns = Table.AddColumn(
-		        Table.AddColumn(
-		            Table.AddColumn(
-		                Measures,
-		                "gerencia", each "Llobregat Sud", type text
-		            ),
-		            "rendiment",
-		            each try [sortit_m3] / [entrat_m3] otherwise null,
-		            type number
-		        ),
+		    // Añadir gerencia
+		    AddGerencia = Table.AddColumn(
+		        Measures,
+		        "gerencia",
+		        each "Llobregat Sud",
+		        type text
+		    ),
+		
+		    // Calcular rendimiento
+		    AddRendiment = Table.AddColumn(
+		        AddGerencia,
+		        "rendiment",
+		        each try [sortit_m3] / [entrat_m3]
+		            otherwise null,
+		        type number
+		    ),
+		
+		    // Calcular ANR
+		    AddANR = Table.AddColumn(
+		        AddRendiment,
 		        "anr_m3",
 		        each [entrat_m3] - [sortit_m3],
 		        Int64.Type
 		    ),
 		
+		    // Tipos finales
 		    FinalTypes = Table.TransformColumnTypes(
-		        AddColumns, {{"fecha", type date}}
+		        AddANR,
+		        {{"fecha", type date}}
 		    ),
 		
+		    // Orden y columnas finales
 		    Result = Table.Sort(
-		        Table.ReorderColumns(FinalTypes, {
-		            "fecha", "gerencia", "arteria",
-		            "sortit_m3", "entrat_m3",
-		            "rendiment", "anr_m3"
-		        }),
-		        {{"arteria", Order.Ascending}, {"fecha", Order.Ascending}}
+		        Table.ReorderColumns(
+		            FinalTypes,
+		            {
+		                "fecha",
+		                "gerencia",
+		                "arteria",
+		                "sortit_m3",
+		                "entrat_m3",
+		                "rendiment",
+		                "anr_m3"
+		            }
+		        ),
+		        {
+		            {"arteria", Order.Ascending},
+		            {"fecha", Order.Ascending}
+		        }
 		    )
 		in
 		    Result
 	lineageTag: bf28c7c4-6a8d-4bf6-a65d-22606250dea6
-	queryGroup: Auxiliares\rend_arterias
+	queryGroup: Auxiliares\facts\rend_arterias
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -201,93 +308,153 @@ expression fact_rend_anr_arterias_llobregadsub_mensual =
 
 expression fact_rend_anr_arterias_llobregadnord_mensual =
 		let
-		    Source = Csv.Document(
-		        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?gid=72955012&single=true&output=csv"),
-		        [Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]
+		    Origen = GoogleSheets.Contents(#"Indicador Artèries 2026"),
+		
+		    Source = Origen{[
+		        name = "Llobregat Nord mensual",
+		        ItemKind = "Table"
+		    ]}[Data],
+		
+		    // Mantener únicamente las primeras 14 columnas
+		    KeepCols = Table.SelectColumns(
+		        Source,
+		        List.Transform({1..14}, each "Column" & Text.From(_))
 		    ),
 		
-		    KeepCols = Table.SelectColumns(Source,
-		    List.Transform({1..14}, each "Column" & Text.From(_))
-		    ),
-		
+		    // Convertir todo a texto
 		    ToText = Table.TransformColumnTypes(
 		        KeepCols,
-		        List.Transform(Table.ColumnNames(KeepCols), each {_, type text}),
+		        List.Transform(
+		            Table.ColumnNames(KeepCols),
+		            each {_, type text}
+		        ),
 		        "es"
 		    ),
 		
+		    // Rellenar hacia abajo la arteria
 		    FillArteria = Table.FillDown(
-		        Table.ReplaceValue(ToText, "", null, Replacer.ReplaceValue, {"Column1"}),
+		        Table.ReplaceValue(
+		            ToText,
+		            "",
+		            null,
+		            Replacer.ReplaceValue,
+		            {"Column1"}
+		        ),
 		        {"Column1"}
 		    ),
 		
+		    // Quitar las 3 primeras filas y promover encabezados
 		    Headers = Table.PromoteHeaders(
 		        Table.Skip(FillArteria, 3),
 		        [PromoteAllScalars = true]
 		    ),
 		
-		    Rename = Table.RenameColumns(Headers, {
-		        {"", "tipo"},
-		        {"Artèria Transport", "arteria"}
-		    }),
+		    // Renombrar columnas
+		    Rename = Table.RenameColumns(
+		        Headers,
+		        {
+		            {"", "tipo"},
+		            {"Artèria Transport", "arteria"}
+		        }
+		    ),
 		
+		    // Eliminar rendimiento y total
 		    Filtered = Table.SelectRows(
 		        Rename,
-		        each [tipo] <> "rendiment (%)" and [arteria] <> "Total"
+		        each [tipo] <> "rendiment (%)"
+		            and [arteria] <> "Total"
 		    ),
 		
+		    // Pasar meses/fechas a filas
 		    Unpivoted = Table.UnpivotOtherColumns(
-		        Filtered, {"arteria", "tipo"}, "fecha", "valor"
+		        Filtered,
+		        {"arteria", "tipo"},
+		        "fecha",
+		        "valor"
 		    ),
 		
-		    NumericValue = Table.TransformColumns(Unpivoted, {{
-		        "valor",
-		        each try Int64.From(Text.Replace(_, ",", "")) otherwise null,
-		        Int64.Type
-		    }}),
+		    // Convertir valores a número
+		    NumericValue = Table.TransformColumns(
+		        Unpivoted,
+		        {{
+		            "valor",
+		            each try Int64.From(Text.Replace(_, ",", ""))
+		                otherwise null,
+		            Int64.Type
+		        }}
+		    ),
 		
+		    // Convertir los tipos en columnas
 		    Pivoted = Table.Pivot(
 		        NumericValue,
 		        List.Distinct(NumericValue[tipo]),
-		        "tipo", "valor"
+		        "tipo",
+		        "valor"
 		    ),
 		
-		    Measures = Table.RenameColumns(Pivoted, {
-		        {"sortit (m3)", "sortit_m3"},
-		        {"entrat (m3)", "entrat_m3"}
-		    }),
+		    // Renombrar medidas
+		    Measures = Table.RenameColumns(
+		        Pivoted,
+		        {
+		            {"sortit (m3)", "sortit_m3"},
+		            {"entrat (m3)", "entrat_m3"}
+		        }
+		    ),
 		
-		    AddColumns = Table.AddColumn(
-		        Table.AddColumn(
-		            Table.AddColumn(
-		                Measures,
-		                "gerencia", each "Llobregat Nord", type text
-		            ),
-		            "rendiment",
-		            each try [sortit_m3] / [entrat_m3] otherwise null,
-		            type number
-		        ),
+		    // Añadir gerencia
+		    AddGerencia = Table.AddColumn(
+		        Measures,
+		        "gerencia",
+		        each "Llobregat Nord",
+		        type text
+		    ),
+		
+		    // Calcular rendimiento
+		    AddRendiment = Table.AddColumn(
+		        AddGerencia,
+		        "rendiment",
+		        each try [sortit_m3] / [entrat_m3]
+		            otherwise null,
+		        type number
+		    ),
+		
+		    // Calcular ANR
+		    AddANR = Table.AddColumn(
+		        AddRendiment,
 		        "anr_m3",
 		        each [entrat_m3] - [sortit_m3],
 		        Int64.Type
 		    ),
 		
+		    // Tipos finales
 		    FinalTypes = Table.TransformColumnTypes(
-		        AddColumns, {{"fecha", type date}}
+		        AddANR,
+		        {{"fecha", type date}}
 		    ),
 		
+		    // Orden y columnas finales
 		    Result = Table.Sort(
-		        Table.ReorderColumns(FinalTypes, {
-		            "fecha", "gerencia", "arteria",
-		            "sortit_m3", "entrat_m3",
-		            "rendiment", "anr_m3"
-		        }),
-		        {{"arteria", Order.Ascending}, {"fecha", Order.Ascending}}
+		        Table.ReorderColumns(
+		            FinalTypes,
+		            {
+		                "fecha",
+		                "gerencia",
+		                "arteria",
+		                "sortit_m3",
+		                "entrat_m3",
+		                "rendiment",
+		                "anr_m3"
+		            }
+		        ),
+		        {
+		            {"arteria", Order.Ascending},
+		            {"fecha", Order.Ascending}
+		        }
 		    )
-		    in
-		        Result
+		in
+		    Result
 	lineageTag: 5a40f36c-e289-497f-b794-84b614a0e0ba
-	queryGroup: Auxiliares\rend_arterias
+	queryGroup: Auxiliares\facts\rend_arterias
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -295,94 +462,153 @@ expression fact_rend_anr_arterias_llobregadnord_mensual =
 
 expression fact_rend_anr_arterias_besos_mensual =
 		let
-		    Source = Csv.Document(
-		        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?gid=373098751&single=true&output=csv"),
-		        [Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]
+		    Origen = GoogleSheets.Contents(#"Indicador Artèries 2026"),
+		
+		    Source = Origen{[
+		        name = "Besòs mensual",
+		        ItemKind = "Table"
+		    ]}[Data],
+		
+		    // Mantener únicamente las primeras 14 columnas
+		    KeepCols = Table.SelectColumns(
+		        Source,
+		        List.Transform({1..14}, each "Column" & Text.From(_))
 		    ),
 		
-		    KeepCols = Table.SelectColumns(Source,
-		    List.Transform({1..14}, each "Column" & Text.From(_))
-		),
-		
-		ToText = Table.TransformColumnTypes(
-		    KeepCols,
-		    List.Transform(Table.ColumnNames(KeepCols), each {_, type text}),
-		    "es"
-		),
-		
-		FillArteria = Table.FillDown(
-		    Table.ReplaceValue(ToText, "", null, Replacer.ReplaceValue, {"Column1"}),
-		    {"Column1"}
-		),
-		
-		Headers = Table.PromoteHeaders(
-		    Table.Skip(FillArteria, 3),
-		    [PromoteAllScalars = true]
-		),
-		
-		Rename = Table.RenameColumns(Headers, {
-		    {"", "tipo"},
-		    {"Artèria Transport", "arteria"}
-		}),
-		
-		// Filtrar Total y rendiment en un solo paso
-		Filtered = Table.SelectRows(
-		    Rename,
-		    each [tipo] <> "rendiment (%)" and [arteria] <> "Total"
-		),
-		
-		Unpivoted = Table.UnpivotOtherColumns(
-		    Filtered, {"arteria", "tipo"}, "fecha", "valor"
-		),
-		
-		NumericValue = Table.TransformColumns(Unpivoted, {{
-		    "valor",
-		    each try Int64.From(Text.Replace(_, ",", "")) otherwise null,
-		    Int64.Type
-		}}),
-		
-		Pivoted = Table.Pivot(
-		    NumericValue,
-		    List.Distinct(NumericValue[tipo]),
-		    "tipo", "valor"
-		),
-		
-		Measures = Table.RenameColumns(Pivoted, {
-		    {"sortit (m3)", "sortit_m3"},
-		    {"entrat (m3)", "entrat_m3"}
-		}),
-		
-		AddColumns = Table.AddColumn(
-		    Table.AddColumn(
-		        Table.AddColumn(
-		            Measures,
-		            "gerencia", each "Besos", type text
+		    // Convertir todo a texto
+		    ToText = Table.TransformColumnTypes(
+		        KeepCols,
+		        List.Transform(
+		            Table.ColumnNames(KeepCols),
+		            each {_, type text}
 		        ),
+		        "es"
+		    ),
+		
+		    // Rellenar hacia abajo la arteria
+		    FillArteria = Table.FillDown(
+		        Table.ReplaceValue(
+		            ToText,
+		            "",
+		            null,
+		            Replacer.ReplaceValue,
+		            {"Column1"}
+		        ),
+		        {"Column1"}
+		    ),
+		
+		    // Quitar las 3 primeras filas y promover encabezados
+		    Headers = Table.PromoteHeaders(
+		        Table.Skip(FillArteria, 3),
+		        [PromoteAllScalars = true]
+		    ),
+		
+		    // Renombrar columnas
+		    Rename = Table.RenameColumns(
+		        Headers,
+		        {
+		            {"", "tipo"},
+		            {"Artèria Transport", "arteria"}
+		        }
+		    ),
+		
+		    // Filtrar Total y rendimiento
+		    Filtered = Table.SelectRows(
+		        Rename,
+		        each [tipo] <> "rendiment (%)"
+		            and [arteria] <> "Total"
+		    ),
+		
+		    // Pasar las fechas a filas
+		    Unpivoted = Table.UnpivotOtherColumns(
+		        Filtered,
+		        {"arteria", "tipo"},
+		        "fecha",
+		        "valor"
+		    ),
+		
+		    // Convertir valores a número
+		    NumericValue = Table.TransformColumns(
+		        Unpivoted,
+		        {{
+		            "valor",
+		            each try Int64.From(Text.Replace(_, ",", ""))
+		                otherwise null,
+		            Int64.Type
+		        }}
+		    ),
+		
+		    // Convertir tipo en columnas
+		    Pivoted = Table.Pivot(
+		        NumericValue,
+		        List.Distinct(NumericValue[tipo]),
+		        "tipo",
+		        "valor"
+		    ),
+		
+		    // Renombrar medidas
+		    Measures = Table.RenameColumns(
+		        Pivoted,
+		        {
+		            {"sortit (m3)", "sortit_m3"},
+		            {"entrat (m3)", "entrat_m3"}
+		        }
+		    ),
+		
+		    // Añadir gerencia
+		    AddGerencia = Table.AddColumn(
+		        Measures,
+		        "gerencia",
+		        each "Besòs",
+		        type text
+		    ),
+		
+		    // Calcular rendimiento
+		    AddRendiment = Table.AddColumn(
+		        AddGerencia,
 		        "rendiment",
-		        each try [sortit_m3] / [entrat_m3] otherwise null,
+		        each try [sortit_m3] / [entrat_m3]
+		            otherwise null,
 		        type number
 		    ),
-		    "anr_m3",
-		    each [entrat_m3] - [sortit_m3],
-		    Int64.Type
-		),
 		
-		FinalTypes = Table.TransformColumnTypes(
-		    AddColumns, {{"fecha", type date}}
-		),
+		    // Calcular ANR
+		    AddANR = Table.AddColumn(
+		        AddRendiment,
+		        "anr_m3",
+		        each [entrat_m3] - [sortit_m3],
+		        Int64.Type
+		    ),
 		
-		Result = Table.Sort(
-		    Table.ReorderColumns(FinalTypes, {
-		        "fecha", "gerencia", "arteria",
-		        "sortit_m3", "entrat_m3",
-		        "rendiment", "anr_m3"
-		    }),
-		    {{"arteria", Order.Ascending}, {"fecha", Order.Ascending}}
-		)
+		    // Tipo fecha
+		    FinalTypes = Table.TransformColumnTypes(
+		        AddANR,
+		        {{"fecha", type date}}
+		    ),
+		
+		    // Orden y columnas finales
+		    Result = Table.Sort(
+		        Table.ReorderColumns(
+		            FinalTypes,
+		            {
+		                "fecha",
+		                "gerencia",
+		                "arteria",
+		                "sortit_m3",
+		                "entrat_m3",
+		                "rendiment",
+		                "anr_m3"
+		            }
+		        ),
+		        {
+		            {"arteria", Order.Ascending},
+		            {"fecha", Order.Ascending}
+		        }
+		    )
 		in
 		    Result
 	lineageTag: 7c7a73f7-772e-4ca2-8f91-c7c51dc50cfa
-	queryGroup: Auxiliares\rend_arterias
+	queryGroup: Auxiliares\facts\rend_arterias
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -390,106 +616,153 @@ expression fact_rend_anr_arterias_besos_mensual =
 
 expression fact_rend_anr_arterias_bcn_sud_mensual =
 		let
-		    Source = Csv.Document(
-		        Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vR302uR0UWHuftN7Gg_n5lmBV362VvX3CUFriWq-DnLdv1VDD4rdxEujWleVopHsA/pub?gid=156013664&single=true&output=csv"),
-		        [Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]
-		    ),
+		    Origen = GoogleSheets.Contents(#"Indicador Artèries 2026"),
 		
+		    Source = Origen{[
+		        name = "BCN Nord mensual",
+		        ItemKind = "Table"
+		    ]}[Data],
+		
+		    // Mantener únicamente las primeras 14 columnas
 		    KeepCols = Table.SelectColumns(
-		    Source,
-		    List.Transform({1..14}, each "Column" & Text.From(_))
-		),
-		
-		ToText = Table.TransformColumnTypes(
-		    KeepCols,
-		    List.Transform(Table.ColumnNames(KeepCols), each {_, type text}),
-		    "es"
-		),
-		
-		FillArteria = Table.FillDown(
-		    Table.ReplaceValue(ToText, "", null, Replacer.ReplaceValue, {"Column1"}),
-		    {"Column1"}
-		),
-		
-		Headers = Table.PromoteHeaders(
-		    Table.Skip(FillArteria, 3),
-		    [PromoteAllScalars = true]
-		),
-		
-		Rename = Table.RenameColumns(Headers, {
-		    {"", "tipo"},
-		    {"Artèria Transport", "arteria"}
-		}),
-		
-		Filtered = Table.SelectRows(
-		    Rename,
-		    each [tipo] <> "rendiment (%)" and [arteria] <> "Total"
-		),
-		
-		Unpivoted = Table.UnpivotOtherColumns(
-		    Filtered,
-		    {"arteria", "tipo"},
-		    "fecha",
-		    "valor"
-		),
-		
-		NumericValue = Table.TransformColumns(Unpivoted, {{
-		    "valor",
-		    each try Int64.From(Text.Replace(_, ",", "")) otherwise null,
-		    Int64.Type
-		}}),
-		
-		Pivoted = Table.Pivot(
-		    NumericValue,
-		    List.Distinct(NumericValue[tipo]),
-		    "tipo",
-		    "valor"
-		),
-		
-		Measures = Table.RenameColumns(Pivoted, {
-		    {"sortit (m3)", "sortit_m3"},
-		    {"entrat (m3)", "entrat_m3"}
-		}),
-		
-		AddColumns = Table.AddColumn(
-		    Table.AddColumn(
-		        Table.AddColumn(
-		            Measures,
-		            "gerencia", each "Bcn Sud", type text
-		        ),
-		        "rendiment",
-		        each try [sortit_m3] / [entrat_m3] otherwise null,
-		        type number
+		        Source,
+		        List.Transform({1..14}, each "Column" & Text.From(_))
 		    ),
-		    "anr_m3",
-		    each [entrat_m3] - [sortit_m3],
-		    Int64.Type
-		),
 		
-		FinalTypes = Table.TransformColumnTypes(
-		    AddColumns,
-		    {{"fecha", type date}}
-		),
+		    // Convertir todo a texto
+		    ToText = Table.TransformColumnTypes(
+		        KeepCols,
+		        List.Transform(
+		            Table.ColumnNames(KeepCols),
+		            each {_, type text}
+		        ),
+		        "es"
+		    ),
 		
-		Result = Table.Sort(
-		    Table.ReorderColumns(
-		        FinalTypes,
+		    // Rellenar hacia abajo la arteria
+		    FillArteria = Table.FillDown(
+		        Table.ReplaceValue(
+		            ToText,
+		            "",
+		            null,
+		            Replacer.ReplaceValue,
+		            {"Column1"}
+		        ),
+		        {"Column1"}
+		    ),
+		
+		    // Quitar las 3 primeras filas y promover encabezados
+		    Headers = Table.PromoteHeaders(
+		        Table.Skip(FillArteria, 3),
+		        [PromoteAllScalars = true]
+		    ),
+		
+		    // Renombrar columnas
+		    Rename = Table.RenameColumns(
+		        Headers,
 		        {
-		            "fecha", "gerencia", "arteria",
-		            "sortit_m3", "entrat_m3",
-		            "rendiment", "anr_m3"
+		            {"", "tipo"},
+		            {"Artèria Transport", "arteria"}
 		        }
 		    ),
-		    {
-		        {"arteria", Order.Ascending},
-		        {"fecha", Order.Ascending}
-		    }
-		)
 		
+		    // Filtrar Total y rendimiento
+		    Filtered = Table.SelectRows(
+		        Rename,
+		        each [tipo] <> "rendiment (%)"
+		            and [arteria] <> "Total"
+		    ),
+		
+		    // Pasar las fechas a filas
+		    Unpivoted = Table.UnpivotOtherColumns(
+		        Filtered,
+		        {"arteria", "tipo"},
+		        "fecha",
+		        "valor"
+		    ),
+		
+		    // Convertir valores a número
+		    NumericValue = Table.TransformColumns(
+		        Unpivoted,
+		        {{
+		            "valor",
+		            each try Int64.From(Text.Replace(_, ",", ""))
+		                otherwise null,
+		            Int64.Type
+		        }}
+		    ),
+		
+		    // Convertir tipo en columnas
+		    Pivoted = Table.Pivot(
+		        NumericValue,
+		        List.Distinct(NumericValue[tipo]),
+		        "tipo",
+		        "valor"
+		    ),
+		
+		    // Renombrar medidas
+		    Measures = Table.RenameColumns(
+		        Pivoted,
+		        {
+		            {"sortit (m3)", "sortit_m3"},
+		            {"entrat (m3)", "entrat_m3"}
+		        }
+		    ),
+		
+		    // Añadir gerencia
+		    AddGerencia = Table.AddColumn(
+		        Measures,
+		        "gerencia",
+		        each "BCN Sud",
+		        type text
+		    ),
+		
+		    // Calcular rendimiento
+		    AddRendiment = Table.AddColumn(
+		        AddGerencia,
+		        "rendiment",
+		        each try [sortit_m3] / [entrat_m3]
+		            otherwise null,
+		        type number
+		    ),
+		
+		    // Calcular ANR
+		    AddANR = Table.AddColumn(
+		        AddRendiment,
+		        "anr_m3",
+		        each [entrat_m3] - [sortit_m3],
+		        Int64.Type
+		    ),
+		
+		    // Tipo fecha
+		    FinalTypes = Table.TransformColumnTypes(
+		        AddANR,
+		        {{"fecha", type date}}
+		    ),
+		
+		    // Orden y columnas finales
+		    Result = Table.Sort(
+		        Table.ReorderColumns(
+		            FinalTypes,
+		            {
+		                "fecha",
+		                "gerencia",
+		                "arteria",
+		                "sortit_m3",
+		                "entrat_m3",
+		                "rendiment",
+		                "anr_m3"
+		            }
+		        ),
+		        {
+		            {"arteria", Order.Ascending},
+		            {"fecha", Order.Ascending}
+		        }
+		    )
 		in
 		    Result
 	lineageTag: 4250c7cb-3e31-4213-806a-c7f0deeb12a4
-	queryGroup: Auxiliares\rend_arterias
+	queryGroup: Auxiliares\facts\rend_arterias
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -595,7 +868,7 @@ expression fact_rend_anr_arterias_bcn_nord_mensual =
 		in
 		    Result
 	lineageTag: 7d3c59d8-5d36-4644-a7b7-3fdcb55d2168
-	queryGroup: Auxiliares\rend_arterias
+	queryGroup: Auxiliares\facts\rend_arterias
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -625,7 +898,7 @@ expression perimetre_comptadors_2024 = ```
 		    #"Columnas con nombre cambiado"
 		```
 	lineageTag: b8d5e5e1-278f-4a27-981f-f6acff358b5f
-	queryGroup: Auxiliares\perimetr_comptadors
+	queryGroup: Auxiliares\facts\perimetr_comptadors
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -654,7 +927,7 @@ expression perimetre_comptadors_2025 = ```
 		    #"Columnas con nombre cambiado"
 		```
 	lineageTag: 2f928545-ccfa-41d8-ad6e-d443b531cf89
-	queryGroup: Auxiliares\perimetr_comptadors
+	queryGroup: Auxiliares\facts\perimetr_comptadors
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -683,7 +956,7 @@ expression perimetre_comptadors_2026 = ```
 		    #"Columnas con nombre cambiado"
 		```
 	lineageTag: 43bbe8d9-d98d-4139-90df-ae42107ff4fb
-	queryGroup: Auxiliares\perimetr_comptadors
+	queryGroup: Auxiliares\facts\perimetr_comptadors
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -701,7 +974,7 @@ expression Bossa_de_Limitadors_LLOBS = ```
 		//              LLOBS
 		
 		let
-		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1G9GggBeQbtbK0kD-I7o1ypbgcIGSwQGkRXSvvtn8MaE/edit?gid=1653593212#gid=1653593212"),
+		  Origen = GoogleSheets.Contents( #"Bossa Limitadors_Canvis per DOP"),
 		  LLOBs_Table= Origen{[name = "LLOBS", ItemKind = "Table"]}[Data],
 		  Encabezados =
 		        Table.PromoteHeaders(LLOBs_Table, [PromoteAllScalars=true]),
@@ -813,7 +1086,7 @@ expression Bossa_de_Limitadors_LLOBS = ```
 		    Resultado
 		```
 	lineageTag: 8621254e-0f6c-43d0-9703-f52d1acf6667
-	queryGroup: Auxiliares\bossa
+	queryGroup: Auxiliares\facts\bossa
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -831,7 +1104,7 @@ expression Bossa_de_Limitadors_LLOBN = ```
 		//              LLOBN
 		
 		let
-		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1G9GggBeQbtbK0kD-I7o1ypbgcIGSwQGkRXSvvtn8MaE/edit?gid=3033074#gid=3033074"),
+		  Origen = GoogleSheets.Contents( #"Bossa Limitadors_Canvis per DOP"),
 		   LLOBN_Table = Origen{[name = "LLOBN", ItemKind = "Table"]}[Data],
 		   Encabezados =
 		        Table.PromoteHeaders(LLOBN_Table, [PromoteAllScalars=true]),
@@ -928,7 +1201,7 @@ expression Bossa_de_Limitadors_LLOBN = ```
 		    Resultado
 		```
 	lineageTag: f78a8613-99ae-4386-9f3e-1aeee9438881
-	queryGroup: Auxiliares\bossa
+	queryGroup: Auxiliares\facts\bossa
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -946,7 +1219,7 @@ expression Bossa_de_Limitadors_BES = ```
 		//              BES
 		
 		let
-		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1G9GggBeQbtbK0kD-I7o1ypbgcIGSwQGkRXSvvtn8MaE/edit?gid=999620324#gid=999620324"),
+		  Origen = GoogleSheets.Contents( #"Bossa Limitadors_Canvis per DOP"),
 		    BES_Table = Origen{[name = "BES", ItemKind = "Table"]}[Data],
 		    Encabezados =
 		        Table.PromoteHeaders(BES_Table, [PromoteAllScalars=true]),
@@ -1062,7 +1335,7 @@ expression Bossa_de_Limitadors_BES = ```
 		    Resultado
 		```
 	lineageTag: 84689605-9909-4e67-b9cb-289bab219901
-	queryGroup: Auxiliares\bossa
+	queryGroup: Auxiliares\facts\bossa
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -1080,7 +1353,7 @@ expression Bossa_de_Limitadors_BCNN = ```
 		//              BCNN
 		
 		let
-		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1G9GggBeQbtbK0kD-I7o1ypbgcIGSwQGkRXSvvtn8MaE/edit?gid=1742937846#gid=1742937846"),
+		  Origen = GoogleSheets.Contents( #"Bossa Limitadors_Canvis per DOP"),
 		  BCNN_Table = Origen{[name = "BCNN", ItemKind = "Table"]}[Data],
 		  Encabezados =
 		        Table.PromoteHeaders(BCNN_Table, [PromoteAllScalars=true]),
@@ -1193,7 +1466,7 @@ expression Bossa_de_Limitadors_BCNN = ```
 		    Resultado
 		```
 	lineageTag: 73752ae1-a183-488d-b303-871aeedc6f31
-	queryGroup: Auxiliares\bossa
+	queryGroup: Auxiliares\facts\bossa
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -1212,7 +1485,7 @@ expression Bossa_de_Limitadors_BCNS = ```
 		
 		
 		let
-		  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1G9GggBeQbtbK0kD-I7o1ypbgcIGSwQGkRXSvvtn8MaE/edit?gid=1640328521#gid=1640328521"),
+		  Origen = GoogleSheets.Contents( #"Bossa Limitadors_Canvis per DOP"),
 		     BCNS_Table = Origen{[name="BCNS", ItemKind="Table"]}[Data],
 		
 		    Encabezados =
@@ -1335,7 +1608,7 @@ expression Bossa_de_Limitadors_BCNS = ```
 		 Resultado
 		```
 	lineageTag: 10e00cc1-e4c4-4532-8c9a-492394f79c96
-	queryGroup: Auxiliares\bossa
+	queryGroup: Auxiliares\facts\bossa
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -1395,11 +1668,11 @@ expression fact_volum_consumit =
 		in
 		    #"Valor reemplazado3"
 	lineageTag: 83aa9477-3963-4c9a-be3b-cff1b9f513af
-	queryGroup: Auxiliares
+	queryGroup: Auxiliares\facts\fact_volum_cons_lliur
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 
 expression fact_volum_lliurat =
 		let
@@ -1466,7 +1739,7 @@ expression fact_volum_lliurat =
 		in
 		    #"Valor reemplazado2"
 	lineageTag: 1c9b8728-02b5-446c-9fb9-ee6278206a92
-	queryGroup: Auxiliares
+	queryGroup: Auxiliares\facts\fact_volum_cons_lliur
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -1498,18 +1771,19 @@ expression aux_dim_sector = ```
 		// TABLA 1 -Coordenadas
 		
 		let 
-		    Origen1 = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1l9btpQJf9bOrnwWyDpkAZpQXill8mdHHxKlHcdf_DVQ/edit?gid=1726033904#gid=1726033904"), 
-		    Nav1 = Origen1{[name = "coordenadas por sector bcn.csv", 
-		    ItemKind = "Table"]}[Data], 
+		    Origen = GoogleSheets.Contents(#"coordenadas por sector bcn"),
+		    Nav1 = Origen{[name="coordenadas por sector bcn.csv",ItemKind="Table"]}[Data], 
 		    Quitadas = Table.RemoveColumns(Nav1,{"Column1", "Column2", "Column3"}), 
 		    Headers1 = Table.PromoteHeaders(Quitadas, [PromoteAllScalars=true]),
 		    Tipos1 = Table.TransformColumnTypes(Headers1,{{"sector_id", Int64.Type}, {"latitud", type number}, {"longitud", type number}}), 
 		    SinDuplicados = Table.Distinct(Tipos1), 
 		    Coordenadas = Table.SelectRows(SinDuplicados, each List.NonNullCount(Record.FieldValues(_)) > 0),
 		// TABLA 2 - Sectores 
-		    Origen2 = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vRH4WiST8QUNFuYRZ1ilIw7p1mfJMiAz5bImbBz2ffnYgrxn2MyRB5O192pgqrP_SyFQdf6CJroUA9G/pub?gid=0&single=true&output=csv"), [Delimiter = ",", Columns = 3, Encoding = 65001, QuoteStyle = QuoteStyle.None]), 
-		    Headers2 = Table.PromoteHeaders(Origen2, [PromoteAllScalars = true]),
-		    Tipos2 = Table.TransformColumnTypes(Headers2, {{"sector_id", Int64.Type}, {"denomin", type text}, {"gerencia", type text}}, "es"), 
+		    Origen2 = GoogleSheets.Contents(dim_sector),
+		    // TABLA 2 - Sectores
+		    Table2 = Origen2{[name="Sheet1",ItemKind="Table"]}[Data],
+		    #"Encabezados promovidos" = Table.PromoteHeaders(Table2, [PromoteAllScalars=true]),
+		    Tipos2 = Table.TransformColumnTypes(#"Encabezados promovidos", {{"sector_id", Int64.Type}, {"denomin", type text}, {"gerencia", type text}}, "es"), 
 		    Renombrada = Table.RenameColumns(Tipos2,{{"denomin", "sector"}}), 
 		    Sectores = Table.TransformColumns(Renombrada, {{"sector", Text.Proper, type text}}),
 		    // UNION
@@ -1730,7 +2004,7 @@ expression fact_actuacions_zones_2026 = ```
 		    #"Valor reemplazado"
 		```
 	lineageTag: 72727c2f-98d0-4e16-998d-89d235f5a1e9
-	queryGroup: Auxiliares\fact_actuacions_zones
+	queryGroup: Auxiliares\facts\fact_actuacions_zones
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -1788,7 +2062,7 @@ expression fact_actuacions_zones_2025 = ```
 		    TiposCambiados
 		```
 	lineageTag: 882e00e2-dfa1-4460-bbbb-6825f2395c9d
-	queryGroup: Auxiliares\fact_actuacions_zones
+	queryGroup: Auxiliares\facts\fact_actuacions_zones
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -1847,7 +2121,7 @@ expression fact_actuacions_zones_2024 = ```
 		    #"Filas filtradas"
 		```
 	lineageTag: 64242837-c95c-4b18-8af7-69b052bad739
-	queryGroup: Auxiliares\fact_actuacions_zones
+	queryGroup: Auxiliares\facts\fact_actuacions_zones
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -1919,7 +2193,7 @@ expression fact_reparacions_zones_2026 = ```
 		    #"Columna duplicada"
 		```
 	lineageTag: ea29d66e-7050-4d8c-ba55-43f0f751fa89
-	queryGroup: Auxiliares\fact_actuacions_zones
+	queryGroup: Auxiliares\facts\fact_actuacions_zones
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2006,7 +2280,7 @@ expression fact_reparacions_zones_2025 = ```
 		    #"Columna duplicada"
 		```
 	lineageTag: f5d104a8-0336-4699-bd72-bcf9781d336d
-	queryGroup: Auxiliares\fact_actuacions_zones
+	queryGroup: Auxiliares\facts\fact_actuacions_zones
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -2093,7 +2367,7 @@ expression fact_reparacions_zones_2024 = ```
 		    #"Columna duplicada"
 		```
 	lineageTag: 203bd2e4-c5bf-405c-91e4-78e0c2a9df3b
-	queryGroup: Auxiliares\fact_actuacions_zones
+	queryGroup: Auxiliares\facts\fact_actuacions_zones
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3018,7 +3292,7 @@ expression Tfuita_Tinst_2025 = ```
 		    Origen
 		```
 	lineageTag: 85dfa3c4-5430-4f60-8059-985f25609d39
-	queryGroup: Auxiliares\Tfuita_Tinst
+	queryGroup: Auxiliares\facts\Tfuita_Tinst
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3090,7 +3364,7 @@ expression Tfuita_Tinst_2026 = ```
 		    Origen
 		```
 	lineageTag: 3a643d62-fe95-45a7-94f4-55523d13910a
-	queryGroup: Auxiliares\Tfuita_Tinst
+	queryGroup: Auxiliares\facts\Tfuita_Tinst
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3251,7 +3525,7 @@ expression 'Indicadors Sectorització 2026' = "https://docs.google.com/spreadshe
 
 	annotation PBI_NavigationStepName = Navegación
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Text
 
 expression 'fraus facturats 2025' = "https://docs.google.com/spreadsheets/d/1-4TpybzWEoX6MwSxJxzALVwqoGp56jl2CtAfJWlycnA/edit?gid=1543499837#gid=1543499837" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 2ff2c19f-ca8a-4b4a-a581-b078042e8789
@@ -3278,7 +3552,7 @@ expression fact_fraus_2025 =
 		in
 		#"Columnas quitadas"
 	lineageTag: 5f3bb4da-6dac-45fb-b7dc-1646b6dcedaf
-	queryGroup: Auxiliares
+	queryGroup: Auxiliares\facts\fact_fraus
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3296,7 +3570,7 @@ expression fact_fraus_2026 =
 		in
 		    #"Columnas quitadas1"
 	lineageTag: 0fdc76b3-35b1-43ce-a025-ef44ea7502ef
-	queryGroup: Auxiliares
+	queryGroup: Auxiliares\facts\fact_fraus
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3364,4 +3638,36 @@ expression fact_fraudes_all =
 	annotation PBI_NavigationStepName = Navegación
 
 	annotation PBI_ResultType = Table
+
+expression 'Bossa Limitadors_Canvis per DOP' = "https://docs.google.com/spreadsheets/d/1G9GggBeQbtbK0kD-I7o1ypbgcIGSwQGkRXSvvtn8MaE/edit?gid=1742937846#gid=1742937846" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 07ec85e6-09a1-42ab-8b72-389e688cd502
+	queryGroup: 'Parametre '
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression 'Indicador Artèries 2026' = "https://docs.google.com/spreadsheets/d/19z1Wsg4EiP09klLyfyz2lF5g64-ANOQ3bAhAUqAWI5A/edit?gid=671899339#gid=671899339" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 566b5af9-0605-498a-9410-dbf161658451
+	queryGroup: 'Parametre '
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression 'coordenadas por sector bcn' = "https://docs.google.com/spreadsheets/d/1l9btpQJf9bOrnwWyDpkAZpQXill8mdHHxKlHcdf_DVQ/edit?gid=1726033904#gid=1726033904" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 1bcb1816-c0af-4178-ba7a-fba3b4b92b87
+	queryGroup: 'Parametre '
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression dim_sector = "https://docs.google.com/spreadsheets/d/1pYWzB4BZBUnIqSPzeg1ezMwfhR1SevyUKxsCw8IAuKk/edit?gid=1370942235#gid=1370942235" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: c622ce38-4fa0-4b43-9aa3-8282521d0b33
+	queryGroup: 'Parametre '
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
 

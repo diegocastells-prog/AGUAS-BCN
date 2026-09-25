@@ -59,9 +59,10 @@ table dim_arteria
 				            {"gerencia"}
 				        ),
 				    #"Consultas combinadas" = Table.NestedJoin(Resultado, {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
-				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"})
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+				    #"Duplicados quitados" = Table.Distinct(#"Se expandió dim_gerencia", {"arteria"})
 				in
-				    #"Se expandió dim_gerencia"
+				    #"Duplicados quitados"
 
 	annotation PBI_NavigationStepName = Navegación
 
