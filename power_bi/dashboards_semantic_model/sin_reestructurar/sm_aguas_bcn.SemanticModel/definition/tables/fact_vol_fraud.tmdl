@@ -96,7 +96,7 @@ table fact_vol_fraud
 		queryGroup: Hechos
 		source = ```
 				let
-				  Origen = GoogleSheets.Contents("https://docs.google.com/spreadsheets/d/1w51CCzDW84rqW3XTHaf1JPJYDKfVQuy2vzKhTL01odo/edit?pli=1&gid=24661993#gid=24661993"),
+				  Origen = GoogleSheets.Contents(#"fraus_treballs amb volum i import"),
 				   #"Navegación" = Origen{[name = "Sheet1", ItemKind = "Table"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(Navegación, [PromoteAllScalars=true]),
 				     #"Nombres en título" =
