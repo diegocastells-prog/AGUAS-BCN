@@ -4,34 +4,15 @@
   "position": {
     "x": 418.98527004909982,
     "y": 151.88216039279868,
-    "z": 20000,
+    "z": 19000,
     "height": 218.40744570837643,
     "width": 814.06411582213025,
-    "tabOrder": 14000
+    "tabOrder": 13000
   },
   "visual": {
     "visualType": "lineChart",
     "query": {
       "queryState": {
-        "Category": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_calendario"
-                    }
-                  },
-                  "Property": "mestexto_año"
-                }
-              },
-              "queryRef": "dim_calendario.mestexto_año",
-              "nativeQueryRef": "mestexto_año",
-              "active": true
-            }
-          ]
-        },
         "Y": {
           "projections": [
             {
@@ -78,6 +59,24 @@
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_switchs"
+                  }
+                },
+                "Property": "kpi_aigua_consumida_alta_global_switch"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
       }
     },
     "visualContainerObjects": {

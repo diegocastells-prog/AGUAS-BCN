@@ -9192,6 +9192,59 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure Consum_unificat_columnes =
+			
+			VAR _Grupo = SELECTEDVALUE(Selector_consum[Grupo])
+			VAR _Tipo = SELECTEDVALUE(Selector_consum[Tipo])
+			RETURN
+			    IF(
+			        _Grupo = "No controlat",
+			        CALCULATE(
+			            [kpi_consum_no_control_switch],
+			            fact_consum_no_control[tipo_consum] = _Tipo
+			        ),
+			        BLANK()
+			    )
+		formatString: #,0
+		lineageTag: bdfccb90-cd51-455d-90fe-af2f12caa28a
+
+	measure Consum_unificat_linia =
+			
+			VAR _Grupo = SELECTEDVALUE(Selector_consum[Grupo])
+			VAR _Tipo = SELECTEDVALUE(Selector_consum[Tipo])
+			RETURN
+			    SWITCH(
+			        _Grupo,
+			        "Consum",
+			            CALCULATE(
+			                [switch_kpi_consum],
+			                _tables_kpi[Kpi] = _Tipo
+			            ),
+			        "No controlat",
+			            CALCULATE(
+			                [kpi_consum_no_control_switch_1m],
+			                fact_consum_no_control[tipo_consum] = _Tipo
+			            ),
+			        BLANK()
+			    )
+		lineageTag: 0cbfc702-943e-4456-9ada-b08cba9b33cc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Consum_unificat_filtre =
+			
+			VAR _Grupo = SELECTEDVALUE(Selector_consum[Grupo])
+			RETURN
+			    SWITCH(
+			        _Grupo,
+			        "Consum", [filtro_aigua_consum],
+			        "No controlat", 1,
+			        0
+			    )
+		formatString: 0
+		displayFolder: Filtros
+		lineageTag: e81eb902-f968-4f7f-9e94-68538c8f2ae7
+
 	column Column
 		isHidden
 		formatString: 0

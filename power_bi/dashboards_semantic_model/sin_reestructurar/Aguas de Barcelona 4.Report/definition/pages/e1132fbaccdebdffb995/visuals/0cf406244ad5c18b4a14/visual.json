@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "0cf406244ad5c18b4a14",
   "position": {
-    "x": 179.02847571189278,
-    "y": 176.88442211055275,
+    "x": 179.30141273085758,
+    "y": 179.30141273085758,
     "z": 8000,
-    "height": 211.18927973199328,
-    "width": 1063.4505862646565,
-    "tabOrder": 13000
+    "height": 211.9016695910135,
+    "width": 1062.4720076696271,
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -87,6 +87,13 @@
                   "Value": "33L"
                 }
               }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
             }
           }
         }
@@ -136,7 +143,21 @@
             "labelPrecision": {
               "expr": {
                 "Literal": {
-                  "Value": "2L"
+                  "Value": "0L"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "roundRange": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -157,6 +178,13 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'TopCenter'"
                 }
               }
             }
@@ -184,7 +212,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Evolució Volum Transport(hm³)'"
+                  "Value": "'Balanç Transport(hm³)'"
                 }
               }
             },
@@ -429,46 +457,55 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "c5e4b45a92d3e590d7c2",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "73b695ece09cea205682",
+        "name": "c6e536088a2ac9c0108e",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "_switchs"
+                "Entity": "_medidas"
               }
             },
-            "Property": "kpi_volum_lliurat_transporte_switch"
+            "Property": "filtro_transport"
           }
         },
-        "type": "Advanced"
-      },
-      {
-        "name": "02a5bf1247e9967066cb",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "filtro_transport"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
               }
-            },
-            "Property": "kpi_volum_consumit_transporte_switch"
-          }
+            }
+          ]
         },
-        "type": "Advanced"
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
       }
     ]
   }

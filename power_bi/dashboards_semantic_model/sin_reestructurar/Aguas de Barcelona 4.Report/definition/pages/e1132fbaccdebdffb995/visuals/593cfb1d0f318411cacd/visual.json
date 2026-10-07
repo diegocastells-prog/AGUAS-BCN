@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "593cfb1d0f318411cacd",
   "position": {
-    "x": 469.76877546095864,
-    "y": 76.74440391193879,
+    "x": 469.53344864177086,
+    "y": 82.445470420335013,
     "z": 4000,
     "height": 87.209549899930437,
     "width": 190.69821578118123,
@@ -28,7 +28,7 @@
               },
               "queryRef": "_switchs.kpi_anr_transporte_switch_1m",
               "nativeQueryRef": "kpi_anr_transporte_switch_1m",
-              "format": "#,0"
+              "format": "#,0.00"
             }
           ]
         },
@@ -47,7 +47,7 @@
               },
               "queryRef": "_switchs.kpi_anr_transporte_switch",
               "nativeQueryRef": "kpi_anr_transporte_switch",
-              "format": "#,0"
+              "format": "#,0.00"
             }
           ]
         },
@@ -103,7 +103,7 @@
             "goalText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Obj'"
+                  "Value": "'VS'"
                 }
               }
             }
@@ -296,29 +296,15 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "00aa9454d98bc0bb0b7a",
+        "name": "82df465b08ab8aa22a68",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "_switchs"
+                "Entity": "_medidas"
               }
             },
-            "Property": "kpi_anr_transporte_switch_1m"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "4fd0379876c3e5b5eea7",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "kpi_anr_transporte_switch"
+            "Property": "filtro_transport"
           }
         },
         "type": "Advanced",
@@ -327,7 +313,7 @@
           "From": [
             {
               "Name": "_",
-              "Entity": "_switchs",
+              "Entity": "_medidas",
               "Type": 0
             }
           ],
@@ -335,7 +321,7 @@
             {
               "Condition": {
                 "Comparison": {
-                  "ComparisonKind": 1,
+                  "ComparisonKind": 0,
                   "Left": {
                     "Measure": {
                       "Expression": {
@@ -343,33 +329,22 @@
                           "Source": "_"
                         }
                       },
-                      "Property": "kpi_anr_transporte_switch"
+                      "Property": "filtro_transport"
                     }
                   },
                   "Right": {
                     "Literal": {
-                      "Value": "0L"
+                      "Value": "1L"
                     }
                   }
                 }
               }
             }
           ]
-        }
-      },
-      {
-        "name": "07453ca2b4b6add2d657",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
         },
-        "type": "Categorical"
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
       }
     ]
   }

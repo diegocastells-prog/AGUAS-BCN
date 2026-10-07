@@ -2,9 +2,9 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "9b6dc84421e306000ee5",
   "position": {
-    "x": 165.09212730318256,
-    "y": 81.474036850921266,
-    "z": 5000,
+    "x": 164.4149889579127,
+    "y": 86.484835962422622,
+    "z": 4000,
     "height": 85.762144053601332,
     "width": 197.25293132328306,
     "tabOrder": 5000
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "_switchs.kpi_anr_dia_m3_switch_1m",
-              "nativeQueryRef": "kpi_anr_dia_m3_switch_1m"
+              "nativeQueryRef": "kpi_anr_dia_m3_switch_1m",
+              "format": "0.00"
             }
           ]
         },
@@ -45,7 +46,8 @@
                 }
               },
               "queryRef": "_switchs.kpi_anr_dia_m3_switch",
-              "nativeQueryRef": "kpi_anr_dia_m3_switch"
+              "nativeQueryRef": "kpi_anr_dia_m3_switch",
+              "format": "0.00"
             }
           ]
         },
@@ -123,7 +125,7 @@
             "goalText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Obj'"
+                  "Value": "'VS'"
                 }
               }
             }
@@ -296,41 +298,7 @@
             "Property": "kpi_anr_dia_m3_switch"
           }
         },
-        "type": "Advanced",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "_",
-              "Entity": "_switchs",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Comparison": {
-                  "ComparisonKind": 1,
-                  "Left": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Source": "_"
-                        }
-                      },
-                      "Property": "kpi_anr_dia_m3_switch"
-                    }
-                  },
-                  "Right": {
-                    "Literal": {
-                      "Value": "0L"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        }
+        "type": "Advanced"
       },
       {
         "name": "ca766df2e450dbd6e084",
@@ -346,6 +314,58 @@
           }
         },
         "type": "Advanced"
+      },
+      {
+        "name": "f2d553875b717a1613c2",
+        "ordinal": 3,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "filtro_balanç_global"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "filtro_balanç_global"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
       }
     ],
     "filterSortOrder": "Custom"

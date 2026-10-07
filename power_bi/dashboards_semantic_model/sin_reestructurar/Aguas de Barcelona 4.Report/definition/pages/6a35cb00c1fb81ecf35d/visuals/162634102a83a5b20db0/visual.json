@@ -4,7 +4,7 @@
   "position": {
     "x": 0,
     "y": 0,
-    "z": 19500,
+    "z": 0,
     "height": 219.09090909090907,
     "width": 531.81818181818176,
     "tabOrder": 19000
@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
-              "active": true
+              "nativeQueryRef": "Data",
+              "active": true,
+              "displayName": "Data"
             }
           ]
         },
@@ -42,10 +43,10 @@
                       "Entity": "_medidas"
                     }
                   },
-                  "Property": "comptadors"
+                  "Property": "comptadors_mensual"
                 }
               },
-              "queryRef": "_medidas.comptadors",
+              "queryRef": "_medidas.comptadors_mensual",
               "nativeQueryRef": "comptadors",
               "displayName": "comptadors"
             },
@@ -61,8 +62,8 @@
                 }
               },
               "queryRef": "_medidas.comptadors_estrategic",
-              "nativeQueryRef": "comptadors_estrategic",
-              "displayName": "comptadors_estrategic"
+              "nativeQueryRef": "Estrategic",
+              "displayName": "Estrategic"
             },
             {
               "field": {
@@ -76,8 +77,53 @@
                 }
               },
               "queryRef": "_medidas.comptadors_correctiu",
-              "nativeQueryRef": "comptadors_correctiu",
-              "displayName": "comptadors_correctiu"
+              "nativeQueryRef": "Correctiu",
+              "displayName": "Correctiu"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "comptadors_correctiu_estrategic"
+                }
+              },
+              "queryRef": "_medidas.comptadors_correctiu_estrategic",
+              "nativeQueryRef": "Correctiu Estrategic",
+              "displayName": "Correctiu Estrategic"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "comptadors_preventiu"
+                }
+              },
+              "queryRef": "_medidas.comptadors_preventiu",
+              "nativeQueryRef": "Preventiu",
+              "displayName": "Preventiu"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "comptadors_preventiu_estrategic"
+                }
+              },
+              "queryRef": "_medidas.comptadors_preventiu_estrategic",
+              "nativeQueryRef": "Preventiu Estrategic",
+              "displayName": "Preventiu Estrategic"
             }
           ],
           "fieldParameters": [
@@ -93,7 +139,7 @@
                 }
               },
               "index": 0,
-              "length": 3
+              "length": 6
             }
           ]
         }
@@ -113,7 +159,7 @@
             "showAxisTitle": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             }
@@ -129,6 +175,20 @@
                   "Value": "true"
                 }
               }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top'"
+                }
+              }
+            },
+            "showTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
           }
         }
@@ -137,6 +197,26 @@
         {
           "properties": {
             "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "showMarker": {
               "expr": {
                 "Literal": {
                   "Value": "true"
@@ -399,7 +479,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },

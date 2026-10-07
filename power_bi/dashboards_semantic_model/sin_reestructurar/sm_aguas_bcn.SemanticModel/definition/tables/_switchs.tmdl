@@ -1779,19 +1779,18 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure switch_kpi_consum = ```
+	measure switch_kpi_consum =
 			
 			SWITCH(
 			    SELECTEDVALUE(_tables_kpi[Kpi]),
 			    "Peatges", [kpi_aigua_consumida_peatges_global_switch],
 			    "Alta", [kpi_aigua_consumida_alta_global_switch],
-			    "Baixa",[kpi_aigua_consumida_baixa_global_switch],
-			    "Autoconsum",[kpi_aigua_consumida_autoconsum_global_switch],
-			    "ACF",[kpi_aigua_consumida_acf_global_switch],
+			    "Baixa", [kpi_aigua_consumida_baixa_global_switch],
+			    "Autoconsum", [kpi_aigua_consumida_autoconsum_global_switch],
+			    "ACF", [kpi_aigua_consumida_acf_global_switch],
+			    "Consum no controlat", [kpi_consum_no_control_switch],
 			    BLANK()
 			)
-			 
-			```
 		displayFolder: aigua_consumida
 		lineageTag: 604183ee-8d98-4274-8b77-0647ca73af94
 
@@ -2253,6 +2252,17 @@ table _switchs
 			    )
 		displayFolder: fraus
 		lineageTag: d9b1daec-c264-4b8a-b363-568196097b5f
+
+	measure switch_kpi_no_control_comparativa =
+			
+			SWITCH(
+			    SELECTEDVALUE(_tables_kpi[Kpi]),
+			    "Consum no controlat", [kpi_consum_no_control_switch_1m],
+			    BLANK()
+			)
+		formatString: 0
+		displayFolder: aigua_consumida
+		lineageTag: b59312b9-9d22-4366-ac0d-7f837fcc08ef
 
 	column Column
 		isHidden

@@ -1,0 +1,61 @@
+table Selector_consum
+	lineageTag: e5caf54d-2058-4420-be3b-475ad9dab4ec
+
+	column Opcion
+		lineageTag: d289940c-80dc-4c0f-8dc5-3cc918344fff
+		isDefaultLabel
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Opcion]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Grupo
+		lineageTag: 96ead4df-926e-4bae-bcee-57149e72c7a0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Grupo]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tipo
+		lineageTag: 14b46b33-4496-4a4c-a191-b00c2b5de389
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Tipo]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Orden
+		formatString: 0
+		lineageTag: f53d47f9-5b81-42b8-b843-3c36dc89d3a8
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Orden]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Selector_consum = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Opcion", STRING,
+				    "Grupo", STRING,
+				    "Tipo", STRING,
+				    "Orden", INTEGER,
+				    {
+				        {"Consum — Peatges", "Consum", "Peatges", 1},
+				        {"Consum — Alta", "Consum", "Alta", 2},
+				        {"Consum — Baixa", "Consum", "Baixa", 3},
+				        {"Consum — Autoconsum", "Consum", "Autoconsum", 4},
+				        {"Consum — ACF", "Consum", "ACF", 5},
+				        {"No controlat — Autoconsum SJD", "No controlat", "Autoconsum SJD", 6},
+				        {"No controlat — Baixa", "No controlat", "Baixa", 7},
+				        {"No controlat — Peatge", "No controlat", "Peatge", 8},
+				        {"No controlat — Venda en alta", "No controlat", "Venda en alta", 9}
+				    }
+				)
+
+	annotation PBI_Id = b76ee63b6c694b3494c9e0b759281b64
+

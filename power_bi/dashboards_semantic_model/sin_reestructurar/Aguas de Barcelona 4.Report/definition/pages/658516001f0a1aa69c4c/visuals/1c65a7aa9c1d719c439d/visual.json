@@ -3,10 +3,10 @@
   "name": "1c65a7aa9c1d719c439d",
   "position": {
     "x": 168.6051298065322,
-    "y": 126.74454585456557,
+    "y": 140.25974025974025,
     "z": 12000,
-    "height": 136.13412145817119,
-    "width": 1111.4747891205116,
+    "height": 135.06493506493507,
+    "width": 1050.6493506493507,
     "tabOrder": 12000
   },
   "visual": {
@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_dades_sectors.sector",
-              "nativeQueryRef": "sector",
-              "active": true
+              "nativeQueryRef": "Sector",
+              "active": true,
+              "displayName": "Sector"
             }
           ]
         },
@@ -46,8 +47,8 @@
                 }
               },
               "queryRef": "_medidas.volum_lliurat_distribucion_mapa",
-              "nativeQueryRef": "Vllliurat",
-              "displayName": "Vllliurat"
+              "nativeQueryRef": "V-llliurat",
+              "displayName": "V-llliurat"
             },
             {
               "field": {
@@ -61,8 +62,8 @@
                 }
               },
               "queryRef": "_medidas.volum_consumit_distribucion_mapa",
-              "nativeQueryRef": "Vconsumit",
-              "displayName": "Vconsumit"
+              "nativeQueryRef": "V-consumit",
+              "displayName": "V-consumit"
             },
             {
               "field": {
@@ -111,8 +112,8 @@
                 }
               },
               "queryRef": "_switchs.Metrica_Mapa_Seleccionada",
-              "nativeQueryRef": "kpi",
-              "displayName": "kpi"
+              "nativeQueryRef": "KPI",
+              "displayName": "KPI"
             },
             {
               "field": {
@@ -201,7 +202,8 @@
                 }
               },
               "queryRef": "_medidas.compatadors_with_problems",
-              "nativeQueryRef": "compatadors_with_problems"
+              "nativeQueryRef": "Comp. problems",
+              "displayName": "Comp. problems"
             },
             {
               "field": {
@@ -215,7 +217,9 @@
                 }
               },
               "queryRef": "_medidas.num_comptadors_subcomptatge",
-              "nativeQueryRef": "num_comptadors_subcomptatge"
+              "nativeQueryRef": "Total Compt.",
+              "displayName": "Total Compt.",
+              "format": "#,0"
             }
           ]
         }
@@ -230,7 +234,7 @@
                     "Entity": "_medidas"
                   }
                 },
-                "Property": "volum_lliurat_distribucion_mapa"
+                "Property": "compatadors_with_problems"
               }
             },
             "direction": "Descending"
@@ -335,6 +339,42 @@
       "columnHeaders": [
         {
           "properties": {}
+        }
+      ],
+      "subTotals": [
+        {
+          "properties": {
+            "columnSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "rowSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.num_comptadors_subcomptatge"
+          }
         }
       ]
     },

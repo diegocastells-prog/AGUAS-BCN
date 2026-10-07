@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "57ea966d8ccda49f0931",
   "position": {
-    "x": 151.36666593343745,
-    "y": 200.02023712632806,
+    "x": 160.88126410835216,
+    "y": 435.9562929987859,
     "z": 6000,
     "height": 219.84206242713532,
     "width": 533.38729900354144,
     "tabOrder": 5000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "clusteredColumnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
-              "active": true
+              "nativeQueryRef": "Data",
+              "active": true,
+              "displayName": "Data"
             }
           ]
         },
@@ -39,14 +40,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_medidas"
+                      "Entity": "_switchs"
                     }
                   },
-                  "Property": "fraus_detectats"
+                  "Property": "kpi_fraus_detectats_switch"
                 }
               },
-              "queryRef": "_medidas.fraus_detectats",
-              "nativeQueryRef": "fraus detectats",
+              "queryRef": "_switchs.kpi_fraus_detectats_switch",
+              "nativeQueryRef": "fraus detectats1",
               "displayName": "fraus detectats"
             },
             {
@@ -54,14 +55,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_medidas"
+                      "Entity": "_switchs"
                     }
                   },
-                  "Property": "fraus_recuperat"
+                  "Property": "kpi_fraus_recuperats_switch"
                 }
               },
-              "queryRef": "_medidas.fraus_recuperat",
-              "nativeQueryRef": "fraus recuperat",
+              "queryRef": "_switchs.kpi_fraus_recuperats_switch",
+              "nativeQueryRef": "fraus recuperat1",
               "displayName": "fraus recuperat"
             }
           ]
@@ -88,7 +89,7 @@
             "showAxisTitle": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
@@ -118,6 +119,13 @@
                   "Value": "false"
                 }
               }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'TopCenter'"
+                }
+              }
             }
           }
         }
@@ -130,7 +138,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Evolució de fraus'"
+                  "Value": "'Fraus detectats vs. Recuperat'"
                 }
               }
             },

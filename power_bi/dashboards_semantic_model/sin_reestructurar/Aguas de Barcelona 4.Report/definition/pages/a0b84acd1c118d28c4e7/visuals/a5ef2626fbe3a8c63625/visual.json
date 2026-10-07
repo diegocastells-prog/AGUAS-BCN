@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "a5ef2626fbe3a8c63625",
   "position": {
-    "x": 152.22222222222223,
-    "y": 204.44444444444443,
-    "z": 8000,
-    "height": 171.11111111111111,
-    "width": 1103.3333333333333,
-    "tabOrder": 8000
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "height": 171.68862275449098,
+    "width": 555.46319126452977,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "lineChart",
@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
-              "active": true
+              "nativeQueryRef": "Data",
+              "active": true,
+              "displayName": "Data"
             }
           ]
         },
@@ -46,8 +47,9 @@
                 }
               },
               "queryRef": "_switchs.kpi_rth_distribucion_switch",
-              "nativeQueryRef": "RTH Distribucion",
-              "displayName": "RTH Distribució"
+              "nativeQueryRef": "RTH",
+              "displayName": "RTH",
+              "format": "0 %;-0 %;0 %"
             }
           ]
         },
@@ -61,32 +63,16 @@
                       "Entity": "_switchs"
                     }
                   },
-                  "Property": "kpi_aigua_consumida_acf_global_switch"
+                  "Property": "switch_kpi_consum"
                 }
               },
-              "queryRef": "_switchs.kpi_aigua_consumida_acf_global_switch",
-              "nativeQueryRef": "Aigua consumida ACF ",
-              "displayName": "Aigua consumida ACF "
+              "queryRef": "_switchs.switch_kpi_consum",
+              "nativeQueryRef": "KPI Consum",
+              "displayName": "KPI Consum",
+              "format": "0.00"
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dim_calendario"
-                  }
-                },
-                "Property": "anio2_mes"
-              }
-            },
-            "direction": "Ascending"
-          }
-        ]
       }
     },
     "objects": {
@@ -96,7 +82,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
@@ -129,26 +115,6 @@
           }
         }
       ],
-      "lineStyles": [
-        {
-          "properties": {
-            "showMarker": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "markerSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "4D"
-                }
-              }
-            }
-          }
-        }
-      ],
       "categoryAxis": [
         {
           "properties": {
@@ -168,6 +134,94 @@
             }
           }
         }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "showMarker": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "referenceLine": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "displayName": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Promedio'"
+                }
+              }
+            },
+            "value": {
+              "expr": {
+                "Aggregation": {
+                  "Expression": {
+                    "SelectRef": {
+                      "ExpressionName": "_switchs.switch_kpi_consum"
+                    }
+                  },
+                  "Function": 1
+                }
+              }
+            },
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "lineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "style": {
+              "expr": {
+                "Literal": {
+                  "Value": "'custom'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_switchs.switch_kpi_consum",
+            "id": "1"
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -176,8 +230,13 @@
           "properties": {
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Evolució A.C.F (hm³)'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "title_consumo"
                 }
               }
             },
@@ -418,5 +477,59 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "aaf1bfdfa344cd300a3e",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "3d6cd0e0b06b1a9185c0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "filtro_aigua_consum"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "filtro_aigua_consum"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
   }
 }

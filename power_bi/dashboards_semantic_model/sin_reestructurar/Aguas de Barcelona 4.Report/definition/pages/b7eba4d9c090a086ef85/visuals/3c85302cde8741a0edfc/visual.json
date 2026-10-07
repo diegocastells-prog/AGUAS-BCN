@@ -2,9 +2,9 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "3c85302cde8741a0edfc",
   "position": {
-    "x": 1051.6582914572864,
-    "y": 77.1859296482412,
-    "z": 8000,
+    "x": 1052.0991296332913,
+    "y": 84.999931341168192,
+    "z": 7000,
     "height": 86.666666666666671,
     "width": 191.11111111111111,
     "tabOrder": 8000
@@ -116,7 +116,7 @@
             "goalText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Obj'"
+                  "Value": "'VS'"
                 }
               }
             }
@@ -262,29 +262,15 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "8c120f03389019b3e645",
+        "name": "9803fdf0a0e446a71240",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "_switchs"
+                "Entity": "_medidas"
               }
             },
-            "Property": "kpi_volum_consumit_distribucion_switch_1m"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "ac015b300dd9b0a633a5",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "kpi_volum_consumit_distribucion_switch"
+            "Property": "filtro_distribucion"
           }
         },
         "type": "Advanced",
@@ -293,7 +279,7 @@
           "From": [
             {
               "Name": "_",
-              "Entity": "_switchs",
+              "Entity": "_medidas",
               "Type": 0
             }
           ],
@@ -301,7 +287,7 @@
             {
               "Condition": {
                 "Comparison": {
-                  "ComparisonKind": 1,
+                  "ComparisonKind": 0,
                   "Left": {
                     "Measure": {
                       "Expression": {
@@ -309,33 +295,22 @@
                           "Source": "_"
                         }
                       },
-                      "Property": "kpi_volum_consumit_distribucion_switch"
+                      "Property": "filtro_distribucion"
                     }
                   },
                   "Right": {
                     "Literal": {
-                      "Value": "0L"
+                      "Value": "1L"
                     }
                   }
                 }
               }
             }
           ]
-        }
-      },
-      {
-        "name": "761b0c254e1be55e5610",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
         },
-        "type": "Categorical"
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
       }
     ]
   }

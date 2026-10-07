@@ -5,9 +5,9 @@
     "x": 0,
     "y": 0,
     "z": 0,
-    "height": 219.09090909090907,
-    "width": 531.81818181818176,
-    "tabOrder": 19000
+    "height": 218.9788826516974,
+    "width": 540.14791054085356,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "lineChart",
@@ -46,8 +46,8 @@
                 }
               },
               "queryRef": "_switchs.kpi_avaries_switch",
-              "nativeQueryRef": "Avaries",
-              "displayName": "Avaries"
+              "nativeQueryRef": "kpi_avaries_switch",
+              "displayName": "avaries"
             },
             {
               "field": {
@@ -61,7 +61,7 @@
                 }
               },
               "queryRef": "_switchs.kpi_cabal_recuperat_switch",
-              "nativeQueryRef": "Cabal Recuperat",
+              "nativeQueryRef": "kpi_cabal_recuperat_switch",
               "displayName": "Cabal Recuperat"
             },
             {
@@ -72,12 +72,12 @@
                       "Entity": "_switchs"
                     }
                   },
-                  "Property": "kpi_km_inspeccionats_acustic_switch"
+                  "Property": "kpi_fuites_reparades_acustic_switch"
                 }
               },
-              "queryRef": "_switchs.kpi_km_inspeccionats_acustic_switch",
-              "nativeQueryRef": "Km Inspeccionats Acustic",
-              "displayName": "Km Inspeccionats Acustic"
+              "queryRef": "_switchs.kpi_fuites_reparades_acustic_switch",
+              "nativeQueryRef": "Insp. Acustic",
+              "displayName": "Insp. Acustic"
             },
             {
               "field": {
@@ -87,12 +87,28 @@
                       "Entity": "_switchs"
                     }
                   },
-                  "Property": "kpi_km_inspeccionats_heli_switch"
+                  "Property": "kpi_fuites_reparades_heli_switch"
                 }
               },
-              "queryRef": "_switchs.kpi_km_inspeccionats_heli_switch",
-              "nativeQueryRef": "Km Inspeccionats Heli",
-              "displayName": "Km Inspeccionats Heli"
+              "queryRef": "_switchs.kpi_fuites_reparades_heli_switch",
+              "nativeQueryRef": "Insp. Heli",
+              "displayName": "Insp. Heli"
+            }
+          ],
+          "fieldParameters": [
+            {
+              "parameterExpr": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_parameter_fuitas"
+                    }
+                  },
+                  "Property": "_parameter_fuitas"
+                }
+              },
+              "index": 0,
+              "length": 4
             }
           ]
         }
@@ -135,6 +151,20 @@
                   "Value": "false"
                 }
               }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
             }
           }
         }
@@ -145,7 +175,27 @@
             "showAxisTitle": {
               "expr": {
                 "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
                   "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -160,7 +210,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Resum d''Inspeccions, Avaries i Cabal Recuperat'"
+                  "Value": "'Resum d''Inspeccions (Km), Avaries i Cabal Recuperat'"
                 }
               }
             },
@@ -469,5 +519,60 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "1e5c830b1ced37d177dd"
+  "parentGroupName": "1e5c830b1ced37d177dd",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "3f4333bf56a0491051cc",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "filtro_avarias_fuitas"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "filtro_avarias_fuitas"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
+      }
+    ]
+  }
 }

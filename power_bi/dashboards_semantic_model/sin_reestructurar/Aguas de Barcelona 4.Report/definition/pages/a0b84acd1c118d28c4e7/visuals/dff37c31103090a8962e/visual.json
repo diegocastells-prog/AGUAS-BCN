@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "dff37c31103090a8962e",
   "position": {
-    "x": 227.90762373848489,
-    "y": 66.279257923947142,
-    "z": 5000,
-    "height": 62,
-    "width": 179,
+    "x": 191.45246611543962,
+    "y": 71.81821549987221,
+    "z": 8000,
+    "height": 61.868193020112884,
+    "width": 179.09213768980044,
     "tabOrder": 5000
   },
   "visual": {
@@ -337,5 +337,83 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "c4c82a0377574c596adc"
+  "parentGroupName": "c4c82a0377574c596adc",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "629b41502b7d961b9208",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "gerencia"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_dades_sectors",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "gerencia"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true,
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
 }
