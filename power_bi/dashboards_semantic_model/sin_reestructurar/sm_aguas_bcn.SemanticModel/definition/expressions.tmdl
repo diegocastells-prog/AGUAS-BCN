@@ -2732,7 +2732,7 @@ expression 'Informe Aigua Consumida 2026' = "https://docs.google.com/spreadsheet
 
 	annotation PBI_ResultType = Text
 
-expression 'Indicadors ANR 2026' = "https://docs.google.com/spreadsheets/d/1LK5D7QclVwCBGy5-hONVLgP1GgW35okgrxNLr1kJCoE" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression 'Indicadors ANR 2026' = "https://docs.google.com/spreadsheets/d/1uwLo870VbvSDhd0aulrfmSVa4VDb0dzQMXwsb9QUnUc/edit?gid=627930282#gid=627930282" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: e64e325d-25f0-488d-9232-c93a1fa3c3df
 	queryGroup: 'Parametre '
 
@@ -2756,7 +2756,7 @@ expression '12_S7 desembre 2026_Tfuita_Tinst' = "https://docs.google.com/spreads
 
 	annotation PBI_ResultType = Text
 
-expression 'Estimació Volums Lliurats i Dotacions Municipis AB' = "https://docs.google.com/spreadsheets/d/1d_a2VHdoljdoFkkUvKYzeGrUxpTkvEXl6nbCiRMox5s/edit?gid=1593205713#gid=1593205713" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression 'Estimació Volums Lliurats i Dotacions Municipis AB' = "https://docs.google.com/spreadsheets/d/1SN_wEZrTHVEeGFOa4A0Ff9OfFDotwvTV8VwUrN29oao/edit?gid=342333167#gid=342333167" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 6f62bf0e-5506-4b15-966e-a77c6fdf0abd
 	queryGroup: 'Parametre '
 
@@ -3519,7 +3519,7 @@ expression 'TABLA OPERACIONES SISTEMÁTICAS' = "https://docs.google.com/spreadsh
 
 	annotation PBI_ResultType = Text
 
-expression 'Indicadors Sectorització 2026' = "https://docs.google.com/spreadsheets/d/1WCbHlkz_QI0vIbEjdZeDHFV7O4se3URTi4e-Udns9Lw/edit?gid=312425012#gid=312425012" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression 'Indicadors Sectorització 2026' = "https://docs.google.com/spreadsheets/d/1zEJAW_lqPyiCg2CgbGzygxFpyAdT3mIoXYg1H14z2wk/edit?gid=1100348640#gid=1100348640" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 02dd41f5-1da3-453d-98a5-3a4433772f76
 	queryGroup: 'Parametre '
 
@@ -3535,7 +3535,7 @@ expression 'fraus facturats 2025' = "https://docs.google.com/spreadsheets/d/1-4T
 
 	annotation PBI_ResultType = Text
 
-expression 'fraus facturats 2026' = "https://docs.google.com/spreadsheets/d/1ziKPsyd4s04vu229fxpL4ruJrL1cXxdKicAOyR6j3fo/edit?gid=946478951#gid=946478951" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression 'fraus facturats 2026' = "https://docs.google.com/spreadsheets/d/1z6PwFbMej3HkG2ajUNktDUM3DNX5tgzU1S6ZrVY3tQw/edit?gid=1156800858#gid=1156800858" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 9cf33bf2-3f81-48d1-ad41-4c5376d33dde
 	queryGroup: 'Parametre '
 
@@ -3561,7 +3561,7 @@ expression fact_fraus_2025 =
 expression fact_fraus_2026 =
 		let
 		  Origen = GoogleSheets.Contents(#"fraus facturats 2026"),
-		  TablaOrigen = Origen{[name = "Hoja1", ItemKind = "Table"]}[Data],
+		  TablaOrigen = Origen{[name = "Sheet1", ItemKind = "Table"]}[Data],
 		    #"Encabezados promovidos" = Table.PromoteHeaders(TablaOrigen, [PromoteAllScalars=true]),
 		    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{"", "_1", "_2", "_3", "_4"}),
 		    #"Agregar columna personalizada" = Table.AddColumn(#"Columnas quitadas", "Personalizado", each Text.Combine({"2026-", Text.Start([NOM_MES], 3), "01"}), type text),
@@ -3647,7 +3647,7 @@ expression 'Bossa Limitadors_Canvis per DOP' = "https://docs.google.com/spreadsh
 
 	annotation PBI_ResultType = Text
 
-expression 'Indicador Artèries 2026' = "https://docs.google.com/spreadsheets/d/19z1Wsg4EiP09klLyfyz2lF5g64-ANOQ3bAhAUqAWI5A/edit?gid=671899339#gid=671899339" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression 'Indicador Artèries 2026' = "https://docs.google.com/spreadsheets/d/1HWSUg6iObumqQUX4QJjIzrfnL712h8bXGJdt6I2FnNo/edit?gid=2127904046#gid=2127904046" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 566b5af9-0605-498a-9410-dbf161658451
 	queryGroup: 'Parametre '
 

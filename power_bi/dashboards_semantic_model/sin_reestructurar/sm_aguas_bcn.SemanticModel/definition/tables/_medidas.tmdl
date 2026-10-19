@@ -7677,127 +7677,92 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure etiquetes_vs_periodo = ```
+	measure etiquetes_vs_periodo =
 			
-			
-			VAR texto_generico_1 = 
+			VAR texto_generico_1 =
 			    "Has seleccionat analitzar els KPIs en periode "
 			
-			VAR texto_generico_2 = 
+			VAR texto_generico_2 =
 			    " per tant ara el teu objectiu és el mateix KPI en el període "
 			
-			VAR texto_generico_3 = 
-			    ""
-			
-			// Último mes disponible = mes anterior al actual
 			VAR FechaMesAnterior =
 			    CALCULATE(
 			        MAX(dim_calendario[Date]),
 			        ALL(dim_calendario)
 			    )
 			
-			// Mes de referencia
+			VAR Periodo =
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo])
+			
+			VAR FechaComparacion =
+			    EDATE(
+			        FechaMesAnterior,
+			        IF(Periodo = "12 meses", -1, -12)
+			    )
+			
 			VAR mes =
-			    CALCULATE(
-			        MAX(dim_calendario[anio_mes]),
-			        ALL(dim_calendario),
-			        dim_calendario[Date] = FechaMesAnterior
-			    )
-			
-			// MMAA = mismo mes del año anterior
-			VAR FechaMMAA =
-			    EDATE(FechaMesAnterior, -12)
-			
-			VAR mes_mmaa =
 			    SWITCH(
-			        MONTH(FechaMMAA),
-			        1, "gen.",
-			        2, "febr.",
-			        3, "març",
-			        4, "abr",
-			        5, "maig",
-			        6, "juny",
-			        7, "jul",
-			        8, "ag",
-			        9, "set",
-			        10, "oct",
-			        11, "nov",
-			        12, "des"
+			        MONTH(FechaMesAnterior),
+			        1, "Gen",
+			        2, "Febr",
+			        3, "Març",
+			        4, "Abr",
+			        5, "Maig",
+			        6, "Juny",
+			        7, "Jul",
+			        8, "Ag",
+			        9, "Set",
+			        10, "Oct",
+			        11, "Nov",
+			        12, "Des"
 			    )
 			    & " "
-			    & FORMAT(FechaMMAA, "YYYY")
+			    & FORMAT(FechaMesAnterior, "yy")
 			
-			// MA = mes anterior al mes de referencia
-			VAR FechaMA =
-			    EDATE(FechaMesAnterior, -1)
-			
-			VAR mes_ma =
+			VAR mes_comparacion =
 			    SWITCH(
-			        MONTH(FechaMA),
-			        1, "gen.",
-			        2, "febr.",
-			        3, "març",
-			        4, "abr",
-			        5, "maig",
-			        6, "juny",
-			        7, "jul",
-			        8, "ag",
-			        9, "set",
-			        10, "oct",
-			        11, "nov",
-			        12, "des"
+			        MONTH(FechaComparacion),
+			        1, "Gen",
+			        2, "Febr",
+			        3, "Març",
+			        4, "Abr",
+			        5, "Maig",
+			        6, "Juny",
+			        7, "Jul",
+			        8, "Ag",
+			        9, "Set",
+			        10, "Oct",
+			        11, "Nov",
+			        12, "Des"
 			    )
 			    & " "
-			    & FORMAT(FechaMA, "YYYY")
+			    & FORMAT(FechaComparacion, "yy")
+			
+			VAR TextoPeriodo =
+			    SWITCH(
+			        Periodo,
+			        "Mensual", "MENSUAL",
+			        "12 meses", "12 MESOS",
+			        "Acumulat", "ACUMULAT",
+			        "Diff", "DIFF",
+			        BLANK()
+			    )
+			
+			VAR TipoComparacion =
+			    IF(Periodo = "12 meses", "MA: ", "MMAA: ")
 			
 			RETURN
-			
-			SWITCH(
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
-			
-			    "Mensual",
+			    IF(
+			        ISBLANK(TextoPeriodo),
+			        BLANK(),
 			        texto_generico_1
-			        & "MENSUAL"
-			        & texto_generico_2
-			        & "MMAA : "
-			        & mes
-			        & " vs "
-			        & mes_mmaa
-			        & texto_generico_3,
-			
-			    "12 meses",
-			        texto_generico_1
-			        & "12 MESOS"
-			        & texto_generico_2
-			        & "MA : "
-			        & mes
-			        & " vs "
-			        & mes_ma
-			        & texto_generico_3,
-			
-			    "Acumulat",
-			        texto_generico_1
-			        & "ACUMULAT"
-			        & texto_generico_2
-			        & "MMAA: "
-			        & mes
-			        & " vs "
-			        & mes_mmaa
-			        & texto_generico_3,
-			
-			    "Diff",
-			        texto_generico_1
-			        & "DIFF"
-			        & texto_generico_2
-			        & "MMAA: "
-			        & mes
-			        & " vs "
-			        & mes_mmaa
-			        & texto_generico_3,
-			
-			    BLANK()
-			)
-			```
+			            & TextoPeriodo
+			            & texto_generico_2
+			            & TipoComparacion
+			            & mes
+			            & " vs "
+			            & mes_comparacion
+			    )
 		displayFolder: Etiquetas
 		lineageTag: c4a76360-75fc-4545-8188-3cfaa5e6fc93
 
