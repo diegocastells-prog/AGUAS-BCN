@@ -1,0 +1,193 @@
+table dim_dades_sectors_old
+	lineageTag: 7264f845-54bf-49ff-bd6e-2cdb6674cd69
+
+	column sector_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 18b8b4a7-512a-470a-bead-2a9324c864dc
+		summarizeBy: none
+		sourceColumn: sector_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column sector
+		dataType: string
+		lineageTag: fde152dc-5a21-4b1a-8616-e74b253c9b81
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column pressio
+		dataType: string
+		lineageTag: 08499651-8f18-4139-8fb4-59e015370458
+		summarizeBy: none
+		sourceColumn: pressio
+
+		annotation SummarizationSetBy = Automatic
+
+	column gerencia
+		dataType: string
+		lineageTag: e5c291cb-eb83-4702-bd89-d836d6d4a0ec
+		summarizeBy: none
+		sourceColumn: gerencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column long_xarxa
+		dataType: int64
+		formatString: 0
+		lineageTag: 79a688b1-c8f4-4300-9371-bd6a3eff89d2
+		summarizeBy: sum
+		sourceColumn: long_xarxa
+
+		annotation SummarizationSetBy = Automatic
+
+	column ramals_controlats
+		dataType: int64
+		formatString: 0
+		lineageTag: 3af6b504-165c-4843-9981-15d0991826e9
+		summarizeBy: sum
+		sourceColumn: ramals_controlats
+
+		annotation SummarizationSetBy = Automatic
+
+	column subministraments_controlats
+		dataType: int64
+		formatString: 0
+		lineageTag: b43d353a-e73b-4bdf-b8db-04115f4f9ca1
+		summarizeBy: sum
+		sourceColumn: subministraments_controlats
+
+		annotation SummarizationSetBy = Automatic
+
+	column pressio_mitjana
+		dataType: double
+		lineageTag: 56e306b6-0c9e-43bb-8af7-ccd393bea35e
+		summarizeBy: sum
+		sourceColumn: pressio_mitjana
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column lambert
+		dataType: double
+		lineageTag: 09a8cfb4-592d-4ac7-941f-329a9b3424a2
+		summarizeBy: sum
+		sourceColumn: lambert
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column afor_l_s
+		dataType: double
+		lineageTag: 614fea25-8261-439f-b87e-60fcb8ceae1b
+		summarizeBy: sum
+		sourceColumn: afor_l_s
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column referencia
+		dataType: double
+		lineageTag: 790dcc2e-97c1-4ad9-91f6-8e73992019dc
+		summarizeBy: sum
+		sourceColumn: referencia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sector_activo
+		dataType: string
+		lineageTag: 35b2b266-cc92-4605-9068-f190cd158fb2
+		summarizeBy: none
+		sourceColumn: sector_activo
+
+		annotation SummarizationSetBy = Automatic
+
+	column gerencia_id
+		dataType: double
+		lineageTag: 0d34517d-c994-48f0-a72c-c1de43fecf5b
+		summarizeBy: sum
+		sourceColumn: gerencia_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column latitud
+		dataType: string
+		lineageTag: 0c5ff2e1-9626-41ff-839f-8d846f9dddba
+		summarizeBy: none
+		sourceColumn: latitud
+
+		annotation SummarizationSetBy = Automatic
+
+	column longitud
+		dataType: string
+		lineageTag: 5c55e546-d721-4e18-b1da-230fabab1d66
+		summarizeBy: none
+		sourceColumn: longitud
+
+		annotation SummarizationSetBy = Automatic
+
+	column num_points
+		dataType: int64
+		formatString: 0
+		lineageTag: 624ee43b-02c0-44c5-be2f-3bc0d978f84d
+		summarizeBy: sum
+		sourceColumn: num_points
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_dades_sectors_old = m
+		mode: import
+		queryGroup: Dimensiones
+		source = ```
+				let
+					Origen = GoogleSheets.Contents(#"Indicadors Sectorització 2026"),
+				 	#"Navegación 1" = Origen{[name = "Dades Sectors", ItemKind = "Table"]}[Data],
+					#"Encabezados promovidos1" = Table.PromoteHeaders(#"Navegación 1", [PromoteAllScalars=true]),
+				    #"Columnas con nombre cambiado2" = Table.RenameColumns(#"Encabezados promovidos1",{{"Sector / Artèria", "sector_id"}, {"Sector", "sector"}, {"Pis de Pressió", "pressio"}, {"Gerència", "gerencia"}, {"Long de xarxa", "long_xarxa"}, {"Ramals Controlats", "ramals_controlats"}, {"Subministraments Controlats", "subministraments_controlats"}, {"Pressió mitjana", "pressio_mitjana"}, {"Lambert", "lambert"}, {"afor (l/s)", "afor_l_s"}, {"Referència", "referencia"}, {"Sector en Servei", "sector_activo"}}),
+					#"Columnas quitadas1" = Table.RemoveColumns(#"Columnas con nombre cambiado2",{""}),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas1",{{"long_xarxa", Int64.Type}, {"ramals_controlats", Int64.Type}, {"subministraments_controlats", Int64.Type}, {"pressio_mitjana", type number}, {"lambert", type number}, {"afor_l_s", type number}, {"referencia", type number}, {"sector_id", Int64.Type}}),
+				    #"Errores quitados" = Table.RemoveRowsWithErrors(#"Tipo cambiado", {"sector_id"}),
+				    #"Filas vacías quitadas" =
+				    Table.SelectRows(
+				        #"Errores quitados",
+				        each List.AnyTrue(
+				            List.Transform(
+				                Record.FieldValues(_),
+				                each _ <> null and _ <> ""
+				            )
+				        )
+				    ),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Filas vacías quitadas", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
+				    #"Poner En Mayúsculas Cada Palabra" = Table.TransformColumns(#"Se expandió dim_gerencia",{{"sector", Text.Proper, type text}}),
+				    #"Texto limpio" = Table.TransformColumns(#"Poner En Mayúsculas Cada Palabra",{{"sector", Text.Clean, type text}}),
+				    #"Texto recortado" = Table.TransformColumns(#"Texto limpio",{{"sector", Text.Trim, type text}}),
+				    #"Consultas combinadas1" = Table.NestedJoin(#"Texto recortado", {"sector_id"}, aux_dim_sector, {"sector_id"}, "aux_dim_sector", JoinKind.LeftOuter),
+				    #"Se expandió aux_dim_sector" = Table.ExpandTableColumn(#"Consultas combinadas1", "aux_dim_sector", {"latitud", "longitud"}, {"latitud", "longitud"}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Se expandió aux_dim_sector",null,3,Replacer.ReplaceValue,{"gerencia_id"}),
+				    #"Consulta anexada" = Table.Combine({#"Valor reemplazado", aux_sector_no_disp}),
+				    #"Duplicados quitados" = Table.Distinct(#"Consulta anexada"),
+				   
+				    #"Tipo cambiado1" = Table.TransformColumnTypes( #"Duplicados quitados",{{"sector_id", Int64.Type}, {"long_xarxa", Int64.Type}, {"ramals_controlats", Int64.Type}, {"subministraments_controlats", Int64.Type}, {"pressio_mitjana", type number}, {"lambert", type number}, {"afor_l_s", type number}, {"referencia", type number}, {"sector_activo", type text}}),
+				    #"Columnas quitadas2" = Table.RemoveColumns(#"Tipo cambiado1",{"_1", "_2"}),
+				    #"Consultas combinadas2" = Table.NestedJoin(#"Columnas quitadas2", {"sector_id"}, aux_dim_ortomat_sectores, {"sector_id"}, "aux_dim_ortomat_sectores", JoinKind.LeftOuter),
+				    #"Se expandió aux_dim_ortomat_sectores" = Table.ExpandTableColumn(#"Consultas combinadas2", "aux_dim_ortomat_sectores", {"num_points"}, {"aux_dim_ortomat_sectores.num_points"}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Se expandió aux_dim_ortomat_sectores",{{"aux_dim_ortomat_sectores.num_points", "num_points"}}),
+				    #"Filas filtradas" = Table.SelectRows(#"Columnas con nombre cambiado", each ([sector_id] = 3400))
+				in
+				    #"Filas filtradas"
+				```
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

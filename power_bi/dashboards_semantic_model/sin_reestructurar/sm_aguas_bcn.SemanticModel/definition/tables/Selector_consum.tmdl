@@ -1,6 +1,44 @@
 table Selector_consum
 	lineageTag: e5caf54d-2058-4420-be3b-475ad9dab4ec
 
+	measure kpi_no_control_selector =
+			
+			VAR Grupo = SELECTEDVALUE(Selector_consum[Grupo])
+			VAR Tipo = SELECTEDVALUE(Selector_consum[Tipo])
+			RETURN
+			IF(
+			    Grupo = "No controlat" && NOT ISBLANK(Tipo),
+			    CALCULATE(
+			        [kpi_consum_no_control_switch],
+			        TREATAS(
+			            { Tipo },
+			            fact_consum_no_control[tipo_consum]
+			        )
+			    ),
+			    BLANK()
+			)
+		formatString: 0
+		lineageTag: 721ea9fc-3793-4e14-baf8-e114954b4e66
+
+	measure kpi_no_control_selector_1m =
+			
+			VAR Grupo = SELECTEDVALUE(Selector_consum[Grupo])
+			VAR Tipo = SELECTEDVALUE(Selector_consum[Tipo])
+			RETURN
+			IF(
+			    Grupo = "No controlat" && NOT ISBLANK(Tipo),
+			    CALCULATE(
+			        [kpi_consum_no_control_switch_1m],
+			        TREATAS(
+			            { Tipo },
+			            fact_consum_no_control[tipo_consum]
+			        )
+			    ),
+			    BLANK()
+			)
+		formatString: 0
+		lineageTag: 7d098354-5db2-4ee2-bdb1-b128f914884d
+
 	column Opcion
 		lineageTag: d289940c-80dc-4c0f-8dc5-3cc918344fff
 		isDefaultLabel
@@ -53,7 +91,7 @@ table Selector_consum
 				        {"No controlat — Autoconsum SJD", "No controlat", "Autoconsum SJD", 6},
 				        {"No controlat — Baixa", "No controlat", "Baixa", 7},
 				        {"No controlat — Peatge", "No controlat", "Peatge", 8},
-				        {"No controlat — Venda en alta", "No controlat", "Venda en alta", 9}
+				        {"No controlat — Alta", "No controlat", "Venda en alta", 9}
 				    }
 				)
 

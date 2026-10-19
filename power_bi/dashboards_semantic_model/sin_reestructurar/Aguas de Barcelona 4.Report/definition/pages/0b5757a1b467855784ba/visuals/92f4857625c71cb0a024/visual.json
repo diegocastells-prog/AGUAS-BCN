@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "92f4857625c71cb0a024",
   "position": {
     "x": 168.4663450130507,
@@ -7,7 +7,7 @@
     "z": 0,
     "height": 539.416277782172,
     "width": 758.09855255872822,
-    "tabOrder": 6000
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "azureMap",
@@ -304,21 +304,21 @@
             "zoom": {
               "expr": {
                 "Literal": {
-                  "Value": "12.33D"
+                  "Value": "10.22D"
                 }
               }
             },
             "centerLatitude": {
               "expr": {
                 "Literal": {
-                  "Value": "41.38742015248965D"
+                  "Value": "41.39477475342488D"
                 }
               }
             },
             "centerLongitude": {
               "expr": {
                 "Literal": {
-                  "Value": "2.1435074000000895D"
+                  "Value": "2.138946199999964D"
                 }
               }
             },
@@ -503,6 +503,53 @@
         "type": "Advanced",
         "howCreated": "User",
         "isLockedInViewMode": true
+      },
+      {
+        "name": "5ecc6560812216849433",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "sector_id"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "351c8c7645a8c92896e4",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "sector"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "fb6e4871f50b0510fd6b",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_pozos"
+                  }
+                },
+                "Property": "Object_id"
+              }
+            },
+            "Function": 3
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

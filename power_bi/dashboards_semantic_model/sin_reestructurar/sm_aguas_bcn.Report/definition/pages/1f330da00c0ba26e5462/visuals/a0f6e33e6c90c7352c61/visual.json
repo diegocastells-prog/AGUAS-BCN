@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "a0f6e33e6c90c7352c61",
   "position": {
-    "x": 804,
-    "y": 88,
+    "x": 759.96194100856326,
+    "y": 87.687916270218849,
     "z": 10000,
-    "height": 517,
-    "width": 457,
+    "height": 524.90960989533778,
+    "width": 512.73073263558524,
     "tabOrder": 7000
   },
   "visual": {
@@ -102,6 +102,21 @@
               "queryRef": "_medidas.diff_preal",
               "nativeQueryRef": "ΔP ",
               "displayName": "ΔP "
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "diff_cota"
+                }
+              },
+              "queryRef": "_medidas.diff_cota",
+              "nativeQueryRef": "ΔCota(m)",
+              "displayName": "ΔCota(m)"
             }
           ]
         }
@@ -195,6 +210,20 @@
           "selector": {
             "metadata": "_medidas.diff_preal"
           }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "73.87154670539212D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.diff_cota"
+          }
         }
       ],
       "columnHeaders": [
@@ -254,6 +283,90 @@
             }
           ]
         }
+      },
+      {
+        "name": "76c132bd49c418c5e85c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "gerencia"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "76ac335f21d1b6fcaacf",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "sector"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "3714e3993de034f1a007",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "preal_max"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d3e52017c979a3daa505",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "preal_min"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "423424bf9e1927bca805",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "diff_preal"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "b9f72c8e0ac655493819",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "diff_cota"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

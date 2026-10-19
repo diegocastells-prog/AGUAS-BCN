@@ -4,10 +4,10 @@
   "position": {
     "x": 223.68932038834953,
     "y": 419.135039717564,
-    "z": 24,
+    "z": 16000,
     "height": 172.85083848190644,
     "width": 1056.3106796116506,
-    "tabOrder": 78
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "lineClusteredColumnComboChart",
@@ -47,7 +47,8 @@
                 }
               },
               "queryRef": "_medidas.Consum_unificat_columnes",
-              "nativeQueryRef": "Consum_unificat_columnes"
+              "nativeQueryRef": "Consum_columnes",
+              "displayName": "Consum_columnes"
             }
           ]
         },
@@ -61,11 +62,11 @@
                       "Entity": "_medidas"
                     }
                   },
-                  "Property": "Consum_unificat_linia"
+                  "Property": "Consum_unificat_linea"
                 }
               },
               "queryRef": "_medidas.Consum_unificat_linia",
-              "nativeQueryRef": "Consum_unificat_linia"
+              "nativeQueryRef": "Consum_unificat_linea"
             }
           ]
         }
@@ -263,8 +264,13 @@
           "properties": {
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Consum No  controlat'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "Titulo_grafic_consum"
                 }
               }
             },
@@ -539,48 +545,6 @@
         },
         "type": "Advanced",
         "howCreated": "User"
-      },
-      {
-        "name": "b2f7ce669ec35ac73454",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "5e014ee6febd80d6ca2d",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "Consum_unificat_columnes"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "48b2275d062264d4c3db",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "Consum_unificat_linia"
-          }
-        },
-        "type": "Advanced"
       },
       {
         "name": "185bc09b3cb52380f2b3",

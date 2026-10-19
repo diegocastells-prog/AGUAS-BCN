@@ -87,6 +87,32 @@ relationship AutoDetected_b518595f-e33a-4721-808f-be1f17f5977b
 	fromColumn: fact_consum_limitadores.gerencia_id
 	toColumn: dim_gerencia.gerencia_id
 
+relationship 8cd56875-d5d1-b33c-8d74-440d7e8db344
+	fromColumn: dim_gerencia_pressio.zona_2
+	toColumn: dim_dades_sectors.sector_id
+
+relationship a9c0ea0a-b61d-eccf-ab44-f98ff78b37cc
+	isActive: false
+	fromColumn: fact_aigua_no_registrada.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
+relationship AutoDetected_66888e6a-3b9b-40bb-a598-32367026bc34
+	fromColumn: fact_consum_no_control.gerencia_id
+	toColumn: dim_gerencia.gerencia_id
+
+relationship a8e2b428-85c8-573a-a6ad-3e7b7764fc29
+	fromColumn: dim_pozos.sector_id
+	toColumn: dim_dades_sectors.sector_id
+
+relationship 2ab40d5e-3fb7-cefd-cc00-77cee1d0b94c
+	crossFilteringBehavior: bothDirections
+	fromColumn: fact_fraus.polissa_subm
+	toColumn: dim_less_polissa_fraude.polissa_su
+
+relationship ba3f2894-8e82-41c5-4a42-1446c0cd0934
+	fromColumn: fact_xarxa_inventari.Codi
+	toColumn: dim_dades_sectors.sector_id
+
 relationship db1942ac-3c9f-751d-0de6-1fd5a1882d75
 	crossFilteringBehavior: bothDirections
 	toCardinality: many
@@ -147,33 +173,29 @@ relationship bc847146-a89f-11e8-7107-7405357e7c15
 	fromColumn: fact_estim_volum_munic_pob.fecha
 	toColumn: dim_calendario.Date
 
-relationship 8cd56875-d5d1-b33c-8d74-440d7e8db344
-	fromColumn: dim_gerencia_pressio.zona_2
-	toColumn: dim_dades_sectors.sector_id
-
-relationship a9c0ea0a-b61d-eccf-ab44-f98ff78b37cc
-	isActive: false
-	fromColumn: fact_aigua_no_registrada.gerencia_id
-	toColumn: dim_gerencia.gerencia_id
-
-relationship AutoDetected_66888e6a-3b9b-40bb-a598-32367026bc34
-	fromColumn: fact_consum_no_control.gerencia_id
-	toColumn: dim_gerencia.gerencia_id
-
 relationship 6a5a9ba1-3f82-3c65-ca4d-a0ac385a560e
 	fromColumn: fact_consum_no_control.Fecha
 	toColumn: dim_calendario.Date
-
-relationship a8e2b428-85c8-573a-a6ad-3e7b7764fc29
-	fromColumn: dim_pozos.sector_id
-	toColumn: dim_dades_sectors.sector_id
 
 relationship 470c6aa8-cd73-79fb-1a8b-2720384d21a5
 	fromColumn: fact_fraus.data_crea_c_fra
 	toColumn: dim_calendario.Date
 
-relationship 2ab40d5e-3fb7-cefd-cc00-77cee1d0b94c
-	crossFilteringBehavior: bothDirections
-	fromColumn: fact_fraus.polissa_subm
-	toColumn: dim_less_polissa_fraude.polissa_su
+relationship 1248447a-e038-fedf-5794-bf45a26a1a1c
+	isActive: false
+	fromColumn: fact_xarxa_inventari.data_inst
+	toColumn: dim_calendario.Date
+
+relationship AutoDetected_a7e1772e-d16c-4a79-b299-43f86cc62fa8
+	fromColumn: dim_dades_sectors_old.gerencia
+	toColumn: dim_gerencia.gerencia
+
+relationship AutoDetected_ecce285a-b687-487a-83d5-0d7df67ed7c6
+	isActive: false
+	fromColumn: dim_dades_sectors_old.sector_id
+	toColumn: dim_dades_sectors.sector_id
+
+relationship AutoDetected_4214d0e2-4db2-48fa-bfea-8a5572918485
+	fromColumn: dim_dades_sectors_old.sector_id
+	toColumn: fact_volumns_sector.sector_id
 

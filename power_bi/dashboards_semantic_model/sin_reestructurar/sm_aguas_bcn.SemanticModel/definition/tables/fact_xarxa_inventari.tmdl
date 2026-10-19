@@ -1,0 +1,172 @@
+table fact_xarxa_inventari
+	lineageTag: 52c17b0c-2d31-479d-8217-3db813e7c1d2
+
+	column Codi
+		dataType: int64
+		formatString: 0
+		lineageTag: acb1383d-b819-49de-861d-fff5dfd86883
+		summarizeBy: none
+		sourceColumn: Codi
+
+		annotation SummarizationSetBy = Automatic
+
+	column Diàmetre
+		dataType: int64
+		formatString: 0
+		lineageTag: 68c674d0-0311-4908-a1c8-69759940c844
+		summarizeBy: sum
+		sourceColumn: Diàmetre
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Longitud Xarxa (m)'
+		dataType: double
+		lineageTag: d1e74d89-6937-4efd-b128-195795dbd5f7
+		summarizeBy: sum
+		sourceColumn: Longitud Xarxa (m)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Antiguitat Xarxa (anys)'
+		dataType: double
+		lineageTag: 8a20b82f-2995-4830-93e2-2833cda96479
+		summarizeBy: sum
+		sourceColumn: Antiguitat Xarxa (anys)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Antiguitat Xarxa (dies)'
+		dataType: double
+		lineageTag: ef15ab7b-d98a-47e7-b3a6-f5213051ecaa
+		summarizeBy: sum
+		sourceColumn: Antiguitat Xarxa (dies)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Material
+		dataType: string
+		lineageTag: db7c11db-c8b8-448b-9520-521b0d6debf6
+		summarizeBy: none
+		sourceColumn: Material
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_material_Short
+		dataType: string
+		lineageTag: 1aa65949-9648-460a-a608-2eb5510b05a9
+		summarizeBy: none
+		sourceColumn: tipo_material_Short
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_inst
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 054a7066-be38-4ab4-b8c5-e97e030ed268
+		summarizeBy: none
+		sourceColumn: data_inst
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Divisió
+		dataType: string
+		lineageTag: f67e464b-cdbb-4b5c-8e30-6bc54b8a644c
+		summarizeBy: none
+		sourceColumn: Divisió
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sector
+		dataType: string
+		lineageTag: 01ca7531-2a42-4656-a821-3e2d3ce6bea2
+		summarizeBy: none
+		sourceColumn: Sector
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_xarxa_inventari = m
+		mode: import
+		queryGroup: Hechos
+		source =
+				let
+				    Origen =
+				        GoogleSheets.Contents(
+				            "https://docs.google.com/spreadsheets/d/1OPforixfO3CH3kj5G07XEn-Fh45e6hv5KcCE8lroBT4/edit?gid=1951645607#gid=1951645607"
+				        ),
+				
+				    Xarxa = Origen{
+				        [name="Longitud de la xarxa per Diàmet", ItemKind="Table"]
+				    }[Data],
+				
+				    #"Filas filtradas" =
+				        Table.SelectRows(
+				            Xarxa,
+				            each [Column5] <> null
+				                and [Column5] <> ""
+				                and [Column5] <> "Total"
+				        ),
+				
+				    #"Encabezados promovidos" =
+				        Table.PromoteHeaders(
+				            #"Filas filtradas",
+				            [PromoteAllScalars=true]
+				        ),
+				
+				    Equivalencies = [
+				        Acer = "A",
+				        #"Formigó armat retacat" = "B",
+				        #"Formigó armat junta soldada" = "BS",
+				        #"Fosa dúctil" = "FD",
+				        #"Fosa gris" = "FG",
+				        #"Ferro galvanitzat" = "GALV",
+				        #"Acer inoxidable" = "INOX",
+				        #"Polietilè d'alta densitat" = "PEA",
+				        #"Polietilè de baixa densitat" = "PEB",
+				        #"Polietilè de mitja densitat" = "PEM",
+				        #"Polièster reforçat fibra vidre" = "PRFV",
+				        #"Policlorur de vinil" = "PVC",
+				        #"Policlorur de vinil orientat" = "PVCO",
+				        Fibrociment = "U"
+				    ],
+				
+				    #"Codi material afegit" =
+				        Table.AddColumn(
+				            #"Encabezados promovidos",
+				            "tipo_material_Short",
+				            each
+				                if [Material] = null then null
+				                else Record.FieldOrDefault(
+				                    Equivalencies,
+				                    Text.Trim(Text.From([Material])),
+				                    null
+				                ),
+				            type text
+				        ),
+				    #"Personalizada agregada" = Table.AddColumn(
+				    #"Codi material afegit",
+				    "data_inst",
+				    each Date.AddDays(
+				        Date.From(DateTime.FixedLocalNow()),
+				        -Number.Round(
+				            Number.From([#"Antiguitat Xarxa (dies)"], "es-ES"),
+				            0
+				        )
+				    ),
+				    type date
+				),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Personalizada agregada",{{"Divisió", type text}, {"Codi", Int64.Type}, {"Sector", type text}, {"Material", type text}, {"Diàmetre", Int64.Type}, {"Longitud Xarxa (m)", type number}, {"Antiguitat Xarxa (anys)", type number}, {"Antiguitat Xarxa (dies)", type number}, {"tipo_material_Short", type text}, {"data_inst", type date}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

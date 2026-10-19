@@ -6493,9 +6493,9 @@ table _medidas
 
 	measure pressio_grups_nit =
 			
-			COALESCE (
-			    CALCULATE (
-			        COUNTROWS ( dim_gerencia_pressio ),
+			COALESCE(
+			    CALCULATE(
+			        DISTINCTCOUNT(dim_gerencia_pressio[nº_de_nudo]),
 			        dim_gerencia_pressio[te_nit] = "SI"
 			    ),
 			    0
@@ -9208,7 +9208,7 @@ table _medidas
 		formatString: #,0
 		lineageTag: bdfccb90-cd51-455d-90fe-af2f12caa28a
 
-	measure Consum_unificat_linia =
+	measure Consum_unificat_linea =
 			
 			VAR _Grupo = SELECTEDVALUE(Selector_consum[Grupo])
 			VAR _Tipo = SELECTEDVALUE(Selector_consum[Tipo])
@@ -9222,7 +9222,7 @@ table _medidas
 			            ),
 			        "No controlat",
 			            CALCULATE(
-			                [kpi_consum_no_control_switch_1m],
+			                [kpi_consum_no_control_switch],
 			                fact_consum_no_control[tipo_consum] = _Tipo
 			            ),
 			        BLANK()
@@ -9244,6 +9244,76 @@ table _medidas
 		formatString: 0
 		displayFolder: Filtros
 		lineageTag: e81eb902-f968-4f7f-9e94-68538c8f2ae7
+
+	measure Titulo_grafic_consum =
+			
+			SELECTEDVALUE(
+			    Selector_consum[Opcion],
+			    "Consum"
+			)
+		lineageTag: d1f3f739-2853-4c05-8141-d5095498a1da
+
+	measure Metros_inventari_menusal =
+			
+			SUM(fact_xarxa_inventari[Longitud Xarxa (m)])
+		displayFolder: anr_global\xarxa
+		lineageTag: 5b03d681-2f51-4230-a053-eb51429d340f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Km_inventari_mensual =
+			
+			DIVIDE([Metros_inventari_menusal], 1000)
+		displayFolder: anr_global\xarxa
+		lineageTag: 723e4446-f28f-41f3-b346-cff6de84be8b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure %_material_inventari =
+			
+			DIVIDE(
+			    [Metros_inventari_menusal],
+			    CALCULATE(
+			        [Metros_inventari_menusal],
+			        ALLSELECTED(
+			            fact_xarxa_inventari[tipo_material_Short],
+			            fact_xarxa_inventari[Material]
+			        )
+			    )
+			)
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: anr_global\xarxa
+		lineageTag: 1d95a18d-1642-4a18-9d8c-3e4a4bd853bf
+
+	measure cota_max =
+			
+			MAX(dim_gerencia_pressio[z(m)])
+		displayFolder: pressio
+		lineageTag: 9a48d8c9-9931-4dca-b2e4-ea58fca43c7b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure cota_min =
+			
+			MIN(dim_gerencia_pressio[z(m)])
+		displayFolder: pressio
+		lineageTag: 5b3f11ff-3517-4d03-8361-47b3a42366b6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure diff_cota =
+			
+			VAR Maxima = [cota_max]
+			VAR Minima = [cota_min]
+			RETURN
+			    IF(
+			        ISBLANK(Maxima) || ISBLANK(Minima),
+			        0,
+			        Maxima - Minima
+			    )
+		formatString: 0.00
+		displayFolder: pressio
+		lineageTag: d3de1203-f3ab-4278-b000-7021628b5aa2
 
 	column Column
 		isHidden
