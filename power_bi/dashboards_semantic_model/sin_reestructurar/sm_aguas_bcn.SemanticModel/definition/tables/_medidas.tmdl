@@ -7685,24 +7685,35 @@ table _medidas
 			VAR texto_generico_2 =
 			    " per tant ara el teu objectiu és el mateix KPI en el període "
 			
-			VAR FechaMesAnterior =
+			VAR Periodo =
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo])
+			
+			// Debe corresponder al último mes con datos.
+			VAR FechaReferencia =
 			    CALCULATE(
 			        MAX(dim_calendario[Date]),
 			        ALL(dim_calendario)
 			    )
 			
-			VAR Periodo =
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo])
-			
-			VAR FechaComparacion =
-			    EDATE(
-			        FechaMesAnterior,
-			        IF(Periodo = "12 meses", -1, -12)
+			VAR FechaInicio =
+			    SWITCH(
+			        Periodo,
+			        "Acumulat", DATE(YEAR(FechaReferencia), 1, 1),
+			        "12 meses", EDATE(FechaReferencia, -11),
+			        FechaReferencia
 			    )
 			
-			VAR mes =
+			VAR FechaFin =
 			    SWITCH(
-			        MONTH(FechaMesAnterior),
+			        Periodo,
+			        "Mensual", EDATE(FechaReferencia, -12),
+			        "Diff", EDATE(FechaReferencia, -12),
+			        FechaReferencia
+			    )
+			
+			VAR MesInicio =
+			    SWITCH(
+			        MONTH(FechaInicio),
 			        1, "Gen",
 			        2, "Febr",
 			        3, "Març",
@@ -7717,11 +7728,11 @@ table _medidas
 			        12, "Des"
 			    )
 			    & " "
-			    & FORMAT(FechaMesAnterior, "yy")
+			    & FORMAT(FechaInicio, "yy")
 			
-			VAR mes_comparacion =
+			VAR MesFin =
 			    SWITCH(
-			        MONTH(FechaComparacion),
+			        MONTH(FechaFin),
 			        1, "Gen",
 			        2, "Febr",
 			        3, "Març",
@@ -7736,7 +7747,7 @@ table _medidas
 			        12, "Des"
 			    )
 			    & " "
-			    & FORMAT(FechaComparacion, "yy")
+			    & FORMAT(FechaFin, "yy")
 			
 			VAR TextoPeriodo =
 			    SWITCH(
@@ -7748,20 +7759,24 @@ table _medidas
 			        BLANK()
 			    )
 			
-			VAR TipoComparacion =
-			    IF(Periodo = "12 meses", "MA: ", "MMAA: ")
+			VAR TextoDetalle =
+			    SWITCH(
+			        Periodo,
+			        "Mensual",
+			            texto_generico_2 & "MMAA: " & MesInicio & " vs " & MesFin,
+			        "Diff",
+			            texto_generico_2 & "MMAA: " & MesInicio & " vs " & MesFin,
+			        "Acumulat",
+			            ": " & MesInicio & " — " & MesFin,
+			        "12 meses",
+			            ": " & MesInicio & " vs " & MesFin
+			    )
 			
 			RETURN
 			    IF(
 			        ISBLANK(TextoPeriodo),
 			        BLANK(),
-			        texto_generico_1
-			            & TextoPeriodo
-			            & texto_generico_2
-			            & TipoComparacion
-			            & mes
-			            & " vs "
-			            & mes_comparacion
+			        texto_generico_1 & TextoPeriodo & TextoDetalle
 			    )
 		displayFolder: Etiquetas
 		lineageTag: c4a76360-75fc-4545-8188-3cfaa5e6fc93
