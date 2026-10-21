@@ -476,6 +476,24 @@ table _medidas
 			            )
 			    )
 			
+			VAR _NumMateriales =
+			    COUNTROWS ( VALUES ( 'fact_xarxa_inventari'[Material] ) )
+			
+			VAR _FiltroMaterial =
+			    IF (
+			        ISFILTERED ( 'fact_xarxa_inventari'[Material] ),
+			        IF (
+			            _NumMateriales = 1,
+			            "Tipo de material: ",
+			            "Tipos de material: "
+			        )
+			            & CONCATENATEX (
+			                VALUES ( 'fact_xarxa_inventari'[Material] ),
+			                'fact_xarxa_inventari'[Material],
+			                ", "
+			            )
+			    )
+			
 			VAR _TextoFiltros =
 			    CONCATENATEX (
 			        FILTER (
@@ -484,7 +502,8 @@ table _medidas
 			                _FiltroGerencia,
 			                _FiltroSector,
 			                _FiltroArteria,
-			                _FiltroMunicipis
+			                _FiltroMunicipis,
+			                _FiltroMaterial
 			            },
 			            NOT ISBLANK ( [Value] )
 			        ),
@@ -493,11 +512,11 @@ table _medidas
 			    )
 			
 			RETURN
-			IF (
-			    ISBLANK ( _TextoFiltros ),
-			    "Sin filtros aplicados",
-			    _TextoFiltros
-			)
+			    IF (
+			        ISBLANK ( _TextoFiltros ),
+			        "Sin filtros aplicados",
+			        _TextoFiltros
+			    )
 		displayFolder: Etiquetas
 		lineageTag: 8d110b84-f5cb-4baa-8bb0-fc6234e69f23
 

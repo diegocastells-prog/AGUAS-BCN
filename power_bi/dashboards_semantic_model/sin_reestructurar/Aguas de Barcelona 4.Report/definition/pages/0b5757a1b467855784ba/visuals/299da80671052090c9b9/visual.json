@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "299da80671052090c9b9",
   "position": {
     "x": 926.56489757177883,
@@ -47,38 +47,26 @@
             },
             {
               "field": {
-                "Column": {
+                "Aggregation": {
                   "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_pozos"
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_pozos"
+                        }
+                      },
+                      "Property": "Object_id"
                     }
                   },
-                  "Property": "Object_id"
+                  "Function": 2
                 }
               },
               "queryRef": "dim_pozos.Object_id",
-              "nativeQueryRef": "Afor",
-              "displayName": "Afor"
+              "nativeQueryRef": "Nº de Afor",
+              "displayName": "Nº de Afor"
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dim_dades_sectors"
-                  }
-                },
-                "Property": "gerencia"
-              }
-            },
-            "direction": "Descending"
-          }
-        ]
       }
     },
     "objects": {
@@ -138,48 +126,6 @@
         "type": "Advanced",
         "howCreated": "User",
         "isLockedInViewMode": true
-      },
-      {
-        "name": "e86187cddc71108794c6",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_dades_sectors"
-              }
-            },
-            "Property": "gerencia"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "b7ccfc42951057b22623",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_dades_sectors"
-              }
-            },
-            "Property": "sector"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "b01940cb72757ac8b3d0",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_pozos"
-              }
-            },
-            "Property": "Object_id"
-          }
-        },
-        "type": "Categorical"
       }
     ]
   }

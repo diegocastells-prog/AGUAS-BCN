@@ -2996,7 +2996,7 @@ expression dim_art_bcn_g_pressio_055BAR = ```
 		    #"Tipo cambiado2"
 		```
 	lineageTag: 22d1c671-1223-4e52-b4a0-2065302a673b
-	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bes_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3033,7 +3033,7 @@ expression dim_art_bcn_g_pressio_070BBE = ```
 		    #"Columnas con nombre cambiado1"
 		```
 	lineageTag: 8ef8522b-3573-4c03-885b-7794df680d03
-	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bes_g_pressio
+	queryGroup: Auxiliares\dims\dim_arteria\dim_art_bcn_g_pressio
 
 	annotation PBI_NavigationStepName = Navegación
 
@@ -3118,7 +3118,7 @@ expression dim_art_bcn_g_pressio_101MIR = ```
 expression dim_art_bcn_g_pressio_130BAR = ```
 		let
 		    Origen = GoogleSheets.Contents(#"BCN G Pressio"),
-		    #"130BAR_Table" = Origen{[name="070FLL",ItemKind="Table"]}[Data],
+		    #"130BAR_Table" = Origen{[name="130BAR",ItemKind="Table"]}[Data],
 		     #"Encabezados promovidos" = Table.PromoteHeaders(#"130BAR_Table", [PromoteAllScalars=true]),
 		     // 2. Limpieza de nombres de columna (minúsculas, sin acentos y con _)
 		    EncabezadosLimpios = Table.TransformColumnNames(#"Encabezados promovidos", each 
@@ -3134,7 +3134,7 @@ expression dim_art_bcn_g_pressio_130BAR = ```
 		        in
 		            textoLimpio
 		    ),
-		    #"Columnas quitadas" = Table.RemoveColumns(EncabezadosLimpios,{"sector", "20-130", "pzedifici_1", "pteorica_2", "20-130_4"}),
+		    #"Columnas quitadas" = Table.RemoveColumns(EncabezadosLimpios,{"zona", "20-130", "pzedifici_1", "pteorica_2", "20-130_4"}),
 		
 		
 		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columnas quitadas",{{"zeta", type number}, {"profunditats", type number}, {"zona_2", type number}, {"pz_nit", type number}, {"pzedifici", type number}, {"pteorica", type number}, {"preal", type number}, {"grup_pressio", type number}, {"te_?", type text}}),

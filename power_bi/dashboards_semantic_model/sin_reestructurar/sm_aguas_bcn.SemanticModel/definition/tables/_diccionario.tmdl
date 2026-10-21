@@ -1,0 +1,45 @@
+table _diccionario
+	lineageTag: 21271b1e-1ce5-4e8c-becb-5da8a379c84e
+
+	column Pestaña
+		dataType: string
+		lineageTag: 58fa75a7-06bd-4a2c-bcd4-4ea4b7db1cce
+		summarizeBy: none
+		sourceColumn: Pestaña
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nombre del visual'
+		dataType: string
+		lineageTag: 493fceb4-d630-4bf1-bbf1-4b94cd399b15
+		summarizeBy: none
+		sourceColumn: Nombre del visual
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Explicación corta'
+		dataType: string
+		lineageTag: 1adb6fa6-287d-4894-a29b-d026cdcac3cc
+		summarizeBy: none
+		sourceColumn: Explicación corta
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _diccionario = m
+		mode: import
+		source =
+				let
+				    Origen =
+				        GoogleSheets.Contents(
+				            "https://docs.google.com/spreadsheets/d/1qf6_cIhvcuV-lmEsucz64hYuFL_9I29tH-wsZdBVU-o/edit?gid=1810710451#gid=1810710451"
+				        ),
+				    Diccionario_Table = Origen{[name="Diccionario",ItemKind="Table"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Diccionario_Table, [PromoteAllScalars=true]),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{"Nº", "Tipo de visual", "Categoría", "Objetivo", "Datos que muestra", "Tablas del modelo", "Zona en pantalla", "Oculto en el informe", "Nombre técnico (ID)", "Observaciones"})
+				in
+				    #"Columnas quitadas"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
