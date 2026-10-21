@@ -1,115 +1,122 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "85fed021bc1a8962f16e",
   "position": {
-    "x": 732.99928418038655,
-    "y": 447.12956335003582,
+    "x": 733.03140978816657,
+    "y": 446.92476260043827,
     "z": 17000,
-    "height": 218.067287043665,
-    "width": 531.42448103078027,
+    "height": 217.85244704163622,
+    "width": 534.81373265157049,
     "tabOrder": 31043
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "tableEx",
     "query": {
       "queryState": {
-        "Category": {
+        "Values": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_calendario"
+                      "Entity": "dim_comptadors"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "Marca_Comp"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "Data",
-              "active": true,
-              "displayName": "Data"
+              "queryRef": "dim_comptadors.Marca_Comp",
+              "nativeQueryRef": "Marca",
+              "displayName": "Marca"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_comptadors"
+                    }
+                  },
+                  "Property": "Nom_Model"
+                }
+              },
+              "queryRef": "dim_comptadors.Nom_Model",
+              "nativeQueryRef": "Model",
+              "displayName": "Model"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_comptadors"
+                    }
+                  },
+                  "Property": "Codi_Model"
+                }
+              },
+              "queryRef": "dim_comptadors.Codi_Model",
+              "nativeQueryRef": "Codi",
+              "displayName": "Codi"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_us_aigua_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_us_aigua_switch",
+              "nativeQueryRef": "Nº Comptadors",
+              "displayName": "Nº Comptadors"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_comptadors"
+                  }
+                },
+                "Property": "Marca_Comp"
+              }
+            },
+            "direction": "Ascending"
+          },
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_comptadors"
+                  }
+                },
+                "Property": "Nom_Model"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
       }
     },
     "objects": {
-      "categoryAxis": [
+      "total": [
         {
           "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "showAxisTitle": {
+            "totals": {
               "expr": {
                 "Literal": {
                   "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "valueAxis": [
-        {
-          "properties": {
-            "showAxisTitle": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "roundRange": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "lineStyles": [
-        {
-          "properties": {
-            "showMarker": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "legend": [
-        {
-          "properties": {
-            "showTitle": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "position": {
-              "expr": {
-                "Literal": {
-                  "Value": "'TopCenter'"
                 }
               }
             }
@@ -124,7 +131,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'...'"
+                  "Value": "'Comptadors per Marca'"
                 }
               }
             },
@@ -385,5 +392,65 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "8b3e2ac9e8a0b6eeaa8a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_comptadors"
+              }
+            },
+            "Property": "Marca_Comp"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "69f5315a558698604b46",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_comptadors"
+              }
+            },
+            "Property": "Nom_Model"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "6cc941a4906349fba6d9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_us_aigua_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ce40cd526501e82423d6",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_comptadors"
+              }
+            },
+            "Property": "Codi_Model"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }
