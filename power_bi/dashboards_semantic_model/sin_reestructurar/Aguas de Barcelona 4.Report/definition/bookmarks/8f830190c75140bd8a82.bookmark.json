@@ -1,32 +1,43 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
-  "displayName": "Fugues-Ocultar",
+  "displayName": "Fuites-OcultarPanelFiltros",
   "name": "8f830190c75140bd8a82",
   "options": {
-    "targetVisualNames": [],
+    "applyOnlyToTargetVisuals": true,
+    "targetVisualNames": [
+      "b2dce9ccdec9450bda18",
+      "25102a153ebd8ac1d04a",
+      "40e1175eb280a0eb3c23",
+      "b3f837f01e7edd520068",
+      "d840ddd9b902331c0ca2",
+      "f132490b11047e09c97c",
+      "f36f1d5a304696dcb05b",
+      "f6dfc772d7c0d27d28bc"
+    ],
+    "suppressActiveSection": true,
     "suppressData": true
   },
   "explorationState": {
     "version": "1.11",
     "activeSection": "0af87e0b41d4df008167",
     "filters": {
-      "byExpr": [
-        {
-          "name": "9c91c6672b742268d29c",
+      "byName": {
+        "f9dfffb80c6600294ec3": {
+          "name": "f9dfffb80c6600294ec3",
           "type": "Categorical",
           "expression": {
             "Column": {
               "Expression": {
                 "SourceRef": {
-                  "Entity": "dim_calendario"
+                  "Entity": "dim_dades_sectors"
                 }
               },
-              "Property": "flag_anio_actual_anterior"
+              "Property": "sector"
             }
           },
           "howCreated": 1
         },
-        {
+        "69c11630acbf9619e78c": {
           "name": "69c11630acbf9619e78c",
           "type": "Categorical",
           "filter": {
@@ -86,7 +97,9 @@
             }
           },
           "howCreated": 1
-        },
+        }
+      },
+      "byExpr": [
         {
           "name": "1c034efce5a2aa3062be",
           "type": "Categorical",
@@ -101,144 +114,16 @@
             }
           },
           "howCreated": 1
-        },
-        {
-          "name": "0ee50a4682115eef1472",
-          "type": "Categorical",
-          "filter": {
-            "Version": 2,
-            "From": [
-              {
-                "Name": "d",
-                "Entity": "dim_calendario",
-                "Type": 0
-              }
-            ],
-            "Where": [
-              {
-                "Condition": {
-                  "Not": {
-                    "Expression": {
-                      "In": {
-                        "Expressions": [
-                          {
-                            "Column": {
-                              "Expression": {
-                                "SourceRef": {
-                                  "Source": "d"
-                                }
-                              },
-                              "Property": "anio_mes"
-                            }
-                          }
-                        ],
-                        "Values": [
-                          [
-                            {
-                              "Literal": {
-                                "Value": "'2026-jul'"
-                              }
-                            }
-                          ],
-                          [
-                            {
-                              "Literal": {
-                                "Value": "'2026-ago'"
-                              }
-                            }
-                          ],
-                          [
-                            {
-                              "Literal": {
-                                "Value": "'2026-jun'"
-                              }
-                            }
-                          ]
-                        ]
-                      }
-                    }
-                  }
-                }
-              }
-            ]
-          },
-          "expression": {
-            "Column": {
-              "Expression": {
-                "SourceRef": {
-                  "Entity": "dim_calendario"
-                }
-              },
-              "Property": "anio_mes"
-            }
-          },
-          "howCreated": 1
         }
       ]
     },
     "sections": {
       "0af87e0b41d4df008167": {
         "filters": {
-          "byExpr": [
-            {
+          "byName": {
+            "e71219a10aa300303e97": {
               "name": "e71219a10aa300303e97",
               "type": "RelativeDate",
-              "filter": {
-                "Version": 2,
-                "From": [
-                  {
-                    "Name": "d",
-                    "Entity": "dim_calendario",
-                    "Type": 0
-                  }
-                ],
-                "Where": [
-                  {
-                    "Condition": {
-                      "Between": {
-                        "Expression": {
-                          "Column": {
-                            "Expression": {
-                              "SourceRef": {
-                                "Source": "d"
-                              }
-                            },
-                            "Property": "Date"
-                          }
-                        },
-                        "LowerBound": {
-                          "DateSpan": {
-                            "Expression": {
-                              "DateAdd": {
-                                "Expression": {
-                                  "DateAdd": {
-                                    "Expression": {
-                                      "Now": {}
-                                    },
-                                    "Amount": 1,
-                                    "TimeUnit": 0
-                                  }
-                                },
-                                "Amount": -1,
-                                "TimeUnit": 3
-                              }
-                            },
-                            "TimeUnit": 0
-                          }
-                        },
-                        "UpperBound": {
-                          "DateSpan": {
-                            "Expression": {
-                              "Now": {}
-                            },
-                            "TimeUnit": 0
-                          }
-                        }
-                      }
-                    }
-                  }
-                ]
-              },
               "expression": {
                 "Column": {
                   "Expression": {
@@ -250,15 +135,182 @@
                 }
               },
               "howCreated": 1
+            },
+            "b7f6ee1e05e972d29762": {
+              "name": "b7f6ee1e05e972d29762",
+              "type": "Categorical",
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "d",
+                    "Entity": "dummy_slicer_periodo",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "Not": {
+                        "Expression": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "d"
+                                    }
+                                  },
+                                  "Property": "Periodo"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'12 meses'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "expression": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dummy_slicer_periodo"
+                    }
+                  },
+                  "Property": "Periodo"
+                }
+              },
+              "howCreated": 1
             }
-          ]
+          }
         },
         "visualContainers": {
           "0340360c8f6559b282ce": {
             "filters": {
+              "byName": {
+                "f6e48b5d626bbe3ec700": {
+                  "name": "f6e48b5d626bbe3ec700",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_avarias_fuitas"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "1L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_avarias_fuitas"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                "2047bd5d15e40897e9b9": {
+                  "name": "2047bd5d15e40897e9b9",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "dim_gerencia",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "gerencia"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_gerencia"
+                        }
+                      },
+                      "Property": "gerencia"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              },
               "byExpr": [
                 {
-                  "name": "d54b24a7710e71a0c845",
+                  "name": "1e909664e8a2b460bd60",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -273,22 +325,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "d1f33aef09e7050c04a1",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_gerencia"
-                        }
-                      },
-                      "Property": "gerencia"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "33c670ef081c44783083",
+                  "name": "5f7efb9904b2f4487dda",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -303,7 +340,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "1ab159600e8030476e90",
+                  "name": "d2e3a867a6beb62c2075",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -312,7 +349,7 @@
                           "Entity": "_switchs"
                         }
                       },
-                      "Property": "kpi_km_inspeccionats_acustic_switch"
+                      "Property": "kpi_cabal_recuperat_switch"
                     }
                   },
                   "howCreated": 0
@@ -322,6 +359,21 @@
             "singleVisual": {
               "visualType": "pivotTable",
               "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_gerencia"
+                        }
+                      },
+                      "Property": "gerencia"
+                    }
+                  }
+                }
+              ],
               "activeProjections": {
                 "Columns": [
                   {
@@ -357,7 +409,7 @@
                           "Entity": "_switchs"
                         }
                       },
-                      "Property": "kpi_km_inspeccionats_acustic_switch"
+                      "Property": "kpi_cabal_recuperat_switch"
                     }
                   }
                 ],
@@ -413,23 +465,61 @@
                     "length": 1
                   }
                 ]
-              }
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "dim_gerencia.gerencia"
+                      ],
+                      "isCollapsed": true,
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "dim_gerencia"
+                              }
+                            },
+                            "Property": "gerencia"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "dim_dades_sectors.sector"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": []
+                  }
+                }
+              ]
             }
           },
           "0d7b3fea09386e3e8e7c": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "87950ff280e7796761d2",
+                  "name": "319683e83ac3e99ff57d",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "_parameter_comptadors"
+                          "Entity": "_parameter_fuitas"
                         }
                       },
-                      "Property": "_parameter_comptadors"
+                      "Property": "_parameter_fuitas"
                     }
                   },
                   "howCreated": 0
@@ -449,13 +539,6 @@
                               "Value": "'Dropdown'"
                             }
                           }
-                        },
-                        "isInvertedSelectionMode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "true"
-                            }
-                          }
                         }
                       }
                     }
@@ -468,10 +551,10 @@
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "_parameter_comptadors"
+                          "Entity": "_parameter_fuitas"
                         }
                       },
-                      "Property": "_parameter_comptadors"
+                      "Property": "_parameter_fuitas"
                     }
                   }
                 ]
@@ -480,9 +563,60 @@
           },
           "19963f2f90b9d3c99929": {
             "filters": {
+              "byName": {
+                "3f4333bf56a0491051cc": {
+                  "name": "3f4333bf56a0491051cc",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_avarias_fuitas"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "1L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_avarias_fuitas"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
               "byExpr": [
                 {
-                  "name": "52af6300188bc4937725",
+                  "name": "e4daca0e872af4eb2716",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -497,7 +631,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "d14d8e7570b64c1445c3",
+                  "name": "ddd5ccf3c84ce7815d26",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -512,7 +646,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "0b089532ca74625607a0",
+                  "name": "7167de570f8bb75a13eb",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -527,7 +661,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "a37ee9d030525016d040",
+                  "name": "b591fc84c20b39b7e891",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -536,13 +670,13 @@
                           "Entity": "_switchs"
                         }
                       },
-                      "Property": "kpi_km_inspeccionats_acustic_switch"
+                      "Property": "kpi_fuites_reparades_acustic_switch"
                     }
                   },
                   "howCreated": 0
                 },
                 {
-                  "name": "f50d654010d1521d523d",
+                  "name": "9177038e4b0f31760946",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -551,7 +685,7 @@
                           "Entity": "_switchs"
                         }
                       },
-                      "Property": "kpi_km_inspeccionats_heli_switch"
+                      "Property": "kpi_fuites_reparades_heli_switch"
                     }
                   },
                   "howCreated": 0
@@ -574,6 +708,80 @@
                     }
                   }
                 ]
+              },
+              "projections": {
+                "Y": [
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_avaries_switch"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_cabal_recuperat_switch"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_fuites_reparades_acustic_switch"
+                    }
+                  },
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_fuites_reparades_heli_switch"
+                    }
+                  }
+                ],
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_calendario"
+                        }
+                      },
+                      "Property": "anio_mes"
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "Y": [
+                  {
+                    "expr": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "_parameter_fuitas"
+                          }
+                        },
+                        "Property": "_parameter_fuitas"
+                      }
+                    },
+                    "index": 0,
+                    "length": 4
+                  }
+                ]
               }
             }
           },
@@ -581,7 +789,7 @@
             "filters": {
               "byExpr": [
                 {
-                  "name": "1d7bfbe0cdd90e0c4937",
+                  "name": "a6044ca6a5a967cdf3cf",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -602,12 +810,46 @@
               "objects": {}
             }
           },
-          "04e5072238448ed91a19": {
+          "3b24ce28dc8839a0864d": {
             "filters": {
-              "byExpr": [
-                {
-                  "name": "dc37ecbf8d50dd53c9c7",
+              "byName": {
+                "12ce8a4831abadbee14c": {
+                  "name": "12ce8a4831abadbee14c",
                   "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_avarias_fuitas"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
                   "expression": {
                     "Measure": {
                       "Expression": {
@@ -615,32 +857,54 @@
                           "Entity": "_medidas"
                         }
                       },
-                      "Property": "Dummy fecha"
+                      "Property": "filtro_avarias_fuitas"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
+              "byExpr": [
+                {
+                  "name": "7dfce18cf51715f9fcc8",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_fuite_por_km_switch_1m"
                     }
                   },
                   "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "cardVisual",
-              "objects": {}
-            }
-          },
-          "28a642522887b5dbf45e": {
-            "filters": {
-              "byExpr": [
+                },
                 {
-                  "name": "158c63029bc4a01d4021",
+                  "name": "21b5d508932b221eff4a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_fuite_por_km_switch"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "9f395e5fed6c5ad2be2f",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "dummy_slicer_periodo"
+                          "Entity": "dim_calendario"
                         }
                       },
-                      "Property": "Periodo"
+                      "Property": "anio_mes"
                     }
                   },
                   "howCreated": 0
@@ -648,98 +912,292 @@
               ]
             },
             "singleVisual": {
-              "visualType": "advancedSlicerVisual",
-              "objects": {
-                "merge": {
-                  "general": [
-                    {
-                      "properties": {
-                        "filter": {
-                          "filter": {
-                            "Version": 2,
-                            "From": [
-                              {
-                                "Name": "d",
-                                "Entity": "dummy_slicer_periodo",
-                                "Type": 0
-                              }
-                            ],
-                            "Where": [
-                              {
-                                "Condition": {
-                                  "In": {
-                                    "Expressions": [
-                                      {
-                                        "Column": {
-                                          "Expression": {
-                                            "SourceRef": {
-                                              "Source": "d"
-                                            }
-                                          },
-                                          "Property": "Periodo"
-                                        }
+              "visualType": "kpi",
+              "objects": {}
+            }
+          },
+          "475c5149d0278ed7c708": {
+            "filters": {
+              "byName": {
+                "2af93f2a55c98d064b71": {
+                  "name": "2af93f2a55c98d064b71",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d1",
+                        "Entity": "dim_dades_sectors",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Aggregation": {
+                                "Expression": {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "d1"
                                       }
-                                    ],
-                                    "Values": [
-                                      [
-                                        {
-                                          "Literal": {
-                                            "Value": "'Mensual'"
-                                          }
-                                        }
-                                      ]
-                                    ]
+                                    },
+                                    "Property": "num_points"
                                   }
-                                }
+                                },
+                                "Function": 0
                               }
-                            ]
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
                           }
                         }
                       }
+                    ]
+                  },
+                  "expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "dim_dades_sectors"
+                            }
+                          },
+                          "Property": "num_points"
+                        }
+                      },
+                      "Function": 0
                     }
-                  ]
+                  },
+                  "howCreated": 0
                 }
               },
-              "orderBy": [
+              "byExpr": [
                 {
-                  "Direction": 1,
-                  "Expression": {
+                  "name": "8769ca98eb080b5f828e",
+                  "type": "Categorical",
+                  "expression": {
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "dummy_slicer_periodo"
+                          "Entity": "dim_dades_sectors"
                         }
                       },
-                      "Property": "Periodo"
+                      "Property": "sector"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pieChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "dim_dades_sectors"
+                            }
+                          },
+                          "Property": "num_points"
+                        }
+                      },
+                      "Function": 0
                     }
                   }
                 }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "sector"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "47673d63c7b0642cab28": {
+            "filters": {
+              "byName": {
+                "eba1ced8945a5632032a": {
+                  "name": "eba1ced8945a5632032a",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_avarias_fuitas"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_avarias_fuitas"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
+              "byExpr": [
+                {
+                  "name": "2c5220e43f97a24c1d27",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_litros_por_fuga_switch_1m"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "78ddb620725621f22677",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_litros_por_fuga_switch"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "99f345be8f262cd26bf1",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_calendario"
+                        }
+                      },
+                      "Property": "anio_mes"
+                    }
+                  },
+                  "howCreated": 0
+                }
               ]
-            }
-          },
-          "6954381122507db3b557": {
+            },
             "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "92efea1106562235cfda": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "c0ec8f94567880717e68": {
-            "singleVisual": {
-              "visualType": "image",
+              "visualType": "kpi",
               "objects": {}
             }
           },
           "55bace717aa26ceb3bca": {
             "filters": {
+              "byName": {
+                "cbd56243e16287a46e7b": {
+                  "name": "cbd56243e16287a46e7b",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_avarias_fuitas"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_avarias_fuitas"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
               "byExpr": [
                 {
-                  "name": "86e5817b6d27d13b9613",
+                  "name": "9aa2ea8d709ecb264109",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -754,7 +1212,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "272a1a4b430ed0391dd8",
+                  "name": "24e7fbf75a8089bdcfd3",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -769,7 +1227,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "37c57993e81748069999",
+                  "name": "950cf7729654f15b5ced",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -792,9 +1250,60 @@
           },
           "564192c50a249f75d819": {
             "filters": {
+              "byName": {
+                "e8dac0a5bd898025998a": {
+                  "name": "e8dac0a5bd898025998a",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_avarias_fuitas"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_avarias_fuitas"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
               "byExpr": [
                 {
-                  "name": "506c9d125bea236c7bcb",
+                  "name": "61e5564cc6816bb1bad2",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -809,7 +1318,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "1d2c4e5e779c03427ec0",
+                  "name": "b7f165867528afcfd21a",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -824,7 +1333,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "bd675a02b71e802314dc",
+                  "name": "0a786d80796982ed1b93",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -991,9 +1500,60 @@
           },
           "768ddc8322bea2ef4ef4": {
             "filters": {
+              "byName": {
+                "7985336b0b620b4dd052": {
+                  "name": "7985336b0b620b4dd052",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_avarias_fuitas"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_avarias_fuitas"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
               "byExpr": [
                 {
-                  "name": "1ad14ab501a6ec89c114",
+                  "name": "aa9d92146d279fdd67d2",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -1008,7 +1568,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "7558c745ad731ecadeaa",
+                  "name": "e42020f152aedbe0e977",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -1023,7 +1583,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "2a743b134beb351357d6",
+                  "name": "c4b1af54d05f9eeae061",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -1048,7 +1608,7 @@
             "filters": {
               "byExpr": [
                 {
-                  "name": "7b8fbdffbba4c0952476",
+                  "name": "8feec5e5d43b3d849f61",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -1101,7 +1661,7 @@
                                       [
                                         {
                                           "Literal": {
-                                            "Value": "'''_switchs''[kpi_km_inspeccionats_acustic_switch]'"
+                                            "Value": "'''_switchs''[kpi_cabal_recuperat_switch]'"
                                           }
                                         }
                                       ]
@@ -1175,15 +1735,294 @@
                         },
                         "Right": {
                           "Literal": {
-                            "Value": "'''_switchs''[kpi_km_inspeccionats_acustic_switch]'"
+                            "Value": "'''_switchs''[kpi_cabal_recuperat_switch]'"
                           }
                         }
                       }
                     }
                   },
-                  "displayName": "Km Inspeccionats Acustic "
+                  "displayName": "Cabal Recuperat"
                 }
               ]
+            }
+          },
+          "25102a153ebd8ac1d04a": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "40e1175eb280a0eb3c23": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "b3f837f01e7edd520068": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "df36b92d52c7ef12cd44",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "sector"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "sector"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "d840ddd9b902331c0ca2": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "52e7c76717c92b31036b",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_calendario"
+                        }
+                      },
+                      "Property": "anio_mes"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_calendario"
+                        }
+                      },
+                      "Property": "anio_mes"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "f132490b11047e09c97c": {
+            "filters": {
+              "byName": {
+                "c52a52e6a30466e762e7": {
+                  "name": "c52a52e6a30466e762e7",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "dim_dades_sectors",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "gerencia"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "gerencia"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              }
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d",
+                                "Entity": "dim_dades_sectors",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "d"
+                                            }
+                                          },
+                                          "Property": "gerencia"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'Barcelona Sud'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "gerencia"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "f36f1d5a304696dcb05b": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "f6dfc772d7c0d27d28bc": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
             }
           },
           "0d5f4f1463ab0894765c": {
@@ -1395,9 +2234,60 @@
           },
           "c962355c1fce360e9a42": {
             "filters": {
+              "byName": {
+                "d6c57a0424ad20a32cc1": {
+                  "name": "d6c57a0424ad20a32cc1",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_avarias_fuitas"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "1L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_avarias_fuitas"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
               "byExpr": [
                 {
-                  "name": "d5cdbeae0b56d0d671e6",
+                  "name": "41d46348ca98357f3abb",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -1412,7 +2302,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "62aac9ea6cd02bd50339",
+                  "name": "c47679615c39fa199e1e",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -1427,7 +2317,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "1a03c782845b0bd7547a",
+                  "name": "76f6a2bcd991a239b76a",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -1442,7 +2332,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "4e80ac40a548aa3a2085",
+                  "name": "b8db61c5e2e0561726ff",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -1479,9 +2369,60 @@
           },
           "ecf44de29c0b716fa6c3": {
             "filters": {
+              "byName": {
+                "bab1417cd670ed27703d": {
+                  "name": "bab1417cd670ed27703d",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_avarias_fuitas"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_avarias_fuitas"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
               "byExpr": [
                 {
-                  "name": "f6ca505490194925d03d",
+                  "name": "98bd1c834d2e56362e5f",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -1496,7 +2437,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "47e6b02a9a110bda7201",
+                  "name": "173c6c11aee9c3e7a87c",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -1511,7 +2452,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "e00122641c6b50dc241e",
+                  "name": "b42f79b631c07dd68148",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -1532,38 +2473,51 @@
               "objects": {}
             }
           },
+          "f8f4a06a60a265db56b1": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "29b48a64b2e05d4bffac",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "Etiqueta filtros aplicados"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {}
+            }
+          },
           "fc2d8e3678abe752729d": {
             "singleVisual": {
               "visualType": "shape",
               "objects": {}
             }
           },
-          "40e1175eb280a0eb3c23": {
-            "singleVisual": {
-              "visualType": "textbox",
-              "objects": {}
-            }
-          },
-          "25102a153ebd8ac1d04a": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "f132490b11047e09c97c": {
+          "ff9dd926d5e22d75f026": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "f4d42e2d36245e43eb87",
-                  "type": "Categorical",
+                  "name": "d2a130936b0d0627a0e7",
+                  "type": "Advanced",
                   "expression": {
-                    "Column": {
+                    "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "dim_dades_sectors"
+                          "Entity": "_medidas"
                         }
                       },
-                      "Property": "gerencia"
+                      "Property": "Dummy fecha"
                     }
                   },
                   "howCreated": 0
@@ -1571,115 +2525,57 @@
               ]
             },
             "singleVisual": {
-              "visualType": "slicer",
-              "objects": {
-                "merge": {
-                  "data": [
-                    {
-                      "properties": {
-                        "mode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "'Dropdown'"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "activeProjections": {
-                "Values": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_dades_sectors"
-                        }
-                      },
-                      "Property": "gerencia"
-                    }
-                  }
-                ]
-              }
+              "visualType": "cardVisual",
+              "objects": {}
             }
           },
-          "d840ddd9b902331c0ca2": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "ad518482d1e5d44c200e",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_calendario"
-                        }
-                      },
-                      "Property": "mestexto_año"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
+          "c5470c9ed68bf7cc520e": {
             "singleVisual": {
-              "visualType": "slicer",
-              "objects": {
-                "merge": {
-                  "data": [
-                    {
-                      "properties": {
-                        "mode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "'Dropdown'"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "activeProjections": {
-                "Values": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_calendario"
-                        }
-                      },
-                      "Property": "mestexto_año"
-                    }
-                  }
-                ]
+              "visualType": "image",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
               }
             }
           },
-          "f36f1d5a304696dcb05b": {
+          "dd262bd4107d8c3c41b4": {
             "singleVisual": {
               "visualType": "image",
               "objects": {}
             }
           },
-          "b3f837f01e7edd520068": {
+          "7eac84bdd04c15b99298": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "889c71ce2e5324c04a8d": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "cd05783fed12e42dae79": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "500e32c2e4c6af0e2528": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "16eaafa10c86c5171ddc",
+                  "name": "bc335a9010aab07ea7d5",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "dim_dades_sectors"
+                          "Entity": "dummy_slicer_periodo"
                         }
                       },
-                      "Property": "sector"
+                      "Property": "Periodo"
                     }
                   },
                   "howCreated": 0
@@ -1687,17 +2583,51 @@
               ]
             },
             "singleVisual": {
-              "visualType": "slicer",
+              "visualType": "advancedSlicerVisual",
               "objects": {
                 "merge": {
-                  "data": [
+                  "general": [
                     {
                       "properties": {
-                        "mode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "'Dropdown'"
-                            }
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d",
+                                "Entity": "dummy_slicer_periodo",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "d"
+                                            }
+                                          },
+                                          "Property": "Periodo"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'Mensual'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
                           }
                         }
                       }
@@ -1705,34 +2635,153 @@
                   ]
                 }
               },
-              "activeProjections": {
-                "Values": [
-                  {
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "dim_dades_sectors"
+                          "Entity": "dummy_slicer_periodo"
                         }
                       },
-                      "Property": "sector"
+                      "Property": "Periodo"
                     }
                   }
-                ]
+                }
+              ]
+            }
+          },
+          "74641cdec1f6a1ad9480": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "1a16702eb45339260bc2",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_diccionario",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "_"
+                                    }
+                                  },
+                                  "Property": "Pestaña"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'Xarxa'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_diccionario"
+                        }
+                      },
+                      "Property": "Pestaña"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "73463a6247c926e3220c",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_diccionario"
+                        }
+                      },
+                      "Property": "Nombre del visual"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "ad90b041a8b3d6c939b7",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_diccionario"
+                        }
+                      },
+                      "Property": "Explicación corta"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "tableEx",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_diccionario"
+                        }
+                      },
+                      "Property": "Explicación corta"
+                    }
+                  }
+                }
+              ],
+              "display": {
+                "mode": "hidden"
               }
             }
           },
-          "f6dfc772d7c0d27d28bc": {
+          "a1a4e6066041bc528891": {
             "singleVisual": {
               "visualType": "actionButton",
-              "objects": {}
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
             }
           }
         },
         "visualContainerGroups": {
+          "b2dce9ccdec9450bda18": {
+            "isHidden": true
+          },
           "c4a11684b47c9c7bc434": {
             "isHidden": true
           },
-          "b2dce9ccdec9450bda18": {
+          "cb149db764ec776d410e": {
             "isHidden": true
           }
         }
@@ -1744,6 +2793,13 @@
           {
             "properties": {
               "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              },
+              "visible": {
                 "expr": {
                   "Literal": {
                     "Value": "false"

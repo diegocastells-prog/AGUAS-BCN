@@ -1,9 +1,23 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
-  "displayName": "XarxaAfors- Ocultar",
+  "displayName": "XarxaAfors- OcultarPanelFiltros",
   "name": "43c72058d898e0915bbf",
   "options": {
-    "targetVisualNames": [],
+    "applyOnlyToTargetVisuals": true,
+    "targetVisualNames": [
+      "c2bfcd0edffefeadef39",
+      "e6afe4b49802b267bedc",
+      "617d36cf4d13103e4b40",
+      "6bd50ec6a45a98b1c181",
+      "8ed159584edb3282bd69",
+      "b62061ff201572b8e535",
+      "b8f50cae132c601840d6",
+      "c4bc4d25e670b0510877",
+      "c6def64749ec1e947172",
+      "e80ae546ee7eba9ec16b"
+    ],
+    "suppressActiveSection": true,
+    "suppressData": true,
     "preserveNewVisualVisibility": true
   },
   "explorationState": {
@@ -58,14 +72,14 @@
                       [
                         {
                           "Literal": {
-                            "Value": "'ANTERIOR'"
+                            "Value": "'ACTUAL'"
                           }
                         }
                       ],
                       [
                         {
                           "Literal": {
-                            "Value": "'ACTUAL'"
+                            "Value": "'ANTERIOR'"
                           }
                         }
                       ]
@@ -89,21 +103,6 @@
         }
       },
       "byExpr": [
-        {
-          "name": "9c91c6672b742268d29c",
-          "type": "Categorical",
-          "expression": {
-            "Column": {
-              "Expression": {
-                "SourceRef": {
-                  "Entity": "dim_calendario"
-                }
-              },
-              "Property": "flag_anio_actual_anterior"
-            }
-          },
-          "howCreated": 1
-        },
         {
           "name": "1c034efce5a2aa3062be",
           "type": "Categorical",
@@ -160,7 +159,7 @@
                   "howCreated": 1
                 },
                 {
-                  "name": "c64777a565ac50f25fa3",
+                  "name": "9025a8280b00830c8202",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -175,7 +174,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "58a106890aa0e9e1af99",
+                  "name": "ebdb143cc7654e95279c",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -190,16 +189,21 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "bf0875515a0c8a6e1af5",
-                  "type": "Categorical",
+                  "name": "82a8cb2f01fd7d9e86eb",
+                  "type": "Advanced",
                   "expression": {
-                    "Column": {
+                    "Aggregation": {
                       "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_pozos"
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "dim_pozos"
+                            }
+                          },
+                          "Property": "Object_id"
                         }
                       },
-                      "Property": "Object_id"
+                      "Function": 2
                     }
                   },
                   "howCreated": 0
@@ -211,17 +215,11 @@
               "objects": {}
             }
           },
-          "6a8c4d7e56849952b1b2": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "4ede1d3234c4752a681c": {
+          "33f22322fb64bd60c211": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "d224cc8d5d71afa44115",
+                  "name": "29501d2e2dd172d298c4",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -230,7 +228,7 @@
                           "Entity": "_medidas"
                         }
                       },
-                      "Property": "Dummy fecha"
+                      "Property": "Etiqueta filtros aplicados"
                     }
                   },
                   "howCreated": 0
@@ -242,15 +240,39 @@
               "objects": {}
             }
           },
-          "5faf6250b8804c70593e": {
+          "2db9d143be82d70e32f5": {
             "singleVisual": {
-              "visualType": "image",
+              "visualType": "shape",
               "objects": {}
             }
           },
-          "85103ded2009117104d4": {
+          "7705b524c04812c243ef": {
             "singleVisual": {
-              "visualType": "image",
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "deeef520ee27fb28a603": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "e35c5a4a548b1af40ac3": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "f403857ef4357b924306": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "6a8c4d7e56849952b1b2": {
+            "singleVisual": {
+              "visualType": "shape",
               "objects": {}
             }
           },
@@ -275,7 +297,7 @@
               },
               "byExpr": [
                 {
-                  "name": "5ecc6560812216849433",
+                  "name": "c0d2308b3f0a59384271",
                   "type": "Advanced",
                   "expression": {
                     "Column": {
@@ -290,7 +312,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "351c8c7645a8c92896e4",
+                  "name": "a1adac291f0bc7ea84ed",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -305,7 +327,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "fb6e4871f50b0510fd6b",
+                  "name": "95af1da23f6c19058971",
                   "type": "Advanced",
                   "expression": {
                     "Aggregation": {
@@ -493,7 +515,7 @@
             "filters": {
               "byExpr": [
                 {
-                  "name": "5ecc2bc3ce5e0dc66560",
+                  "name": "8ec1d960e368a82a35e0",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -511,176 +533,6 @@
             },
             "singleVisual": {
               "visualType": "cardVisual",
-              "objects": {}
-            }
-          },
-          "03e3281b4aa1957b460d": {
-            "singleVisual": {
-              "visualType": "slicer",
-              "objects": {
-                "merge": {
-                  "data": [
-                    {
-                      "properties": {
-                        "mode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "'Dropdown'"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "activeProjections": {
-                "Values": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_calendario"
-                        }
-                      },
-                      "Property": "mestexto_año"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "2e6d607e094999d13069": {
-            "singleVisual": {
-              "visualType": "actionButton",
-              "objects": {}
-            }
-          },
-          "36714937456703906785": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "4b88e6a4d7bdf9cd2735",
-                  "type": "Advanced",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_gerencia_pressio"
-                        }
-                      },
-                      "Property": "grup_pressio_nit"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "slicer",
-              "objects": {
-                "merge": {
-                  "data": [
-                    {
-                      "properties": {
-                        "mode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "'Dropdown'"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "activeProjections": {
-                "Values": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_gerencia_pressio"
-                        }
-                      },
-                      "Property": "grup_pressio_nit"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "73df39526b32035861d0": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "7b49f8ed882ebad71036": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "6486137dabdeff2b3f44",
-                  "type": "Advanced",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_gerencia_pressio"
-                        }
-                      },
-                      "Property": "grup_pressio_dia"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "slicer",
-              "objects": {
-                "merge": {
-                  "data": [
-                    {
-                      "properties": {
-                        "mode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "'Dropdown'"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "activeProjections": {
-                "Values": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_gerencia_pressio"
-                        }
-                      },
-                      "Property": "grup_pressio_dia"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "e3597fa91cc00b7a800e": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "e876b61479a0b005d090": {
-            "singleVisual": {
-              "visualType": "textbox",
               "objects": {}
             }
           },
@@ -812,7 +664,7 @@
                   "howCreated": 1
                 },
                 {
-                  "name": "1b59e23cb8bae5748ea7",
+                  "name": "ba17b3b52e6031a0b5e3",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -985,7 +837,7 @@
                   "howCreated": 1
                 },
                 {
-                  "name": "0cf19dc443b1234803ef",
+                  "name": "3fe11a22ad4651c9e694",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -1250,42 +1102,179 @@
               "objects": {}
             }
           },
-          "7705b524c04812c243ef": {
+          "200203d222e66e04dc56": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "79483d01849368bd778e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "Dummy fecha"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
             "singleVisual": {
-              "visualType": "shape",
+              "visualType": "cardVisual",
               "objects": {}
             }
           },
-          "deeef520ee27fb28a603": {
+          "c2bfcd0edffefeadef39": {
             "singleVisual": {
-              "visualType": "shape",
+              "visualType": "image",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "23482cbf6a4b1ab5fba3": {
+            "singleVisual": {
+              "visualType": "image",
               "objects": {}
             }
           },
-          "f403857ef4357b924306": {
+          "3cf63b1873e01e253553": {
             "singleVisual": {
-              "visualType": "shape",
+              "visualType": "image",
               "objects": {}
             }
           },
-          "2db9d143be82d70e32f5": {
+          "5a6a4d513b9ab15fdd67": {
             "singleVisual": {
-              "visualType": "shape",
+              "visualType": "image",
               "objects": {}
             }
           },
-          "e35c5a4a548b1af40ac3": {
+          "3bc056065260880d56bb": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "1a16702eb45339260bc2",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_diccionario",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "_"
+                                    }
+                                  },
+                                  "Property": "Pestaña"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'Xarxa'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_diccionario"
+                        }
+                      },
+                      "Property": "Pestaña"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "a0bb58495a9e9883c5d3",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_diccionario"
+                        }
+                      },
+                      "Property": "Nombre del visual"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "bf09c5c15659ddf3f7fe",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_diccionario"
+                        }
+                      },
+                      "Property": "Explicación corta"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
             "singleVisual": {
-              "visualType": "shape",
+              "visualType": "tableEx",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_diccionario"
+                        }
+                      },
+                      "Property": "Explicación corta"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "74366f8401f9f3c2ad31": {
+            "singleVisual": {
+              "visualType": "actionButton",
               "objects": {}
             }
           }
         },
         "visualContainerGroups": {
-          "b84296101cc55e278667": {
+          "e6afe4b49802b267bedc": {
             "isHidden": true
           },
-          "e6afe4b49802b267bedc": {
+          "cb7bf76ef2fe74a795d9": {
             "isHidden": true
           }
         }
