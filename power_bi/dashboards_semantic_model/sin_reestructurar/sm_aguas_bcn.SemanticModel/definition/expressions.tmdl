@@ -3703,3 +3703,29 @@ expression 'fraus_treballs amb volum i import' = "https://docs.google.com/spread
 
 	annotation PBI_ResultType = Text
 
+expression 'Marques i models de comptadors' = "https://docs.google.com/spreadsheets/d/1ZGYXYw1GsfB2w3eifx1pQofdTKTHFEY6-8he-Fy-1do/edit?gid=715857969#gid=715857969" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: bb65ea8e-e698-44c5-b0aa-285883f46022
+	queryGroup: 'Parametre '
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression dim_marca_modelo =
+		let
+		    Origen =
+		         GoogleSheets.Contents(#"Marques i models de comptadors"),
+		    Sheet1_Table = Origen{[name="Sheet1",ItemKind="Table"]}[Data],
+		    #"Encabezados promovidos" = Table.TransformColumnNames(
+		    Table.PromoteHeaders(Sheet1_Table, [PromoteAllScalars=true]),
+		    Text.Lower
+		)
+		in
+		    #"Encabezados promovidos"
+	lineageTag: 80842c65-88fa-4df3-9eed-af6516cfee1f
+	queryGroup: Dimensiones
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

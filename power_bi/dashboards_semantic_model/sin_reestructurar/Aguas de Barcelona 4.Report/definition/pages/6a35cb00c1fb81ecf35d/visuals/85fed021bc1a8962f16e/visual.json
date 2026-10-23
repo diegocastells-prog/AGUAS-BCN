@@ -23,10 +23,25 @@
                       "Entity": "dim_comptadors"
                     }
                   },
-                  "Property": "Marca_Comp"
+                  "Property": "Codi_Model"
                 }
               },
-              "queryRef": "dim_comptadors.Marca_Comp",
+              "queryRef": "dim_comptadors.Codi_Model",
+              "nativeQueryRef": "Codi",
+              "displayName": "Codi"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_comptadors"
+                    }
+                  },
+                  "Property": "Nom_Complet_Mcomp"
+                }
+              },
+              "queryRef": "dim_comptadors.Nom_Complet_Mcomp",
               "nativeQueryRef": "Marca",
               "displayName": "Marca"
             },
@@ -53,12 +68,12 @@
                       "Entity": "dim_comptadors"
                     }
                   },
-                  "Property": "Codi_Model"
+                  "Property": "Id_marca_modelo"
                 }
               },
-              "queryRef": "dim_comptadors.Codi_Model",
-              "nativeQueryRef": "Codi",
-              "displayName": "Codi"
+              "queryRef": "dim_comptadors.Id_marca_modelo",
+              "nativeQueryRef": "ID Model",
+              "displayName": "ID Model"
             },
             {
               "field": {
@@ -77,36 +92,6 @@
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dim_comptadors"
-                  }
-                },
-                "Property": "Marca_Comp"
-              }
-            },
-            "direction": "Ascending"
-          },
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "dim_comptadors"
-                  }
-                },
-                "Property": "Nom_Model"
-              }
-            },
-            "direction": "Ascending"
-          }
-        ]
       }
     },
     "objects": {
@@ -392,65 +377,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "8b3e2ac9e8a0b6eeaa8a",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_comptadors"
-              }
-            },
-            "Property": "Marca_Comp"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "69f5315a558698604b46",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_comptadors"
-              }
-            },
-            "Property": "Nom_Model"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "6cc941a4906349fba6d9",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "kpi_us_aigua_switch"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "ce40cd526501e82423d6",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_comptadors"
-              }
-            },
-            "Property": "Codi_Model"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

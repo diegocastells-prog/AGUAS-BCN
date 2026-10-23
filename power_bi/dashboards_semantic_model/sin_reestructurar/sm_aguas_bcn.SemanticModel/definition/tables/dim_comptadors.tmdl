@@ -82,6 +82,14 @@ table dim_comptadors
 
 		annotation SummarizationSetBy = Automatic
 
+	column Nom_Complet_Mcomp
+		dataType: string
+		lineageTag: adc83797-1075-444e-934a-868a0667dd20
+		summarizeBy: none
+		sourceColumn: Nom_Complet_Mcomp
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_comptadors = m
 		mode: import
 		queryGroup: Dimensiones
@@ -93,10 +101,13 @@ table dim_comptadors
 				            Origen,
 				            [PromoteAllScalars = true]
 				        ),
+				    #"Consultas combinadas" = Table.NestedJoin(#"Encabezados promovidos", {"MARCA_COMP", "CODI_MODEL"}, dim_marca_modelo, {"marca_comp", "codi_model"}, "dim_marca_modelo", JoinKind.LeftOuter),
+				    #"Se expandió dim_marca_modelo" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_marca_modelo", {"nom_complet_mcomp"}, {"nom_complet_mcomp"}),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Se expandió dim_marca_modelo",{{"nom_complet_mcomp", type text}}),
 				
 				    #"Tipo de columna cambiado" =
 				        Table.TransformColumnTypes(
-				            #"Encabezados promovidos",
+				            #"Tipo cambiado1",
 				            {
 				                {"MARCA_COMP", type text},
 				                {"CODI_MODEL", type text},
@@ -132,6 +143,7 @@ table dim_comptadors
 				        Table.SelectColumns(
 				            #"Tipo de columna cambiado",
 				            {
+				"nom_complet_mcomp",
 				                "MARCA_COMP",
 				                "CODI_MODEL",
 				                "NOM_MODEL",
