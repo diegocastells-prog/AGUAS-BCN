@@ -17,11 +17,19 @@ table _diccionario
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Explicación corta'
+	column Ámbito
 		dataType: string
-		lineageTag: 1adb6fa6-287d-4894-a29b-d026cdcac3cc
+		lineageTag: b26668e1-173c-4191-b280-274ef60dcd7b
 		summarizeBy: none
-		sourceColumn: Explicación corta
+		sourceColumn: Ámbito
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Qué representa'
+		dataType: string
+		lineageTag: 58025139-3780-43d2-bda1-48803516ea2c
+		summarizeBy: none
+		sourceColumn: Qué representa
 
 		annotation SummarizationSetBy = Automatic
 
@@ -31,11 +39,11 @@ table _diccionario
 				let
 				    Origen =
 				        GoogleSheets.Contents(
-				            "https://docs.google.com/spreadsheets/d/1qf6_cIhvcuV-lmEsucz64hYuFL_9I29tH-wsZdBVU-o/edit?gid=1810710451#gid=1810710451"
+				            "https://docs.google.com/spreadsheets/d/10L3ntDPsGJCDMgX7byzEUM4frCuWr4JXAVgwNwn8uLo/edit?gid=925281568#gid=925281568"
 				        ),
-				    Diccionario_Table = Origen{[name="Diccionario",ItemKind="Table"]}[Data],
-				    #"Encabezados promovidos" = Table.PromoteHeaders(Diccionario_Table, [PromoteAllScalars=true]),
-				    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{"Nº", "Tipo de visual", "Categoría", "Objetivo", "Datos que muestra", "Tablas del modelo", "Zona en pantalla", "Oculto en el informe", "Nombre técnico (ID)", "Observaciones"})
+				    #"Diccionario por ámbito_Table" = Origen{[name="Diccionario por ámbito",ItemKind="Table"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Diccionario por ámbito_Table", [PromoteAllScalars=true]),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{"Tipo de visual", "Descripción corta", "Datos que muestra"})
 				in
 				    #"Columnas quitadas"
 

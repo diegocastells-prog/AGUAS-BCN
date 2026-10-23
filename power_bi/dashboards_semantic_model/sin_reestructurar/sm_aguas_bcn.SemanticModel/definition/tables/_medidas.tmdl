@@ -9314,6 +9314,31 @@ table _medidas
 		displayFolder: pressio
 		lineageTag: d3de1203-f3ab-4278-b000-7021628b5aa2
 
+	measure Descripcion_Ayuda =
+			
+			VAR PeriodoSeleccionado =
+			    SELECTEDVALUE(
+			        dummy_slicer_periodo[Periodo],
+			        "Mensual"
+			    )
+			VAR PeriodoDiccionario =
+			    SWITCH(
+			        PeriodoSeleccionado,
+			        "12 mesos", "12 meses",
+			        PeriodoSeleccionado
+			    )
+			RETURN
+			    CALCULATE(
+			        SELECTEDVALUE(
+			            _diccionario[Qué representa]
+			        ),
+			        TREATAS(
+			            { PeriodoDiccionario },
+			            _diccionario[Ámbito]
+			        )
+			    )
+		lineageTag: 6fae6fe8-6cc8-4bb1-b334-083652e8955e
+
 	column Column
 		isHidden
 		formatString: 0
