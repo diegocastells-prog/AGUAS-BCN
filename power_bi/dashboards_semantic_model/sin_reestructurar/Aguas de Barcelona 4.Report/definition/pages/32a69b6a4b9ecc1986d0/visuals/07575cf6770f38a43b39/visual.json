@@ -23,28 +23,45 @@
                       "Entity": "_diccionario"
                     }
                   },
-                  "Property": "Nombre del visual"
+                  "Property": "Nom del visual"
                 }
               },
-              "queryRef": "_diccionario.Nombre del visual",
-              "nativeQueryRef": "Nombre del visual"
+              "queryRef": "_diccionario.Nom del visual",
+              "nativeQueryRef": "Nom del visual"
             },
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_diccionario"
+                      "Entity": "_medidas"
                     }
                   },
-                  "Property": "Explicación corta"
+                  "Property": "Descripcion_Ayuda"
                 }
               },
-              "queryRef": "_diccionario.Explicación corta",
-              "nativeQueryRef": "Explicación corta"
+              "queryRef": "_medidas.Descripcion_Ayuda",
+              "nativeQueryRef": "Descripcion_Ayuda"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_medidas"
+                  }
+                },
+                "Property": "Descripcion_Ayuda"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
       }
     },
     "objects": {
@@ -80,6 +97,27 @@
             }
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "559.655103436801D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.Descripcion_Ayuda"
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
@@ -88,7 +126,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "1a16702eb45339260bc2",
+        "name": "19a739d192e3955618b9",
         "field": {
           "Column": {
             "Expression": {
@@ -96,7 +134,7 @@
                 "Entity": "_diccionario"
               }
             },
-            "Property": "Pestaña"
+            "Property": "Pestanya"
           }
         },
         "type": "Categorical",
@@ -121,7 +159,7 @@
                             "Source": "_"
                           }
                         },
-                        "Property": "Pestaña"
+                        "Property": "Pestanya"
                       }
                     }
                   ],
@@ -129,7 +167,14 @@
                     [
                       {
                         "Literal": {
-                          "Value": "'ANR Normalitzat i cabal mínim'"
+                          "Value": "'Aigua Consumit'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'KPI ANR  i cabal mínim'"
                         }
                       }
                     ]
@@ -139,14 +184,7 @@
             }
           ]
         },
-        "howCreated": "User",
-        "objects": {
-          "general": [
-            {
-              "properties": {}
-            }
-          ]
-        }
+        "howCreated": "User"
       }
     ]
   },

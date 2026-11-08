@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "4d37e43eda7b60a40a1a",
   "position": {
     "x": 192.04188840731939,
@@ -23,11 +23,11 @@
                       "Entity": "dim_dades_sectors"
                     }
                   },
-                  "Property": "gerencia"
+                  "Property": "DOP"
                 }
               },
-              "queryRef": "dim_dades_sectors.gerencia",
-              "nativeQueryRef": "gerencia",
+              "queryRef": "dim_dades_sectors.DOP",
+              "nativeQueryRef": "DOP",
               "active": true
             }
           ]
@@ -56,6 +56,47 @@
                 "Literal": {
                   "Value": "true"
                 }
+              }
+            },
+            "filter": {
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "d",
+                    "Entity": "dim_dades_sectors",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "In": {
+                        "Expressions": [
+                          {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Source": "d"
+                                }
+                              },
+                              "Property": "DOP"
+                            }
+                          }
+                        ],
+                        "Values": [
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'Barcelona Sud'"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
               }
             }
           }
@@ -349,7 +390,7 @@
                 "Entity": "dim_dades_sectors"
               }
             },
-            "Property": "gerencia"
+            "Property": "DOP"
           }
         },
         "type": "Categorical",
@@ -376,7 +417,7 @@
                                 "Source": "d"
                               }
                             },
-                            "Property": "gerencia"
+                            "Property": "DOP"
                           }
                         }
                       ],

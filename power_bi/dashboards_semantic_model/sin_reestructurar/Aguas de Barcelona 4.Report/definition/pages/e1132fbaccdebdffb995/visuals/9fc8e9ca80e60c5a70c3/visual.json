@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "9fc8e9ca80e60c5a70c3",
   "position": {
     "x": 450,
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_arteria"
+                      "Entity": "dim_dades_sectors"
                     }
                   },
-                  "Property": "arteria"
+                  "Property": "sector"
                 }
               },
-              "queryRef": "dim_arteria.arteria",
-              "nativeQueryRef": "arteria",
+              "queryRef": "dim_dades_sectors.sector",
+              "nativeQueryRef": "sector",
               "active": true
             }
           ]
@@ -152,7 +152,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Arteria'"
+                  "Value": "'Sector'"
                 }
               }
             }
@@ -335,6 +335,11 @@
         }
       ]
     },
+    "syncGroup": {
+      "groupName": "arteria",
+      "fieldChanges": true,
+      "filterChanges": true
+    },
     "drillFilterOtherVisuals": true
   },
   "parentGroupName": "10a4c3e16388a7309e41",
@@ -353,6 +358,7 @@
           }
         },
         "type": "Categorical",
+        "howCreated": "User",
         "isHiddenInViewMode": true,
         "isLockedInViewMode": true,
         "objects": {

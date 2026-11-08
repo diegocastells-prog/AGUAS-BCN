@@ -412,7 +412,7 @@ table _medidas
 			VAR _FiltroFecha =
 			    IF (
 			        ISFILTERED ( 'dim_calendario'[anio_mes] ),
-			        IF ( _NumFechas = 1, "Fecha: ", "Fechas: " )
+			        IF ( _NumFechas = 1, "Data: ", "Dates: " )
 			            & CONCATENATEX (
 			                VALUES ( 'dim_calendario'[anio_mes] ),
 			                'dim_calendario'[anio_mes],
@@ -426,7 +426,7 @@ table _medidas
 			VAR _FiltroGerencia =
 			    IF (
 			        ISFILTERED ( dim_dades_sectors[gerencia] ),
-			        IF ( _NumGerencias = 1, "Gerencia: ", "Gerencias: " )
+			        IF ( _NumGerencias = 1, "DOP: ", "DOP: " )
 			            & CONCATENATEX (
 			                VALUES ( dim_dades_sectors[gerencia] ),
 			                dim_dades_sectors[gerencia],
@@ -440,7 +440,7 @@ table _medidas
 			VAR _FiltroSector =
 			    IF (
 			        ISFILTERED ( dim_dades_sectors[sector] ),
-			        IF ( _NumSectores = 1, "Sector: ", "Sectores: " )
+			        IF ( _NumSectores = 1, "Sector: ", "Sectors: " )
 			            & CONCATENATEX (
 			                VALUES ( dim_dades_sectors[sector] ),
 			                dim_dades_sectors[sector],
@@ -454,7 +454,7 @@ table _medidas
 			VAR _FiltroArteria =
 			    IF (
 			        ISFILTERED ( dim_arteria[arteria] ),
-			        IF ( _NumArterias = 1, "Arteria: ", "Arterias: " )
+			        IF ( _NumArterias = 1, "Arteria: ", "Arteries: " )
 			            & CONCATENATEX (
 			                VALUES ( dim_arteria[arteria] ),
 			                dim_arteria[arteria],
@@ -484,8 +484,8 @@ table _medidas
 			        ISFILTERED ( 'fact_xarxa_inventari'[Material] ),
 			        IF (
 			            _NumMateriales = 1,
-			            "Tipo de material: ",
-			            "Tipos de material: "
+			            "Tipus de material: ",
+			            "Tipus de material: "
 			        )
 			            & CONCATENATEX (
 			                VALUES ( 'fact_xarxa_inventari'[Material] ),
@@ -979,8 +979,8 @@ table _medidas
 		displayFolder: anr\acum_12m
 		lineageTag: 09d1ddf2-cf3e-415c-9600-b2a858e18609
 
-	measure anr_mensual = SUM(fact_aigua_no_registrada[anr])
-		formatString: 0\ %;-0\ %;0\ %
+	measure anr_mensual = SUM(fact_aigua_consum_historic[anr_mes])
+		formatString: #,0.00
 		displayFolder: anr\mensual
 		lineageTag: fab88f37-a457-4d36-baf8-0cec151a3ce5
 
@@ -1082,10 +1082,9 @@ table _medidas
 
 	measure num_limitadors_installats =
 			
-			
 			CALCULATE(
-			    DISTINCTCOUNT('fact_bossa'[polissa_subm]),
-			    'fact_bossa'[dn_limitador] <> BLANK()
+			    DISTINCTCOUNT(fact_bossa[polissa_subm]),
+			    fact_bossa[limitador_instal·lat] = "Sí"
 			)
 		formatString: #,0
 		displayFolder: compatodrs
@@ -6223,7 +6222,7 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure dotacio_acum_12m = ```
+	measure dotacio_acum_12m =
 			
 			VAR _FechaFin =
 			    CALCULATE(
@@ -6231,32 +6230,31 @@ table _medidas
 			        ALL('fact_estim_volum_munic_pob')
 			    )
 			VAR _FechaInicio =
-			    EDATE ( _FechaFin, -11 )
+			    EDATE(_FechaFin, -11)
 			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
+			    MIN('dim_calendario'[Date])
 			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			VAR _Tabla12M =
-			    DATESINPERIOD (
-			        'dim_calendario'[Date],
-			        _FechaFin,
-			        -12,
-			        MONTH
-			    )
-			VAR _Valor12M =
-			    AVERAGEX(
-			        _Tabla12M,
-			        [dotacio_mensual]
+			    MAX('dim_calendario'[Date])
+			VAR _Valor =
+			    CALCULATE(
+			        AVERAGEX(
+			            VALUES('dim_calendario'[anio_mes]),
+			            [dotacio_mensual]
+			        ),
+			        DATESINPERIOD(
+			            'dim_calendario'[Date],
+			            _FechaMaxContexto,
+			            -12,
+			            MONTH
+			        )
 			    )
 			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    _Valor12M
-			)
-			
-			```
+			    IF(
+			        _FechaMaxContexto < _FechaInicio
+			            || _FechaMinContexto > _FechaFin,
+			        BLANK(),
+			        _Valor
+			    )
 		displayFolder: dotacio
 		lineageTag: 53835a6e-796e-4945-945a-9a40dbe20152
 
@@ -7718,7 +7716,7 @@ table _medidas
 			    SWITCH(
 			        Periodo,
 			        "Acumulat", DATE(YEAR(FechaReferencia), 1, 1),
-			        "12 meses", EDATE(FechaReferencia, -11),
+			        "12 Mesos", EDATE(FechaReferencia, -11),
 			        FechaReferencia
 			    )
 			
@@ -7772,7 +7770,7 @@ table _medidas
 			    SWITCH(
 			        Periodo,
 			        "Mensual", "MENSUAL",
-			        "12 meses", "12 MESOS",
+			        "12 Mesos", "12 MESOS",
 			        "Acumulat", "ACUMULAT",
 			        "Diff", "DIFF",
 			        BLANK()
@@ -7787,7 +7785,7 @@ table _medidas
 			            texto_generico_2 & "MMAA: " & MesInicio & " vs " & MesFin,
 			        "Acumulat",
 			            ": " & MesInicio & " — " & MesFin,
-			        "12 meses",
+			        "12 Mesos",
 			            ": " & MesInicio & " vs " & MesFin
 			    )
 			
@@ -7808,7 +7806,7 @@ table _medidas
 			    SWITCH(
 			        PeriodoSeleccionado,
 			        "Mensual", "MMA",
-			        "12 meses", "MA",
+			        "12 Mesos", "MA",
 			        "Acumulat", "MMA",
 			        "Diff", "MMA",
 			        BLANK()
@@ -9286,7 +9284,7 @@ table _medidas
 
 	measure cota_max =
 			
-			MAX(dim_gerencia_pressio[z(m)])
+			MAX(fact_cotes_ramals[z(m)])
 		displayFolder: pressio
 		lineageTag: 9a48d8c9-9931-4dca-b2e4-ea58fca43c7b
 
@@ -9294,7 +9292,7 @@ table _medidas
 
 	measure cota_min =
 			
-			MIN(dim_gerencia_pressio[z(m)])
+			MIN(fact_cotes_ramals[z(m)])
 		displayFolder: pressio
 		lineageTag: 5b3f11ff-3517-4d03-8361-47b3a42366b6
 
@@ -9321,23 +9319,367 @@ table _medidas
 			        dummy_slicer_periodo[Periodo],
 			        "Mensual"
 			    )
-			VAR PeriodoDiccionario =
-			    SWITCH(
-			        PeriodoSeleccionado,
-			        "12 mesos", "12 meses",
-			        PeriodoSeleccionado
-			    )
 			RETURN
 			    CALCULATE(
-			        SELECTEDVALUE(
-			            _diccionario[Qué representa]
-			        ),
+			        SELECTEDVALUE(_diccionario[Què representa]),
 			        TREATAS(
-			            { PeriodoDiccionario },
-			            _diccionario[Ámbito]
+			            { PeriodoSeleccionado },
+			            _diccionario[Àmbit]
 			        )
 			    )
 		lineageTag: 6fae6fe8-6cc8-4bb1-b334-083652e8955e
+
+	measure Color_Modelo =
+			
+			VAR Posicion =
+			    RANKX(
+			        ALLSELECTED(dim_comptadors[Nom_Model]),
+			        [kpi_us_aigua_switch],
+			        ,
+			        DESC,
+			        DENSE
+			    )
+			RETURN
+			    SWITCH(
+			        Posicion,
+			        1, "#118DFF",
+			        2, "#12239E",
+			        3, "#E66C37",
+			        4, "#6B007B",
+			        5, "#E044A7",
+			        6, "#00B8AA",
+			        7, "#744EC2",
+			        8, "#D9B300",
+			        9, "#D64550",
+			        10, "#197278",
+			        11, "#4092FF",
+			        12, "#3949AB",
+			        13, "#F28E2B",
+			        14, "#8E24AA",
+			        15, "#EC709D",
+			        16, "#00897B",
+			        17, "#9575CD",
+			        18, "#B7950B",
+			        19, "#B83240",
+			        20, "#26A69A",
+			        21, "#0077B6",
+			        22, "#283593",
+			        23, "#C65D21",
+			        24, "#AB47BC",
+			        25, "#C2185B",
+			        26, "#00695C",
+			        27, "#5E35B1",
+			        28, "#E0A800",
+			        29, "#EF5350",
+			        30, "#43A047",
+			        31, "#00A6D6",
+			        32, "#536DFE",
+			        33, "#FF9D45",
+			        34, "#7B1FA2",
+			        35, "#AD1457",
+			        36, "#00838F",
+			        37, "#7986CB",
+			        38, "#AF861A",
+			        39, "#A84332",
+			        40, "#558B2F",
+			        "#A6A6A6"
+			    )
+		lineageTag: 906f2f4d-5c1d-4fc9-bf18-9b0fc0b3b692
+
+	measure Color_Sensores = "#0E1A77"
+		lineageTag: a9bd1b29-b551-4416-b39c-a76d1eddec91
+
+	measure Objectiu_Rendiment_Global =
+			
+			VAR AnioGrafico =
+			    SELECTEDVALUE(dim_calendario[anio])
+			RETURN
+			    IF(
+			        ISBLANK(AnioGrafico),
+			        BLANK(),
+			        CALCULATE(
+			            SELECTEDVALUE(fact_objectius[Objetivo]),
+			            REMOVEFILTERS(fact_objectius),
+			            fact_objectius[Anio] = AnioGrafico,
+			            fact_objectius[DOP] = "GLOBAL",
+			            fact_objectius[Indicador] =
+			                "Rendiment hidràulic - Distribució"
+			        )
+			    )
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: objetivos
+		lineageTag: d3d8a419-a47d-4dfd-be5f-d6b1b4100828
+
+	measure Objectiu_Anual =
+			
+			VAR AnioGrafico =
+			    SELECTEDVALUE(dim_calendario[anio])
+			VAR IndicadorGrafico =
+			    SELECTEDVALUE(dim_indicador_objectiu[Indicador])
+			VAR AmbitoFijado =
+			    SELECTEDVALUE(fact_objectius[DOP])
+			VAR AmbitoObjetivo =
+			    COALESCE(
+			        AmbitoFijado,
+			        [DOP_Objectiu_Seleccionada]
+			    )
+			RETURN
+			    IF(
+			        ISBLANK(AnioGrafico)
+			            || ISBLANK(IndicadorGrafico)
+			            || ISBLANK(AmbitoObjetivo),
+			        BLANK(),
+			        CALCULATE(
+			            SELECTEDVALUE(fact_objectius[Objetivo]),
+			            REMOVEFILTERS(fact_objectius),
+			            fact_objectius[Anio] = AnioGrafico,
+			            fact_objectius[Indicador] = IndicadorGrafico,
+			            fact_objectius[DOP] = AmbitoObjetivo
+			        )
+			    )
+		displayFolder: objetivos
+		lineageTag: ef0fe727-9270-44c8-a474-5eb925428705
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Objectiu_ANR =
+			
+			VAR Periodo =
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo])
+			VAR ObjetivoAnual =
+			    [Objectiu_Anual]
+			RETURN
+			    SWITCH(
+			        Periodo,
+			        "Mensual", DIVIDE(ObjetivoAnual, 12),
+			        "12 Mesos", ObjetivoAnual,
+			        BLANK()
+			    )
+		displayFolder: objetivos
+		lineageTag: 25537fd4-7240-436b-a6f5-785fdfe6af66
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure DOP_Objectiu_Seleccionada =
+			
+			VAR Gerencia =
+			    SELECTEDVALUE(dim_dades_sectors[gerencia])
+			RETURN
+			    SWITCH(
+			        Gerencia,
+			        "Barcelona Nord", "BCN NORD",
+			        "Barcelona Sud", "BCN SUD",
+			        "Llobregat Nord", "LLOB NORD",
+			        "Llobregat Sud", "LLOB SUD",
+			        "Besòs", "BESOS",
+			        BLANK()
+			    )
+		displayFolder: objetivos
+		lineageTag: 85733937-710e-43ba-b6cb-72f9c423dbcd
+
+	measure Objectiu_Rendiment_Distribucio =
+			
+			VAR AnioGrafico =
+			    SELECTEDVALUE(dim_calendario[anio])
+			VAR DOPSeleccionada =
+			    [DOP_Objectiu_Seleccionada]
+			VAR Periodo =
+			    SELECTEDVALUE(dummy_slicer_periodo[Periodo])
+			RETURN
+			    IF(
+			        ISBLANK(AnioGrafico)
+			            || ISBLANK(DOPSeleccionada)
+			            || NOT(Periodo IN {"Mensual", "12 Mesos"}),
+			        BLANK(),
+			        CALCULATE(
+			            SELECTEDVALUE(fact_objectius[Objetivo]),
+			            REMOVEFILTERS(fact_objectius),
+			            fact_objectius[Anio] = AnioGrafico,
+			            fact_objectius[DOP] = DOPSeleccionada,
+			            fact_objectius[Indicador] =
+			                "Rendiment hidràulic - Distribució"
+			        )
+			    )
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: objetivos
+		lineageTag: cda9bf66-76be-46c4-b5f4-a397c48347ce
+
+	measure Comptadors_Estrategics_Acumulats =
+			
+			CALCULATE(
+			    [comptadors_estrategic],
+			    DATESYTD(dim_calendario[Date])
+			)
+		formatString: 0
+		displayFolder: compatodrs
+		lineageTag: 0c537321-6a97-4910-81db-3ea82a0fae71
+
+	measure Canvis_Preventius_Acumulats =
+			
+			CALCULATE(
+			    [comptadors_preventiu],
+			    DATESYTD(dim_calendario[Date])
+			)
+		formatString: 0
+		displayFolder: compatodrs
+		lineageTag: f8711944-94f0-4d1e-b5b5-0cb3e55377d7
+
+	measure Canvis_Correctius_Acumulats =
+			
+			CALCULATE(
+			    [comptadors_correctiu],
+			    DATESYTD(dim_calendario[Date])
+			)
+		formatString: 0
+		displayFolder: compatodrs
+		lineageTag: 2a878a1f-4f38-4183-b631-d0344213b127
+
+	measure Mostrar_Sector_Mapa =
+			
+			VAR Modo =
+			    SELECTEDVALUE(Slicer_KPI[Metrica], "RENDIMENT")
+			VAR RTH =
+			    [rth_distribucion_mensual]
+			RETURN
+			    IF(
+			        Modo = "CATEGORIZACIO ANR",
+			        IF(
+			            NOT ISBLANK(RTH)
+			                && RTH < 0.84
+			                && NOT ISBLANK([categoria_anr]),
+			            1,
+			            0
+			        ),
+			        1
+			    )
+		formatString: 0
+		lineageTag: 6b35086c-6769-41b6-9f27-bd1a1557af5f
+
+	measure Canvis_Estrategics_Any =
+			
+			VAR AnioSeleccionado = SELECTEDVALUE(dim_calendario[anio])
+			VAR FechaCorte = MAX(dim_calendario[Date])
+			RETURN
+			    IF(
+			        NOT ISBLANK(AnioSeleccionado),
+			        CALCULATE(
+			            [comptadors_estrategic],
+			            FILTER(
+			                ALL(dim_calendario),
+			                dim_calendario[Date] >= DATE(AnioSeleccionado, 1, 1)
+			                    && dim_calendario[Date] <= FechaCorte
+			            )
+			        )
+			    )
+		formatString: 0
+		displayFolder: compatodrs
+		lineageTag: be2e9702-ad5d-4b49-ba31-76ac190da1de
+
+	measure Color_Canvis_Estrategics =
+			
+			VAR Realitzat = [Canvis_Estrategics_Any]
+			VAR Objectiu = [Objectiu_Anual]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(Realitzat) || ISBLANK(Objectiu), "#808080",
+			        Realitzat >= Objectiu, "#1A7F37",
+			        "#D62728"
+			    )
+		displayFolder: compatodrs
+		lineageTag: fbcb78e3-d452-4747-83b2-a9d9520e9dda
+
+	measure Canvis_Preventius_Any =
+			
+			VAR AnioSeleccionado = SELECTEDVALUE(dim_calendario[anio])
+			VAR FechaCorte = MAX(dim_calendario[Date])
+			RETURN
+			    IF(
+			        NOT ISBLANK(AnioSeleccionado),
+			        CALCULATE(
+			            [comptadors_preventiu],
+			            FILTER(
+			                ALL(dim_calendario),
+			                dim_calendario[Date] >= DATE(AnioSeleccionado, 1, 1)
+			                    && dim_calendario[Date] <= FechaCorte
+			            )
+			        )
+			    )
+		formatString: 0
+		displayFolder: compatodrs\canvis
+		lineageTag: d5ed099f-fd8d-4c2e-a395-285f57978983
+
+	measure Color_Canvis_Preventius =
+			
+			VAR Realitzat = [Canvis_Preventius_Any]
+			VAR Objectiu = [Objectiu_Anual]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        ISBLANK(Realitzat) || ISBLANK(Objectiu), "#808080",
+			        Realitzat >= Objectiu, "#1A7F37",
+			        "#D62728"
+			    )
+		displayFolder: compatodrs
+		lineageTag: 26f048b5-808f-4986-9c71-8e30109c0f5b
+
+	measure Etiqueta_Objectiu_DOP =
+			
+			VAR UnaGerencia = HASONEVALUE(dim_dades_sectors[gerencia])
+			VAR Objectiu = [Objectiu_Anual]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        NOT UnaGerencia, "Selecciona una DOP per veure l’objectiu",
+			        ISBLANK(Objectiu), "Cap objectiu disponible",
+			        "Objectiu: " & FORMAT(Objectiu, "#,##0", "ca-ES")
+			    )
+		displayFolder: compatodrs\canvis
+		lineageTag: e0caa705-4058-451b-a722-f5b1ced22d96
+
+	measure Km_Inspeccionats_Total = ```
+			
+			    [kpi_km_inspeccionats_acustic_switch]
+			    + [kpi_km_inspeccionats_heli_switch]
+			```
+		displayFolder: actuacions\km_inspeccionats
+		lineageTag: 3f92fe7d-2e24-4dc9-8d2a-31470f625e7f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Km_Inspeccionats_Total_Anterior = ```
+			
+			    [kpi_km_inspeccionats_acustic_switch_1m]
+			    + [kpi_km_inspeccionats_heli_switch_1m]
+			```
+		displayFolder: actuacions\km_inspeccionats
+		lineageTag: db316a83-1752-484b-9f3d-ee1eba960b2d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Km_Inspeccionats_Any =
+			
+			VAR AnioSeleccionado =
+			    SELECTEDVALUE(dim_calendario[anio])
+			VAR FechaCorte =
+			    MAX(dim_calendario[Date])
+			RETURN
+			    IF(
+			        NOT ISBLANK(AnioSeleccionado),
+			        CALCULATE(
+			            [km_inspeccionats_acustic_mensual]
+			                + [km_inspeccionats_heli_mensual],
+			            FILTER(
+			                ALL(dim_calendario),
+			                dim_calendario[Date] >= DATE(AnioSeleccionado, 1, 1)
+			                    && dim_calendario[Date] <= FechaCorte
+			            )
+			        )
+			    )
+		displayFolder: actuacions\km_inspeccionats
+		lineageTag: cb1fdc56-b413-4bad-8b93-dbcb49b64613
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Column
 		isHidden

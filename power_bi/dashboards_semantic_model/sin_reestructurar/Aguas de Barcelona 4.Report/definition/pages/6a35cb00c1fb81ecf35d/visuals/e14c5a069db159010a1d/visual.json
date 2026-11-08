@@ -4,7 +4,7 @@
   "position": {
     "x": 157.59484609878311,
     "y": 443.46456692913387,
-    "z": 11000,
+    "z": 10000,
     "height": 218.067287043665,
     "width": 531.42448103078027,
     "tabOrder": 11000
@@ -23,55 +23,13 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "Data"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
+              "queryRef": "dim_calendario.Data",
               "nativeQueryRef": "Data",
               "active": true,
               "displayName": "Data"
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "fact_consum_limitadores"
-                        }
-                      },
-                      "Property": "Dif (%/any)"
-                    }
-                  },
-                  "Function": 3
-                }
-              },
-              "queryRef": "Min(fact_consum_limitadores.Dif (%/any))",
-              "nativeQueryRef": "Primera fecha: Dif (%/any)"
-            },
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "fact_consum_limitadores"
-                        }
-                      },
-                      "Property": "Dif (€/any)"
-                    }
-                  },
-                  "Function": 3
-                }
-              },
-              "queryRef": "Min(fact_consum_limitadores.Dif (€/any))",
-              "nativeQueryRef": "Primera fecha: Dif (€/any)"
             }
           ]
         },
@@ -89,33 +47,9 @@
                 }
               },
               "queryRef": "_medidas.num_limitadors_installats",
-              "nativeQueryRef": "Limitadores",
-              "displayName": "Limitadores",
+              "nativeQueryRef": "Limitadors",
+              "displayName": "Limitadors",
               "format": "0.00"
-            }
-          ]
-        },
-        "Y2": {
-          "projections": [
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "fact_consum_limitadores"
-                        }
-                      },
-                      "Property": "Dif (m3/any)"
-                    }
-                  },
-                  "Function": 5
-                }
-              },
-              "queryRef": "CountNonNull(fact_consum_limitadores.Dif (m3/any))",
-              "nativeQueryRef": "Dif (m3/any)",
-              "displayName": "Dif (m3/any)"
             }
           ]
         }

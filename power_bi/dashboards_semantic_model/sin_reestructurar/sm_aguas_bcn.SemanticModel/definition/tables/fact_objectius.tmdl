@@ -1,0 +1,221 @@
+table fact_objectius
+	lineageTag: 5dc08068-c996-4a68-b8a1-f282eeedaf61
+
+	column Anio
+		dataType: int64
+		formatString: 0
+		lineageTag: b62a4ccb-dc94-45e8-ba4a-fda0d7adea35
+		summarizeBy: sum
+		sourceColumn: Anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column DOP
+		dataType: string
+		lineageTag: ba5299c4-94a6-43fd-95d6-02c6678af1e8
+		summarizeBy: none
+		sourceColumn: DOP
+
+		annotation SummarizationSetBy = Automatic
+
+	column Indicador
+		dataType: string
+		lineageTag: a5b7bfe0-6e05-4d79-abe7-4f8e597da26d
+		summarizeBy: none
+		sourceColumn: Indicador
+
+		annotation SummarizationSetBy = Automatic
+
+	column Objetivo
+		dataType: double
+		lineageTag: eda2e339-06bb-45b0-a1b8-652c5f127c79
+		summarizeBy: sum
+		sourceColumn: Objetivo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Alerta
+		dataType: double
+		lineageTag: e79ed7f4-4319-4d6a-a7d8-b15a286c902c
+		summarizeBy: sum
+		sourceColumn: Alerta
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Periodo_objetivo
+		dataType: string
+		lineageTag: d366ff89-f69c-4820-bd56-c50577cbc4fe
+		summarizeBy: none
+		sourceColumn: Periodo_objetivo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Frecuencia_revision
+		dataType: string
+		lineageTag: 3d924fcd-ce8f-4d98-a450-a608c3d7a3e8
+		summarizeBy: none
+		sourceColumn: Frecuencia_revision
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_objectius = m
+		mode: import
+		queryGroup: Hechos
+		source = ```
+				let
+				     Origen =
+				        GoogleSheets.Contents(
+				            "https://docs.google.com/spreadsheets/d/1I2nVBf2iEH_fg6SYk1Dl3KNJILqcggApO0yTeE7d6Mg/edit?gid=1676087650#gid=1676087650"
+				        ),
+				    #"Unificar objetivos" = let
+				        Indicadores = {
+				        "Rendiment hidràulic - Distribució",
+				        "ANR - Distribució [Hm3]",
+				        "ANR - Transport [Hm3]",
+				        "Seguiment comptadors estratègics canviats  (OM)",
+				        "Seguiment Pla de canvis preventius per DOP (OM)",
+				        "Operacions de fraus realitzades",
+				        "Km's inspeccionats de xarxa",
+				        "Fuites trobades per Km inspeccionat (Eficiència xarxa)",
+				        "ANR m3/km/dia",
+				        "ANR l/esc/dia",
+				        "ANR l/subm/dia",
+				        "Operacions limitadors",
+				        "ANR - [Hm3]"
+				    },
+				
+				    Hojas = Table.SelectRows(
+				        Origen,
+				        each [ItemKind] = "Table"
+				            and List.Contains(
+				                {"BCN NORD", "BCN SUD", "LLOB NORD",
+				                 "LLOB SUD", "BESOS", "GLOBAL"},
+				                [name]
+				            )
+				    ),
+				
+				    Preparadas = Table.AddColumn(
+				        Hojas,
+				        "TablaObjetivos",
+				        each
+				            let
+				                DOP = [name],
+				                Datos = [Data],
+				
+				                // Localizar la fila de encabezados.
+				                Filas = Table.ToRows(Datos),
+				                Posicion = List.PositionOf(
+				                    List.Transform(
+				                        Filas,
+				                        each
+				                            try Text.Upper(
+				                                Text.Trim(Text.From(_{0}))
+				                            ) = "INDICADOR"
+				                            otherwise false
+				                    ),
+				                    true
+				                ),
+				
+				                Encabezados =
+				                    if Posicion < 0 then
+				                        error "No se encuentra INDICADOR en " & DOP
+				                    else
+				                        Table.PromoteHeaders(
+				                            Table.Skip(Datos, Posicion),
+				                            [PromoteAllScalars = true]
+				                        ),
+				
+				                NombresLimpios = Table.TransformColumnNames(
+				                    Encabezados,
+				                    each Text.Trim(_)
+				                ),
+				
+				                Columnas = Table.SelectColumns(
+				                    NombresLimpios,
+				                    {
+				                        "INDICADOR",
+				                        "VALOR OBJECTIU",
+				                        "VALOR ALERTA",
+				                        "FREQÜÈNCIA DE CÀLCUL"
+				                    },
+				                    MissingField.UseNull
+				                ),
+				
+				                IndicadorLimpio = Table.TransformColumns(
+				                    Columnas,
+				                    {
+				                        {
+				                            "INDICADOR",
+				                            each if _ = null then null
+				                                 else Text.Trim(Text.From(_)),
+				                            type text
+				                        }
+				                    }
+				                ),
+				
+				                Filtradas = Table.SelectRows(
+				                    IndicadorLimpio,
+				                    each List.Contains(Indicadores, [INDICADOR])
+				                ),
+				
+				                ConDOP = Table.AddColumn(
+				                    Filtradas, "DOP", each DOP, type text
+				                )
+				            in
+				                ConDOP
+				    ),
+				
+				    Unidas = Table.Combine(Preparadas[TablaObjetivos]),
+				
+				    Renombradas = Table.RenameColumns(
+				        Unidas,
+				        {
+				            {"INDICADOR", "Indicador"},
+				            {"VALOR OBJECTIU", "Objetivo"},
+				            {"VALOR ALERTA", "Alerta"},
+				            {"FREQÜÈNCIA DE CÀLCUL", "Frecuencia_revision"}
+				        }
+				    ),
+				
+				    Tipos = Table.TransformColumnTypes(
+				        Renombradas,
+				        {
+				            {"Indicador", type text},
+				            {"Objetivo", type number},
+				            {"Alerta", type number},
+				            {"Frecuencia_revision", type text},
+				            {"DOP", type text}
+				        },
+				        "es-ES"
+				    ),
+				
+				    ConAnio = Table.AddColumn(
+				        Tipos, "Anio", each 2026, Int64.Type
+				    ),
+				
+				    ConPeriodo = Table.AddColumn(
+				        ConAnio, "Periodo_objetivo", each "Anual", type text
+				    ),
+				
+				    Resultado = Table.ReorderColumns(
+				        ConPeriodo,
+				        {
+				            "Anio", "DOP", "Indicador", "Objetivo",
+				            "Alerta", "Periodo_objetivo", "Frecuencia_revision"
+				        }
+				    )
+				in
+				    Resultado
+				    
+				in
+				    #"Unificar objetivos"
+				```
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "fc67e94f3654dd004a94",
   "position": {
     "x": 617.05381985849431,
@@ -20,14 +20,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_switchs"
+                      "Entity": "_medidas"
                     }
                   },
-                  "Property": "kpi_anr_m3_km_dia_switch_1m"
+                  "Property": "Objectiu_Anual"
                 }
               },
-              "queryRef": "_switchs.kpi_anr_m3_km_dia_switch_1m",
-              "nativeQueryRef": "kpi_anr_m3_km_dia_switch_1m"
+              "queryRef": "_medidas.Objectiu_Anual",
+              "nativeQueryRef": "Objectiu_Anual"
             }
           ]
         },
@@ -59,11 +59,11 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "Data"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes"
+              "queryRef": "dim_calendario.Data",
+              "nativeQueryRef": "Data"
             }
           ]
         }
@@ -90,7 +90,14 @@
             "indicatorDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "1000000D"
+                  "Value": "0D"
+                }
+              }
+            },
+            "indicatorPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
                 }
               }
             }
@@ -116,7 +123,7 @@
             "goalText": {
               "expr": {
                 "Literal": {
-                  "Value": "'VS'"
+                  "Value": "'Objectiu'"
                 }
               }
             },
@@ -124,6 +131,26 @@
               "expr": {
                 "Literal": {
                   "Value": "10D"
+                }
+              }
+            },
+            "showDistance": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "lastDate": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -278,7 +305,7 @@
                 "Entity": "dim_calendario"
               }
             },
-            "Property": "anio_mes"
+            "Property": "Data"
           }
         },
         "type": "Categorical"
@@ -345,7 +372,109 @@
             "Property": "kpi_anr_m3_km_dia_switch_1m"
           }
         },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "1a5771b122edd976b1a5",
+        "ordinal": 3,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_objectius"
+              }
+            },
+            "Property": "DOP"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "7e2184fd859ad9241954",
+        "ordinal": 4,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "Objectiu_Anual"
+          }
+        },
         "type": "Advanced"
+      },
+      {
+        "name": "a9670e62c2b463a70296",
+        "ordinal": 5,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_indicador_objectiu"
+              }
+            },
+            "Property": "Indicador"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_indicador_objectiu",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Indicador"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'ANR m3/km/dia'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
       }
     ],
     "filterSortOrder": "Custom"

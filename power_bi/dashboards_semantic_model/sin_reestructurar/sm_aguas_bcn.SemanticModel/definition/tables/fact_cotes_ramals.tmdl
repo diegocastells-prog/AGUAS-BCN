@@ -1,0 +1,129 @@
+table fact_cotes_ramals
+	lineageTag: fb1382ee-548f-4f47-ac0e-4822120bed6b
+
+	column 'nº de nudo'
+		dataType: string
+		lineageTag: 9b887659-9f5e-4b80-85bc-4337afc7df37
+		summarizeBy: none
+		sourceColumn: nº de nudo
+
+		annotation SummarizationSetBy = Automatic
+
+	column X
+		dataType: double
+		lineageTag: 0e9eb41e-b88e-421c-a608-5accb6566f7f
+		summarizeBy: sum
+		sourceColumn: X
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Y
+		dataType: double
+		lineageTag: 170f7c74-90d8-4722-8999-5be12e14106f
+		summarizeBy: sum
+		sourceColumn: Y
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Z(m)
+		dataType: double
+		lineageTag: 07223331-2716-46a7-bd17-af9da4e7493f
+		summarizeBy: sum
+		sourceColumn: Z(m)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Sector
+		dataType: string
+		lineageTag: dd1883bc-3f8f-4031-aa3a-d699258e6794
+		summarizeBy: none
+		sourceColumn: Sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nombre
+		dataType: string
+		lineageTag: fb03baf5-9a08-4984-8d1f-4bf24e96751e
+		summarizeBy: none
+		sourceColumn: Nombre
+
+		annotation SummarizationSetBy = Automatic
+
+	column Hoja_origen
+		dataType: string
+		lineageTag: 38ce7094-d28a-4b7d-b53c-a93ab1efa908
+		summarizeBy: none
+		sourceColumn: Hoja_origen
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_cotes_ramals = m
+		mode: import
+		queryGroup: Hechos
+		source = ```
+				let
+				 Origen =
+				        GoogleSheets.Contents(
+				            "https://docs.google.com/spreadsheets/d/1IxqZJ5It96O-r-kKur6zho2ofaGkRMeGTjXbI6dXW-k/edit?gid=1978380140#gid=1978380140"
+				        ),
+				    
+				    Hojas = Table.SelectRows(
+				        Origen,
+				        each [ItemKind] = "Table"
+				    ),
+				    Preparadas = Table.AddColumn(
+				        Hojas,
+				        "Tabla",
+				        each
+				            let
+				               NombreHoja = [name],
+				                Encabezados = Table.PromoteHeaders(
+				                    [Data],
+				                    [PromoteAllScalars = true]
+				                ),
+				                Columnas = Table.SelectColumns(
+				                    Encabezados,
+				                    {"nº de nudo", "X", "Y", "Z(m)", "Sector", "Nombre"}
+				                ),
+				                ConOrigen = Table.AddColumn(
+				                    Columnas,
+				                    "Hoja_origen",
+				                    each NombreHoja,
+				                    type text
+				                )
+				            in
+				                ConOrigen
+				    ),
+				    Unidas = Table.Combine(Preparadas[Tabla]),
+				    SinFilasVacias = Table.SelectRows(
+				        Unidas,
+				        each [#"nº de nudo"] <> null
+				            and Text.Trim(Text.From([#"nº de nudo"])) <> ""
+				    ),
+				    Tipos = Table.TransformColumnTypes(
+				        SinFilasVacias,
+				        {
+				            {"nº de nudo", type text},
+				            {"X", type number},
+				            {"Y", type number},
+				            {"Z(m)", type number},
+				            {"Sector", type text},
+				            {"Nombre", type text}
+				        },
+				        "es-ES"
+				    ),
+				    #"Filas filtradas" = Table.SelectRows(Tipos, each ([Sector] <> "" and [Sector] <> "3001-NC" and [Sector] <> "3003-NC" and [Sector] <> "3005-NC" and [Sector] <> "3006-NC" and [Sector] <> "3008-NC" and [Sector] <> "3012-NC" and [Sector] <> "3015-NC" and [Sector] <> "3028-NC" and [Sector] <> "3032-NC" and [Sector] <> "3034-NC" and [Sector] <> "3038-NC" and [Sector] <> "3039-NC" and [Sector] <> "3040-NC" and [Sector] <> "3046-NC" and [Sector] <> "3049-NC" and [Sector] <> "3050-NC" and [Sector] <> "3051-NC" and [Sector] <> "3052-NC" and [Sector] <> "3056-NC" and [Sector] <> "3067-NC" and [Sector] <> "3072-NC" and [Sector] <> "3074-NC" and [Sector] <> "3076-NC" and [Sector] <> "3078-NC" and [Sector] <> "3080-NC" and [Sector] <> "3081-NC" and [Sector] <> "3082-NC" and [Sector] <> "3083-NC" and [Sector] <> "3084-NC" and [Sector] <> "3086-NC" and [Sector] <> "3092-NC" and [Sector] <> "3097-NC" and [Sector] <> "3098-NC" and [Sector] <> "3107-NC" and [Sector] <> "3119-NC" and [Sector] <> "3126-NC" and [Sector] <> "3139-NC" and [Sector] <> "3146-NC" and [Sector] <> "3148-NC" and [Sector] <> "3151-NC" and [Sector] <> "3161-NC" and [Sector] <> "3163-NC" and [Sector] <> "3169-NC" and [Sector] <> "3181-NC" and [Sector] <> "3190-NC" and [Sector] <> "3203-NC" and [Sector] <> "3210-NC" and [Sector] <> "3211-NC" and [Sector] <> "3222-NC" and [Sector] <> "3237-NC" and [Sector] <> "3247-NC" and [Sector] <> "3249-NC" and [Sector] <> "3259-NC" and [Sector] <> "3263-NC" and [Sector] <> "3269-NC" and [Sector] <> "3279-NC" and [Sector] <> "3280-NC" and [Sector] <> "3281-NC" and [Sector] <> "3283-NC" and [Sector] <> "3285-NC" and [Sector] <> "3287-NC" and [Sector] <> "3290-NC" and [Sector] <> "3295-NC" and [Sector] <> "3296-NC" and [Sector] <> "3300-NC" and [Sector] <> "3302-NC" and [Sector] <> "3310-NC" and [Sector] <> "3313-NC" and [Sector] <> "3317-NC" and [Sector] <> "3324-NC" and [Sector] <> "3327-NC" and [Sector] <> "3330-NC" and [Sector] <> "3331-NC" and [Sector] <> "3333-NC" and [Sector] <> "3334-NC" and [Sector] <> "3336-NC" and [Sector] <> "3337-NC" and [Sector] <> "3338-NC" and [Sector] <> "3342-NC" and [Sector] <> "3343-NC" and [Sector] <> "3344-NC" and [Sector] <> "3346-NC" and [Sector] <> "3347-NC" and [Sector] <> "3350-NC" and [Sector] <> "3354-NC" and [Sector] <> "3356-NC" and [Sector] <> "3358-NC" and [Sector] <> "3369-NC" and [Sector] <> "3372-NC" and [Sector] <> "3373-NC" and [Sector] <> "3376-NC" and [Sector] <> "3384-NC" and [Sector] <> "3388-NC" and [Sector] <> "3389-NC" and [Sector] <> "3393-NC" and [Sector] <> "3394-NC" and [Sector] <> "3399-NC" and [Sector] <> "3400-NC" and [Sector] <> "3401-NC" and [Sector] <> "3402-NC" and [Sector] <> "3404-NC" and [Sector] <> "3410-NC" and [Sector] <> "3423-NC" and [Sector] <> "3425-NC" and [Sector] <> "3432-NC" and [Sector] <> "3442-NC" and [Sector] <> "3443-NC" and [Sector] <> "3461-NC" and [Sector] <> "3464-NC" and [Sector] <> "3466-NC" and [Sector] <> "3470-NC" and [Sector] <> "3473-NC" and [Sector] <> "3474-NC"))
+				in
+				    #"Filas filtradas"
+				```
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

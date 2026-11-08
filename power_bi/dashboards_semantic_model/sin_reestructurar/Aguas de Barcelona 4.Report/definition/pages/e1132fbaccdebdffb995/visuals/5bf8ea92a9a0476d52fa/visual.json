@@ -23,25 +23,25 @@
                       "Entity": "_diccionario"
                     }
                   },
-                  "Property": "Nombre del visual"
+                  "Property": "Nom del visual"
                 }
               },
-              "queryRef": "_diccionario.Nombre del visual",
-              "nativeQueryRef": "Nombre del visual"
+              "queryRef": "_diccionario.Nom del visual",
+              "nativeQueryRef": "Nom del visual"
             },
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_diccionario"
+                      "Entity": "_medidas"
                     }
                   },
-                  "Property": "Explicación corta"
+                  "Property": "Descripcion_Ayuda"
                 }
               },
-              "queryRef": "_diccionario.Explicación corta",
-              "nativeQueryRef": "Explicación corta"
+              "queryRef": "_medidas.Descripcion_Ayuda",
+              "nativeQueryRef": "Descripcion_Ayuda"
             }
           ]
         }
@@ -80,6 +80,27 @@
             }
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "865.8650979932793D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.Descripcion_Ayuda"
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
@@ -88,7 +109,23 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "1a16702eb45339260bc2",
+        "name": "f318a70b800106438e76",
+        "ordinal": 0,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "Descripcion_Ayuda"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "631974f70b747c3b2d60",
+        "ordinal": 1,
         "field": {
           "Column": {
             "Expression": {
@@ -96,10 +133,71 @@
                 "Entity": "_diccionario"
               }
             },
-            "Property": "Pestaña"
+            "Property": "Nom del visual"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "c412d96a80036daa46c9",
+        "ordinal": 2,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_diccionario"
+              }
+            },
+            "Property": "Pestanya"
           }
         },
         "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_diccionario",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "_"
+                          }
+                        },
+                        "Property": "Pestanya"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Transport i distribució - Distribució'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Transport i distribució'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
         "howCreated": "User",
         "objects": {
           "general": [
@@ -109,6 +207,7 @@
           ]
         }
       }
-    ]
+    ],
+    "filterSortOrder": "Custom"
   }
 }

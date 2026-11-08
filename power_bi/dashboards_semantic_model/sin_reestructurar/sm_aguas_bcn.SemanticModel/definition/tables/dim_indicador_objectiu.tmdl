@@ -1,0 +1,24 @@
+table dim_indicador_objectiu
+	lineageTag: 735fc00f-d711-4ca8-9b09-4f4aeb63fd6c
+
+	column Indicador
+		lineageTag: dfcd3e24-c405-4e84-9ae0-ee62741e31f5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Indicador]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_indicador_objectiu = calculated
+		mode: import
+		source =
+				
+				DISTINCT(
+				    SELECTCOLUMNS(
+				        fact_objectius,
+				        "Indicador", fact_objectius[Indicador]
+				    )
+				)
+
+	annotation PBI_Id = 98286ab7dc6d46ca991419df41008e2d
+

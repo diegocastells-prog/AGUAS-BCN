@@ -5,7 +5,7 @@
     "x": 1102.2655298416564,
     "y": 84.190012180267971,
     "z": 13000,
-    "height": 87,
+    "height": 104,
     "width": 163,
     "tabOrder": 10000
   },
@@ -20,14 +20,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_switchs"
+                      "Entity": "_medidas"
                     }
                   },
-                  "Property": "kpi_fuite_por_km_switch_1m"
+                  "Property": "Objectiu_Anual"
                 }
               },
-              "queryRef": "_switchs.kpi_fuite_por_km_switch_1m",
-              "nativeQueryRef": "kpi_fuite_por_km_switch_1m"
+              "queryRef": "_medidas.Objectiu_Anual",
+              "nativeQueryRef": "Objectiu_Anual"
             }
           ]
         },
@@ -60,11 +60,11 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "Data"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes"
+              "queryRef": "dim_calendario.Data",
+              "nativeQueryRef": "Data"
             }
           ]
         }
@@ -117,7 +117,14 @@
             "goalText": {
               "expr": {
                 "Literal": {
-                  "Value": "'VS'"
+                  "Value": "'Objectiu'"
+                }
+              }
+            },
+            "showDistance": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -263,7 +270,23 @@
   "filterConfig": {
     "filters": [
       {
+        "name": "53132e620701990379ca",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "Data"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
         "name": "12ce8a4831abadbee14c",
+        "ordinal": 1,
         "field": {
           "Measure": {
             "Expression": {
@@ -312,7 +335,124 @@
         "howCreated": "User",
         "isHiddenInViewMode": true,
         "isLockedInViewMode": true
+      },
+      {
+        "name": "e8790106c30eb81181c2",
+        "ordinal": 2,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_fuite_por_km_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "466e85f3ad3667bd0e7d",
+        "ordinal": 3,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "Objectiu_Anual"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "aa2f4cad5e319717388c",
+        "ordinal": 4,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_indicador_objectiu"
+              }
+            },
+            "Property": "Indicador"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_indicador_objectiu",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Indicador"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Fuites trobades per Km inspeccionat (Eficiència xarxa)'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "bb12051364080c20c4a2",
+        "ordinal": 5,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_objectius"
+              }
+            },
+            "Property": "DOP"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
       }
-    ]
+    ],
+    "filterSortOrder": "Custom"
   }
 }

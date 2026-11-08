@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_comptadors.Nom_Model",
-              "nativeQueryRef": "Nom_Model",
-              "active": true
+              "nativeQueryRef": "Nom Model",
+              "active": true,
+              "displayName": "Nom Model"
             },
             {
               "field": {
@@ -42,8 +43,9 @@
                 }
               },
               "queryRef": "fact_perimetre_comptadors.ql_sistema_model",
-              "nativeQueryRef": "ql_sistema_model",
-              "active": false
+              "nativeQueryRef": "Ql sistema Model",
+              "active": false,
+              "displayName": "Ql sistema Model"
             }
           ]
         },
@@ -61,8 +63,8 @@
                 }
               },
               "queryRef": "_switchs.kpi_us_aigua_switch",
-              "nativeQueryRef": "Us d' aigua",
-              "displayName": "Us d' aigua",
+              "nativeQueryRef": "Us d'aigua",
+              "displayName": "Us d'aigua",
               "format": "#,0"
             }
           ]
@@ -187,6 +189,37 @@
                 }
               }
             }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "Color_Modelo"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "roles": [
+                  "Category"
+                ]
+              }
+            ]
           }
         }
       ]

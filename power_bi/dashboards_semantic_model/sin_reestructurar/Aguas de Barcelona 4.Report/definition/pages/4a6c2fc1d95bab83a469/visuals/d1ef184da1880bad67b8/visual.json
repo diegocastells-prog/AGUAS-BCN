@@ -4,7 +4,7 @@
   "position": {
     "x": 178.67484083942466,
     "y": 434.61447771751949,
-    "z": 13000,
+    "z": 17000,
     "height": 225,
     "width": 1074,
     "tabOrder": 14000
@@ -23,11 +23,11 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "Data"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
+              "queryRef": "dim_calendario.Data",
+              "nativeQueryRef": "Data",
               "active": true
             }
           ]
@@ -48,6 +48,21 @@
               "queryRef": "_switchs.kpi_anr_global_switch",
               "nativeQueryRef": "ANR",
               "displayName": "ANR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "Objectiu_ANR"
+                }
+              },
+              "queryRef": "_medidas.Objectiu_ANR",
+              "nativeQueryRef": "Objectiu ANR",
+              "displayName": "Objectiu ANR"
             }
           ]
         },
@@ -67,6 +82,21 @@
               "queryRef": "_switchs.kpi_rth_global_switch",
               "nativeQueryRef": "RTH",
               "displayName": "RTH"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "Objectiu_Rendiment_Global"
+                }
+              },
+              "queryRef": "_medidas.Objectiu_Rendiment_Global",
+              "nativeQueryRef": "Objectiu Rendiment Global",
+              "displayName": "Objectiu Rendiment Global"
             }
           ]
         }
@@ -226,6 +256,13 @@
                   "Value": "true"
                 }
               }
+            },
+            "secShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
             }
           }
         }
@@ -240,6 +277,27 @@
                 }
               }
             }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 8,
+                      "Percent": 0.4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.Objectiu_Rendiment_Global"
           }
         }
       ]
@@ -496,7 +554,100 @@
   "filterConfig": {
     "filters": [
       {
+        "name": "e06d4367031adaa25072",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "Data"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "559a8333cd255d24474a",
+        "ordinal": 1,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_anr_global_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2ad51fd2bc7a2162dbd0",
+        "ordinal": 2,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_objectius"
+              }
+            },
+            "Property": "DOP"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "f",
+              "Entity": "fact_objectius",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "f"
+                          }
+                        },
+                        "Property": "DOP"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'GLOBAL'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {}
+            }
+          ]
+        }
+      },
+      {
         "name": "7e54e1cee70a85ae7073",
+        "ordinal": 3,
         "field": {
           "Measure": {
             "Expression": {
@@ -513,7 +664,63 @@
         "isLockedInViewMode": true
       },
       {
+        "name": "9d12dbed003133d50bae",
+        "ordinal": 4,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_indicador_objectiu"
+              }
+            },
+            "Property": "Indicador"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_indicador_objectiu",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Indicador"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'ANR - [Hm3]'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
         "name": "c91f2ceccdd29030690a",
+        "ordinal": 5,
         "field": {
           "Measure": {
             "Expression": {
@@ -560,7 +767,53 @@
           ]
         },
         "howCreated": "User"
+      },
+      {
+        "name": "b7742df06abd65382d99",
+        "ordinal": 6,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "Objectiu_ANR"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "cfe8d646744de2bba921",
+        "ordinal": 7,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "Objectiu_Rendiment_Global"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9e30a08d0448cb88b0e0",
+        "ordinal": 8,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_rth_global_switch"
+          }
+        },
+        "type": "Advanced"
       }
-    ]
+    ],
+    "filterSortOrder": "Custom"
   }
 }

@@ -23,25 +23,25 @@
                       "Entity": "_diccionario"
                     }
                   },
-                  "Property": "Nombre del visual"
+                  "Property": "Nom del visual"
                 }
               },
-              "queryRef": "_diccionario.Nombre del visual",
-              "nativeQueryRef": "Nombre del visual"
+              "queryRef": "_diccionario.Nom del visual",
+              "nativeQueryRef": "Nom del visual"
             },
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_diccionario"
+                      "Entity": "_medidas"
                     }
                   },
-                  "Property": "Explicación corta"
+                  "Property": "Descripcion_Ayuda"
                 }
               },
-              "queryRef": "_diccionario.Explicación corta",
-              "nativeQueryRef": "Explicación corta"
+              "queryRef": "_medidas.Descripcion_Ayuda",
+              "nativeQueryRef": "Descripcion_Ayuda"
             }
           ]
         }
@@ -98,25 +98,39 @@
           }
         }
       ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ],
       "columnWidth": [
         {
           "properties": {
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "682.3012938487834D"
+                  "Value": "832.500018553299D"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "_diccionario.Explicación corta"
+            "metadata": "_medidas.Descripcion_Ayuda"
           }
-        }
-      ],
-      "columnHeaders": [
+        },
         {
-          "properties": {}
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "210.92536871441723D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_diccionario.Nom del visual"
+          }
         }
       ]
     },
@@ -126,7 +140,23 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "1a16702eb45339260bc2",
+        "name": "be38e207e132cb004ca1",
+        "ordinal": 0,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "Descripcion_Ayuda"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ee8b8fdaa4b0abe2dc98",
+        "ordinal": 1,
         "field": {
           "Column": {
             "Expression": {
@@ -134,58 +164,29 @@
                 "Entity": "_diccionario"
               }
             },
-            "Property": "Pestaña"
+            "Property": "Nom del visual"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "be9e557e165201c06770",
+        "ordinal": 2,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_diccionario"
+              }
+            },
+            "Property": "Pestanya"
           }
         },
         "type": "Categorical",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "_",
-              "Entity": "_diccionario",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "In": {
-                  "Expressions": [
-                    {
-                      "Column": {
-                        "Expression": {
-                          "SourceRef": {
-                            "Source": "_"
-                          }
-                        },
-                        "Property": "Pestaña"
-                      }
-                    }
-                  ],
-                  "Values": [
-                    [
-                      {
-                        "Literal": {
-                          "Value": "'Xarxa'"
-                        }
-                      }
-                    ]
-                  ]
-                }
-              }
-            }
-          ]
-        },
         "howCreated": "User",
-        "objects": {
-          "general": [
-            {
-              "properties": {}
-            }
-          ]
-        }
+        "isLockedInViewMode": true
       }
-    ]
+    ],
+    "filterSortOrder": "Custom"
   }
 }

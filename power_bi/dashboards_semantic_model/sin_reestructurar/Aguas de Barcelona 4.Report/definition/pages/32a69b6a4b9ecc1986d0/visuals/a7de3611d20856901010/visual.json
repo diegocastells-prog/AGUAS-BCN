@@ -1,9 +1,9 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "a7de3611d20856901010",
   "position": {
-    "x": 843.00795378203338,
-    "y": 86.484835962422622,
+    "x": 847.9495268138802,
+    "y": 85.8044164037855,
     "z": 6000,
     "height": 85.762144053601332,
     "width": 197.25293132328306,
@@ -20,14 +20,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_switchs"
+                      "Entity": "_medidas"
                     }
                   },
-                  "Property": "kpi_anr_l_subm_dia_switch_1m"
+                  "Property": "Objectiu_Anual"
                 }
               },
-              "queryRef": "_switchs.kpi_anr_l_subm_dia_switch_1m",
-              "nativeQueryRef": "kpi_anr_l_subm_dia_switch_1m"
+              "queryRef": "_medidas.Objectiu_Anual",
+              "nativeQueryRef": "Objectiu_Anual"
             }
           ]
         },
@@ -59,11 +59,11 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "Data"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes"
+              "queryRef": "dim_calendario.Data",
+              "nativeQueryRef": "Data"
             }
           ]
         }
@@ -90,7 +90,7 @@
             "indicatorDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "1000000D"
+                  "Value": "0D"
                 }
               }
             }
@@ -123,7 +123,14 @@
             "goalText": {
               "expr": {
                 "Literal": {
-                  "Value": "'VS'"
+                  "Value": "'Objectiu'"
+                }
+              }
+            },
+            "showDistance": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -278,7 +285,7 @@
                 "Entity": "dim_calendario"
               }
             },
-            "Property": "anio_mes"
+            "Property": "Data"
           }
         },
         "type": "Categorical"
@@ -345,7 +352,109 @@
             "Property": "kpi_anr_l_subm_dia_switch_1m"
           }
         },
+        "type": "Advanced",
+        "howCreated": "User"
+      },
+      {
+        "name": "71dd46f1b269a0019402",
+        "ordinal": 3,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_objectius"
+              }
+            },
+            "Property": "DOP"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "42791be31d5ec8b077ea",
+        "ordinal": 4,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "Objectiu_Anual"
+          }
+        },
         "type": "Advanced"
+      },
+      {
+        "name": "4583cba011b815302302",
+        "ordinal": 5,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_indicador_objectiu"
+              }
+            },
+            "Property": "Indicador"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_indicador_objectiu",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Indicador"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'ANR l/subm/dia'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
       }
     ],
     "filterSortOrder": "Custom"

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "f4b4b0e20882a0aeb130",
   "position": {
     "x": 230,
@@ -23,11 +23,11 @@
                       "Entity": "dim_dades_sectors"
                     }
                   },
-                  "Property": "gerencia"
+                  "Property": "DOP"
                 }
               },
-              "queryRef": "dim_dades_sectors.gerencia",
-              "nativeQueryRef": "gerencia",
+              "queryRef": "dim_dades_sectors.DOP",
+              "nativeQueryRef": "DOP",
               "active": true
             }
           ]
@@ -50,7 +50,49 @@
       ],
       "general": [
         {
-          "properties": {}
+          "properties": {
+            "filter": {
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "d",
+                    "Entity": "dim_dades_sectors",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "In": {
+                        "Expressions": [
+                          {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Source": "d"
+                                }
+                              },
+                              "Property": "DOP"
+                            }
+                          }
+                        ],
+                        "Values": [
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'Llobregat Sud'"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
         }
       ],
       "header": [
@@ -327,6 +369,11 @@
         }
       ]
     },
+    "syncGroup": {
+      "groupName": "DOP2",
+      "fieldChanges": true,
+      "filterChanges": true
+    },
     "drillFilterOtherVisuals": true
   },
   "parentGroupName": "10a4c3e16388a7309e41",
@@ -341,7 +388,7 @@
                 "Entity": "dim_dades_sectors"
               }
             },
-            "Property": "gerencia"
+            "Property": "DOP"
           }
         },
         "type": "Categorical",
@@ -368,7 +415,7 @@
                                 "Source": "d"
                               }
                             },
-                            "Property": "gerencia"
+                            "Property": "DOP"
                           }
                         }
                       ],

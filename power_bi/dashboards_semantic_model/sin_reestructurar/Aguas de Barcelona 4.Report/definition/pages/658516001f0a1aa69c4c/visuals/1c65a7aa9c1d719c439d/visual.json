@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "1c65a7aa9c1d719c439d",
   "position": {
-    "x": 168.6051298065322,
-    "y": 140.25974025974025,
-    "z": 12000,
-    "height": 135.06493506493507,
-    "width": 1050.6493506493507,
+    "x": 152.23880597014926,
+    "y": 135.22388059701493,
+    "z": 11000,
+    "height": 146.86567164179104,
+    "width": 1113.1343283582089,
     "tabOrder": 12000
   },
   "visual": {
@@ -79,41 +79,6 @@
               "queryRef": "_medidas.rth_distribucion_mensual",
               "nativeQueryRef": "RTH",
               "displayName": "RTH"
-            },
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_dades_sectors"
-                        }
-                      },
-                      "Property": "num_points"
-                    }
-                  },
-                  "Function": 0
-                }
-              },
-              "queryRef": "Sum(dim_dades_sectors.num_points)",
-              "nativeQueryRef": "Points",
-              "displayName": "Points"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_switchs"
-                    }
-                  },
-                  "Property": "Metrica_Mapa_Seleccionada"
-                }
-              },
-              "queryRef": "_switchs.Metrica_Mapa_Seleccionada",
-              "nativeQueryRef": "KPI",
-              "displayName": "KPI"
             },
             {
               "field": {
@@ -220,6 +185,26 @@
               "nativeQueryRef": "Total Compt.",
               "displayName": "Total Compt.",
               "format": "#,0"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "num_points"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(dim_dades_sectors.num_points)",
+              "nativeQueryRef": "Prelocalitzadors",
+              "displayName": "Prelocalitzadors"
             }
           ]
         }
@@ -234,7 +219,7 @@
                     "Entity": "_medidas"
                   }
                 },
-                "Property": "compatadors_with_problems"
+                "Property": "rth_distribucion_mensual"
               }
             },
             "direction": "Descending"
@@ -282,42 +267,13 @@
               "solid": {
                 "color": {
                   "expr": {
-                    "FillRule": {
-                      "Input": {
-                        "Measure": {
-                          "Expression": {
-                            "SourceRef": {
-                              "Entity": "_switchs"
-                            }
-                          },
-                          "Property": "Metrica_Color_Mapa_Gerencia"
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
                         }
                       },
-                      "FillRule": {
-                        "linearGradient2": {
-                          "min": {
-                            "color": {
-                              "Literal": {
-                                "Value": "'#B9314F'"
-                              }
-                            }
-                          },
-                          "max": {
-                            "color": {
-                              "Literal": {
-                                "Value": "'#77CB85'"
-                              }
-                            }
-                          },
-                          "nullColoringStrategy": {
-                            "strategy": {
-                              "Literal": {
-                                "Value": "'asZero'"
-                              }
-                            }
-                          }
-                        }
-                      }
+                      "Property": "Metrica_Color_Mapa"
                     }
                   }
                 }
@@ -332,7 +288,7 @@
                 }
               }
             ],
-            "metadata": "_switchs.Metrica_Mapa_Seleccionada"
+            "metadata": "_medidas.rth_distribucion_mensual"
           }
         }
       ],
@@ -374,6 +330,120 @@
           },
           "selector": {
             "metadata": "_medidas.num_comptadors_subcomptatge"
+          }
+        },
+        {
+          "properties": {
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.volum_lliurat_distribucion_mapa"
+          }
+        },
+        {
+          "properties": {
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "0L"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.volum_consumit_distribucion_mapa"
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "121.99999219166344D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "dim_dades_sectors.sector"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "85.8762056795583D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.categoria_anr"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "112.70403558291754D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.compatadors_with_problems"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "86.18584012375206D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.num_comptadors_subcomptatge"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "103.28378384965481D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.delta_test"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79.29851072587104D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.volum_lliurat_distribucion_mapa"
           }
         }
       ]

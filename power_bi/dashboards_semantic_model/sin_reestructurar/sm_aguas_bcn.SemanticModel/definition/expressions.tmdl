@@ -1015,6 +1015,7 @@ expression Bossa_de_Limitadors_LLOBS = ```
 		                "edat_comp",
 		                "diam_comp",
 		                "dn_limitador",
+		                "limitador_instal·lat",
 		                "data_alta_subm",
 		                "consum_mig_dia",
 		                "consum_anual_estimat",
@@ -1146,6 +1147,7 @@ expression Bossa_de_Limitadors_LLOBN = ```
 		                "edat_comp",
 		                "diam_comp",
 		                "dn_limitador",
+		                "limitador_instal·lat",
 		                "data_alta_subm",
 		                "consum_mig_dia",
 		                "consum_anual_estimat",
@@ -1252,7 +1254,7 @@ expression Bossa_de_Limitadors_BES = ```
 		        Table.SelectColumns(
 		            Texto,
 		            {
-		                "dop",
+		                 "dop",
 		                "sector",
 		                "rendiment_sector_(maig_2026)",
 		                "polissa_subm",
@@ -1261,6 +1263,7 @@ expression Bossa_de_Limitadors_BES = ```
 		                "edat_comp",
 		                "diam_comp",
 		                "dn_limitador",
+		                "limitador_instal·lat",
 		                "data_alta_subm",
 		                "consum_mig_dia",
 		                "consum_anual_estimat",
@@ -1395,6 +1398,7 @@ expression Bossa_de_Limitadors_BCNN = ```
 		                "edat_comp",
 		                "diam_comp",
 		                "dn_limitador",
+		                "limitador_instal·lat",
 		                "data_alta_subm",
 		                "consum_mig_dia",
 		                "consum_anual_estimat",
@@ -1472,29 +1476,21 @@ expression Bossa_de_Limitadors_BCNN = ```
 
 	annotation PBI_ResultType = Table
 
-expression Bossa_de_Limitadors_BCNS = ```
-		//
-		
-		// ESTA FACT SE GENERA A PARTIR DEL ARCHIVO DE GOOGLE DRIVE 
-		
-		//            Bossa de Limitadors_Canvis per DOP 
-		
-		// PESTAÑA:
-		
-		//              BCNS
-		
-		
+expression Bossa_de_Limitadors_BCNS =
 		let
-		  Origen = GoogleSheets.Contents( #"Bossa Limitadors_Canvis per DOP"),
-		     BCNS_Table = Origen{[name="BCNS", ItemKind="Table"]}[Data],
+		    Origen = GoogleSheets.Contents(#"Bossa Limitadors_Canvis per DOP"),
+		    BCNS_Table = Origen{[name="BCNS", ItemKind="Table"]}[Data],
 		
 		    Encabezados =
-		        Table.PromoteHeaders(BCNS_Table, [PromoteAllScalars=true]),
+		        Table.PromoteHeaders(
+		            BCNS_Table,
+		            [PromoteAllScalars=true]
+		        ),
 		
 		    Columnas =
 		        Table.TransformColumnNames(
 		            Encabezados,
-		            each Text.Replace(Text.Lower(_), " ", "_")
+		            each Text.Replace(Text.Lower(Text.Trim(_)), " ", "_")
 		        ),
 		
 		    Renombradas =
@@ -1528,6 +1524,7 @@ expression Bossa_de_Limitadors_BCNS = ```
 		                "edat_comp",
 		                "diam_comp",
 		                "dn_limitador",
+		                "limitador_instal·lat",
 		                "data_alta_subm",
 		                "consum_mig_dia",
 		                "consum_anual_estimat",
@@ -1539,10 +1536,13 @@ expression Bossa_de_Limitadors_BCNS = ```
 		            }
 		        ),
 		
-		     SinErrores =
+		    SinErrores =
 		        Table.ReplaceErrorValues(
 		            Seleccionadas,
-		            List.Transform(Table.ColumnNames(Seleccionadas), each {_, null})
+		            List.Transform(
+		                Table.ColumnNames(Seleccionadas),
+		                each {_, null}
+		            )
 		        ),
 		
 		    LimpiezaInicial =
@@ -1577,7 +1577,27 @@ expression Bossa_de_Limitadors_BCNS = ```
 		                {"v12_en_m3", each try Number.From(_) otherwise null, type nullable number},
 		                {"períodes_amb_estimades", each try Int64.From(_) otherwise null, Int64.Type},
 		                {"dop", each _, type text},
-		                {"dn_limitador", each try Int64.From(_) otherwise null, Int64.Type}
+		                {"dn_limitador", each try Int64.From(_) otherwise null, Int64.Type},
+		                {
+		                    "limitador_instal·lat",
+		                    each
+		                        if _ = null then
+		                            null
+		                        else
+		                            let
+		                                Valor = Text.Trim(Text.Clean(Text.From(_))),
+		                                Minusculas = Text.Lower(Valor)
+		                            in
+		                                if List.Contains({"sí", "si"}, Minusculas) then
+		                                    "Sí"
+		                                else if Minusculas = "no" then
+		                                    "No"
+		                                else if Valor = "" or Valor = "-" then
+		                                    null
+		                                else
+		                                    Valor,
+		                    type nullable text
+		                }
 		            }
 		        ),
 		
@@ -1588,8 +1608,10 @@ expression Bossa_de_Limitadors_BCNS = ```
 		                {
 		                    "sector",
 		                    each
-		                        let v = if _ = "" then null else _
-		                        in if v = "Not Available" then null else v,
+		                        let
+		                            v = if _ = "" then null else _
+		                        in
+		                            if v = "Not Available" then null else v,
 		                    type nullable text
 		                }
 		            }
@@ -1603,10 +1625,8 @@ expression Bossa_de_Limitadors_BCNS = ```
 		            SinDuplicados,
 		            each List.NonNullCount(Record.FieldValues(_)) > 0
 		        )
-		
-		in 
-		 Resultado
-		```
+		in
+		    Resultado
 	lineageTag: 10e00cc1-e4c4-4532-8c9a-492394f79c96
 	queryGroup: Auxiliares\facts\bossa
 
@@ -3639,7 +3659,7 @@ expression fact_fraudes_all =
 
 	annotation PBI_ResultType = Table
 
-expression 'Bossa Limitadors_Canvis per DOP' = "https://docs.google.com/spreadsheets/d/1G9GggBeQbtbK0kD-I7o1ypbgcIGSwQGkRXSvvtn8MaE/edit?gid=1742937846#gid=1742937846" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+expression 'Bossa Limitadors_Canvis per DOP' = "https://docs.google.com/spreadsheets/d/1G9GggBeQbtbK0kD-I7o1ypbgcIGSwQGkRXSvvtn8MaE/edit?gid=1640328521#gid=1640328521" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
 	lineageTag: 07ec85e6-09a1-42ab-8b72-389e688cd502
 	queryGroup: 'Parametre '
 

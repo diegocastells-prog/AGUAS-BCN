@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "783672dd49ac93d1a9ac",
   "position": {
-    "x": 919.70149253731336,
+    "x": 907.16417910447763,
     "y": 69.850746268656721,
     "z": 0,
     "height": 537.31343283582089,
-    "width": 360,
+    "width": 372.53731343283579,
     "tabOrder": 5000
   },
   "visual": {
@@ -23,10 +23,10 @@
                       "Entity": "dim_dades_sectors"
                     }
                   },
-                  "Property": "gerencia"
+                  "Property": "DOP"
                 }
               },
-              "queryRef": "dim_dades_sectors.gerencia",
+              "queryRef": "dim_dades_sectors.DOP",
               "nativeQueryRef": "DOP",
               "displayName": "DOP"
             },
@@ -53,12 +53,11 @@
                       "Entity": "_medidas"
                     }
                   },
-                  "Property": "preal_max"
+                  "Property": "cota_max"
                 }
               },
-              "queryRef": "_medidas.preal_max",
-              "nativeQueryRef": "Pₘₐₓ",
-              "displayName": "Pₘₐₓ"
+              "queryRef": "_medidas.cota_max",
+              "nativeQueryRef": "cota_max"
             },
             {
               "field": {
@@ -68,12 +67,11 @@
                       "Entity": "_medidas"
                     }
                   },
-                  "Property": "preal_min"
+                  "Property": "cota_min"
                 }
               },
-              "queryRef": "_medidas.preal_min",
-              "nativeQueryRef": "Pₘᵢₙ",
-              "displayName": "Pₘᵢₙ"
+              "queryRef": "_medidas.cota_min",
+              "nativeQueryRef": "cota_min"
             },
             {
               "field": {
@@ -83,12 +81,26 @@
                       "Entity": "_medidas"
                     }
                   },
-                  "Property": "diff_cota"
+                  "Property": "dif_cota"
                 }
               },
-              "queryRef": "_medidas.diff_cota",
+              "queryRef": "_medidas.dif_cota",
               "nativeQueryRef": "ΔCota",
               "displayName": "ΔCota"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_cotes_ramals"
+                    }
+                  },
+                  "Property": "nº de nudo"
+                }
+              },
+              "queryRef": "fact_cotes_ramals.nº de nudo",
+              "nativeQueryRef": "nº de nudo"
             }
           ]
         }
@@ -97,13 +109,13 @@
         "sort": [
           {
             "field": {
-              "Column": {
+              "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "dim_dades_sectors"
+                    "Entity": "_medidas"
                   }
                 },
-                "Property": "sector"
+                "Property": "dif_cota"
               }
             },
             "direction": "Descending"
@@ -132,41 +144,13 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "46.24736696566747D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "_medidas.preal_max"
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "44.24739195230998D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "_medidas.preal_min"
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
                   "Value": "71.5312636740006D"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "dim_dades_sectors.gerencia"
+            "metadata": "dim_dades_sectors.DOP"
           }
         }
       ],

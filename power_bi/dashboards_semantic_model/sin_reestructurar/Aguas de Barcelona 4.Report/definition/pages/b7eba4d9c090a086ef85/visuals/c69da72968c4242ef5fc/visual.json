@@ -23,11 +23,11 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "Data"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes",
+              "queryRef": "dim_calendario.Data",
+              "nativeQueryRef": "Data",
               "active": true
             }
           ]
@@ -49,6 +49,21 @@
               "nativeQueryRef": "ANR1",
               "displayName": "ANR",
               "format": "0.00"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "Objectiu_ANR"
+                }
+              },
+              "queryRef": "_medidas.Objectiu_ANR",
+              "nativeQueryRef": "Objectiu ANR",
+              "displayName": "Objectiu ANR"
             }
           ]
         },
@@ -69,6 +84,21 @@
               "nativeQueryRef": "RTH1",
               "displayName": "RTH",
               "format": "0.00 %;-0.00 %;0.00 %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "Objectiu_Rendiment_Distribucio"
+                }
+              },
+              "queryRef": "_medidas.Objectiu_Rendiment_Distribucio",
+              "nativeQueryRef": "Objectiu Rendiment Distribució",
+              "displayName": "Objectiu Rendiment Distribució"
             }
           ]
         }
@@ -205,6 +235,27 @@
                 }
               }
             }
+          }
+        }
+      ],
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 8,
+                      "Percent": 0.4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_medidas.Objectiu_Rendiment_Distribucio"
           }
         }
       ]
@@ -461,7 +512,38 @@
   "filterConfig": {
     "filters": [
       {
+        "name": "51913f5f03d3b68861d2",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "Data"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "e6c1798f0631469ecd04",
+        "ordinal": 1,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_anr_distribucion_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
         "name": "0b45834fa59967967562",
+        "ordinal": 2,
         "field": {
           "Measure": {
             "Expression": {
@@ -476,7 +558,139 @@
         "howCreated": "User",
         "isHiddenInViewMode": true,
         "isLockedInViewMode": true
+      },
+      {
+        "name": "e983b6fe0d4b66031085",
+        "ordinal": 3,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "Objectiu_ANR"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "348b53103e0814589e36",
+        "ordinal": 4,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "Objectiu_Rendiment_Distribucio"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4ea6ee2441502d246477",
+        "ordinal": 5,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_rth_distribucion_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e4192b9f50bb10a7448c",
+        "ordinal": 6,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_indicador_objectiu"
+              }
+            },
+            "Property": "Indicador"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_indicador_objectiu",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Indicador"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'ANR - Distribució [Hm3]'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "e2d387d268e34042b962",
+        "ordinal": 7,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_objectius"
+              }
+            },
+            "Property": "DOP"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
       }
-    ]
+    ],
+    "filterSortOrder": "Custom"
   }
 }

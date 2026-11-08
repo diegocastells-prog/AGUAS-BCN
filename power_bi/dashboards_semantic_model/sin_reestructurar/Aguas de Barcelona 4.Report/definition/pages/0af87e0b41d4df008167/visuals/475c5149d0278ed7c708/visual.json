@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "475c5149d0278ed7c708",
   "position": {
-    "x": 733.52373091209233,
-    "y": 453.97498021014468,
+    "x": 731.11111111111109,
+    "y": 450,
     "z": 15000,
-    "height": 214.28571428571428,
-    "width": 537.36263736263732,
+    "height": 215.55555555555554,
+    "width": 537.77777777777771,
     "tabOrder": 16000
   },
   "visual": {
-    "visualType": "pieChart",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
         "Category": {
@@ -51,8 +51,8 @@
                 }
               },
               "queryRef": "Sum(dim_dades_sectors.num_points)",
-              "nativeQueryRef": "Sensores installats",
-              "displayName": "Sensores installats"
+              "nativeQueryRef": "Sensores instal·lats",
+              "displayName": "Sensores instal·lats"
             }
           ]
         }
@@ -115,7 +115,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             }
@@ -172,8 +172,8 @@
                 "color": {
                   "expr": {
                     "ThemeDataColor": {
-                      "ColorId": 2,
-                      "Percent": 0
+                      "ColorId": 3,
+                      "Percent": -0.25
                     }
                   }
                 }
@@ -377,8 +377,9 @@
               "solid": {
                 "color": {
                   "expr": {
-                    "Literal": {
-                      "Value": "'#04FA62'"
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": -0.25
                     }
                   }
                 }
@@ -787,8 +788,9 @@
               "solid": {
                 "color": {
                   "expr": {
-                    "Literal": {
-                      "Value": "'#336EB1'"
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": -0.25
                     }
                   }
                 }
@@ -869,8 +871,9 @@
               "solid": {
                 "color": {
                   "expr": {
-                    "Literal": {
-                      "Value": "'#1C0376'"
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": -0.25
                     }
                   }
                 }
@@ -943,6 +946,85 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "properties": {
+            "fillTransparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "Color_Sensores"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "zoom": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
           }
         }
       ]

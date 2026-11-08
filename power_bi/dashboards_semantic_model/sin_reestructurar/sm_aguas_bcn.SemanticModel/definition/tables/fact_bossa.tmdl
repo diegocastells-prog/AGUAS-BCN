@@ -166,6 +166,14 @@ table fact_bossa
 
 		annotation SummarizationSetBy = Automatic
 
+	column limitador_instal·lat
+		dataType: string
+		lineageTag: f6251c63-e8e8-432f-a34a-bf35877b5ae9
+		summarizeBy: none
+		sourceColumn: limitador_instal·lat
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_bossa = m
 		mode: import
 		queryGroup: Hechos
@@ -173,10 +181,37 @@ table fact_bossa
 				let
 				    AgregarColumnas = (t as table) as table =>
 				        let
-				            t1 = if List.Contains(Table.ColumnNames(t), "períodes_amb_estimades") then t else Table.AddColumn(t, "períodes_amb_estimades", each null, Int64.Type),
-				            t2 = if List.Contains(Table.ColumnNames(t1), "periodos_consecutivos_con_ea") then t1 else Table.AddColumn(t1, "periodos_consecutivos_con_ea", each null, Int64.Type)
+				            t1 =
+				                if Table.HasColumns(t, "períodes_amb_estimades")
+				                then t
+				                else Table.AddColumn(
+				                    t,
+				                    "períodes_amb_estimades",
+				                    each null,
+				                    Int64.Type
+				                ),
+				
+				            t2 =
+				                if Table.HasColumns(t1, "periodos_consecutivos_con_ea")
+				                then t1
+				                else Table.AddColumn(
+				                    t1,
+				                    "periodos_consecutivos_con_ea",
+				                    each null,
+				                    Int64.Type
+				                ),
+				
+				            t3 =
+				                if Table.HasColumns(t2, "limitador_instal·lat")
+				                then t2
+				                else Table.AddColumn(
+				                    t2,
+				                    "limitador_instal·lat",
+				                    each null,
+				                    type nullable text
+				                )
 				        in
-				            t2,
+				            t3,
 				
 				    Union = Table.Combine({
 				        AgregarColumnas(Bossa_de_Limitadors_BCNS),
@@ -187,26 +222,138 @@ table fact_bossa
 				    }),
 				
 				    SinDuplicados = Table.Distinct(Union),
-				    SinFilasVacias = Table.SelectRows(SinDuplicados, each List.NonNullCount(Record.FieldValues(_)) > 0),
 				
-				    #"Tipo cambiado" = Table.TransformColumnTypes(SinFilasVacias, {{"dop", type text}, {"tipus_subm", type text}, {"dn_limitador", Int64.Type}}),
-				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"dop", "gerencia"}}),
-				    #"Consultas combinadas" = Table.NestedJoin(#"Columnas con nombre cambiado", {"gerencia"}, dim_gerencia, {"gerencia"}, "dim_gerencia", JoinKind.LeftOuter),
-				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(#"Consultas combinadas", "dim_gerencia", {"gerencia_id"}, {"gerencia_id"}),
-				    #"Columnas quitadas" = Table.RemoveColumns(#"Se expandió dim_gerencia",{"gerencia"}),
+				    SinFilasVacias = Table.SelectRows(
+				        SinDuplicados,
+				        each List.NonNullCount(Record.FieldValues(_)) > 0
+				    ),
+				
+				    #"Tipo cambiado" = Table.TransformColumnTypes(
+				        SinFilasVacias,
+				        {
+				            {"dop", type text},
+				            {"tipus_subm", type text},
+				            {"dn_limitador", Int64.Type},
+				            {"limitador_instal·lat", type text}
+				        }
+				    ),
+				
+				    #"Limitador normalizado" = Table.TransformColumns(
+				        #"Tipo cambiado",
+				        {
+				            {
+				                "limitador_instal·lat",
+				                each
+				                    if _ = null then
+				                        null
+				                    else
+				                        let
+				                            Texto = Text.Trim(Text.Clean(_)),
+				                            Minusculas = Text.Lower(Texto)
+				                        in
+				                            if List.Contains({"sí", "si"}, Minusculas) then
+				                                "Sí"
+				                            else if Minusculas = "no" then
+				                                "No"
+				                            else if Texto = "" then
+				                                null
+				                            else
+				                                Texto,
+				                type nullable text
+				            }
+				        }
+				    ),
+				
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(
+				        #"Limitador normalizado",
+				        {{"dop", "gerencia"}}
+				    ),
+				
+				    #"Consultas combinadas" = Table.NestedJoin(
+				        #"Columnas con nombre cambiado",
+				        {"gerencia"},
+				        dim_gerencia,
+				        {"gerencia"},
+				        "dim_gerencia",
+				        JoinKind.LeftOuter
+				    ),
+				
+				    #"Se expandió dim_gerencia" = Table.ExpandTableColumn(
+				        #"Consultas combinadas",
+				        "dim_gerencia",
+				        {"gerencia_id"},
+				        {"gerencia_id"}
+				    ),
+				
+				    #"Columnas quitadas" = Table.RemoveColumns(
+				        #"Se expandió dim_gerencia",
+				        {"gerencia"}
+				    ),
 				
 				    #"Sector normalizado" = Table.TransformColumns(
 				        Table.ReplaceValue(
-				            Table.ReplaceValue(#"Columnas quitadas", null, "No Disponible", Replacer.ReplaceValue, {"sector"}),
-				            "0", "No Disponible", Replacer.ReplaceText, {"sector"}
+				            Table.ReplaceValue(
+				                #"Columnas quitadas",
+				                null,
+				                "No Disponible",
+				                Replacer.ReplaceValue,
+				                {"sector"}
+				            ),
+				            "0",
+				            "No Disponible",
+				            Replacer.ReplaceText,
+				            {"sector"}
 				        ),
-				        {{"sector", each Text.Proper(Text.Replace(Text.Trim(Text.Clean(_)), "Pg Sant Gervasi", "Passeig De Sant Gervasi")), type text}}
+				        {
+				            {
+				                "sector",
+				                each Text.Proper(
+				                    Text.Replace(
+				                        Text.Trim(Text.Clean(_)),
+				                        "Pg Sant Gervasi",
+				                        "Passeig De Sant Gervasi"
+				                    )
+				                ),
+				                type text
+				            }
+				        }
 				    ),
 				
-				    #"Consultas combinadas1" = Table.FuzzyNestedJoin(#"Sector normalizado", {"sector"}, dim_dades_sectors, {"sector"}, "dim_dades_sectors", JoinKind.LeftOuter, [IgnoreCase=true, IgnoreSpace=true]),
-				    #"Se expandió dim_dades_sectors" = Table.ExpandTableColumn(#"Consultas combinadas1", "dim_dades_sectors", {"sector_id"}, {"sector_id"}),
-				    #"Sector_id corregido" = Table.TransformColumnTypes(Table.ReplaceValue(#"Se expandió dim_dades_sectors", null, -1, Replacer.ReplaceValue, {"sector_id"}), {{"sector_id", Int64.Type}}),
-				    #"Columnas quitadas1" = Table.RemoveColumns(#"Sector_id corregido",{"sector"})
+				    #"Consultas combinadas1" = Table.FuzzyNestedJoin(
+				        #"Sector normalizado",
+				        {"sector"},
+				        dim_dades_sectors,
+				        {"sector"},
+				        "dim_dades_sectors",
+				        JoinKind.LeftOuter,
+				        [
+				            IgnoreCase = true,
+				            IgnoreSpace = true
+				        ]
+				    ),
+				
+				    #"Se expandió dim_dades_sectors" = Table.ExpandTableColumn(
+				        #"Consultas combinadas1",
+				        "dim_dades_sectors",
+				        {"sector_id"},
+				        {"sector_id"}
+				    ),
+				
+				    #"Sector_id corregido" = Table.TransformColumnTypes(
+				        Table.ReplaceValue(
+				            #"Se expandió dim_dades_sectors",
+				            null,
+				            -1,
+				            Replacer.ReplaceValue,
+				            {"sector_id"}
+				        ),
+				        {{"sector_id", Int64.Type}}
+				    ),
+				
+				    #"Columnas quitadas1" = Table.RemoveColumns(
+				        #"Sector_id corregido",
+				        {"sector"}
+				    )
 				in
 				    #"Columnas quitadas1"
 

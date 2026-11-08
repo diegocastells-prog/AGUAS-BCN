@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "0b571ceaad35eb18968d",
   "position": {
-    "x": 180.77915736607142,
-    "y": 65.1948012314834,
+    "x": 157.77777777777777,
+    "y": 64.444444444444443,
     "z": 8000,
     "height": 64,
     "width": 228.97777777777779,
@@ -23,87 +23,63 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio"
+                  "Property": "Data"
                 }
               },
-              "queryRef": "dim_calendario.anio",
-              "nativeQueryRef": " 1",
-              "active": true,
-              "displayName": " "
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_calendario"
-                    }
-                  },
-                  "Property": "mes"
-                }
-              },
-              "queryRef": "dim_calendario.mes",
-              "nativeQueryRef": " ",
-              "active": true,
-              "displayName": " "
+              "queryRef": "dim_calendario.Data",
+              "nativeQueryRef": "Data",
+              "active": true
             }
           ]
         }
       }
     },
-    "expansionStates": [
-      {
-        "roles": [
-          "Values"
-        ],
-        "levels": [
-          {
-            "queryRefs": [
-              "dim_calendario.anio"
-            ],
-            "isCollapsed": true,
-            "identityKeys": [
-              {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_calendario"
-                    }
-                  },
-                  "Property": "anio"
-                }
-              }
-            ],
-            "isPinned": true
-          },
-          {
-            "queryRefs": [
-              "dim_calendario.mes"
-            ],
-            "isCollapsed": true,
-            "isPinned": true
-          }
-        ],
-        "root": {
-          "children": [
-            {
-              "identityValues": [
-                {
-                  "Literal": {
-                    "Value": "2026L"
-                  }
-                }
-              ],
-              "isToggled": true
-            }
-          ]
-        }
-      }
-    ],
     "objects": {
       "general": [
         {
-          "properties": {}
+          "properties": {
+            "filter": {
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "d",
+                    "Entity": "dim_calendario",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "In": {
+                        "Expressions": [
+                          {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Source": "d"
+                                }
+                              },
+                              "Property": "Data"
+                            }
+                          }
+                        ],
+                        "Values": [
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'Maig 26'"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
         }
       ],
       "data": [

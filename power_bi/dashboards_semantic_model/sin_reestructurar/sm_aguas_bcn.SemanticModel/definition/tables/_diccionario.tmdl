@@ -1,35 +1,43 @@
 table _diccionario
 	lineageTag: 21271b1e-1ce5-4e8c-becb-5da8a379c84e
 
-	column Pestaña
+	column Pestanya
 		dataType: string
-		lineageTag: 58fa75a7-06bd-4a2c-bcd4-4ea4b7db1cce
+		lineageTag: cdbd4572-e238-4790-9d0e-5e9448c2725c
 		summarizeBy: none
-		sourceColumn: Pestaña
+		sourceColumn: Pestanya
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Nombre del visual'
+	column 'Nom del visual'
 		dataType: string
-		lineageTag: 493fceb4-d630-4bf1-bbf1-4b94cd399b15
+		lineageTag: fd5de8d9-4cfd-446c-82c2-cf3070389b18
 		summarizeBy: none
-		sourceColumn: Nombre del visual
+		sourceColumn: Nom del visual
 
 		annotation SummarizationSetBy = Automatic
 
-	column Ámbito
+	column Àmbit
 		dataType: string
-		lineageTag: b26668e1-173c-4191-b280-274ef60dcd7b
+		lineageTag: 68f7bab1-479e-4531-b0eb-14c69b82461f
 		summarizeBy: none
-		sourceColumn: Ámbito
+		sourceColumn: Àmbit
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Qué representa'
+	column 'Què representa'
 		dataType: string
-		lineageTag: 58025139-3780-43d2-bda1-48803516ea2c
+		lineageTag: 99ad2102-9eb0-44a6-a262-4522200d3fe4
 		summarizeBy: none
-		sourceColumn: Qué representa
+		sourceColumn: Què representa
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mesures del període'
+		dataType: string
+		lineageTag: 043b456b-5a7f-43fc-b503-5cd78689c189
+		summarizeBy: none
+		sourceColumn: Mesures del període
 
 		annotation SummarizationSetBy = Automatic
 
@@ -39,11 +47,11 @@ table _diccionario
 				let
 				    Origen =
 				        GoogleSheets.Contents(
-				            "https://docs.google.com/spreadsheets/d/10L3ntDPsGJCDMgX7byzEUM4frCuWr4JXAVgwNwn8uLo/edit?gid=925281568#gid=925281568"
+				           "https://docs.google.com/spreadsheets/d/1YD6pBUInEa6N2gRz6Q4TGLusnb5fuZmJroqLZafE9rQ/edit?gid=1937465453#gid=1937465453"
 				        ),
-				    #"Diccionario por ámbito_Table" = Origen{[name="Diccionario por ámbito",ItemKind="Table"]}[Data],
-				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Diccionario por ámbito_Table", [PromoteAllScalars=true]),
-				    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{"Tipo de visual", "Descripción corta", "Datos que muestra"})
+				    Sheet_Table = Origen{[name="Sheet",ItemKind="Table"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Sheet_Table, [PromoteAllScalars=true]),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{"Tipus de visual", "Descripció curta", "Dades que mostra", "Unitats", "Incidències", "ID visual", "ID pàgina", "Filtres del visual"})
 				in
 				    #"Columnas quitadas"
 

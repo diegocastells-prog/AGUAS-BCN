@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "768ddc8322bea2ef4ef4",
   "position": {
-    "x": 531.64433617539589,
-    "y": 84.190012180267971,
+    "x": 158.48580441640379,
+    "y": 79.747634069400632,
     "z": 7000,
-    "height": 87,
-    "width": 163,
+    "height": 104.98422712933754,
+    "width": 162.5236593059937,
     "tabOrder": 6000
   },
   "visual": {
@@ -20,14 +20,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_switchs"
+                      "Entity": "_medidas"
                     }
                   },
-                  "Property": "kpi_km_inspeccionats_heli_switch_1m"
+                  "Property": "Objectiu_Anual"
                 }
               },
-              "queryRef": "_switchs.kpi_km_inspeccionats_heli_switch_1m",
-              "nativeQueryRef": "kpi_km_inspeccionats_heli_switch_1m"
+              "queryRef": "_medidas.Objectiu_Anual",
+              "nativeQueryRef": "Objectiu_Anual"
             }
           ]
         },
@@ -38,14 +38,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_switchs"
+                      "Entity": "_medidas"
                     }
                   },
-                  "Property": "kpi_km_inspeccionats_heli_switch"
+                  "Property": "Km_Inspeccionats_Any"
                 }
               },
-              "queryRef": "_switchs.kpi_km_inspeccionats_heli_switch",
-              "nativeQueryRef": "kpi_km_inspeccionats_heli_switch"
+              "queryRef": "_medidas.Km_Inspeccionats_Any",
+              "nativeQueryRef": "Km_Inspeccionats_Any"
             }
           ]
         },
@@ -59,11 +59,11 @@
                       "Entity": "dim_calendario"
                     }
                   },
-                  "Property": "anio_mes"
+                  "Property": "Data"
                 }
               },
-              "queryRef": "dim_calendario.anio_mes",
-              "nativeQueryRef": "anio_mes"
+              "queryRef": "dim_calendario.Data",
+              "nativeQueryRef": "Data"
             }
           ]
         }
@@ -116,7 +116,14 @@
             "goalText": {
               "expr": {
                 "Literal": {
-                  "Value": "'VS'"
+                  "Value": "'Objetiu'"
+                }
+              }
+            },
+            "showDistance": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -131,7 +138,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Km Heli'"
+                  "Value": "'Objectiu anual de km inspeccionats'"
                 }
               }
             },
@@ -311,6 +318,90 @@
         "howCreated": "User",
         "isHiddenInViewMode": true,
         "isLockedInViewMode": true
+      },
+      {
+        "name": "fc2619f4753900b1e800",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_indicador_objectiu"
+              }
+            },
+            "Property": "Indicador"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_indicador_objectiu",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Indicador"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Km''s inspeccionats de xarxa'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "fc6759709032c5b5c7a8",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "fact_objectius"
+              }
+            },
+            "Property": "DOP"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
       }
     ]
   }
