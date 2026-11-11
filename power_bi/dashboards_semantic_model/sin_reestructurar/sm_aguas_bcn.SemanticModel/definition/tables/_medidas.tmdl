@@ -68,13 +68,15 @@ table _medidas
 		displayFolder: anr\acum_12m
 		lineageTag: c07ebc2d-9770-4399-8398-35032f01c224
 
-	measure anr_m3_km_dia_mitjana_12m =
-			
-			DIVIDE(
-			    [anr_acum_12m] * 1000000,
-			    [l_km_12m_mitjana] * 365,
-			    BLANK()
-			)
+	measure anr_m3_km_dia_mitjana_12m = ```
+			[anr_acum_12m] / [l_km_12m_mitjana] / 365 * 1000000
+			    
+			--DIVIDE(
+			--    [anr_acum_12m] * 1000000,
+			--    [l_km_12m_mitjana] * 365,
+			--    BLANK()
+			--)
+			```
 		formatString: #,0.00
 		displayFolder: anr\acum_12m
 		lineageTag: 5103700e-6cc8-4d0f-90e7-3ee6aaf9efd7
@@ -950,15 +952,15 @@ table _medidas
 			
 			VAR _FechaFin =
 			    CALCULATE(
-			        MAX('fact_aigua_no_registrada'[fecha]),
-			        ALL('fact_aigua_no_registrada')
+			        MAX('fact_volum_cons_lliur'[fecha]),
+			        ALL('fact_volum_cons_lliur')
 			    )
 			VAR _FechaInicio = EDATE ( _FechaFin, -11 )
 			VAR _FechaMinContexto = MIN ( 'dim_calendario'[Date] )
 			VAR _FechaMaxContexto = MAX ( 'dim_calendario'[Date] )
 			VAR _Valor =
 			    CALCULATE (
-			        SUM(fact_aigua_no_registrada[anr]),
+			        SUM(fact_volum_cons_lliur[volum_lliurat]) - SUM(fact_volum_cons_lliur[volum_consumit]),
 			        DATESINPERIOD (
 			            'dim_calendario'[Date],
 			            _FechaMaxContexto,
@@ -972,14 +974,14 @@ table _medidas
 			    _FechaMaxContexto < _FechaInicio
 			        || _FechaMinContexto > _FechaFin,
 			    BLANK (),
-			    DIVIDE ( _Valor, 1000000 )
+			     _Valor
 			)  
 			```
 		formatString: #,0
 		displayFolder: anr\acum_12m
 		lineageTag: 09d1ddf2-cf3e-415c-9600-b2a858e18609
 
-	measure anr_mensual = SUM(fact_aigua_consum_historic[anr_mes])
+	measure anr_mensual = [anr_dist_mensual]
 		formatString: #,0.00
 		displayFolder: anr\mensual
 		lineageTag: fab88f37-a457-4d36-baf8-0cec151a3ce5
@@ -4490,16 +4492,16 @@ table _medidas
 	measure l_km_12m_mitjana = ```
 			
 			VAR _FechaFin =
-			    TODAY ()
-			 
+			    MAX('fact_inventari_xarxa_distribucion'[fecha])
+			
 			VAR _FechaInicio =
 			    EDATE ( _FechaFin, -11 )
 			 
 			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
+			    MIN ( 'fact_inventari_xarxa_distribucion'[fecha]  )
 			 
 			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
+			    MAX ( 'fact_inventari_xarxa_distribucion'[fecha] )
 			 
 			VAR _Valor =
 			    CALCULATE (
@@ -9680,6 +9682,49 @@ table _medidas
 		lineageTag: cb1fdc56-b413-4bad-8b93-dbcb49b64613
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Debug_inventario_12m =
+			
+			VAR _FechaFin =
+			    MAX ( fact_inventari_xarxa_distribucion[fecha] )
+			VAR _Periodo =
+			    DATESINPERIOD (
+			        dim_calendario[Date],
+			        _FechaFin,
+			        -12,
+			        MONTH
+			    )
+			VAR _Filas =
+			    CALCULATETABLE (
+			        fact_inventari_xarxa_distribucion,
+			        _Periodo
+			    )
+			RETURN
+			    "Fin: " & FORMAT ( _FechaFin, "dd/MM/yyyy" )
+			        & " | Filas: " & COUNTROWS ( _Filas )
+			        & " | Gerencias: "
+			        & CONCATENATEX (
+			            DISTINCT (
+			                SELECTCOLUMNS (
+			                    _Filas,
+			                    "Id", fact_inventari_xarxa_distribucion[gerencia_id]
+			                )
+			            ),
+			            [Id],
+			            ", "
+			        )
+			        & " | Mín: "
+			        & FORMAT (
+			            MINX ( _Filas, fact_inventari_xarxa_distribucion[xarxa] ),
+			            "0.00"
+			        )
+			        & " | Máx: "
+			        & FORMAT (
+			            MAXX ( _Filas, fact_inventari_xarxa_distribucion[xarxa] ),
+			            "0.00"
+			        )
+		displayFolder: red\longitud\acum_12
+		lineageTag: b7cbba73-ac98-4fdf-8fe3-d976abb2b153
 
 	column Column
 		isHidden
