@@ -368,26 +368,52 @@ table _switchs
 	measure kpi_anr_dia_m3_switch_1m =
 			
 			VAR _Periodo =
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
+			    SELECTEDVALUE ( dummy_slicer_periodo[Periodo] ) & ""
+			
+			VAR _EsContextoMes =
+			    ISINSCOPE ( 'dim_calendario'[mes_corto] )
+			        || ISINSCOPE ( 'dim_calendario'[anio_mes] )
+			
+			VAR _UltimaFechaConDato =
+			    MAXX (
+			        FILTER (
+			            ALLSELECTED ( 'dim_calendario'[Date] ),
+			            NOT ISBLANK (
+			                CALCULATE ( [anr_dia_m3_mensual] )
+			            )
+			        ),
+			        'dim_calendario'[Date]
+			    )
 			
 			RETURN
-			SWITCH(
-			    _Periodo,
+			    SWITCH (
+			        _Periodo,
 			
-			    "Mensual",
-			        [anr_dia_m3_mensual_smly],
+			        "Mensual",
+			            IF (
+			                _EsContextoMes,
+			                [anr_dia_m3_mensual_smly],
+			                IF (
+			                    NOT ISBLANK ( _UltimaFechaConDato ),
+			                    CALCULATE (
+			                        [anr_dia_m3_mensual_smly],
+			                        REMOVEFILTERS ( 'dim_calendario' ),
+			                        'dim_calendario'[Date] = _UltimaFechaConDato
+			                    )
+			                )
+			            ),
 			
-			    "12 Mesos",
-			        [anr_dia_m3_acum_12m_1m],
+			        "12 Mesos",
+			            [anr_dia_m3_acum_12m_1m],
 			
-			    "Acumulat",
-			        [anr_dia_m3_lytd],
+			        "Acumulat",
+			            [anr_dia_m3_lytd],
 			
-			    "Diff",
-			        [_cero_acumulat],
+			        "Diff",
+			            [_cero_acumulat],
 			
-			    BLANK()
-			)
+			        BLANK ()
+			    )
 		displayFolder: anr\dia_m3
 		lineageTag: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
 

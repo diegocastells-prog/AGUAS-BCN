@@ -1,0 +1,111 @@
+// Ejecutar en la vista de consultas DAX del modelo que contenga las correcciones.
+// Solo lectura. No modifica el Excel ni el modelo.
+// Los valores de referencia del cliente NO son constantes de las medidas.
+
+// 0. Campos efectivos de las tarjetas, para las cuatro opciones del selector.
+// Los tres objetivos permanecen originales incluso en Diff (referencia de nivel).
+EVALUATE
+CALCULATETABLE(
+    SUMMARIZECOLUMNS(
+        dummy_slicer_periodo[Periodo],
+        "ANR_m3_dia_tarjeta", [kpi_anr_dia_m3_switch],
+        "Comparativo_m3_dia", [kpi_anr_dia_m3_switch_1m],
+        "ANR_l_esc_dia_tarjeta", [kpi_anr_l_esc_dia_switch],
+        "Objetivo_l_esc_dia",
+            CALCULATE([Objectiu_Anual], dim_indicador_objectiu[Indicador] = "ANR l/esc/dia"),
+        "ANR_m3_km_dia_tarjeta", [kpi_anr_m3_km_dia_switch],
+        "Objetivo_m3_km_dia",
+            CALCULATE([Objectiu_Anual], dim_indicador_objectiu[Indicador] = "ANR m3/km/dia"),
+        "ANR_l_subm_dia_tarjeta", [kpi_anr_l_subm_dia_switch],
+        "Objetivo_l_subm_dia",
+            CALCULATE([Objectiu_Anual], dim_indicador_objectiu[Indicador] = "ANR l/subm/dia")
+    ),
+    TREATAS({"Barcelona Nord"}, dim_gerencia[gerencia]),
+    DATESBETWEEN(dim_calendario[Date], DATE(2026, 6, 1), DATE(2026, 6, 30))
+)
+
+// 1. Barcelona Nord, cierre junio 2026, ventana julio 2025-junio 2026.
+EVALUATE
+CALCULATETABLE(
+    ROW(
+        "ANR_m3", [anr_acum_12m],
+        "Km_media_12m", [l_km_12m_mitjana],
+        "Acometidas_media_12m", [escomeses_12m_mitjana],
+        "Suministros_media_12m", [subministraments_12m_mitjana],
+        "ANR_m3_dia", [anr_dia_m3_acum_12m],
+        "ANR_l_acometida_dia", [anr_l_esc_dia_acum_12m],
+        "ANR_m3_km_dia", [anr_m3_km_dia_mitjana_12m],
+        "ANR_l_suministro_dia", [anr_l_subm_dia_mitjana_12m],
+        "QMin_unidad_pendiente", [q_min_12_mesos_mitjana],
+        "DOP_objetivo", [DOP_Objectiu_Seleccionada],
+        "Objetivo_l_acometida_dia",
+            CALCULATE([Objectiu_Anual], dim_indicador_objectiu[Indicador] = "ANR l/esc/dia"),
+        "Objetivo_m3_km_dia",
+            CALCULATE([Objectiu_Anual], dim_indicador_objectiu[Indicador] = "ANR m3/km/dia"),
+        "Objetivo_l_suministro_dia",
+            CALCULATE([Objectiu_Anual], dim_indicador_objectiu[Indicador] = "ANR l/subm/dia"),
+        "Meses_inventario",
+            CALCULATE(
+                DISTINCTCOUNT(fact_inventari_xarxa_distribucion[fecha]),
+                DATESINPERIOD(dim_calendario[Date], DATE(2026, 6, 30), -12, MONTH)
+            )
+    ),
+    TREATAS({"Barcelona Nord"}, dim_gerencia[gerencia]),
+    TREATAS({DATE(2026, 6, 30)}, dim_calendario[Date]),
+    TREATAS({"12 Mesos"}, dummy_slicer_periodo[Periodo])
+)
+
+// 2. Inventario mensual para comprobar cobertura, claves y suma por gerencia.
+EVALUATE
+CALCULATETABLE(
+    SUMMARIZECOLUMNS(
+        dim_gerencia[gerencia],
+        fact_inventari_xarxa_distribucion[fecha],
+        "Filas", COUNTROWS(fact_inventari_xarxa_distribucion),
+        "Km", SUM(fact_inventari_xarxa_distribucion[xarxa]),
+        "Acometidas", SUM(fact_inventari_xarxa_distribucion[escomeses]),
+        "Suministros", SUM(fact_inventari_xarxa_distribucion[subministraments])
+    ),
+    DATESBETWEEN(dim_calendario[Date], DATE(2025, 7, 1), DATE(2026, 6, 30))
+)
+ORDER BY dim_gerencia[gerencia], fact_inventari_xarxa_distribucion[fecha]
+
+// 3. Cada gerencia y suma de las cinco gerencias de distribución.
+// Comprobar que el total de inventario es la suma de las medias de las gerencias
+// cuando todas tienen la misma cobertura mensual; nunca la media entre gerencias.
+EVALUATE
+CALCULATETABLE(
+    SUMMARIZECOLUMNS(
+        ROLLUPADDISSUBTOTAL(dim_gerencia[gerencia], "Total_distribucion"),
+        "ANR_m3", [anr_acum_12m],
+        "Km_media", [l_km_12m_mitjana],
+        "Acometidas_media", [escomeses_12m_mitjana],
+        "Suministros_media", [subministraments_12m_mitjana],
+        "ANR_m3_km_dia", [anr_m3_km_dia_mitjana_12m]
+    ),
+    TREATAS(
+        {"Barcelona Nord", "Barcelona Sud", "Besòs", "Llobregat Nord", "Llobregat Sud"},
+        dim_gerencia[gerencia]
+    ),
+    TREATAS({DATE(2026, 6, 30)}, dim_calendario[Date])
+)
+
+// 4. Comprobación de unidades en los demás períodos y su comparación anterior.
+EVALUATE
+CALCULATETABLE(
+    ROW(
+        "Mensual_ANR_hm3", [anr_mensual],
+        "Dias_mes", [count_dias_mes],
+        "Mensual_m3_dia", [anr_dia_m3_mensual],
+        "Mensual_anterior_m3_dia", [anr_dia_m3_mensual_smly],
+        "Mensual_km", [l_km_mensual],
+        "Mensual_m3_km_dia", [anr_m3_km_dia_mensual],
+        "YTD_m3_dia", [anr_dia_m3_ytd],
+        "LYTD_m3_dia", [anr_dia_m3_lytd],
+        "YTD_m3_km_dia", [anr_m3_km_dia_ytd],
+        "LYTD_m3_km_dia", [anr_m3_km_dia_lytd],
+        "Diff_m3_dia", [anr_dia_m3_diff]
+    ),
+    TREATAS({"Barcelona Nord"}, dim_gerencia[gerencia]),
+    DATESBETWEEN(dim_calendario[Date], DATE(2026, 6, 1), DATE(2026, 6, 30))
+)

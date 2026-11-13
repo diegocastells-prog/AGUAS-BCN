@@ -2,10 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "fc67e94f3654dd004a94",
   "position": {
-    "x": 617.05381985849431,
+    "x": 617.0538198584943,
     "y": 86.28984815963112,
     "z": 3000,
-    "height": 85.762144053601332,
+    "height": 85.76214405360133,
     "width": 197.25293132328306,
     "tabOrder": 4000
   },
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "_medidas.Objectiu_Anual",
-              "nativeQueryRef": "Objectiu_Anual"
+              "nativeQueryRef": "Objectiu_Anual",
+              "format": "#,0.00"
             }
           ]
         },
@@ -45,7 +46,8 @@
                 }
               },
               "queryRef": "_switchs.kpi_anr_m3_km_dia_switch",
-              "nativeQueryRef": "kpi_anr_m3_km_dia_switch"
+              "nativeQueryRef": "kpi_anr_m3_km_dia_switch",
+              "format": "#,0.00"
             }
           ]
         },
@@ -90,7 +92,7 @@
             "indicatorDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "0D"
+                  "Value": "1D"
                 }
               }
             },
@@ -156,6 +158,19 @@
             }
           }
         }
+      ],
+      "status": [
+        {
+          "properties": {
+            "direction": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Negative'"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -165,7 +180,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'ANR (m3/km/dia)'"
+                  "Value": "'ANR (m³/km/dia)'"
                 }
               }
             },
@@ -323,41 +338,7 @@
             "Property": "kpi_anr_m3_km_dia_switch"
           }
         },
-        "type": "Advanced",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "_",
-              "Entity": "_switchs",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Comparison": {
-                  "ComparisonKind": 1,
-                  "Left": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Source": "_"
-                        }
-                      },
-                      "Property": "kpi_anr_m3_km_dia_switch"
-                    }
-                  },
-                  "Right": {
-                    "Literal": {
-                      "Value": "0L"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        }
+        "type": "Advanced"
       },
       {
         "name": "a22acd720730a914e784",
