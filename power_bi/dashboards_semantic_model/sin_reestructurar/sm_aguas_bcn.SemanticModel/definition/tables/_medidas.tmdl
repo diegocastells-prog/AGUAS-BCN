@@ -1048,9 +1048,7 @@ table _medidas
 
 	measure comptadors_mensual = ```
 			
-			CALCULATE(
-			    COUNTROWS('fact_estadistiques_comp')
-			)
+			SUM ( fact_estadistiques_comp[total] )
 			
 			```
 		formatString: #,0
@@ -1082,9 +1080,13 @@ table _medidas
 
 	measure num_limitadors_installats =
 			
-			CALCULATE(
-			    DISTINCTCOUNT(fact_bossa[polissa_subm]),
-			    fact_bossa[limitador_instal·lat] = "Sí"
+			COALESCE (
+			    CALCULATE (
+			        COUNTROWS ( fact_bossa ),
+			        fact_bossa[limitador_instal·lat] = "Sí",
+			        REMOVEFILTERS ( dim_calendario )
+			    ),
+			    0
 			)
 		formatString: #,0
 		displayFolder: compatodrs
@@ -9874,6 +9876,60 @@ table _medidas
 			            "0.00"
 			        )
 		lineageTag: 63c8f4aa-14a9-40b7-a10e-48257fc3cdce
+
+	measure Debug_Total_Comptadors =
+			
+			SUM ( fact_estadistiques_comp[total] )
+		lineageTag: a30a4f45-8afb-4a82-ac1e-feeffd9709ce
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure parc_comptadors =
+			
+			CALCULATE (
+			    DISTINCTCOUNT (
+			        fact_perimetre_comptadors[num_complet]
+			    ),
+			    KEEPFILTERS (
+			        fact_perimetre_comptadors[num_complet] <> BLANK ()
+			    ),
+			    KEEPFILTERS (
+			        fact_perimetre_comptadors[num_complet] <> ""
+			    )
+			)
+		formatString: 0
+		lineageTag: db7b9d8f-7f46-456b-b449-20778333588c
+
+	measure Debug_Filas_Parque =
+			
+			COUNTROWS ( fact_perimetre_comptadors )
+		formatString: 0
+		lineageTag: 929192b2-4012-48b2-9738-fd1e5050e033
+
+	measure Debug_Parque_SinCruces =
+			
+			CALCULATE (
+			    [parc_comptadors],
+			    REMOVEFILTERS ( dim_calendario ),
+			    CROSSFILTER (
+			        fact_dades_consum[polissa_subm],
+			        fact_perimetre_comptadors[polissa_subm],
+			        NONE
+			    ),
+			    CROSSFILTER (
+			        fact_perimetre_comptadors[polissa_subm],
+			        fact_bossa[polissa_subm],
+			        NONE
+			    )
+			)
+		formatString: 0
+		lineageTag: 493b79ba-68c9-4318-8fe6-dd25de28477e
+
+	measure Debug_Filas_Bossa =
+			
+			COUNTROWS ( fact_bossa )
+		formatString: 0
+		lineageTag: 67969119-82b7-457d-8e6f-77a5d301c1c5
 
 	column Column
 		isHidden
