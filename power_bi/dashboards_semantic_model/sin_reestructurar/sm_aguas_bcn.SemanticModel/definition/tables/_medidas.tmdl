@@ -4,10 +4,10 @@ table _medidas
 	measure anr_dia_m3_mensual =
 			
 			DIVIDE (
-			    [anr_mensual] * 1000,
+			    [anr_mensual] ,
 			    [count_dias_mes]
 			)
-		formatString: #,0.00
+		formatString: #,0.000
 		displayFolder: anr\dia_m3\mensual
 		lineageTag: adaf3334-5699-4baf-b2c6-dfcffbf821a2
 
@@ -21,10 +21,12 @@ table _medidas
 		displayFolder: dim_calendario
 		lineageTag: 8c5e8213-05f3-474c-bea4-04624f51c582
 
-	measure anr_dia_m3_acum_12m = ```
-			DIVIDE(    [anr_acum_12m],    365,    0) * 1000000
+	measure anr_dia_hm3_acum_12m =
 			
-			```
+			DIVIDE (
+			    [anr_acum_12m],
+			    365 * 1000000
+			)
 		formatString: #,0.00
 		displayFolder: anr\dia_m3\acum_12m
 		lineageTag: 221c7678-14ee-4777-bdc3-7ec35d2d4c51
@@ -54,10 +56,9 @@ table _medidas
 
 	measure anr_m3_km_dia_mensual =
 			
-			DIVIDE(
-			    [anr_mensual] *1000 ,
-			    [l_km_mensual] * [count_dias_mes],
-			    BLANK()
+			DIVIDE (
+			    [anr_mensual] * 1000000,
+			    [l_km_mensual] * [count_dias_mes]
 			)
 		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		displayFolder: anr\mensual
@@ -84,13 +85,7 @@ table _medidas
 		displayFolder: anr\acum_12m
 		lineageTag: 5103700e-6cc8-4d0f-90e7-3ee6aaf9efd7
 
-	measure anr_l_subm_dia_mitjana_12m =
-			[anr_acum_12m] / [subministraments_12m_mitjana]  / 365 * 1000
-			--DIVIDE(
-			--    [anr_acum_12m] * 1000000000,
-			--    [subministraments_12m_mitjana] * 365,
-			--    BLANK()
-			--)
+	measure anr_l_subm_dia_mitjana_12m = DIVIDE([anr_acum_12m] * 1000, [subministraments_12m_mitjana] * 365)
 		formatString: #,0.00
 		displayFolder: anr\subm\acum_12m
 		lineageTag: e87af0a5-460e-49b4-b044-6ac55d2cb825
@@ -1266,18 +1261,19 @@ table _medidas
 			                )
 			            )
 			    )
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		formatString: #,0.00
 		displayFolder: anr\dia_m3\mensual
 		lineageTag: 48b1f7c8-9d2f-4e6a-8f7d-2f3c0a5e6d7f
 
 	measure anr_dia_m3_acum_12m_1m = ```
 			
 			CALCULATE(
-			    [anr_dia_m3_acum_12m],
+			    [anr_dia_hm3_acum_12m],
 			    DATEADD(dim_calendario[Date], -1, MONTH)
 			)
 			
 			```
+		formatString: #,0.00
 		displayFolder: anr\dia_m3\acum_12m
 		lineageTag: 1a1b1c1d-1e1f-1a1b-1c1d-1e1f1a1b1c1d
 
@@ -1285,31 +1281,24 @@ table _medidas
 
 	measure anr_l_esc_dia_mensual_smly =
 			
-			VAR AnrSM =
-			    CALCULATE(
-			        [anr_mensual],
-			        DATEADD(dim_calendario[Date], -12, MONTH)
-			    )
-			
-			VAR EscomesesSM =
-			    CALCULATE(
-			        [escomeses_mensual],
-			        DATEADD(dim_calendario[Date], -12, MONTH)
-			    )
-			
-			VAR DiasSM =
-			    CALCULATE(
-			        [count_dias_mes],
-			        DATEADD(dim_calendario[Date], -12, MONTH)
-			    )
-			
+			VAR _Fecha = MAX ( dim_calendario[Date] )
+			VAR _InicioAA =
+			    DATE ( YEAR ( _Fecha ) - 1, MONTH ( _Fecha ), 1 )
+			VAR _FinAA =
+			    EOMONTH ( _InicioAA, 0 )
 			RETURN
-			    DIVIDE(
-			        AnrSM * 1000000000,
-			        EscomesesSM * DiasSM,
-			        BLANK()
+			    IF (
+			        NOT ISBLANK ( _Fecha ),
+			        CALCULATE (
+			            [anr_l_esc_dia_mensual],
+			            FILTER (
+			                ALL ( dim_calendario ),
+			                dim_calendario[Date] >= _InicioAA
+			                    && dim_calendario[Date] <= _FinAA
+			            )
+			        )
 			    )
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		formatString: #,0.00
 		displayFolder: anr\mensual
 		lineageTag: 1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d
 
@@ -1339,37 +1328,12 @@ table _medidas
 			        SubmSM * DiasSM,
 			        BLANK()
 			    )
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		formatString: #,0.00
 		displayFolder: anr\subm\mensual
 		lineageTag: 2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
 
-	measure anr_m3_km_dia_mensual_smly =
-			
-			VAR AnrSM =
-			    CALCULATE(
-			        [anr_mensual],
-			        DATEADD(dim_calendario[Date], -12, MONTH)
-			    )
-			
-			VAR KmSM =
-			    CALCULATE(
-			        [l_km_mensual],
-			        DATEADD(dim_calendario[Date], -12, MONTH)
-			    )
-			
-			VAR DiasSM =
-			    CALCULATE(
-			        [count_dias_mes],
-			        DATEADD(dim_calendario[Date], -12, MONTH)
-			    )
-			
-			RETURN
-			    DIVIDE(
-			        AnrSM * 1000000,
-			        KmSM * DiasSM,
-			        BLANK()
-			    )
-		formatString: 0.00\ %;-0.00\ %;0.00\ %
+	measure anr_m3_km_dia_mensual_smly = CALCULATE([anr_m3_km_dia_mensual], DATEADD(dim_calendario[Date], -12, MONTH))
+		formatString: #,0.00
 		displayFolder: anr\mensual
 		lineageTag: 3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f
 
@@ -3622,35 +3586,47 @@ table _medidas
 
 	measure anr_dia_m3_ytd =
 			
-			VAR _FechaInicio =
-			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			
-			VAR _FechaFin =
-			    MAX(fact_aigua_no_registrada[fecha])
+			VAR _UltimaFechaConDato =
+			    CALCULATE (
+			        MAX ( fact_volum_cons_lliur[fecha] ),
+			        REMOVEFILTERS ( dim_calendario )
+			    )
 			
 			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
+			    MIN ( dim_calendario[Date] )
 			
 			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
+			    MAX ( dim_calendario[Date] )
 			
-			VAR _Valor =
+			VAR _FechaFin =
+			    MIN (
+			        EOMONTH ( MAX ( dim_calendario[Date] ), 0 ),
+			        EOMONTH ( _UltimaFechaConDato, 0 )
+			    )
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( _FechaFin ), 1, 1 )
+			
+			VAR _ANRAcumuladoHm3 =
 			    CALCULATE (
-			        [anr_dia_m3_mensual],
-			        DATESBETWEEN (
-			            'dim_calendario'[Date],
-			            _FechaInicio,
-			            _FechaMaxContexto
+			        [anr_mensual],
+			        FILTER (
+			            ALL ( dim_calendario ),
+			            dim_calendario[Date] >= _FechaInicio
+			                && dim_calendario[Date] <= _FechaFin
 			        )
 			    )
 			
+			VAR _Dias =
+			    DATEDIFF ( _FechaInicio, _FechaFin, DAY ) + 1
+			
 			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			    _Valor
-			)
+			    IF (
+			        ISBLANK ( _UltimaFechaConDato )
+			            || _FechaMinContexto > _FechaFin,
+			        BLANK (),
+			        DIVIDE ( _ANRAcumuladoHm3, _Dias )
+			    )
 		displayFolder: anr\dia_m3\ytd
 		lineageTag: 760e79a6-b24d-46e6-a29f-9dcb6f302de8
 
@@ -4489,10 +4465,7 @@ table _medidas
 
 	measure l_km_mensual =
 			
-			VAR L =
-			    SUM(fact_inventari_xarxa_distribucion[xarxa])
-			RETURN
-			    DIVIDE(L, 1000)
+			SUM ( fact_inventari_xarxa_distribucion[xarxa] )
 		displayFolder: red\longitud\mensual
 		lineageTag: 9ac0b385-e8bc-40f7-9bbe-77005439c4c2
 
@@ -5063,6 +5036,7 @@ table _medidas
 			    BLANK (),
 			    _Actual - _Anterior
 			)
+		formatString: #,0.00
 		displayFolder: anr\dia_m3\diff
 		lineageTag: e5b0a70f-3c96-44b5-ad73-d8cb1621643d
 
@@ -5070,31 +5044,48 @@ table _medidas
 
 	measure anr_dia_m3_lytd =
 			
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
+			VAR _UltimaFechaConDato =
+			    CALCULATE (
+			        MAX ( fact_volum_cons_lliur[fecha] ),
+			        REMOVEFILTERS ( dim_calendario )
+			    )
 			
-			VAR _FechaInicioLY =
-			    DATE (
-			        YEAR ( _FechaMaxContexto ) - 1,
-			        1,
-			        1
+			VAR _FechaMinContexto =
+			    MIN ( dim_calendario[Date] )
+			
+			VAR _FechaFinActual =
+			    MIN (
+			        EOMONTH ( MAX ( dim_calendario[Date] ), 0 ),
+			        EOMONTH ( _UltimaFechaConDato, 0 )
 			    )
 			
 			VAR _FechaFinLY =
-			    EDATE (
-			        _FechaMaxContexto,
-			        -12
+			    EDATE ( _FechaFinActual, -12 )
+			
+			VAR _FechaInicioLY =
+			    DATE ( YEAR ( _FechaFinLY ), 1, 1 )
+			
+			VAR _AnrLY_Hm3 =
+			    CALCULATE (
+			        [anr_mensual],
+			        FILTER (
+			            ALL ( dim_calendario ),
+			            dim_calendario[Date] >= _FechaInicioLY
+			                && dim_calendario[Date] <= _FechaFinLY
+			        )
 			    )
 			
+			VAR _DiasLY =
+			    DATEDIFF ( _FechaInicioLY, _FechaFinLY, DAY ) + 1
+			
 			RETURN
-			CALCULATE (
-			    [anr_dia_m3_mensual],
-			    DATESBETWEEN (
-			        'dim_calendario'[Date],
-			        _FechaInicioLY,
-			        _FechaFinLY
+			    IF (
+			        ISBLANK ( _UltimaFechaConDato )
+			            || _FechaMinContexto > _FechaFinActual,
+			        BLANK (),
+			        DIVIDE ( _AnrLY_Hm3, _DiasLY )
 			    )
-			)
+		formatString: #,0.00
 		displayFolder: anr\dia_m3\ytd
 		lineageTag: 97836c4d-690f-421d-9198-4894c50a4cce
 
@@ -5102,44 +5093,66 @@ table _medidas
 
 	measure anr_l_esc_dia_ytd =
 			
-			VAR _FechaMaxContexto =
-			    MAX('dim_calendario'[Date])
+			VAR _UltimaFechaConDato =
+			    CALCULATE (
+			        MAX ( fact_volum_cons_lliur[fecha] ),
+			        REMOVEFILTERS ( dim_calendario )
+			    )
 			
+			VAR _FechaMinContexto =
+			    MIN ( dim_calendario[Date] )
+			
+			VAR _FechaMaxContexto =
+			    MAX ( dim_calendario[Date] )
+			
+			VAR _FechaFin =
+			    MIN (
+			        EOMONTH ( MAX ( dim_calendario[Date] ), 0 ),
+			        EOMONTH ( _UltimaFechaConDato, 0 )
+			    )
 			VAR _FechaInicio =
-			    DATE(YEAR(_FechaMaxContexto), 1, 1)
+			    DATE ( YEAR ( _FechaFin ), 1, 1 )
+			
+			VAR _PeriodoYTD =
+			    FILTER (
+			        ALL ( dim_calendario ),
+			        dim_calendario[Date] >= _FechaInicio
+			            && dim_calendario[Date] <= _FechaFin
+			    )
 			
 			VAR _AnrYTD =
-			    CALCULATE(
+			    CALCULATE (
 			        [anr_mensual],
-			        DATESBETWEEN(
-			            'dim_calendario'[Date],
-			            _FechaInicio,
-			            _FechaMaxContexto
-			        )
+			        _PeriodoYTD
 			    )
 			
 			VAR _EscomesesYTD =
-			    CALCULATE(
-			        AVERAGE('fact_inventari_xarxa_distribucion'[escomeses]),
-			        DATESBETWEEN(
-			            'dim_calendario'[Date],
-			            _FechaInicio,
-			            _FechaMaxContexto
-			        )
+			    CALCULATE (
+			        AVERAGEX (
+			            VALUES (
+			                fact_inventari_xarxa_distribucion[fecha]
+			            ),
+			            CALCULATE (
+			                SUM (
+			                    fact_inventari_xarxa_distribucion[escomeses]
+			                )
+			            )
+			        ),
+			        _PeriodoYTD
 			    )
 			
 			VAR _DiasYTD =
-			    DATEDIFF(
-			        _FechaInicio,
-			        _FechaMaxContexto,
-			        DAY
-			    ) + 1
+			    DATEDIFF ( _FechaInicio, _FechaFin, DAY ) + 1
 			
 			RETURN
-			    DIVIDE(
-			        _AnrYTD * 1000000000,
-			        _EscomesesYTD * _DiasYTD,
-			        BLANK()
+			    IF (
+			        ISBLANK ( _UltimaFechaConDato )
+			            || _FechaMinContexto > _FechaFin,
+			        BLANK (),
+			        DIVIDE (
+			            _AnrYTD * 1000000000,
+			            _EscomesesYTD * _DiasYTD
+			        )
 			    )
 		displayFolder: anr\ytd
 		lineageTag: cfc8d7af-fb62-4d13-ac62-092337240d2a
@@ -5190,6 +5203,7 @@ table _medidas
 			        _EscomesesLYTD * _DiasLYTD,
 			        BLANK()
 			    )
+		formatString: #,0.00
 		displayFolder: anr\ytd
 		lineageTag: 229a0416-e62d-4b13-87d7-cf993e7f0a31
 
@@ -5209,6 +5223,7 @@ table _medidas
 			        BLANK(),
 			        _Actual - _Anterior
 			    )
+		formatString: #,0.00
 		displayFolder: anr\diff
 		lineageTag: 1f9e6971-15f4-4ef6-b6ba-8e5abd249d6d
 
@@ -5216,45 +5231,67 @@ table _medidas
 
 	measure anr_m3_km_dia_ytd =
 			
-			VAR FechaMax =
-			    MAX('dim_calendario'[Date])
-			
-			VAR FechaInicio =
-			    DATE(YEAR(FechaMax), 1, 1)
-			
-			VAR AnrYTD =
-			    CALCULATE(
-			        [anr_mensual],
-			        DATESBETWEEN(
-			            'dim_calendario'[Date],
-			            FechaInicio,
-			            FechaMax
-			        )
+			VAR _UltimaFechaConDato =
+			    CALCULATE (
+			        MAX ( fact_volum_cons_lliur[fecha] ),
+			        REMOVEFILTERS ( dim_calendario )
 			    )
 			
-			VAR KmYTD =
-			    CALCULATE(
-			        AVERAGE(fact_inventari_xarxa_distribucion[xarxa]),
-			        DATESBETWEEN(
-			            'dim_calendario'[Date],
-			            FechaInicio,
-			            FechaMax
-			        )
-			    ) / 1000
+			VAR _FechaMinContexto =
+			    MIN ( dim_calendario[Date] )
 			
-			VAR DiasYTD =
-			    DATEDIFF(
-			        FechaInicio,
-			        FechaMax,
-			        DAY
-			    ) + 1
+			VAR _FechaMaxContexto =
+			    MAX ( dim_calendario[Date] )
+			
+			VAR _FechaFin =
+			    MIN (
+			        EOMONTH ( MAX ( dim_calendario[Date] ), 0 ),
+			        EOMONTH ( _UltimaFechaConDato, 0 )
+			    )
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( _FechaFin ), 1, 1 )
+			
+			VAR _PeriodoYTD =
+			    FILTER (
+			        ALL ( dim_calendario ),
+			        dim_calendario[Date] >= _FechaInicio
+			            && dim_calendario[Date] <= _FechaFin
+			    )
+			
+			VAR _AnrYTD =
+			    CALCULATE (
+			        [anr_mensual],
+			        _PeriodoYTD
+			    )
+			
+			VAR _KmYTD =
+			    CALCULATE (
+			        AVERAGEX (
+			            VALUES ( fact_inventari_xarxa_distribucion[fecha] ),
+			            CALCULATE (
+			                SUM (
+			                    fact_inventari_xarxa_distribucion[xarxa]
+			                )
+			            )
+			        ),
+			        _PeriodoYTD
+			    )
+			
+			VAR _DiasYTD =
+			    DATEDIFF ( _FechaInicio, _FechaFin, DAY ) + 1
 			
 			RETURN
-			    DIVIDE(
-			        AnrYTD * 1000000,
-			        KmYTD * DiasYTD,
-			        BLANK()
+			    IF (
+			        ISBLANK ( _UltimaFechaConDato )
+			            || _FechaMinContexto > _FechaFin,
+			        BLANK (),
+			        DIVIDE (
+			            _AnrYTD * 1000000,
+			            _KmYTD * _DiasYTD
+			        )
 			    )
+		formatString: #,0.00
 		displayFolder: anr\ytd
 		lineageTag: 1dec4440-e022-499d-823d-c31a4808b9c1
 
@@ -5289,7 +5326,7 @@ table _medidas
 			            FechaInicioLY,
 			            FechaFinLY
 			        )
-			    ) / 1000
+			    )
 			
 			VAR DiasLYTD =
 			    DATEDIFF(
@@ -5304,6 +5341,7 @@ table _medidas
 			        KmLYTD * DiasLYTD,
 			        BLANK()
 			    )
+		formatString: #,0.00
 		displayFolder: anr\diff
 		lineageTag: 808c482a-a852-4c60-90c7-69fbe98a189d
 
@@ -5323,6 +5361,7 @@ table _medidas
 			        BLANK(),
 			        Actual - Anterior
 			    )
+		formatString: #,0.00
 		displayFolder: anr\diff
 		lineageTag: 145bf06b-db97-4d5c-8a3b-5351067b5081
 
@@ -5330,45 +5369,66 @@ table _medidas
 
 	measure anr_l_subm_dia_ytd =
 			
-			VAR FechaMax =
-			    MAX('dim_calendario'[Date])
+			VAR _UltimaFechaConDato =
+			    CALCULATE (
+			        MAX ( fact_volum_cons_lliur[fecha] ),
+			        REMOVEFILTERS ( dim_calendario )
+			    )
 			
-			VAR FechaInicio =
-			    DATE(YEAR(FechaMax), 1, 1)
+			VAR _FechaMinContexto =
+			    MIN ( dim_calendario[Date] )
 			
-			VAR AnrYTD =
-			    CALCULATE(
+			VAR _FechaFin =
+			    MIN (
+			        EOMONTH ( MAX ( dim_calendario[Date] ), 0 ),
+			        EOMONTH ( _UltimaFechaConDato, 0 )
+			    )
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( _FechaFin ), 1, 1 )
+			
+			VAR _PeriodoYTD =
+			    FILTER (
+			        ALL ( dim_calendario ),
+			        dim_calendario[Date] >= _FechaInicio
+			            && dim_calendario[Date] <= _FechaFin
+			    )
+			
+			VAR _AnrYTD =
+			    CALCULATE (
 			        [anr_mensual],
-			        DATESBETWEEN(
-			            'dim_calendario'[Date],
-			            FechaInicio,
-			            FechaMax
-			        )
+			        _PeriodoYTD
 			    )
 			
-			VAR SubmYTD =
-			    CALCULATE(
-			        AVERAGE(fact_inventari_xarxa_distribucion[subministraments]),
-			        DATESBETWEEN(
-			            'dim_calendario'[Date],
-			            FechaInicio,
-			            FechaMax
-			        )
+			VAR _SubmYTD =
+			    CALCULATE (
+			        AVERAGEX (
+			            VALUES (
+			                fact_inventari_xarxa_distribucion[fecha]
+			            ),
+			            CALCULATE (
+			                SUM (
+			                    fact_inventari_xarxa_distribucion[subministraments]
+			                )
+			            )
+			        ),
+			        _PeriodoYTD
 			    )
 			
-			VAR DiasYTD =
-			    DATEDIFF(
-			        FechaInicio,
-			        FechaMax,
-			        DAY
-			    ) + 1
+			VAR _DiasYTD =
+			    DATEDIFF ( _FechaInicio, _FechaFin, DAY ) + 1
 			
 			RETURN
-			    DIVIDE(
-			        AnrYTD * 1000000000,
-			        SubmYTD * DiasYTD,
-			        BLANK()
+			    IF (
+			        ISBLANK ( _UltimaFechaConDato )
+			            || _FechaMinContexto > _FechaFin,
+			        BLANK (),
+			        DIVIDE (
+			            _AnrYTD * 1000000000,
+			            _SubmYTD * _DiasYTD
+			        )
 			    )
+		formatString: #,0.00
 		displayFolder: anr\subm\ytd
 		lineageTag: 1257158e-8b65-42f3-88f6-258bf65d3f91
 
@@ -5418,6 +5478,7 @@ table _medidas
 			        SubmLYTD * DiasLYTD,
 			        BLANK()
 			    )
+		formatString: #,0.00
 		displayFolder: anr\subm\ytd
 		lineageTag: 81d21fef-df2f-48e6-8bf1-e49a5c5ae087
 
@@ -5437,6 +5498,7 @@ table _medidas
 			        BLANK(),
 			        Actual - Anterior
 			    )
+		formatString: #,0.00
 		displayFolder: anr\subm\diff
 		lineageTag: ae47ee7f-a0d5-4485-895c-9d49f2b24d1e
 
@@ -9734,6 +9796,84 @@ table _medidas
 			        )
 		displayFolder: red\longitud\acum_12
 		lineageTag: b7cbba73-ac98-4fdf-8fe3-d976abb2b153
+
+	measure Debug_Entregado_m3 =
+			
+			SUM ( fact_volum_cons_lliur[volum_lliurat] )
+		lineageTag: 53c2d350-b2c5-48c4-9241-51aee7f8660a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Debug_Consumido_m3 =
+			
+			SUM ( fact_volum_cons_lliur[volum_consumit] )
+		lineageTag: 3aa2323f-271a-4882-9b62-2c0c9dc84e63
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Debug_ANR_m3 =
+			
+			[Debug_Entregado_m3] - [Debug_Consumido_m3]
+		lineageTag: 82eb71ef-20f4-4bb9-ab05-b0e40d03cdcf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Debug_YTD =
+			
+			VAR _UltimaFechaConDato =
+			    CALCULATE (
+			        MAX ( fact_volum_cons_lliur[fecha] ),
+			        REMOVEFILTERS ( dim_calendario )
+			    )
+			
+			VAR _FechaFin =
+			    MIN (
+			        MAX ( dim_calendario[Date] ),
+			        EOMONTH ( _UltimaFechaConDato, 0 )
+			    )
+			
+			VAR _FechaInicio =
+			    DATE ( YEAR ( _FechaFin ), 1, 1 )
+			
+			VAR _PeriodoYTD =
+			    FILTER (
+			        ALL ( dim_calendario ),
+			        dim_calendario[Date] >= _FechaInicio
+			            && dim_calendario[Date] <= _FechaFin
+			    )
+			
+			VAR _ANR =
+			    CALCULATE (
+			        [anr_mensual],
+			        _PeriodoYTD
+			    )
+			
+			VAR _Km =
+			    CALCULATE (
+			        AVERAGEX (
+			            VALUES ( fact_inventari_xarxa_distribucion[fecha] ),
+			            CALCULATE (
+			                SUM ( fact_inventari_xarxa_distribucion[xarxa] )
+			            )
+			        ),
+			        _PeriodoYTD
+			    )
+			
+			VAR _Dias =
+			    DATEDIFF ( _FechaInicio, _FechaFin, DAY ) + 1
+			
+			RETURN
+			    "Inicio: " & FORMAT ( _FechaInicio, "dd/MM/yyyy" )
+			        & " | Fin: " & FORMAT ( _FechaFin, "dd/MM/yyyy" )
+			        & " | Días: " & FORMAT ( _Dias, "0" )
+			        & " | ANR hm³: " & FORMAT ( _ANR, "0.000000" )
+			        & " | Km: " & FORMAT ( _Km, "0.000" )
+			        & " | Ratio: "
+			        & FORMAT (
+			            DIVIDE ( _ANR * 1000000, _Km * _Dias ),
+			            "0.00"
+			        )
+		lineageTag: 63c8f4aa-14a9-40b7-a10e-48257fc3cdce
 
 	column Column
 		isHidden

@@ -1,5 +1,11 @@
 # Revisión de KPI ANR i cabal mínim
 
+> Actualización posterior: por indicación expresa del usuario se conserva el valor mensual 12,56 de ANR/día y su título existente. La escala numérica de esa tarjeta es miles de m³/día y se mantiene igual en todos sus períodos y comparativos, aunque el título siga diciendo m³/día. Esta decisión sustituye las recomendaciones anteriores de este documento sobre mostrar m³/día sin escala. Se preservan las cuatro medidas mensuales actuales y los objetivos.
+>
+> Cambios de esta actualización en `_medidas.tmdl`: ANR/día de doce meses pasa a `DIVIDE([anr_acum_12m], 365 * 1000)`; acumulado y comparación del año anterior usan `[anr_mensual] * 1000` dividido entre los días de la ventana. El ratio por suministro de doce meses usa `DIVIDE` sin cambiar su conversión correcta a litros. Se elimina la segunda división por 1.000 de kilómetros en YTD/LYTD. La comparación mensual anterior por km reutiliza la medida mensual actual para que Diff no reste valores con escalas distintas. Diff conserva la resta absoluta. No se modifican títulos, archivos de visuales, objetivos ni las cuatro medidas mensuales.
+>
+> Validación de esta actualización: parser TMDL correcto (50 tablas), `git diff --check` correcto, y comprobación de que las expresiones mensuales, los objetivos y las restas Diff permanecen intactos. Pendiente ejecutar y revisar los resultados en el modelo de Power BI que alimenta el informe. Las conclusiones históricas que siguen deben leerse con esta actualización.
+
 Fecha: 13/11/2026. Informe: `Aguas de Barcelona 4.Report`, página `32a69b6a4b9ecc1986d0`.
 
 ## Resultado y alcance

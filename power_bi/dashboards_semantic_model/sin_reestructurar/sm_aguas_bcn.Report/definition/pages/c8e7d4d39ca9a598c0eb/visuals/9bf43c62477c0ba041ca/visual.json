@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "9bf43c62477c0ba041ca",
   "position": {
-    "x": 772,
-    "y": 376,
+    "x": 144.25244177310293,
+    "y": 431.7956423741548,
     "z": 14001,
-    "height": 284,
-    "width": 496,
+    "height": 288.50488354620586,
+    "width": 1124.207362885049,
     "tabOrder": 11001
   },
   "visual": {
@@ -17,20 +17,107 @@
           "projections": [
             {
               "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_calendario"
+                    }
+                  },
+                  "Property": "anio_mes"
+                }
+              },
+              "queryRef": "dim_calendario.anio_mes",
+              "nativeQueryRef": "anio_mes"
+            },
+            {
+              "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
                       "Entity": "_medidas"
                     }
                   },
-                  "Property": "anr_dia_m3_mensual_smly"
+                  "Property": "anr_l_esc_dia_mensual"
                 }
               },
-              "queryRef": "_medidas.anr_dia_m3_mensual_smly",
-              "nativeQueryRef": "anr_dia_m3_mensual_smly"
+              "queryRef": "_medidas.anr_l_esc_dia_mensual",
+              "nativeQueryRef": "anr_l_esc_dia_mensual"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "anr_l_esc_dia_mensual_smly"
+                }
+              },
+              "queryRef": "_medidas.anr_l_esc_dia_mensual_smly",
+              "nativeQueryRef": "anr_l_esc_dia_mensual_smly"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "anr_l_esc_dia_diff"
+                }
+              },
+              "queryRef": "_medidas.anr_l_esc_dia_diff",
+              "nativeQueryRef": "anr_l_esc_dia_diff"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_gerencia"
+                    }
+                  },
+                  "Property": "gerencia"
+                }
+              },
+              "queryRef": "dim_gerencia.gerencia",
+              "nativeQueryRef": "gerencia"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "kpi_anr_l_esc_dia_switch"
+                }
+              },
+              "queryRef": "_switchs.kpi_anr_l_esc_dia_switch",
+              "nativeQueryRef": "kpi_anr_l_esc_dia_switch"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_medidas"
+                  }
+                },
+                "Property": "anr_l_esc_dia_mensual_smly"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
       }
     },
     "drillFilterOtherVisuals": true

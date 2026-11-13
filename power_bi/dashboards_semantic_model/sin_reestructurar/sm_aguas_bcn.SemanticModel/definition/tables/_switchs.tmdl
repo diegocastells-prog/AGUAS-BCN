@@ -37,7 +37,7 @@ table _switchs
 			        ),
 			
 			    "12 Mesos",
-			        [anr_dia_m3_acum_12m],
+			        [anr_dia_hm3_acum_12m],
 			
 			    "Acumulat",
 			        [anr_dia_m3_ytd],
@@ -66,10 +66,9 @@ table _switchs
 			
 			    BLANK()
 			)
+		formatString: 0.000
 		displayFolder: anr\dia_m3
 		lineageTag: aefdb69b-7672-4b20-bde5-a92f86277203
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_volum_consumit_distribucion_switch = ```
 			
@@ -115,54 +114,101 @@ table _switchs
 		displayFolder: estandarizadas
 		lineageTag: 4dd0ca4b-97a4-467d-a3e6-0298f4457562
 
-	measure kpi_anr_l_esc_dia_switch = ```
+	measure kpi_anr_l_esc_dia_switch =
 			
 			VAR _Periodo =
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]) & ""
+			    SELECTEDVALUE ( dummy_slicer_periodo[Periodo] ) & ""
 			
 			VAR _EsContextoMes =
-			    ISINSCOPE('dim_calendario'[mes_corto])
-			        || ISINSCOPE('dim_calendario'[anio_mes])
+			    ISINSCOPE ( dim_calendario[mes_corto] )
+			        || ISINSCOPE ( dim_calendario[anio_mes] )
 			
-			VAR _UltimaFechaConDatoMensual =
-			    MAXX(
-			        FILTER(
-			            ALLSELECTED('dim_calendario'),
-			            NOT ISBLANK(
-			                CALCULATE([anr_l_esc_dia_mensual])
-			            )
-			        ),
-			        'dim_calendario'[Date]
+			VAR _MesesSeleccionados =
+			    DISTINCT (
+			        SELECTCOLUMNS (
+			            ALLSELECTED ( dim_calendario ),
+			            "_FinMes",
+			                EOMONTH ( dim_calendario[Date], 0 )
+			        )
 			    )
 			
-			VAR _UltimoValorMensual =
-			    CALCULATE(
-			        [anr_l_esc_dia_mensual],
-			        REMOVEFILTERS('dim_calendario'),
-			        'dim_calendario'[Date] = _UltimaFechaConDatoMensual
+			VAR _UltimaFechaConDato =
+			    MAXX (
+			        FILTER (
+			            _MesesSeleccionados,
+			            VAR _FinMes = [_FinMes]
+			            VAR _InicioMes =
+			                DATE ( YEAR ( _FinMes ), MONTH ( _FinMes ), 1 )
+			            VAR _ValorMes =
+			                CALCULATE (
+			                    [anr_l_esc_dia_mensual],
+			                    FILTER (
+			                        ALL ( dim_calendario ),
+			                        dim_calendario[Date] >= _InicioMes
+			                            && dim_calendario[Date] <= _FinMes
+			                    )
+			                )
+			            RETURN
+			                NOT ISBLANK ( _ValorMes )
+			        ),
+			        [_FinMes]
+			    )
+			
+			VAR _InicioUltimoMes =
+			    DATE (
+			        YEAR ( _UltimaFechaConDato ),
+			        MONTH ( _UltimaFechaConDato ),
+			        1
+			    )
+			
+			VAR _FinUltimoMes =
+			    EOMONTH ( _UltimaFechaConDato, 0 )
+			
+			VAR _UltimoMes =
+			    FILTER (
+			        ALL ( dim_calendario ),
+			        dim_calendario[Date] >= _InicioUltimoMes
+			            && dim_calendario[Date] <= _FinUltimoMes
 			    )
 			
 			RETURN
-			SWITCH(
-			    _Periodo,
+			    SWITCH (
+			        _Periodo,
 			
-			    "Mensual",
-			        IF(
-			            _EsContextoMes,
-			            [anr_l_esc_dia_mensual],
-			            _UltimoValorMensual
-			        ),
+			        "Mensual",
+			            IF (
+			                _EsContextoMes,
+			                [anr_l_esc_dia_mensual],
+			                IF (
+			                    NOT ISBLANK ( _UltimaFechaConDato ),
+			                    CALCULATE (
+			                        [anr_l_esc_dia_mensual],
+			                        _UltimoMes
+			                    )
+			                )
+			            ),
 			
-			    "12 Mesos",
-			        [anr_l_esc_dia_acum_12m],
+			        "12 Mesos",
+			            [anr_l_esc_dia_acum_12m],
 			
-			    "Acumulat", [anr_l_esc_dia_ytd],
-			    
-			    "Diff", [anr_l_esc_dia_diff],
+			        "Acumulat",
+			            [anr_l_esc_dia_ytd],
 			
-			    BLANK()
-			)
-			```
+			        "Diff",
+			            IF (
+			                _EsContextoMes,
+			                [anr_l_esc_dia_diff],
+			                IF (
+			                    NOT ISBLANK ( _UltimaFechaConDato ),
+			                    CALCULATE (
+			                        [anr_l_esc_dia_diff],
+			                        _UltimoMes
+			                    )
+			                )
+			            ),
+			
+			        BLANK ()
+			    )
 		formatString: #,0.00
 		displayFolder: anr\l_esc
 		lineageTag: d76f2ddc-e783-4915-b386-6d6c9e88b4cb
