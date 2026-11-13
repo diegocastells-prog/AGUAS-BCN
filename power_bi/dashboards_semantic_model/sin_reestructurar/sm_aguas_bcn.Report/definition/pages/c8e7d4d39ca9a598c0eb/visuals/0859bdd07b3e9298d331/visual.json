@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "0859bdd07b3e9298d331",
   "position": {
-    "x": 164.1635687732342,
-    "y": 415.16728624535318,
-    "z": 15,
-    "height": 237.9182156133829,
-    "width": 1102.7509293680298,
-    "tabOrder": 65
+    "x": 157.42765273311898,
+    "y": 416.72025723472666,
+    "z": 13000,
+    "height": 243.85852090032154,
+    "width": 1101.9935691318328,
+    "tabOrder": 10000
   },
   "visual": {
     "visualType": "tableEx",
@@ -41,7 +41,23 @@
                 }
               },
               "queryRef": "_medidas.anr_mensual",
-              "nativeQueryRef": "anr_mensual"
+              "nativeQueryRef": "ANR M",
+              "displayName": "ANR M"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "anr_acum_12m"
+                }
+              },
+              "queryRef": "_medidas.anr_acum_12m",
+              "nativeQueryRef": "ANR 12",
+              "displayName": "ANR 12"
             },
             {
               "field": {
@@ -80,48 +96,6 @@
                       "Entity": "_medidas"
                     }
                   },
-                  "Property": "anr_dist_acum_12m"
-                }
-              },
-              "queryRef": "_medidas.anr_dist_acum_12m",
-              "nativeQueryRef": "anr_dist_acum_12m"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_medidas"
-                    }
-                  },
-                  "Property": "anr_dist_mensual"
-                }
-              },
-              "queryRef": "_medidas.anr_dist_mensual",
-              "nativeQueryRef": "anr_dist_mensual"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_medidas"
-                    }
-                  },
-                  "Property": "anr_acum_12m"
-                }
-              },
-              "queryRef": "_medidas.anr_acum_12m",
-              "nativeQueryRef": "anr_acum_12m"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_medidas"
-                    }
-                  },
                   "Property": "anr_m3_km_dia_mitjana_12m"
                 }
               },
@@ -136,11 +110,11 @@
                       "Entity": "_medidas"
                     }
                   },
-                  "Property": "l_km_12m_mitjana"
+                  "Property": "anr_l_subm_dia_mitjana_12m"
                 }
               },
-              "queryRef": "_medidas.l_km_12m_mitjana",
-              "nativeQueryRef": "l_km_12m_mitjana"
+              "queryRef": "_medidas.anr_l_subm_dia_mitjana_12m",
+              "nativeQueryRef": "anr_l_subm_dia_mitjana_12m"
             },
             {
               "field": {
@@ -150,11 +124,11 @@
                       "Entity": "_medidas"
                     }
                   },
-                  "Property": "Debug_inventario_12m"
+                  "Property": "subministraments_12m_mitjana"
                 }
               },
-              "queryRef": "_medidas.Debug_inventario_12m",
-              "nativeQueryRef": "Debug_inventario_12m"
+              "queryRef": "_medidas.subministraments_12m_mitjana",
+              "nativeQueryRef": "subministraments_12m_mitjana"
             }
           ]
         }
@@ -348,146 +322,6 @@
         "howCreated": "User",
         "isHiddenInViewMode": true,
         "isLockedInViewMode": true
-      },
-      {
-        "name": "88d5eb89a1738cc0c872",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_switchs"
-              }
-            },
-            "Property": "kpi_anr_dia_m3_switch"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "85676f4a80c29a723d28",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "anr_mensual"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "9c3ba118c86520787a08",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "count_dias_mes"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "2bbd3b7ed9b555ea590b",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_calendario"
-              }
-            },
-            "Property": "anio_mes"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "13d980163964474c07b3",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "anr_dist_acum_12m"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "84a55d815815e6100829",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "anr_dist_mensual"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "4783bff365760094828e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "anr_acum_12m"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "1e90519d0c28e723941e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "anr_m3_km_dia_mitjana_12m"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "5d9de8d097d503526903",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "l_km_12m_mitjana"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "2d45cb220bc5a2b11a36",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_medidas"
-              }
-            },
-            "Property": "Debug_inventario_12m"
-          }
-        },
-        "type": "Advanced"
       }
     ],
     "filterSortOrder": "Custom"

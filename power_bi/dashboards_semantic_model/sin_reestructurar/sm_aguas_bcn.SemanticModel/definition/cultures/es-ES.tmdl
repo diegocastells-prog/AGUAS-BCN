@@ -2623,6 +2623,16 @@ cultureInfo es-ES
 			            "State": "Generated",
 			            "Weight": 0.99
 			          }
+			        },
+			        {
+			          "ANR 12": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -2645,6 +2655,16 @@ cultureInfo es-ES
 			            "Type": "Noun",
 			            "State": "Generated",
 			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "ANR M": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
 			          }
 			        }
 			      ]
@@ -12544,7 +12564,7 @@ cultureInfo es-ES
 			          }
 			        },
 			        {
-			          "Insp. Acustic": {
+			          "Acustic": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -12554,7 +12574,7 @@ cultureInfo es-ES
 			          }
 			        },
 			        {
-			          "Acustic": {
+			          "Insp. Acustic": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -12666,7 +12686,7 @@ cultureInfo es-ES
 			          }
 			        },
 			        {
-			          "Insp. Heli": {
+			          "Heli": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -12676,7 +12696,7 @@ cultureInfo es-ES
 			          }
 			        },
 			        {
-			          "Heli": {
+			          "Insp. Heli": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -26010,9 +26030,1301 @@ cultureInfo es-ES
 			          }
 			        }
 			      ]
+			    },
+			    "entity__medida.debug_inventario_1_2m": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_medidas",
+			          "ConceptualProperty": "Debug_inventario_12m"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "debug inventario 1 2m": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "Debug_inventario_12m": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
 			    }
 			  },
 			  "Relationships": {
+			    "fact_estim_volum_munic_pob_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_estim_volum_munic_pob"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_estim_volum_munic_pob": {
+			          "Target": {
+			            "Entity": "fact_estim_volum_munic_pob"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_estim_volum_munic_pob"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_estim_volum_munic_pobs_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_estim_volum_munic_pob"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_estim_volum_munic_pobs"
+			        }
+			      ]
+			    },
+			    "fact_estim_volum_munic_pob_has_dim_municipio": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_estim_volum_munic_pob"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_estim_volum_munic_pob": {
+			          "Target": {
+			            "Entity": "fact_estim_volum_munic_pob"
+			          }
+			        },
+			        "dim_municipio": {
+			          "Target": {
+			            "Entity": "dim_municipio"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_estim_volum_munic_pob"
+			            },
+			            "Object": {
+			              "Role": "dim_municipio"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_estim_volum_munic_pobs_have_dim_municipios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_municipio"
+			            },
+			            "Object": {
+			              "Role": "fact_estim_volum_munic_pob"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_municipios_have_fact_estim_volum_munic_pobs"
+			        }
+			      ]
+			    },
+			    "fact_tfuita_tinst_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_tfuita_tinst"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_tfuita_tinst": {
+			          "Target": {
+			            "Entity": "fact_tfuita_tinst"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_tfuita_tinst"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_tfuita_tinsts_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_tfuita_tinst"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_tfuita_tinsts"
+			        }
+			      ]
+			    },
+			    "fact_tfuita_tinst_has_dim_gerencia": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_tfuita_tinst"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_tfuita_tinst": {
+			          "Target": {
+			            "Entity": "fact_tfuita_tinst"
+			          }
+			        },
+			        "dim_gerencia": {
+			          "Target": {
+			            "Entity": "dim_gerencia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_tfuita_tinst"
+			            },
+			            "Object": {
+			              "Role": "dim_gerencia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_tfuita_tinsts_have_dim_gerencias"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_gerencia"
+			            },
+			            "Object": {
+			              "Role": "fact_tfuita_tinst"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_gerencias_have_fact_tfuita_tinsts"
+			        }
+			      ]
+			    },
+			    "dim_gerencia_pressio_has_dim_dades_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_gerencia_pressio"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_gerencia_pressio": {
+			          "Target": {
+			            "Entity": "dim_gerencia_pressio"
+			          }
+			        },
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          },
+			          "Nouns": [
+			            {
+			              "zona 2": {
+			                "State": "Generated"
+			              }
+			            }
+			          ]
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_gerencia_pressio"
+			            },
+			            "Object": {
+			              "Role": "dim_dades_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_gerencia_pressios_have_dim_dades_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "dim_gerencia_pressio"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_dim_gerencia_pressios"
+			        }
+			      ]
+			    },
+			    "fact_actuacions_zone_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_actuacions_zones"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_actuacions_zone": {
+			          "Target": {
+			            "Entity": "fact_actuacions_zone"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_actuacions_zone"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_actuacions_zones_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_actuacions_zone"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_actuacions_zones"
+			        }
+			      ]
+			    },
+			    "fact_actuacions_zone_has_dim_dades_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_actuacions_zones"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_actuacions_zone": {
+			          "Target": {
+			            "Entity": "fact_actuacions_zone"
+			          }
+			        },
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_actuacions_zone"
+			            },
+			            "Object": {
+			              "Role": "dim_dades_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_actuacions_zones_have_dim_dades_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "fact_actuacions_zone"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_fact_actuacions_zones"
+			        }
+			      ]
+			    },
+			    "fact_inventari_xarxa_transporte_total_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_inventari_xarxa_transporte_total"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_inventari_xarxa_transporte_total": {
+			          "Target": {
+			            "Entity": "fact_inventari_xarxa_transporte_total"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_inventari_xarxa_transporte_total"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_inventari_xarxa_transporte_totals_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_inventari_xarxa_transporte_total"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_inventari_xarxa_transporte_totals"
+			        }
+			      ]
+			    },
+			    "fact_volum_cons_lliur_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_volum_cons_lliur"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_volum_cons_lliurs"
+			        }
+			      ]
+			    },
+			    "fact_volum_cons_lliur_has_dim_dades_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "dim_dades_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_dim_dades_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "fact_volum_cons_lliur"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_fact_volum_cons_lliurs"
+			        }
+			      ]
+			    },
+			    "fact_dades_consum_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_dades_consum"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_dades_consum": {
+			          "Target": {
+			            "Entity": "fact_dades_consum"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_dades_consum"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_dades_consums_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_dades_consum"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_dades_consums"
+			        }
+			      ]
+			    },
+			    "fact_dades_consum_has_fact_perimetre_comptador": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_dades_consum"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_dades_consum": {
+			          "Target": {
+			            "Entity": "fact_dades_consum"
+			          }
+			        },
+			        "fact_perimetre_comptador": {
+			          "Target": {
+			            "Entity": "fact_perimetre_comptador"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_dades_consum"
+			            },
+			            "Object": {
+			              "Role": "fact_perimetre_comptador"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_dades_consums_have_fact_perimetre_comptadors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_perimetre_comptador"
+			            },
+			            "Object": {
+			              "Role": "fact_dades_consum"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_perimetre_comptadors_have_fact_dades_consums"
+			        }
+			      ]
+			    },
+			    "dim_dades_sector_has_dim_arteria": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_dades_sectors"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          }
+			        },
+			        "dim_arteria": {
+			          "Target": {
+			            "Entity": "dim_arteria"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "dim_arteria"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_dim_arterias"
+			        }
+			      ]
+			    },
+			    "fact_vol_fraud_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_vol_fraud"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_vol_fraud": {
+			          "Target": {
+			            "Entity": "fact_vol_fraud"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_vol_fraud"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_vol_frauds_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_vol_fraud"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_vol_frauds"
+			        }
+			      ]
+			    },
+			    "fact_z_sector_has_fact_volumns_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_z_sector"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_z_sector": {
+			          "Target": {
+			            "Entity": "fact_z_sector"
+			          }
+			        },
+			        "fact_volumns_sector": {
+			          "Target": {
+			            "Entity": "fact_volumns_sector"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_z_sector"
+			            },
+			            "Object": {
+			              "Role": "fact_volumns_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_z_sectors_have_fact_volumns_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volumns_sector"
+			            },
+			            "Object": {
+			              "Role": "fact_z_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volumns_sectors_have_fact_z_sectors"
+			        }
+			      ]
+			    },
+			    "fact_cabals_mínim_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_cabals_mínims"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_cabals_mínim": {
+			          "Target": {
+			            "Entity": "fact_cabals_mínim"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_cabals_mínim"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_cabals_mínims_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_cabals_mínim"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_cabals_mínims"
+			        }
+			      ]
+			    },
+			    "fact_cabals_mínim_has_dim_dades_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_cabals_mínims"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_cabals_mínim": {
+			          "Target": {
+			            "Entity": "fact_cabals_mínim"
+			          }
+			        },
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_cabals_mínim"
+			            },
+			            "Object": {
+			              "Role": "dim_dades_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_cabals_mínims_have_dim_dades_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "fact_cabals_mínim"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_fact_cabals_mínims"
+			        }
+			      ]
+			    },
+			    "fact_perimetre_comptador_has_fact_bossa": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_perimetre_comptadors"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_perimetre_comptador": {
+			          "Target": {
+			            "Entity": "fact_perimetre_comptador"
+			          }
+			        },
+			        "fact_bossa": {
+			          "Target": {
+			            "Entity": "fact_bossa"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_perimetre_comptador"
+			            },
+			            "Object": {
+			              "Role": "fact_bossa"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_perimetre_comptadors_have_fact_bossas"
+			        }
+			      ]
+			    },
+			    "fact_perimetre_comptador_has_dim_comptador": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_perimetre_comptadors"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_perimetre_comptador": {
+			          "Target": {
+			            "Entity": "fact_perimetre_comptador"
+			          }
+			        },
+			        "dim_comptador": {
+			          "Target": {
+			            "Entity": "dim_comptador"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_perimetre_comptador"
+			            },
+			            "Object": {
+			              "Role": "dim_comptador"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_perimetre_comptadors_have_dim_comptadors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_comptador"
+			            },
+			            "Object": {
+			              "Role": "fact_perimetre_comptador"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_comptadors_have_fact_perimetre_comptadors"
+			        }
+			      ]
+			    },
+			    "dim_less_polissa_fraude_has_fact_volumns_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_less_polissa_fraude"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_less_polissa_fraude": {
+			          "Target": {
+			            "Entity": "dim_less_polissa_fraude"
+			          }
+			        },
+			        "fact_volumns_sector": {
+			          "Target": {
+			            "Entity": "fact_volumns_sector"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_less_polissa_fraude"
+			            },
+			            "Object": {
+			              "Role": "fact_volumns_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_less_polissa_fraude_have_fact_volumns_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volumns_sector"
+			            },
+			            "Object": {
+			              "Role": "dim_less_polissa_fraude"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volumns_sectors_have_dim_less_polissa_fraude"
+			        }
+			      ]
+			    },
+			    "dim_less_polissa_fraude_has_dim_dades_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_less_polissa_fraude"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_less_polissa_fraude": {
+			          "Target": {
+			            "Entity": "dim_less_polissa_fraude"
+			          }
+			        },
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_less_polissa_fraude"
+			            },
+			            "Object": {
+			              "Role": "dim_dades_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_less_polissa_fraude_have_dim_dades_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "dim_less_polissa_fraude"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_dim_less_polissa_fraude"
+			        }
+			      ]
+			    },
+			    "fact_aigua_no_registrada_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_no_registrada"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_no_registrada": {
+			          "Target": {
+			            "Entity": "fact_aigua_no_registrada"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_no_registrada"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_no_registradas_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_aigua_no_registrada"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_aigua_no_registradas"
+			        }
+			      ]
+			    },
+			    "fact_aigua_no_registrada_has_dim_dades_sector": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_aigua_no_registrada"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_aigua_no_registrada": {
+			          "Target": {
+			            "Entity": "fact_aigua_no_registrada"
+			          }
+			        },
+			        "dim_dades_sector": {
+			          "Target": {
+			            "Entity": "dim_dades_sector"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_aigua_no_registrada"
+			            },
+			            "Object": {
+			              "Role": "dim_dades_sector"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_aigua_no_registradas_have_dim_dades_sectors"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_dades_sector"
+			            },
+			            "Object": {
+			              "Role": "fact_aigua_no_registrada"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_dades_sectors_have_fact_aigua_no_registradas"
+			        }
+			      ]
+			    },
+			    "fact_estadistiques_comp_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_estadistiques_comp"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_estadistiques_comp": {
+			          "Target": {
+			            "Entity": "fact_estadistiques_comp"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_estadistiques_comp"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_estadistiques_comps_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_estadistiques_comp"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_estadistiques_comps"
+			        }
+			      ]
+			    },
+			    "fact_estadistiques_comp_has_dim_gerencia": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_estadistiques_comp"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_estadistiques_comp": {
+			          "Target": {
+			            "Entity": "fact_estadistiques_comp"
+			          }
+			        },
+			        "dim_gerencia": {
+			          "Target": {
+			            "Entity": "dim_gerencia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_estadistiques_comp"
+			            },
+			            "Object": {
+			              "Role": "dim_gerencia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_estadistiques_comps_have_dim_gerencias"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_gerencia"
+			            },
+			            "Object": {
+			              "Role": "fact_estadistiques_comp"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_gerencias_have_fact_estadistiques_comps"
+			        }
+			      ]
+			    },
+			    "fact_inventari_xarxa_distribucion_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_inventari_xarxa_distribucion": {
+			          "Target": {
+			            "Entity": "fact_inventari_xarxa_distribucion"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_inventari_xarxa_distribucion"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_inventari_xarxa_distribucions_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_inventari_xarxa_distribucion"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_inventari_xarxa_distribucions"
+			        }
+			      ]
+			    },
+			    "fact_inventari_xarxa_distribucion_has_dim_gerencia": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_inventari_xarxa_distribucion": {
+			          "Target": {
+			            "Entity": "fact_inventari_xarxa_distribucion"
+			          }
+			        },
+			        "dim_gerencia": {
+			          "Target": {
+			            "Entity": "dim_gerencia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_inventari_xarxa_distribucion"
+			            },
+			            "Object": {
+			              "Role": "dim_gerencia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_inventari_xarxa_distribucions_have_dim_gerencias"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_gerencia"
+			            },
+			            "Object": {
+			              "Role": "fact_inventari_xarxa_distribucion"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_gerencias_have_fact_inventari_xarxa_distribucions"
+			        }
+			      ]
+			    },
+			    "fact_rend_anr_arterias_has_dim_calendario": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_rend_anr_arterias"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_rend_anr_arterias": {
+			          "Target": {
+			            "Entity": "fact_rend_anr_arterias"
+			          }
+			        },
+			        "dim_calendario": {
+			          "Target": {
+			            "Entity": "dim_calendario"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_rend_anr_arterias"
+			            },
+			            "Object": {
+			              "Role": "dim_calendario"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_rend_anr_arterias_have_dim_calendarios"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_calendario"
+			            },
+			            "Object": {
+			              "Role": "fact_rend_anr_arterias"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_calendarios_have_fact_rend_anr_arterias"
+			        }
+			      ]
+			    },
 			    "fact_rend_anr_arterias_has_dim_arteria": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_rend_anr_arterias"
@@ -26089,6 +27401,39 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "dim_calendarios_have_fact_aigua_consum_historic"
+			        }
+			      ]
+			    },
+			    "entity__medida_has_debug_inventario_1_2m": {
+			      "Binding": {
+			        "ConceptualEntity": "_medidas"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "entity__medida": {
+			          "Target": {
+			            "Entity": "entity__medida"
+			          }
+			        },
+			        "entity__medida.debug_inventario_1_2m": {
+			          "Target": {
+			            "Entity": "entity__medida.debug_inventario_1_2m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "entity__medida"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.debug_inventario_1_2m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "Phrasing_medidas_have_debug_inventario_1_2m"
 			        }
 			      ]
 			    },
@@ -43674,39 +45019,6 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_aigua_no_registrada_has_entity__switch_metrica_color_mapa_gerencia": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__switch.metrica_color_mapa_gerencia": {
-			          "Target": {
-			            "Entity": "entity__switch.metrica_color_mapa_gerencia"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__switch.metrica_color_mapa_gerencia"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_metrica_color_mapa_gerencia"
-			        }
-			      ]
-			    },
 			    "slicer_KPI_has_entity__switch_metrica_color_mapa_gerencia": {
 			      "Binding": {
 			        "ConceptualEntity": "Slicer_KPI"
@@ -47271,6 +48583,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_l_subm_dia_diff": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_l_subm_dia_diff": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_l_subm_dia_diff"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_l_subm_dia_diff"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_l_subm_dia_diff"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_anr_l_subm_dia_diff": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -47301,39 +48646,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_anr_l_subm_dia_diff"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_l_subm_dia_diff": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__medida.anr_l_subm_dia_diff": {
-			          "Target": {
-			            "Entity": "entity__medida.anr_l_subm_dia_diff"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.anr_l_subm_dia_diff"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_l_subm_dia_diff"
 			        }
 			      ]
 			    },
@@ -47700,15 +49012,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_dia_m_3_diff": {
+			    "fact_volum_cons_lliur_has_entity__medida_anr_dia_m_3_diff": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_aigua_no_registrada": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_dia_m_3_diff": {
@@ -47721,7 +49033,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_dia_m_3_diff"
@@ -47729,7 +49041,7 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_dia_m_3_diff"
+			          "ID": "fact_volum_cons_lliurs_have_anr_dia_m_3_diff"
 			        }
 			      ]
 			    },
@@ -47766,15 +49078,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_dia_m_3_lytd": {
+			    "fact_volum_cons_lliur_has_entity__medida_anr_dia_m_3_lytd": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_aigua_no_registrada": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_dia_m_3_lytd": {
@@ -47787,7 +49099,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_dia_m_3_lytd"
@@ -47795,7 +49107,7 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_dia_m_3_lytd"
+			          "ID": "fact_volum_cons_lliurs_have_anr_dia_m_3_lytd"
 			        }
 			      ]
 			    },
@@ -50469,6 +51781,39 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "dim_calendarios_have_diff_aigua_consumida_peatges"
+			        }
+			      ]
+			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_dia_m_3_ytd": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_dia_m_3_ytd": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_dia_m_3_ytd"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_dia_m_3_ytd"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_dia_m_3_ytd"
 			        }
 			      ]
 			    },
@@ -62411,6 +63756,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_l_esc_dia_diff": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_l_esc_dia_diff": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_l_esc_dia_diff"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_l_esc_dia_diff"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_l_esc_dia_diff"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_anr_l_esc_dia_diff": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -62441,39 +63819,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_anr_l_esc_dia_diff"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_l_esc_dia_diff": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__medida.anr_l_esc_dia_diff": {
-			          "Target": {
-			            "Entity": "entity__medida.anr_l_esc_dia_diff"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.anr_l_esc_dia_diff"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_l_esc_dia_diff"
 			        }
 			      ]
 			    },
@@ -62939,39 +64284,6 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_aigua_no_registrada_has_entity__switch_metrica_color_mapa": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__switch.metrica_color_mapa": {
-			          "Target": {
-			            "Entity": "entity__switch.metrica_color_mapa"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__switch.metrica_color_mapa"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_metrica_color_mapa"
-			        }
-			      ]
-			    },
 			    "dim_dades_sector_has_entity__switch_metrica_color_mapa": {
 			      "Binding": {
 			        "ConceptualEntity": "dim_dades_sectors"
@@ -63134,39 +64446,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_volum_cons_lliurs_have_metrica_mapa_seleccionada"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__switch_metrica_mapa_seleccionada": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__switch.metrica_mapa_seleccionada": {
-			          "Target": {
-			            "Entity": "entity__switch.metrica_mapa_seleccionada"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__switch.metrica_mapa_seleccionada"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_metrica_mapa_seleccionada"
 			        }
 			      ]
 			    },
@@ -66101,15 +67380,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_aigua_no_registrada_has_entity__switch_kpi_anr_dia_m_3_switch_1m": {
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_anr_dia_m_3_switch_1m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_aigua_no_registrada": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__switch.kpi_anr_dia_m_3_switch_1m": {
@@ -66122,7 +67401,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__switch.kpi_anr_dia_m_3_switch_1m"
@@ -66130,7 +67409,7 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_kpi_anr_dia_m_3_switch_1m"
+			          "ID": "fact_volum_cons_lliurs_have_kpi_anr_dia_m_3_switch_1m"
 			        }
 			      ]
 			    },
@@ -67520,15 +68799,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_acum_1_2m_1m": {
+			    "fact_volum_cons_lliur_has_entity__medida_anr_acum_1_2m_1m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_aigua_no_registrada": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_acum_1_2m_1m": {
@@ -67541,7 +68820,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_acum_1_2m_1m"
@@ -67549,7 +68828,7 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_acum_1_2m_1m"
+			          "ID": "fact_volum_cons_lliurs_have_anr_acum_1_2m_1m"
 			        }
 			      ]
 			    },
@@ -68906,6 +70185,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_l_subm_dia_mitjana_1_2m_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_l_subm_dia_mitjana_1_2m_1m": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_l_subm_dia_mitjana_1_2m_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_l_subm_dia_mitjana_1_2m_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_l_subm_dia_mitjana_1_2m_1m"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_anr_l_subm_dia_mitjana_1_2m_1m": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -68936,39 +70248,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_anr_l_subm_dia_mitjana_1_2m_1m"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_l_subm_dia_mitjana_1_2m_1m": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__medida.anr_l_subm_dia_mitjana_1_2m_1m": {
-			          "Target": {
-			            "Entity": "entity__medida.anr_l_subm_dia_mitjana_1_2m_1m"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.anr_l_subm_dia_mitjana_1_2m_1m"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_l_subm_dia_mitjana_1_2m_1m"
 			        }
 			      ]
 			    },
@@ -69005,6 +70284,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_m_3_km_dia_mitjana_1_2m_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_m_3_km_dia_mitjana_1_2m_1m": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_m_3_km_dia_mitjana_1_2m_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_m_3_km_dia_mitjana_1_2m_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_m_3_km_dia_mitjana_1_2m_1m"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_anr_m_3_km_dia_mitjana_1_2m_1m": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -69035,39 +70347,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_anr_m_3_km_dia_mitjana_1_2m_1m"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_m_3_km_dia_mitjana_1_2m_1m": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__medida.anr_m_3_km_dia_mitjana_1_2m_1m": {
-			          "Target": {
-			            "Entity": "entity__medida.anr_m_3_km_dia_mitjana_1_2m_1m"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.anr_m_3_km_dia_mitjana_1_2m_1m"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_m_3_km_dia_mitjana_1_2m_1m"
 			        }
 			      ]
 			    },
@@ -69104,6 +70383,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_l_esc_dia_acum_1_2m_1m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_l_esc_dia_acum_1_2m_1m": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_l_esc_dia_acum_1_2m_1m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_l_esc_dia_acum_1_2m_1m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_l_esc_dia_acum_1_2m_1m"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_anr_l_esc_dia_acum_1_2m_1m": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -69134,39 +70446,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_anr_l_esc_dia_acum_1_2m_1m"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_l_esc_dia_acum_1_2m_1m": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__medida.anr_l_esc_dia_acum_1_2m_1m": {
-			          "Target": {
-			            "Entity": "entity__medida.anr_l_esc_dia_acum_1_2m_1m"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.anr_l_esc_dia_acum_1_2m_1m"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_l_esc_dia_acum_1_2m_1m"
 			        }
 			      ]
 			    },
@@ -69203,6 +70482,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_m_3_km_dia_mensual_smly": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_m_3_km_dia_mensual_smly": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_m_3_km_dia_mensual_smly"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_m_3_km_dia_mensual_smly"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_m_3_km_dia_mensual_smly"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_anr_m_3_km_dia_mensual_smly": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -69233,39 +70545,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_anr_m_3_km_dia_mensual_smly"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_m_3_km_dia_mensual_smly": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__medida.anr_m_3_km_dia_mensual_smly": {
-			          "Target": {
-			            "Entity": "entity__medida.anr_m_3_km_dia_mensual_smly"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.anr_m_3_km_dia_mensual_smly"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_m_3_km_dia_mensual_smly"
 			        }
 			      ]
 			    },
@@ -69302,6 +70581,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_l_subm_dia_mensual_smly": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_l_subm_dia_mensual_smly": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_l_subm_dia_mensual_smly"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_l_subm_dia_mensual_smly"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_l_subm_dia_mensual_smly"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_anr_l_subm_dia_mensual_smly": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -69332,39 +70644,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_anr_l_subm_dia_mensual_smly"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_l_subm_dia_mensual_smly": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__medida.anr_l_subm_dia_mensual_smly": {
-			          "Target": {
-			            "Entity": "entity__medida.anr_l_subm_dia_mensual_smly"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.anr_l_subm_dia_mensual_smly"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_l_subm_dia_mensual_smly"
 			        }
 			      ]
 			    },
@@ -69401,6 +70680,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_l_esc_dia_mensual_smly": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_l_esc_dia_mensual_smly": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_l_esc_dia_mensual_smly"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_l_esc_dia_mensual_smly"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_l_esc_dia_mensual_smly"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_anr_l_esc_dia_mensual_smly": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -69431,39 +70743,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_anr_l_esc_dia_mensual_smly"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_l_esc_dia_mensual_smly": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__medida.anr_l_esc_dia_mensual_smly": {
-			          "Target": {
-			            "Entity": "entity__medida.anr_l_esc_dia_mensual_smly"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.anr_l_esc_dia_mensual_smly"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_l_esc_dia_mensual_smly"
 			        }
 			      ]
 			    },
@@ -69500,15 +70779,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_dia_m_3_acum_1_2m_1m": {
+			    "fact_volum_cons_lliur_has_entity__medida_anr_dia_m_3_acum_1_2m_1m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_aigua_no_registrada": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_dia_m_3_acum_1_2m_1m": {
@@ -69521,7 +70800,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_dia_m_3_acum_1_2m_1m"
@@ -69529,7 +70808,7 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_dia_m_3_acum_1_2m_1m"
+			          "ID": "fact_volum_cons_lliurs_have_anr_dia_m_3_acum_1_2m_1m"
 			        }
 			      ]
 			    },
@@ -69566,15 +70845,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_dia_m_3_mensual_smly": {
+			    "fact_volum_cons_lliur_has_entity__medida_anr_dia_m_3_mensual_smly": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_aigua_no_registrada": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_dia_m_3_mensual_smly": {
@@ -69587,7 +70866,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_dia_m_3_mensual_smly"
@@ -69595,7 +70874,7 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_dia_m_3_mensual_smly"
+			          "ID": "fact_volum_cons_lliurs_have_anr_dia_m_3_mensual_smly"
 			        }
 			      ]
 			    },
@@ -70800,6 +72079,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__switch_kpi_anr_dia_m_3_switch": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__switch.kpi_anr_dia_m_3_switch": {
+			          "Target": {
+			            "Entity": "entity__switch.kpi_anr_dia_m_3_switch"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__switch.kpi_anr_dia_m_3_switch"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_kpi_anr_dia_m_3_switch"
+			        }
+			      ]
+			    },
 			    "fact_aigua_no_registrada_has_entity__switch_kpi_anr_dia_m_3_switch": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_aigua_no_registrada"
@@ -71889,39 +73201,6 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "dim_calendario_has_entity__medida_l_km_1_2m_mitjana": {
-			      "Binding": {
-			        "ConceptualEntity": "dim_calendario"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        },
-			        "entity__medida.l_km_1_2m_mitjana": {
-			          "Target": {
-			            "Entity": "entity__medida.l_km_1_2m_mitjana"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.l_km_1_2m_mitjana"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_l_km_1_2m_mitjana"
-			        }
-			      ]
-			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_l_km_mensual": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -71988,6 +73267,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_fact_inventari_xarxa_distribucion_ANR_l_esc_dia": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "fact_inventari_xarxa_distribucion.ANR_l_esc_dia": {
+			          "Target": {
+			            "Entity": "fact_inventari_xarxa_distribucion.ANR_l_esc_dia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "fact_inventari_xarxa_distribucion.ANR_l_esc_dia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_ANR_l_esc_dia"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_ANR_l_esc_dia": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -72018,39 +73330,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_ANR_l_esc_dia"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_fact_inventari_xarxa_distribucion_ANR_l_esc_dia": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "fact_inventari_xarxa_distribucion.ANR_l_esc_dia": {
-			          "Target": {
-			            "Entity": "fact_inventari_xarxa_distribucion.ANR_l_esc_dia"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "fact_inventari_xarxa_distribucion.ANR_l_esc_dia"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_ANR_l_esc_dia"
 			        }
 			      ]
 			    },
@@ -72087,6 +73366,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_fact_inventari_xarxa_distribucion_ANR_l_subm_dia": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "fact_inventari_xarxa_distribucion.ANR_l_subm_dia": {
+			          "Target": {
+			            "Entity": "fact_inventari_xarxa_distribucion.ANR_l_subm_dia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "fact_inventari_xarxa_distribucion.ANR_l_subm_dia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_ANR_l_subm_dia"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_ANR_l_subm_dia": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -72117,39 +73429,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_ANR_l_subm_dia"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_fact_inventari_xarxa_distribucion_ANR_l_subm_dia": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "fact_inventari_xarxa_distribucion.ANR_l_subm_dia": {
-			          "Target": {
-			            "Entity": "fact_inventari_xarxa_distribucion.ANR_l_subm_dia"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "fact_inventari_xarxa_distribucion.ANR_l_subm_dia"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_ANR_l_subm_dia"
 			        }
 			      ]
 			    },
@@ -72714,6 +73993,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_fact_inventari_xarxa_distribucion_ANR_m_3_km_dia": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "fact_inventari_xarxa_distribucion.ANR_m_3_km_dia": {
+			          "Target": {
+			            "Entity": "fact_inventari_xarxa_distribucion.ANR_m_3_km_dia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "fact_inventari_xarxa_distribucion.ANR_m_3_km_dia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_ANR_m_3_km_dia"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_ANR_m_3_km_dia": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -72744,39 +74056,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_ANR_m_3_km_dia"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_fact_inventari_xarxa_distribucion_ANR_m_3_km_dia": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "fact_inventari_xarxa_distribucion.ANR_m_3_km_dia": {
-			          "Target": {
-			            "Entity": "fact_inventari_xarxa_distribucion.ANR_m_3_km_dia"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "fact_inventari_xarxa_distribucion.ANR_m_3_km_dia"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_ANR_m_3_km_dia"
 			        }
 			      ]
 			    },
@@ -72843,39 +74122,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_subministraments_1_2m_mitjana"
-			        }
-			      ]
-			    },
-			    "dim_calendario_has_entity__medida_subministraments_1_2m_mitjana": {
-			      "Binding": {
-			        "ConceptualEntity": "dim_calendario"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        },
-			        "entity__medida.subministraments_1_2m_mitjana": {
-			          "Target": {
-			            "Entity": "entity__medida.subministraments_1_2m_mitjana"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.subministraments_1_2m_mitjana"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_subministraments_1_2m_mitjana"
 			        }
 			      ]
 			    },
@@ -73242,15 +74488,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_mensual": {
+			    "fact_volum_cons_lliur_has_entity__medida_anr_mensual": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_aigua_no_registrada": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_mensual": {
@@ -73263,7 +74509,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_mensual"
@@ -73271,19 +74517,19 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_mensual"
+			          "ID": "fact_volum_cons_lliurs_have_anr_mensual"
 			        }
 			      ]
 			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_acum_1_2m": {
+			    "fact_volum_cons_lliur_has_entity__medida_anr_acum_1_2m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_aigua_no_registrada": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_acum_1_2m": {
@@ -73296,7 +74542,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_acum_1_2m"
@@ -73304,7 +74550,7 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_acum_1_2m"
+			          "ID": "fact_volum_cons_lliurs_have_anr_acum_1_2m"
 			        }
 			      ]
 			    },
@@ -75552,6 +76798,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_m_3_km_dia_diff": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_m_3_km_dia_diff": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_m_3_km_dia_diff"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_m_3_km_dia_diff"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_m_3_km_dia_diff"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_anr_m_3_km_dia_diff": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -75582,39 +76861,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_anr_m_3_km_dia_diff"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_m_3_km_dia_diff": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__medida.anr_m_3_km_dia_diff": {
-			          "Target": {
-			            "Entity": "entity__medida.anr_m_3_km_dia_diff"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.anr_m_3_km_dia_diff"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_m_3_km_dia_diff"
 			        }
 			      ]
 			    },
@@ -76014,6 +77260,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_l_subm_dia_mitjana_1_2m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_l_subm_dia_mitjana_1_2m": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_l_subm_dia_mitjana_1_2m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_l_subm_dia_mitjana_1_2m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_l_subm_dia_mitjana_1_2m"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_anr_l_subm_dia_mitjana_1_2m": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -76044,39 +77323,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_anr_l_subm_dia_mitjana_1_2m"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_l_subm_dia_mitjana_1_2m": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__medida.anr_l_subm_dia_mitjana_1_2m": {
-			          "Target": {
-			            "Entity": "entity__medida.anr_l_subm_dia_mitjana_1_2m"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.anr_l_subm_dia_mitjana_1_2m"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_l_subm_dia_mitjana_1_2m"
 			        }
 			      ]
 			    },
@@ -76113,6 +77359,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_m_3_km_dia_mitjana_1_2m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_m_3_km_dia_mitjana_1_2m": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_m_3_km_dia_mitjana_1_2m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_m_3_km_dia_mitjana_1_2m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_m_3_km_dia_mitjana_1_2m"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_anr_m_3_km_dia_mitjana_1_2m": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -76143,39 +77422,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_anr_m_3_km_dia_mitjana_1_2m"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_m_3_km_dia_mitjana_1_2m": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__medida.anr_m_3_km_dia_mitjana_1_2m": {
-			          "Target": {
-			            "Entity": "entity__medida.anr_m_3_km_dia_mitjana_1_2m"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.anr_m_3_km_dia_mitjana_1_2m"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_m_3_km_dia_mitjana_1_2m"
 			        }
 			      ]
 			    },
@@ -76212,6 +77458,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_l_esc_dia_acum_1_2m": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_l_esc_dia_acum_1_2m": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_l_esc_dia_acum_1_2m"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_l_esc_dia_acum_1_2m"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_l_esc_dia_acum_1_2m"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_anr_l_esc_dia_acum_1_2m": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -76242,39 +77521,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_anr_l_esc_dia_acum_1_2m"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_l_esc_dia_acum_1_2m": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__medida.anr_l_esc_dia_acum_1_2m": {
-			          "Target": {
-			            "Entity": "entity__medida.anr_l_esc_dia_acum_1_2m"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.anr_l_esc_dia_acum_1_2m"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_l_esc_dia_acum_1_2m"
 			        }
 			      ]
 			    },
@@ -76311,6 +77557,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_m_3_km_dia_mensual": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_m_3_km_dia_mensual": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_m_3_km_dia_mensual"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_m_3_km_dia_mensual"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_m_3_km_dia_mensual"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_anr_m_3_km_dia_mensual": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -76341,39 +77620,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_anr_m_3_km_dia_mensual"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_m_3_km_dia_mensual": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__medida.anr_m_3_km_dia_mensual": {
-			          "Target": {
-			            "Entity": "entity__medida.anr_m_3_km_dia_mensual"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.anr_m_3_km_dia_mensual"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_m_3_km_dia_mensual"
 			        }
 			      ]
 			    },
@@ -76410,6 +77656,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_l_subm_dia_mensual": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_l_subm_dia_mensual": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_l_subm_dia_mensual"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_l_subm_dia_mensual"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_l_subm_dia_mensual"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_anr_l_subm_dia_mensual": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -76440,39 +77719,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_anr_l_subm_dia_mensual"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_l_subm_dia_mensual": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__medida.anr_l_subm_dia_mensual": {
-			          "Target": {
-			            "Entity": "entity__medida.anr_l_subm_dia_mensual"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.anr_l_subm_dia_mensual"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_l_subm_dia_mensual"
 			        }
 			      ]
 			    },
@@ -76509,6 +77755,39 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
+			    "fact_volum_cons_lliur_has_entity__medida_anr_l_esc_dia_mensual": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_volum_cons_lliur"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_volum_cons_lliur": {
+			          "Target": {
+			            "Entity": "fact_volum_cons_lliur"
+			          }
+			        },
+			        "entity__medida.anr_l_esc_dia_mensual": {
+			          "Target": {
+			            "Entity": "entity__medida.anr_l_esc_dia_mensual"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_volum_cons_lliur"
+			            },
+			            "Object": {
+			              "Role": "entity__medida.anr_l_esc_dia_mensual"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_volum_cons_lliurs_have_anr_l_esc_dia_mensual"
+			        }
+			      ]
+			    },
 			    "fact_inventari_xarxa_distribucion_has_entity__medida_anr_l_esc_dia_mensual": {
 			      "Binding": {
 			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
@@ -76539,39 +77818,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "fact_inventari_xarxa_distribucions_have_anr_l_esc_dia_mensual"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_l_esc_dia_mensual": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "entity__medida.anr_l_esc_dia_mensual": {
-			          "Target": {
-			            "Entity": "entity__medida.anr_l_esc_dia_mensual"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "entity__medida.anr_l_esc_dia_mensual"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_l_esc_dia_mensual"
 			        }
 			      ]
 			    },
@@ -76608,15 +77854,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_dia_m_3_acum_1_2m": {
+			    "fact_volum_cons_lliur_has_entity__medida_anr_dia_m_3_acum_1_2m": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_aigua_no_registrada": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_dia_m_3_acum_1_2m": {
@@ -76629,7 +77875,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_dia_m_3_acum_1_2m"
@@ -76637,7 +77883,7 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_dia_m_3_acum_1_2m"
+			          "ID": "fact_volum_cons_lliurs_have_anr_dia_m_3_acum_1_2m"
 			        }
 			      ]
 			    },
@@ -76707,15 +77953,15 @@ cultureInfo es-ES
 			        }
 			      ]
 			    },
-			    "fact_aigua_no_registrada_has_entity__medida_anr_dia_m_3_mensual": {
+			    "fact_volum_cons_lliur_has_entity__medida_anr_dia_m_3_mensual": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
+			        "ConceptualEntity": "fact_volum_cons_lliur"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_aigua_no_registrada": {
+			        "fact_volum_cons_lliur": {
 			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
+			            "Entity": "fact_volum_cons_lliur"
 			          }
 			        },
 			        "entity__medida.anr_dia_m_3_mensual": {
@@ -76728,7 +77974,7 @@ cultureInfo es-ES
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
+			              "Role": "fact_volum_cons_lliur"
 			            },
 			            "Object": {
 			              "Role": "entity__medida.anr_dia_m_3_mensual"
@@ -76736,7 +77982,7 @@ cultureInfo es-ES
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_anr_dia_m_3_mensual"
+			          "ID": "fact_volum_cons_lliurs_have_anr_dia_m_3_mensual"
 			        }
 			      ]
 			    },
@@ -77925,1275 +79171,6 @@ cultureInfo es-ES
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "dim_calendarios_have_dates"
-			        }
-			      ]
-			    },
-			    "fact_rend_anr_arterias_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_rend_anr_arterias"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_rend_anr_arterias": {
-			          "Target": {
-			            "Entity": "fact_rend_anr_arterias"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_rend_anr_arterias"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_rend_anr_arterias_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_rend_anr_arterias"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_rend_anr_arterias"
-			        }
-			      ]
-			    },
-			    "fact_inventari_xarxa_distribucion_has_dim_gerencia": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_inventari_xarxa_distribucion": {
-			          "Target": {
-			            "Entity": "fact_inventari_xarxa_distribucion"
-			          }
-			        },
-			        "dim_gerencia": {
-			          "Target": {
-			            "Entity": "dim_gerencia"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_inventari_xarxa_distribucion"
-			            },
-			            "Object": {
-			              "Role": "dim_gerencia"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_inventari_xarxa_distribucions_have_dim_gerencias"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_gerencia"
-			            },
-			            "Object": {
-			              "Role": "fact_inventari_xarxa_distribucion"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_gerencias_have_fact_inventari_xarxa_distribucions"
-			        }
-			      ]
-			    },
-			    "fact_inventari_xarxa_distribucion_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_inventari_xarxa_distribucion"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_inventari_xarxa_distribucion": {
-			          "Target": {
-			            "Entity": "fact_inventari_xarxa_distribucion"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_inventari_xarxa_distribucion"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_inventari_xarxa_distribucions_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_inventari_xarxa_distribucion"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_inventari_xarxa_distribucions"
-			        }
-			      ]
-			    },
-			    "fact_estadistiques_comp_has_dim_gerencia": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_estadistiques_comp"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_estadistiques_comp": {
-			          "Target": {
-			            "Entity": "fact_estadistiques_comp"
-			          }
-			        },
-			        "dim_gerencia": {
-			          "Target": {
-			            "Entity": "dim_gerencia"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_estadistiques_comp"
-			            },
-			            "Object": {
-			              "Role": "dim_gerencia"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_estadistiques_comps_have_dim_gerencias"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_gerencia"
-			            },
-			            "Object": {
-			              "Role": "fact_estadistiques_comp"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_gerencias_have_fact_estadistiques_comps"
-			        }
-			      ]
-			    },
-			    "fact_estadistiques_comp_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_estadistiques_comp"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_estadistiques_comp": {
-			          "Target": {
-			            "Entity": "fact_estadistiques_comp"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_estadistiques_comp"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_estadistiques_comps_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_estadistiques_comp"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_estadistiques_comps"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_dim_dades_sector": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "dim_dades_sector": {
-			          "Target": {
-			            "Entity": "dim_dades_sector"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "dim_dades_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_dim_dades_sectors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_dades_sector"
-			            },
-			            "Object": {
-			              "Role": "fact_aigua_no_registrada"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_dades_sectors_have_fact_aigua_no_registradas"
-			        }
-			      ]
-			    },
-			    "fact_aigua_no_registrada_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_aigua_no_registrada"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_aigua_no_registrada": {
-			          "Target": {
-			            "Entity": "fact_aigua_no_registrada"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_aigua_no_registrada"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_aigua_no_registradas_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_aigua_no_registrada"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_aigua_no_registradas"
-			        }
-			      ]
-			    },
-			    "dim_less_polissa_fraude_has_dim_dades_sector": {
-			      "Binding": {
-			        "ConceptualEntity": "dim_less_polissa_fraude"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "dim_less_polissa_fraude": {
-			          "Target": {
-			            "Entity": "dim_less_polissa_fraude"
-			          }
-			        },
-			        "dim_dades_sector": {
-			          "Target": {
-			            "Entity": "dim_dades_sector"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_less_polissa_fraude"
-			            },
-			            "Object": {
-			              "Role": "dim_dades_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_less_polissa_fraude_have_dim_dades_sectors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_dades_sector"
-			            },
-			            "Object": {
-			              "Role": "dim_less_polissa_fraude"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_dades_sectors_have_dim_less_polissa_fraude"
-			        }
-			      ]
-			    },
-			    "dim_less_polissa_fraude_has_fact_volumns_sector": {
-			      "Binding": {
-			        "ConceptualEntity": "dim_less_polissa_fraude"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "dim_less_polissa_fraude": {
-			          "Target": {
-			            "Entity": "dim_less_polissa_fraude"
-			          }
-			        },
-			        "fact_volumns_sector": {
-			          "Target": {
-			            "Entity": "fact_volumns_sector"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_less_polissa_fraude"
-			            },
-			            "Object": {
-			              "Role": "fact_volumns_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_less_polissa_fraude_have_fact_volumns_sectors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_volumns_sector"
-			            },
-			            "Object": {
-			              "Role": "dim_less_polissa_fraude"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_volumns_sectors_have_dim_less_polissa_fraude"
-			        }
-			      ]
-			    },
-			    "fact_perimetre_comptador_has_dim_comptador": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_perimetre_comptadors"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_perimetre_comptador": {
-			          "Target": {
-			            "Entity": "fact_perimetre_comptador"
-			          }
-			        },
-			        "dim_comptador": {
-			          "Target": {
-			            "Entity": "dim_comptador"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_perimetre_comptador"
-			            },
-			            "Object": {
-			              "Role": "dim_comptador"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_perimetre_comptadors_have_dim_comptadors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_comptador"
-			            },
-			            "Object": {
-			              "Role": "fact_perimetre_comptador"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_comptadors_have_fact_perimetre_comptadors"
-			        }
-			      ]
-			    },
-			    "fact_perimetre_comptador_has_fact_bossa": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_perimetre_comptadors"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_perimetre_comptador": {
-			          "Target": {
-			            "Entity": "fact_perimetre_comptador"
-			          }
-			        },
-			        "fact_bossa": {
-			          "Target": {
-			            "Entity": "fact_bossa"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_perimetre_comptador"
-			            },
-			            "Object": {
-			              "Role": "fact_bossa"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_perimetre_comptadors_have_fact_bossas"
-			        }
-			      ]
-			    },
-			    "fact_cabals_mínim_has_dim_dades_sector": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_cabals_mínims"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_cabals_mínim": {
-			          "Target": {
-			            "Entity": "fact_cabals_mínim"
-			          }
-			        },
-			        "dim_dades_sector": {
-			          "Target": {
-			            "Entity": "dim_dades_sector"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_cabals_mínim"
-			            },
-			            "Object": {
-			              "Role": "dim_dades_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_cabals_mínims_have_dim_dades_sectors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_dades_sector"
-			            },
-			            "Object": {
-			              "Role": "fact_cabals_mínim"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_dades_sectors_have_fact_cabals_mínims"
-			        }
-			      ]
-			    },
-			    "fact_cabals_mínim_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_cabals_mínims"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_cabals_mínim": {
-			          "Target": {
-			            "Entity": "fact_cabals_mínim"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_cabals_mínim"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_cabals_mínims_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_cabals_mínim"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_cabals_mínims"
-			        }
-			      ]
-			    },
-			    "fact_z_sector_has_fact_volumns_sector": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_z_sector"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_z_sector": {
-			          "Target": {
-			            "Entity": "fact_z_sector"
-			          }
-			        },
-			        "fact_volumns_sector": {
-			          "Target": {
-			            "Entity": "fact_volumns_sector"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_z_sector"
-			            },
-			            "Object": {
-			              "Role": "fact_volumns_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_z_sectors_have_fact_volumns_sectors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_volumns_sector"
-			            },
-			            "Object": {
-			              "Role": "fact_z_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_volumns_sectors_have_fact_z_sectors"
-			        }
-			      ]
-			    },
-			    "fact_vol_fraud_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_vol_fraud"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_vol_fraud": {
-			          "Target": {
-			            "Entity": "fact_vol_fraud"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_vol_fraud"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_vol_frauds_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_vol_fraud"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_vol_frauds"
-			        }
-			      ]
-			    },
-			    "dim_dades_sector_has_dim_arteria": {
-			      "Binding": {
-			        "ConceptualEntity": "dim_dades_sectors"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "dim_dades_sector": {
-			          "Target": {
-			            "Entity": "dim_dades_sector"
-			          }
-			        },
-			        "dim_arteria": {
-			          "Target": {
-			            "Entity": "dim_arteria"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_dades_sector"
-			            },
-			            "Object": {
-			              "Role": "dim_arteria"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_dades_sectors_have_dim_arterias"
-			        }
-			      ]
-			    },
-			    "fact_dades_consum_has_fact_perimetre_comptador": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_dades_consum"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_dades_consum": {
-			          "Target": {
-			            "Entity": "fact_dades_consum"
-			          }
-			        },
-			        "fact_perimetre_comptador": {
-			          "Target": {
-			            "Entity": "fact_perimetre_comptador"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_dades_consum"
-			            },
-			            "Object": {
-			              "Role": "fact_perimetre_comptador"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_dades_consums_have_fact_perimetre_comptadors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_perimetre_comptador"
-			            },
-			            "Object": {
-			              "Role": "fact_dades_consum"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_perimetre_comptadors_have_fact_dades_consums"
-			        }
-			      ]
-			    },
-			    "fact_dades_consum_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_dades_consum"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_dades_consum": {
-			          "Target": {
-			            "Entity": "fact_dades_consum"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_dades_consum"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_dades_consums_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_dades_consum"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_dades_consums"
-			        }
-			      ]
-			    },
-			    "fact_volum_cons_lliur_has_dim_dades_sector": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_volum_cons_lliur"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_volum_cons_lliur": {
-			          "Target": {
-			            "Entity": "fact_volum_cons_lliur"
-			          }
-			        },
-			        "dim_dades_sector": {
-			          "Target": {
-			            "Entity": "dim_dades_sector"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_volum_cons_lliur"
-			            },
-			            "Object": {
-			              "Role": "dim_dades_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_volum_cons_lliurs_have_dim_dades_sectors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_dades_sector"
-			            },
-			            "Object": {
-			              "Role": "fact_volum_cons_lliur"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_dades_sectors_have_fact_volum_cons_lliurs"
-			        }
-			      ]
-			    },
-			    "fact_volum_cons_lliur_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_volum_cons_lliur"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_volum_cons_lliur": {
-			          "Target": {
-			            "Entity": "fact_volum_cons_lliur"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_volum_cons_lliur"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_volum_cons_lliurs_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_volum_cons_lliur"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_volum_cons_lliurs"
-			        }
-			      ]
-			    },
-			    "fact_inventari_xarxa_transporte_total_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_inventari_xarxa_transporte_total"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_inventari_xarxa_transporte_total": {
-			          "Target": {
-			            "Entity": "fact_inventari_xarxa_transporte_total"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_inventari_xarxa_transporte_total"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_inventari_xarxa_transporte_totals_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_inventari_xarxa_transporte_total"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_inventari_xarxa_transporte_totals"
-			        }
-			      ]
-			    },
-			    "fact_actuacions_zone_has_dim_dades_sector": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_actuacions_zones"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_actuacions_zone": {
-			          "Target": {
-			            "Entity": "fact_actuacions_zone"
-			          }
-			        },
-			        "dim_dades_sector": {
-			          "Target": {
-			            "Entity": "dim_dades_sector"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_actuacions_zone"
-			            },
-			            "Object": {
-			              "Role": "dim_dades_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_actuacions_zones_have_dim_dades_sectors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_dades_sector"
-			            },
-			            "Object": {
-			              "Role": "fact_actuacions_zone"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_dades_sectors_have_fact_actuacions_zones"
-			        }
-			      ]
-			    },
-			    "fact_actuacions_zone_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_actuacions_zones"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_actuacions_zone": {
-			          "Target": {
-			            "Entity": "fact_actuacions_zone"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_actuacions_zone"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_actuacions_zones_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_actuacions_zone"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_actuacions_zones"
-			        }
-			      ]
-			    },
-			    "dim_gerencia_pressio_has_dim_dades_sector": {
-			      "Binding": {
-			        "ConceptualEntity": "dim_gerencia_pressio"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "dim_gerencia_pressio": {
-			          "Target": {
-			            "Entity": "dim_gerencia_pressio"
-			          }
-			        },
-			        "dim_dades_sector": {
-			          "Target": {
-			            "Entity": "dim_dades_sector"
-			          },
-			          "Nouns": [
-			            {
-			              "zona 2": {
-			                "State": "Generated"
-			              }
-			            }
-			          ]
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_gerencia_pressio"
-			            },
-			            "Object": {
-			              "Role": "dim_dades_sector"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_gerencia_pressios_have_dim_dades_sectors"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_dades_sector"
-			            },
-			            "Object": {
-			              "Role": "dim_gerencia_pressio"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_dades_sectors_have_dim_gerencia_pressios"
-			        }
-			      ]
-			    },
-			    "fact_tfuita_tinst_has_dim_gerencia": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_tfuita_tinst"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_tfuita_tinst": {
-			          "Target": {
-			            "Entity": "fact_tfuita_tinst"
-			          }
-			        },
-			        "dim_gerencia": {
-			          "Target": {
-			            "Entity": "dim_gerencia"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_tfuita_tinst"
-			            },
-			            "Object": {
-			              "Role": "dim_gerencia"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_tfuita_tinsts_have_dim_gerencias"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_gerencia"
-			            },
-			            "Object": {
-			              "Role": "fact_tfuita_tinst"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_gerencias_have_fact_tfuita_tinsts"
-			        }
-			      ]
-			    },
-			    "fact_tfuita_tinst_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_tfuita_tinst"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_tfuita_tinst": {
-			          "Target": {
-			            "Entity": "fact_tfuita_tinst"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_tfuita_tinst"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_tfuita_tinsts_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_tfuita_tinst"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_tfuita_tinsts"
-			        }
-			      ]
-			    },
-			    "fact_estim_volum_munic_pob_has_dim_municipio": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_estim_volum_munic_pob"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_estim_volum_munic_pob": {
-			          "Target": {
-			            "Entity": "fact_estim_volum_munic_pob"
-			          }
-			        },
-			        "dim_municipio": {
-			          "Target": {
-			            "Entity": "dim_municipio"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_estim_volum_munic_pob"
-			            },
-			            "Object": {
-			              "Role": "dim_municipio"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_estim_volum_munic_pobs_have_dim_municipios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_municipio"
-			            },
-			            "Object": {
-			              "Role": "fact_estim_volum_munic_pob"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_municipios_have_fact_estim_volum_munic_pobs"
-			        }
-			      ]
-			    },
-			    "fact_estim_volum_munic_pob_has_dim_calendario": {
-			      "Binding": {
-			        "ConceptualEntity": "fact_estim_volum_munic_pob"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "fact_estim_volum_munic_pob": {
-			          "Target": {
-			            "Entity": "fact_estim_volum_munic_pob"
-			          }
-			        },
-			        "dim_calendario": {
-			          "Target": {
-			            "Entity": "dim_calendario"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "fact_estim_volum_munic_pob"
-			            },
-			            "Object": {
-			              "Role": "dim_calendario"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "fact_estim_volum_munic_pobs_have_dim_calendarios"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "dim_calendario"
-			            },
-			            "Object": {
-			              "Role": "fact_estim_volum_munic_pob"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "dim_calendarios_have_fact_estim_volum_munic_pobs"
 			        }
 			      ]
 			    },

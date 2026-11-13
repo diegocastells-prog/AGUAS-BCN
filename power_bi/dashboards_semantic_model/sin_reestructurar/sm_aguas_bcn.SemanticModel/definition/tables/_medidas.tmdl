@@ -68,26 +68,23 @@ table _medidas
 		displayFolder: anr\acum_12m
 		lineageTag: c07ebc2d-9770-4399-8398-35032f01c224
 
-	measure anr_m3_km_dia_mitjana_12m = ```
-			[anr_acum_12m] / [l_km_12m_mitjana] / 365 * 1000000
-			    
-			--DIVIDE(
-			--    [anr_acum_12m] * 1000000,
-			--    [l_km_12m_mitjana] * 365,
-			--    BLANK()
-			--)
-			```
+	measure anr_m3_km_dia_mitjana_12m =
+			
+			DIVIDE (
+			    [anr_acum_12m],
+			    [l_km_12m_mitjana] * 365
+			)
 		formatString: #,0.00
 		displayFolder: anr\acum_12m
 		lineageTag: 5103700e-6cc8-4d0f-90e7-3ee6aaf9efd7
 
 	measure anr_l_subm_dia_mitjana_12m =
-			
-			DIVIDE(
-			    [anr_acum_12m] * 1000000000,
-			    [subministraments_12m_mitjana] * 365,
-			    BLANK()
-			)
+			[anr_acum_12m] / [subministraments_12m_mitjana] * 1000000 / 365 * 1000
+			--DIVIDE(
+			--    [anr_acum_12m] * 1000000000,
+			--    [subministraments_12m_mitjana] * 365,
+			--    BLANK()
+			--)
 		formatString: #,0.00
 		displayFolder: anr\subm\acum_12m
 		lineageTag: e87af0a5-460e-49b4-b044-6ac55d2cb825
@@ -3650,16 +3647,16 @@ table _medidas
 	measure subministraments_12m_mitjana = ```
 			
 			VAR _FechaFin =
-			    TODAY ()
-			 
+			    MAX('fact_inventari_xarxa_distribucion'[fecha])
+			
 			VAR _FechaInicio =
 			    EDATE ( _FechaFin, -11 )
 			 
 			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
+			    MIN ( 'fact_inventari_xarxa_distribucion'[fecha]  )
 			 
 			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
+			    MAX ( 'fact_inventari_xarxa_distribucion'[fecha] )
 			 
 			VAR _Valor =
 			    CALCULATE (
