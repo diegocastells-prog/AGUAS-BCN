@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "f87d3f20df527dd2a615",
   "position": {
     "x": 179.35483870967741,
@@ -109,6 +109,20 @@
                   "Value": "9D"
                 }
               }
+            },
+            "indicatorDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "indicatorPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
             }
           }
         }
@@ -134,7 +148,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Longitud '"
+                  "Value": "'Longitud (km)'"
                 }
               }
             },
@@ -328,6 +342,20 @@
         },
         "isHiddenInViewMode": true,
         "isLockedInViewMode": true
+      },
+      {
+        "name": "f5118b7be5c298dbe504",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
       }
     ]
   }

@@ -4472,39 +4472,35 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure l_km_12m_mitjana = ```
+	measure l_km_12m_mitjana =
 			
+			VAR _FechaReferencia =
+			    MAX ( fact_inventari_xarxa_distribucion[fecha] )
 			VAR _FechaFin =
-			    MAX('fact_inventari_xarxa_distribucion'[fecha])
-			
+			    EOMONTH ( _FechaReferencia, 0 )
 			VAR _FechaInicio =
-			    EDATE ( _FechaFin, -11 )
-			 
-			VAR _FechaMinContexto =
-			    MIN ( 'fact_inventari_xarxa_distribucion'[fecha]  )
-			 
-			VAR _FechaMaxContexto =
-			    MAX ( 'fact_inventari_xarxa_distribucion'[fecha] )
-			 
-			VAR _Valor =
-			    CALCULATE (
-			        AVERAGE(fact_inventari_xarxa_distribucion[xarxa]),
-			        DATESINPERIOD (
-			            'dim_calendario'[Date],
-			            _FechaMaxContexto,
-			            -12,
-			            MONTH
+			    EOMONTH ( _FechaFin, -12 ) + 1
+			RETURN
+			    IF (
+			        NOT ISBLANK ( _FechaReferencia ),
+			        CALCULATE (
+			            AVERAGEX (
+			                VALUES (
+			                    fact_inventari_xarxa_distribucion[fecha]
+			                ),
+			                CALCULATE (
+			                    SUM (
+			                        fact_inventari_xarxa_distribucion[xarxa]
+			                    )
+			                )
+			            ),
+			            FILTER (
+			                ALL ( dim_calendario ),
+			                dim_calendario[Date] >= _FechaInicio
+			                    && dim_calendario[Date] <= _FechaFin
+			            )
 			        )
 			    )
-			 
-			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			  _Valor
-			)
-			```
 		displayFolder: red\longitud\acum_12
 		lineageTag: ea72ced7-49b5-4576-bf6a-722dade6303a
 
@@ -4540,44 +4536,28 @@ table _medidas
 			
 			VAR _FechaInicio =
 			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			
 			VAR _FechaFin =
 			    TODAY ()
-			
 			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			
+			    MIN ( dim_calendario[Date] )
 			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			
+			    MAX ( dim_calendario[Date] )
 			VAR _ValorActual =
-			    DIVIDE(
-			        SUM(fact_inventari_xarxa_distribucion[xarxa]),
-			        1000
-			    )
-			
+			    [l_km_mensual]
 			VAR _ValorAA =
-			    CALCULATE(
-			        DIVIDE(
-			            SUM(fact_inventari_xarxa_distribucion[xarxa]),
-			            1000
-			        ),
-			        DATEADD(
-			            'dim_calendario'[Date],
-			            -1,
-			            YEAR
-			        )
+			    CALCULATE (
+			        [l_km_mensual],
+			        DATEADD ( dim_calendario[Date], -1, YEAR )
 			    )
-			
 			RETURN
-			IF(
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin
-			        || ISBLANK(_ValorActual)
-			        || ISBLANK(_ValorAA),
-			    BLANK(),
-			    _ValorActual - _ValorAA
-			)
+			    IF (
+			        _FechaMaxContexto < _FechaInicio
+			            || _FechaMinContexto > _FechaFin
+			            || ISBLANK ( _ValorActual )
+			            || ISBLANK ( _ValorAA ),
+			        BLANK (),
+			        _ValorActual - _ValorAA
+			    )
 		displayFolder: red\longitud\diff
 		lineageTag: eebc359d-5f5a-4c52-bfaa-0ea967cd8dd9
 

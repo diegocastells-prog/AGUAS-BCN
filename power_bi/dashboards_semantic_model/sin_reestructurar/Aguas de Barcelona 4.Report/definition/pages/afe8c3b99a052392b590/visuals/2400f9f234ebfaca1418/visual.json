@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "2400f9f234ebfaca1418",
   "position": {
     "x": 1051.6129032258063,
@@ -131,7 +131,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Escomeses'"
+                  "Value": "'Escomeses (n.º)'"
                 }
               }
             },
@@ -310,6 +310,34 @@
         },
         "isHiddenInViewMode": true,
         "isLockedInViewMode": true
+      },
+      {
+        "name": "dfd63b782a5c5b907534",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_escomeses_switch_1m"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6fd0704da082b6a2b717",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
       }
     ]
   }
