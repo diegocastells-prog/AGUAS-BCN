@@ -1,0 +1,23 @@
+table Parametro_Dotacio
+	lineageTag: 9a13fa24-a59d-48e2-bcc9-744bdb819fe6
+
+	column Limite
+		formatString: 0
+		lineageTag: 2ef037fc-e5e7-457d-ae4f-e86f53c6eb35
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Limite]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parametro_Dotacio = calculated
+		mode: import
+		source =
+				
+				SELECTCOLUMNS (
+				    GENERATESERIES ( 0, 500, 1 ),
+				    "Limite", [Value]
+				)
+
+	annotation PBI_Id = 885a9f82ea7a43e2bab131dd0c66e7d2
+

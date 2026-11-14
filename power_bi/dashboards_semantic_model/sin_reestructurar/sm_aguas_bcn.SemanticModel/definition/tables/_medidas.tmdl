@@ -10006,6 +10006,30 @@ table _medidas
 			        )
 		lineageTag: 983b395c-bf14-4e0e-95e1-7ca321849b5d
 
+	measure Limite_Dotacio =
+			
+			IF (
+			    ISFILTERED ( Parametro_Dotacio[Limite] ),
+			    MIN ( Parametro_Dotacio[Limite] ),
+			    200
+			)
+		formatString: 0
+		displayFolder: dotacio
+		lineageTag: ecc48023-0bd5-4a5f-bc31-25f80b41c199
+
+	measure Color_Dotacio =
+			
+			VAR _Valor = [kpi_dotacio_switch]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( _Valor ), BLANK (),
+			        _Valor >= [Limite_Dotacio], "#FF0000",
+			        "#81C784"
+			    )
+		displayFolder: dotacio
+		lineageTag: 6d3e9d01-b477-4543-83a9-bee57c52b70f
+
 	column Column
 		isHidden
 		formatString: 0
