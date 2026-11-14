@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "45a43490055dcfb1db11",
   "position": {
     "x": 706.21317365269465,
@@ -113,7 +113,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Autoconsum'"
+                  "Value": "'Autoconsum (hm³)'"
                 }
               }
             },
@@ -296,6 +296,48 @@
         "howCreated": "User",
         "isHiddenInViewMode": true,
         "isLockedInViewMode": true
+      },
+      {
+        "name": "1b4a184321b5c5141563",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_aigua_consumida_autoconsum_global_switch_1m"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "1afac5632a560130669b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_aigua_consumida_autoconsum_global_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "428cb6dc5b99433ad28b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
       }
     ]
   }

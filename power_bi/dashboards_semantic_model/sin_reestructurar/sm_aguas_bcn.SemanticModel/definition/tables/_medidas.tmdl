@@ -1851,10 +1851,12 @@ table _medidas
 		displayFolder: anr_global\anr\mensual
 		lineageTag: 008b8502-9603-4472-b60f-a04215d278d1
 
-	measure aigua_consumida_acf_global_mensual_hm3 = ```
-			SUM(fact_aigua_consum_historic[aigua_consumida_acf])   
+	measure aigua_consumida_acf_global_mensual_hm3 =
 			
-			```
+			DIVIDE (
+			    SUM ( fact_aigua_consum_historic[aigua_consumida_acf] ),
+			    1000000
+			)
 		formatString: #,0
 		displayFolder: aigua_consumida\acf\mensual
 		lineageTag: 3c3d0a02-f3fc-4a79-af54-8eeedfcf6789
@@ -2082,14 +2084,12 @@ table _medidas
 		displayFolder: aigua_consumida\autoconsum\mensual
 		lineageTag: 5b7e04bd-bc08-4bb8-9879-7a0e5bdd23b8
 
-	measure aigua_consumida_autoconsum_global_mensual_smly_hm3 = ```
+	measure aigua_consumida_autoconsum_global_mensual_smly_hm3 =
 			
-			    CALCULATE(
-			        [anr_global_mensual_smly_hm3],
-			        DATEADD( dim_calendario[Date], -12, MONTH )
+			CALCULATE (
+			    [aigua_consumida_autoconsum_global_mensual_hm3],
+			    DATEADD ( dim_calendario[Date], -12, MONTH )
 			)
-			
-			```
 		formatString: #,0.00
 		displayFolder: aigua_consumida\autoconsum\mensual
 		lineageTag: 50bff2b3-5dee-496c-87f9-dc66bbd29440
@@ -2145,13 +2145,12 @@ table _medidas
 		displayFolder: aigua_consumida\peatges\mensual
 		lineageTag: be37dd64-2aa7-4caf-8518-7f0086991a68
 
-	measure aigua_consumida_peatges_global_mensual_smly_hm3 = ```
+	measure aigua_consumida_peatges_global_mensual_smly_hm3 =
 			
-			    CALCULATE(
-			        [anr_global_mensual_smly_hm3],
-			        DATEADD( dim_calendario[Date], -12, MONTH )
+			CALCULATE (
+			    [aigua_consumida_peatges_global_mensual_hm3],
+			    DATEADD ( dim_calendario[Date], -12, MONTH )
 			)
-			```
 		formatString: #,0.00
 		displayFolder: aigua_consumida\peatges\mensual
 		lineageTag: 700e4dc3-7ddc-479b-a2ff-1642e691a892
@@ -3770,14 +3769,14 @@ table _medidas
 			    )
 			 
 			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin
-			        || ISBLANK ( _ValorActual )
-			        || ISBLANK ( _ValorAA ),
-			    BLANK (),
-			    DIVIDE(_ValorActual - _ValorAA,1000000)
-			)
+			    IF (
+			        _FechaMaxContexto < _FechaInicio
+			            || _FechaMinContexto > _FechaFin
+			            || ISBLANK ( _ValorActual )
+			            || ISBLANK ( _ValorAA ),
+			        BLANK (),
+			        _ValorActual - _ValorAA
+			    )
 			```
 		displayFolder: aigua_consumida\acf\diff
 		lineageTag: 523e78bb-7212-425e-b863-0fb44faeee53
@@ -8713,11 +8712,12 @@ table _medidas
 		displayFolder: pozos\afor
 		lineageTag: 9711c36f-d405-4e7d-8a1b-56b81c4f5ec5
 
-	measure consum_no_control_mensual = ```
+	measure consum_no_control_mensual =
 			
-			SUM ( fact_consum_no_control[consumo] )
-			
-			```
+			DIVIDE (
+			    SUM ( fact_consum_no_control[consumo] ),
+			    1000000
+			)
 		formatString: #,0.00
 		displayFolder: consum_no_control\mensual
 		lineageTag: 1f667ade-6ede-489e-98dc-41a6685fe25a
@@ -8737,29 +8737,38 @@ table _medidas
 	measure consum_no_control_acum_12m =
 			
 			VAR _FechaFin =
-			    CALCULATE(
-			        MAX('fact_consum_no_control'[Fecha]),
-			        ALL('fact_consum_no_control')
+			    CALCULATE (
+			        MAX ( fact_consum_no_control[Fecha] ),
+			        ALL ( fact_consum_no_control )
 			    )
-			VAR _FechaInicio =    EDATE ( _FechaFin, -11 )
-			VAR _FechaMinContexto =    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =    MAX ( 'dim_calendario'[Date] )
+			
+			VAR _FechaInicio =
+			    EDATE ( _FechaFin, -11 )
+			
+			VAR _FechaMinContexto =
+			    MIN ( dim_calendario[Date] )
+			
+			VAR _FechaMaxContexto =
+			    MAX ( dim_calendario[Date] )
+			
 			VAR _Valor =
 			    CALCULATE (
 			        SUM ( fact_consum_no_control[consumo] ),
 			        DATESINPERIOD (
-			            'dim_calendario'[Date],
+			            dim_calendario[Date],
 			            _FechaMaxContexto,
 			            -12,
 			            MONTH
 			        )
 			    )
+			
 			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin,
-			    BLANK (),
-			_Valor)
+			    IF (
+			        _FechaMaxContexto < _FechaInicio
+			            || _FechaMinContexto > _FechaFin,
+			        BLANK (),
+			        DIVIDE ( _Valor, 1000000 )
+			    )
 		displayFolder: consum_no_control\acum_12
 		lineageTag: d51daa75-2d45-4e43-917e-b4efc11d8667
 
@@ -9488,25 +9497,27 @@ table _medidas
 	measure Objectiu_Anual =
 			
 			VAR AnioGrafico =
-			    SELECTEDVALUE(dim_calendario[anio])
+			    SELECTEDVALUE ( dim_calendario[anio] )
+			
 			VAR IndicadorGrafico =
-			    SELECTEDVALUE(dim_indicador_objectiu[Indicador])
-			VAR AmbitoFijado =
-			    SELECTEDVALUE(fact_objectius[DOP])
+			    SELECTEDVALUE ( dim_indicador_objectiu[Indicador] )
+			
 			VAR AmbitoObjetivo =
-			    COALESCE(
-			        AmbitoFijado,
+			    COALESCE (
+			        SELECTEDVALUE ( fact_objectius[DOP] ),
 			        [DOP_Objectiu_Seleccionada]
 			    )
+			
 			RETURN
-			    IF(
-			        ISBLANK(AnioGrafico)
-			            || ISBLANK(IndicadorGrafico)
-			            || ISBLANK(AmbitoObjetivo),
-			        BLANK(),
-			        CALCULATE(
-			            SELECTEDVALUE(fact_objectius[Objetivo]),
-			            REMOVEFILTERS(fact_objectius),
+			    IF (
+			        ISBLANK ( AnioGrafico )
+			            || ISBLANK ( IndicadorGrafico )
+			            || ISBLANK ( AmbitoObjetivo ),
+			        BLANK (),
+			        CALCULATE (
+			            SELECTEDVALUE ( fact_objectius[Objetivo] ),
+			            REMOVEFILTERS ( dim_calendario ),
+			            REMOVEFILTERS ( fact_objectius ),
 			            fact_objectius[Anio] = AnioGrafico,
 			            fact_objectius[Indicador] = IndicadorGrafico,
 			            fact_objectius[DOP] = AmbitoObjetivo
@@ -9930,6 +9941,70 @@ table _medidas
 			COUNTROWS ( fact_bossa )
 		formatString: 0
 		lineageTag: 67969119-82b7-457d-8e6f-77a5d301c1c5
+
+	measure Debug_Objectiu =
+			
+			VAR _Anio =
+			    SELECTEDVALUE ( dim_calendario[anio] )
+			
+			VAR _Indicador =
+			    SELECTEDVALUE ( dim_indicador_objectiu[Indicador] )
+			
+			VAR _DOPTabla =
+			    SELECTEDVALUE ( fact_objectius[DOP] )
+			
+			VAR _DOPSeleccionada =
+			    [DOP_Objectiu_Seleccionada]
+			
+			VAR _DOPUtilizada =
+			    COALESCE ( _DOPTabla, _DOPSeleccionada )
+			
+			RETURN
+			    "Año: "
+			        & IF ( ISBLANK ( _Anio ), "BLANK", _Anio & "" )
+			        & " | Indicador: "
+			        & COALESCE ( _Indicador, "BLANK" )
+			        & " | DOP tabla: "
+			        & COALESCE ( _DOPTabla, "BLANK" )
+			        & " | DOP seleccionada: "
+			        & COALESCE ( _DOPSeleccionada, "BLANK" )
+			        & " | DOP utilizada: "
+			        & COALESCE ( _DOPUtilizada, "BLANK" )
+		lineageTag: ce670ee0-5b19-4b76-99a9-657f138cfef3
+
+	measure Debug_Filas_Objectiu =
+			
+			VAR _Anio =
+			    SELECTEDVALUE ( dim_calendario[anio] )
+			VAR _Indicador =
+			    SELECTEDVALUE ( dim_indicador_objectiu[Indicador] )
+			VAR _DOP =
+			    COALESCE (
+			        SELECTEDVALUE ( fact_objectius[DOP] ),
+			        [DOP_Objectiu_Seleccionada]
+			    )
+			VAR _Filas =
+			    CALCULATETABLE (
+			        fact_objectius,
+			        REMOVEFILTERS ( dim_calendario ),
+			        REMOVEFILTERS ( fact_objectius ),
+			        fact_objectius[Anio] = _Anio,
+			        fact_objectius[Indicador] = _Indicador,
+			        fact_objectius[DOP] = _DOP
+			    )
+			RETURN
+			    "Filas: " & COUNTROWS ( _Filas )
+			        & " | Objetivos: "
+			        & CONCATENATEX (
+			            _Filas,
+			            IF (
+			                ISBLANK ( fact_objectius[Objetivo] ),
+			                "BLANK",
+			                FORMAT ( fact_objectius[Objetivo], "0.00" )
+			            ),
+			            " / "
+			        )
+		lineageTag: 983b395c-bf14-4e0e-95e1-7ca321849b5d
 
 	column Column
 		isHidden

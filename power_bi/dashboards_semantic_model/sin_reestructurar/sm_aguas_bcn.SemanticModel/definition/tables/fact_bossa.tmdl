@@ -318,8 +318,8 @@ table fact_bossa
 				            }
 				        }
 				    ),
-				
-				    #"Consultas combinadas1" = Table.FuzzyNestedJoin(
+				  #"Consultas combinadas1" =
+				    Table.FuzzyNestedJoin(
 				        #"Sector normalizado",
 				        {"sector"},
 				        dim_dades_sectors,
@@ -328,7 +328,8 @@ table fact_bossa
 				        JoinKind.LeftOuter,
 				        [
 				            IgnoreCase = true,
-				            IgnoreSpace = true
+				            IgnoreSpace = true,
+				            NumberOfMatches = 1
 				        ]
 				    ),
 				
@@ -338,7 +339,6 @@ table fact_bossa
 				        {"sector_id"},
 				        {"sector_id"}
 				    ),
-				
 				    #"Sector_id corregido" = Table.TransformColumnTypes(
 				        Table.ReplaceValue(
 				            #"Se expandió dim_dades_sectors",
@@ -353,9 +353,10 @@ table fact_bossa
 				    #"Columnas quitadas1" = Table.RemoveColumns(
 				        #"Sector_id corregido",
 				        {"sector"}
-				    )
+				    ),
+				    #"Filas filtradas" = Table.SelectRows(#"Columnas quitadas1", each true)
 				in
-				    #"Columnas quitadas1"
+				    #"Filas filtradas"
 
 	annotation PBI_NavigationStepName = Navegación
 

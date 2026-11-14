@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "e8f3079e746b05cc461d",
   "position": {
     "x": 335.43585769637195,
@@ -113,7 +113,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Aigua en alta'"
+                  "Value": "'Aigua en alta (hm³)'"
                 }
               }
             },
@@ -360,6 +360,48 @@
           ]
         },
         "howCreated": "User"
+      },
+      {
+        "name": "5e6bf4039be6265a7793",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_aigua_consumida_alta_global_switch_1m"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "111d9178c00a5a044400",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "kpi_aigua_consumida_alta_global_switch"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "821bdb9f8ae03c9c042b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_calendario"
+              }
+            },
+            "Property": "anio_mes"
+          }
+        },
+        "type": "Categorical"
       }
     ]
   }
