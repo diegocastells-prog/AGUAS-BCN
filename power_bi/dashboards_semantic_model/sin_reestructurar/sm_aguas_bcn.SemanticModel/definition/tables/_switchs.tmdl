@@ -1239,18 +1239,16 @@ table _switchs
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure kpi_cabal_recuperat_switch_1m = ```
+	measure kpi_cabal_recuperat_switch_1m =
 			
-			SWITCH(
-			    SELECTEDVALUE(dummy_slicer_periodo[Periodo]),
+			SWITCH (
+			    SELECTEDVALUE ( dummy_slicer_periodo[Periodo] ),
 			    "Mensual", [cabal_recuperat_mensual_smly],
 			    "12 Mesos", [cabal_recuperat_acum_12m_1m],
-			    "Acumumlat",[cabal_recuperat_lytd],
-			    "Diff",[_cero_acumulat],
-			    BLANK()
+			    "Acumulat", [cabal_recuperat_lytd],
+			    "Diff", [_cero_acumulat],
+			    BLANK ()
 			)
-			
-			```
 		displayFolder: cabals
 		lineageTag: cefe628c-d1c7-4c1f-91c6-293069d36c6a
 
@@ -1268,10 +1266,11 @@ table _switchs
 			)
 			
 			```
+		formatString: 0
 		displayFolder: avaries
 		lineageTag: 857a0b23-4cc3-4e6d-bdf8-8a233d9fa411
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		annotation PBI_FormatHint = {"isDecimal":true}
 
 	measure kpi_avaries_switch_1m = ```
 			
@@ -1285,10 +1284,11 @@ table _switchs
 			)
 			
 			```
+		formatString: 0
 		displayFolder: avaries
 		lineageTag: 30d36f36-926e-448d-ade8-1c503e5dad6c
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		annotation PBI_FormatHint = {"isDecimal":true}
 
 	measure kpi_km_inspeccionats_acustic_switch = ```
 			
@@ -1806,6 +1806,7 @@ table _switchs
 			SWITCH (
 			    SELECTEDVALUE ( dummy_slicer_periodo[Periodo] ),
 			    "Mensual", [litros_por_fuga_mensual],
+			    "12 Mesos", [litros_por_fuga_acum_12m],
 			    "Acumulat", [litros_por_fuga_ytd],
 			    "Diff", [diff_litros_por_fuga],
 			    BLANK ()
@@ -1820,6 +1821,7 @@ table _switchs
 			SWITCH (
 			    SELECTEDVALUE ( dummy_slicer_periodo[Periodo] ),
 			    "Mensual", [litros_por_fuga_mensual_smly],
+			    "12 Mesos", [litros_por_fuga_acum_12m_1m],
 			    "Acumulat", [litros_por_fuga_lytd],
 			    "Diff", [_cero_acumulat],
 			    BLANK ()
@@ -1834,6 +1836,7 @@ table _switchs
 			SWITCH (
 			    SELECTEDVALUE ( dummy_slicer_periodo[Periodo] ),
 			    "Mensual", [fuite_por_km_mensual],
+			    "12 Mesos", [fuite_por_km_acum_12m],
 			    "Acumulat", [fuite_por_km_ytd],
 			    "Diff", [diff_fuite_por_km],
 			    BLANK ()

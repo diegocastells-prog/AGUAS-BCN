@@ -2215,10 +2215,30 @@ table _medidas
 		lineageTag: a972fe07-d70b-4ce2-b848-59c26a8b97b1
 
 	measure cabal_recuperat_mensual_smly =
-			CALCULATE(
-			    SUM(fact_actuacions_zones[cabal_recuperat]),
-			     DATEADD( dim_calendario[Date], -12, MONTH )
-			)
+			
+			VAR _Fecha =
+			    MAX ( dim_calendario[Date] )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( _Fecha ),
+			        VAR _InicioAA =
+			            DATE (
+			                YEAR ( _Fecha ) - 1,
+			                MONTH ( _Fecha ),
+			                1
+			            )
+			        VAR _FinAA =
+			            EOMONTH ( _InicioAA, 0 )
+			        RETURN
+			            CALCULATE (
+			                [cabal_recuperat_mensual],
+			                FILTER (
+			                    ALL ( dim_calendario ),
+			                    dim_calendario[Date] >= _InicioAA
+			                        && dim_calendario[Date] <= _FinAA
+			                )
+			            )
+			    )
 		formatString: #,0.00
 		displayFolder: actuacions\cabals\cabal_recuperat\mensual
 		lineageTag: 7b95f94a-d33c-4132-a3c3-81c2314f1e5c
@@ -2241,10 +2261,26 @@ table _medidas
 		lineageTag: 091deadf-c5fa-456d-8f16-682f331e80b7
 
 	measure km_inspeccionats_acustic_mensual_smly =
-			CALCULATE(
-			    SUM(fact_actuacions_zones[km_inspeccionats_acustic]),
-			     DATEADD( dim_calendario[Date], -12, MONTH )
-			)
+			
+			VAR _Fecha =
+			    MAX ( dim_calendario[Date] )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( _Fecha ),
+			        VAR _InicioAA =
+			            DATE ( YEAR ( _Fecha ) - 1, MONTH ( _Fecha ), 1 )
+			        VAR _FinAA =
+			            EOMONTH ( _InicioAA, 0 )
+			        RETURN
+			            CALCULATE (
+			                [km_inspeccionats_acustic_mensual],
+			                FILTER (
+			                    ALL ( dim_calendario ),
+			                    dim_calendario[Date] >= _InicioAA
+			                        && dim_calendario[Date] <= _FinAA
+			                )
+			            )
+			    )
 		formatString: #,0.00
 		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic\mensual
 		lineageTag: f3355d72-d453-41c0-8974-cf7d138f7c77
@@ -2338,14 +2374,31 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure avaries_mensual_smly = ```
+	measure avaries_mensual_smly =
 			
-			CALCULATE(
-			    [avaries_mensual],
-			     DATEADD( dim_calendario[Date], -12, MONTH )
-			)
-			
-			```
+			VAR _Fecha =
+			    MAX ( dim_calendario[Date] )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( _Fecha ),
+			        VAR _InicioAA =
+			            DATE (
+			                YEAR ( _Fecha ) - 1,
+			                MONTH ( _Fecha ),
+			                1
+			            )
+			        VAR _FinAA =
+			            EOMONTH ( _InicioAA, 0 )
+			        RETURN
+			            CALCULATE (
+			                [avaries_mensual],
+			                FILTER (
+			                    ALL ( dim_calendario ),
+			                    dim_calendario[Date] >= _InicioAA
+			                        && dim_calendario[Date] <= _FinAA
+			                )
+			            )
+			    )
 		formatString: #,0.00
 		displayFolder: actuacions\avaries\mensual
 		lineageTag: d121f391-2044-49fd-a0e4-348d8e81592a
@@ -2401,10 +2454,26 @@ table _medidas
 		lineageTag: cefb5b37-271a-406b-8e51-eeee923fd7e3
 
 	measure km_inspeccionats_heli_mensual_smly =
-			CALCULATE(
-			    SUM(fact_actuacions_zones[km_inspeccionats_heli]),
-			     DATEADD( dim_calendario[Date], -12, MONTH )
-			)
+			
+			VAR _Fecha =
+			    MAX ( dim_calendario[Date] )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( _Fecha ),
+			        VAR _InicioAA =
+			            DATE ( YEAR ( _Fecha ) - 1, MONTH ( _Fecha ), 1 )
+			        VAR _FinAA =
+			            EOMONTH ( _InicioAA, 0 )
+			        RETURN
+			            CALCULATE (
+			                [km_inspeccionats_heli_mensual],
+			                FILTER (
+			                    ALL ( dim_calendario ),
+			                    dim_calendario[Date] >= _InicioAA
+			                        && dim_calendario[Date] <= _FinAA
+			                )
+			            )
+			    )
 		formatString: #,0.00
 		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli\mensual
 		lineageTag: 19ffcd14-1d32-4679-acbc-5e7d4c2d8adc
@@ -4276,77 +4345,85 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure diff_avaries = ```
+	measure diff_avaries =
 			
-			VAR _FechaInicio =
-			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			 
-			VAR _FechaFin =
-			    TODAY ()
-			 
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			 
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			 
-			VAR _ValorActual =
-			    [avaries_mensual]
-			 
-			VAR _ValorAA =
-			    CALCULATE (
-			        [avaries_mensual],
-			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
-			    )
-			 
+			VAR _Fecha =
+			    MAX ( dim_calendario[Date] )
 			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin
-			        || ISBLANK ( _ValorActual )
-			        || ISBLANK ( _ValorAA ),
-			    BLANK (),
-			    _ValorActual - _ValorAA
-			)
-			```
+			    IF (
+			        NOT ISBLANK ( _Fecha ),
+			        VAR _InicioMes =
+			            DATE ( YEAR ( _Fecha ), MONTH ( _Fecha ), 1 )
+			        VAR _FinMes =
+			            EOMONTH ( _InicioMes, 0 )
+			
+			        VAR _PeriodoMes =
+			            FILTER (
+			                ALL ( dim_calendario ),
+			                dim_calendario[Date] >= _InicioMes
+			                    && dim_calendario[Date] <= _FinMes
+			            )
+			
+			        VAR _Actual =
+			            CALCULATE (
+			                [avaries_mensual],
+			                _PeriodoMes
+			            )
+			
+			        VAR _Anterior =
+			            CALCULATE (
+			                [avaries_mensual_smly],
+			                _PeriodoMes
+			            )
+			
+			        RETURN
+			            IF (
+			                ISBLANK ( _Actual )
+			                    || ISBLANK ( _Anterior ),
+			                BLANK (),
+			                _Actual - _Anterior
+			            )
+			    )
 		displayFolder: actuacions\avaries
 		lineageTag: 31c2c422-2372-4d7a-b3a5-842477add431
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure diff_cabal_recuperat = ```
+	measure diff_cabal_recuperat =
 			
-			VAR _FechaInicio =
-			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			 
-			VAR _FechaFin =
-			    TODAY ()
-			 
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			 
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			 
-			VAR _ValorActual =
-			    [cabal_recuperat_mensual]
-			 
-			VAR _ValorAA =
-			    CALCULATE (
-			        [cabal_recuperat_mensual],
-			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
-			    )
-			 
+			VAR _Fecha =
+			    MAX ( dim_calendario[Date] )
 			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin
-			        || ISBLANK ( _ValorActual )
-			        || ISBLANK ( _ValorAA ),
-			    BLANK (),
-			    _ValorActual - _ValorAA
-			)
-			```
+			    IF (
+			        NOT ISBLANK ( _Fecha ),
+			        VAR _InicioMes =
+			            DATE ( YEAR ( _Fecha ), MONTH ( _Fecha ), 1 )
+			        VAR _FinMes =
+			            EOMONTH ( _InicioMes, 0 )
+			        VAR _PeriodoMes =
+			            FILTER (
+			                ALL ( dim_calendario ),
+			                dim_calendario[Date] >= _InicioMes
+			                    && dim_calendario[Date] <= _FinMes
+			            )
+			        VAR _Actual =
+			            CALCULATE (
+			                [cabal_recuperat_mensual],
+			                _PeriodoMes
+			            )
+			        VAR _Anterior =
+			            CALCULATE (
+			                [cabal_recuperat_mensual_smly],
+			                _PeriodoMes
+			            )
+			        RETURN
+			            IF (
+			                ISBLANK ( _Actual )
+			                    || ISBLANK ( _Anterior ),
+			                BLANK (),
+			                _Actual - _Anterior
+			            )
+			    )
 		displayFolder: actuacions\cabals\cabal_recuperat
 		lineageTag: 0efa93b5-82b1-4585-8871-ae024d56b514
 
@@ -6646,30 +6723,39 @@ table _medidas
 
 	measure diff_km_inspeccionats_acustic =
 			
-			VAR _FechaInicio =
-			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			VAR _FechaFin =
-			    TODAY ()
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			VAR _ValorActual =
-			    [km_inspeccionats_acustic_mensual]
-			VAR _ValorAA =
-			    CALCULATE (
-			        [km_inspeccionats_acustic_mensual],
-			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
-			    )
+			VAR _Fecha =
+			    MAX ( dim_calendario[Date] )
 			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin
-			        || ISBLANK ( _ValorActual )
-			        || ISBLANK ( _ValorAA ),
-			    BLANK (),
-			    _ValorActual - _ValorAA
-			)
+			    IF (
+			        NOT ISBLANK ( _Fecha ),
+			        VAR _InicioMes =
+			            DATE ( YEAR ( _Fecha ), MONTH ( _Fecha ), 1 )
+			        VAR _FinMes =
+			            EOMONTH ( _InicioMes, 0 )
+			        VAR _PeriodoMes =
+			            FILTER (
+			                ALL ( dim_calendario ),
+			                dim_calendario[Date] >= _InicioMes
+			                    && dim_calendario[Date] <= _FinMes
+			            )
+			        VAR _Actual =
+			            CALCULATE (
+			                [km_inspeccionats_acustic_mensual],
+			                _PeriodoMes
+			            )
+			        VAR _Anterior =
+			            CALCULATE (
+			                [km_inspeccionats_acustic_mensual_smly],
+			                _PeriodoMes
+			            )
+			        RETURN
+			            IF (
+			                ISBLANK ( _Actual )
+			                    || ISBLANK ( _Anterior ),
+			                BLANK (),
+			                _Actual - _Anterior
+			            )
+			    )
 		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_acustic
 		lineageTag: a6c2a1de-b33f-4055-a5c6-d8484c613aa7
 
@@ -6735,34 +6821,41 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure diff_km_inspeccionats_heli = ```
+	measure diff_km_inspeccionats_heli =
 			
-			VAR _FechaInicio =
-			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			VAR _FechaFin =
-			    TODAY ()
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			VAR _ValorActual =
-			    [km_inspeccionats_heli_mensual]
-			VAR _ValorAA =
-			    CALCULATE (
-			        [km_inspeccionats_heli_mensual],
-			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
-			    )
+			VAR _Fecha =
+			    MAX ( dim_calendario[Date] )
 			RETURN
-			IF (
-			    _FechaMaxContexto < _FechaInicio
-			        || _FechaMinContexto > _FechaFin
-			        || ISBLANK ( _ValorActual )
-			        || ISBLANK ( _ValorAA ),
-			    BLANK (),
-			    _ValorActual - _ValorAA
-			)
-			
-			```
+			    IF (
+			        NOT ISBLANK ( _Fecha ),
+			        VAR _InicioMes =
+			            DATE ( YEAR ( _Fecha ), MONTH ( _Fecha ), 1 )
+			        VAR _FinMes =
+			            EOMONTH ( _InicioMes, 0 )
+			        VAR _PeriodoMes =
+			            FILTER (
+			                ALL ( dim_calendario ),
+			                dim_calendario[Date] >= _InicioMes
+			                    && dim_calendario[Date] <= _FinMes
+			            )
+			        VAR _Actual =
+			            CALCULATE (
+			                [km_inspeccionats_heli_mensual],
+			                _PeriodoMes
+			            )
+			        VAR _Anterior =
+			            CALCULATE (
+			                [km_inspeccionats_heli_mensual_smly],
+			                _PeriodoMes
+			            )
+			        RETURN
+			            IF (
+			                ISBLANK ( _Actual )
+			                    || ISBLANK ( _Anterior ),
+			                BLANK (),
+			                _Actual - _Anterior
+			            )
+			    )
 		displayFolder: actuacions\km_inspeccionats\km_inspeccionats_heli
 		lineageTag: ad751b10-4601-46c2-ae2b-2ae15619444c
 
@@ -7038,7 +7131,7 @@ table _medidas
 
 	measure litros_por_fuga_mensual =
 			
-			DIVIDE(
+			DIVIDE (
 			    [cabal_recuperat_mensual],
 			    [avaries_mensual]
 			)
@@ -7125,35 +7218,45 @@ table _medidas
 
 	measure diff_litros_por_fuga =
 			
-			VAR _FechaInicio =
-			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			
-			VAR _FechaFin =
-			    TODAY ()
-			
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			
-			VAR _ValorActual =
-			    [litros_por_fuga_mensual]
-			
-			VAR _ValorAA =
-			    CALCULATE (
-			        [litros_por_fuga_mensual],
-			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
-			    )
-			
+			VAR _Fecha =
+			    MAX ( dim_calendario[Date] )
 			RETURN
 			    IF (
-			        _FechaMaxContexto < _FechaInicio
-			            || _FechaMinContexto > _FechaFin
-			            || ISBLANK ( _ValorActual )
-			            || ISBLANK ( _ValorAA ),
-			        BLANK (),
-			        _ValorActual - _ValorAA
+			        NOT ISBLANK ( _Fecha ),
+			        VAR _InicioMes =
+			            DATE ( YEAR ( _Fecha ), MONTH ( _Fecha ), 1 )
+			        VAR _FinMes =
+			            EOMONTH ( _InicioMes, 0 )
+			        VAR _InicioAA =
+			            EDATE ( _InicioMes, -12 )
+			        VAR _FinAA =
+			            EOMONTH ( _InicioAA, 0 )
+			
+			        VAR _Actual =
+			            CALCULATE (
+			                [litros_por_fuga_mensual],
+			                FILTER (
+			                    ALL ( dim_calendario ),
+			                    dim_calendario[Date] >= _InicioMes
+			                        && dim_calendario[Date] <= _FinMes
+			                )
+			            )
+			        VAR _Anterior =
+			            CALCULATE (
+			                [litros_por_fuga_mensual],
+			                FILTER (
+			                    ALL ( dim_calendario ),
+			                    dim_calendario[Date] >= _InicioAA
+			                        && dim_calendario[Date] <= _FinAA
+			                )
+			            )
+			        RETURN
+			            IF (
+			                ISBLANK ( _Actual )
+			                    || ISBLANK ( _Anterior ),
+			                BLANK (),
+			                _Actual - _Anterior
+			            )
 			    )
 		displayFolder: fuites\litros_por_fugas\diff
 		lineageTag: bc355999-331a-4961-a680-05b39ed8fc91
@@ -7197,10 +7300,25 @@ table _medidas
 
 	measure litros_por_fuga_mensual_smly =
 			
-			CALCULATE (
-			    [litros_por_fuga_mensual],
-			    DATEADD ( 'dim_calendario'[Date], -12, MONTH )
-			)
+			VAR _Fecha =
+			    MAX ( dim_calendario[Date] )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( _Fecha ),
+			        VAR _InicioAA =
+			            DATE ( YEAR ( _Fecha ) - 1, MONTH ( _Fecha ), 1 )
+			        VAR _FinAA =
+			            EOMONTH ( _InicioAA, 0 )
+			        RETURN
+			            CALCULATE (
+			                [litros_por_fuga_mensual],
+			                FILTER (
+			                    ALL ( dim_calendario ),
+			                    dim_calendario[Date] >= _InicioAA
+			                        && dim_calendario[Date] <= _FinAA
+			                )
+			            )
+			    )
 		displayFolder: fuites\litros_por_fugas\mensual
 		lineageTag: 378b18db-e41f-47d8-ba3e-dfb1774c0aed
 
@@ -7241,29 +7359,45 @@ table _medidas
 
 	measure diff_fuite_por_km =
 			
-			VAR _FechaInicio =
-			    DATE ( YEAR ( TODAY () ), 1, 1 )
-			VAR _FechaFin =
-			    TODAY ()
-			VAR _FechaMinContexto =
-			    MIN ( 'dim_calendario'[Date] )
-			VAR _FechaMaxContexto =
-			    MAX ( 'dim_calendario'[Date] )
-			VAR _ValorActual =
-			    [fuite_por_km_mensual]
-			VAR _ValorAA =
-			    CALCULATE (
-			        [fuite_por_km_mensual],
-			        DATEADD ( 'dim_calendario'[Date], -1, YEAR )
-			    )
+			VAR _Fecha =
+			    MAX ( dim_calendario[Date] )
 			RETURN
 			    IF (
-			        _FechaMaxContexto < _FechaInicio
-			            || _FechaMinContexto > _FechaFin
-			            || ISBLANK ( _ValorActual )
-			            || ISBLANK ( _ValorAA ),
-			        BLANK (),
-			        _ValorActual - _ValorAA
+			        NOT ISBLANK ( _Fecha ),
+			        VAR _InicioMes =
+			            DATE ( YEAR ( _Fecha ), MONTH ( _Fecha ), 1 )
+			        VAR _FinMes =
+			            EOMONTH ( _InicioMes, 0 )
+			        VAR _InicioAA =
+			            EDATE ( _InicioMes, -12 )
+			        VAR _FinAA =
+			            EOMONTH ( _InicioAA, 0 )
+			
+			        VAR _Actual =
+			            CALCULATE (
+			                [fuite_por_km_mensual],
+			                FILTER (
+			                    ALL ( dim_calendario ),
+			                    dim_calendario[Date] >= _InicioMes
+			                        && dim_calendario[Date] <= _FinMes
+			                )
+			            )
+			        VAR _Anterior =
+			            CALCULATE (
+			                [fuite_por_km_mensual],
+			                FILTER (
+			                    ALL ( dim_calendario ),
+			                    dim_calendario[Date] >= _InicioAA
+			                        && dim_calendario[Date] <= _FinAA
+			                )
+			            )
+			        RETURN
+			            IF (
+			                ISBLANK ( _Actual )
+			                    || ISBLANK ( _Anterior ),
+			                BLANK (),
+			                _Actual - _Anterior
+			            )
 			    )
 		displayFolder: fuites\fuites_por_km\diff
 		lineageTag: 37dfd0d2-eca3-4bd3-93e3-62e4e5ccc455
@@ -10009,6 +10143,49 @@ table _medidas
 			    )
 		displayFolder: dotacio
 		lineageTag: 6d3e9d01-b477-4543-83a9-bee57c52b70f
+
+	measure Parametro_Dotacio =
+			
+			SELECTCOLUMNS (
+			    GENERATESERIES ( 0, 500, 1 ),
+			    "Limite", [Value]
+			)
+		formatString: 0
+		displayFolder: fuites\litros_por_fugas\mensual
+		lineageTag: 3410b0f6-9585-4c81-9d14-481c4a29dfe4
+
+	measure litros_por_fuga_acum_12m =
+			
+			DIVIDE (
+			    [cabal_recuperat_acum_12m],
+			    [avaries_acum_12m]
+			)
+		displayFolder: fuites\litros_por_fugas
+		lineageTag: f2b151d9-bfac-476d-bb61-dfbca4ce975d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure litros_por_fuga_acum_12m_1m =
+			
+			DIVIDE (
+			    [cabal_recuperat_acum_12m_1m],
+			    [avaries_acum_12m_1m]
+			)
+		lineageTag: 74884681-8877-46e5-94d9-7aed57d88411
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure fuite_por_km_acum_12m =
+			
+			DIVIDE (
+			    [avaries_acum_12m],
+			    [km_inspeccionats_acustic_acum_12m]
+			        + [km_inspeccionats_heli_acum_12m]
+			)
+		displayFolder: fuites\fuites_por_km
+		lineageTag: 69159ed2-7e5f-496c-9604-d5d3090e7466
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Column
 		isHidden
