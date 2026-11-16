@@ -1,0 +1,68 @@
+table Debug_Cobertura_Polissas
+	lineageTag: 283369bb-a8bb-430f-8507-15b2ffbf5887
+
+	column Resultado
+		lineageTag: 6db77595-4cc3-4971-b531-9ffefab00ede
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Resultado]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Polizas_distintas
+		formatString: 0
+		lineageTag: 144088c4-e285-4b31-b5f2-3c239c82fd55
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Polizas_distintas]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Debug_Cobertura_Polissas = calculated
+		mode: import
+		source =
+				
+				VAR _Fraudes =
+				    FILTER (
+				        DISTINCT (
+				            SELECTCOLUMNS (
+				                fact_vol_fraud,
+				                "Polissa", fact_vol_fraud[Polissa Subm]
+				            )
+				        ),
+				        NOT ISBLANK ( [Polissa] )
+				            && [Polissa] <> ""
+				    )
+				
+				VAR _Parque =
+				    FILTER (
+				        DISTINCT (
+				            SELECTCOLUMNS (
+				                fact_perimetre_comptadors,
+				                "Polissa", fact_perimetre_comptadors[polissa_subm]
+				            )
+				        ),
+				        NOT ISBLANK ( [Polissa] )
+				            && [Polissa] <> ""
+				    )
+				
+				VAR _Encontradas =
+				    COUNTROWS ( INTERSECT ( _Fraudes, _Parque ) )
+				
+				VAR _Total =
+				    COUNTROWS ( _Fraudes )
+				
+				RETURN
+				    UNION (
+				        ROW (
+				            "Resultado", "Encontradas",
+				            "Polizas_distintas", _Encontradas
+				        ),
+				        ROW (
+				            "Resultado", "No encontradas",
+				            "Polizas_distintas", _Total - _Encontradas
+				        )
+				    )
+
+	annotation PBI_Id = 63728d01573f47698b3cd77657bb59bb
+

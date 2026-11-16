@@ -775,9 +775,8 @@ table _switchs
 			    )
 			 
 			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
 		lineageTag: 13cddcb7-0eef-4f96-93e4-a3a594f46a48
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure kpi_selected_map = SELECTEDVALUE(Slicer_KPI[Metrica], "Rendimiento (%)")
 		lineageTag: f1331140-57ce-4cef-8a54-8278137f3b0a
@@ -823,7 +822,7 @@ table _switchs
 			        // =========================
 			        // CATEGORIZACIÃ“N ANR (solo RTH < 85%)
 			        // =========================
-			        MetricaElegida = "CATEGORIZACIO ANR",
+			        MetricaElegida = "CATEGORITZACIÓ ANR",
 			            SWITCH(
 			                TRUE(),
 			                [categoria_anr] = "Fugas", "#1F77B4",       // Azul
@@ -2344,6 +2343,22 @@ table _switchs
 		formatString: 0
 		displayFolder: aigua_consumida
 		lineageTag: b59312b9-9d22-4366-ac0d-7f837fcc08ef
+
+	measure Color_Mapa_Fraudes =
+			
+			VAR _Detectados =
+			    COALESCE ( [fraus_detectats], 0 )
+			VAR _Recuperados =
+			    COALESCE ( [fraus_recuperats], 0 )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        _Detectados > 0 && _Recuperados > 0, "#7B2CBF",
+			        _Detectados > 0, "#E69F00",
+			        _Recuperados > 0, "#0072B2",
+			        "#D9D9D9"
+			    )
+		lineageTag: 336cb30d-5289-4860-833e-e2f4787998c3
 
 	column Column
 		isHidden

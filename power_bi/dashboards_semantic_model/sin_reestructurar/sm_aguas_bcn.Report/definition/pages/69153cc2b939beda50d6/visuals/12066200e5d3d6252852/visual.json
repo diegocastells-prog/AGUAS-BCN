@@ -1,0 +1,520 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "12066200e5d3d6252852",
+  "position": {
+    "x": 161.78438661710038,
+    "y": 281.93308550185873,
+    "z": 14,
+    "height": 358.06691449814127,
+    "width": 1101.5613382899628,
+    "tabOrder": 66
+  },
+  "visual": {
+    "visualType": "azureMap",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_dades_sectors"
+                    }
+                  },
+                  "Property": "sector_id"
+                }
+              },
+              "queryRef": "dim_dades_sectors.sector_id",
+              "nativeQueryRef": "sector_id",
+              "active": true
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_switchs"
+                    }
+                  },
+                  "Property": "Metrica_Mapa_Seleccionada"
+                }
+              },
+              "queryRef": "_switchs.Metrica_Mapa_Seleccionada",
+              "nativeQueryRef": "Metrica_Mapa_Seleccionada"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_medidas"
+                    }
+                  },
+                  "Property": "categoria_anr"
+                }
+              },
+              "queryRef": "_medidas.categoria_anr",
+              "nativeQueryRef": "categoria_anr1"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "sector"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(dim_dades_sectors.sector)",
+              "nativeQueryRef": "sector",
+              "displayName": "sector"
+            }
+          ]
+        }
+      },
+      "options": {
+        "allowOverlappingPointsSample": true
+      }
+    },
+    "objects": {
+      "bubbleLayer": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "referenceLayer": [
+        {
+          "properties": {
+            "additionalDatasource": {
+              "geoJson": {
+                "type": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'packaged'"
+                    }
+                  }
+                },
+                "name": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'sectors.geojson'"
+                    }
+                  }
+                },
+                "content": {
+                  "expr": {
+                    "ResourcePackageItem": {
+                      "PackageName": "RegisteredResources",
+                      "PackageType": 1,
+                      "ItemName": "sectors7422972746459994.geojson"
+                    }
+                  }
+                }
+              }
+            },
+            "polygonStrokeColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.1
+                    }
+                  }
+                }
+              }
+            },
+            "polygonStrokeWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            },
+            "unmappedObjectVisibility": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "lineStrokeWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "polygonFillColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "Metrica_Color_Mapa"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "filledMap": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "mapControls": [
+        {
+          "properties": {
+            "showLabels": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showSelectionControl": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showAdminDistrictBorders": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showCountryRegionBorders": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showRoadDetails": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "showBuildingFootprints": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "defaultStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "'night'"
+                }
+              }
+            },
+            "showStylePicker": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showNavigationControls": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "autoZoomIncludesReferenceLayer": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "autoZoom": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "zoom": {
+              "expr": {
+                "Literal": {
+                  "Value": "10.39D"
+                }
+              }
+            },
+            "centerLatitude": {
+              "expr": {
+                "Literal": {
+                  "Value": "41.33009966783567D"
+                }
+              }
+            },
+            "centerLongitude": {
+              "expr": {
+                "Literal": {
+                  "Value": "2.2464532696690185D"
+                }
+              }
+            },
+            "heading": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "heatMapLayer": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "barChart": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "commonDataOptions": [
+        {
+          "properties": {
+            "unselectedTransparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "80D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Mapa sectors'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "keepLayerOrder": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "6e1bc8baab792054c708",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "sector_id"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f3b0c847709cc46bc10a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "Metrica_Mapa_Seleccionada"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2539e3ed16c00461ea70",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "categoria_anr"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2927ddb3d5903d39351e",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_dades_sectors"
+                  }
+                },
+                "Property": "sector"
+              }
+            },
+            "Function": 3
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "fae2e12c92d4a2a73338",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "Mostrar_Sector_Mapa"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "Mostrar_Sector_Mapa"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  }
+}

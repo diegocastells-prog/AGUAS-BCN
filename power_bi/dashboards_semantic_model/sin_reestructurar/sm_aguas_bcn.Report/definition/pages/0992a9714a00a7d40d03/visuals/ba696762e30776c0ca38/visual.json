@@ -1,0 +1,119 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "ba696762e30776c0ca38",
+  "position": {
+    "x": 123.47266881028938,
+    "y": 495.94855305466234,
+    "z": 14000,
+    "height": 214.0192926045016,
+    "width": 360.12861736334406,
+    "tabOrder": 10000
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_dades_sectors"
+                    }
+                  },
+                  "Property": "gerencia"
+                }
+              },
+              "queryRef": "dim_dades_sectors.gerencia",
+              "nativeQueryRef": "gerencia",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Basic'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "filter": {
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "d",
+                    "Entity": "dim_dades_sectors",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "In": {
+                        "Expressions": [
+                          {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Source": "d"
+                                }
+                              },
+                              "Property": "gerencia"
+                            }
+                          }
+                        ],
+                        "Values": [
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'Barcelona Nord'"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "e7f324fd0b79d20cb040",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "gerencia"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

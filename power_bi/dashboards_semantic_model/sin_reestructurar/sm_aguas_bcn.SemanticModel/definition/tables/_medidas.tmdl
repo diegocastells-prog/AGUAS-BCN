@@ -9736,17 +9736,15 @@ table _medidas
 
 	measure Mostrar_Sector_Mapa =
 			
-			VAR Modo =
-			    SELECTEDVALUE(Slicer_KPI[Metrica], "RENDIMENT")
-			VAR RTH =
-			    [rth_distribucion_mensual]
+			VAR _Metrica =
+			    SELECTEDVALUE ( Slicer_KPI[Metrica], "RENDIMENT" )
+			VAR _Categoria =
+			    [categoria_anr]
 			RETURN
-			    IF(
-			        Modo = "CATEGORIZACIO ANR",
-			        IF(
-			            NOT ISBLANK(RTH)
-			                && RTH < 0.84
-			                && NOT ISBLANK([categoria_anr]),
+			    IF (
+			        _Metrica = "CATEGORITZACIÓ ANR",
+			        IF (
+			            _Categoria IN { "Fugas", "Fraude", "Subcontaje" },
 			            1,
 			            0
 			        ),
@@ -10186,6 +10184,34 @@ table _medidas
 		lineageTag: 69159ed2-7e5f-496c-9604-d5d3090e7466
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure fraus_recuperats_mapa =
+			
+			COALESCE ( [fraus_recuperats], 0 )
+		formatString: 0
+		displayFolder: fraudes
+		lineageTag: 91c68a6c-7991-4f56-a788-f5c825b7c49b
+
+	measure Mostrar_Sector_Fraudes =
+			
+			IF (
+			    COALESCE ( [fraus_detectats], 0 ) > 0
+			        || COALESCE ( [fraus_recuperats], 0 ) > 0,
+			    1,
+			    0
+			)
+		formatString: 0
+		displayFolder: fraudes
+		lineageTag: 051bd3d1-9fc6-4927-ab81-66d7b8024a7f
+
+	measure Debug_Metrica_Elegida =
+			
+			VAR _Metrica =
+			    SELECTEDVALUE ( Slicer_KPI[Metrica], "RENDIMENT" )
+			RETURN
+			    "[" & _Metrica & "]"
+			        & " | Longitud: " & LEN ( _Metrica )
+		lineageTag: f162fe03-2bf9-47da-a62c-23dc36e118d7
 
 	column Column
 		isHidden

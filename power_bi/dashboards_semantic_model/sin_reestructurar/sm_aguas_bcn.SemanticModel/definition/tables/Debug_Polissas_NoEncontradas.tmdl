@@ -1,0 +1,42 @@
+table Debug_Polissas_NoEncontradas
+	lineageTag: 2ce1d144-b8a9-48fc-9477-49f86897acf9
+
+	column Polissa
+		lineageTag: 1f61b988-e056-4ed5-8191-19e5db115c4a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Polissa]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Debug_Polissas_NoEncontradas = calculated
+		mode: import
+		source =
+				
+				VAR _Fraudes =
+				    FILTER (
+				        DISTINCT (
+				            SELECTCOLUMNS (
+				                fact_vol_fraud,
+				                "Polissa", fact_vol_fraud[Polissa Subm]
+				            )
+				        ),
+				        NOT ISBLANK ( [Polissa] )
+				            && [Polissa] <> ""
+				    )
+				VAR _Parque =
+				    DISTINCT (
+				        SELECTCOLUMNS (
+				            fact_perimetre_comptadors,
+				            "Polissa", fact_perimetre_comptadors[polissa_subm]
+				        )
+				    )
+				RETURN
+				    TOPN (
+				        20,
+				        EXCEPT ( _Fraudes, _Parque ),
+				        [Polissa], ASC
+				    )
+
+	annotation PBI_Id = 0f11b7ce74a648d584eb58ed91abf238
+
