@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "dim_dades_sectors.sector_id",
-              "nativeQueryRef": "sector_id",
-              "active": true
+              "nativeQueryRef": "Sector ID",
+              "active": true,
+              "displayName": "Sector ID"
             }
           ]
         },
@@ -46,7 +47,8 @@
                 }
               },
               "queryRef": "_switchs.Metrica_Mapa_Seleccionada",
-              "nativeQueryRef": "Metrica_Mapa_Seleccionada"
+              "nativeQueryRef": "Rendiment",
+              "displayName": "Rendiment"
             }
           ]
         },
@@ -64,7 +66,8 @@
                 }
               },
               "queryRef": "_medidas.categoria_anr",
-              "nativeQueryRef": "categoria_anr1"
+              "nativeQueryRef": "Categoria ANR",
+              "displayName": "Categoria ANR"
             },
             {
               "field": {
@@ -83,8 +86,8 @@
                 }
               },
               "queryRef": "Min(dim_dades_sectors.sector)",
-              "nativeQueryRef": "sector",
-              "displayName": "sector"
+              "nativeQueryRef": "Sector",
+              "displayName": "Sector"
             }
           ]
         }
@@ -298,21 +301,21 @@
             "zoom": {
               "expr": {
                 "Literal": {
-                  "Value": "9.78D"
+                  "Value": "10.07D"
                 }
               }
             },
             "centerLatitude": {
               "expr": {
                 "Literal": {
-                  "Value": "41.396993641872285D"
+                  "Value": "41.398548161771146D"
                 }
               }
             },
             "centerLongitude": {
               "expr": {
                 "Literal": {
-                  "Value": "2.1182764815653172D"
+                  "Value": "2.1599003905267864D"
                 }
               }
             },
@@ -402,5 +405,119 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "d1b502e06260620ab579",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_dades_sectors"
+              }
+            },
+            "Property": "sector_id"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "814217dc801725ca6221",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_switchs"
+              }
+            },
+            "Property": "Metrica_Mapa_Seleccionada"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "1a559418a6a5b9996481",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "categoria_anr"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "bee926ffbd6828107baa",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dim_dades_sectors"
+                  }
+                },
+                "Property": "sector"
+              }
+            },
+            "Function": 3
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "26514c7f2952a730e590",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_medidas"
+              }
+            },
+            "Property": "Mostrar_Sector_Mapa"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "_",
+              "Entity": "_medidas",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "_"
+                        }
+                      },
+                      "Property": "Mostrar_Sector_Mapa"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
   }
 }
