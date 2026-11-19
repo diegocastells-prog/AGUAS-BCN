@@ -86,6 +86,11 @@
             }
           }
         }
+      ],
+      "selection": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {
@@ -335,13 +340,18 @@
         }
       ]
     },
+    "syncGroup": {
+      "groupName": "gerencia2",
+      "fieldChanges": true,
+      "filterChanges": true
+    },
     "drillFilterOtherVisuals": true
   },
   "parentGroupName": "f4158a9948c2f4259f15",
   "filterConfig": {
     "filters": [
       {
-        "name": "394736b436364a5d153d",
+        "name": "e9534b7063d45c123189",
         "field": {
           "Column": {
             "Expression": {
@@ -353,6 +363,56 @@
           }
         },
         "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_dades_sectors",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "gerencia"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "''"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
         "isHiddenInViewMode": true,
         "isLockedInViewMode": true,
         "objects": {

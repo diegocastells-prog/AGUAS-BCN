@@ -1,32 +1,36 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
-  "displayName": "Diagnóstico-MostrarPanel",
+  "displayName": "InfoTipusSubm-Mostrar",
   "name": "5ec197fdfe63cff615ef",
   "options": {
-    "targetVisualNames": [],
+    "targetVisualNames": [
+      "9e0d804db69a0476d459",
+      "1e0fa0f82aa3900c3085",
+      "fa63cf6468e5c300ad80"
+    ],
     "suppressData": true
   },
   "explorationState": {
     "version": "1.3",
-    "activeSection": "6c4a75b22616fe510692",
+    "activeSection": "a0b84acd1c118d28c4e7",
     "filters": {
-      "byExpr": [
-        {
-          "name": "9c91c6672b742268d29c",
+      "byName": {
+        "f9dfffb80c6600294ec3": {
+          "name": "f9dfffb80c6600294ec3",
           "type": "Categorical",
           "expression": {
             "Column": {
               "Expression": {
                 "SourceRef": {
-                  "Entity": "dim_calendario"
+                  "Entity": "dim_dades_sectors"
                 }
               },
-              "Property": "flag_anio_actual_anterior"
+              "Property": "sector"
             }
           },
           "howCreated": 1
         },
-        {
+        "69c11630acbf9619e78c": {
           "name": "69c11630acbf9619e78c",
           "type": "Categorical",
           "filter": {
@@ -86,7 +90,9 @@
             }
           },
           "howCreated": 1
-        },
+        }
+      },
+      "byExpr": [
         {
           "name": "1c034efce5a2aa3062be",
           "type": "Categorical",
@@ -101,34 +107,38 @@
             }
           },
           "howCreated": 1
-        },
-        {
-          "name": "0ee50a4682115eef1472",
-          "type": "Categorical",
-          "filter": {
-            "Version": 2,
-            "From": [
-              {
-                "Name": "d",
-                "Entity": "dim_calendario",
-                "Type": 0
-              }
-            ],
-            "Where": [
-              {
-                "Condition": {
-                  "Not": {
-                    "Expression": {
+        }
+      ]
+    },
+    "sections": {
+      "a0b84acd1c118d28c4e7": {
+        "filters": {
+          "byExpr": [
+            {
+              "name": "a89baabc509ae1a08908",
+              "type": "Categorical",
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "_",
+                    "Entity": "_tables_kpi",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
                       "In": {
                         "Expressions": [
                           {
                             "Column": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Source": "d"
+                                  "Source": "_"
                                 }
                               },
-                              "Property": "anio_mes"
+                              "Property": "Pestaña"
                             }
                           }
                         ],
@@ -136,21 +146,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'2026-jul'"
-                              }
-                            }
-                          ],
-                          [
-                            {
-                              "Literal": {
-                                "Value": "'2026-ago'"
-                              }
-                            }
-                          ],
-                          [
-                            {
-                              "Literal": {
-                                "Value": "'2026-jun'"
+                                "Value": "'Consum'"
                               }
                             }
                           ]
@@ -158,41 +154,52 @@
                       }
                     }
                   }
-                }
-              }
-            ]
-          },
-          "expression": {
-            "Column": {
-              "Expression": {
-                "SourceRef": {
-                  "Entity": "dim_calendario"
+                ]
+              },
+              "expression": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_tables_kpi"
+                    }
+                  },
+                  "Property": "Pestaña"
                 }
               },
-              "Property": "anio_mes"
+              "howCreated": 1
             }
-          },
-          "howCreated": 1
-        }
-      ]
-    },
-    "sections": {
-      "6c4a75b22616fe510692": {
+          ]
+        },
         "visualContainers": {
-          "0aa8f2d45beb345e5811": {
+          "05b07990ace9b4741a0a": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "42e08a84153092203294",
+                  "name": "3b10fb851362b8b96092",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_perimetre_comptadors"
+                        }
+                      },
+                      "Property": "ind_fact_bdts"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "351aacd100c7123d744a",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "_medidas"
+                          "Entity": "_switchs"
                         }
                       },
-                      "Property": "Label titulo"
+                      "Property": "kpi_us_aigua_switch"
                     }
                   },
                   "howCreated": 0
@@ -200,216 +207,68 @@
               ]
             },
             "singleVisual": {
-              "visualType": "cardVisual",
-              "objects": {}
+              "visualType": "donutChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_us_aigua_switch"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_perimetre_comptadors"
+                        }
+                      },
+                      "Property": "ind_fact_bdts"
+                    }
+                  }
+                ]
+              }
             }
           },
-          "2c1b8e524906c6100d83": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "9eb54ea243f80d2c2e96": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "b82b484698938ed08069": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "886c38ea8b61918bbdad": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "7b9ab4adef9a38bba62c": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "d5434376165bd4d9b7b6": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "cf9d608251ac2f834216": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "e38dbba6a08861e0adfa": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "30bf309254d33454211d": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "c1f4c6700e6945b4f151": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "1ea3a903f3ec1487522c": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "71fdfdc5507c9f5a9a74": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "33dfefe502acfa718d72": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "c030874f8423d09f73e2": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "a49ba75f6e0dc83ca061": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "a5b501f1f366ae0d5ec1": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "6d938ea11d338eb17eff": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "a4a7ea41a1afdf94c5be": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "a7f1e2393850f83283c5": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "ec5a9abbc2a7e5a311ab": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "170f786f1f5b1defb462": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "999e89bf21eda58253f5": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "4765e2ea591848676495": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "d573c16fad55d5531d18": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "385ffa150ab0cf567c41": {
-            "singleVisual": {
-              "visualType": "actionButton",
-              "objects": {}
-            }
-          },
-          "3fa32f136d79c51d02a1": {
-            "singleVisual": {
-              "visualType": "actionButton",
-              "objects": {}
-            }
-          },
-          "3fed88d62486318f416f": {
-            "singleVisual": {
-              "visualType": "actionButton",
-              "objects": {}
-            }
-          },
-          "664b464e99cf95bd7566": {
-            "singleVisual": {
-              "visualType": "actionButton",
-              "objects": {}
-            }
-          },
-          "7f4314b48986e1322279": {
-            "singleVisual": {
-              "visualType": "actionButton",
-              "objects": {}
-            }
-          },
-          "82d33abee7ab4d38d1c7": {
-            "singleVisual": {
-              "visualType": "actionButton",
-              "objects": {}
-            }
-          },
-          "8dbb8153a780a26dd1e6": {
-            "singleVisual": {
-              "visualType": "actionButton",
-              "objects": {}
-            }
-          },
-          "b24c301ad2ecf92dede9": {
-            "singleVisual": {
-              "visualType": "actionButton",
-              "objects": {}
-            }
-          },
-          "b53185595b534544619e": {
+          "062f8de5e237dd004e3a": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "eda5e75dcbba5b192002",
+                  "name": "276da80d828563a3957c",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_perimetre_comptadors"
+                        }
+                      },
+                      "Property": "tip_subm_serv"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "a4630e938252d9eb6edd",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "_medidas"
+                          "Entity": "_switchs"
                         }
                       },
-                      "Property": "Dummy etiqueta filtros aplicados"
+                      "Property": "kpi_us_aigua_switch"
                     }
                   },
                   "howCreated": 0
@@ -417,219 +276,553 @@
               ]
             },
             "singleVisual": {
-              "visualType": "cardVisual",
+              "visualType": "donutChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_us_aigua_switch"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_perimetre_comptadors"
+                        }
+                      },
+                      "Property": "tip_subm_serv"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "2f609ab50d4c8a5ed087": {
+            "filters": {
+              "byName": {
+                "b4591dc70665200ded0a": {
+                  "name": "b4591dc70665200ded0a",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_balanç_global"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "1L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_balanç_global"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
+              "byExpr": [
+                {
+                  "name": "d96a72f2720bdacd0aa1",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_calendario"
+                        }
+                      },
+                      "Property": "anio_mes"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f40180c02d0438adc1d9",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_rth_global_switch"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "bc5b92a405db06657a06",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_rth_global_switch_1m"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "5c750a4877802e0036d9",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_consum_no_control_switch_1m"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "13cdc4e8b93d37622e8e",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_consum_no_control_switch"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "kpi",
               "objects": {}
             }
           },
-          "0812b85d5c783ca2a3ac": {
-            "singleVisual": {
-              "visualType": "slicer",
-              "objects": {
-                "merge": {
-                  "data": [
-                    {
-                      "properties": {
-                        "mode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "'Dropdown'"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "activeProjections": {
-                "Values": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_sector"
-                        }
-                      },
-                      "Property": "sector"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "0d6982714f1048c57cb6": {
-            "singleVisual": {
-              "visualType": "slicer",
-              "objects": {
-                "merge": {
-                  "data": [
-                    {
-                      "properties": {
-                        "mode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "'Dropdown'"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "activeProjections": {
-                "Values": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_sector"
-                        }
-                      },
-                      "Property": "sector"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "1728f5321a8375e7e7e6": {
-            "singleVisual": {
-              "visualType": "slicer",
-              "objects": {
-                "merge": {
-                  "data": [
-                    {
-                      "properties": {
-                        "mode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "'Dropdown'"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "activeProjections": {
-                "Values": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_sector"
-                        }
-                      },
-                      "Property": "sector"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "2b16ac2b278632d2b1d1": {
-            "singleVisual": {
-              "visualType": "slicer",
-              "objects": {
-                "merge": {
-                  "data": [
-                    {
-                      "properties": {
-                        "mode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "'Dropdown'"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "activeProjections": {
-                "Values": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_sector"
-                        }
-                      },
-                      "Property": "sector"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "2dc519ab58163fbbfd67": {
-            "singleVisual": {
-              "visualType": "actionButton",
-              "objects": {}
-            }
-          },
-          "352fc9f884f752c6d9ec": {
+          "36a09f029868e1aa8cae": {
             "singleVisual": {
               "visualType": "shape",
               "objects": {}
             }
           },
-          "8b9f05d633ba6caf0633": {
+          "9381360fd8eba156eaae": {
             "singleVisual": {
               "visualType": "image",
               "objects": {}
             }
           },
-          "a6942c469acfa428b3bd": {
+          "1ce325b2d2c2540947c3": {
             "singleVisual": {
-              "visualType": "textbox",
+              "visualType": "shape",
               "objects": {}
             }
           },
-          "b1073d5a68908b0e19e5": {
+          "4bc2702ea3e3c6d98cfc": {
             "singleVisual": {
-              "visualType": "slicer",
-              "objects": {
-                "merge": {
-                  "data": [
-                    {
-                      "properties": {
-                        "mode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "'Dropdown'"
-                            }
-                          }
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "b1b79829931a41a59980": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "3c44f0700cec5d4f53a1": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "1ba4ff76b387eead083b": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "9d4460b05905c90360f5": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "51c593ca3c94d88f4ad8": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "827751578e02deabbf98": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "5cf302dc78c84cf4e157": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "f4ab87b9a9148e1d81d3": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "4fc568063936b47e0bee": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "592d11bbc4d2be0f4dfc": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "614f5aec471e71a92172": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "21c3d980cc823b8c3638": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "5bd9e7e7301db3b06621": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "7a1d00918e092a6ac770": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "b4829cabc3e10aaef27f": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "825bdc7d01490cefe60d": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "e649ec9d5b51749a0d91": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "7aa0e46c921451e966ce": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "fd01c599a3213af0e35c": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "e3b490835a4336053a0d": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "65fda8b0855fcdfe4aa6": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "b1b27b8a72ceab2a2c2e": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "bc8412ebfe7b0391f119": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "414c614d652986bd39d8": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "4337ed81c2e760d7267b": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "1869fd7e0bdad9647dae",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_perimetre_comptadors"
                         }
-                      }
+                      },
+                      "Property": "ind_compt_estrategic"
                     }
-                  ]
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "ea9eb8749585a006015b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_us_aigua_switch"
+                    }
+                  },
+                  "howCreated": 0
                 }
-              },
+              ]
+            },
+            "singleVisual": {
+              "visualType": "donutChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_us_aigua_switch"
+                    }
+                  }
+                }
+              ],
               "activeProjections": {
-                "Values": [
+                "Category": [
                   {
                     "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "dim_sector"
+                          "Entity": "fact_perimetre_comptadors"
                         }
                       },
-                      "Property": "sector"
+                      "Property": "ind_compt_estrategic"
                     }
                   }
                 ]
               }
             }
           },
-          "139630cd6051e64b7933": {
+          "45a43490055dcfb1db11": {
+            "filters": {
+              "byName": {
+                "083e11feaed3076d6086": {
+                  "name": "083e11feaed3076d6086",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_aigua_consum"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "1L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_aigua_consum"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
+              "byExpr": [
+                {
+                  "name": "790656c8e6bc2b142ae4",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_rth_global_switch"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "1797f825e6365db10612",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_rth_global_switch_1m"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "b38f9e2910872c844b55",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_aigua_consumida_autoconsum_global_switch_1m"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "00023b7e67ee289a28b6",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_aigua_consumida_autoconsum_global_switch"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "913a3ca881489b032444",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_calendario"
+                        }
+                      },
+                      "Property": "anio_mes"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "kpi",
+              "objects": {}
+            }
+          },
+          "1e0638720ff61d68f289": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "b7ba97b539503eea0035",
+                  "name": "bc335a9010aab07ea7d5",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -695,43 +888,29 @@
                         }
                       }
                     }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
                   ]
                 }
-              },
-              "orderBy": [
-                {
-                  "Direction": 1,
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dummy_slicer_periodo"
-                        }
-                      },
-                      "Property": "Periodo"
-                    }
-                  }
-                }
-              ]
+              }
             }
           },
-          "29fb715d5ad7ffa04e78": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "30b57eb93adcda242758": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "598b5d4a62be6e3883ac": {
+          "2b121c3dc65dd9a952bd": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "e1c6f7d1e796c0c238d2",
+                  "name": "989b80e120be02896609",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -752,13 +931,13 @@
               "objects": {}
             }
           },
-          "ed6a1b7d653a238a5d6f": {
+          "324a7f01e54e2dc5cf28": {
             "singleVisual": {
               "visualType": "image",
               "objects": {}
             }
           },
-          "d9446293d564180de882": {
+          "36f02a2146e6f8e0f38e": {
             "singleVisual": {
               "visualType": "image",
               "objects": {},
@@ -767,11 +946,296 @@
               }
             }
           },
-          "e9ced9ea862d1805572e": {
+          "9296d4caaba57c53f7ef": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "eaf4a8710a513016031b": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "f50a207d107188770d75": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "0e0301c5b8975478db0d": {
             "filters": {
               "byExpr": [
                 {
-                  "name": "d79f362437c07a6495e8",
+                  "name": "e2e5d2c0519000484508",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_diccionario",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "_"
+                                    }
+                                  },
+                                  "Property": "Pestanya"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'Consum'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_diccionario"
+                        }
+                      },
+                      "Property": "Pestanya"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "11dcd190be4aeb90a996",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_diccionario"
+                        }
+                      },
+                      "Property": "Nom del visual"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "9c8dabf31a728c181d05",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "Descripcion_Ayuda"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "72b3d70ecca5702ed5b5",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_diccionario"
+                        }
+                      },
+                      "Property": "Mesures del període"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "tableEx",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_diccionario"
+                        }
+                      },
+                      "Property": "Nom del visual"
+                    }
+                  }
+                }
+              ],
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "35c6aa5e4cefa114734c": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "5b1d984972b097119fc4": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "89a9d65b02e8e301ee66",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "Etiqueta filtros aplicados"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {}
+            }
+          },
+          "65404bb7b64efe6df41f": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "bf57af5b7e7092a82b5d",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "Label titulo"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {}
+            }
+          },
+          "7326ce044951cd060c84": {
+            "filters": {
+              "byName": {
+                "7e54e1cee70a85ae7073": {
+                  "name": "7e54e1cee70a85ae7073",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_balanç_global"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
+              "byExpr": [
+                {
+                  "name": "c91f2ceccdd29030690a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_balanç_global"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "185bc09b3cb52380f2b3",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "Consum_unificat_filtre"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "1L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "Consum_unificat_filtre"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "ff0ca9db74cba3364c36",
                   "type": "Categorical",
                   "expression": {
                     "Column": {
@@ -786,7 +1250,112 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "b0cde146277bb4e76b88",
+                  "name": "d45d75299db09e91d113",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "Consum_unificat_linea"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "lineClusteredColumnComboChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_calendario"
+                        }
+                      },
+                      "Property": "anio2_mes"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_calendario"
+                        }
+                      },
+                      "Property": "anio_mes"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "809b715babeff3bd2457": {
+            "filters": {
+              "byName": {
+                "17c54781d982355780b2": {
+                  "name": "17c54781d982355780b2",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_aigua_consum"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "1L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_aigua_consum"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
+              "byExpr": [
+                {
+                  "name": "4eeaecf997de70e4094c",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -795,13 +1364,13 @@
                           "Entity": "_switchs"
                         }
                       },
-                      "Property": "kpi_lliurat_global_switch"
+                      "Property": "kpi_aigua_consumida_acf_global_switch_1m"
                     }
                   },
                   "howCreated": 0
                 },
                 {
-                  "name": "a8be6886c4a7c0aae553",
+                  "name": "f1bed5ade5bc0b156dc1",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -810,73 +1379,104 @@
                           "Entity": "_switchs"
                         }
                       },
-                      "Property": "kpi_consumita_global_switch_1m"
+                      "Property": "kpi_aigua_consumida_acf_global_switch"
                     }
                   },
                   "howCreated": 0
                 },
                 {
-                  "name": "e91cb20adb78016e9546",
+                  "name": "d57a35b2084d358dad09",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_calendario"
+                        }
+                      },
+                      "Property": "anio_mes"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "kpi",
+              "objects": {}
+            }
+          },
+          "8dc0e081146fee09bf97": {
+            "filters": {
+              "byName": {
+                "535e096e88a872a60727": {
+                  "name": "535e096e88a872a60727",
                   "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_aigua_consum"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "1L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
                   "expression": {
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "_switchs"
+                          "Entity": "_medidas"
                         }
                       },
-                      "Property": "kpi_rth_global_switch"
+                      "Property": "filtro_aigua_consum"
                     }
                   },
-                  "howCreated": 0
-                },
+                  "howCreated": 1
+                }
+              },
+              "byExpr": [
                 {
-                  "name": "03647fa48262a6b0184d",
-                  "type": "Advanced",
+                  "name": "8d93e8c08b0c527230c5",
+                  "type": "Categorical",
                   "expression": {
-                    "Measure": {
+                    "Column": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "_switchs"
+                          "Entity": "dim_calendario"
                         }
                       },
-                      "Property": "kpi_rth_transporte_switch"
+                      "Property": "anio_mes"
                     }
                   },
                   "howCreated": 0
                 },
                 {
-                  "name": "1f9008b097934206d3b5",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_switchs"
-                        }
-                      },
-                      "Property": "kpi_rth_distribucion_switch"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "a70f6f94da000e4c25d7",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_switchs"
-                        }
-                      },
-                      "Property": "kpi_aigua_consumida_alta_global_switch"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "ebe9866db1e039838100",
+                  "name": "2f39a72a45c8b765c5b9",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -891,7 +1491,7 @@
                   "howCreated": 0
                 },
                 {
-                  "name": "275d414d80554837e3b0",
+                  "name": "1ac187b0cebc59002b8c",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -900,43 +1500,13 @@
                           "Entity": "_switchs"
                         }
                       },
-                      "Property": "kpi_avaries_switch"
+                      "Property": "kpi_aigua_consumida_peatges_global_switch_1m"
                     }
                   },
                   "howCreated": 0
                 },
                 {
-                  "name": "aaed6b39543c700b2043",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_medidas"
-                        }
-                      },
-                      "Property": "fraus_detectats"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "acb47d72e7b70670400b",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_medidas"
-                        }
-                      },
-                      "Property": "comptadors"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "94ec8a21aa3c3bcac227",
+                  "name": "790656c8e6bc2b142ae4",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -945,13 +1515,13 @@
                           "Entity": "_switchs"
                         }
                       },
-                      "Property": "kpi_anr_dia_m3_switch"
+                      "Property": "kpi_rth_global_switch"
                     }
                   },
-                  "howCreated": 0
+                  "howCreated": 1
                 },
                 {
-                  "name": "216b1bfe5aa15202c805",
+                  "name": "1797f825e6365db10612",
                   "type": "Advanced",
                   "expression": {
                     "Measure": {
@@ -960,7 +1530,122 @@
                           "Entity": "_switchs"
                         }
                       },
-                      "Property": "kpi_q_min_switch"
+                      "Property": "kpi_rth_global_switch_1m"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "kpi",
+              "objects": {}
+            }
+          },
+          "a0551f8f130a57442847": {
+            "filters": {
+              "byName": {
+                "4722d920a8b3e5eb3e78": {
+                  "name": "4722d920a8b3e5eb3e78",
+                  "type": "TopN",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "dim_comptadors",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "Marca_Comp"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_comptadors"
+                        }
+                      },
+                      "Property": "Marca_Comp"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
+              "byExpr": [
+                {
+                  "name": "978272fe75b0ed93b504",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_comptadors"
+                        }
+                      },
+                      "Property": "Nom_Model"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "fe0bd30243d5bc1b0761",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_perimetre_comptadors"
+                        }
+                      },
+                      "Property": "ql_sistema_model"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f80f84d8b29ec2602859",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_us_aigua_switch"
                     }
                   },
                   "howCreated": 0
@@ -968,7 +1653,1126 @@
               ]
             },
             "singleVisual": {
-              "visualType": "tableEx",
+              "visualType": "donutChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_us_aigua_switch"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_comptadors"
+                        }
+                      },
+                      "Property": "Nom_Model"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "b13a2942418aeb376a4f": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "3d15b75966e18e319c0a",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Selector_consum"
+                        }
+                      },
+                      "Property": "Opcion"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "s",
+                                "Entity": "Selector_consum",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "s"
+                                            }
+                                          },
+                                          "Property": "Opcion"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'No controlat — Alta'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Selector_consum"
+                        }
+                      },
+                      "Property": "Opcion"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "b839b206ae325d4a4b67": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "c893867bd44001590370",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "etiquetes_vs_periodo"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {}
+            }
+          },
+          "26277deddb4041dcac46": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "4dd1d17a49bbb10d64a3": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "53b74dfae3cc423149a3": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "76d7d720540ab0e1079b": {
+            "filters": {
+              "byName": {
+                "a5fce181e4335cd6bde1": {
+                  "name": "a5fce181e4335cd6bde1",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "dim_dades_sectors",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "sector"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "sector"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
+              "byExpr": [
+                {
+                  "name": "55410ddd3040506bad52",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_perimetre_comptadors"
+                        }
+                      },
+                      "Property": "ql_sistema_model"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_perimetre_comptadors"
+                        }
+                      },
+                      "Property": "ql_sistema_model"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "8f69d1b0c8297c6e7c47": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "a21811794ba00bee460d": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "396e6744b2951bba0dca",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_calendario"
+                        }
+                      },
+                      "Property": "anio_mes"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_calendario"
+                        }
+                      },
+                      "Property": "anio_mes"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "d39b9e60a0293259761d": {
+            "filters": {
+              "byName": {
+                "09b0da1dcb058c0159b9": {
+                  "name": "09b0da1dcb058c0159b9",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "dim_dades_sectors",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "sector"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "sector"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              }
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "sector"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "dff37c31103090a8962e": {
+            "filters": {
+              "byName": {
+                "629b41502b7d961b9208": {
+                  "name": "629b41502b7d961b9208",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "dim_dades_sectors",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "gerencia"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "gerencia"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              }
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "gerencia"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "e75ed9be6509956e8607": {
+            "filters": {
+              "byName": {
+                "a5fce181e4335cd6bde1": {
+                  "name": "a5fce181e4335cd6bde1",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "dim_dades_sectors",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "sector"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "sector"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
+              "byExpr": [
+                {
+                  "name": "77146702938a108c55e9",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_perimetre_comptadors"
+                        }
+                      },
+                      "Property": "diam_comp"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_perimetre_comptadors"
+                        }
+                      },
+                      "Property": "diam_comp"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "e7faa9d443e00462c743": {
+            "filters": {
+              "byName": {
+                "a5fce181e4335cd6bde1": {
+                  "name": "a5fce181e4335cd6bde1",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "dim_dades_sectors",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "sector"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "sector"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                "c57336a70634d2726100": {
+                  "name": "c57336a70634d2726100",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "dim_comptadors",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "Marca_Comp"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_comptadors"
+                        }
+                      },
+                      "Property": "Marca_Comp"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                "d3c401f5a5bbdab36084": {
+                  "name": "d3c401f5a5bbdab36084",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "num_limitadors_installats"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "num_limitadors_installats"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              }
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_comptadors"
+                        }
+                      },
+                      "Property": "Marca_Comp"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "e8f3079e746b05cc461d": {
+            "filters": {
+              "byName": {
+                "f14e4ae8b76e81240a9c": {
+                  "name": "f14e4ae8b76e81240a9c",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_aigua_consum"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_aigua_consum"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
+              "byExpr": [
+                {
+                  "name": "790656c8e6bc2b142ae4",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_rth_global_switch"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "1797f825e6365db10612",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_rth_global_switch_1m"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "2d37d9e4726d52ad0568",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_aigua_consum"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "ef078799390a0aab8c19",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_aigua_consum"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "1L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_aigua_consum"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "ddde972b5ce16151b7c6",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_aigua_consumida_alta_global_switch_1m"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "699b0084791bc1824100",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_aigua_consumida_alta_global_switch"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "8ba00c50a4438b400795",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_calendario"
+                        }
+                      },
+                      "Property": "anio_mes"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "kpi",
+              "objects": {}
+            }
+          },
+          "ea58f1f400982c89035a": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "6313f55c9cc36382aae6",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_perimetre_comptadors"
+                        }
+                      },
+                      "Property": "us_aigua_gest"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f3277073ed50aa37727c",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_us_aigua_switch"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "donutChart",
               "objects": {},
               "orderBy": [
                 {
@@ -980,214 +2784,381 @@
                           "Entity": "_switchs"
                         }
                       },
-                      "Property": "kpi_consumita_global_switch_1m"
+                      "Property": "kpi_us_aigua_switch"
                     }
                   }
                 }
-              ]
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fact_perimetre_comptadors"
+                        }
+                      },
+                      "Property": "us_aigua_gest"
+                    }
+                  }
+                ]
+              }
             }
           },
-          "f1a4eb45fd4f956621ba": {
+          "eaca64ef53b77fab5b9d": {
+            "filters": {
+              "byName": {
+                "e5230f3356c768cc032e": {
+                  "name": "e5230f3356c768cc032e",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 1,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_aigua_consum"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "0L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_aigua_consum"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
+              "byExpr": [
+                {
+                  "name": "790656c8e6bc2b142ae4",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_rth_global_switch"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "1797f825e6365db10612",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_rth_global_switch_1m"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "4a064d248204cd0e98b0",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "_",
+                        "Entity": "_medidas",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Measure": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "_"
+                                  }
+                                },
+                                "Property": "filtro_aigua_consum"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "1L"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_medidas"
+                        }
+                      },
+                      "Property": "filtro_aigua_consum"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "40e56c0cba4723ec4a6a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_aigua_consumida_baixa_global_switch_1m"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "feaf0ce4ba27a00752a6",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_switchs"
+                        }
+                      },
+                      "Property": "kpi_aigua_consumida_baixa_global_switch"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "b9bb5996a18090003776",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_calendario"
+                        }
+                      },
+                      "Property": "anio_mes"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "kpi",
+              "objects": {}
+            }
+          },
+          "cbfdd9c9a2c9381deca9": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "9af659067665d20ae5dd",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "dim_dades_sectors",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "gerencia"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ],
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "''"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "gerencia"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Basic'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_dades_sectors"
+                        }
+                      },
+                      "Property": "gerencia"
+                    }
+                  }
+                ]
+              },
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "5e5963d51a5d02d60bb0": {
             "singleVisual": {
               "visualType": "actionButton",
               "objects": {}
             }
           },
-          "bcf30b300b00ed0702b6": {
+          "80d55eb75461d9e31ed7": {
             "singleVisual": {
               "visualType": "textbox",
               "objects": {}
             }
           },
-          "01d429cb34739359a155": {
-            "singleVisual": {
-              "visualType": "shape",
-              "objects": {}
-            }
-          },
-          "0f7f0e07102a30cee54a": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "9d690679e6e247a1e13d",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_dades_sectors"
-                        }
-                      },
-                      "Property": "gerencia"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "slicer",
-              "objects": {
-                "merge": {
-                  "data": [
-                    {
-                      "properties": {
-                        "mode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "'Dropdown'"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "activeProjections": {
-                "Values": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_dades_sectors"
-                        }
-                      },
-                      "Property": "gerencia"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "3347148b0dbdcb8d1ba3": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "103f1c8eb4c839a91079",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_calendario"
-                        }
-                      },
-                      "Property": "mestexto_año"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "slicer",
-              "objects": {
-                "merge": {
-                  "data": [
-                    {
-                      "properties": {
-                        "mode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "'Dropdown'"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "activeProjections": {
-                "Values": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_calendario"
-                        }
-                      },
-                      "Property": "mestexto_año"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "e9f27f11e83602712c77": {
-            "singleVisual": {
-              "visualType": "image",
-              "objects": {}
-            }
-          },
-          "8138c26697bee212be89": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "aa978d3ca46d3e5a271d",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_dades_sectors"
-                        }
-                      },
-                      "Property": "sector"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "slicer",
-              "objects": {
-                "merge": {
-                  "data": [
-                    {
-                      "properties": {
-                        "mode": {
-                          "expr": {
-                            "Literal": {
-                              "Value": "'Dropdown'"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "activeProjections": {
-                "Values": [
-                  {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_dades_sectors"
-                        }
-                      },
-                      "Property": "sector"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "823a5a2b558a861d622d": {
+          "5b6907c4abc27a489e4d": {
             "singleVisual": {
               "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "2833c800b473531d7e8c": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "1e0fa0f82aa3900c3085": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "fa63cf6468e5c300ad80": {
+            "singleVisual": {
+              "visualType": "textbox",
               "objects": {}
             }
           }
         },
         "visualContainerGroups": {
-          "d19d418606f661e4d732": {
+          "4b5b88f18ca0236010f7": {
+            "isHidden": false
+          },
+          "c4c82a0377574c596adc": {
             "isHidden": true
           },
-          "e3a85d802b0d083940ad": {
+          "a4a81f007cb9a3e74514": {
+            "isHidden": true
+          },
+          "9e0d804db69a0476d459": {
             "isHidden": false
           }
         }
@@ -1199,6 +3170,13 @@
           {
             "properties": {
               "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              },
+              "visible": {
                 "expr": {
                   "Literal": {
                     "Value": "false"

@@ -51,9 +51,10 @@ table _diccionario
 				        ),
 				    Sheet_Table = Origen{[name="Sheet",ItemKind="Table"]}[Data],
 				    #"Encabezados promovidos" = Table.PromoteHeaders(Sheet_Table, [PromoteAllScalars=true]),
-				    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{"Tipus de visual", "Descripció curta", "Dades que mostra", "Unitats", "Incidències", "ID visual", "ID pàgina", "Filtres del visual"})
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Encabezados promovidos",{"Tipus de visual", "Descripció curta", "Dades que mostra", "Unitats", "Incidències", "ID visual", "ID pàgina", "Filtres del visual"}),
+				    #"Nombres visibles corregidos" = Table.ReplaceValue(#"Columnas quitadas", "Consumita", "Consumida", Replacer.ReplaceText, {"Nom del visual"})
 				in
-				    #"Columnas quitadas"
+				    #"Nombres visibles corregidos"
 
 	annotation PBI_NavigationStepName = Navegación
 

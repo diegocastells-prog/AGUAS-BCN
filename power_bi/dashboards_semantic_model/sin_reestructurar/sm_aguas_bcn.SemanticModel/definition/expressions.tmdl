@@ -619,7 +619,7 @@ expression fact_rend_anr_arterias_bcn_sud_mensual =
 		    Origen = GoogleSheets.Contents(#"Indicador Artèries 2026"),
 		
 		    Source = Origen{[
-		        name = "BCN Nord mensual",
+		        name = "BCN Sud mensual",
 		        ItemKind = "Table"
 		    ]}[Data],
 		
@@ -713,7 +713,7 @@ expression fact_rend_anr_arterias_bcn_sud_mensual =
 		    AddGerencia = Table.AddColumn(
 		        Measures,
 		        "gerencia",
-		        each "BCN Sud",
+		        each "Barcelona Sud",
 		        type text
 		    ),
 		
@@ -835,7 +835,7 @@ expression fact_rend_anr_arterias_bcn_nord_mensual =
 		        Table.AddColumn(
 		            Table.AddColumn(
 		                Measures,
-		                "gerencia", each "Bcn Nord", type text
+		                "gerencia", each "Barcelona Nord", type text
 		            ),
 		            "rendiment",
 		            each try [sortit_m3] / [entrat_m3] otherwise null,
